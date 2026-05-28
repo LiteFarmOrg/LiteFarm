@@ -21,7 +21,12 @@ import { tasksSelector } from '../../taskSlice';
 import { taskTypesSelector } from '../../taskTypeSlice';
 import { userFarmsByFarmSelector } from '../../userFarmSlice';
 import { allExpenseTypeSelector, expenseSelector, salesSelector } from '../../Finances/selectors';
-import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
+import {
+  useGetAnimalsQuery,
+  useGetAnimalBatchesQuery,
+  useGetDefaultAnimalTypesQuery,
+  useGetCustomAnimalTypesQuery,
+} from '../../../store/api/apiSlice';
 import {
   DateFilter,
   EntityProfitRow,
@@ -84,6 +89,8 @@ export default function useProfitabilityData({
   const users = useSelector(userFarmsByFarmSelector);
   const { data: animals } = useGetAnimalsQuery();
   const { data: animalBatches } = useGetAnimalBatchesQuery();
+  const { data: defaultAnimalTypes } = useGetDefaultAnimalTypesQuery();
+  const { data: customAnimalTypes } = useGetCustomAnimalTypesQuery();
 
   const dateFilter: DateFilter | null = useMemo(() => {
     if (!startDate || !endDate) {
@@ -141,6 +148,8 @@ export default function useProfitabilityData({
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: entityTab as unknown as 'crops' | 'animals' | 'other',
     });
@@ -170,6 +179,8 @@ export default function useProfitabilityData({
     cropVarieties,
     animals,
     animalBatches,
+    defaultAnimalTypes,
+    customAnimalTypes,
     entityTab,
     taskTypes,
     users,

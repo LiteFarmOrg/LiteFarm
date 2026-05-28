@@ -174,6 +174,10 @@ const animals = [{ id: 50, name: 'Bessie', identifier: null, default_type_id: 1 
 
 const animalBatches = [{ id: 60, name: 'Spring Calves', count: 5, default_type_id: 1 }];
 
+const defaultAnimalTypes = [{ id: 1, key: 'CATTLE' }];
+
+const customAnimalTypes = [{ id: 10, type: 'Alpaca' }];
+
 describe('filterExpensesByDateRange', () => {
   test('keeps only expenses inside the inclusive range', () => {
     const result = filterExpensesByDateRange(expenses, '2025-04-01', '2025-06-30');
@@ -359,6 +363,8 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'crops',
     });
@@ -371,7 +377,7 @@ describe('aggregateByEntity', () => {
     expect(byId.crop_102).toMatchObject({ revenue: 0, expense: 20, netProfit: -20 });
   });
 
-  test('animals tab aggregates per animal_id and per animal_batch_id separately', () => {
+  test('animals tab lists each individual first, then a per-type total combining individuals and batches', () => {
     const rows = aggregateByEntity({
       sales,
       expenses,
@@ -379,12 +385,91 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'animals',
     });
+    expect(rows).toHaveLength(3);
     const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
-    expect(byId.animal_50).toMatchObject({ revenue: 200, expense: 30, netProfit: 170 });
-    expect(byId.batch_60).toMatchObject({ revenue: 100, expense: 0, netProfit: 100 });
+    // Individual animal: Bessie (revenue 200, expense 30)
+    expect(byId.animal_50).toMatchObject({
+      kind: 'animal',
+      isTotal: false,
+      label: 'Bessie',
+      revenue: 200,
+      expense: 30,
+      netProfit: 170,
+    });
+    // Individual batch: Spring Calves (revenue 100, no expense)
+    expect(byId.batch_60).toMatchObject({
+      kind: 'animal',
+      isTotal: false,
+      label: 'Spring Calves',
+      revenue: 100,
+      expense: 0,
+      netProfit: 100,
+    });
+    // Per-type total: both are CATTLE → 300 / 30 / 270
+    expect(byId.default_type_1).toMatchObject({
+      kind: 'animal',
+      isTotal: true,
+      defaultTypeId: 1,
+      customTypeId: null,
+      typeTranslationKey: 'CATTLE',
+      revenue: 300,
+      expense: 30,
+      netProfit: 270,
+    });
+    // Total rows render after the individual rows
+    expect(rows[rows.length - 1].id).toBe('default_type_1');
+  });
+
+  test('animals tab produces separate total rows for different types', () => {
+    const mixedAnimals = [
+      { id: 50, name: 'Bessie', identifier: null, default_type_id: 1 },
+      { id: 70, name: 'Dolly', identifier: null, custom_type_id: 10 },
+    ];
+    const mixedSales = [
+      {
+        sale_id: 2,
+        revenue_type_id: 2,
+        sale_date: '2025-06-10',
+        animal_sale: [
+          { animal_id: 50, sale_value: 200 },
+          { animal_id: 70, sale_value: 150 },
+        ],
+      },
+    ];
+    const rows = aggregateByEntity({
+      sales: mixedSales,
+      expenses: [],
+      revenueTypes,
+      cropVarieties,
+      animals: mixedAnimals,
+      animalBatches: [],
+      defaultAnimalTypes,
+      customAnimalTypes,
+      dateFilter,
+      entityTab: 'animals',
+    });
+    // 2 individuals + 2 type totals
+    expect(rows).toHaveLength(4);
+    const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
+    expect(byId.animal_50).toMatchObject({ isTotal: false, label: 'Bessie', revenue: 200 });
+    expect(byId.animal_70).toMatchObject({ isTotal: false, label: 'Dolly', revenue: 150 });
+    expect(byId.default_type_1).toMatchObject({
+      isTotal: true,
+      defaultTypeId: 1,
+      typeTranslationKey: 'CATTLE',
+      revenue: 200,
+    });
+    expect(byId.custom_type_10).toMatchObject({
+      isTotal: true,
+      customTypeId: 10,
+      label: 'Alpaca',
+      revenue: 150,
+    });
   });
 
   test('other tab returns only the farm_general synthetic row', () => {
@@ -395,6 +480,8 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'other',
     });
@@ -415,6 +502,8 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'crops',
     });
@@ -430,6 +519,8 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'other',
     });
@@ -452,6 +543,8 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'crops',
     });
@@ -463,6 +556,8 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'animals',
     });
@@ -478,6 +573,8 @@ describe('aggregateByEntity', () => {
       cropVarieties,
       animals,
       animalBatches,
+      defaultAnimalTypes,
+      customAnimalTypes,
       dateFilter,
       entityTab: 'crops',
     });

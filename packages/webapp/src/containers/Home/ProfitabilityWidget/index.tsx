@@ -43,7 +43,7 @@ const formatCurrencyValue = (symbol: string, value: number): string => {
 const ProfitabilityWidget = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { t } = useTranslation('profitability');
+  const { t, i18n } = useTranslation(['profitability', 'animal']);
   const currencySymbol = useCurrencySymbol();
 
   const [entityTab, setEntityTab] = useState<EntityTab>(EntityTab.CROPS);
@@ -122,17 +122,37 @@ const ProfitabilityWidget = () => {
     percentOfTotal: category.percentOfTotal,
   }));
 
-  const tableRows = data.entityRows.map((row) => ({
-    id: row.id,
-    kind: row.kind,
-    label:
-      row.kind === 'crop' && row.cropTranslationKey
-        ? `${row.label}, ${t(`crop:${row.cropTranslationKey}`)}`
-        : row.label,
-    revenue: row.revenue,
-    expense: row.expense,
-    netProfit: row.netProfit,
-  }));
+  const tableRows = data.entityRows
+    .map((row) => {
+      let label = row.label;
+      let isTotal = false;
+      if (row.kind === 'crop' && row.cropTranslationKey) {
+        label = `${row.label}, ${t(`crop:${row.cropTranslationKey}`)}`;
+      } else if (row.kind === 'animal' && row.isTotal) {
+        isTotal = true;
+        const typeName = row.typeTranslationKey
+          ? t(`animal:TYPE.${row.typeTranslationKey}`)
+          : row.label;
+        label = t('TABLE.TYPE_TOTAL', { type: typeName });
+      }
+      return {
+        id: row.id,
+        kind: row.kind,
+        label,
+        isTotal,
+        revenue: row.revenue,
+        expense: row.expense,
+        netProfit: row.netProfit,
+      };
+    })
+    // Individuals sort above totals; each tier is alphabetised by its
+    // localised label.
+    .sort((a, b) => {
+      if (a.isTotal !== b.isTotal) {
+        return a.isTotal ? 1 : -1;
+      }
+      return a.label.localeCompare(b.label, i18n.language);
+    });
 
   return (
     <div className={styles.widget}>

@@ -64,9 +64,20 @@ export type EntityProfitRow =
   | {
       id: string;
       kind: 'animal';
-      animalId: number | null;
-      batchId: number | null;
+      isTotal: false;
       label: string;
+      revenue: number;
+      expense: number;
+      netProfit: number;
+    }
+  | {
+      id: string;
+      kind: 'animal';
+      isTotal: true;
+      defaultTypeId: number | null;
+      customTypeId: number | null;
+      label: string;
+      typeTranslationKey?: string | null;
       revenue: number;
       expense: number;
       netProfit: number;
@@ -376,6 +387,8 @@ interface AggregateByEntityInput {
   cropVarieties?: any[];
   animals?: any[];
   animalBatches?: any[];
+  defaultAnimalTypes?: any[];
+  customAnimalTypes?: any[];
   dateFilter: DateFilter;
   entityTab: EntityTab;
 }
@@ -384,6 +397,9 @@ interface AggregateByEntityInput {
  * Walks sales (`crop_variety_sale` / `animal_sale`) and expenses
  * (`farm_expense_crop_variety` / `farm_expense_animal`) to attribute revenue
  * and expense per-entity. Returns rows shaped for the entity-profit table.
+ *
+ * For the `'animals'` tab, returns one row per individual animal/batch
+ * (`isTotal: false`) followed by one per-type total row (`isTotal: true`).
  *
  * For the `'other'` tab, returns only the synthetic `farm_general` row
  * (sales whose revenue type has no entity type + expenses with no entity
@@ -397,6 +413,8 @@ export function aggregateByEntity({
   cropVarieties = [],
   animals = [],
   animalBatches = [],
+  defaultAnimalTypes = [],
+  customAnimalTypes = [],
   dateFilter,
   entityTab,
 }: AggregateByEntityInput): EntityProfitRow[] {
@@ -412,7 +430,17 @@ export function aggregateByEntity({
     string,
     { id: string; cropVarietyId: number; revenue: number; expense: number }
   >();
-  const animalTotals = new Map<
+  const animalTypeTotals = new Map<
+    string,
+    {
+      id: string;
+      defaultTypeId: number | null;
+      customTypeId: number | null;
+      revenue: number;
+      expense: number;
+    }
+  >();
+  const individualAnimalTotals = new Map<
     string,
     {
       id: string;
@@ -424,6 +452,52 @@ export function aggregateByEntity({
   >();
   let farmGeneralRevenue = 0;
   let farmGeneralExpense = 0;
+
+  const resolveAnimalTypeKey = (animalId: number | null, batchId: number | null): string | null => {
+    const match =
+      animalId != null
+        ? animals.find((a: any) => a.id === animalId)
+        : animalBatches.find((b: any) => b.id === batchId);
+    if (!match) {
+      return null;
+    }
+    if (match.default_type_id != null) {
+      return `default_type_${match.default_type_id}`;
+    }
+    if (match.custom_type_id != null) {
+      return `custom_type_${match.custom_type_id}`;
+    }
+    return null;
+  };
+
+  const getOrCreateAnimalTypeEntry = (key: string) => {
+    const existing = animalTypeTotals.get(key);
+    if (existing) {
+      return existing;
+    }
+    const isDefault = key.startsWith('default_type_');
+    const typeId = parseInt(key.split('_').pop()!, 10);
+    const entry = {
+      id: key,
+      defaultTypeId: isDefault ? typeId : null,
+      customTypeId: isDefault ? null : typeId,
+      revenue: 0,
+      expense: 0,
+    };
+    animalTypeTotals.set(key, entry);
+    return entry;
+  };
+
+  const getOrCreateIndividualEntry = (animalId: number | null, batchId: number | null) => {
+    const key = animalId != null ? `animal_${animalId}` : `batch_${batchId}`;
+    const existing = individualAnimalTotals.get(key);
+    if (existing) {
+      return existing;
+    }
+    const entry = { id: key, animalId, batchId, revenue: 0, expense: 0 };
+    individualAnimalTotals.set(key, entry);
+    return entry;
+  };
 
   for (const sale of filteredSales) {
     const revenueType = revenueTypes.find((rt: any) => rt.revenue_type_id === sale.revenue_type_id);
@@ -444,16 +518,11 @@ export function aggregateByEntity({
       for (const row of sale.animal_sale) {
         const animalId = row.animal_id ?? null;
         const batchId = row.animal_batch_id ?? null;
-        const key = animalId != null ? `animal_${animalId}` : `batch_${batchId}`;
-        const entry = animalTotals.get(key) ?? {
-          id: key,
-          animalId,
-          batchId,
-          revenue: 0,
-          expense: 0,
-        };
-        entry.revenue += row.sale_value ?? 0;
-        animalTotals.set(key, entry);
+        getOrCreateIndividualEntry(animalId, batchId).revenue += row.sale_value ?? 0;
+        const typeKey = resolveAnimalTypeKey(animalId, batchId);
+        if (typeKey) {
+          getOrCreateAnimalTypeEntry(typeKey).revenue += row.sale_value ?? 0;
+        }
       }
     } else if (entityType == null) {
       farmGeneralRevenue += sale.value ?? 0;
@@ -479,16 +548,11 @@ export function aggregateByEntity({
     for (const alloc of animalAllocs) {
       const animalId = alloc.animal_id ?? null;
       const batchId = alloc.animal_batch_id ?? null;
-      const key = animalId != null ? `animal_${animalId}` : `batch_${batchId}`;
-      const entry = animalTotals.get(key) ?? {
-        id: key,
-        animalId,
-        batchId,
-        revenue: 0,
-        expense: 0,
-      };
-      entry.expense += alloc.allocated_value ?? 0;
-      animalTotals.set(key, entry);
+      getOrCreateIndividualEntry(animalId, batchId).expense += alloc.allocated_value ?? 0;
+      const typeKey = resolveAnimalTypeKey(animalId, batchId);
+      if (typeKey) {
+        getOrCreateAnimalTypeEntry(typeKey).expense += alloc.allocated_value ?? 0;
+      }
     }
     if (!hasAllocations) {
       farmGeneralExpense += expense.value ?? 0;
@@ -512,18 +576,42 @@ export function aggregateByEntity({
     };
   });
 
-  const animalRows: EntityProfitRow[] = [...animalTotals.values()].map((entry) => {
-    const match =
-      entry.animalId != null
-        ? animals.find((a: any) => a.id === entry.animalId)
-        : animalBatches.find((b: any) => b.id === entry.batchId);
-    const label = match ? chooseIdentification(match) : '';
+  const individualAnimalRows: EntityProfitRow[] = [...individualAnimalTotals.values()].map(
+    (entry) => {
+      const match =
+        entry.animalId != null
+          ? animals.find((a: any) => a.id === entry.animalId)
+          : animalBatches.find((b: any) => b.id === entry.batchId);
+      return {
+        id: entry.id,
+        kind: 'animal',
+        isTotal: false,
+        label: match ? chooseIdentification(match) : '',
+        revenue: entry.revenue,
+        expense: entry.expense,
+        netProfit: entry.revenue - entry.expense,
+      };
+    },
+  );
+
+  const animalTypeRows: EntityProfitRow[] = [...animalTypeTotals.values()].map((entry) => {
+    let label = '';
+    let typeTranslationKey: string | null = null;
+    if (entry.defaultTypeId != null) {
+      const type = defaultAnimalTypes.find((t: any) => t.id === entry.defaultTypeId);
+      typeTranslationKey = type?.key ?? null;
+    } else if (entry.customTypeId != null) {
+      const type = customAnimalTypes.find((t: any) => t.id === entry.customTypeId);
+      label = type?.type ?? '';
+    }
     return {
       id: entry.id,
       kind: 'animal',
-      animalId: entry.animalId,
-      batchId: entry.batchId,
+      isTotal: true,
+      defaultTypeId: entry.defaultTypeId,
+      customTypeId: entry.customTypeId,
       label,
+      typeTranslationKey,
       revenue: entry.revenue,
       expense: entry.expense,
       netProfit: entry.revenue - entry.expense,
@@ -534,7 +622,7 @@ export function aggregateByEntity({
     return cropRows;
   }
   if (entityTab === 'animals') {
-    return animalRows;
+    return [...individualAnimalRows, ...animalTypeRows];
   }
   if (farmGeneralRevenue > 0 || farmGeneralExpense > 0) {
     return [

@@ -81,19 +81,9 @@ export type EntityProfitRow =
       revenue: number;
       expense: number;
       netProfit: number;
-    }
-  | {
-      id: string;
-      kind: 'farm_general';
-      label: string;
-      revenue: number;
-      expense: number;
-      netProfit: number;
     };
 
-export type EntityTab = 'crops' | 'animals' | 'other';
-
-export const FARM_GENERAL_ROW_ID = 'farm_general';
+export type EntityTab = 'crops' | 'animals';
 
 /**
  * Re-exports the existing Finances helper so callers can resolve sales+expenses
@@ -382,7 +372,6 @@ export function topNExpenseCategories(
 interface AggregateByEntityInput {
   sales?: any[];
   expenses?: any[];
-  tasks?: any[];
   revenueTypes?: any[];
   cropVarieties?: any[];
   animals?: any[];
@@ -400,15 +389,10 @@ interface AggregateByEntityInput {
  *
  * For the `'animals'` tab, returns one row per individual animal/batch
  * (`isTotal: false`) followed by one per-type total row (`isTotal: true`).
- *
- * For the `'other'` tab, returns only the synthetic `farm_general` row
- * (sales whose revenue type has no entity type + expenses with no entity
- * allocations).
  */
 export function aggregateByEntity({
   sales = [],
   expenses = [],
-  tasks = [],
   revenueTypes = [],
   cropVarieties = [],
   animals = [],
@@ -424,7 +408,6 @@ export function aggregateByEntity({
     dateFilter.startDate,
     dateFilter.endDate,
   );
-  const filteredTasks = filterTasksByDateRange(tasks, dateFilter.startDate, dateFilter.endDate);
 
   const cropTotals = new Map<
     string,
@@ -450,9 +433,6 @@ export function aggregateByEntity({
       expense: number;
     }
   >();
-  let farmGeneralRevenue = 0;
-  let farmGeneralExpense = 0;
-
   const resolveAnimalTypeKey = (animalId: number | null, batchId: number | null): string | null => {
     const match =
       animalId != null
@@ -524,15 +504,12 @@ export function aggregateByEntity({
           getOrCreateAnimalTypeEntry(typeKey).revenue += row.sale_value ?? 0;
         }
       }
-    } else if (entityType == null) {
-      farmGeneralRevenue += sale.value ?? 0;
     }
   }
 
   for (const expense of filteredExpenses) {
     const cropAllocs: any[] = expense.farm_expense_crop_variety ?? [];
     const animalAllocs: any[] = expense.farm_expense_animal ?? [];
-    const hasAllocations = cropAllocs.length > 0 || animalAllocs.length > 0;
 
     for (const alloc of cropAllocs) {
       const key = `crop_${alloc.crop_variety_id}`;
@@ -554,13 +531,7 @@ export function aggregateByEntity({
         getOrCreateAnimalTypeEntry(typeKey).expense += alloc.allocated_value ?? 0;
       }
     }
-    if (!hasAllocations) {
-      farmGeneralExpense += expense.value ?? 0;
-    }
   }
-
-  const labourTotal = filteredTasks.reduce((sum, task) => sum + taskLabourCost(task), 0);
-  farmGeneralExpense += labourTotal;
 
   const cropRows: EntityProfitRow[] = [...cropTotals.values()].map((entry) => {
     const cropVariety = cropVarieties.find((cv: any) => cv.crop_variety_id === entry.cropVarietyId);
@@ -621,22 +592,7 @@ export function aggregateByEntity({
   if (entityTab === 'crops') {
     return cropRows;
   }
-  if (entityTab === 'animals') {
-    return [...individualAnimalRows, ...animalTypeRows];
-  }
-  if (farmGeneralRevenue > 0 || farmGeneralExpense > 0) {
-    return [
-      {
-        id: FARM_GENERAL_ROW_ID,
-        kind: 'farm_general',
-        label: '',
-        revenue: farmGeneralRevenue,
-        expense: farmGeneralExpense,
-        netProfit: farmGeneralRevenue - farmGeneralExpense,
-      },
-    ];
-  }
-  return [];
+  return [...individualAnimalRows, ...animalTypeRows];
 }
 
 /**

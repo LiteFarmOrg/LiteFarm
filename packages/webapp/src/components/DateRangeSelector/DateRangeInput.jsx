@@ -65,7 +65,7 @@ export default function DateRangeInput({
   }, [isValid, onValidityChange]);
 
   useEffect(() => {
-    if (!isValid & !isCustomDatePickerOpen) {
+    if (!isValid && !isCustomDatePickerOpen) {
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);

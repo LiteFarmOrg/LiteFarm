@@ -29,7 +29,7 @@ import KpiSection from '../../../components/ProfitabilityWidget/KpiSection';
 import ProfitabilityWidgetSkeleton from '../../../components/ProfitabilityWidget/ProfitabilityWidgetSkeleton';
 import RevenueExpenseBars from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
 import type { GroupBar } from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
-import { EntityTab } from '../../../components/ProfitabilityWidget/constants';
+import { CtaVariant, EntityTab } from '../../../components/ProfitabilityWidget/constants';
 import { DateRangeData } from '../../../components/DateRangeSelector/types';
 import useProfitabilityData from './useProfitabilityData';
 import useProfitabilityDateRange from './useProfitabilityDateRange';
@@ -88,11 +88,11 @@ const ProfitabilityWidget = () => {
     </div>
   );
 
-  const ctaMessage = data.isEmpty
-    ? t('CTA_BANNER.NO_TRANSACTIONS')
+  const ctaVariant: CtaVariant = data.isEmpty
+    ? 'noTransactions'
     : data.hasAttributedRevenue
-      ? t('CTA_BANNER.DEFAULT')
-      : t('CTA_BANNER.NO_ATTRIBUTIONS');
+      ? 'default'
+      : 'noAttributions';
 
   if (data.isEmpty) {
     return (
@@ -100,8 +100,7 @@ const ProfitabilityWidget = () => {
         {header}
         <ProfitabilityWidgetSkeleton />
         <CallToActionBanner
-          message={ctaMessage}
-          ctaLabel={t('CTA_BANNER.CTA')}
+          variant={ctaVariant}
           onAddTransactions={() => history.push(FINANCES_HOME_URL)}
         />
       </div>
@@ -161,7 +160,6 @@ const ProfitabilityWidget = () => {
       <KpiSection
         expanded={isExpanded}
         netProfit={{
-          label: t('KPI.NET_PROFIT'),
           value: formatCurrencyValue(currencySymbol, data.kpis.netProfit),
           ...(data.yoyTrend && {
             trend: {
@@ -170,30 +168,14 @@ const ProfitabilityWidget = () => {
             },
           }),
         }}
-        totalRevenue={{
-          label: t('KPI.TOTAL_REVENUE'),
-          value: formatCurrencyValue(currencySymbol, data.kpis.totalRevenue),
-        }}
-        totalExpenses={{
-          label: t('KPI.TOTAL_EXPENSES'),
-          value: formatCurrencyValue(currencySymbol, data.kpis.totalExpenses),
-        }}
-        margin={{
-          label: t('KPI.MARGIN'),
-          value: `${data.kpis.margin}%`,
-        }}
+        totalRevenue={formatCurrencyValue(currencySymbol, data.kpis.totalRevenue)}
+        totalExpenses={formatCurrencyValue(currencySymbol, data.kpis.totalExpenses)}
+        margin={`${data.kpis.margin}%`}
       />
 
-      <ExpandableSection
-        isExpanded={isExpanded}
-        onToggle={() => setIsExpanded((prev) => !prev)}
-        expandedLabel={t('LESS_DATA')}
-        collapsedLabel={t('MORE_DATA')}
-      >
+      <ExpandableSection isExpanded={isExpanded} onToggle={() => setIsExpanded((prev) => !prev)}>
         <div className={styles.expandableBodyContent}>
           <RevenueExpenseBars
-            revenueHeading={t('TOP_REVENUE_CATEGORIES')}
-            expenseHeading={t('TOP_EXPENSE_CATEGORIES')}
             revenueGroups={localisedRevenueTypes}
             expenseCategories={localisedExpenseCategories}
             formatValue={(v) => formatCurrencyValue(currencySymbol, v)}
@@ -208,8 +190,7 @@ const ProfitabilityWidget = () => {
       </ExpandableSection>
 
       <CallToActionBanner
-        message={ctaMessage}
-        ctaLabel={t('CTA_BANNER.CTA')}
+        variant={ctaVariant}
         onAddTransactions={() => history.push(FINANCES_HOME_URL)}
       />
     </div>

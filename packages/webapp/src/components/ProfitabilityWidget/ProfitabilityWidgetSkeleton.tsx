@@ -25,10 +25,6 @@ import styles from './styles.module.scss';
 const PLACEHOLDER_BAR_COUNT = 3;
 const PLACEHOLDER_TABLE_ROW_COUNT = 5;
 
-export interface ProfitabilityWidgetSkeletonProps {
-  omitHeader?: boolean;
-}
-
 const PlaceholderBarRow = () => (
   <div className={styles.skeletonBarRow}>
     <div className={styles.skeletonBarRowHeader}>
@@ -56,7 +52,7 @@ const PlaceholderTableRow = () => (
   </div>
 );
 
-const ProfitabilityWidgetSkeleton = (_props: ProfitabilityWidgetSkeletonProps) => {
+const ProfitabilityWidgetSkeleton = () => {
   const { t } = useTranslation('profitability');
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState(EntityTab.CROPS);

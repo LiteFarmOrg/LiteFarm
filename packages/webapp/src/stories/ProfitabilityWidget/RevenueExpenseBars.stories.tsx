@@ -28,12 +28,12 @@ export const Default = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
       <RevenueExpenseBars
-        revenueHeading="Revenue sources"
+        revenueHeading="Top revenue categories"
         expenseHeading="Top expense categories"
         revenueGroups={[
-          { id: 'crop', label: 'Crop sales', total: 14200, percentOfTotal: 57 },
-          { id: 'animal', label: 'Animal sales', total: 8400, percentOfTotal: 34 },
-          { id: 'farm_general', label: 'Farm-general revenues', total: 2100, percentOfTotal: 9 },
+          { id: 'revenue_1', label: 'Crop sales', total: 14200, percentOfTotal: 57 },
+          { id: 'revenue_2', label: 'Animal sales', total: 8400, percentOfTotal: 34 },
+          { id: 'revenue_3', label: 'Farm tour', total: 2100, percentOfTotal: 9 },
         ]}
         expenseCategories={[
           { id: 'labour', label: 'Labour', total: 6200, percentOfTotal: 57 },

@@ -16,12 +16,6 @@
   "LABOUR": "Labour",
   "LESS_DATA": "Less data",
   "MORE_DATA": "More data",
-  "REVENUE_GROUP": {
-    "ANIMAL_SALES": "Animal sales",
-    "CROP_SALES": "Crop sales",
-    "FARM_GENERAL": "Farm-general revenues"
-  },
-  "REVENUE_SOURCES": "Revenue sources",
   "TABLE": {
     "ANIMAL": "Animal",
     "EXPENSE": "Expense",
@@ -37,6 +31,7 @@
     "CROPS": "Crops"
   },
   "TOP_EXPENSE_CATEGORIES": "Top expense categories",
+  "TOP_REVENUE_CATEGORIES": "Top revenue categories",
   "WIDGET_TITLE": "Profitability",
   "DATE_RANGE": {
     "YEAR_LABEL": "{{year}}"

@@ -105,7 +105,7 @@ const ProfitabilityWidgetSkeleton = () => {
           {/* Revenue & Expense bars */}
           <div className={styles.skeletonBarsSection}>
             <div className={styles.skeletonBarsColumn}>
-              <div className={styles.barsColumnHeading}>{t('REVENUE_SOURCES')}</div>
+              <div className={styles.barsColumnHeading}>{t('TOP_REVENUE_CATEGORIES')}</div>
               <div className={styles.skeletonBarsGroup}>
                 {Array.from({ length: PLACEHOLDER_BAR_COUNT }, (_, i) => (
                   <PlaceholderBarRow key={i} />

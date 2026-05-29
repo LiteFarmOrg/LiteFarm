@@ -26,7 +26,9 @@ import CallToActionBanner from '../../../components/ProfitabilityWidget/CallToAc
 import EntityProfitTable from '../../../components/ProfitabilityWidget/EntityProfitTable';
 import ExpandableSection from '../../../components/ProfitabilityWidget/ExpandableSection';
 import KpiSection from '../../../components/ProfitabilityWidget/KpiSection';
-import ProfitabilityWidgetSkeleton from '../../../components/ProfitabilityWidget/ProfitabilityWidgetSkeleton';
+import ProfitabilityWidgetSkeleton, {
+  EntityProfitTableSkeleton,
+} from '../../../components/ProfitabilityWidget/ProfitabilityWidgetSkeleton';
 import RevenueExpenseBars from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
 import type { GroupBar } from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
 import { CtaVariant, EntityTab } from '../../../components/ProfitabilityWidget/constants';
@@ -180,12 +182,16 @@ const ProfitabilityWidget = () => {
             expenseCategories={localisedExpenseCategories}
             formatValue={(v) => formatCurrencyValue(currencySymbol, v)}
           />
-          <EntityProfitTable
-            rows={tableRows}
-            entityTab={entityTab}
-            onTabChange={setEntityTab}
-            currencySymbol={currencySymbol}
-          />
+          {data.hasAttributions ? (
+            <EntityProfitTable
+              rows={tableRows}
+              entityTab={entityTab}
+              onTabChange={setEntityTab}
+              currencySymbol={currencySymbol}
+            />
+          ) : (
+            <EntityProfitTableSkeleton entityTab={entityTab} onTabChange={setEntityTab} />
+          )}
         </div>
       </ExpandableSection>
 

@@ -52,15 +52,58 @@ const PlaceholderTableRow = () => (
   </div>
 );
 
-const ProfitabilityWidgetSkeleton = () => {
+interface EntityProfitTableSkeletonProps {
+  entityTab: EntityTab;
+  onTabChange: (tab: EntityTab) => void;
+}
+
+// The empty-state table shown when there are transactions but none are attributed
+// to a crop or animal. Mirrors EntityProfitTable's controlled tab signature so the
+// container can drive both with the same entityTab / setEntityTab state.
+export const EntityProfitTableSkeleton = ({
+  entityTab,
+  onTabChange,
+}: EntityProfitTableSkeletonProps) => {
   const { t } = useTranslation('profitability');
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState(EntityTab.CROPS);
 
   const tabs = [
     { key: EntityTab.CROPS, label: t('TABS.CROPS') },
     { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
   ];
+
+  return (
+    <div className={styles.skeletonTableSection}>
+      <StateTab
+        variant={Variant.UNDERLINE}
+        tabs={tabs}
+        state={entityTab}
+        setState={(key) => onTabChange(key as EntityTab)}
+      />
+      <div className={styles.skeletonTableHeader}>
+        <div className={styles.skeletonTableHeaderCell}>
+          {entityTab === EntityTab.CROPS ? t('TABLE.VARIETY') : t('TABLE.ANIMAL')}
+        </div>
+        <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
+          {t('TABLE.REVENUE')}
+        </div>
+        <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
+          {t('TABLE.EXPENSE')}
+        </div>
+        <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
+          {t('TABLE.NET_PROFIT')}
+        </div>
+      </div>
+      {Array.from({ length: PLACEHOLDER_TABLE_ROW_COUNT }, (_, i) => (
+        <PlaceholderTableRow key={i} />
+      ))}
+    </div>
+  );
+};
+
+const ProfitabilityWidgetSkeleton = () => {
+  const { t } = useTranslation('profitability');
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState(EntityTab.CROPS);
 
   return (
     <div className={styles.skeleton} aria-label="Profitability widget empty state">
@@ -118,31 +161,7 @@ const ProfitabilityWidgetSkeleton = () => {
           </div>
 
           {/* Entity profit table */}
-          <div className={styles.skeletonTableSection}>
-            <StateTab
-              variant={Variant.UNDERLINE}
-              tabs={tabs}
-              state={activeTab}
-              setState={(key) => setActiveTab(key as EntityTab)}
-            />
-            <div className={styles.skeletonTableHeader}>
-              <div className={styles.skeletonTableHeaderCell}>
-                {activeTab === EntityTab.CROPS ? t('TABLE.VARIETY') : t('TABLE.ANIMAL')}
-              </div>
-              <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-                {t('TABLE.REVENUE')}
-              </div>
-              <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-                {t('TABLE.EXPENSE')}
-              </div>
-              <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-                {t('TABLE.NET_PROFIT')}
-              </div>
-            </div>
-            {Array.from({ length: PLACEHOLDER_TABLE_ROW_COUNT }, (_, i) => (
-              <PlaceholderTableRow key={i} />
-            ))}
-          </div>
+          <EntityProfitTableSkeleton entityTab={activeTab} onTabChange={setActiveTab} />
         </div>
       </ExpandableSection>
     </div>

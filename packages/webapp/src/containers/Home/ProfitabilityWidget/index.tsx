@@ -192,7 +192,7 @@ const ProfitabilityWidget = () => {
       >
         <div className={styles.expandableBodyContent}>
           <RevenueExpenseBars
-            revenueHeading={t('REVENUE_SOURCES')}
+            revenueHeading={t('TOP_REVENUE_CATEGORIES')}
             expenseHeading={t('TOP_EXPENSE_CATEGORIES')}
             revenueGroups={localisedRevenueTypes}
             expenseCategories={localisedExpenseCategories}

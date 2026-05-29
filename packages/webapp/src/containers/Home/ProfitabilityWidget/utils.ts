@@ -181,6 +181,12 @@ export function calcKpis({
   return { netProfit, totalRevenue, totalExpenses, margin };
 }
 
+// Above this magnitude a year-over-year change is treated as not meaningful and
+// the trend is suppressed (the placeholder is shown instead). A tiny previous-year
+// net profit divided into the current year easily produces percentages in the tens
+// of thousands, which is noise rather than a useful signal.
+const MAX_YOY_TREND_PERCENT = 1000;
+
 /**
  * Computes the year-over-year trend by comparing KPIs over the selected range
  * against the same calendar dates one year prior (e.g. Mar–Apr 2025 vs
@@ -217,6 +223,9 @@ export function calcYoYTrend(
   }
   const raw = ((current.netProfit - previous.netProfit) / Math.abs(previous.netProfit)) * 100;
   const rounded = Math.round(raw);
+  if (Math.abs(rounded) > MAX_YOY_TREND_PERCENT) {
+    return null;
+  }
   let direction: YoYTrend['direction'] = 'flat';
   if (rounded > 0) {
     direction = 'up';

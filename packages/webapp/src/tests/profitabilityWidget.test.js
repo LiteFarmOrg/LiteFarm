@@ -275,6 +275,49 @@ describe('calcYoYTrend', () => {
     const trend = calcYoYTrend({ sales: localSales, expenses: [], tasks: [] }, currentRange);
     expect(trend).toBeNull();
   });
+
+  test('returns null when the year-over-year change exceeds the display cap', () => {
+    const currentRange = { startDate: '2025-07-01', endDate: '2025-07-31' };
+    // Previous-year net profit 10, current 200 → 1900%, beyond the 1000% cap.
+    const localSales = [
+      {
+        sale_id: 1,
+        revenue_type_id: 1,
+        sale_date: '2025-07-10',
+        crop_variety_sale: [{ crop_variety_id: 1, sale_value: 200 }],
+      },
+      {
+        sale_id: 2,
+        revenue_type_id: 1,
+        sale_date: '2024-07-10',
+        crop_variety_sale: [{ crop_variety_id: 1, sale_value: 10 }],
+      },
+    ];
+    const trend = calcYoYTrend({ sales: localSales, expenses: [], tasks: [] }, currentRange);
+    expect(trend).toBeNull();
+  });
+
+  test('still returns a trend at exactly the display cap', () => {
+    const currentRange = { startDate: '2025-07-01', endDate: '2025-07-31' };
+    // Previous-year net profit 10, current 110 → exactly 1000%. The guard is
+    // `> cap`, so the boundary value is still shown.
+    const localSales = [
+      {
+        sale_id: 1,
+        revenue_type_id: 1,
+        sale_date: '2025-07-10',
+        crop_variety_sale: [{ crop_variety_id: 1, sale_value: 110 }],
+      },
+      {
+        sale_id: 2,
+        revenue_type_id: 1,
+        sale_date: '2024-07-10',
+        crop_variety_sale: [{ crop_variety_id: 1, sale_value: 10 }],
+      },
+    ];
+    const trend = calcYoYTrend({ sales: localSales, expenses: [], tasks: [] }, currentRange);
+    expect(trend).toEqual({ percent: 1000, direction: 'up' });
+  });
 });
 
 describe('topNRevenueTypes', () => {

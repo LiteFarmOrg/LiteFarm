@@ -56,7 +56,7 @@ export const WithPlaceholder = {
 
     const [input1] = await within(document.body).findAllByTestId('input');
 
-    await userEvent.type(input1, '2023-11-01', { delay: 100 });
+    await userEvent.type(input1, '2023-11-01');
     await userEvent.keyboard('{Escape}');
     select = await canvas.findByRole('combobox', {}, { timeout: 5000 });
     await userEvent.click(select);

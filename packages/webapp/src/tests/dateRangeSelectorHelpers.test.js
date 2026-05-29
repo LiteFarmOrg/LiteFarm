@@ -24,7 +24,7 @@ import { DateRangeOptions } from '../components/DateRangeSelector/types';
 const echoT = (key) => key;
 
 describe('buildDateRangeOptions', () => {
-  test('returns the legacy static option set when no allowedOptions or dynamicOptions are passed', () => {
+  test('returns the default static option set when no allowedOptions or dynamicOptions are passed', () => {
     const result = buildDateRangeOptions(echoT);
     expect(result.map((entry) => entry.value)).toEqual([
       DateRangeOptions.YEAR_TO_DATE,

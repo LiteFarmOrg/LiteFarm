@@ -24,13 +24,12 @@ export default {
 
 const kpiProps = {
   netProfit: {
-    label: 'Net profit',
     value: '$12,450.00',
     trend: { percent: 18.5, direction: 'up' as const },
   },
-  totalRevenue: { label: 'Total revenue', value: '$24,800' },
-  totalExpenses: { label: 'Total expenses', value: '$12,350' },
-  margin: { label: 'Margin', value: '50%' },
+  totalRevenue: '$24,800',
+  totalExpenses: '$12,350',
+  margin: '50%',
 };
 
 export const Default = {
@@ -55,7 +54,6 @@ export const TrendDown = {
       <KpiSection
         {...kpiProps}
         netProfit={{
-          label: 'Net profit',
           value: '-$3,200.00',
           trend: { percent: 12, direction: 'down' },
         }}
@@ -70,7 +68,6 @@ export const TrendFlat = {
       <KpiSection
         {...kpiProps}
         netProfit={{
-          label: 'Net profit',
           value: '$12,450.00',
           trend: { percent: 0, direction: 'flat' as const },
         }}
@@ -82,7 +79,7 @@ export const TrendFlat = {
 export const NoTrend = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
-      <KpiSection {...kpiProps} netProfit={{ label: 'Net profit', value: '$12,450.00' }} />
+      <KpiSection {...kpiProps} netProfit={{ value: '$12,450.00' }} />
     </div>
   ),
 };

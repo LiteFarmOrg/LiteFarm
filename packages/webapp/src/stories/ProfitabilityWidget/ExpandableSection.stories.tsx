@@ -28,12 +28,7 @@ export const Toggleable = {
     const [isExpanded, setIsExpanded] = useState(false);
     return (
       <div style={{ maxWidth: 720 }}>
-        <ExpandableSection
-          isExpanded={isExpanded}
-          onToggle={() => setIsExpanded((prev) => !prev)}
-          expandedLabel="Less data"
-          collapsedLabel="More data"
-        >
+        <ExpandableSection isExpanded={isExpanded} onToggle={() => setIsExpanded((prev) => !prev)}>
           <div style={{ color: '#1f2934' }}>
             Body content lives here. Toggle the header to expand or collapse this region.
           </div>

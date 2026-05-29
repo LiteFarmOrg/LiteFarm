@@ -22,3 +22,5 @@ export enum EntityTab {
 }
 
 export type TrendDirection = 'up' | 'down' | 'flat';
+
+export type CtaVariant = 'noTransactions' | 'default' | 'noAttributions';

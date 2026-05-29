@@ -25,11 +25,7 @@ export default {
 export const NoTransactions = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
-      <CallToActionBanner
-        message="Start recording your revenues and expenses to track profitability across your crops and animals"
-        ctaLabel="Add transactions"
-        onAddTransactions={() => {}}
-      />
+      <CallToActionBanner variant="noTransactions" onAddTransactions={() => {}} />
     </div>
   ),
 };
@@ -37,11 +33,7 @@ export const NoTransactions = {
 export const NoAttributions = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
-      <CallToActionBanner
-        message="Attribute your transactions to crops and animal groups to unlock the per-variety breakdown"
-        ctaLabel="Add transactions"
-        onAddTransactions={() => {}}
-      />
+      <CallToActionBanner variant="noAttributions" onAddTransactions={() => {}} />
     </div>
   ),
 };
@@ -49,11 +41,7 @@ export const NoAttributions = {
 export const Default = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
-      <CallToActionBanner
-        message="Add your latest transactions for accurate insights"
-        ctaLabel="Add transactions"
-        onAddTransactions={() => {}}
-      />
+      <CallToActionBanner variant="default" onAddTransactions={() => {}} />
     </div>
   ),
 };

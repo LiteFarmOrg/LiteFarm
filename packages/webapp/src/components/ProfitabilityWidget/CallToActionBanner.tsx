@@ -14,19 +14,28 @@
  */
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
+import { CtaVariant } from './constants';
 import styles from './styles.module.scss';
 
 export interface CallToActionBannerProps {
-  message: string;
-  ctaLabel: string;
+  variant: CtaVariant;
   onAddTransactions: () => void;
 }
 
-const CallToActionBanner = ({ message, ctaLabel, onAddTransactions }: CallToActionBannerProps) => {
+const CallToActionBanner = ({ variant, onAddTransactions }: CallToActionBannerProps) => {
+  const { t } = useTranslation('profitability');
+
+  const messageByVariant: Record<CtaVariant, string> = {
+    noTransactions: t('CTA_BANNER.NO_TRANSACTIONS'),
+    default: t('CTA_BANNER.DEFAULT'),
+    noAttributions: t('CTA_BANNER.NO_ATTRIBUTIONS'),
+  };
+
   return (
     <div className={styles.ctaBanner}>
-      <span className={styles.ctaBannerText}>{message}</span>
+      <span className={styles.ctaBannerText}>{messageByVariant[variant]}</span>
       <Button
         type="button"
         color="secondary-2"
@@ -35,7 +44,7 @@ const CallToActionBanner = ({ message, ctaLabel, onAddTransactions }: CallToActi
         sm
       >
         <AddCircleOutlineIcon fontSize="small" />
-        {ctaLabel}
+        {t('CTA_BANNER.CTA')}
       </Button>
     </div>
   );

@@ -25,7 +25,7 @@ import styles from './styles.module.scss';
 
 export interface EntityProfitTableRow {
   id: string;
-  kind: 'crop' | 'animal' | 'farm_general';
+  kind: 'crop' | 'animal';
   label: string;
   isTotal?: boolean;
   revenue: number;
@@ -55,15 +55,11 @@ const EntityProfitTable = ({
     if (entityTab === EntityTab.CROPS) {
       return t('TABLE.VARIETY');
     }
-    if (entityTab === EntityTab.ANIMALS) {
-      return t('TABLE.ANIMAL');
-    }
-    return t('TABLE.ENTITY');
+    return t('TABLE.ANIMAL');
   };
 
   const renderLabel = (row: EntityProfitTableRow): ReactNode => {
-    const text = row.kind === 'farm_general' ? t('TABLE.FARM_GENERAL') : row.label;
-    return <span className={clsx(row.isTotal && styles.cellTotal)}>{text}</span>;
+    return <span className={clsx(row.isTotal && styles.cellTotal)}>{row.label}</span>;
   };
 
   const renderRevenue = (row: EntityProfitTableRow): ReactNode => {
@@ -120,7 +116,6 @@ const EntityProfitTable = ({
   const tabs = [
     { key: EntityTab.CROPS, label: t('TABS.CROPS') },
     { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
-    { key: EntityTab.OTHER, label: t('common:OTHER') },
   ];
 
   return (

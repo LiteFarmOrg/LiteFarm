@@ -60,7 +60,6 @@ const ProfitabilityWidgetSkeleton = () => {
   const tabs = [
     { key: EntityTab.CROPS, label: t('TABS.CROPS') },
     { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
-    { key: EntityTab.OTHER, label: t('common:OTHER') },
   ];
 
   return (
@@ -128,11 +127,7 @@ const ProfitabilityWidgetSkeleton = () => {
             />
             <div className={styles.skeletonTableHeader}>
               <div className={styles.skeletonTableHeaderCell}>
-                {activeTab === EntityTab.CROPS
-                  ? t('TABLE.VARIETY')
-                  : activeTab === EntityTab.ANIMALS
-                    ? t('TABLE.ANIMAL')
-                    : t('TABLE.ENTITY')}
+                {activeTab === EntityTab.CROPS ? t('TABLE.VARIETY') : t('TABLE.ANIMAL')}
               </div>
               <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
                 {t('TABLE.REVENUE')}

@@ -18,10 +18,16 @@ import { useTranslation } from 'react-i18next';
 import { TrendDirection } from './constants';
 import styles from './styles.module.scss';
 
-export interface TrendBadgeProps {
+export interface TrendData {
   percent: number;
   direction: TrendDirection;
 }
+
+// Either a real year-over-year trend, or the placeholder shown when no
+// meaningful trend can be computed — the previous year had no comparable
+// transactions, or the change was so large it was suppressed upstream by
+// calcYoYTrend. Both reduce to "not enough comparable prior-year data".
+export type TrendBadgeProps = TrendData | { variant: 'insufficientData' };
 
 const directionArrow = (direction: TrendDirection): string => {
   if (direction === 'up') return '↗';
@@ -29,8 +35,22 @@ const directionArrow = (direction: TrendDirection): string => {
   return '→';
 };
 
-const TrendBadge = ({ percent, direction }: TrendBadgeProps) => {
+const TrendBadge = (props: TrendBadgeProps) => {
   const { t } = useTranslation('profitability');
+
+  if ('variant' in props) {
+    return (
+      <Tooltip title={t('KPI.NO_TREND_TOOLTIP')} placement="top" arrow>
+        <span className={styles.trendBadgePlaceholder}>
+          <span>-%</span>
+          <span aria-hidden="true">→</span>
+          <span className={styles.trendBadgePlaceholderSuffix}>{t('KPI.YOY_TREND')}</span>
+        </span>
+      </Tooltip>
+    );
+  }
+
+  const { percent, direction } = props;
 
   return (
     <Tooltip title={t('KPI.YOY_TOOLTIP')} placement="top" arrow>

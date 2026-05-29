@@ -15,6 +15,7 @@
 
 import clsx from 'clsx';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import styles from './styles.module.scss';
@@ -22,23 +23,16 @@ import styles from './styles.module.scss';
 export interface ExpandableSectionProps {
   isExpanded: boolean;
   onToggle: () => void;
-  expandedLabel: string;
-  collapsedLabel: string;
   children: ReactNode;
 }
 
-const ExpandableSection = ({
-  isExpanded,
-  onToggle,
-  expandedLabel,
-  collapsedLabel,
-  children,
-}: ExpandableSectionProps) => {
+const ExpandableSection = ({ isExpanded, onToggle, children }: ExpandableSectionProps) => {
+  const { t } = useTranslation('profitability');
   const Chevron = isExpanded ? KeyboardArrowUpIcon : KeyboardArrowDownIcon;
   return (
     <div className={clsx(styles.expandableSection, isExpanded && styles.expanded)}>
       <button type="button" className={styles.expandableHeader} onClick={onToggle}>
-        <span>{isExpanded ? expandedLabel : collapsedLabel}</span>
+        <span>{isExpanded ? t('LESS_DATA') : t('MORE_DATA')}</span>
         <span className={styles.expandableChevron}>
           <Chevron fontSize="small" htmlColor="#0669e1" />
         </span>

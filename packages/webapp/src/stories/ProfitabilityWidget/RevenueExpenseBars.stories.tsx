@@ -28,8 +28,6 @@ export const Default = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
       <RevenueExpenseBars
-        revenueHeading="Top revenue categories"
-        expenseHeading="Top expense categories"
         revenueGroups={[
           { id: 'revenue_1', label: 'Crop sales', total: 14200, percentOfTotal: 57 },
           { id: 'revenue_2', label: 'Animal sales', total: 8400, percentOfTotal: 34 },

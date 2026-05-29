@@ -14,6 +14,7 @@
  */
 
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import DescriptionList from '../Tile/DescriptionList';
 import { DescriptionListTile } from '../Tile/DescriptionList';
 import TrendBadge, { TrendBadgeProps } from './TrendBadge';
@@ -22,10 +23,10 @@ import styles from './styles.module.scss';
 export type KpiTrend = TrendBadgeProps;
 
 export interface KpiSectionProps {
-  netProfit: { label: string; value: string; trend?: KpiTrend };
-  totalRevenue: { label: string; value: string };
-  totalExpenses: { label: string; value: string };
-  margin: { label: string; value: string };
+  netProfit: { value: string; trend?: KpiTrend };
+  totalRevenue: string;
+  totalExpenses: string;
+  margin: string;
   expanded?: boolean;
 }
 
@@ -36,11 +37,13 @@ const KpiSection = ({
   margin,
   expanded = false,
 }: KpiSectionProps) => {
+  const { t } = useTranslation('profitability');
+
   return (
     <div className={styles.kpiSection}>
       <div className={styles.kpiHero}>
         <DescriptionListTile
-          label={netProfit.label}
+          label={t('KPI.NET_PROFIT')}
           data={netProfit.value}
           className={styles.kpiHeroTile}
         />
@@ -57,18 +60,18 @@ const KpiSection = ({
       <DescriptionList
         descriptionListTilesProps={[
           {
-            label: totalRevenue.label,
-            data: totalRevenue.value,
+            label: t('KPI.TOTAL_REVENUE'),
+            data: totalRevenue,
             className: clsx(styles.kpiTile, styles.revenue, expanded && styles.expanded),
           },
           {
-            label: totalExpenses.label,
-            data: totalExpenses.value,
+            label: t('KPI.TOTAL_EXPENSES'),
+            data: totalExpenses,
             className: clsx(styles.kpiTile, styles.expenses, expanded && styles.expanded),
           },
           {
-            label: margin.label,
-            data: margin.value,
+            label: t('KPI.MARGIN'),
+            data: margin,
             className: clsx(styles.kpiTile, styles.margin, expanded && styles.expanded),
           },
         ]}

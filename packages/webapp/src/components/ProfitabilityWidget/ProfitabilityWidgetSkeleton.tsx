@@ -95,12 +95,7 @@ const ProfitabilityWidgetSkeleton = () => {
       </div>
 
       {/* Expandable detail section */}
-      <ExpandableSection
-        isExpanded={isExpanded}
-        onToggle={() => setIsExpanded((prev) => !prev)}
-        expandedLabel={t('LESS_DATA')}
-        collapsedLabel={t('MORE_DATA')}
-      >
+      <ExpandableSection isExpanded={isExpanded} onToggle={() => setIsExpanded((prev) => !prev)}>
         <div className={styles.skeletonExpandedContent}>
           {/* Revenue & Expense bars */}
           <div className={styles.skeletonBarsSection}>

@@ -14,6 +14,7 @@
  */
 
 import { LinearProgress } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export interface GroupBar {
@@ -24,8 +25,6 @@ export interface GroupBar {
 }
 
 export interface RevenueExpenseBarsProps {
-  revenueHeading: string;
-  expenseHeading: string;
   revenueGroups: GroupBar[];
   expenseCategories: GroupBar[];
   formatValue: (value: number) => string;
@@ -60,16 +59,16 @@ const BarRow = ({ group, fillColor, trackColor, formatValue }: BarRowProps) => (
 );
 
 const RevenueExpenseBars = ({
-  revenueHeading,
-  expenseHeading,
   revenueGroups,
   expenseCategories,
   formatValue,
 }: RevenueExpenseBarsProps) => {
+  const { t } = useTranslation('profitability');
+
   return (
     <div className={styles.revenueExpenseBars}>
       <div className={styles.barsColumn}>
-        <div className={styles.barsColumnHeading}>{revenueHeading}</div>
+        <div className={styles.barsColumnHeading}>{t('TOP_REVENUE_CATEGORIES')}</div>
         {revenueGroups.map((group) => (
           <BarRow
             key={group.id}
@@ -81,7 +80,7 @@ const RevenueExpenseBars = ({
         ))}
       </div>
       <div className={styles.barsColumn}>
-        <div className={styles.barsColumnHeading}>{expenseHeading}</div>
+        <div className={styles.barsColumnHeading}>{t('TOP_EXPENSE_CATEGORIES')}</div>
         {expenseCategories.map((group) => (
           <BarRow
             key={group.id}

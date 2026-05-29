@@ -74,24 +74,13 @@ const allRows = [
     expense: 450,
     netProfit: 2750,
   },
-  {
-    id: 'farm_general',
-    kind: 'farm_general' as const,
-    label: '',
-    revenue: 250,
-    expense: 175,
-    netProfit: 75,
-  },
 ];
 
 const filterByTab = (tab: EntityTab) => {
   if (tab === EntityTab.CROPS) {
     return allRows.filter((r) => r.kind === 'crop');
   }
-  if (tab === EntityTab.ANIMALS) {
-    return allRows.filter((r) => r.kind === 'animal');
-  }
-  return allRows.filter((r) => r.kind === 'farm_general');
+  return allRows.filter((r) => r.kind === 'animal');
 };
 
 export const Default = {

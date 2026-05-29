@@ -24,9 +24,7 @@
   "REVENUE_SOURCES": "Revenue sources",
   "TABLE": {
     "ANIMAL": "Animal",
-    "ENTITY": "Entity",
     "EXPENSE": "Expense",
-    "FARM_GENERAL": "Farm general",
     "NET_PROFIT": "Net profit",
     "NOT_YET": "Not yet",
     "REVENUE": "Revenue",

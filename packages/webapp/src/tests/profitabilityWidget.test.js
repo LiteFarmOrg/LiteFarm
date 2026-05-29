@@ -21,6 +21,7 @@ import {
   filterTasksByDateRange,
   formatYearOption,
   getAvailableYears,
+  hasAttributedExpense,
   hasAttributedRevenue,
   topNExpenseCategories,
   topNRevenueTypes,
@@ -321,6 +322,42 @@ describe('hasAttributedRevenue', () => {
 
   test('returns false when there are no sales in range', () => {
     expect(hasAttributedRevenue([], revenueTypes, dateFilter)).toBe(false);
+  });
+});
+
+describe('hasAttributedExpense', () => {
+  test('returns true when an in-range expense has a crop-variety or animal allocation', () => {
+    expect(hasAttributedExpense(expenses, dateFilter)).toBe(true);
+  });
+
+  test('returns false when all in-range expenses are farm-general (no allocations)', () => {
+    const farmGeneralExpenses = [
+      {
+        farm_expense_id: 2000,
+        expense_date: '2025-07-01',
+        value: 25,
+        farm_expense_crop_variety: [],
+        farm_expense_animal: [],
+      },
+    ];
+    expect(hasAttributedExpense(farmGeneralExpenses, dateFilter)).toBe(false);
+  });
+
+  test('returns false when the only attributed expense falls outside the date range', () => {
+    const outOfRange = [
+      {
+        farm_expense_id: 2001,
+        expense_date: '2024-04-05',
+        value: 60,
+        farm_expense_crop_variety: [{ crop_variety_id: 100, allocated_value: 40 }],
+        farm_expense_animal: [],
+      },
+    ];
+    expect(hasAttributedExpense(outOfRange, dateFilter)).toBe(false);
+  });
+
+  test('returns false when there are no expenses', () => {
+    expect(hasAttributedExpense([], dateFilter)).toBe(false);
   });
 });
 

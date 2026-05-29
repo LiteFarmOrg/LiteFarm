@@ -302,6 +302,29 @@ export function hasAttributedRevenue(
 }
 
 /**
+ * Returns true when at least one expense in the date range carries an
+ * allocation to a crop variety or animal/batch with a positive
+ * `allocated_value`. Expense attribution is independent of revenue
+ * attribution: an expense is attributed directly through its
+ * `farm_expense_crop_variety` / `farm_expense_animal` rows, not through a
+ * revenue type's `entity_type`. Used alongside `hasAttributedRevenue` so the
+ * CTA banner treats a farm with allocated expenses — but no attributed sales —
+ * as already having attributions.
+ */
+export function hasAttributedExpense(expenses: any[] | undefined, dateFilter: DateFilter): boolean {
+  const filtered = filterExpensesByDateRange(
+    expenses ?? [],
+    dateFilter.startDate,
+    dateFilter.endDate,
+  );
+  return filtered.some((expense) => {
+    const cropAllocs: any[] = expense.farm_expense_crop_variety ?? [];
+    const animalAllocs: any[] = expense.farm_expense_animal ?? [];
+    return [...cropAllocs, ...animalAllocs].some((alloc) => (alloc.allocated_value ?? 0) > 0);
+  });
+}
+
+/**
  * Returns the top N expense categories by total value within the date range.
  * Includes a synthetic "Labour" category aggregated from tasks' wage * duration.
  *

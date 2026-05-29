@@ -90,7 +90,7 @@ const ProfitabilityWidget = () => {
 
   const ctaVariant: CtaVariant = data.isEmpty
     ? 'noTransactions'
-    : data.hasAttributedRevenue
+    : data.hasAttributions
       ? 'default'
       : 'noAttributions';
 

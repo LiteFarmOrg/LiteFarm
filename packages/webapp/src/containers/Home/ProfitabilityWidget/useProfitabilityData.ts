@@ -38,6 +38,7 @@ import {
   calcKpis,
   calcYoYTrend,
   getAvailableYears,
+  hasAttributedExpense,
   hasAttributedRevenue,
   topNExpenseCategories,
   topNRevenueTypes,
@@ -57,7 +58,7 @@ export interface UseProfitabilityDataResult {
   kpis: KpiResult;
   yoyTrend: YoYTrend | null;
   topRevenueTypes: RevenueTypeBar[];
-  hasAttributedRevenue: boolean;
+  hasAttributions: boolean;
   topExpenseCategories: ExpenseCategoryBar[];
   entityRows: EntityProfitRow[];
   availableYears: number[];
@@ -117,7 +118,7 @@ export default function useProfitabilityData({
         kpis: EMPTY_KPIS,
         yoyTrend: EMPTY_TREND,
         topRevenueTypes: [] as RevenueTypeBar[],
-        hasAttributedRevenue: false,
+        hasAttributions: false,
         topExpenseCategories: [] as ExpenseCategoryBar[],
         entityRows: [] as EntityProfitRow[],
         availableYears: [] as number[],
@@ -132,7 +133,9 @@ export default function useProfitabilityData({
       TOP_REVENUE_TYPES_COUNT,
       dateFilter,
     );
-    const hasAttributedRevenueResult = hasAttributedRevenue(sales, revenueTypes, dateFilter);
+    const hasAttributionsResult =
+      hasAttributedRevenue(sales, revenueTypes, dateFilter) ||
+      hasAttributedExpense(expenses, dateFilter);
     const topExpenseCategoriesResult = topNExpenseCategories(
       expenses,
       expenseTypes,
@@ -158,7 +161,7 @@ export default function useProfitabilityData({
       kpis,
       yoyTrend,
       topRevenueTypes: topRevenueTypesResult,
-      hasAttributedRevenue: hasAttributedRevenueResult,
+      hasAttributions: hasAttributionsResult,
       topExpenseCategories: topExpenseCategoriesResult,
       entityRows,
       availableYears,

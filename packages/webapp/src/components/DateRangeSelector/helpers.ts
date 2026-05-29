@@ -54,8 +54,8 @@ const DEFAULT_OPTION_ORDER: DateRangeOptions[] = [
 /**
  * Build the list of options for the date-range dropdown.
  *
- * - When `allowedOptions` is omitted, the static set rendered today is used.
- *   When supplied, only those options are rendered, in the order given.
+ * - When `allowedOptions` is omitted, DEFAULT_OPTION_ORDER is used.
+ *   When supplied, only those options are used, in the order given.
  * - When `dynamicOptions` are supplied, they are inserted immediately before
  *   the `CUSTOM` entry (or appended if no `CUSTOM` entry is present).
  */

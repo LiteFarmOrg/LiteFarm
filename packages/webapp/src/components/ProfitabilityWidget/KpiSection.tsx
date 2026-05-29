@@ -17,10 +17,10 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import DescriptionList from '../Tile/DescriptionList';
 import { DescriptionListTile } from '../Tile/DescriptionList';
-import TrendBadge, { TrendBadgeProps } from './TrendBadge';
+import TrendBadge, { TrendData } from './TrendBadge';
 import styles from './styles.module.scss';
 
-export type KpiTrend = TrendBadgeProps;
+export type KpiTrend = TrendData;
 
 export interface KpiSectionProps {
   netProfit: { value: string; trend?: KpiTrend };
@@ -50,11 +50,7 @@ const KpiSection = ({
         {netProfit.trend ? (
           <TrendBadge {...netProfit.trend} />
         ) : (
-          <span className={styles.skeletonKpiTrend}>
-            <span>-%</span>
-            <span aria-hidden="true">&rarr;</span>
-            <span className={styles.skeletonKpiTrendSuffix}>y/y</span>
-          </span>
+          <TrendBadge variant="insufficientData" />
         )}
       </div>
       <DescriptionList

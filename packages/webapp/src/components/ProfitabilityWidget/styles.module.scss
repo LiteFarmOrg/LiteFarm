@@ -72,6 +72,23 @@
   margin-left: 4px;
 }
 
+/* Muted sibling of .trendBadge, shown when no meaningful year-over-year
+   trend can be computed. Same layout as the real badge; the suffix omits
+   color so it inherits the grey set on the container. */
+.trendBadgePlaceholder {
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #b9bfc9;
+}
+
+.trendBadgePlaceholderSuffix {
+  font-weight: 600;
+  margin-left: 4px;
+}
+
 /* Compact tiles — nesting under .kpiCompactRow for the same
    specificity reason as the hero tile above. */
 

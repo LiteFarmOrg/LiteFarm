@@ -76,7 +76,7 @@ export const TrendFlat = {
   ),
 };
 
-export const NoTrend = {
+export const InsufficientDataTrend = {
   render: () => (
     <div style={{ maxWidth: 720 }}>
       <KpiSection {...kpiProps} netProfit={{ value: '$12,450.00' }} />

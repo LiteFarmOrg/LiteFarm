@@ -15,25 +15,24 @@
 
 import { TFunction } from 'i18next';
 import { DateRangeOptions, DynamicDateRangeOption } from './types';
-import i18n from '../../locales/i18n';
 
 export interface DateRangeOptionEntry {
   value: string;
   label: string;
 }
 
-const getStaticLabels: () => Record<DateRangeOptions, string> = () => ({
-  [DateRangeOptions.YEAR_TO_DATE]: i18n.t('DATE_RANGE_SELECTOR.YEAR_TO_DATE'),
-  [DateRangeOptions.LAST_7_DAYS]: i18n.t('DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS'),
-  [DateRangeOptions.LAST_14_DAYS]: i18n.t('DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS'),
-  [DateRangeOptions.LAST_30_DAYS]: i18n.t('DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS'),
-  [DateRangeOptions.LAST_12_MONTHS]: i18n.t('DATE_RANGE_SELECTOR.LAST_12_MONTHS'),
-  [DateRangeOptions.THIS_WEEK]: i18n.t('DATE_RANGE_SELECTOR.THIS_WEEK'),
-  [DateRangeOptions.LAST_WEEK]: i18n.t('DATE_RANGE_SELECTOR.LAST_WEEK'),
-  [DateRangeOptions.THIS_MONTH]: i18n.t('DATE_RANGE_SELECTOR.THIS_MONTH'),
-  [DateRangeOptions.LAST_MONTH]: i18n.t('DATE_RANGE_SELECTOR.LAST_MONTH'),
-  [DateRangeOptions.CUSTOM]: i18n.t('DATE_RANGE_SELECTOR.CUSTOM_RANGE'),
-});
+const STATIC_OPTION_LABEL_KEYS: Record<DateRangeOptions, string> = {
+  [DateRangeOptions.YEAR_TO_DATE]: 'DATE_RANGE_SELECTOR.YEAR_TO_DATE', // t('DATE_RANGE_SELECTOR.YEAR_TO_DATE')
+  [DateRangeOptions.LAST_7_DAYS]: 'DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS', // t('DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS')
+  [DateRangeOptions.LAST_14_DAYS]: 'DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS', // t('DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS')
+  [DateRangeOptions.LAST_30_DAYS]: 'DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS', // t('DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS')
+  [DateRangeOptions.LAST_12_MONTHS]: 'DATE_RANGE_SELECTOR.LAST_12_MONTHS', // t('DATE_RANGE_SELECTOR.LAST_12_MONTHS')
+  [DateRangeOptions.THIS_WEEK]: 'DATE_RANGE_SELECTOR.THIS_WEEK', // t('DATE_RANGE_SELECTOR.THIS_WEEK')
+  [DateRangeOptions.LAST_WEEK]: 'DATE_RANGE_SELECTOR.LAST_WEEK', // t('DATE_RANGE_SELECTOR.LAST_WEEK')
+  [DateRangeOptions.THIS_MONTH]: 'DATE_RANGE_SELECTOR.THIS_MONTH', // t('DATE_RANGE_SELECTOR.THIS_MONTH')
+  [DateRangeOptions.LAST_MONTH]: 'DATE_RANGE_SELECTOR.LAST_MONTH', // t('DATE_RANGE_SELECTOR.LAST_MONTH')
+  [DateRangeOptions.CUSTOM]: 'DATE_RANGE_SELECTOR.CUSTOM_RANGE', // t('DATE_RANGE_SELECTOR.CUSTOM_RANGE')
+};
 
 /**
  * Default static-option order rendered when no `allowedOptions` prop
@@ -66,10 +65,9 @@ export function buildDateRangeOptions(
   dynamicOptions?: DynamicDateRangeOption[],
 ): DateRangeOptionEntry[] {
   const staticKeys = allowedOptions ?? DEFAULT_OPTION_ORDER;
-  const staticLabels = getStaticLabels();
   const staticEntries: DateRangeOptionEntry[] = staticKeys.map((key) => ({
     value: key,
-    label: staticLabels[key],
+    label: t(STATIC_OPTION_LABEL_KEYS[key]),
   }));
 
   if (!dynamicOptions?.length) {

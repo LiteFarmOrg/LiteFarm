@@ -40,7 +40,7 @@ interface BarRowProps {
 const BarRow = ({ group, fillColor, trackColor, formatValue }: BarRowProps) => (
   <div className={styles.barRow}>
     <div className={styles.barRowHeader}>
-      <span>{group.label}</span>
+      <span className={styles.barRowLabel}>{group.label}</span>
       <span className={styles.barRowValue}>{formatValue(group.total)}</span>
     </div>
     <LinearProgress

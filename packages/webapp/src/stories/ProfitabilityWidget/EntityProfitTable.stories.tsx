@@ -50,6 +50,14 @@ const allRows = [
     netProfit: 0,
   },
   {
+    id: 'crop_103',
+    kind: 'crop' as const,
+    label: 'Soybeans',
+    revenue: 0,
+    expense: 1200,
+    netProfit: -1200,
+  },
+  {
     id: 'animal_50',
     kind: 'animal' as const,
     label: 'Bessie',

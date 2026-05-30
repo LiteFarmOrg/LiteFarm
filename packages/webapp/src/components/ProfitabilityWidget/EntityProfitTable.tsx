@@ -80,7 +80,9 @@ const EntityProfitTable = ({
 
   const renderNetProfit = (row: EntityProfitTableRow): ReactNode => {
     return (
-      <span className={styles.cellNetProfit}>
+      <span
+        className={clsx(styles.cellNetProfit, row.netProfit < 0 && styles.cellNetProfitNegative)}
+      >
         {row.netProfit < 0 ? '-' : ''}
         {formatCurrency(row.netProfit)}
       </span>

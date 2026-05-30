@@ -170,6 +170,12 @@
   color: #1f2934;
 }
 
+/* Keep multi-line labels aligned to the start; without this they inherit the
+   ambient text-align: center and a wrapped second line appears centred. */
+.barRowLabel {
+  text-align: start;
+}
+
 .barRowValue {
   font-weight: 600;
 }

@@ -154,7 +154,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  color: #434843;
+  color: var(--Colors-Neutral-Neutral-900, #2b303a);
 }
 
 .barRow {
@@ -167,7 +167,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #1f2934;
+  color: #1b1c1a;
 }
 
 /* Keep multi-line labels aligned to the start; without this they inherit the
@@ -278,7 +278,7 @@
 
 .ctaBannerText {
   font-size: 14px;
-  color: #1f2934;
+  color: #000;
   text-align: start;
 }
 

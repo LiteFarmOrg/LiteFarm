@@ -45,11 +45,11 @@
       font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      color: #00a0af;
+      color: var(--Blue-acqua, #00a0af);
     }
 
     dd {
-      color: #00a0af;
+      color: var(--Blue-acqua, #00a0af);
       text-shadow: 1px 1px 0 white;
     }
   }
@@ -81,7 +81,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #b9bfc9;
+  color: var(--Colors-Neutral-Neutral-200, #b9bfc9);
 }
 
 .trendBadgePlaceholderSuffix {
@@ -118,19 +118,19 @@
 
   .kpiTile.revenue {
     border-color: rgba(192, 225, 221, 0.8);
-    color: #308f85;
+    color: var(--Colors-Primary-Primary-teal-600, #308f85);
     &.expanded { background-color: rgba(48, 143, 133, 0.05); }
   }
 
   .kpiTile.expenses {
     border-color: rgba(235, 96, 52, 0.2);
-    color: #eb6034;
+    color: var(--Brand-Accents-colors-and-overlays-Accent-red, #eb6034);
     &.expanded { background-color: rgba(235, 96, 52, 0.05); }
   }
 
   .kpiTile.margin {
-    border-color: #f4e8ff;
-    color: #3a0070;
+    border-color: var(--Colors-Accent---singles-Purple-light, #f4e8ff);
+    color: var(--Colors-Accent---singles-Purple-dark, #3a0070);
     &.expanded { background-color: rgba(58, 0, 112, 0.05); }
   }
 }
@@ -190,7 +190,7 @@
 
 .profitabilityTableHeader {
   background-color: #fbf9f6;
-  border-bottom: 1px solid #f4efe4;
+  border-bottom: 1px solid var(--Cream-2, #f4efe4);
   color: #434843;
   font-size: 11px;
   text-transform: uppercase;
@@ -198,17 +198,20 @@
 }
 
 .cellRevenue {
-  color: #308f85;
+  color: var(--Colors-Neutral-Neutral-900, #2b303a);
   text-align: right;
 }
 .cellExpense {
-  color: #eb6034;
+  color: var(--Colors-Neutral-Neutral-900, #2b303a);
   text-align: right;
 }
 .cellNetProfit {
-  color: #00a0af;
+  color: var(--Blue-acqua, #00a0af);
   font-weight: 700;
   text-align: right;
+}
+.cellNetProfitNegative {
+  color: var(--Brand-Accents-colors-and-overlays-Accent-red, #eb6034);
 }
 .cellTotal {
   font-weight: 700;
@@ -222,7 +225,7 @@
 }
 
 .expandableSection.expanded {
-  border: 1px solid #e9f3ff;
+  border: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -239,7 +242,7 @@
   width: 100%;
   font-size: 14px;
   font-weight: 600;
-  color: #0669e1;
+  color: var(--Colors-Accent---singles-Blue-full, #0669e1);
 }
 
 .expandableSection.expanded .expandableHeader {
@@ -253,7 +256,7 @@
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background-color: #e9f3ff;
+  background-color: var(--Colors-Accent---singles-Blue-light, #e9f3ff);
   border: 1px solid #bad9ff;
 }
 
@@ -264,7 +267,7 @@
 /* ── CallToActionBanner ─────────────────────────────────── */
 
 .ctaBanner {
-  background-color: #f2faf5;
+  background-color: var(--Colors-Secondary-Secondary-green-50, #f2faf5);
   border-radius: 8px;
   padding: 16px;
   display: flex;
@@ -299,7 +302,7 @@
 }
 
 .skeletonKpiCard {
-  border: 1px solid #d0d4db;
+  border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
   border-radius: 4px;
   padding: 8px 16px;
   display: flex;
@@ -317,13 +320,13 @@
 .skeletonKpiLabel {
   font-size: 12px;
   text-transform: uppercase;
-  color: #b9bfc9;
+  color: var(--Colors-Neutral-Neutral-200, #b9bfc9);
 }
 
 .skeletonKpiValue {
   font-size: 24px;
   font-weight: 700;
-  color: #d0d4db;
+  color: var(--Colors-Neutral-Neutral-100, #d0d4db);
   text-shadow: 1px 1px 0 white;
 }
 
@@ -331,7 +334,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #b9bfc9;
+  color: var(--Colors-Neutral-Neutral-200, #b9bfc9);
   font-weight: 700;
   font-size: 16px;
 }
@@ -404,7 +407,7 @@
 .skeletonBarTrack {
   height: 8px;
   border-radius: 12px;
-  background-color: #f0f1f3;
+  background-color: var(--Colors-Neutral-Neutral-50, #f0f1f3);
 }
 
 .skeletonTableSection {
@@ -415,7 +418,7 @@
 .skeletonTableHeader {
   display: flex;
   background-color: #fbf9f6;
-  border-bottom: 1px solid #f4efe4;
+  border-bottom: 1px solid var(--Cream-2, #f4efe4);
 }
 
 .skeletonTableHeaderCell {
@@ -432,7 +435,7 @@
   display: flex;
 
   &:nth-child(even) {
-    background-color: #f7fbff;
+    background-color: var(--Colors-Backgrounds-table-row-bg, #f7fbff);
   }
 
   &:not(:first-child) {

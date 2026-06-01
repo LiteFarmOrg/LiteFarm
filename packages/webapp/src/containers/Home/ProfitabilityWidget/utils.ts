@@ -34,11 +34,12 @@ export interface YoYTrend {
   direction: 'up' | 'down' | 'flat';
 }
 
-export interface RevenueGroupBar {
-  kind: 'crop' | 'animal' | 'farm_general';
+export interface RevenueTypeBar {
+  id: string;
   label: string;
+  labelKey: string | null;
   total: number;
-  percentOfMax: number;
+  percentOfTotal: number;
 }
 
 export interface ExpenseCategoryBar {
@@ -46,7 +47,7 @@ export interface ExpenseCategoryBar {
   label: string;
   labelKey: string | null;
   total: number;
-  percentOfMax: number;
+  percentOfTotal: number;
 }
 
 export type EntityProfitRow =
@@ -56,32 +57,33 @@ export type EntityProfitRow =
       cropVarietyId: number;
       label: string;
       cropTranslationKey?: string | null;
-      revenue: number | null;
+      revenue: number;
       expense: number;
       netProfit: number;
     }
   | {
       id: string;
       kind: 'animal';
-      animalId: number | null;
-      batchId: number | null;
+      isTotal: false;
       label: string;
-      revenue: number | null;
+      revenue: number;
       expense: number;
       netProfit: number;
     }
   | {
       id: string;
-      kind: 'farm_general';
+      kind: 'animal';
+      isTotal: true;
+      defaultTypeId: number | null;
+      customTypeId: number | null;
       label: string;
-      revenue: number | null;
+      typeTranslationKey?: string | null;
+      revenue: number;
       expense: number;
       netProfit: number;
     };
 
-export type EntityTab = 'crops' | 'animals' | 'all';
-
-export const FARM_GENERAL_ROW_ID = 'farm_general';
+export type EntityTab = 'crops' | 'animals';
 
 /**
  * Re-exports the existing Finances helper so callers can resolve sales+expenses
@@ -179,22 +181,26 @@ export function calcKpis({
   return { netProfit, totalRevenue, totalExpenses, margin };
 }
 
+// Above this magnitude a year-over-year change is treated as not meaningful and
+// the trend is suppressed (the placeholder is shown instead). A tiny previous-year
+// net profit divided into the current year easily produces percentages in the tens
+// of thousands, which is noise rather than a useful signal.
+const MAX_YOY_TREND_PERCENT = 1000;
+
 /**
- * Computes the year-over-year-style trend by comparing KPIs over the selected
- * range against the same-length range immediately preceding it. The plan
- * notes the comparison window for non-YTD selections is approximate; this is
- * the documented default until UX confirms otherwise.
+ * Computes the year-over-year trend by comparing KPIs over the selected range
+ * against the same calendar dates one year prior (e.g. Mar–Apr 2025 vs
+ * Mar–Apr 2024).
  */
 export function calcYoYTrend(
   args: Omit<CalcKpisInput, 'dateFilter'>,
   currentRange: DateFilter,
-): YoYTrend {
+): YoYTrend | null {
   const start = moment(currentRange.startDate);
   const end = moment(currentRange.endDate);
-  const lengthDays = end.diff(start, 'days');
 
-  const prevEnd = start.clone().subtract(1, 'day');
-  const prevStart = prevEnd.clone().subtract(lengthDays, 'days');
+  const prevStart = start.clone().subtract(1, 'year');
+  const prevEnd = end.clone().subtract(1, 'year');
 
   const current = calcKpis({ ...args, dateFilter: currentRange });
   const previous = calcKpis({
@@ -205,6 +211,10 @@ export function calcYoYTrend(
     },
   });
 
+  if (previous.totalRevenue === 0 && previous.totalExpenses === 0) {
+    return null;
+  }
+
   if (previous.netProfit === 0) {
     if (current.netProfit === 0) {
       return { percent: 0, direction: 'flat' };
@@ -213,6 +223,9 @@ export function calcYoYTrend(
   }
   const raw = ((current.netProfit - previous.netProfit) / Math.abs(previous.netProfit)) * 100;
   const rounded = Math.round(raw);
+  if (Math.abs(rounded) > MAX_YOY_TREND_PERCENT) {
+    return null;
+  }
   let direction: YoYTrend['direction'] = 'flat';
   if (rounded > 0) {
     direction = 'up';
@@ -222,56 +235,102 @@ export function calcYoYTrend(
   return { percent: Math.abs(rounded), direction };
 }
 
-function withPercentOfMax<T extends { total: number }>(
+function withPercentOfTotal<T extends { total: number }>(
   rows: T[],
-): (T & { percentOfMax: number })[] {
-  const max = rows.reduce((m, row) => (row.total > m ? row.total : m), 0);
+): (T & { percentOfTotal: number })[] {
+  const sum = rows.reduce((s, row) => s + row.total, 0);
   return rows.map((row) => ({
     ...row,
-    percentOfMax: max > 0 ? Math.round((row.total / max) * 100) : 0,
+    percentOfTotal: sum > 0 ? Math.round((row.total / sum) * 100) : 0,
   }));
 }
 
 /**
- * Groups sales revenue into three buckets by `revenue_type.entity_type`:
- * `crop`, `animal`, and `farm_general` (anything without an entity type).
- * Returns one bar per non-empty bucket. Labels are returned as i18n sub-keys
- * (e.g. `'CROP_SALES'`); the consuming component owns localisation under the
- * `REVENUE_GROUP` namespace.
+ * Returns the top N revenue types by total value within the date range.
+ *
+ * For custom revenue types (`farm_id` is set), `label` is the user-supplied
+ * `revenue_name` and `labelKey` is `null`. For system revenue types,
+ * `label` is empty and `labelKey` is the i18n key
+ * (e.g. `'revenue:CROP_SALE.REVENUE_NAME'`).
  */
-export function groupRevenueByEntityType(
+export function topNRevenueTypes(
+  sales: any[] | undefined,
+  revenueTypes: any[] | undefined,
+  n: number,
+  dateFilter: DateFilter,
+): RevenueTypeBar[] {
+  const filtered = filterSalesByDateRange(sales ?? [], dateFilter.startDate, dateFilter.endDate);
+
+  const totalsByType = new Map<number, number>();
+  for (const sale of filtered) {
+    if (sale.revenue_type_id == null) {
+      continue;
+    }
+    const cur = totalsByType.get(sale.revenue_type_id) ?? 0;
+    totalsByType.set(sale.revenue_type_id, cur + sumSaleValue(sale));
+  }
+
+  const typeLookup = revenueTypes ?? [];
+  const categories: Omit<RevenueTypeBar, 'percentOfTotal'>[] = [];
+
+  for (const [typeId, total] of totalsByType.entries()) {
+    const type = typeLookup.find((t: any) => t.revenue_type_id === typeId);
+    if (!type) {
+      continue;
+    }
+    const isCustom = type.farm_id != null;
+    categories.push({
+      id: `revenue_${typeId}`,
+      label: isCustom ? (type.revenue_name ?? '') : '',
+      labelKey: isCustom ? null : `revenue:${type.revenue_translation_key}.REVENUE_NAME`,
+      total,
+    });
+  }
+
+  categories.sort((a, b) => b.total - a.total);
+  return withPercentOfTotal(categories.slice(0, n));
+}
+
+/**
+ * Returns true when at least one sale in the date range belongs to a
+ * revenue type with a non-null `entity_type` (crop or animal) and carries
+ * a positive value. Used by the CTA banner to distinguish "no attributions"
+ * from "has attributions".
+ */
+export function hasAttributedRevenue(
   sales: any[] | undefined,
   revenueTypes: any[] | undefined,
   dateFilter: DateFilter,
-): RevenueGroupBar[] {
+): boolean {
   const filtered = filterSalesByDateRange(sales ?? [], dateFilter.startDate, dateFilter.endDate);
   const types = revenueTypes ?? [];
-  const totals = { crop: 0, animal: 0, farm_general: 0 };
+  return filtered.some((sale) => {
+    const rt = types.find((t: any) => t.revenue_type_id === sale.revenue_type_id);
+    return rt?.entity_type != null && sumSaleValue(sale) > 0;
+  });
+}
 
-  for (const sale of filtered) {
-    const revenueType = types.find((rt: any) => rt.revenue_type_id === sale.revenue_type_id);
-    const entityType = revenueType?.entity_type ?? null;
-    const value = sumSaleValue(sale);
-    if (entityType === 'crop') {
-      totals.crop += value;
-    } else if (entityType === 'animal') {
-      totals.animal += value;
-    } else {
-      totals.farm_general += value;
-    }
-  }
-
-  const rows: Omit<RevenueGroupBar, 'percentOfMax'>[] = (
-    [
-      { kind: 'crop', label: 'CROP_SALES', total: totals.crop },
-      { kind: 'animal', label: 'ANIMAL_SALES', total: totals.animal },
-      { kind: 'farm_general', label: 'FARM_GENERAL', total: totals.farm_general },
-    ] as const
-  )
-    .filter((row) => row.total > 0)
-    .map((row) => ({ kind: row.kind, label: row.label, total: row.total }));
-
-  return withPercentOfMax(rows);
+/**
+ * Returns true when at least one expense in the date range carries an
+ * allocation to a crop variety or animal/batch with a positive
+ * `allocated_value`. Expense attribution is independent of revenue
+ * attribution: an expense is attributed directly through its
+ * `farm_expense_crop_variety` / `farm_expense_animal` rows, not through a
+ * revenue type's `entity_type`. Used alongside `hasAttributedRevenue` so the
+ * CTA banner treats a farm with allocated expenses — but no attributed sales —
+ * as already having attributions.
+ */
+export function hasAttributedExpense(expenses: any[] | undefined, dateFilter: DateFilter): boolean {
+  const filtered = filterExpensesByDateRange(
+    expenses ?? [],
+    dateFilter.startDate,
+    dateFilter.endDate,
+  );
+  return filtered.some((expense) => {
+    const cropAllocs: any[] = expense.farm_expense_crop_variety ?? [];
+    const animalAllocs: any[] = expense.farm_expense_animal ?? [];
+    return [...cropAllocs, ...animalAllocs].some((alloc) => (alloc.allocated_value ?? 0) > 0);
+  });
 }
 
 /**
@@ -312,7 +371,7 @@ export function topNExpenseCategories(
   }
 
   const typeLookup = expenseTypes ?? [];
-  const categories: Omit<ExpenseCategoryBar, 'percentOfMax'>[] = [];
+  const categories: Omit<ExpenseCategoryBar, 'percentOfTotal'>[] = [];
 
   for (const [typeId, total] of totalsByType.entries()) {
     const type = typeLookup.find((t: any) => t.expense_type_id === typeId);
@@ -339,7 +398,7 @@ export function topNExpenseCategories(
   }
 
   categories.sort((a, b) => b.total - a.total);
-  return withPercentOfMax(categories.slice(0, n));
+  return withPercentOfTotal(categories.slice(0, n));
 }
 
 interface AggregateByEntityInput {
@@ -349,6 +408,8 @@ interface AggregateByEntityInput {
   cropVarieties?: any[];
   animals?: any[];
   animalBatches?: any[];
+  defaultAnimalTypes?: any[];
+  customAnimalTypes?: any[];
   dateFilter: DateFilter;
   entityTab: EntityTab;
 }
@@ -358,12 +419,8 @@ interface AggregateByEntityInput {
  * (`farm_expense_crop_variety` / `farm_expense_animal`) to attribute revenue
  * and expense per-entity. Returns rows shaped for the entity-profit table.
  *
- * For the `'all'` tab, includes a synthetic `farm_general` row aggregating
- * sales whose revenue type has no entity type and expenses with no entity
- * allocations.
- *
- * Revenue is returned as `null` when an entity has expense allocations within
- * the date range but no sales — the component renders this as `'Not yet'`.
+ * For the `'animals'` tab, returns one row per individual animal/batch
+ * (`isTotal: false`) followed by one per-type total row (`isTotal: true`).
  */
 export function aggregateByEntity({
   sales = [],
@@ -372,6 +429,8 @@ export function aggregateByEntity({
   cropVarieties = [],
   animals = [],
   animalBatches = [],
+  defaultAnimalTypes = [],
+  customAnimalTypes = [],
   dateFilter,
   entityTab,
 }: AggregateByEntityInput): EntityProfitRow[] {
@@ -386,7 +445,17 @@ export function aggregateByEntity({
     string,
     { id: string; cropVarietyId: number; revenue: number; expense: number }
   >();
-  const animalTotals = new Map<
+  const animalTypeTotals = new Map<
+    string,
+    {
+      id: string;
+      defaultTypeId: number | null;
+      customTypeId: number | null;
+      revenue: number;
+      expense: number;
+    }
+  >();
+  const individualAnimalTotals = new Map<
     string,
     {
       id: string;
@@ -396,8 +465,51 @@ export function aggregateByEntity({
       expense: number;
     }
   >();
-  let farmGeneralRevenue = 0;
-  let farmGeneralExpense = 0;
+  const resolveAnimalTypeKey = (animalId: number | null, batchId: number | null): string | null => {
+    const match =
+      animalId != null
+        ? animals.find((a: any) => a.id === animalId)
+        : animalBatches.find((b: any) => b.id === batchId);
+    if (!match) {
+      return null;
+    }
+    if (match.default_type_id != null) {
+      return `default_type_${match.default_type_id}`;
+    }
+    if (match.custom_type_id != null) {
+      return `custom_type_${match.custom_type_id}`;
+    }
+    return null;
+  };
+
+  const getOrCreateAnimalTypeEntry = (key: string) => {
+    const existing = animalTypeTotals.get(key);
+    if (existing) {
+      return existing;
+    }
+    const isDefault = key.startsWith('default_type_');
+    const typeId = parseInt(key.split('_').pop()!, 10);
+    const entry = {
+      id: key,
+      defaultTypeId: isDefault ? typeId : null,
+      customTypeId: isDefault ? null : typeId,
+      revenue: 0,
+      expense: 0,
+    };
+    animalTypeTotals.set(key, entry);
+    return entry;
+  };
+
+  const getOrCreateIndividualEntry = (animalId: number | null, batchId: number | null) => {
+    const key = animalId != null ? `animal_${animalId}` : `batch_${batchId}`;
+    const existing = individualAnimalTotals.get(key);
+    if (existing) {
+      return existing;
+    }
+    const entry = { id: key, animalId, batchId, revenue: 0, expense: 0 };
+    individualAnimalTotals.set(key, entry);
+    return entry;
+  };
 
   for (const sale of filteredSales) {
     const revenueType = revenueTypes.find((rt: any) => rt.revenue_type_id === sale.revenue_type_id);
@@ -418,26 +530,18 @@ export function aggregateByEntity({
       for (const row of sale.animal_sale) {
         const animalId = row.animal_id ?? null;
         const batchId = row.animal_batch_id ?? null;
-        const key = animalId != null ? `animal_${animalId}` : `batch_${batchId}`;
-        const entry = animalTotals.get(key) ?? {
-          id: key,
-          animalId,
-          batchId,
-          revenue: 0,
-          expense: 0,
-        };
-        entry.revenue += row.sale_value ?? 0;
-        animalTotals.set(key, entry);
+        getOrCreateIndividualEntry(animalId, batchId).revenue += row.sale_value ?? 0;
+        const typeKey = resolveAnimalTypeKey(animalId, batchId);
+        if (typeKey) {
+          getOrCreateAnimalTypeEntry(typeKey).revenue += row.sale_value ?? 0;
+        }
       }
-    } else if (entityType == null) {
-      farmGeneralRevenue += sale.value ?? 0;
     }
   }
 
   for (const expense of filteredExpenses) {
     const cropAllocs: any[] = expense.farm_expense_crop_variety ?? [];
     const animalAllocs: any[] = expense.farm_expense_animal ?? [];
-    const hasAllocations = cropAllocs.length > 0 || animalAllocs.length > 0;
 
     for (const alloc of cropAllocs) {
       const key = `crop_${alloc.crop_variety_id}`;
@@ -453,19 +557,11 @@ export function aggregateByEntity({
     for (const alloc of animalAllocs) {
       const animalId = alloc.animal_id ?? null;
       const batchId = alloc.animal_batch_id ?? null;
-      const key = animalId != null ? `animal_${animalId}` : `batch_${batchId}`;
-      const entry = animalTotals.get(key) ?? {
-        id: key,
-        animalId,
-        batchId,
-        revenue: 0,
-        expense: 0,
-      };
-      entry.expense += alloc.allocated_value ?? 0;
-      animalTotals.set(key, entry);
-    }
-    if (!hasAllocations) {
-      farmGeneralExpense += expense.value ?? 0;
+      getOrCreateIndividualEntry(animalId, batchId).expense += alloc.allocated_value ?? 0;
+      const typeKey = resolveAnimalTypeKey(animalId, batchId);
+      if (typeKey) {
+        getOrCreateAnimalTypeEntry(typeKey).expense += alloc.allocated_value ?? 0;
+      }
     }
   }
 
@@ -477,25 +573,49 @@ export function aggregateByEntity({
       cropVarietyId: entry.cropVarietyId,
       label: cropVariety?.crop_variety_name ?? '',
       cropTranslationKey: cropVariety?.crop?.crop_translation_key ?? null,
-      revenue: entry.revenue === 0 && entry.expense > 0 ? null : entry.revenue,
+      revenue: entry.revenue,
       expense: entry.expense,
       netProfit: entry.revenue - entry.expense,
     };
   });
 
-  const animalRows: EntityProfitRow[] = [...animalTotals.values()].map((entry) => {
-    const match =
-      entry.animalId != null
-        ? animals.find((a: any) => a.id === entry.animalId)
-        : animalBatches.find((b: any) => b.id === entry.batchId);
-    const label = match ? chooseIdentification(match) : '';
+  const individualAnimalRows: EntityProfitRow[] = [...individualAnimalTotals.values()].map(
+    (entry) => {
+      const match =
+        entry.animalId != null
+          ? animals.find((a: any) => a.id === entry.animalId)
+          : animalBatches.find((b: any) => b.id === entry.batchId);
+      return {
+        id: entry.id,
+        kind: 'animal',
+        isTotal: false,
+        label: match ? chooseIdentification(match) : '',
+        revenue: entry.revenue,
+        expense: entry.expense,
+        netProfit: entry.revenue - entry.expense,
+      };
+    },
+  );
+
+  const animalTypeRows: EntityProfitRow[] = [...animalTypeTotals.values()].map((entry) => {
+    let label = '';
+    let typeTranslationKey: string | null = null;
+    if (entry.defaultTypeId != null) {
+      const type = defaultAnimalTypes.find((t: any) => t.id === entry.defaultTypeId);
+      typeTranslationKey = type?.key ?? null;
+    } else if (entry.customTypeId != null) {
+      const type = customAnimalTypes.find((t: any) => t.id === entry.customTypeId);
+      label = type?.type ?? '';
+    }
     return {
       id: entry.id,
       kind: 'animal',
-      animalId: entry.animalId,
-      batchId: entry.batchId,
+      isTotal: true,
+      defaultTypeId: entry.defaultTypeId,
+      customTypeId: entry.customTypeId,
       label,
-      revenue: entry.revenue === 0 && entry.expense > 0 ? null : entry.revenue,
+      typeTranslationKey,
+      revenue: entry.revenue,
       expense: entry.expense,
       netProfit: entry.revenue - entry.expense,
     };
@@ -504,51 +624,63 @@ export function aggregateByEntity({
   if (entityTab === 'crops') {
     return cropRows;
   }
-  if (entityTab === 'animals') {
-    return animalRows;
-  }
-  const allRows: EntityProfitRow[] = [...cropRows, ...animalRows];
-  if (farmGeneralRevenue > 0 || farmGeneralExpense > 0) {
-    allRows.push({
-      id: FARM_GENERAL_ROW_ID,
-      kind: 'farm_general',
-      label: '',
-      revenue: farmGeneralRevenue === 0 && farmGeneralExpense > 0 ? null : farmGeneralRevenue,
-      expense: farmGeneralExpense,
-      netProfit: farmGeneralRevenue - farmGeneralExpense,
-    });
-  }
-  return allRows;
+  return [...individualAnimalRows, ...animalTypeRows];
 }
 
 /**
- * Returns the distinct calendar years present in sales+expenses data,
- * sorted descending, excluding the year of `baseDate` (covered by YTD).
+ * Returns a continuous descending range of calendar years from
+ * `currentYear - 1` down to the earliest year present in sales, expenses,
+ * or wage-bearing tasks. Years with no transactions appear in the range so
+ * the dropdown never has gaps.
+ *
+ * A task is "wage-bearing" when `taskLabourCost` returns a positive value
+ * (i.e. both `duration` and `wage_at_moment` are non-zero), matching the
+ * condition under which `useTransactions` creates a LABOUR_EXPENSE entry.
  */
 export function getAvailableYears(
   sales: any[] | undefined,
   expenses: any[] | undefined,
+  tasks?: any[] | undefined,
   baseDate: Date = new Date(),
 ): number[] {
   const currentYear = baseDate.getFullYear();
-  const years = new Set<number>();
+  let earliestYear = Infinity;
+
   for (const sale of sales ?? []) {
     if (sale.sale_date) {
       const y = new Date(sale.sale_date).getFullYear();
-      if (y < currentYear) {
-        years.add(y);
+      if (y < currentYear && y < earliestYear) {
+        earliestYear = y;
       }
     }
   }
   for (const expense of expenses ?? []) {
     if (expense.expense_date) {
       const y = new Date(expense.expense_date).getFullYear();
-      if (y < currentYear) {
-        years.add(y);
+      if (y < currentYear && y < earliestYear) {
+        earliestYear = y;
       }
     }
   }
-  return [...years].sort((a, b) => b - a);
+  for (const task of tasks ?? []) {
+    const effectiveDate = task.complete_date ?? task.abandon_date;
+    if (effectiveDate && taskLabourCost(task) > 0) {
+      const y = new Date(effectiveDate).getFullYear();
+      if (y < currentYear && y < earliestYear) {
+        earliestYear = y;
+      }
+    }
+  }
+
+  if (earliestYear === Infinity) {
+    return [];
+  }
+
+  const years: number[] = [];
+  for (let y = currentYear - 1; y >= earliestYear; y--) {
+    years.push(y);
+  }
+  return years;
 }
 
 /**

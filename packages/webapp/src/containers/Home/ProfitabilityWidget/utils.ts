@@ -15,7 +15,10 @@
 
 import moment from 'moment';
 import { chooseIdentification } from '../../Animals/utils';
-import { filterSalesByDateRange as filterSalesByDateRangeImpl } from '../../Finances/util';
+import {
+  filterSalesByDateRange as filterSalesByDateRangeImpl,
+  filterExpensesByDateRange as filterExpensesByDateRangeImpl,
+} from '../../Finances/util';
 
 export interface DateFilter {
   startDate: string | moment.Moment;
@@ -90,24 +93,7 @@ export type EntityTab = 'crops' | 'animals';
  * filtering through a single utils module.
  */
 export const filterSalesByDateRange = filterSalesByDateRangeImpl;
-
-/**
- * Filters an expense list to those whose `expense_date` falls inside the
- * inclusive day-precision date range.
- */
-export function filterExpensesByDateRange(
-  expenses: any[] | undefined,
-  startDate: string | moment.Moment,
-  endDate: string | moment.Moment,
-): any[] {
-  if (!Array.isArray(expenses)) {
-    return [];
-  }
-  return expenses.filter((expense) => {
-    const d = moment(expense.expense_date);
-    return d.isSameOrAfter(startDate, 'day') && d.isSameOrBefore(endDate, 'day');
-  });
-}
+export const filterExpensesByDateRange = filterExpensesByDateRangeImpl;
 
 /**
  * Filters a task list to those whose effective date (completion or abandon)

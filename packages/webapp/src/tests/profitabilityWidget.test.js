@@ -17,7 +17,6 @@ import {
   aggregateByEntity,
   calcKpis,
   calcYoYTrend,
-  filterExpensesByDateRange,
   filterTasksByDateRange,
   formatYearOption,
   getAvailableYears,
@@ -178,17 +177,6 @@ const animalBatches = [{ id: 60, name: 'Spring Calves', count: 5, default_type_i
 const defaultAnimalTypes = [{ id: 1, key: 'CATTLE' }];
 
 const customAnimalTypes = [{ id: 10, type: 'Alpaca' }];
-
-describe('filterExpensesByDateRange', () => {
-  test('keeps only expenses inside the inclusive range', () => {
-    const result = filterExpensesByDateRange(expenses, '2025-04-01', '2025-06-30');
-    expect(result.map((e) => e.farm_expense_id)).toEqual([1000, 1001]);
-  });
-
-  test('returns an empty array when input is not an array', () => {
-    expect(filterExpensesByDateRange(undefined, '2025-01-01', '2025-12-31')).toEqual([]);
-  });
-});
 
 describe('filterTasksByDateRange', () => {
   test('uses complete_date or abandon_date for filtering', () => {

@@ -340,8 +340,8 @@ export function hasAttributedExpense(expenses: any[] | undefined, dateFilter: Da
  * For custom expense types, `label` is the user-supplied `expense_name` and
  * `labelKey` is `null`. For system expense types, `label` is empty and
  * `labelKey` is the i18n key (e.g. `'expense:SEEDS.EXPENSE_NAME'`). For
- * labour, `labelKey` is `'profitability:LABOUR'` so the component can resolve
- * it from the widget namespace.
+ * labour, `labelKey` is `'translation:SALE.FINANCES.LABOUR_LABEL'`, reusing the
+ * existing Finances labour-category label rather than a widget-specific copy.
  */
 export function topNExpenseCategories(
   expenses: any[] | undefined,
@@ -392,7 +392,7 @@ export function topNExpenseCategories(
     categories.push({
       id: 'labour',
       label: '',
-      labelKey: 'profitability:LABOUR',
+      labelKey: 'translation:SALE.FINANCES.LABOUR_LABEL',
       total: labourTotal,
     });
   }

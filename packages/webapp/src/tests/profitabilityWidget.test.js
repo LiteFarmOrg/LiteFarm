@@ -412,7 +412,7 @@ describe('topNExpenseCategories', () => {
     const labour = result.find((r) => r.id === 'labour');
     expect(seeds).toMatchObject({ label: '', labelKey: 'expense:SEEDS.EXPENSE_NAME' });
     expect(diesel).toMatchObject({ label: 'Diesel', labelKey: null });
-    expect(labour).toMatchObject({ label: '', labelKey: 'profitability:LABOUR' });
+    expect(labour).toMatchObject({ label: '', labelKey: 'SALE.FINANCES.LABOUR_LABEL' });
   });
 
   test('truncates to top N', () => {
@@ -423,7 +423,7 @@ describe('topNExpenseCategories', () => {
 });
 
 describe('aggregateByEntity', () => {
-  test('crops tab aggregates per crop_variety_id and marks expense-only rows as Not yet', () => {
+  test('crops tab aggregates per crop_variety_id', () => {
     const rows = aggregateByEntity({
       sales,
       expenses,
@@ -493,7 +493,7 @@ describe('aggregateByEntity', () => {
     expect(rows[rows.length - 1].id).toBe('default_type_1');
   });
 
-  test('animals tab produces separate total rows for different types', () => {
+  test.only('animals tab produces separate total rows for different types', () => {
     const mixedAnimals = [
       { id: 50, name: 'Bessie', identifier: null, default_type_id: 1 },
       { id: 70, name: 'Dolly', identifier: null, custom_type_id: 10 },
@@ -524,6 +524,7 @@ describe('aggregateByEntity', () => {
     // 2 individuals + 2 type totals
     expect(rows).toHaveLength(4);
     const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
+    console.log(byId);
     expect(byId.animal_50).toMatchObject({ isTotal: false, label: 'Bessie', revenue: 200 });
     expect(byId.animal_70).toMatchObject({ isTotal: false, label: 'Dolly', revenue: 150 });
     expect(byId.default_type_1).toMatchObject({

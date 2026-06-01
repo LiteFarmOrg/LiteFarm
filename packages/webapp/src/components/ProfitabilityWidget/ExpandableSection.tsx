@@ -34,7 +34,7 @@ const ExpandableSection = ({ isExpanded, onToggle, children }: ExpandableSection
       <button type="button" className={styles.expandableHeader} onClick={onToggle}>
         <span>{isExpanded ? t('LESS_DATA') : t('MORE_DATA')}</span>
         <span className={styles.expandableChevron}>
-          <Chevron fontSize="small" htmlColor="#0669e1" />
+          <Chevron fontSize="small" />
         </span>
       </button>
       {isExpanded && <div className={styles.expandableBody}>{children}</div>}

@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { LinearProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import { LinearProgress } from '@mui/material';
 import styles from './styles.module.scss';
 
 export interface GroupBar {
@@ -32,12 +33,11 @@ export interface RevenueExpenseBarsProps {
 
 interface BarRowProps {
   group: GroupBar;
-  fillColor: string;
-  trackColor: string;
+  variant: 'revenue' | 'expense';
   formatValue: (value: number) => string;
 }
 
-const BarRow = ({ group, fillColor, trackColor, formatValue }: BarRowProps) => (
+const BarRow = ({ group, variant, formatValue }: BarRowProps) => (
   <div className={styles.barRow}>
     <div className={styles.barRowHeader}>
       <span className={styles.barRowLabel}>{group.label}</span>
@@ -46,14 +46,7 @@ const BarRow = ({ group, fillColor, trackColor, formatValue }: BarRowProps) => (
     <LinearProgress
       variant="determinate"
       value={Math.max(0, Math.min(100, group.percentOfTotal))}
-      sx={{
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: trackColor,
-        '& .MuiLinearProgress-bar': {
-          backgroundColor: fillColor,
-        },
-      }}
+      classes={{ root: clsx(styles.barProgress, styles[variant]), bar: styles.barFill }}
     />
   </div>
 );
@@ -70,25 +63,13 @@ const RevenueExpenseBars = ({
       <div className={styles.barsColumn}>
         <div className={styles.barsColumnHeading}>{t('TOP_REVENUE_CATEGORIES')}</div>
         {revenueGroups.map((group) => (
-          <BarRow
-            key={group.id}
-            group={group}
-            fillColor="#308f85"
-            trackColor="#ebf5f4"
-            formatValue={formatValue}
-          />
+          <BarRow key={group.id} group={group} variant="revenue" formatValue={formatValue} />
         ))}
       </div>
       <div className={styles.barsColumn}>
         <div className={styles.barsColumnHeading}>{t('TOP_EXPENSE_CATEGORIES')}</div>
         {expenseCategories.map((group) => (
-          <BarRow
-            key={group.id}
-            group={group}
-            fillColor="#eb6034"
-            trackColor="#ffdcd1"
-            formatValue={formatValue}
-          />
+          <BarRow key={group.id} group={group} variant="expense" formatValue={formatValue} />
         ))}
       </div>
     </div>

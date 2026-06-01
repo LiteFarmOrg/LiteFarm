@@ -119,19 +119,25 @@
   .kpiTile.revenue {
     border-color: rgba(192, 225, 221, 0.8);
     color: var(--Colors-Primary-Primary-teal-600, #308f85);
-    &.expanded { background-color: rgba(48, 143, 133, 0.05); }
+    &.expanded {
+      background-color: rgba(48, 143, 133, 0.05);
+    }
   }
 
   .kpiTile.expenses {
     border-color: rgba(235, 96, 52, 0.2);
     color: var(--Brand-Accents-colors-and-overlays-Accent-red, #eb6034);
-    &.expanded { background-color: rgba(235, 96, 52, 0.05); }
+    &.expanded {
+      background-color: rgba(235, 96, 52, 0.05);
+    }
   }
 
   .kpiTile.margin {
     border-color: var(--Colors-Accent---singles-Purple-light, #f4e8ff);
     color: var(--Colors-Accent---singles-Purple-dark, #3a0070);
-    &.expanded { background-color: rgba(58, 0, 112, 0.05); }
+    &.expanded {
+      background-color: rgba(58, 0, 112, 0.05);
+    }
   }
 }
 
@@ -167,17 +173,36 @@
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #1b1c1a;
+  color: #1b1c1a; // not named in Figma
 }
 
-/* Keep multi-line labels aligned to the start; without this they inherit the
-   ambient text-align: center and a wrapped second line appears centred. */
 .barRowLabel {
   text-align: start;
 }
 
 .barRowValue {
   font-weight: 600;
+}
+
+.barProgress {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.barProgress.revenue {
+  background-color: var(--Colors-Primary-Primary-teal-50);
+
+  .barFill {
+    background-color: var(--Colors-Primary-Primary-teal-600);
+  }
+}
+
+.barProgress.expense {
+  background-color: #ffdcd1; // not named in Figma
+
+  .barFill {
+    background-color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+  }
 }
 
 /* ── EntityProfitTable ──────────────────────────────────── */

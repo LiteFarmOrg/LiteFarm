@@ -267,11 +267,11 @@
   width: 100%;
   font-size: 14px;
   font-weight: 600;
-  color: var(--Colors-Accent---singles-Blue-full, #0669e1);
+  color: var(--Colors-Accent---singles-Blue-full);
 }
 
 .expandableSection.expanded .expandableHeader {
-  background-color: #f7fbff;
+  background-color: var(--Colors-Backgrounds-table-row-bg);
 }
 
 .expandableChevron {
@@ -281,8 +281,9 @@
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background-color: var(--Colors-Accent---singles-Blue-light, #e9f3ff);
-  border: 1px solid #bad9ff;
+  background-color: var(--Colors-Accent---singles-Blue-light);
+  border: 1px solid #bad9ff; // not a named colour in Figma
+  color: var(--Colors-Accent---singles-Blue-full);
 }
 
 .expandableBody {

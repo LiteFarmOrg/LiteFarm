@@ -15,7 +15,10 @@
 
 import moment from 'moment';
 import { chooseIdentification } from '../../Animals/utils';
-import { filterSalesByDateRange as filterSalesByDateRangeImpl } from '../../Finances/util';
+import {
+  filterSalesByDateRange as filterSalesByDateRangeImpl,
+  filterExpensesByDateRange as filterExpensesByDateRangeImpl,
+} from '../../Finances/util';
 
 export interface DateFilter {
   startDate: string | moment.Moment;
@@ -90,24 +93,7 @@ export type EntityTab = 'crops' | 'animals';
  * filtering through a single utils module.
  */
 export const filterSalesByDateRange = filterSalesByDateRangeImpl;
-
-/**
- * Filters an expense list to those whose `expense_date` falls inside the
- * inclusive day-precision date range.
- */
-export function filterExpensesByDateRange(
-  expenses: any[] | undefined,
-  startDate: string | moment.Moment,
-  endDate: string | moment.Moment,
-): any[] {
-  if (!Array.isArray(expenses)) {
-    return [];
-  }
-  return expenses.filter((expense) => {
-    const d = moment(expense.expense_date);
-    return d.isSameOrAfter(startDate, 'day') && d.isSameOrBefore(endDate, 'day');
-  });
-}
+export const filterExpensesByDateRange = filterExpensesByDateRangeImpl;
 
 /**
  * Filters a task list to those whose effective date (completion or abandon)
@@ -142,7 +128,7 @@ function sumSaleValue(sale: any): number {
 }
 
 function taskLabourCost(task: any): number {
-  const minutes = parseInt(task.duration, 10);
+  const minutes = Number(task.duration);
   const wage = Number(task.wage_at_moment);
   if (!minutes || !wage) {
     return 0;
@@ -278,7 +264,7 @@ export function topNRevenueTypes(
     if (!type) {
       continue;
     }
-    const isCustom = type.farm_id != null;
+    const isCustom = type.farm_id !== null;
     categories.push({
       id: `revenue_${typeId}`,
       label: isCustom ? (type.revenue_name ?? '') : '',
@@ -306,7 +292,7 @@ export function hasAttributedRevenue(
   const types = revenueTypes ?? [];
   return filtered.some((sale) => {
     const rt = types.find((t: any) => t.revenue_type_id === sale.revenue_type_id);
-    return rt?.entity_type != null && sumSaleValue(sale) > 0;
+    return rt?.entity_type !== null && sumSaleValue(sale) > 0;
   });
 }
 
@@ -340,8 +326,7 @@ export function hasAttributedExpense(expenses: any[] | undefined, dateFilter: Da
  * For custom expense types, `label` is the user-supplied `expense_name` and
  * `labelKey` is `null`. For system expense types, `label` is empty and
  * `labelKey` is the i18n key (e.g. `'expense:SEEDS.EXPENSE_NAME'`). For
- * labour, `labelKey` is `'translation:SALE.FINANCES.LABOUR_LABEL'`, reusing the
- * existing Finances labour-category label rather than a widget-specific copy.
+ * labour, `labelKey` is `'SALE.FINANCES.LABOUR_LABEL'`.
  */
 export function topNExpenseCategories(
   expenses: any[] | undefined,
@@ -363,7 +348,7 @@ export function topNExpenseCategories(
 
   const totalsByType = new Map<number, number>();
   for (const expense of filteredExpenses) {
-    if (expense.expense_type_id == null) {
+    if (expense.expense_type_id === null) {
       continue;
     }
     const cur = totalsByType.get(expense.expense_type_id) ?? 0;
@@ -378,7 +363,7 @@ export function topNExpenseCategories(
     if (!type) {
       continue;
     }
-    const isCustom = type.farm_id != null;
+    const isCustom = type.farm_id !== null;
     categories.push({
       id: `expense_${typeId}`,
       label: isCustom ? (type.expense_name ?? '') : '',
@@ -392,7 +377,7 @@ export function topNExpenseCategories(
     categories.push({
       id: 'labour',
       label: '',
-      labelKey: 'translation:SALE.FINANCES.LABOUR_LABEL',
+      labelKey: 'SALE.FINANCES.LABOUR_LABEL',
       total: labourTotal,
     });
   }
@@ -466,17 +451,17 @@ export function aggregateByEntity({
     }
   >();
   const resolveAnimalTypeKey = (animalId: number | null, batchId: number | null): string | null => {
-    const match =
-      animalId != null
-        ? animals.find((a: any) => a.id === animalId)
-        : animalBatches.find((b: any) => b.id === batchId);
+    const match = animalId
+      ? animals.find((a: any) => a.id === animalId)
+      : animalBatches.find((b: any) => b.id === batchId);
+
     if (!match) {
       return null;
     }
-    if (match.default_type_id != null) {
+    if (match.default_type_id) {
       return `default_type_${match.default_type_id}`;
     }
-    if (match.custom_type_id != null) {
+    if (match.custom_type_id) {
       return `custom_type_${match.custom_type_id}`;
     }
     return null;
@@ -488,7 +473,7 @@ export function aggregateByEntity({
       return existing;
     }
     const isDefault = key.startsWith('default_type_');
-    const typeId = parseInt(key.split('_').pop()!, 10);
+    const typeId = Number(key.split('_').pop());
     const entry = {
       id: key,
       defaultTypeId: isDefault ? typeId : null,
@@ -501,7 +486,7 @@ export function aggregateByEntity({
   };
 
   const getOrCreateIndividualEntry = (animalId: number | null, batchId: number | null) => {
-    const key = animalId != null ? `animal_${animalId}` : `batch_${batchId}`;
+    const key = animalId ? `animal_${animalId}` : `batch_${batchId}`;
     const existing = individualAnimalTotals.get(key);
     if (existing) {
       return existing;
@@ -565,26 +550,29 @@ export function aggregateByEntity({
     }
   }
 
-  const cropRows: EntityProfitRow[] = [...cropTotals.values()].map((entry) => {
-    const cropVariety = cropVarieties.find((cv: any) => cv.crop_variety_id === entry.cropVarietyId);
-    return {
-      id: entry.id,
-      kind: 'crop',
-      cropVarietyId: entry.cropVarietyId,
-      label: cropVariety?.crop_variety_name ?? '',
-      cropTranslationKey: cropVariety?.crop?.crop_translation_key ?? null,
-      revenue: entry.revenue,
-      expense: entry.expense,
-      netProfit: entry.revenue - entry.expense,
-    };
-  });
+  if (entityTab === 'crops') {
+    return [...cropTotals.values()].map((entry) => {
+      const cropVariety = cropVarieties.find(
+        (cv: any) => cv.crop_variety_id === entry.cropVarietyId,
+      );
+      return {
+        id: entry.id,
+        kind: 'crop',
+        cropVarietyId: entry.cropVarietyId,
+        label: cropVariety?.crop_variety_name ?? '',
+        cropTranslationKey: cropVariety?.crop?.crop_translation_key ?? null,
+        revenue: entry.revenue,
+        expense: entry.expense,
+        netProfit: entry.revenue - entry.expense,
+      };
+    });
+  }
 
   const individualAnimalRows: EntityProfitRow[] = [...individualAnimalTotals.values()].map(
     (entry) => {
-      const match =
-        entry.animalId != null
-          ? animals.find((a: any) => a.id === entry.animalId)
-          : animalBatches.find((b: any) => b.id === entry.batchId);
+      const match = entry.animalId
+        ? animals.find((a: any) => a.id === entry.animalId)
+        : animalBatches.find((b: any) => b.id === entry.batchId);
       return {
         id: entry.id,
         kind: 'animal',
@@ -621,9 +609,6 @@ export function aggregateByEntity({
     };
   });
 
-  if (entityTab === 'crops') {
-    return cropRows;
-  }
   return [...individualAnimalRows, ...animalTypeRows];
 }
 

@@ -7,34 +7,24 @@
   },
   "KPI": {
     "MARGIN": "Margin",
-    "NET_PROFIT": "Net profit",
     "NO_TREND_TOOLTIP": "Not enough data from the previous year to calculate a trend",
-    "TOTAL_EXPENSES": "Total expenses",
-    "TOTAL_REVENUE": "Total revenue",
     "YOY_TOOLTIP": "Compared to the same date range in the previous year.",
     "YOY_TREND": "vs previous year"
   },
-  "LABOUR": "Labour",
   "LESS_DATA": "Less data",
   "MORE_DATA": "More data",
+  "NET_PROFIT": "Net profit",
   "TABLE": {
     "ANIMAL": "Animal",
     "EXPENSE": "Expense",
+    "FOOTNOTE": "A profitability breakdown across your crops and animals for the selected period.",
     "NET_PROFIT": "Net profit",
     "NOT_YET": "Not yet",
     "REVENUE": "Revenue",
     "TYPE_TOTAL": "{{type}} total",
     "VARIETY": "Variety"
   },
-  "TABS": {
-    "ALL": "All",
-    "ANIMALS": "Animals",
-    "CROPS": "Crops"
-  },
   "TOP_EXPENSE_CATEGORIES": "Top expense categories",
   "TOP_REVENUE_CATEGORIES": "Top revenue categories",
-  "WIDGET_TITLE": "Profitability",
-  "DATE_RANGE": {
-    "YEAR_LABEL": "{{year}}"
-  }
+  "WIDGET_TITLE": "Profitability"
 }

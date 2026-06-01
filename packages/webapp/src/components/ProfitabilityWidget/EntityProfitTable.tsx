@@ -64,7 +64,7 @@ const EntityProfitTable = ({
 
   const renderRevenue = (row: EntityProfitTableRow): ReactNode => {
     return (
-      <span className={clsx(styles.cellRevenue, row.isTotal && styles.cellTotal)}>
+      <span className={clsx(styles.cellNumeric, row.isTotal && styles.cellTotal)}>
         {formatCurrency(row.revenue)}
       </span>
     );
@@ -72,7 +72,7 @@ const EntityProfitTable = ({
 
   const renderExpense = (row: EntityProfitTableRow): ReactNode => {
     return (
-      <span className={clsx(styles.cellExpense, row.isTotal && styles.cellTotal)}>
+      <span className={clsx(styles.cellNumeric, row.isTotal && styles.cellTotal)}>
         {formatCurrency(row.expense)}
       </span>
     );
@@ -97,7 +97,7 @@ const EntityProfitTable = ({
     },
     {
       id: 'revenue',
-      label: t('TABLE.REVENUE'),
+      label: t('translation:FINANCES.REVENUE'),
       align: Alignment.RIGHT,
       format: renderRevenue,
     },
@@ -109,15 +109,15 @@ const EntityProfitTable = ({
     },
     {
       id: 'netProfit',
-      label: t('TABLE.NET_PROFIT'),
+      label: t('NET_PROFIT'),
       align: Alignment.RIGHT,
       format: renderNetProfit,
     },
   ];
 
   const tabs = [
-    { key: EntityTab.CROPS, label: t('TABS.CROPS') },
-    { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
+    { key: EntityTab.CROPS, label: t('translation:FINANCES.TRANSACTION.CROPS') },
+    { key: EntityTab.ANIMALS, label: t('translation:FINANCES.TRANSACTION.ANIMALS') },
   ];
 
   return (
@@ -136,6 +136,7 @@ const EntityProfitTable = ({
         shouldFixTableLayout
         headerClass={styles.profitabilityTableHeader}
       />
+      <p className={styles.tableFootnote}>{t('TABLE.FOOTNOTE')}</p>
     </div>
   );
 };

@@ -67,8 +67,8 @@ export const EntityProfitTableSkeleton = ({
   const { t } = useTranslation('profitability');
 
   const tabs = [
-    { key: EntityTab.CROPS, label: t('TABS.CROPS') },
-    { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
+    { key: EntityTab.CROPS, label: t('translation:FINANCES.TRANSACTION.CROPS') },
+    { key: EntityTab.ANIMALS, label: t('translation:FINANCES.TRANSACTION.ANIMALS') },
   ];
 
   return (
@@ -84,13 +84,13 @@ export const EntityProfitTableSkeleton = ({
           {entityTab === EntityTab.CROPS ? t('TABLE.VARIETY') : t('TABLE.ANIMAL')}
         </div>
         <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-          {t('TABLE.REVENUE')}
+          {t('translation:FINANCES.REVENUE')}
         </div>
         <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
           {t('TABLE.EXPENSE')}
         </div>
         <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-          {t('TABLE.NET_PROFIT')}
+          {t('NET_PROFIT')}
         </div>
       </div>
       {Array.from({ length: PLACEHOLDER_TABLE_ROW_COUNT }, (_, i) => (
@@ -111,7 +111,7 @@ const ProfitabilityWidgetSkeleton = () => {
       <div className={styles.skeletonKpiSection}>
         <div className={clsx(styles.skeletonKpiCard, styles.skeletonKpiHero)}>
           <div>
-            <div className={styles.skeletonKpiLabel}>{t('KPI.NET_PROFIT')}</div>
+            <div className={styles.skeletonKpiLabel}>{t('NET_PROFIT')}</div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
           <div className={styles.skeletonKpiTrend}>
@@ -123,11 +123,15 @@ const ProfitabilityWidgetSkeleton = () => {
 
         <div className={styles.skeletonKpiCompactRow}>
           <div className={styles.skeletonKpiCard}>
-            <div className={styles.skeletonKpiLabel}>{t('KPI.TOTAL_REVENUE')}</div>
+            <div className={styles.skeletonKpiLabel}>
+              {t('translation:SALE.FINANCES.TOTAL_REVENUE')}
+            </div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
           <div className={styles.skeletonKpiCard}>
-            <div className={styles.skeletonKpiLabel}>{t('KPI.TOTAL_EXPENSES')}</div>
+            <div className={styles.skeletonKpiLabel}>
+              {t('translation:SALE.FINANCES.TOTAL_EXPENSES')}
+            </div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
           <div className={styles.skeletonKpiCard}>

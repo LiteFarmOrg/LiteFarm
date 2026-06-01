@@ -97,7 +97,7 @@ const EntityProfitTable = ({
     },
     {
       id: 'revenue',
-      label: t('TABLE.REVENUE'),
+      label: t('translation:FINANCES.REVENUE'),
       align: Alignment.RIGHT,
       format: renderRevenue,
     },
@@ -109,15 +109,15 @@ const EntityProfitTable = ({
     },
     {
       id: 'netProfit',
-      label: t('TABLE.NET_PROFIT'),
+      label: t('NET_PROFIT'),
       align: Alignment.RIGHT,
       format: renderNetProfit,
     },
   ];
 
   const tabs = [
-    { key: EntityTab.CROPS, label: t('TABS.CROPS') },
-    { key: EntityTab.ANIMALS, label: t('TABS.ANIMALS') },
+    { key: EntityTab.CROPS, label: t('translation:FINANCES.TRANSACTION.CROPS') },
+    { key: EntityTab.ANIMALS, label: t('translation:FINANCES.TRANSACTION.ANIMALS') },
   ];
 
   return (

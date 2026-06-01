@@ -1971,8 +1971,8 @@
     "ANIMALS_LOCATION": "Animal locations"
   },
   "SELECT": {
-    "NO_CROP_VARIETIES": "You have no crop varieties",
-    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory"
+    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory",
+    "NO_CROP_VARIETIES": "You have no crop varieties"
   },
   "SENSOR": {
     "ARRAY": "Array",

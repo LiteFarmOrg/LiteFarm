@@ -43,7 +43,7 @@ const KpiSection = ({
     <div className={styles.kpiSection}>
       <div className={styles.kpiHero}>
         <DescriptionListTile
-          label={t('KPI.NET_PROFIT')}
+          label={t('NET_PROFIT')}
           data={netProfit.value}
           className={styles.kpiHeroTile}
         />
@@ -56,12 +56,12 @@ const KpiSection = ({
       <DescriptionList
         descriptionListTilesProps={[
           {
-            label: t('KPI.TOTAL_REVENUE'),
+            label: t('translation:SALE.FINANCES.TOTAL_REVENUE'),
             data: totalRevenue,
             className: clsx(styles.kpiTile, styles.revenue, expanded && styles.expanded),
           },
           {
-            label: t('KPI.TOTAL_EXPENSES'),
+            label: t('translation:SALE.FINANCES.TOTAL_EXPENSES'),
             data: totalExpenses,
             className: clsx(styles.kpiTile, styles.expenses, expanded && styles.expanded),
           },

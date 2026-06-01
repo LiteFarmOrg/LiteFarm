@@ -17,6 +17,10 @@
   "TABLE": {
     "ANIMAL": "Animal",
     "EXPENSE": "Expense",
+    "FOOTNOTE": "A profitability breakdown across your crops and animals for the selected period.",
+    "NET_PROFIT": "Net profit",
+    "NOT_YET": "Not yet",
+    "REVENUE": "Revenue",
     "TYPE_TOTAL": "{{type}} total",
     "VARIETY": "Variety"
   },

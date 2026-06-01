@@ -136,6 +136,7 @@ const EntityProfitTable = ({
         shouldFixTableLayout
         headerClass={styles.profitabilityTableHeader}
       />
+      <p className={styles.tableFootnote}>{t('TABLE.FOOTNOTE')}</p>
     </div>
   );
 };

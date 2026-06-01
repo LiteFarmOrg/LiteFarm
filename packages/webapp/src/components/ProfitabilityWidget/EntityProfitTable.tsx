@@ -64,7 +64,7 @@ const EntityProfitTable = ({
 
   const renderRevenue = (row: EntityProfitTableRow): ReactNode => {
     return (
-      <span className={clsx(styles.cellRevenue, row.isTotal && styles.cellTotal)}>
+      <span className={clsx(styles.cellNumeric, row.isTotal && styles.cellTotal)}>
         {formatCurrency(row.revenue)}
       </span>
     );
@@ -72,7 +72,7 @@ const EntityProfitTable = ({
 
   const renderExpense = (row: EntityProfitTableRow): ReactNode => {
     return (
-      <span className={clsx(styles.cellExpense, row.isTotal && styles.cellTotal)}>
+      <span className={clsx(styles.cellNumeric, row.isTotal && styles.cellTotal)}>
         {formatCurrency(row.expense)}
       </span>
     );

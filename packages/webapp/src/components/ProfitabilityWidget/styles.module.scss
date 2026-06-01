@@ -21,10 +21,6 @@
   gap: 8px;
 }
 
-/* Hero tile — nesting under .kpiHero gives (0,2,0) specificity,
-   which reliably beats DescriptionListTile's .dlTile (0,1,0)
-   regardless of stylesheet load order. */
-
 .kpiHero {
   display: flex;
   align-items: center;
@@ -45,11 +41,11 @@
       font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      color: var(--Blue-acqua, #00a0af);
+      color: var(--Blue-acqua);
     }
 
     dd {
-      color: var(--Blue-acqua, #00a0af);
+      color: var(--Blue-acqua);
       text-shadow: 1px 1px 0 white;
     }
   }
@@ -63,34 +59,17 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #00727d;
+  color: #00727d; // not a named colour in Figma
+}
+
+.trendBadge.placeholder {
+  color: var(--Colors-Neutral-Neutral-200);
 }
 
 .trendSuffix {
-  color: #00727d;
   font-weight: 600;
   margin-left: 4px;
 }
-
-/* Muted sibling of .trendBadge, shown when no meaningful year-over-year
-   trend can be computed. Same layout as the real badge; the suffix omits
-   color so it inherits the grey set on the container. */
-.trendBadgePlaceholder {
-  font-size: 16px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--Colors-Neutral-Neutral-200, #b9bfc9);
-}
-
-.trendBadgePlaceholderSuffix {
-  font-weight: 600;
-  margin-left: 4px;
-}
-
-/* Compact tiles — nesting under .kpiCompactRow for the same
-   specificity reason as the hero tile above. */
 
 .kpiCompactRow {
   display: grid;
@@ -118,7 +97,7 @@
 
   .kpiTile.revenue {
     border-color: rgba(192, 225, 221, 0.8);
-    color: var(--Colors-Primary-Primary-teal-600, #308f85);
+    color: var(--Colors-Primary-Primary-teal-600);
     &.expanded {
       background-color: rgba(48, 143, 133, 0.05);
     }
@@ -126,15 +105,15 @@
 
   .kpiTile.expenses {
     border-color: rgba(235, 96, 52, 0.2);
-    color: var(--Brand-Accents-colors-and-overlays-Accent-red, #eb6034);
+    color: var(--Brand-Accents-colors-and-overlays-Accent-red);
     &.expanded {
       background-color: rgba(235, 96, 52, 0.05);
     }
   }
 
   .kpiTile.margin {
-    border-color: var(--Colors-Accent---singles-Purple-light, #f4e8ff);
-    color: var(--Colors-Accent---singles-Purple-dark, #3a0070);
+    border-color: var(--Colors-Accent---singles-Purple-light);
+    color: var(--Colors-Accent---singles-Purple-dark);
     &.expanded {
       background-color: rgba(58, 0, 112, 0.05);
     }
@@ -160,7 +139,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+  color: var(--Colors-Neutral-Neutral-900);
 }
 
 .barRow {
@@ -173,7 +152,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #1b1c1a; // not named in Figma
+  color: #1b1c1a; // not a named colour in Figma
 }
 
 .barRowLabel {
@@ -198,7 +177,7 @@
 }
 
 .barProgress.expense {
-  background-color: #ffdcd1; // not named in Figma
+  background-color: #ffdcd1; // not a named colour in Figma
 
   .barFill {
     background-color: var(--Brand-Accents-colors-and-overlays-Accent-red);
@@ -214,29 +193,25 @@
 }
 
 .profitabilityTableHeader {
-  background-color: #fbf9f6;
-  border-bottom: 1px solid var(--Cream-2, #f4efe4);
-  color: #434843;
+  background-color: #fbf9f6; // not a named colour in Figma
+  border-bottom: 1px solid var(--Cream-2);
+  color: #434843; // not a named colour in Figma
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.55px;
 }
 
-.cellRevenue {
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
-  text-align: right;
-}
-.cellExpense {
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+.cellNumeric {
+  color: var(--Colors-Neutral-Neutral-900);
   text-align: right;
 }
 .cellNetProfit {
-  color: var(--Blue-acqua, #00a0af);
+  color: var(--Blue-acqua);
   font-weight: 700;
   text-align: right;
 }
 .cellNetProfitNegative {
-  color: var(--Brand-Accents-colors-and-overlays-Accent-red, #eb6034);
+  color: var(--Brand-Accents-colors-and-overlays-Accent-red);
 }
 .cellTotal {
   font-weight: 700;
@@ -255,7 +230,7 @@
 }
 
 .expandableSection.expanded {
-  border: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+  border: 1px solid var(--Colors-Accent---singles-Blue-light);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -298,7 +273,7 @@
 /* ── CallToActionBanner ─────────────────────────────────── */
 
 .ctaBanner {
-  background-color: var(--Colors-Secondary-Secondary-green-50, #f2faf5);
+  background-color: var(--Colors-Secondary-Secondary-green-50);
   border-radius: 8px;
   padding: 16px;
   display: flex;
@@ -333,7 +308,7 @@
 }
 
 .skeletonKpiCard {
-  border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
+  border: 1px solid var(--Colors-Neutral-Neutral-100);
   border-radius: 4px;
   padding: 8px 16px;
   display: flex;
@@ -351,13 +326,13 @@
 .skeletonKpiLabel {
   font-size: 12px;
   text-transform: uppercase;
-  color: var(--Colors-Neutral-Neutral-200, #b9bfc9);
+  color: var(--Colors-Neutral-Neutral-200);
 }
 
 .skeletonKpiValue {
   font-size: 24px;
   font-weight: 700;
-  color: var(--Colors-Neutral-Neutral-100, #d0d4db);
+  color: var(--Colors-Neutral-Neutral-100);
   text-shadow: 1px 1px 0 white;
 }
 
@@ -365,7 +340,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--Colors-Neutral-Neutral-200, #b9bfc9);
+  color: var(--Colors-Neutral-Neutral-200);
   font-weight: 700;
   font-size: 16px;
 }
@@ -438,7 +413,7 @@
 .skeletonBarTrack {
   height: 8px;
   border-radius: 12px;
-  background-color: var(--Colors-Neutral-Neutral-50, #f0f1f3);
+  background-color: var(--Colors-Neutral-Neutral-50);
 }
 
 .skeletonTableSection {
@@ -449,7 +424,7 @@
 .skeletonTableHeader {
   display: flex;
   background-color: #fbf9f6;
-  border-bottom: 1px solid var(--Cream-2, #f4efe4);
+  border-bottom: 1px solid var(--Cream-2);
 }
 
 .skeletonTableHeaderCell {
@@ -466,7 +441,7 @@
   display: flex;
 
   &:nth-child(even) {
-    background-color: var(--Colors-Backgrounds-table-row-bg, #f7fbff);
+    background-color: var(--Colors-Backgrounds-table-row-bg);
   }
 
   &:not(:first-child) {

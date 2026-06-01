@@ -14,6 +14,7 @@
  */
 
 import { Tooltip } from '@mui/material';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { TrendDirection } from './constants';
 import styles from './styles.module.scss';
@@ -41,10 +42,10 @@ const TrendBadge = (props: TrendBadgeProps) => {
   if ('variant' in props) {
     return (
       <Tooltip title={t('KPI.NO_TREND_TOOLTIP')} placement="top" arrow>
-        <span className={styles.trendBadgePlaceholder}>
+        <span className={clsx(styles.trendBadge, styles.placeholder)}>
           <span>-%</span>
           <span aria-hidden="true">→</span>
-          <span className={styles.trendBadgePlaceholderSuffix}>{t('KPI.YOY_TREND')}</span>
+          <span className={styles.trendSuffix}>{t('KPI.YOY_TREND')}</span>
         </span>
       </Tooltip>
     );

@@ -17,13 +17,13 @@ export const dynamicOptions = [
   {
     value: 'year_2025',
     label: '2025',
-    startDate: '2025_01_01',
-    endDate: '2025_11_31',
+    startDate: '2025-01-01',
+    endDate: '2025-12-31',
   },
   {
     value: 'year_2024',
     label: '2024',
-    startDate: '2024_01_01',
-    endDate: '2024_11_31',
+    startDate: '2024-01-01',
+    endDate: '2024-12-31',
   },
 ];

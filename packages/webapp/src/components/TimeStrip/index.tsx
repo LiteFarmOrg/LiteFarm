@@ -28,6 +28,7 @@ interface TimeStripProps {
   onSelect: (slotIndex: number) => void;
   onPrev?: () => void;
   onNext?: () => void;
+  className?: string;
 }
 
 const TimeStrip = ({
@@ -38,6 +39,7 @@ const TimeStrip = ({
   onSelect,
   onPrev,
   onNext,
+  className,
 }: TimeStripProps) => {
   const { t } = useTranslation();
   const selectedRef = useRef<HTMLButtonElement | null>(null);
@@ -51,7 +53,7 @@ const TimeStrip = ({
   }, [slots, selectedSlotIndex]);
 
   return (
-    <div className={styles.strip}>
+    <div className={clsx(styles.strip, className)}>
       <button
         type="button"
         className={styles.chevron}

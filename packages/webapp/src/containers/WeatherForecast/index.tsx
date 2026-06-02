@@ -13,9 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import PureWeatherForecast from '../../components/WeatherForecast';
 import { useGetWeatherForecastQuery } from '../../store/api/weatherApi';
 import { measurementSelector } from '../userFarmSlice';
@@ -29,6 +31,8 @@ import type { System } from '../../types';
 
 export default function WeatherForecast() {
   const { i18n } = useTranslation();
+  const theme = useTheme();
+  const isCompact = useMediaQuery(theme.breakpoints.down('md'));
   const system = useSelector(measurementSelector) as System;
   const { data, isLoading } = useGetWeatherForecastQuery();
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(0);
@@ -36,25 +40,35 @@ export default function WeatherForecast() {
   const offsetSeconds = data?.city.timezoneOffsetSeconds ?? 0;
 
   const days = useMemo(() => (data ? groupSlotsByLocalDay(data) : []), [data]);
+  const visibleDays = isCompact ? days.slice(0, 5) : days;
+  const lastSlotIndex = visibleDays.length
+    ? visibleDays[visibleDays.length - 1].slotIndices.slice(-1)[0]
+    : 0;
+
+  useEffect(() => {
+    if (lastSlotIndex < selectedSlotIndex) {
+      setSelectedSlotIndex(lastSlotIndex);
+    }
+  }, [lastSlotIndex, selectedSlotIndex]);
 
   const dayPillLabels = useMemo(() => {
-    if (!days.length) {
+    if (!visibleDays.length) {
       return [];
     }
     const todayLocalYmd = localYmdFromUtcMs(Date.now(), offsetSeconds);
     const browserTimezoneOffsetSeconds = -new Date().getTimezoneOffset() * 60;
     const offsetMatch = offsetSeconds === browserTimezoneOffsetSeconds;
-    return days.map((d) => formatDayPillLabel(d, todayLocalYmd, offsetMatch, i18n.language));
-  }, [days, offsetSeconds, i18n.language]);
+    return visibleDays.map((d) => formatDayPillLabel(d, todayLocalYmd, offsetMatch, i18n.language));
+  }, [visibleDays, offsetSeconds, i18n.language]);
 
-  const selectedDayIndex = useMemo(
-    () => days.findIndex((d) => d.slotIndices.includes(selectedSlotIndex)),
-    [days, selectedSlotIndex],
-  );
+  const selectedDayIndex = useMemo(() => {
+    const index = visibleDays.findIndex((d) => d.slotIndices.includes(selectedSlotIndex));
+    return index === -1 ? 0 : index;
+  }, [visibleDays, selectedSlotIndex]);
 
   const selectedSlot = data?.slots[selectedSlotIndex];
 
-  const activeSlotIndices = days[selectedDayIndex]?.slotIndices ?? [];
+  const activeSlotIndices = visibleDays[selectedDayIndex]?.slotIndices ?? [];
   const visibleSlots =
     data?.slots && activeSlotIndices.length
       ? data.slots.slice(activeSlotIndices[0], activeSlotIndices[activeSlotIndices.length - 1] + 1)
@@ -67,7 +81,7 @@ export default function WeatherForecast() {
     setSelectedSlotIndex(activeSlotIndices[slotIndex]);
 
   const onDayClick = (dayIndex: number) => {
-    const target = days[dayIndex];
+    const target = visibleDays[dayIndex];
     const currentTime = selectedSlot ? localTimeOfDay(selectedSlot.dt, offsetSeconds) : undefined;
     const match =
       currentTime !== undefined
@@ -81,7 +95,7 @@ export default function WeatherForecast() {
   return (
     <PureWeatherForecast
       isLoading={isLoading}
-      days={days}
+      days={visibleDays}
       dayPillLabels={dayPillLabels}
       selectedDayIndex={selectedDayIndex}
       selectedSlot={selectedSlot}
@@ -94,9 +108,7 @@ export default function WeatherForecast() {
       onSelectSlot={handleSelectSlot}
       onPrev={selectedSlotIndex === 0 ? undefined : () => setSelectedSlotIndex((i) => i - 1)}
       onNext={
-        !data?.slots?.length || selectedSlotIndex === data.slots.length - 1
-          ? undefined
-          : () => setSelectedSlotIndex((i) => i + 1)
+        selectedSlotIndex === lastSlotIndex ? undefined : () => setSelectedSlotIndex((i) => i + 1)
       }
     />
   );

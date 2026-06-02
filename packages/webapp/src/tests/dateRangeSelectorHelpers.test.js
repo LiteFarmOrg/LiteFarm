@@ -28,6 +28,7 @@ describe('buildDateRangeOptions', () => {
     const result = buildDateRangeOptions(echoT);
     expect(result.map((entry) => entry.value)).toEqual([
       DateRangeOptions.YEAR_TO_DATE,
+      DateRangeOptions.LAST_12_MONTHS,
       DateRangeOptions.LAST_7_DAYS,
       DateRangeOptions.LAST_14_DAYS,
       DateRangeOptions.LAST_30_DAYS,
@@ -37,11 +38,6 @@ describe('buildDateRangeOptions', () => {
       DateRangeOptions.LAST_MONTH,
       DateRangeOptions.CUSTOM,
     ]);
-  });
-
-  test('does not include LAST_12_MONTHS in the default set', () => {
-    const result = buildDateRangeOptions(echoT);
-    expect(result.map((entry) => entry.value)).not.toContain(DateRangeOptions.LAST_12_MONTHS);
   });
 
   test('filters and orders by allowedOptions', () => {

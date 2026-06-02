@@ -21,6 +21,7 @@ import { ReactComponent as Calendar } from '../../assets/images/dateInput/calend
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
 import ReactSelect from '../Form/ReactSelect';
 import CustomDateRangeSelector from './CustomDateRangeSelector';
+import { buildDateRangeOptions } from './helpers';
 import { DateRangeOptions as rangeOptions } from './types';
 import styles from './styles.module.scss';
 import { Popover } from '@mui/material';
@@ -32,6 +33,8 @@ export default function DateRangeInput({
   placeholder,
   changeDateRangeMethod,
   onValidityChange,
+  allowedOptions,
+  dynamicOptions,
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
@@ -49,17 +52,7 @@ export default function DateRangeInput({
   const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
   const isValid = !isCustomOptionSelected || !!(areValidDates && isValidRange);
 
-  const options = [
-    { value: rangeOptions.YEAR_TO_DATE, label: t('DATE_RANGE_SELECTOR.YEAR_TO_DATE') },
-    { value: rangeOptions.LAST_7_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS') },
-    { value: rangeOptions.LAST_14_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS') },
-    { value: rangeOptions.LAST_30_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS') },
-    { value: rangeOptions.THIS_WEEK, label: t('DATE_RANGE_SELECTOR.THIS_WEEK') },
-    { value: rangeOptions.LAST_WEEK, label: t('DATE_RANGE_SELECTOR.LAST_WEEK') },
-    { value: rangeOptions.THIS_MONTH, label: t('DATE_RANGE_SELECTOR.THIS_MONTH') },
-    { value: rangeOptions.LAST_MONTH, label: t('DATE_RANGE_SELECTOR.LAST_MONTH') },
-    { value: rangeOptions.CUSTOM, label: t('DATE_RANGE_SELECTOR.CUSTOM_RANGE') },
-  ];
+  const options = buildDateRangeOptions(t, allowedOptions, dynamicOptions);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -72,7 +65,7 @@ export default function DateRangeInput({
   }, [isValid, onValidityChange]);
 
   useEffect(() => {
-    if (!isValid & !isCustomDatePickerOpen) {
+    if (!isValid && !isCustomDatePickerOpen) {
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);
@@ -194,4 +187,13 @@ DateRangeInput.propTypes = {
   changeDateRangeMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
   onValidityChange: PropTypes.func,
+  allowedOptions: PropTypes.arrayOf(PropTypes.string),
+  dynamicOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+    }),
+  ),
 };

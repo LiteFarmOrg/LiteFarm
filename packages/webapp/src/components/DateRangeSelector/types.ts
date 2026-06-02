@@ -20,6 +20,7 @@ export enum DateRangeOptions {
   LAST_7_DAYS = 'last_seven_days',
   LAST_14_DAYS = 'last_fourteen_days',
   LAST_30_DAYS = 'last_thirty_days',
+  LAST_12_MONTHS = 'last_twelve_months',
   THIS_WEEK = 'this_week',
   LAST_WEEK = 'last_week',
   THIS_MONTH = 'this_month',
@@ -32,8 +33,21 @@ interface CustomRange {
   endDate?: string | Moment;
 }
 
+export interface DynamicDateRangeOption {
+  value: string;
+  label: string;
+  startDate: string;
+  endDate: string;
+}
+
 export interface DateRangeData {
-  option?: DateRangeOptions;
+  /**
+   * Identifier for the active range. May be one of the built-in
+   * `DateRangeOptions` enum values, or a caller-supplied string key for an
+   * entry passed in via `DateRangeSelector`'s `dynamicOptions` prop (for
+   * example, `'year_2024'`).
+   */
+  option?: DateRangeOptions | string;
   startDate?: string | Moment;
   endDate?: string | Moment;
   customRange?: CustomRange;

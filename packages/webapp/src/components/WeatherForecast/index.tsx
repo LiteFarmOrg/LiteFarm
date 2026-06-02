@@ -87,6 +87,7 @@ const PureWeatherForecast = ({
             onSelect={onSelectSlot}
             onPrev={onPrev}
             onNext={onNext}
+            className={styles.timeStrip}
           />
         </>
       )}

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 .card {
   display: flex;
   flex-direction: column;
@@ -22,6 +24,10 @@
   background-color: var(--White);
   border-radius: 4px;
   box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+
+  @include md-breakpoint {
+    padding: 16px;
+  }
 }
 
 .title {

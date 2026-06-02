@@ -55,6 +55,12 @@
     outline: 2px solid var(--Colors-Primary-Primary-teal-400);
     outline-offset: 2px;
   }
+
+  @include md-breakpoint {
+    &:nth-child(6) {
+      display: none;
+    }
+  }
 }
 
 .selected {

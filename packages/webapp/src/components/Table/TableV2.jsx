@@ -106,6 +106,7 @@ export default function TableV2(props) {
     tableContainerClass,
     tbodyClass,
     rowClass,
+    pinToBottom,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -155,14 +156,17 @@ export default function TableV2(props) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      data
-        .slice()
-        .sort(getComparator(order, orderBy, comparator))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, data],
-  );
+  const visibleRows = useMemo(() => {
+    const sorted = data.slice().sort(getComparator(order, orderBy, comparator));
+    // pinToBottom holds matching rows at the end of the list regardless of the
+    // active sort column or direction. The partition runs after getComparator,
+    // so it is unaffected by the ascending-order negation inside getComparator;
+    // pinned rows keep the order the active column produced among themselves.
+    const ordered = pinToBottom
+      ? [...sorted.filter((row) => !pinToBottom(row)), ...sorted.filter(pinToBottom)]
+      : sorted;
+    return ordered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  }, [order, orderBy, page, rowsPerPage, data, comparator, pinToBottom]);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -346,4 +350,7 @@ TableV2.propTypes = {
   headerClass: PropTypes.any,
   rowClass: PropTypes.any,
   extraRowSpacing: PropTypes.bool,
+  /** Predicate (row) => boolean. Matching rows are held at the bottom of the
+   * list after sorting, independent of the active column and sort direction. */
+  pinToBottom: PropTypes.func,
 };

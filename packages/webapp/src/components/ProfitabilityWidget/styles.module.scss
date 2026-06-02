@@ -61,7 +61,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #00727d; // not a named colour in Figma
+  color: var(--Dark-acqua);
 }
 
 .trendBadge.placeholder {
@@ -170,7 +170,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #1b1c1a; // not a named colour in Figma
+  color: var(--Colors-Neutral-Neutral-900);
 }
 
 .barRowLabel {
@@ -195,7 +195,7 @@
 }
 
 .barProgress.expense {
-  background-color: #ffdcd1; // not a named colour in Figma
+  background-color: var(--Accent-red-lighter);
 
   .barFill {
     background-color: var(--Brand-Accents-colors-and-overlays-Accent-red);
@@ -211,9 +211,9 @@
 }
 
 .profitabilityTableHeader {
-  background-color: #fbf9f6; // not a named colour in Figma
+  background-color: var(--Cream-3);
   border-bottom: 1px solid var(--Cream-2);
-  color: #434843; // not a named colour in Figma
+  color: var(--Colors-Neutral-Neutral-500);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.55px;
@@ -335,7 +335,7 @@
   height: 24px;
   border-radius: 999px;
   background-color: var(--Colors-Accent---singles-Blue-light);
-  border: 1px solid #bad9ff; // not a named colour in Figma
+  border: 1px solid var(--Blue-medium);
   color: var(--Colors-Accent---singles-Blue-full);
 }
 
@@ -496,7 +496,7 @@
 
 .skeletonTableHeader {
   display: flex;
-  background-color: #fbf9f6;
+  background-color: var(--Cream-3);
   border-bottom: 1px solid var(--Cream-2);
 }
 
@@ -505,7 +505,7 @@
   padding: 8px 16px;
   font-size: 11px;
   font-weight: 700;
-  color: #434843;
+  color: var(--Colors-Neutral-Neutral-500);
   text-transform: uppercase;
   letter-spacing: 0.55px;
 }

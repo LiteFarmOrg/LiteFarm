@@ -7,7 +7,7 @@
   },
   "KPI": {
     "MARGIN": "Margin",
-    "NO_TREND_TOOLTIP": "Not enough data from the previous year to calculate a trend",
+    "NO_TREND_TOOLTIP": "Add more data from the previous year to calculate a trend",
     "YOY_TOOLTIP": "Compared to the same date range in the previous year.",
     "YOY_TREND": "vs previous year"
   },

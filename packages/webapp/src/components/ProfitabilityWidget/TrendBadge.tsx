@@ -24,11 +24,7 @@ export interface TrendData {
   direction: TrendDirection;
 }
 
-// Either a real year-over-year trend, or the placeholder shown when no
-// meaningful trend can be computed — the previous year had no comparable
-// transactions, or the change was so large it was suppressed upstream by
-// calcYoYTrend. Both reduce to "not enough comparable prior-year data".
-export type TrendBadgeProps = TrendData | { variant: 'insufficientData' };
+export type TrendBadgeProps = (TrendData & { variant?: never }) | { variant: 'insufficientData' };
 
 const directionArrow = (direction: TrendDirection): string => {
   if (direction === 'up') return '↗';
@@ -39,7 +35,7 @@ const directionArrow = (direction: TrendDirection): string => {
 const TrendBadge = (props: TrendBadgeProps) => {
   const { t } = useTranslation('profitability');
 
-  if ('variant' in props) {
+  if (props.variant === 'insufficientData') {
     return (
       <Tooltip title={t('KPI.NO_TREND_TOOLTIP')} placement="top" arrow>
         <span className={clsx(styles.trendBadge, styles.placeholder)}>

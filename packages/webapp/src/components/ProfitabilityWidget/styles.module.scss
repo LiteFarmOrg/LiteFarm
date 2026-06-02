@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 /* ── KpiSection ─────────────────────────────────────────── */
 
 .kpiSection {
@@ -59,7 +61,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #00727d; // not a named colour in Figma
+  color: var(--Dark-acqua);
 }
 
 .trendBadge.placeholder {
@@ -75,6 +77,16 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+
+  // Mobile: Total revenue and Total expenses sit side by side on the first
+  // row; Margin spans the full width below them.
+  @include xs-breakpoint {
+    grid-template-columns: repeat(2, 1fr);
+
+    .kpiTile.margin {
+      grid-column: 1 / -1;
+    }
+  }
 
   .kpiTile {
     height: auto;
@@ -126,6 +138,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+
+  // Mobile: stack the revenue and expense columns vertically.
+  @include xs-breakpoint {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 
 .barsColumn {
@@ -152,7 +170,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #1b1c1a; // not a named colour in Figma
+  color: var(--Colors-Neutral-Neutral-900);
 }
 
 .barRowLabel {
@@ -177,7 +195,7 @@
 }
 
 .barProgress.expense {
-  background-color: #ffdcd1; // not a named colour in Figma
+  background-color: var(--Accent-red-lighter);
 
   .barFill {
     background-color: var(--Brand-Accents-colors-and-overlays-Accent-red);
@@ -193,9 +211,9 @@
 }
 
 .profitabilityTableHeader {
-  background-color: #fbf9f6; // not a named colour in Figma
+  background-color: var(--Cream-3);
   border-bottom: 1px solid var(--Cream-2);
-  color: #434843; // not a named colour in Figma
+  color: var(--Colors-Neutral-Neutral-500);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.55px;
@@ -215,6 +233,61 @@
 }
 .cellTotal {
   font-weight: 700;
+}
+
+/* Mobile card view (replaces the table below the `sm` breakpoint) */
+
+.entityCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entityCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  border-radius: 8px;
+  background: #fff; // var(--White)
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  &:nth-child(even) {
+    background: var(--Colors-Backgrounds-table-row-bg);
+  }
+}
+
+.entityCardContent {
+  align-self: stretch;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.entityCardHeader {
+  text-align: start;
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.entityCardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entityCardLabel {
+  color: var(--Colors-Neutral-Neutral-700);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
 }
 
 .tableFootnote {
@@ -262,7 +335,7 @@
   height: 24px;
   border-radius: 999px;
   background-color: var(--Colors-Accent---singles-Blue-light);
-  border: 1px solid #bad9ff; // not a named colour in Figma
+  border: 1px solid var(--Blue-medium);
   color: var(--Colors-Accent---singles-Blue-full);
 }
 
@@ -423,7 +496,7 @@
 
 .skeletonTableHeader {
   display: flex;
-  background-color: #fbf9f6;
+  background-color: var(--Cream-3);
   border-bottom: 1px solid var(--Cream-2);
 }
 
@@ -432,7 +505,7 @@
   padding: 8px 16px;
   font-size: 11px;
   font-weight: 700;
-  color: #434843;
+  color: var(--Colors-Neutral-Neutral-500);
   text-transform: uppercase;
   letter-spacing: 0.55px;
 }

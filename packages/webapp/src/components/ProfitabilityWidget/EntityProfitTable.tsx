@@ -15,6 +15,8 @@
 
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import StateTab from '../RouterTab/StateTab';
 import { Variant } from '../RouterTab/Tab';
@@ -47,6 +49,9 @@ const EntityProfitTable = ({
   currencySymbol,
 }: EntityProfitTableProps) => {
   const { t } = useTranslation('profitability');
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const formatCurrency = (value: number): string =>
     `${currencySymbol}${Math.abs(value).toFixed(2)}`;
@@ -120,6 +125,10 @@ const EntityProfitTable = ({
     { key: EntityTab.ANIMALS, label: t('translation:FINANCES.TRANSACTION.ANIMALS') },
   ];
 
+  // columns[0] is the entity-name column (the card header); the remaining
+  // columns are the Revenue / Expense / Net profit rows shown on each card.
+  const [, ...metricColumns] = columns;
+
   return (
     <div className={styles.entityProfitTable}>
       <StateTab
@@ -128,15 +137,33 @@ const EntityProfitTable = ({
         state={entityTab}
         setState={(key) => onTabChange(key as EntityTab)}
       />
-      <Table
-        kind={TableKind.V2}
-        columns={columns}
-        data={rows}
-        alternatingRowColor
-        shouldFixTableLayout
-        headerClass={styles.profitabilityTableHeader}
-        pinToBottom={(row) => !!row.isTotal}
-      />
+      {isMobile ? (
+        <div className={styles.entityCardList}>
+          {rows.map((row) => (
+            <div key={row.id} className={styles.entityCard}>
+              <div className={styles.entityCardContent}>
+                <div className={styles.entityCardHeader}>{row.label}</div>
+                {metricColumns.map((column) => (
+                  <div key={column.id} className={styles.entityCardRow}>
+                    <span className={styles.entityCardLabel}>{column.label}</span>
+                    {column.format?.(row)}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <Table
+          kind={TableKind.V2}
+          columns={columns}
+          data={rows}
+          alternatingRowColor
+          shouldFixTableLayout
+          headerClass={styles.profitabilityTableHeader}
+          pinToBottom={(row) => !!row.isTotal}
+        />
+      )}
       <p className={styles.tableFootnote}>{t('TABLE.FOOTNOTE')}</p>
     </div>
   );

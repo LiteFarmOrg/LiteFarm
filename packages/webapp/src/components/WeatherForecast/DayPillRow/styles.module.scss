@@ -30,7 +30,7 @@
   background-color: var(--White);
   border: 1px solid var(--Brand-Accents-colors-and-overlays-Accent-green-light);
   border-radius: 8px;
-  color: #1d444b;
+  color: var(--Colors-Primary-Primary-teal-800);
   font-size: 14px;
   line-height: 1.2;
   font-family: inherit;
@@ -47,7 +47,7 @@
 
   @media (hover: hover) {
     &:hover {
-      background-color: #f2fcfa;
+      background-color: var(--Colors-Primary-Primary-teal-50);
     }
   }
 
@@ -58,8 +58,8 @@
 }
 
 .selected {
-  background-color: #f2fcfa;
-  border: 1px solid #a1c5be;
+  border: 1px solid var(--Colors-Primary-Primary-teal-200);
+  background: var(--Colors-Primary-Primary-teal-50);
 
   &::after {
     content: '';
@@ -71,7 +71,7 @@
     transform: translateX(-50%);
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-top: 16px solid #a1c5be;
+    border-top: 16px solid var(--Colors-Primary-Primary-teal-200);
   }
 
   &::before {
@@ -84,7 +84,7 @@
     transform: translateX(-50%);
     border-left: 11px solid transparent;
     border-right: 11px solid transparent;
-    border-top: 15px solid #f2fcfa;
+    border-top: 15px solid var(--Colors-Primary-Primary-teal-50);
     z-index: 1;
   }
 }

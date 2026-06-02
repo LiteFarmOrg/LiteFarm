@@ -40,6 +40,17 @@ export const Default = {
   ),
 };
 
+// Below the `sm` breakpoint Total revenue and Total expenses share the first
+// row and Margin spans the full width below them.
+export const Mobile = {
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  render: () => (
+    <div style={{ maxWidth: 720 }}>
+      <KpiSection {...kpiProps} />
+    </div>
+  ),
+};
+
 export const Expanded = {
   render: () => (
     <div style={{ maxWidth: 720 }}>

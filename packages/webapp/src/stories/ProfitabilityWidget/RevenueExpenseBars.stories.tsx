@@ -24,22 +24,30 @@ export default {
 
 const formatValue = (v: number) => `$${v.toFixed(2)}`;
 
+const Template = () => (
+  <div style={{ maxWidth: 720 }}>
+    <RevenueExpenseBars
+      revenueGroups={[
+        { id: 'revenue_1', label: 'Crop sales', total: 14200, percentOfTotal: 57 },
+        { id: 'revenue_2', label: 'Animal sales', total: 8400, percentOfTotal: 34 },
+        { id: 'revenue_3', label: 'Farm tour', total: 2100, percentOfTotal: 9 },
+      ]}
+      expenseCategories={[
+        { id: 'labour', label: 'Labour', total: 6200, percentOfTotal: 57 },
+        { id: 'expense_1', label: 'Seeds', total: 2800, percentOfTotal: 26 },
+        { id: 'expense_2', label: 'Diesel', total: 1900, percentOfTotal: 17 },
+      ]}
+      formatValue={formatValue}
+    />
+  </div>
+);
+
 export const Default = {
-  render: () => (
-    <div style={{ maxWidth: 720 }}>
-      <RevenueExpenseBars
-        revenueGroups={[
-          { id: 'revenue_1', label: 'Crop sales', total: 14200, percentOfTotal: 57 },
-          { id: 'revenue_2', label: 'Animal sales', total: 8400, percentOfTotal: 34 },
-          { id: 'revenue_3', label: 'Farm tour', total: 2100, percentOfTotal: 9 },
-        ]}
-        expenseCategories={[
-          { id: 'labour', label: 'Labour', total: 6200, percentOfTotal: 57 },
-          { id: 'expense_1', label: 'Seeds', total: 2800, percentOfTotal: 26 },
-          { id: 'expense_2', label: 'Diesel', total: 1900, percentOfTotal: 17 },
-        ]}
-        formatValue={formatValue}
-      />
-    </div>
-  ),
+  render: Template,
+};
+
+// Below the `sm` breakpoint the two columns stack vertically.
+export const Mobile = {
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  render: Template,
 };

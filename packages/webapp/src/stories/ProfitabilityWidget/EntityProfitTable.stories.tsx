@@ -91,18 +91,27 @@ const filterByTab = (tab: EntityTab) => {
   return allRows.filter((r) => r.kind === 'animal');
 };
 
+const Template = () => {
+  const [tab, setTab] = useState(EntityTab.CROPS);
+  return (
+    <div style={{ maxWidth: 720 }}>
+      <EntityProfitTable
+        rows={filterByTab(tab)}
+        entityTab={tab}
+        onTabChange={setTab}
+        currencySymbol="$"
+      />
+    </div>
+  );
+};
+
 export const Default = {
-  render: () => {
-    const [tab, setTab] = useState(EntityTab.CROPS);
-    return (
-      <div style={{ maxWidth: 720 }}>
-        <EntityProfitTable
-          rows={filterByTab(tab)}
-          entityTab={tab}
-          onTabChange={setTab}
-          currencySymbol="$"
-        />
-      </div>
-    );
-  },
+  render: Template,
+};
+
+// Below the `sm` breakpoint the table is replaced by the card view. The
+// viewport addon resizes the preview iframe, which useMediaQuery reads.
+export const Mobile = {
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  render: Template,
 };

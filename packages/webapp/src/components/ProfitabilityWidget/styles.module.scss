@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+
 /* ── KpiSection ─────────────────────────────────────────── */
 
 .kpiSection {
@@ -76,6 +78,16 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 
+  // Mobile: Total revenue and Total expenses sit side by side on the first
+  // row; Margin spans the full width below them.
+  @include xs-breakpoint {
+    grid-template-columns: repeat(2, 1fr);
+
+    .kpiTile.margin {
+      grid-column: 1 / -1;
+    }
+  }
+
   .kpiTile {
     height: auto;
     border-radius: 4px;
@@ -126,6 +138,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+
+  // Mobile: stack the revenue and expense columns vertically.
+  @include xs-breakpoint {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 
 .barsColumn {
@@ -215,6 +233,61 @@
 }
 .cellTotal {
   font-weight: 700;
+}
+
+/* Mobile card view (replaces the table below the `sm` breakpoint) */
+
+.entityCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entityCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  border-radius: 8px;
+  background: #fff; // var(--White)
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  &:nth-child(even) {
+    background: var(--Colors-Backgrounds-table-row-bg);
+  }
+}
+
+.entityCardContent {
+  align-self: stretch;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.entityCardHeader {
+  text-align: start;
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.entityCardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entityCardLabel {
+  color: var(--Colors-Neutral-Neutral-700);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
 }
 
 .tableFootnote {

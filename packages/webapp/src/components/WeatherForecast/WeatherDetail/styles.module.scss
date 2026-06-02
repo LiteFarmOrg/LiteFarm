@@ -20,7 +20,6 @@
   flex-direction: column;
   gap: 16px;
   width: 100%;
-  margin-bottom: 8px;
 }
 
 .titleRow {
@@ -32,8 +31,9 @@
 }
 
 .date {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
+  line-height: 32px;
   color: var(--Colors-Primary-Primary-teal-700);
 }
 
@@ -51,8 +51,26 @@
 }
 
 .tempBlock :global(.wi) {
-  font-size: 50px;
+  font-size: 56px;
   color: var(--Colors-Primary-Primary-teal-700);
+}
+
+@include md-breakpoint {
+  .titleRow {
+    flex-direction: column;
+
+    > * {
+      width: 100%;
+    }
+  }
+
+  .date {
+    text-align: left;
+  }
+
+  .tempBlock {
+    justify-content: space-between;
+  }
 }
 
 .metrics {
@@ -69,14 +87,27 @@
   > div {
     &:nth-child(1) {
       border-right: none;
+      border-radius: 8px 0 0 0;
     }
     &:nth-child(2) {
       border-left: none;
+    }
+    &:last-child {
+      border-radius: 0 8px 0 0;
     }
   }
 
   @include md-breakpoint {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    > div {
+      &:nth-child(2) {
+        border-radius: 0 8px 0 0;
+      }
+      &:last-child {
+        border-radius: 0;
+      }
+    }
   }
 }
 

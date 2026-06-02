@@ -73,18 +73,24 @@
   }
 }
 
-.metrics {
+.titleRow + .metrics {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   color: var(--Colors-Primary-Primary-teal-900);
   letter-spacing: 0.4px;
   text-align: left;
 
+  dt {
+    font-size: 12px;
+  }
+
   dd {
     font-size: 16px;
   }
 
   > div {
+    border-radius: 0;
+
     &:nth-child(1) {
       border-right: none;
       border-radius: 8px 0 0 0;
@@ -109,8 +115,4 @@
       }
     }
   }
-}
-
-.metrics > * {
-  border-radius: 0;
 }

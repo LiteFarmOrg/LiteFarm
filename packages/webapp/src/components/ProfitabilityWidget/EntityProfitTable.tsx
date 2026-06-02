@@ -135,6 +135,7 @@ const EntityProfitTable = ({
         alternatingRowColor
         shouldFixTableLayout
         headerClass={styles.profitabilityTableHeader}
+        pinToBottom={(row) => !!row.isTotal}
       />
       <p className={styles.tableFootnote}>{t('TABLE.FOOTNOTE')}</p>
     </div>

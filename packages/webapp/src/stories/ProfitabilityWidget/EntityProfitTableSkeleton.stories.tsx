@@ -24,13 +24,20 @@ export default {
   decorators: componentDecorators,
 };
 
+const Template = () => {
+  const [tab, setTab] = useState(EntityTab.CROPS);
+  return (
+    <div>
+      <EntityProfitTableSkeleton entityTab={tab} onTabChange={setTab} />
+    </div>
+  );
+};
+
 export const Default = {
-  render: () => {
-    const [tab, setTab] = useState(EntityTab.CROPS);
-    return (
-      <div>
-        <EntityProfitTableSkeleton entityTab={tab} onTabChange={setTab} />
-      </div>
-    );
-  },
+  render: Template,
+};
+
+export const Mobile = {
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  render: Template,
 };

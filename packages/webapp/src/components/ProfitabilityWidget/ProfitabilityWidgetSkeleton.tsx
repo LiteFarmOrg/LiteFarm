@@ -15,6 +15,8 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import StateTab from '../RouterTab/StateTab';
 import { Variant } from '../RouterTab/Tab';
@@ -24,6 +26,7 @@ import styles from './styles.module.scss';
 
 const PLACEHOLDER_BAR_COUNT = 3;
 const PLACEHOLDER_TABLE_ROW_COUNT = 5;
+const PLACEHOLDER_CARD_COUNT = 3; // mobile EntityProfitTable
 
 const PlaceholderBarRow = () => (
   <div className={styles.skeletonBarRow}>
@@ -57,18 +60,24 @@ interface EntityProfitTableSkeletonProps {
   onTabChange: (tab: EntityTab) => void;
 }
 
-// The empty-state table shown when there are transactions but none are attributed
-// to a crop or animal. Mirrors EntityProfitTable's controlled tab signature so the
-// container can drive both with the same entityTab / setEntityTab state.
 export const EntityProfitTableSkeleton = ({
   entityTab,
   onTabChange,
 }: EntityProfitTableSkeletonProps) => {
   const { t } = useTranslation('profitability');
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const tabs = [
     { key: EntityTab.CROPS, label: t('translation:FINANCES.TRANSACTION.CROPS') },
     { key: EntityTab.ANIMALS, label: t('translation:FINANCES.TRANSACTION.ANIMALS') },
+  ];
+
+  const metricRows = [
+    { label: t('translation:FINANCES.REVENUE'), valueClass: styles.skeletonCellRevenue },
+    { label: t('TABLE.EXPENSE'), valueClass: styles.skeletonCellExpense },
+    { label: t('NET_PROFIT'), valueClass: styles.skeletonCellNetProfit },
   ];
 
   return (
@@ -79,23 +88,43 @@ export const EntityProfitTableSkeleton = ({
         state={entityTab}
         setState={(key) => onTabChange(key as EntityTab)}
       />
-      <div className={styles.skeletonTableHeader}>
-        <div className={styles.skeletonTableHeaderCell}>
-          {entityTab === EntityTab.CROPS ? t('TABLE.VARIETY') : t('TABLE.ANIMAL')}
+      {isMobile ? (
+        <div className={styles.skeletonCardList}>
+          {Array.from({ length: PLACEHOLDER_CARD_COUNT }, (_, cardIndex) => (
+            <div key={cardIndex} className={styles.entityCard}>
+              <div className={styles.entityCardContent}>
+                <div className={clsx(styles.skeletonPlaceholder, styles.skeletonCardHeader)} />
+                {metricRows.map((metric) => (
+                  <div key={metric.label} className={styles.entityCardRow}>
+                    <span className={styles.entityCardLabel}>{metric.label}</span>
+                    <div className={clsx(styles.skeletonPlaceholder, metric.valueClass)} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-        <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-          {t('translation:FINANCES.REVENUE')}
-        </div>
-        <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-          {t('TABLE.EXPENSE')}
-        </div>
-        <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-          {t('NET_PROFIT')}
-        </div>
-      </div>
-      {Array.from({ length: PLACEHOLDER_TABLE_ROW_COUNT }, (_, i) => (
-        <PlaceholderTableRow key={i} />
-      ))}
+      ) : (
+        <>
+          <div className={styles.skeletonTableHeader}>
+            <div className={styles.skeletonTableHeaderCell}>
+              {entityTab === EntityTab.CROPS ? t('TABLE.VARIETY') : t('TABLE.ANIMAL')}
+            </div>
+            <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
+              {t('translation:FINANCES.REVENUE')}
+            </div>
+            <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
+              {t('TABLE.EXPENSE')}
+            </div>
+            <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
+              {t('NET_PROFIT')}
+            </div>
+          </div>
+          {Array.from({ length: PLACEHOLDER_TABLE_ROW_COUNT }, (_, i) => (
+            <PlaceholderTableRow key={i} />
+          ))}
+        </>
+      )}
     </div>
   );
 };
@@ -137,7 +166,7 @@ const ProfitabilityWidgetSkeleton = () => {
             </div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>
-          <div className={styles.skeletonKpiCard}>
+          <div className={clsx(styles.skeletonKpiCard, styles.margin)}>
             <div className={styles.skeletonKpiLabel}>{t('KPI.MARGIN')}</div>
             <div className={styles.skeletonKpiValue}>-</div>
           </div>

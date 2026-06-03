@@ -38,20 +38,21 @@ const PlaceholderBarRow = () => (
   </div>
 );
 
-const PlaceholderTableRow = () => (
+interface NumericColumn {
+  label: string;
+  className: string;
+}
+
+const PlaceholderTableRow = ({ numericColumns }: { numericColumns: NumericColumn[] }) => (
   <div className={styles.skeletonTableRow}>
     <div className={styles.skeletonTableCell}>
       <div className={clsx(styles.skeletonPlaceholder, styles.skeletonCellLabel)} />
     </div>
-    <div className={clsx(styles.skeletonTableCell, styles.skeletonAlignRight)}>
-      <div className={clsx(styles.skeletonPlaceholder, styles.skeletonCellRevenue)} />
-    </div>
-    <div className={clsx(styles.skeletonTableCell, styles.skeletonAlignRight)}>
-      <div className={clsx(styles.skeletonPlaceholder, styles.skeletonCellExpense)} />
-    </div>
-    <div className={clsx(styles.skeletonTableCell, styles.skeletonAlignRight)}>
-      <div className={clsx(styles.skeletonPlaceholder, styles.skeletonCellNetProfit)} />
-    </div>
+    {numericColumns.map(({ label, className }) => (
+      <div key={label} className={clsx(styles.skeletonTableCell, styles.skeletonAlignRight)}>
+        <div className={clsx(styles.skeletonPlaceholder, className)} />
+      </div>
+    ))}
   </div>
 );
 
@@ -74,10 +75,10 @@ export const EntityProfitTableSkeleton = ({
     { key: EntityTab.ANIMALS, label: t('translation:FINANCES.TRANSACTION.ANIMALS') },
   ];
 
-  const metricRows = [
-    { label: t('translation:FINANCES.REVENUE'), valueClass: styles.skeletonCellRevenue },
-    { label: t('TABLE.EXPENSE'), valueClass: styles.skeletonCellExpense },
-    { label: t('NET_PROFIT'), valueClass: styles.skeletonCellNetProfit },
+  const numericColumns: NumericColumn[] = [
+    { label: t('translation:FINANCES.REVENUE'), className: styles.skeletonCellRevenue },
+    { label: t('TABLE.EXPENSE'), className: styles.skeletonCellExpense },
+    { label: t('NET_PROFIT'), className: styles.skeletonCellNetProfit },
   ];
 
   return (
@@ -94,10 +95,10 @@ export const EntityProfitTableSkeleton = ({
             <div key={cardIndex} className={styles.entityCard}>
               <div className={styles.entityCardContent}>
                 <div className={clsx(styles.skeletonPlaceholder, styles.skeletonCardHeader)} />
-                {metricRows.map((metric) => (
-                  <div key={metric.label} className={styles.entityCardRow}>
-                    <span className={styles.entityCardLabel}>{metric.label}</span>
-                    <div className={clsx(styles.skeletonPlaceholder, metric.valueClass)} />
+                {numericColumns.map(({ label, className }) => (
+                  <div key={label} className={styles.entityCardRow}>
+                    <span className={styles.entityCardLabel}>{label}</span>
+                    <div className={clsx(styles.skeletonPlaceholder, className)} />
                   </div>
                 ))}
               </div>
@@ -110,18 +111,17 @@ export const EntityProfitTableSkeleton = ({
             <div className={styles.skeletonTableHeaderCell}>
               {entityTab === EntityTab.CROPS ? t('TABLE.VARIETY') : t('TABLE.ANIMAL')}
             </div>
-            <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-              {t('translation:FINANCES.REVENUE')}
-            </div>
-            <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-              {t('TABLE.EXPENSE')}
-            </div>
-            <div className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}>
-              {t('NET_PROFIT')}
-            </div>
+            {numericColumns.map(({ label }) => (
+              <div
+                key={label}
+                className={clsx(styles.skeletonTableHeaderCell, styles.skeletonAlignRight)}
+              >
+                {label}
+              </div>
+            ))}
           </div>
           {Array.from({ length: PLACEHOLDER_TABLE_ROW_COUNT }, (_, i) => (
-            <PlaceholderTableRow key={i} />
+            <PlaceholderTableRow key={i} numericColumns={numericColumns} />
           ))}
         </>
       )}

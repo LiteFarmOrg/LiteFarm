@@ -67,8 +67,7 @@ const EntityProfitTable = ({
     return t('TABLE.ANIMAL');
   };
 
-  // Shown when the farm has no entities of the active tab's kind
-  const isInventoryEmpty = entityTab === EntityTab.CROPS ? !hasCropVarieties : !hasAnimals;
+  const hasNoEntitiesForActiveTab = entityTab === EntityTab.CROPS ? !hasCropVarieties : !hasAnimals;
   const emptyStateMessage =
     entityTab === EntityTab.CROPS ? t('TABLE.NO_CROP_VARIETIES') : t('TABLE.NO_ANIMALS');
 
@@ -76,18 +75,10 @@ const EntityProfitTable = ({
     return <span className={clsx(row.isTotal && styles.cellTotal)}>{row.label}</span>;
   };
 
-  const renderRevenue = (row: EntityProfitTableRow): ReactNode => {
+  const renderCurrencyCell = (value: number, isTotal?: boolean): ReactNode => {
     return (
-      <span className={clsx(styles.cellNumeric, row.isTotal && styles.cellTotal)}>
-        {formatCurrency(row.revenue)}
-      </span>
-    );
-  };
-
-  const renderExpense = (row: EntityProfitTableRow): ReactNode => {
-    return (
-      <span className={clsx(styles.cellNumeric, row.isTotal && styles.cellTotal)}>
-        {formatCurrency(row.expense)}
+      <span className={clsx(styles.cellNumeric, isTotal && styles.cellTotal)}>
+        {formatCurrency(value)}
       </span>
     );
   };
@@ -113,13 +104,13 @@ const EntityProfitTable = ({
       id: 'revenue',
       label: t('translation:FINANCES.REVENUE'),
       align: Alignment.RIGHT,
-      format: renderRevenue,
+      format: (row: EntityProfitTableRow) => renderCurrencyCell(row.revenue, row.isTotal),
     },
     {
       id: 'expense',
       label: t('TABLE.EXPENSE'),
       align: Alignment.RIGHT,
-      format: renderExpense,
+      format: (row: EntityProfitTableRow) => renderCurrencyCell(row.expense, row.isTotal),
     },
     {
       id: 'netProfit',
@@ -134,9 +125,8 @@ const EntityProfitTable = ({
     { key: EntityTab.ANIMALS, label: t('translation:FINANCES.TRANSACTION.ANIMALS') },
   ];
 
-  // columns[0] is the entity-name column (the card header); the remaining
-  // columns are the Revenue / Expense / Net profit rows shown on each card.
-  const [, ...metricColumns] = columns;
+  // Exclude the label column
+  const [, ...numericColumns] = columns;
 
   return (
     <div className={styles.entityProfitTable}>
@@ -146,7 +136,7 @@ const EntityProfitTable = ({
         state={entityTab}
         setState={(key) => onTabChange(key as EntityTab)}
       />
-      {isInventoryEmpty ? (
+      {hasNoEntitiesForActiveTab ? (
         <div className={styles.entityEmptyState}>
           <p className={styles.entityEmptyStateText}>{emptyStateMessage}</p>
         </div>
@@ -156,7 +146,7 @@ const EntityProfitTable = ({
             <div key={row.id} className={styles.entityCard}>
               <div className={styles.entityCardContent}>
                 <div className={styles.entityCardHeader}>{row.label}</div>
-                {metricColumns.map((column) => (
+                {numericColumns.map((column) => (
                   <div key={column.id} className={styles.entityCardRow}>
                     <span className={styles.entityCardLabel}>{column.label}</span>
                     {column.format?.(row)}

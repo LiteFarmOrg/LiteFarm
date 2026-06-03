@@ -63,6 +63,8 @@ export interface UseProfitabilityDataResult {
   entityRows: EntityProfitRow[];
   availableYears: number[];
   isEmpty: boolean;
+  hasCropVarieties: boolean;
+  hasAnimals: boolean;
   isLoading: boolean;
 }
 
@@ -111,6 +113,10 @@ export default function useProfitabilityData({
   // all get the skeletoned empty state. Labour-from-tasks is intentionally
   // ignored because the CTA links to Finances, not the Task module.
   const isEmpty = (sales?.length ?? 0) === 0 && (expenses?.length ?? 0) === 0;
+
+  // For the empty state "you have no <entities>" message on EntityProfitTable
+  const hasCropVarieties = (cropVarieties?.length ?? 0) > 0;
+  const hasAnimals = (animals?.length ?? 0) + (animalBatches?.length ?? 0) > 0;
 
   const computed = useMemo(() => {
     if (isLoading || !dateFilter) {
@@ -191,6 +197,8 @@ export default function useProfitabilityData({
   return {
     ...computed,
     isEmpty,
+    hasCropVarieties,
+    hasAnimals,
     isLoading,
   };
 }

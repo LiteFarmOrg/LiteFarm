@@ -188,6 +188,8 @@ const ProfitabilityWidget = () => {
               entityTab={entityTab}
               onTabChange={setEntityTab}
               currencySymbol={currencySymbol}
+              hasCropVarieties={data.hasCropVarieties}
+              hasAnimals={data.hasAnimals}
             />
           ) : (
             <EntityProfitTableSkeleton entityTab={entityTab} onTabChange={setEntityTab} />

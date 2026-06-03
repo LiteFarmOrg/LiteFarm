@@ -94,7 +94,7 @@ const filterByTab = (tab: EntityTab) => {
 const Template = () => {
   const [tab, setTab] = useState(EntityTab.CROPS);
   return (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <EntityProfitTable
         rows={filterByTab(tab)}
         entityTab={tab}
@@ -109,8 +109,6 @@ export const Default = {
   render: Template,
 };
 
-// Below the `sm` breakpoint the table is replaced by the card view. The
-// viewport addon resizes the preview iframe, which useMediaQuery reads.
 export const Mobile = {
   parameters: { viewport: { defaultViewport: 'mobile1' } },
   render: Template,

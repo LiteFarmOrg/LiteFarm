@@ -28,7 +28,7 @@ export const Default = {
   render: () => {
     const [tab, setTab] = useState(EntityTab.CROPS);
     return (
-      <div style={{ maxWidth: 720 }}>
+      <div>
         <EntityProfitTableSkeleton entityTab={tab} onTabChange={setTab} />
       </div>
     );

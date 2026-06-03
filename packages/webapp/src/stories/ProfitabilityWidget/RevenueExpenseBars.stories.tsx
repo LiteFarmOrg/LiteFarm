@@ -25,7 +25,7 @@ export default {
 const formatValue = (v: number) => `$${v.toFixed(2)}`;
 
 const Template = () => (
-  <div style={{ maxWidth: 720 }}>
+  <div>
     <RevenueExpenseBars
       revenueGroups={[
         { id: 'revenue_1', label: 'Crop sales', total: 14200, percentOfTotal: 57 },
@@ -46,7 +46,6 @@ export const Default = {
   render: Template,
 };
 
-// Below the `sm` breakpoint the two columns stack vertically.
 export const Mobile = {
   parameters: { viewport: { defaultViewport: 'mobile1' } },
   render: Template,

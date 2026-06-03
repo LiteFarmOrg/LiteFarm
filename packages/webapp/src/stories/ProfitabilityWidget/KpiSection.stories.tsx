@@ -34,18 +34,16 @@ const kpiProps = {
 
 export const Default = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <KpiSection {...kpiProps} />
     </div>
   ),
 };
 
-// Below the `sm` breakpoint Total revenue and Total expenses share the first
-// row and Margin spans the full width below them.
 export const Mobile = {
   parameters: { viewport: { defaultViewport: 'mobile1' } },
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <KpiSection {...kpiProps} />
     </div>
   ),
@@ -53,7 +51,7 @@ export const Mobile = {
 
 export const Expanded = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <KpiSection {...kpiProps} expanded />
     </div>
   ),
@@ -61,7 +59,7 @@ export const Expanded = {
 
 export const TrendDown = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <KpiSection
         {...kpiProps}
         netProfit={{
@@ -75,7 +73,7 @@ export const TrendDown = {
 
 export const TrendFlat = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <KpiSection
         {...kpiProps}
         netProfit={{
@@ -89,7 +87,7 @@ export const TrendFlat = {
 
 export const InsufficientDataTrend = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <KpiSection {...kpiProps} netProfit={{ value: '$12,450.00' }} />
     </div>
   ),

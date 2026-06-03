@@ -91,8 +91,18 @@ const filterByTab = (tab: EntityTab) => {
   return allRows.filter((r) => r.kind === 'animal');
 };
 
-const Template = () => {
-  const [tab, setTab] = useState(EntityTab.CROPS);
+interface TemplateArgs {
+  initialTab?: EntityTab;
+  hasCropVarieties?: boolean;
+  hasAnimals?: boolean;
+}
+
+const Template = ({
+  initialTab = EntityTab.CROPS,
+  hasCropVarieties = true,
+  hasAnimals = true,
+}: TemplateArgs) => {
+  const [tab, setTab] = useState(initialTab);
   return (
     <div>
       <EntityProfitTable
@@ -100,16 +110,28 @@ const Template = () => {
         entityTab={tab}
         onTabChange={setTab}
         currencySymbol="$"
+        hasCropVarieties={hasCropVarieties}
+        hasAnimals={hasAnimals}
       />
     </div>
   );
 };
 
 export const Default = {
-  render: Template,
+  render: () => <Template />,
 };
 
 export const Mobile = {
   parameters: { viewport: { defaultViewport: 'mobile1' } },
-  render: Template,
+  render: () => <Template />,
+};
+
+// A farm that has crop allocations but has no animals in its inventory.
+export const NoAnimals = {
+  render: () => <Template initialTab={EntityTab.ANIMALS} hasAnimals={false} />,
+};
+
+// A farm that has animal allocations but no crop varieties on the farm.
+export const NoCropVarieties = {
+  render: () => <Template initialTab={EntityTab.CROPS} hasCropVarieties={false} />,
 };

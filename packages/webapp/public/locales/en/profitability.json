@@ -20,6 +20,8 @@
     "EXPENSE": "Expense",
     "FOOTNOTE": "A profitability breakdown across your crops and animals for the selected period.",
     "NET_PROFIT": "Net profit",
+    "NO_ANIMALS": "You have no animals in your inventory",
+    "NO_CROP_VARIETIES": "You have no crop varieties on your farm",
     "NOT_YET": "Not yet",
     "REVENUE": "Revenue",
     "TYPE_TOTAL": "{{type}} total",

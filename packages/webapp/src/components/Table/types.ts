@@ -95,8 +95,8 @@ export type TableV2Props<RowData extends TableRowData> = {
   extraRowSpacing?: boolean;
   comparator?: DescendingComparator<string | number>;
   /**
-   * Predicate run against each row after sorting. Matching rows are held at the
-   * bottom of the list regardless of the active sort column or direction.
+   * A per-row test run after sorting. Rows that return true are held at the
+   * bottom of the list, regardless of the active sort column or direction.
    */
   pinToBottom?: (row: RowData) => boolean;
 };

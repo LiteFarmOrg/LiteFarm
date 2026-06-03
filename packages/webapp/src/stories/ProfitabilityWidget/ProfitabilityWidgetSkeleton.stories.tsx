@@ -24,7 +24,16 @@ export default {
 
 export const Default = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
+      <ProfitabilityWidgetSkeleton />
+    </div>
+  ),
+};
+
+export const Mobile = {
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  render: () => (
+    <div>
       <ProfitabilityWidgetSkeleton />
     </div>
   ),

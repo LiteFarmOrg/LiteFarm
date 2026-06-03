@@ -68,9 +68,54 @@
   color: var(--Colors-Neutral-Neutral-200);
 }
 
+.trendArrow {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  &.up {
+    transform: none;
+  }
+
+  &.flat {
+    transform: rotate(45deg);
+  }
+
+  &.down {
+    transform: rotate(90deg);
+  }
+}
+
 .trendSuffix {
   font-weight: 600;
   margin-left: 4px;
+}
+
+.trendSuffixShort {
+  display: none;
+}
+
+@include xs-breakpoint {
+  .trendBadge {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: 4px;
+    row-gap: 2px;
+  }
+
+  .trendPercent {
+    order: -1;
+    flex-basis: 100%;
+    text-align: right;
+  }
+
+  .trendSuffixFull {
+    display: none;
+  }
+
+  .trendSuffixShort {
+    display: inline;
+  }
 }
 
 .kpiCompactRow {
@@ -128,6 +173,19 @@
     color: var(--Colors-Accent---singles-Purple-dark);
     &.expanded {
       background-color: rgba(58, 0, 112, 0.05);
+    }
+  }
+
+  @include xs-breakpoint {
+    .kpiTile {
+      dt {
+        font-size: 10px;
+      }
+
+      dd {
+        font-size: 16px;
+        line-height: normal;
+      }
     }
   }
 }
@@ -423,11 +481,19 @@
 }
 
 .skeletonKpiCompactRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 
+  @include xs-breakpoint {
+    grid-template-columns: repeat(2, 1fr);
+
+    .skeletonKpiCard.margin {
+      grid-column: 1 / -1;
+    }
+  }
+
   .skeletonKpiCard {
-    flex: 1;
     min-width: 0;
   }
 }
@@ -447,6 +513,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+
+  // Mobile: stack the revenue and expense columns vertically, mirroring
+  // `.revenueExpenseBars` so the skeleton matches the loaded layout.
+  @include xs-breakpoint {
+    grid-template-columns: 1fr;
+  }
 }
 
 .skeletonBarsColumn {
@@ -492,6 +564,21 @@
 .skeletonTableSection {
   display: flex;
   flex-direction: column;
+}
+
+// Mobile skeleton card list. The 8px inter-card gap matches `.entityCardList`;
+// the 12px top margin matches the tab-to-content spacing in `.entityProfitTable`.
+.skeletonCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+// Placeholder for the entity-name header inside each mobile skeleton card.
+.skeletonCardHeader {
+  width: 110px;
+  height: 16px;
 }
 
 .skeletonTableHeader {

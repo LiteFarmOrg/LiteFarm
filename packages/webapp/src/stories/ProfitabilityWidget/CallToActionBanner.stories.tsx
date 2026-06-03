@@ -24,7 +24,7 @@ export default {
 
 export const NoTransactions = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <CallToActionBanner variant="noTransactions" onAddTransactions={() => {}} />
     </div>
   ),
@@ -32,7 +32,7 @@ export const NoTransactions = {
 
 export const NoAttributions = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <CallToActionBanner variant="noAttributions" onAddTransactions={() => {}} />
     </div>
   ),
@@ -40,7 +40,7 @@ export const NoAttributions = {
 
 export const Default = {
   render: () => (
-    <div style={{ maxWidth: 720 }}>
+    <div>
       <CallToActionBanner variant="default" onAddTransactions={() => {}} />
     </div>
   ),

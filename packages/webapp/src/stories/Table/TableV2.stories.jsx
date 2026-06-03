@@ -297,3 +297,40 @@ export const RemovedRows = {
     shouldFixTableLayout: true,
   },
 };
+
+const pinnedRowColumns = [
+  {
+    id: 'crop',
+    label: 'Crops',
+    format: (d) =>
+      d.pinned ? (
+        <span>
+          <b>
+            <i>{d.crop}</i>
+          </b>
+        </span>
+      ) : (
+        d.crop
+      ),
+  },
+  ...getCropSalesColumns(false).slice(1),
+];
+
+const cropSalesDataWithPinnedRows = [
+  ...getCropSalesData(5),
+  { id: 'pinned_a', crop: 'Pinned row A', quantity: 700, revenue: 500, pinned: true },
+  { id: 'pinned_b', crop: 'Pinned row B', quantity: 300, revenue: 900, pinned: true },
+];
+
+export const WithPinnedRows = {
+  name: 'Pinned rows (test sorting)',
+  args: {
+    kind: TableKind.V2,
+    columns: pinnedRowColumns,
+    data: cropSalesDataWithPinnedRows,
+    minRows: 7,
+    shouldFixTableLayout: true,
+    alternatingRowColor: true,
+    pinToBottom: (row) => row.pinned,
+  },
+};

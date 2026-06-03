@@ -158,10 +158,6 @@ export default function TableV2(props) {
 
   const visibleRows = useMemo(() => {
     const sorted = data.slice().sort(getComparator(order, orderBy, comparator));
-    // pinToBottom holds matching rows at the end of the list regardless of the
-    // active sort column or direction. The partition runs after getComparator,
-    // so it is unaffected by the ascending-order negation inside getComparator;
-    // pinned rows keep the order the active column produced among themselves.
     const ordered = pinToBottom
       ? [...sorted.filter((row) => !pinToBottom(row)), ...sorted.filter(pinToBottom)]
       : sorted;
@@ -350,7 +346,5 @@ TableV2.propTypes = {
   headerClass: PropTypes.any,
   rowClass: PropTypes.any,
   extraRowSpacing: PropTypes.bool,
-  /** Predicate (row) => boolean. Matching rows are held at the bottom of the
-   * list after sorting, independent of the active column and sort direction. */
   pinToBottom: PropTypes.func,
 };

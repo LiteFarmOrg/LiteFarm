@@ -9,7 +9,8 @@
     "MARGIN": "Margin",
     "NO_TREND_TOOLTIP": "Add more data from the previous year to calculate a trend",
     "YOY_TOOLTIP": "Compared to the same date range in the previous year.",
-    "YOY_TREND": "vs previous year"
+    "YOY_TREND": "vs previous year",
+    "YOY_TREND_SHORT": "y/y"
   },
   "LESS_DATA": "Less data",
   "MORE_DATA": "More data",

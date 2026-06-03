@@ -16,6 +16,7 @@
 import { Tooltip } from '@mui/material';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as TrendArrowIcon } from '../../assets/images/profitability/trend-arrow.svg';
 import { TrendDirection } from './constants';
 import styles from './styles.module.scss';
 
@@ -26,12 +27,6 @@ export interface TrendData {
 
 export type TrendBadgeProps = (TrendData & { variant?: never }) | { variant: 'insufficientData' };
 
-const directionArrow = (direction: TrendDirection): string => {
-  if (direction === 'up') return '↗';
-  if (direction === 'down') return '↘';
-  return '→';
-};
-
 const TrendBadge = (props: TrendBadgeProps) => {
   const { t } = useTranslation('profitability');
 
@@ -39,9 +34,12 @@ const TrendBadge = (props: TrendBadgeProps) => {
     return (
       <Tooltip title={t('KPI.NO_TREND_TOOLTIP')} placement="top" arrow>
         <span className={clsx(styles.trendBadge, styles.placeholder)}>
-          <span>-%</span>
-          <span aria-hidden="true">→</span>
-          <span className={styles.trendSuffix}>{t('KPI.YOY_TREND')}</span>
+          <span className={styles.trendPercent}>-%</span>
+          <TrendArrowIcon className={clsx(styles.trendArrow, styles.flat)} aria-hidden="true" />
+          <span className={styles.trendSuffix}>
+            <span className={styles.trendSuffixFull}>{t('KPI.YOY_TREND')}</span>
+            <span className={styles.trendSuffixShort}>{t('KPI.YOY_TREND_SHORT')}</span>
+          </span>
         </span>
       </Tooltip>
     );
@@ -52,12 +50,15 @@ const TrendBadge = (props: TrendBadgeProps) => {
   return (
     <Tooltip title={t('KPI.YOY_TOOLTIP')} placement="top" arrow>
       <span className={styles.trendBadge}>
-        <span aria-hidden="true">{directionArrow(direction)}</span>
-        <span>
+        <TrendArrowIcon className={clsx(styles.trendArrow, styles[direction])} aria-hidden="true" />
+        <span className={styles.trendPercent}>
           {direction === 'up' ? '+' : direction === 'down' ? '-' : ''}
           {percent}%
         </span>
-        <span className={styles.trendSuffix}>{t('KPI.YOY_TREND')}</span>
+        <span className={styles.trendSuffix}>
+          <span className={styles.trendSuffixFull}>{t('KPI.YOY_TREND')}</span>
+          <span className={styles.trendSuffixShort}>{t('KPI.YOY_TREND_SHORT')}</span>
+        </span>
       </span>
     </Tooltip>
   );

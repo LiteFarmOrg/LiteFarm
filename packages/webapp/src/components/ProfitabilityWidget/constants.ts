@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const TOP_EXPENSE_CATEGORIES_COUNT = 5;
-
 export enum EntityTab {
   CROPS = 'crops',
   ANIMALS = 'animals',

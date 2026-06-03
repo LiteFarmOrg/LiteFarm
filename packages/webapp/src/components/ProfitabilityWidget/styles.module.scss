@@ -348,7 +348,25 @@
   text-transform: uppercase;
 }
 
+.entityEmptyState {
+  height: 140px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  background: var(--White);
+}
+
+.entityEmptyStateText {
+  color: var(--Colors-Neutral-Neutral-300);
+  font-style: italic;
+  text-align: center;
+}
+
 .tableFootnote {
+  text-align: start;
   color: var(--Colors-Accent-Accent-yellow-900);
   font-style: italic;
 }

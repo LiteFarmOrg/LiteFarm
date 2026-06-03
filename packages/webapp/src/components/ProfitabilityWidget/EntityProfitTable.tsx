@@ -40,6 +40,8 @@ export interface EntityProfitTableProps {
   entityTab: EntityTab;
   onTabChange: (tab: EntityTab) => void;
   currencySymbol: string;
+  hasCropVarieties: boolean;
+  hasAnimals: boolean;
 }
 
 const EntityProfitTable = ({
@@ -47,6 +49,8 @@ const EntityProfitTable = ({
   entityTab,
   onTabChange,
   currencySymbol,
+  hasCropVarieties,
+  hasAnimals,
 }: EntityProfitTableProps) => {
   const { t } = useTranslation('profitability');
 
@@ -62,6 +66,11 @@ const EntityProfitTable = ({
     }
     return t('TABLE.ANIMAL');
   };
+
+  // Shown when the farm has no entities of the active tab's kind
+  const isInventoryEmpty = entityTab === EntityTab.CROPS ? !hasCropVarieties : !hasAnimals;
+  const emptyStateMessage =
+    entityTab === EntityTab.CROPS ? t('TABLE.NO_CROP_VARIETIES') : t('TABLE.NO_ANIMALS');
 
   const renderLabel = (row: EntityProfitTableRow): ReactNode => {
     return <span className={clsx(row.isTotal && styles.cellTotal)}>{row.label}</span>;
@@ -137,7 +146,11 @@ const EntityProfitTable = ({
         state={entityTab}
         setState={(key) => onTabChange(key as EntityTab)}
       />
-      {isMobile ? (
+      {isInventoryEmpty ? (
+        <div className={styles.entityEmptyState}>
+          <p className={styles.entityEmptyStateText}>{emptyStateMessage}</p>
+        </div>
+      ) : isMobile ? (
         <div className={styles.entityCardList}>
           {rows.map((row) => (
             <div key={row.id} className={styles.entityCard}>

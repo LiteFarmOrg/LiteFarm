@@ -117,7 +117,10 @@ const ProfitabilityWidgetSkeleton = () => {
           <div className={styles.skeletonKpiTrend}>
             <span>-%</span>
             <span aria-hidden="true">&rarr;</span>
-            <span className={styles.skeletonKpiTrendSuffix}>{t('KPI.YOY_TREND')}</span>
+            <span className={styles.skeletonKpiTrendSuffix}>
+              <span className={styles.trendSuffixFull}>{t('KPI.YOY_TREND')}</span>
+              <span className={styles.trendSuffixShort}>{t('KPI.YOY_TREND_SHORT')}</span>
+            </span>
           </div>
         </div>
 

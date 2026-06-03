@@ -68,9 +68,54 @@
   color: var(--Colors-Neutral-Neutral-200);
 }
 
+.trendArrow {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  &.up {
+    transform: none;
+  }
+
+  &.flat {
+    transform: rotate(45deg);
+  }
+
+  &.down {
+    transform: rotate(90deg);
+  }
+}
+
 .trendSuffix {
   font-weight: 600;
   margin-left: 4px;
+}
+
+.trendSuffixShort {
+  display: none;
+}
+
+@include xs-breakpoint {
+  .trendBadge {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: 4px;
+    row-gap: 2px;
+  }
+
+  .trendPercent {
+    order: -1;
+    flex-basis: 100%;
+    text-align: right;
+  }
+
+  .trendSuffixFull {
+    display: none;
+  }
+
+  .trendSuffixShort {
+    display: inline;
+  }
 }
 
 .kpiCompactRow {
@@ -128,6 +173,19 @@
     color: var(--Colors-Accent---singles-Purple-dark);
     &.expanded {
       background-color: rgba(58, 0, 112, 0.05);
+    }
+  }
+
+  @include xs-breakpoint {
+    .kpiTile {
+      dt {
+        font-size: 10px;
+      }
+
+      dd {
+        font-size: 16px;
+        line-height: normal;
+      }
     }
   }
 }

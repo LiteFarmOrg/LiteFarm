@@ -108,7 +108,7 @@ export function formatTimeChipLabel(
     timeZone: 'UTC',
   });
   let label = formatter.format(date);
-  if (date.getUTCMinutes() === 0) {
+  if (['AM', 'PM'].some((period) => label.includes(period)) && date.getUTCMinutes() === 0) {
     label = label.replace(/:00/, '');
   }
   return label

@@ -47,7 +47,6 @@ export const decorators = [
         'translation',
         'crop',
         'common',
-        'disease',
         'task',
         'expense',
         'fertilizer',

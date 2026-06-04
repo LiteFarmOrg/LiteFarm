@@ -35,12 +35,11 @@ const STATIC_OPTION_LABEL_KEYS: Record<DateRangeOptions, string> = {
 };
 
 /**
- * Default static-option order rendered when no `allowedOptions` prop
- * is supplied. `LAST_12_MONTHS` is intentionally omitted here: it is
- * available only when callers explicitly include it via`allowedOptions`.
+ * Default static-option order rendered when no `allowedOptions` prop is supplied.
  */
 const DEFAULT_OPTION_ORDER: DateRangeOptions[] = [
   DateRangeOptions.YEAR_TO_DATE,
+  DateRangeOptions.LAST_12_MONTHS,
   DateRangeOptions.LAST_7_DAYS,
   DateRangeOptions.LAST_14_DAYS,
   DateRangeOptions.LAST_30_DAYS,

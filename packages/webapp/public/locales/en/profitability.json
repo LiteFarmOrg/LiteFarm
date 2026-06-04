@@ -1,0 +1,30 @@
+{
+  "CTA_BANNER": {
+    "CTA": "Add transactions",
+    "DEFAULT": "Add your latest transactions for accurate insights",
+    "NO_ATTRIBUTIONS": "Attribute your transactions to crops and animal groups to unlock the per-variety breakdown",
+    "NO_TRANSACTIONS": "Start recording your revenues and expenses to track profitability across your crops and animals"
+  },
+  "KPI": {
+    "MARGIN": "Margin",
+    "NO_TREND_TOOLTIP": "Add more data from the previous year to calculate a trend",
+    "YOY_TOOLTIP": "Compared to the same date range in the previous year.",
+    "YOY_TREND": "vs previous year",
+    "YOY_TREND_SHORT": "y/y"
+  },
+  "LESS_DATA": "Less data",
+  "MORE_DATA": "More data",
+  "NET_PROFIT": "Net profit",
+  "TABLE": {
+    "ANIMAL": "Animal",
+    "EXPENSE": "Expense",
+    "FOOTNOTE": "A profitability breakdown across your crops and animals for the selected period.",
+    "NO_ANIMALS": "You have no animals in your inventory",
+    "NO_CROP_VARIETIES": "You have no crop varieties on your farm",
+    "TYPE_TOTAL": "{{type}} total",
+    "VARIETY": "Variety"
+  },
+  "TOP_EXPENSE_CATEGORIES": "Top expense categories",
+  "TOP_REVENUE_CATEGORIES": "Top revenue categories",
+  "WIDGET_TITLE": "Profitability"
+}

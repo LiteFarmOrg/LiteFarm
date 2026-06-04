@@ -636,6 +636,7 @@
     "BACK": "back",
     "CLEAR_DATES": "Clear dates",
     "CUSTOM_RANGE": "Pick a custom range",
+    "LAST_12_MONTHS": "Last 12 months",
     "LAST_FOURTEEN_DAYS": "Last 14 days",
     "LAST_MONTH": "Last month",
     "LAST_SEVEN_DAYS": "Last 7 days",
@@ -1971,8 +1972,8 @@
     "ANIMALS_LOCATION": "Animal locations"
   },
   "SELECT": {
-    "NO_CROP_VARIETIES": "You have no crop varieties",
-    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory"
+    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory",
+    "NO_CROP_VARIETIES": "You have no crop varieties"
   },
   "SENSOR": {
     "ARRAY": "Array",

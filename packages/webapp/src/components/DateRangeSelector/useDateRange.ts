@@ -17,12 +17,15 @@ import { useEffect } from 'react';
 import DateRange from '../../util/dateRange';
 import { DateRangeOptions, DateRangeData } from './types';
 import { MONDAY, SUNDAY } from '../../util/dateRange';
+import { isStaticDateRangeOption } from './helpers';
 
 /**
  * Returns startDate and endDate in state (local or Redux).
- * For any semantic option (e.g. YEAR_TO_DATE), the dates are recomputed on mount
- * from the current date so they do not go stale when the underlying state is
- * persisted (e.g. via Redux Persist) across days. CUSTOM ranges are left as-is.
+ * For any built-in semantic option (e.g. YEAR_TO_DATE), the dates are
+ * recomputed on mount from the current date so they do not go stale when the
+ * underlying state is persisted (e.g. via Redux Persist) across days.
+ * CUSTOM ranges and caller-supplied dynamic options (for example, a specific
+ * calendar year) are left as-is.
  */
 
 interface useDateRangeProps {
@@ -42,7 +45,7 @@ export default function useDateRange({
   const option = dateRange.option || defaultOption;
 
   useEffect(() => {
-    if (option !== DateRangeOptions.CUSTOM) {
+    if (isStaticDateRangeOption(option) && option !== DateRangeOptions.CUSTOM) {
       const { startDate, endDate } = dateRangeUtil.getDates(option);
       updateDateRange({ option, startDate, endDate });
     }

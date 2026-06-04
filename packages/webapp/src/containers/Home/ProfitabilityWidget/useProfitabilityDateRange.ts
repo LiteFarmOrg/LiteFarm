@@ -14,7 +14,7 @@
  */
 
 import { Moment } from 'moment';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DateRangeData, DateRangeOptions } from '../../../components/DateRangeSelector/types';
 import useDateRange from '../../../components/DateRangeSelector/useDateRange';
@@ -50,12 +50,9 @@ export default function useProfitabilityDateRange({
   const expenses = useSelector(expenseSelector);
   const tasks = useSelector(tasksSelector);
 
-  const dispatchUpdate = useCallback(
-    (newDateRange: Partial<ProfitabilityDateRangeState>) => {
-      dispatch(updateDateRange(newDateRange));
-    },
-    [dispatch],
-  );
+  const dispatchUpdate = (newDateRange: Partial<ProfitabilityDateRangeState>) => {
+    dispatch(updateDateRange(newDateRange));
+  };
 
   const { startDate, endDate } = useDateRange({
     weekStartDate,

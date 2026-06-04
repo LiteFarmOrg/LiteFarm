@@ -29,7 +29,7 @@ const weatherController = {
         return res.sendStatus(404);
       }
 
-      const weatherForecast = await weatherService.getWeather({
+      const weatherForecast = await weatherService.fetchForecast({
         lat: row.grid_points.lat,
         lon: row.grid_points.lng,
       });

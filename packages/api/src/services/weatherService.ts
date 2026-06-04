@@ -57,7 +57,7 @@ const OPEN_WEATHER_APP_ID = credentials.OPEN_WEATHER_APP_ID;
 const openWeatherAPI = endpoints.openWeatherAPI;
 
 export const weatherService = {
-  async getWeather({ lat, lon }: WeatherParams): Promise<WeatherForecast> {
+  async fetchForecast({ lat, lon }: WeatherParams): Promise<WeatherForecast> {
     try {
       const url = `${openWeatherAPI}?units=metric&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en`;
       const response = await axios.get<OpenWeatherForecastResponse>(url);

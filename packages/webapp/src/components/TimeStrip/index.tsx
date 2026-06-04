@@ -95,8 +95,12 @@ const TimeStrip = ({
   );
 };
 
-export function formatTimeChipLabel(utcMs: number, offsetSeconds: number, locale: string): string {
-  const localMs = (utcMs + offsetSeconds) * 1000;
+export function formatTimeChipLabel(
+  utcSeconds: number,
+  offsetSeconds: number,
+  locale: string,
+): string {
+  const localMs = (utcSeconds + offsetSeconds) * 1000;
   const date = new Date(localMs);
   const formatter = new Intl.DateTimeFormat(locale, {
     hour: 'numeric',

@@ -28,8 +28,8 @@ export function localYmdFromUtcMs(utcMs: number, offsetSeconds: number): string 
   return new Date(utcMs + offsetSeconds * 1000).toISOString().slice(0, 10);
 }
 
-export function localTimeOfDay(utcMs: number, offsetSeconds: number): number {
-  const localMs = (utcMs + offsetSeconds) * 1000;
+export function localTimeOfDay(utcSeconds: number, offsetSeconds: number): number {
+  const localMs = (utcSeconds + offsetSeconds) * 1000;
   const d = new Date(localMs);
   return d.getUTCHours() + d.getUTCMinutes() / 60;
 }

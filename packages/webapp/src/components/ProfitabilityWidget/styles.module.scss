@@ -48,7 +48,7 @@
 
     dd {
       color: var(--Blue-acqua);
-      text-shadow: 1px 1px 0 white;
+      text-shadow: 1px 1px 0 var(--White);
     }
   }
 }
@@ -148,7 +148,7 @@
     }
 
     dd {
-      text-shadow: 1px 1px 0 white;
+      text-shadow: 1px 1px 0 var(--White);
     }
   }
 
@@ -307,7 +307,7 @@
   align-items: center;
   padding: 8px 0;
   border-radius: 8px;
-  background: #fff; // var(--White)
+  background: var(--White);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
 
   &:nth-child(even) {
@@ -482,7 +482,7 @@
   font-size: 24px;
   font-weight: 700;
   color: var(--Colors-Neutral-Neutral-100);
-  text-shadow: 1px 1px 0 white;
+  text-shadow: 1px 1px 0 var(--White);
 }
 
 .skeletonKpiTrend {

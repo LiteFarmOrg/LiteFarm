@@ -19,6 +19,7 @@ import {
   filterSalesByDateRange as filterSalesByDateRangeImpl,
   filterExpensesByDateRange as filterExpensesByDateRangeImpl,
 } from '../../Finances/util';
+import { EntityTab, type TrendDirection } from '../../../components/ProfitabilityWidget/constants';
 
 export interface DateFilter {
   startDate: string | moment.Moment;
@@ -34,7 +35,7 @@ export interface KpiResult {
 
 export interface YoYTrend {
   percent: number;
-  direction: 'up' | 'down' | 'flat';
+  direction: TrendDirection;
 }
 
 export interface RevenueTypeBar {
@@ -85,8 +86,6 @@ export type EntityProfitRow =
       expense: number;
       netProfit: number;
     };
-
-export type EntityTab = 'crops' | 'animals';
 
 /**
  * Re-exports the existing Finances helper so callers can resolve sales+expenses
@@ -550,7 +549,7 @@ export function aggregateByEntity({
     }
   }
 
-  if (entityTab === 'crops') {
+  if (entityTab === EntityTab.CROPS) {
     return [...cropTotals.values()].map((entry) => {
       const cropVariety = cropVarieties.find(
         (cv: any) => cv.crop_variety_id === entry.cropVarietyId,

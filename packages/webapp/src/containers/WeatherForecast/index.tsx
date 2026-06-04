@@ -15,7 +15,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PureWeatherForecast from '../../components/WeatherForecast';
@@ -28,9 +27,10 @@ import {
   localYmdFromUtcMs,
 } from './utils';
 import type { System } from '../../types';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 export default function WeatherForecast() {
-  const { i18n } = useTranslation();
+  const language = getLanguageFromLocalStorage() || 'en';
   const theme = useTheme();
   const isCompact = useMediaQuery(theme.breakpoints.down('md'));
   const system = useSelector(measurementSelector) as System;
@@ -58,8 +58,8 @@ export default function WeatherForecast() {
     const todayLocalYmd = localYmdFromUtcMs(Date.now(), offsetSeconds);
     const browserTimezoneOffsetSeconds = -new Date().getTimezoneOffset() * 60;
     const offsetMatch = offsetSeconds === browserTimezoneOffsetSeconds;
-    return visibleDays.map((d) => formatDayPillLabel(d, todayLocalYmd, offsetMatch, i18n.language));
-  }, [visibleDays, offsetSeconds, i18n.language]);
+    return visibleDays.map((d) => formatDayPillLabel(d, todayLocalYmd, offsetMatch, language));
+  }, [visibleDays, offsetSeconds, language]);
 
   const selectedDayIndex = useMemo(() => {
     const index = visibleDays.findIndex((d) => d.slotIndices.includes(selectedSlotIndex));
@@ -103,7 +103,7 @@ export default function WeatherForecast() {
       slots={visibleSlots}
       offsetSeconds={offsetSeconds}
       system={system}
-      locale={i18n.language}
+      locale={language}
       onDayClick={onDayClick}
       onSelectSlot={handleSelectSlot}
       onPrev={selectedSlotIndex === 0 ? undefined : () => setSelectedSlotIndex((i) => i - 1)}

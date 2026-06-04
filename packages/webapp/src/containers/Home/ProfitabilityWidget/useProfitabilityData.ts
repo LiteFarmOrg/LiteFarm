@@ -159,7 +159,7 @@ export default function useProfitabilityData({
       defaultAnimalTypes,
       customAnimalTypes,
       dateFilter,
-      entityTab: entityTab as unknown as 'crops' | 'animals',
+      entityTab,
     });
     const availableYears = getAvailableYears(sales ?? [], expenses ?? [], tasks ?? []);
 

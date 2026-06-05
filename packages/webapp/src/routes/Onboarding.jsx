@@ -15,7 +15,7 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -65,6 +65,19 @@ function OnboardingFlow(props) {
   );
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
+  // FIX: the routes guard needs the farm-list load status. Uncomment this and
+  // add userFarmStatusSelector to the userFarmSlice import above.
+  // const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
+
+  // TEMP welcome-trace. useLocation() exposes the React Router location so the log
+  // can flag when it doesn't match window.location
+  const location = useLocation();
+  console.log('[welcome-trace] OnboardingFlow render', {
+    routerLocation: location.pathname,
+    windowLocation: window.location.pathname,
+    MISMATCH: location.pathname !== window.location.pathname,
+    hasUserFarms,
+  }); // TEMP welcome-trace
 
   const requireConditionProps = { ...props, hasUserFarms };
 
@@ -174,6 +187,7 @@ const RequireCondition = ({
   has_consent,
   farm_id,
   hasUserFarms,
+  // farmsLoaded, // FIX (commit 3): uncomment for the routes guard
 }) => {
   if (condition) {
     return children;
@@ -196,6 +210,19 @@ const RequireCondition = ({
   }
 
   if ((!farm_id || !step_one) && !hasUserFarms) {
+    // TEMP welcome-trace: observes the hardcoded redirect below
+    console.log('[welcome-trace] HISTORY.PUSH #B (RequireCondition) -> /welcome', {
+      windowPath: window.location.pathname,
+      hasUserFarms,
+    }); // TEMP welcome-trace
+
+    // FIX: uncomment the two lines below, delete the hardcoded redirect, and
+    // wire up farmsLoaded (selector + prop + destructure). hasUserFarms === 0 is ambiguous
+    // ("no farms" vs "list not fetched yet"); only treat it as "no farms" once the list has
+    // loaded, else route to /farm_selection, where ChooseFarm owns the
+    // "no farms -> /welcome" decision.
+    // const target = farmsLoaded ? '/welcome' : '/farm_selection';
+    // return <Redirect to={target} />;
     return <Redirect to="/welcome" />;
   }
 

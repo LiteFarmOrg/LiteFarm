@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,18 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
-import { weatherUrl } from '../../apiConfig';
-import { WeatherForecast } from './types';
+import type { Meta, StoryObj } from '@storybook/react';
+import FrostBanner from '../../components/WeatherForecast/FrostBanner';
+import { componentDecorators } from '../Pages/config/Decorators';
 
-export const weatherApi = api.injectEndpoints({
-  endpoints: (build) => ({
-    getWeatherForecast: build.query<WeatherForecast, void>({
-      query: () => `${weatherUrl}`,
-      providesTags: ['Weather'],
-      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
-    }),
-  }),
-});
+const meta: Meta<typeof FrostBanner> = {
+  title: 'Components/WeatherForecast/FrostBanner',
+  component: FrostBanner,
+  decorators: componentDecorators,
+};
+export default meta;
 
-export const { useGetWeatherForecastQuery } = weatherApi;
+type Story = StoryObj<typeof FrostBanner>;
+
+export const Metric: Story = { args: { system: 'metric' } };
+export const Imperial: Story = { args: { system: 'imperial' } };

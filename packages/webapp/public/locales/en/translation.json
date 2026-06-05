@@ -2227,6 +2227,10 @@
     "UPLOAD_LAB_DOCUMENT": "Upload lab document",
     "WILL_SAVE_ONLINE": "Will save when online"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "Next time slot",
+    "PREVIOUS_TIME_SLOT": "Previous time slot"
+  },
   "UNIT": {
     "TIME": {
       "DAY": "days",
@@ -2256,7 +2260,11 @@
     "HOURLY_WAGE_TOOLTIP": "This task-specific wage will override the assignee's default wage. Default worker wages can be managed in the People tab."
   },
   "WEATHER": {
+    "FROST_EXPECTED": "⚠️ Frost Expected (Low {{threshold}})",
+    "FROST_RISK": "Frost risk",
     "HUMIDITY": "Humidity",
+    "PRECIPITATION": "Precipitation",
+    "TITLE": "Weather & conditions",
     "WIND": "Wind"
   },
   "WELCOME_SCREEN": {

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { matchPath, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
@@ -31,6 +31,10 @@ import useOfflineActivityLogger from './hooks/useOfflineActivityLogger';
 
 function App() {
   const location = useLocation();
+  // TEMP welcome-trace: render-body log. Fires on every render of App with the current
+  // router location. Pairs with the mount/unmount log below to prove Suspense boundary A
+  // (main.jsx: <Suspense fallback={null}> wrapping <App/>) never tears App down.
+  console.log('[welcome-trace] App RENDER', { routerLocation: location.pathname }); // TEMP welcome-trace
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
   const [activeDrawer, setActiveDrawer] = useState(null);
   const FULL_WIDTH_ROUTES = [MAP_URL, ANIMALS_URL, SENSORS_URL];
@@ -40,6 +44,17 @@ function App() {
   useServiceWorkerListener();
   useOfflineActivityLogger();
   const { isLoaded } = useGoogleMapsLoader();
+
+  // TEMP welcome-trace: mount/unmount probe. If Suspense boundary A (above <App/> in
+  // main.jsx) ever caught a suspension from the side menu / Navigation, App would UNMOUNT
+  // and later REMOUNT. Seeing exactly one MOUNTED and no UNMOUNTED through the SSO ->
+  // /welcome repro proves boundary A never fired -> App's Suspense is not in the chain.
+  useEffect(() => {
+    console.log('[welcome-trace] App MOUNTED (boundary A did NOT tear App down)'); // TEMP welcome-trace
+    return () => {
+      console.log('[welcome-trace] App UNMOUNTED (boundary A caught -> App torn down)'); // TEMP welcome-trace
+    };
+  }, []);
 
   return (
     <div className={clsx(styles.container)}>

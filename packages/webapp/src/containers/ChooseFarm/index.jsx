@@ -31,6 +31,10 @@ import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 import { selectFarmAndFetchAll } from '../saga';
 
 function ChooseFarm() {
+  // TEMP welcome-trace: render-body log BEFORE useTranslation
+  // If this line never prints in the SSO -> /welcome repro, ChooseFarm was never reached
+  // at all -> useTranslation and the Suspense boundaries are NOT in the destructive chain.
+  console.log('[welcome-trace] ChooseFarm RENDER (function body entered, before useTranslation)'); // TEMP welcome-trace
   const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -42,6 +46,7 @@ function ChooseFarm() {
   const userFarmEntities = useSelector(userFarmEntitiesSelector);
 
   useEffect(() => {
+    console.log('[welcome-trace] ChooseFarm COMMITTED (rendered ok -> fetching farms)'); // TEMP welcome-trace
     dispatch(getUserFarms());
     dispatch(getSpotlightFlags());
   }, []);
@@ -55,7 +60,12 @@ function ChooseFarm() {
   // TODO: move redirect to login with google saga
   const { loaded } = useSelector(userFarmStatusSelector);
   useEffect(() => {
-    loaded && farms.length === 0 && history.push('/welcome');
+    if (loaded && farms.length === 0) {
+      console.log('[welcome-trace] HISTORY.PUSH #A (ChooseFarm effect) -> /welcome', {
+        farmsLength: farms.length,
+      }); // TEMP welcome-trace
+      history.push('/welcome');
+    }
   }, [farms, loaded]);
 
   const onGoBack = () => {

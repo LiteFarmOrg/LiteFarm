@@ -70,31 +70,6 @@ const propertiesToPick = {
   water_valve: ['source', 'flow_rate', 'flow_rate_unit'],
 };
 
-const getFigureTypeProperties = (data, locationType) => {
-  switch (locationType) {
-    case InternalMapLocationType.BARN:
-    case InternalMapLocationType.CEREMONIAL_AREA:
-    case InternalMapLocationType.FARM_SITE_BOUNDARY:
-    case InternalMapLocationType.FIELD:
-    case InternalMapLocationType.GARDEN:
-    case InternalMapLocationType.GREENHOUSE:
-    case InternalMapLocationType.NATURAL_AREA:
-    case InternalMapLocationType.RESIDENCE:
-    case InternalMapLocationType.SURFACE_WATER:
-      return { area: pick(data, areaProperties) };
-    case InternalMapLocationType.BUFFER_ZONE:
-    case InternalMapLocationType.FENCE:
-    case InternalMapLocationType.WATERCOURSE:
-      return { line: pick(data, lineProperties) };
-    case InternalMapLocationType.GATE:
-    case InternalMapLocationType.SOIL_SAMPLE_LOCATION:
-    case InternalMapLocationType.WATER_VALVE:
-      return { point: pick(data, pointProperties) };
-    default:
-      throw new Error(`Unknown location type ${locationType}`);
-  }
-};
-
 export const getFigureType = (locationType) => {
   switch (locationType) {
     case InternalMapLocationType.BARN:
@@ -118,6 +93,12 @@ export const getFigureType = (locationType) => {
     default:
       throw new Error(`Unknown location type ${locationType}`);
   }
+};
+
+const getFigureTypeProperties = (data, locationType) => {
+  const figureType = getFigureType(locationType);
+  const properties = { area: areaProperties, line: lineProperties, point: pointProperties };
+  return { [figureType]: pick(data, properties[figureType]) };
 };
 
 const getOrganicHistoryProperties = (data, locationType) => {

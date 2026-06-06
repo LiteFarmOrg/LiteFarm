@@ -83,7 +83,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
         ),
       );
     } catch (error) {
-      history.push({ pathname: history.location.pathname });
       console.error(error);
       dispatch(
         enqueueErrorSnackbar(
@@ -123,7 +122,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
       );
     } catch (error) {
       console.error(error);
-      history.push({ pathname: history.location.pathname });
       dispatch(
         enqueueErrorSnackbar(
           `${t('message:MAP.FAIL_DELETE')} ${t(

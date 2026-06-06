@@ -61,7 +61,6 @@ function PostLocationDetailForm({ locationType }: { locationType: InternalMapLoc
         ),
       );
     } catch (error) {
-      history.push({ pathname: history.location.pathname });
       console.error(error);
       dispatch(
         enqueueErrorSnackbar(

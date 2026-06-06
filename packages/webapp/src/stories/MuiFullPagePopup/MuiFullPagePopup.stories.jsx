@@ -1,6 +1,6 @@
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import decorator from '../Pages/config/Decorators';
-import { Post } from '../Pages/LocationDetails/AreaDetails/AreaDetails.stories';
+import { Post } from '../Pages/LocationDetails/AreaDetails.stories';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';
 
 export default {

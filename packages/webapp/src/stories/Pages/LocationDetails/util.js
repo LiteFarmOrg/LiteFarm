@@ -19,7 +19,7 @@ import {
   FlowRateUnit,
   InternalMapLocationType,
   LengthWidthUnit,
-  PerimiterUnit,
+  PerimeterUnit,
   TotalAreaUnit,
   WaterSource,
 } from '../../../store/api/types';
@@ -52,7 +52,7 @@ const fakeArea = {
   total_area: 40,
   total_area_unit: TotalAreaUnit.M2,
   perimeter: 26,
-  perimeter_unit: PerimiterUnit.M,
+  perimeter_unit: PerimeterUnit.M,
 };
 
 const fakeLine = {

@@ -26,63 +26,48 @@ import EditLocationDetailForm from '../containers/LocationDetails/EditLocationDe
 // Location route configuration - maps location type to enabled tabs
 export const locationRouteConfig = {
   field: {
-    pathPrefix: 'field',
     enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
   },
   garden: {
-    pathPrefix: 'garden',
     enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
   },
   greenhouse: {
-    pathPrefix: 'greenhouse',
     enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
   },
   barn: {
-    pathPrefix: 'barn',
     enabledTabs: ['details', 'tasks'],
   },
   gate: {
-    pathPrefix: 'gate',
     enabledTabs: ['details', 'tasks'],
   },
   water_valve: {
-    pathPrefix: 'water_valve',
     enabledTabs: ['details', 'tasks'],
   },
   soil_sample_location: {
-    pathPrefix: 'soil_sample_location',
     enabledTabs: ['details', 'tasks'],
   },
   buffer_zone: {
-    pathPrefix: 'buffer_zone',
     enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
   },
   watercourse: {
-    pathPrefix: 'watercourse',
     enabledTabs: ['details', 'tasks'],
   },
   fence: {
-    pathPrefix: 'fence',
     enabledTabs: ['details', 'tasks'],
   },
   natural_area: {
-    pathPrefix: 'natural_area',
     enabledTabs: ['details', 'tasks'],
   },
   residence: {
-    pathPrefix: 'residence',
     enabledTabs: ['details', 'tasks'],
   },
   surface_water: {
-    pathPrefix: 'surface_water',
     enabledTabs: ['details', 'tasks'],
   },
   ceremonial_area: {
-    pathPrefix: 'ceremonial_area',
     enabledTabs: ['details', 'tasks'],
   },
   farm_site_boundary: {
-    pathPrefix: 'farm_site_boundary',
     enabledTabs: ['details', 'tasks', 'field_technology', 'irrigation'],
   },
 };
@@ -97,7 +82,7 @@ export default function LocationDetailsRoutes({ locationType }) {
     return null;
   }
 
-  const prefix = `/${config.pathPrefix}/:location_id`;
+  const prefix = `/${locationType}/:location_id`;
 
   return (
     <>

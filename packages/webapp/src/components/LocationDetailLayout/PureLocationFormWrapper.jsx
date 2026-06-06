@@ -22,9 +22,9 @@ import { getDateInputFormat } from '../../util/moment';
 
 const getOrganicStatusDefaultValues = (persistedFormData) => {
   return {
-    ['organic_status']: 'Non-Organic',
+    organic_status: 'Non-Organic',
     ...persistedFormData,
-    ['transition_date']: getDateInputFormat(persistedFormData['transition_date'] || new Date()),
+    transition_date: getDateInputFormat(persistedFormData['transition_date'] || new Date()),
   };
 };
 

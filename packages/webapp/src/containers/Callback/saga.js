@@ -65,7 +65,11 @@ export function* patchUserFarmStatusSaga({ payload }) {
     const { user: userFarm, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', userFarm.language_preference);
-    i18n.changeLanguage(userFarm.language_preference);
+    const requestedLang = getLanguageFromLocalStorage();
+    const targetLang = i18n.options.supportedLngs?.includes(requestedLang) ? requestedLang : 'en';
+    if (i18n.language !== targetLang) {
+      i18n.changeLanguage(targetLang);
+    }
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
     yield put(startInvitationFlow(userFarm.farm_id));
@@ -75,7 +79,11 @@ export function* patchUserFarmStatusSaga({ payload }) {
       // and message === 'user does not exist
       console.log(e);
       localStorage.setItem('litefarm_lang', language);
-      i18n.changeLanguage(language);
+      const requestedLang = getLanguageFromLocalStorage();
+      const targetLang = i18n.options.supportedLngs?.includes(requestedLang) ? requestedLang : 'en';
+      if (i18n.language !== targetLang) {
+        i18n.changeLanguage(targetLang);
+      }
       history.push('/accept_invitation/sign_up', invite_token);
     } else if (e?.response?.status === 401) {
       const { email: currentEmail } = yield select(userFarmSelector);

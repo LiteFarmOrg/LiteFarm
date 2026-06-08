@@ -70,7 +70,6 @@ export function* patchUserFarmStatusSaga({ payload }) {
     if (i18n.language !== targetLang) {
       i18n.changeLanguage(targetLang);
     }
-    i18n.changeLanguage(userFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
     yield put(startInvitationFlow(userFarm.farm_id));

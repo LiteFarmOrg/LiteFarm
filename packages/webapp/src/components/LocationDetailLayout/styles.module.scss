@@ -25,14 +25,17 @@
   }
 }
 
-.latLngContainer {
+.rowInputContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 40px;
 
   > div {
     flex-grow: 1;
     min-width: 240px;
   }
+}
+
+.sectionPadding {
+  padding-bottom: 40px;
 }

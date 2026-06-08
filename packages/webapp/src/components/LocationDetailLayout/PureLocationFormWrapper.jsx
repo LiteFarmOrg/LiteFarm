@@ -13,59 +13,94 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { PersistedFormWrapper } from './PersistedFormWrapper';
+import {
+  LabeledRadioRow,
+  OrganicTypeSelector,
+  PersistedFormWrapper,
+  UnitField,
+} from './LocationFormUtils';
+import Input from '../Form/Input';
 import { getFormDataWithoutNulls } from '../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from './PureLocationDetailLayout';
-import ExtraLocationFormFieldsMap from './ExtraFormFieldsMap';
 import { getFigureType } from '../../containers/LocationDetails/utils';
-import { getDateInputFormat } from '../../util/moment';
+import { getAreaConfig, locationsSpecificFormFields } from './config';
+import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
-const getOrganicStatusDefaultValues = (persistedFormData) => {
-  return {
-    organic_status: 'Non-Organic',
-    ...persistedFormData,
-    transition_date: getDateInputFormat(persistedFormData['transition_date'] || new Date()),
-  };
-};
-
-const getAreaConfig = (persistedFormData) => ({
-  barn: {
-    showPerimeter: false,
-    defaultValues: persistedFormData,
-  },
-  ceremonial_area: {
-    showPerimeter: true,
-    defaultValues: persistedFormData,
-  },
-  farm_site_boundary: {
-    showPerimeter: true,
-    defaultValues: persistedFormData,
-  },
-  field: {
-    showPerimeter: true,
-    defaultValues: getOrganicStatusDefaultValues(persistedFormData),
-  },
-  garden: {
-    showPerimeter: true,
-    defaultValues: getOrganicStatusDefaultValues(persistedFormData),
-  },
-  greenhouse: {
-    showPerimeter: false,
-    defaultValues: getOrganicStatusDefaultValues(persistedFormData),
-  },
-  natural_area: {
-    showPerimeter: true,
-    defaultValues: persistedFormData,
-  },
-  residence: {
-    showPerimeter: false,
-    defaultValues: persistedFormData,
-  },
-  surface_water: {
-    showPerimeter: true,
-    defaultValues: persistedFormData,
-  },
-});
+function getLocationSpecificFormFields({
+  locationType,
+  system,
+  isViewLocationPage,
+  isEditLocationPage,
+  persistedFormData,
+}) {
+  const config = locationsSpecificFormFields({
+    isEditLocationPage,
+    isViewLocationPage,
+    persistedFormData,
+  })[locationType];
+  if (!config) return null;
+  const { t } = useTranslation();
+  return (
+    <>
+      {...config.sections.map((section, index) => (
+        <div key={index} className={styles.sectionPadding}>
+          {section.orderedInputs.map((input) => {
+            if (input.inputType === 'radio') {
+              return (
+                <LabeledRadioRow
+                  key={input.name}
+                  label={t(input.labelKey)}
+                  name={input.name}
+                  isViewLocationPage={isViewLocationPage}
+                  hasLeaf={input.hasLeaf}
+                  radios={input.radios}
+                />
+              );
+            } else if (input.inputType === 'OrganicTypeSelector') {
+              return (
+                <OrganicTypeSelector
+                  key={input.inputType}
+                  enumKeys={input.enumKeys}
+                  labelKey={input.labelKey}
+                  isViewLocationPage={isViewLocationPage}
+                />
+              );
+            } else if (input.inputType === 'UnitField') {
+              return (
+                <UnitField
+                  key={input.name}
+                  enumKey={input.name}
+                  label={t(input.labelKey)}
+                  unitType={input.unitType}
+                  displayUnitName={input.displayUnitName}
+                  system={system}
+                  required={input.required}
+                  disabled={input.disabled}
+                />
+              );
+            } else if (input.inputType === 'InputRow') {
+              return (
+                <div className={styles.rowInputContainer} key={input.name}>
+                  {input.rowInputs.map((rowInput) => (
+                    <Input
+                      key={rowInput.name}
+                      label={t(rowInput.labelKey)}
+                      disabled={rowInput.disabled}
+                      value={rowInput.value}
+                    />
+                  ))}
+                </div>
+              );
+            }
+            // Add other input types as needed
+            return null;
+          })}
+        </div>
+      ))}
+    </>
+  );
+}
 
 export default function PureLocationFormWrapper({
   history,
@@ -114,7 +149,14 @@ export default function PureLocationFormWrapper({
     submitForm({ formData });
   };
 
-  const DetailsChildren = ExtraLocationFormFieldsMap[locationType] || undefined;
+  const LocationSpecificFormFields = () =>
+    getLocationSpecificFormFields({
+      locationType,
+      system,
+      isEditLocationPage,
+      isViewLocationPage,
+      persistedFormData,
+    }) || undefined;
   const areaConfig = getAreaConfig(persistedFormData)[locationType] || {};
   const figureType = getFigureType(locationType);
 
@@ -136,8 +178,8 @@ export default function PureLocationFormWrapper({
         onSubmit={onSubmit}
         translationKey={locationType.toUpperCase()}
         detailsChildren={
-          DetailsChildren ? (
-            <DetailsChildren
+          LocationSpecificFormFields ? (
+            <LocationSpecificFormFields
               system={system}
               isViewLocationPage={isViewLocationPage}
               isEditLocationPage={isEditLocationPage}

@@ -17,7 +17,6 @@ function Callback() {
       dispatch(
         patchUserFarmStatus({
           invite_token: params.get('invite_token'),
-          language: params.get('language'),
         }),
       );
     } else {

@@ -90,6 +90,7 @@ class emailTokenModel extends Model {
         token = await createToken('invite', {
           ...user,
           ...userFarm,
+          language_preference: user.language_preference,
           invitation_id: emailToken.invitation_id,
         });
       } else {
@@ -105,6 +106,7 @@ class emailTokenModel extends Model {
         token = await createToken('invite', {
           ...user,
           ...userFarm,
+          language_preference: user.language_preference,
           invitation_id: emailToken.invitation_id,
         });
       }
@@ -121,7 +123,7 @@ class emailTokenModel extends Model {
       user.email,
       {
         sender,
-        buttonLink: `/callback/?invite_token=${token}&language=${user.language_preference}`,
+        buttonLink: `/callback/?invite_token=${token}`,
       },
     );
   }

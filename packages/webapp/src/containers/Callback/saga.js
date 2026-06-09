@@ -50,7 +50,7 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
 export function* patchUserFarmStatusSaga({ payload }) {
-  const { invite_token, language } = payload;
+  const { invite_token } = payload;
   try {
     const result = yield call(
       axios.patch,
@@ -65,17 +65,23 @@ export function* patchUserFarmStatusSaga({ payload }) {
     const { user: userFarm, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', userFarm.language_preference);
-    i18n.changeLanguage(userFarm.language_preference);
+    const requestedLang = getLanguageFromLocalStorage();
+    const targetLang = i18n.options.supportedLngs?.includes(requestedLang) ? requestedLang : 'en';
+    if (i18n.language !== targetLang) {
+      i18n.changeLanguage(targetLang);
+    }
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
     yield put(startInvitationFlow(userFarm.farm_id));
     history.push('/consent');
   } catch (e) {
     if (e?.response?.status === 404) {
-      // and message === 'user does not exist
-      console.log(e);
+      // user does not exist yet; the invite token carries the sender's selected language
+      const language = decodeToken(invite_token)?.language_preference || 'en';
       localStorage.setItem('litefarm_lang', language);
-      i18n.changeLanguage(language);
+      if (i18n.language !== language) {
+        i18n.changeLanguage(language);
+      }
       history.push('/accept_invitation/sign_up', invite_token);
     } else if (e?.response?.status === 401) {
       const { email: currentEmail } = yield select(userFarmSelector);

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,18 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { api } from './apiSlice';
-import { weatherUrl } from '../../apiConfig';
-import { WeatherForecast } from './types';
-
-export const weatherApi = api.injectEndpoints({
-  endpoints: (build) => ({
-    getWeatherForecast: build.query<WeatherForecast, void>({
-      query: () => `${weatherUrl}`,
-      providesTags: ['Weather'],
-      keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
-    }),
-  }),
-});
-
-export const { useGetWeatherForecastQuery } = weatherApi;
+.banner {
+  width: 100%;
+  padding: 4px 8px;
+  background: var(--Accent-red-lighter);
+  color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
-import WeatherBoard from '../../containers/WeatherBoard';
+import WeatherForecast from '../../containers/WeatherForecast';
 import PureHome from '../../components/Home';
 import { userFarmSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +48,7 @@ export default function Home() {
     >
       <FarmNotes />
 
-      {/* {userFarm ? <WeatherBoard /> : null} */}
+      {userFarm ? <WeatherForecast /> : null}
       {userFarm ? <ProfitabilityWidget /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 

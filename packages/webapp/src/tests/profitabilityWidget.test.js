@@ -495,7 +495,7 @@ describe('aggregateByEntity', () => {
 
   test('animals tab produces separate total rows for different types', () => {
     const mixedAnimals = [
-      { id: 50, name: 'Bessie', identifier: null, default_type_id: 1 },
+      { id: 50, name: 'Bessie', identifier: 123, default_type_id: 1 },
       { id: 70, name: 'Dolly', identifier: null, custom_type_id: 10 },
     ];
     const mixedSales = [
@@ -524,7 +524,7 @@ describe('aggregateByEntity', () => {
     // 2 individuals + 2 type totals
     expect(rows).toHaveLength(4);
     const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
-    expect(byId.animal_50).toMatchObject({ isTotal: false, label: 'Bessie', revenue: 200 });
+    expect(byId.animal_50).toMatchObject({ isTotal: false, label: 'Bessie | 123', revenue: 200 });
     expect(byId.animal_70).toMatchObject({ isTotal: false, label: 'Dolly', revenue: 150 });
     expect(byId.default_type_1).toMatchObject({
       isTotal: true,

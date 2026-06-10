@@ -21,26 +21,13 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { getExpense, getFarmExpenseType } from '../../Finances/actions';
 import { getRevenueTypes, getSales } from '../../Finances/saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
-import ProfitabilityDateRangeSelector from '../../../components/ProfitabilityWidget/ProfitabilityDateRangeSelector';
-import CallToActionBanner from '../../../components/ProfitabilityWidget/CallToActionBanner';
-import EntityProfitTable from '../../../components/ProfitabilityWidget/EntityProfitTable';
-import ExpandableSection from '../../../components/ProfitabilityWidget/ExpandableSection';
-import KpiSection from '../../../components/ProfitabilityWidget/KpiSection';
-import ProfitabilityWidgetSkeleton, {
-  EntityProfitTableSkeleton,
-} from '../../../components/ProfitabilityWidget/ProfitabilityWidgetSkeleton';
-import RevenueExpenseBars from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
+import PureProfitabilityWidget from '../../../components/ProfitabilityWidget';
 import type { GroupBar } from '../../../components/ProfitabilityWidget/RevenueExpenseBars';
+import type { EntityProfitTableRow } from '../../../components/ProfitabilityWidget/EntityProfitTable';
 import { CtaVariant, EntityTab } from '../../../components/ProfitabilityWidget/constants';
 import { DateRangeData } from '../../../components/DateRangeSelector/types';
 import useProfitabilityData from './useProfitabilityData';
 import useProfitabilityDateRange from './useProfitabilityDateRange';
-import styles from './styles.module.scss';
-
-const formatCurrencyValue = (symbol: string, value: number): string => {
-  const sign = value < 0 ? '-' : '';
-  return `${sign}${symbol}${Math.abs(value).toFixed(2)}`;
-};
 
 const ProfitabilityWidget = () => {
   const dispatch = useDispatch();
@@ -67,10 +54,6 @@ const ProfitabilityWidget = () => {
     dispatch(getFarmExpenseType());
   }, [dispatch]);
 
-  if (data.isLoading) {
-    return <ProfitabilityWidgetSkeleton />;
-  }
-
   const dateRange: DateRangeData = {
     option,
     startDate,
@@ -78,52 +61,27 @@ const ProfitabilityWidget = () => {
     customRange,
   };
 
-  const header = (
-    <div className={styles.widgetHeader}>
-      <h2 className={styles.widgetTitle}>{t('WIDGET_TITLE')}</h2>
-      <ProfitabilityDateRangeSelector
-        dateRange={dateRange}
-        updateDateRange={updateDateRange}
-        availableYears={availableYears}
-        className={styles.dateRangeTrigger}
-      />
-    </div>
-  );
-
   const ctaVariant: CtaVariant = data.isEmpty
     ? 'noTransactions'
     : data.hasAttributions
       ? 'default'
       : 'noAttributions';
 
-  if (data.isEmpty) {
-    return (
-      <div className={styles.widget}>
-        {header}
-        <ProfitabilityWidgetSkeleton />
-        <CallToActionBanner
-          variant={ctaVariant}
-          onAddTransactions={() => history.push(FINANCES_HOME_URL)}
-        />
-      </div>
-    );
-  }
-
-  const localisedRevenueTypes: GroupBar[] = data.topRevenueTypes.map((type) => ({
+  const revenueGroups: GroupBar[] = data.topRevenueTypes.map((type) => ({
     id: type.id,
     label: type.labelKey ? t(type.labelKey) : type.label,
     total: type.total,
     percentOfTotal: type.percentOfTotal,
   }));
 
-  const localisedExpenseCategories: GroupBar[] = data.topExpenseCategories.map((category) => ({
+  const expenseCategories: GroupBar[] = data.topExpenseCategories.map((category) => ({
     id: category.id,
     label: category.labelKey ? t(category.labelKey) : category.label,
     total: category.total,
     percentOfTotal: category.percentOfTotal,
   }));
 
-  const tableRows = data.entityRows
+  const tableRows: EntityProfitTableRow[] = data.entityRows
     .map((row) => {
       let label = row.label;
       let isTotal = false;
@@ -156,52 +114,28 @@ const ProfitabilityWidget = () => {
     });
 
   return (
-    <div className={styles.widget}>
-      {header}
-
-      <KpiSection
-        expanded={isExpanded}
-        netProfit={{
-          value: formatCurrencyValue(currencySymbol, data.kpis.netProfit),
-          ...(data.yoyTrend && {
-            trend: {
-              percent: data.yoyTrend.percent,
-              direction: data.yoyTrend.direction,
-            },
-          }),
-        }}
-        totalRevenue={formatCurrencyValue(currencySymbol, data.kpis.totalRevenue)}
-        totalExpenses={formatCurrencyValue(currencySymbol, data.kpis.totalExpenses)}
-        margin={`${data.kpis.margin}%`}
-      />
-
-      <ExpandableSection isExpanded={isExpanded} onToggle={() => setIsExpanded((prev) => !prev)}>
-        <div className={styles.expandableBodyContent}>
-          <RevenueExpenseBars
-            revenueGroups={localisedRevenueTypes}
-            expenseCategories={localisedExpenseCategories}
-            formatValue={(v) => formatCurrencyValue(currencySymbol, v)}
-          />
-          {data.hasAttributions ? (
-            <EntityProfitTable
-              rows={tableRows}
-              entityTab={entityTab}
-              onTabChange={setEntityTab}
-              currencySymbol={currencySymbol}
-              hasCropVarieties={data.hasCropVarieties}
-              hasAnimals={data.hasAnimals}
-            />
-          ) : (
-            <EntityProfitTableSkeleton entityTab={entityTab} onTabChange={setEntityTab} />
-          )}
-        </div>
-      </ExpandableSection>
-
-      <CallToActionBanner
-        variant={ctaVariant}
-        onAddTransactions={() => history.push(FINANCES_HOME_URL)}
-      />
-    </div>
+    <PureProfitabilityWidget
+      isLoading={data.isLoading}
+      isEmpty={data.isEmpty}
+      ctaVariant={ctaVariant}
+      hasAttributions={data.hasAttributions}
+      hasCropVarieties={data.hasCropVarieties}
+      hasAnimals={data.hasAnimals}
+      kpis={data.kpis}
+      yoyTrend={data.yoyTrend}
+      revenueGroups={revenueGroups}
+      expenseCategories={expenseCategories}
+      tableRows={tableRows}
+      currencySymbol={currencySymbol}
+      dateRange={dateRange}
+      availableYears={availableYears}
+      updateDateRange={updateDateRange}
+      entityTab={entityTab}
+      isExpanded={isExpanded}
+      onTabChange={setEntityTab}
+      onToggleExpand={() => setIsExpanded((prev) => !prev)}
+      onAddTransactions={() => history.push(FINANCES_HOME_URL)}
+    />
   );
 };
 

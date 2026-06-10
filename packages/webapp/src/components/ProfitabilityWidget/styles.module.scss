@@ -15,6 +15,55 @@
 
 @use '@assets/mixin' as *;
 
+/* ── Widget shell ───────────────────────────────────────── */
+
+.widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--White);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(102, 115, 138, 0.12);
+}
+
+.widgetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  // Mobile: the date selector drops below the title and spans the full width.
+  @include xs-breakpoint {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+}
+
+.widgetTitle {
+  margin: 0;
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+.dateRangeTrigger {
+  max-width: 240px;
+
+  @include xs-breakpoint {
+    max-width: none;
+  }
+}
+
+.expandableBodyContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 /* ── KpiSection ─────────────────────────────────────────── */
 
 .kpiSection {
@@ -429,17 +478,28 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .ctaBannerText {
+  color: var(--Colors-Neutral-Neutral-900);
   font-size: 14px;
-  color: #000;
+  line-height: 18px;
+  letter-spacing: 0.4px;
   text-align: start;
 }
 
 .ctaBannerAction {
   flex-shrink: 0;
   white-space: nowrap;
+
+  @include xs-breakpoint {
+    align-self: center;
+  }
 }
 
 /* ── Skeleton (Empty State) ─────────────────────────────── */

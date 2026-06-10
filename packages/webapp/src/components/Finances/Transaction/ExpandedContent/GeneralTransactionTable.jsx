@@ -19,20 +19,19 @@ import { TableKind } from '../../../Table/types';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 
 const formatData = (t, data) => {
-  const formattedData = {
-    [transactionTypeEnum.revenue]: {
+  if (data.transactionType === transactionTypeEnum.revenue) {
+    return {
       titleLabel: t('FINANCES.REVENUE'),
       amountLabel: t('common:AMOUNT'),
       tableData: data.items,
-    },
-    [transactionTypeEnum.expense]: {
-      titleLabel: t('FINANCES.EXPENSES'),
-      amountLabel: t('FINANCES.COST'),
-      tableData: [{ title: data.note, amount: data.amount }],
-    },
-  };
+    };
+  }
 
-  return formattedData[data.transactionType];
+  return {
+    titleLabel: t('FINANCES.EXPENSES'),
+    amountLabel: t('FINANCES.COST'),
+    tableData: data.items,
+  };
 };
 
 const getColumns = (mobileView, currencySymbol, titleLabel, amountLabel) => [
@@ -48,7 +47,10 @@ const getColumns = (mobileView, currencySymbol, titleLabel, amountLabel) => [
     id: 'amount',
     label: amountLabel,
     align: 'right',
-    format: (d) => currencySymbol + Math.abs(d.amount).toFixed(2),
+    format: (d) => {
+      const sign = d.amount < 0 ? '-' : '';
+      return sign + currencySymbol + Math.abs(d.amount).toFixed(2);
+    },
     columnProps: {
       style: { width: '150px', paddingRight: `${mobileView ? 9 : 75}px` },
     },

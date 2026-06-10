@@ -28,7 +28,13 @@ import { userFarmsByFarmSelector } from '../userFarmSlice';
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../store/api/apiSlice';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { allExpenseTypeSelector, expenseSelector, salesSelector } from './selectors';
-import { isAnimalSale, isCropSale, mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
+import {
+  isAnimalSale,
+  isCropSale,
+  mapSalesToRevenueItems,
+  mapTasksToLabourItems,
+  generateExpenseItems,
+} from './util';
 
 export const transactionTypeEnum = {
   expense: 'EXPENSE',
@@ -104,7 +110,15 @@ const getRevenueTypeLabel = (revenueType) => {
     : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`);
 };
 
-const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseTypeFilter }) => {
+const buildExpenseTransactions = ({
+  expenses,
+  expenseTypes,
+  dateFilter,
+  expenseTypeFilter,
+  cropVarieties,
+  animals,
+  animalBatches,
+}) => {
   return expenses
     .filter(
       (expense) =>
@@ -118,13 +132,14 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         (expenseType) => expenseType?.expense_type_id === expense.expense_type_id,
       );
       return {
-        icon: expenseType?.farm_id ? 'OTHER' : (expenseType?.expense_translation_key ?? 'OTHER'),
+        icon: expenseType?.farm_id ? 'OTHER' : expenseType?.expense_translation_key ?? 'OTHER',
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
         typeLabel: getExpenseTypeLabel(expenseType),
         amount: -roundToTwoDecimal(expense.value),
         note: expense.note,
         relatedId: expense.farm_expense_id,
+        items: generateExpenseItems(expense, cropVarieties, animals, animalBatches),
       };
     });
 };
@@ -168,7 +183,7 @@ const buildRevenueTransactions = ({
       (revenueType) => revenueType?.revenue_type_id == item.sale.revenue_type_id,
     );
     return {
-      icon: revenueType?.farm_id ? 'CUSTOM' : (revenueType?.revenue_translation_key ?? 'CUSTOM'),
+      icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key ?? 'CUSTOM',
       date: item.sale.sale_date,
       transactionType: getRevenueTransactionType(revenueType),
       typeLabel: getRevenueTypeLabel(revenueType),
@@ -203,7 +218,15 @@ export const buildTransactions = ({
       dateFilter,
       expenseTypeFilter,
     }),
-    ...buildExpenseTransactions({ expenses, expenseTypes, dateFilter, expenseTypeFilter }),
+    ...buildExpenseTransactions({
+      expenses,
+      expenseTypes,
+      dateFilter,
+      expenseTypeFilter,
+      cropVarieties,
+      animals,
+      animalBatches,
+    }),
     ...buildRevenueTransactions({
       sales,
       revenueTypes,

@@ -1104,6 +1104,7 @@
       "REVENUE_TYPES": "Search revenue type"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "Amount unattributed",
       "ANIMALS": "Animals",
       "CROPS": "Crops",
       "DAILY_TOTAL": "DAILY TOTAL",

@@ -4,7 +4,7 @@ import { getSeason } from './utils/season';
 import WeatherForecast from '../../containers/WeatherForecast';
 import ProfitabilityWidget from './ProfitabilityWidget';
 import PureHome from '../../components/Home';
-import { userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import {
   chooseFarmFlowSelector,
@@ -30,6 +30,7 @@ export default function Home() {
   const { mediaUrl: authenticatedImageUrl, isLoading } = useMediaWithAuthentication({
     fileUrls: [userFarm.farm_image_url],
   });
+  const isAdmin = useSelector(isAdminSelector);
 
   const { refetch: refetchSensors } = useGetSensorsQuery();
 
@@ -54,7 +55,7 @@ export default function Home() {
       <FarmNotes />
 
       {userFarm ? <WeatherForecast /> : null}
-      {userFarm ? <ProfitabilityWidget /> : null}
+      {userFarm && isAdmin ? <ProfitabilityWidget /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
       {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}

@@ -96,19 +96,15 @@ export default function useProfitabilityData({
     return { startDate, endDate };
   }, [startDate, endDate]);
 
-  // isLoading mirrors the gate used by useTransactions: until the type
-  // lookups arrive we cannot resolve labels or KPI buckets.
+  // mirrors the early return in useTransactions; until types arrive we
+  // cannot resolve labels or KPI buckets
   const isLoading = !revenueTypes?.length || !expenseTypes?.length;
 
   // isEmpty is a property of the farm, not the date range: it is true when
-  // the farm has never recorded a sale or expense. A farm with old
-  // transactions outside the selected range still sees real $0 KPIs, not the
-  // CTA banner — only farms that have not yet used the Finances module at
-  // all get the skeletoned empty state. Labour-from-tasks is intentionally
-  // ignored because the CTA links to Finances, not the Task module.
+  // the farm has never recorded a sale or expense
   const isEmpty = (sales?.length ?? 0) === 0 && (expenses?.length ?? 0) === 0;
 
-  // For the empty state "you have no <entities>" message on EntityProfitTable
+  // for the "you have no <entities>" message on EntityProfitTable
   const hasCropVarieties = (cropVarieties?.length ?? 0) > 0;
   const hasAnimals = (animals?.length ?? 0) + (animalBatches?.length ?? 0) > 0;
 

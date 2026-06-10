@@ -43,7 +43,7 @@ export default function Home() {
     <PureHome
       first_name={userFarm?.first_name}
       farmName={userFarm?.farm_name}
-      // Note: image is not currently used but should be restored in some way in the final design
+      // imgUrl not currently used but should be restored in the final design
       imgUrl={authenticatedImageUrl || (isLoading ? '' : defaultImageUrl)}
       date={getLocalizedDateString(new Date(), {
         weekday: 'long',

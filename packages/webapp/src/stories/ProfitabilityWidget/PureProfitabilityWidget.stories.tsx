@@ -128,8 +128,6 @@ const Wrapper = ({
   const [entityTab, setEntityTab] = useState(EntityTab.CROPS);
   const [isExpanded, setIsExpanded] = useState(initialExpanded);
 
-  // Mirrors the container's ctaVariant derivation so the banner copy matches
-  // the data state shown.
   const ctaVariant: CtaVariant = isEmpty
     ? 'noTransactions'
     : hasAttributions
@@ -168,11 +166,8 @@ export const Collapsed: Story = { render: () => <Wrapper initialExpanded={false}
 
 export const Loading: Story = { render: () => <Wrapper isLoading /> };
 
-// Farm that has never recorded a sale or expense: header + skeleton + CTA.
 export const NoTransactions: Story = { render: () => <Wrapper isEmpty /> };
 
-// Farm with transactions but none attributed to a crop or animal: the entity
-// table is replaced by its skeleton and the CTA nudges toward attribution.
 export const NoAttributions: Story = { render: () => <Wrapper hasAttributions={false} /> };
 
 export const Mobile: Story = {

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherForecast from '../../containers/WeatherForecast';
+import ProfitabilityWidget from './ProfitabilityWidget';
 import PureHome from '../../components/Home';
 import { userFarmSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +13,6 @@ import {
   endSwitchFarmModal,
   switchFarmSelector,
 } from '../ChooseFarm/chooseFarmFlowSlice';
-
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
@@ -48,6 +48,7 @@ export default function Home() {
       <FarmNotes />
 
       {userFarm ? <WeatherForecast /> : null}
+      {userFarm ? <ProfitabilityWidget /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
       {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}

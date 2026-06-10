@@ -256,7 +256,7 @@ export function topNRevenueTypes(
     const isCustom = type.farm_id !== null;
     categories.push({
       id: `revenue_${typeId}`,
-      label: isCustom ? type.revenue_name ?? '' : '',
+      label: isCustom ? (type.revenue_name ?? '') : '',
       labelKey: isCustom ? null : `revenue:${type.revenue_translation_key}.REVENUE_NAME`,
       total,
     });
@@ -315,7 +315,7 @@ export function hasAttributedExpense(expenses: any[] | undefined, dateFilter: Da
  * For custom expense types, `label` is the user-supplied `expense_name` and
  * `labelKey` is `null`. For system expense types, `label` is empty and
  * `labelKey` is the i18n key (e.g. `'expense:SEEDS.EXPENSE_NAME'`). For
- * labour, `labelKey` is `'SALE.FINANCES.LABOUR_LABEL'`.
+ * labour, `labelKey` is `'translation:SALE.FINANCES.LABOUR_LABEL'`.
  */
 export function topNExpenseCategories(
   expenses: any[] | undefined,
@@ -355,7 +355,7 @@ export function topNExpenseCategories(
     const isCustom = type.farm_id !== null;
     categories.push({
       id: `expense_${typeId}`,
-      label: isCustom ? type.expense_name ?? '' : '',
+      label: isCustom ? (type.expense_name ?? '') : '',
       labelKey: isCustom ? null : `expense:${type.expense_translation_key}.EXPENSE_NAME`,
       total,
     });
@@ -366,7 +366,7 @@ export function topNExpenseCategories(
     categories.push({
       id: 'labour',
       label: '',
-      labelKey: 'SALE.FINANCES.LABOUR_LABEL',
+      labelKey: 'translation:SALE.FINANCES.LABOUR_LABEL',
       total: labourTotal,
     });
   }

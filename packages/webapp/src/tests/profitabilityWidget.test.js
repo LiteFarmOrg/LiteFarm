@@ -412,7 +412,7 @@ describe('topNExpenseCategories', () => {
     const labour = result.find((r) => r.id === 'labour');
     expect(seeds).toMatchObject({ label: '', labelKey: 'expense:SEEDS.EXPENSE_NAME' });
     expect(diesel).toMatchObject({ label: 'Diesel', labelKey: null });
-    expect(labour).toMatchObject({ label: '', labelKey: 'SALE.FINANCES.LABOUR_LABEL' });
+    expect(labour).toMatchObject({ label: '', labelKey: 'translation:SALE.FINANCES.LABOUR_LABEL' });
   });
 
   test('truncates to top N', () => {

@@ -164,7 +164,7 @@ export const generateExpenseItems = (expense, cropVarieties, animals, animalBatc
     return farm_expense_animal.map((animalExpense) => {
       return {
         title: getAnimalBatchLabel(animalExpense, animals, animalBatches),
-        amount: animalExpense.allocated_value,
+        amount: -animalExpense.allocated_value,
       };
     });
   }
@@ -174,7 +174,7 @@ export const generateExpenseItems = (expense, cropVarieties, animals, animalBatc
       const cropVariety = cropVarieties.find(
         (cropVariety) => cropVariety.crop_variety_id === crop_variety_id,
       );
-      return { title: formatCropVarietyLabel(cropVariety), amount: allocated_value };
+      return { title: formatCropVarietyLabel(cropVariety), amount: -allocated_value };
     });
   }
 

@@ -263,7 +263,7 @@ export function topNRevenueTypes(
   }
 
   categories.sort((a, b) => b.total - a.total);
-  return withPercentOfTotal(categories.slice(0, n));
+  return withPercentOfTotal(categories).slice(0, n);
 }
 
 /**
@@ -372,7 +372,7 @@ export function topNExpenseCategories(
   }
 
   categories.sort((a, b) => b.total - a.total);
-  return withPercentOfTotal(categories.slice(0, n));
+  return withPercentOfTotal(categories).slice(0, n);
 }
 
 interface AggregateByEntityInput {

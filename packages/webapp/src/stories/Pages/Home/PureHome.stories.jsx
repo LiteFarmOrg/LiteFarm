@@ -13,10 +13,9 @@ const Template = (args) => <PureHome {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  greeting: 'Good morning,',
-  first_name: ' User Name',
-  imgUrl:
-    'https://res.cloudinary.com/dfxanglyc/image/upload/v1552774058/portfolio/1024px-Nail___Gear.svg.png',
+  first_name: 'User Name',
+  farmName: 'Sunrise Farm',
+  date: 'Sunday 6 Apr 2026',
 };
 Default.parameters = {
   ...chromaticSmallScreen,

@@ -5,7 +5,6 @@ import WeatherForecast from '../../containers/WeatherForecast';
 import ProfitabilityWidget from './ProfitabilityWidget';
 import PureHome from '../../components/Home';
 import { userFarmSelector } from '../userFarmSlice';
-import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import {
   chooseFarmFlowSelector,
@@ -18,9 +17,9 @@ import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import FarmNotes from '../FarmNotes';
+import { getLocalizedDateString } from '../../util/moment';
 
 export default function Home() {
-  const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const defaultImageUrl = getSeason(userFarm?.grid_points?.lat);
   const { showSpotLight, showExportModal } = useSelector(chooseFarmFlowSelector);
@@ -41,9 +40,16 @@ export default function Home() {
 
   return (
     <PureHome
-      greeting={t('HOME.GREETING')}
       first_name={userFarm?.first_name}
+      farmName={userFarm?.farm_name}
+      // Note: image is not currently used but should be restored in some way in the final design
       imgUrl={authenticatedImageUrl || (isLoading ? '' : defaultImageUrl)}
+      date={getLocalizedDateString(new Date(), {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })}
     >
       <FarmNotes />
 

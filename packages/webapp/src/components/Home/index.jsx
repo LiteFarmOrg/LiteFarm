@@ -1,22 +1,27 @@
-import styles from './home.module.scss';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import React from 'react';
+import styles from './home.module.scss';
 
-export default function PureHome({ greeting, first_name, children, imgUrl }) {
+export default function PureHome({ first_name, farmName, date, children }) {
+  const { t } = useTranslation();
+
   return (
-    <div className={styles.container} style={{ backgroundImage: `url("${imgUrl}")` }}>
-      <h3 className={styles.title}>
-        {greeting}
-        <br />
-        {first_name}
-      </h3>
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <h1 className={styles.greeting}>
+          {t('HOME.GREETING')}
+          {first_name}
+        </h1>
+        <p className={styles.subtitle}>{`${farmName} - ${date}`}</p>
+      </header>
       {children}
     </div>
   );
 }
 
-PureHome.prototype = {
-  greeting: PropTypes.string,
+PureHome.propTypes = {
   first_name: PropTypes.string,
-  onClick: PropTypes.func,
+  farmName: PropTypes.string,
+  date: PropTypes.string,
+  children: PropTypes.node,
 };

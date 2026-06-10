@@ -181,7 +181,7 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
     return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
   };
 
-  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks } =
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasAssociatedRecords } =
     useAnimalOrBatchRemoval(
       [getInventoryId()],
       [{ ...(selectedAnimal || selectedBatch)!, id: getInventoryId() }],
@@ -247,7 +247,7 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
           onClose={() => setRemovalModalOpen(false)}
           onConfirm={onConfirmRemoval}
           showSuccessMessage={false}
-          hideDeleteOption={hasFinalizedTasks}
+          hideDeleteOption={hasAssociatedRecords}
         />
       </FixedHeaderContainer>
     </div>

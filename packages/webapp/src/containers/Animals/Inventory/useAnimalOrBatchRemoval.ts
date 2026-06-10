@@ -32,6 +32,22 @@ import { completedTasksSelector, abandonedTasksSelector } from '../../taskSlice'
 import { Animal, AnimalBatch } from '../../../store/api/types';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { getTasks } from '../../Task/saga';
+import { expenseSelector, salesSelector } from '../../Finances/selectors';
+
+interface RecordWithAnimalOrBatch {
+  animal_id: number | null;
+  animal_batch_id: number | null;
+}
+
+const getInventoryId = ({ animal_id, animal_batch_id }: RecordWithAnimalOrBatch) => {
+  if (animal_id) {
+    return `ANIMAL_${animal_id}`;
+  }
+  if (animal_batch_id) {
+    return `BATCH_${animal_batch_id}`;
+  }
+  return null;
+};
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
@@ -42,6 +58,8 @@ const useAnimalOrBatchRemoval = (
   const { t } = useTranslation(['message']);
   const completedTasks = useSelector(completedTasksSelector) || [];
   const abandonedTasks = useSelector(abandonedTasksSelector) || [];
+  const sales = useSelector(salesSelector);
+  const expenses = useSelector(expenseSelector);
 
   const { mutations } = useMutations([
     { label: 'deleteAnimals', hook: useDeleteAnimalsMutation },
@@ -199,7 +217,25 @@ const useAnimalOrBatchRemoval = (
     });
   }, [removalModalOpen, completedTasks, abandonedTasks, selectedInventoryIds]);
 
-  return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks };
+  const inventoryIdsWithFinanceItems = useMemo(() => {
+    const financeItems = [
+      ...sales.flatMap(({ animal_sale = [] }) => animal_sale),
+      ...expenses.flatMap(({ farm_expense_animal = [] }) => farm_expense_animal),
+    ];
+    const ids = financeItems.map(getInventoryId).filter(Boolean);
+    return new Set(ids);
+  }, [sales, expenses]);
+
+  const hasAssociatedFinanceItems = selectedInventoryIds.some((id) =>
+    inventoryIdsWithFinanceItems.has(id),
+  );
+
+  return {
+    onConfirmRemoveAnimals,
+    removalModalOpen,
+    setRemovalModalOpen,
+    hasAssociatedRecords: hasFinalizedTasks || hasAssociatedFinanceItems,
+  };
 };
 
 export default useAnimalOrBatchRemoval;

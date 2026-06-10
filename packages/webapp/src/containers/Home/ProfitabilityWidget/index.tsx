@@ -45,7 +45,7 @@ const formatCurrencyValue = (symbol: string, value: number): string => {
 const ProfitabilityWidget = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { t, i18n } = useTranslation(['profitability', 'animal']);
+  const { t } = useTranslation(['profitability', 'animal']);
   const currencySymbol = useCurrencySymbol();
 
   const [entityTab, setEntityTab] = useState<EntityTab>(EntityTab.CROPS);
@@ -146,13 +146,13 @@ const ProfitabilityWidget = () => {
         netProfit: row.netProfit,
       };
     })
-    // Individuals sort above totals; each tier is alphabetised by its
-    // localised label.
+    // Sort total rows to the bottom, then alphabetically by label
+    // (total rows are already pinned to bottom in table, but not mobile list)
     .sort((a, b) => {
       if (a.isTotal !== b.isTotal) {
         return a.isTotal ? 1 : -1;
       }
-      return a.label.localeCompare(b.label, i18n.language);
+      return a.label.localeCompare(b.label);
     });
 
   return (

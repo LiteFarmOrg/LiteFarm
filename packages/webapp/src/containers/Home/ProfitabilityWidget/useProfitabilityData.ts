@@ -37,7 +37,6 @@ import {
   aggregateByEntity,
   calcKpis,
   calcYoYTrend,
-  getAvailableYears,
   hasAttributedExpense,
   hasAttributedRevenue,
   topNExpenseCategories,
@@ -61,7 +60,6 @@ export interface UseProfitabilityDataResult {
   hasAttributions: boolean;
   topExpenseCategories: ExpenseCategoryBar[];
   entityRows: EntityProfitRow[];
-  availableYears: number[];
   isEmpty: boolean;
   hasCropVarieties: boolean;
   hasAnimals: boolean;
@@ -118,7 +116,7 @@ export default function useProfitabilityData({
   const hasCropVarieties = (cropVarieties?.length ?? 0) > 0;
   const hasAnimals = (animals?.length ?? 0) + (animalBatches?.length ?? 0) > 0;
 
-  const computed = useMemo(() => {
+  const dateRangeResults = useMemo(() => {
     if (isLoading || !dateFilter) {
       return {
         kpis: EMPTY_KPIS,
@@ -127,7 +125,6 @@ export default function useProfitabilityData({
         hasAttributions: false,
         topExpenseCategories: [] as ExpenseCategoryBar[],
         entityRows: [] as EntityProfitRow[],
-        availableYears: [] as number[],
       };
     }
 
@@ -161,8 +158,6 @@ export default function useProfitabilityData({
       dateFilter,
       entityTab,
     });
-    const availableYears = getAvailableYears(sales ?? [], expenses ?? [], tasks ?? []);
-
     return {
       kpis,
       yoyTrend,
@@ -170,7 +165,6 @@ export default function useProfitabilityData({
       hasAttributions: hasAttributionsResult,
       topExpenseCategories: topExpenseCategoriesResult,
       entityRows,
-      availableYears,
     };
     // The user/taskTypes selectors are read for shape parity with
     // useTransactions; they're not consumed by the pure aggregation utils
@@ -195,7 +189,7 @@ export default function useProfitabilityData({
   ]);
 
   return {
-    ...computed,
+    ...dateRangeResults,
     isEmpty,
     hasCropVarieties,
     hasAnimals,

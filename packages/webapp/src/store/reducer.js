@@ -61,6 +61,7 @@ import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
+import profitabilityWidgetReducer from '../containers/Home/ProfitabilityWidget/slice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
@@ -226,6 +227,7 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
+  profitabilityWidgetReducer,
   mapLocationReducer,
   hookFormPersistReducer,
   filterReducer,

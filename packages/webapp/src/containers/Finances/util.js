@@ -85,6 +85,16 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
   return [];
 }
 
+export function filterExpensesByDateRange(expenses, startDate, endDate) {
+  if (!expenses || !Array.isArray(expenses)) {
+    return [];
+  }
+  return expenses.filter((expense) => {
+    const date = moment(expense.expense_date);
+    return date.isSameOrAfter(startDate, 'day') && date.isSameOrBefore(endDate, 'day');
+  });
+}
+
 export function calcActualRevenue(transactions) {
   return transactions
     .filter(

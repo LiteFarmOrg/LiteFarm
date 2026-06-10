@@ -160,25 +160,40 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
 export const generateExpenseItems = (expense, cropVarieties, animals, animalBatches) => {
   const { farm_expense_animal, farm_expense_crop_variety } = expense;
 
-  if (farm_expense_animal?.length > 0) {
-    return farm_expense_animal.map((animalExpense) => {
-      return {
-        title: getAnimalBatchLabel(animalExpense, animals, animalBatches),
-        amount: -animalExpense.allocated_value,
-      };
-    });
+  if (!farm_expense_animal?.length && !farm_expense_crop_variety?.length) {
+    return [{ title: expense.note, amount: -expense.value }];
   }
 
-  if (farm_expense_crop_variety?.length > 0) {
-    return farm_expense_crop_variety.map(({ crop_variety_id, allocated_value }) => {
+  const items = [];
+  let sum = 0;
+
+  if (farm_expense_animal?.length > 0) {
+    farm_expense_animal.forEach((animalExpense) => {
+      items.push({
+        title: getAnimalBatchLabel(animalExpense, animals, animalBatches),
+        amount: -animalExpense.allocated_value,
+      });
+      sum += animalExpense.allocated_value;
+    });
+  } else {
+    farm_expense_crop_variety.forEach(({ crop_variety_id, allocated_value }) => {
       const cropVariety = cropVarieties.find(
         (cropVariety) => cropVariety.crop_variety_id === crop_variety_id,
       );
-      return { title: formatCropVarietyLabel(cropVariety), amount: -allocated_value };
+      items.push({ title: formatCropVarietyLabel(cropVariety), amount: -allocated_value });
+      sum += allocated_value;
     });
   }
 
-  return [{ title: expense.note, amount: -roundToTwoDecimal(expense.value) }];
+  const unAllocatedAmount = expense.value - sum;
+  if (unAllocatedAmount) {
+    items.push({
+      title: i18n.t('FINANCES.TRANSACTION.AMOUNT_UNATTRIBUTED'),
+      amount: -unAllocatedAmount,
+    });
+  }
+
+  return items;
 };
 
 export const mapSalesToRevenueItems = (

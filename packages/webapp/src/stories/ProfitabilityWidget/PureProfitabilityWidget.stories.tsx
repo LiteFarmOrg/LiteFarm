@@ -126,7 +126,6 @@ const Wrapper = ({
   initialExpanded = true,
 }: WrapperArgs) => {
   const [entityTab, setEntityTab] = useState(EntityTab.CROPS);
-  const [isExpanded, setIsExpanded] = useState(initialExpanded);
 
   const ctaVariant: CtaVariant = isEmpty
     ? 'noTransactions'
@@ -152,9 +151,8 @@ const Wrapper = ({
       availableYears={[2025, 2024, 2023]}
       updateDateRange={() => {}}
       entityTab={entityTab}
-      isExpanded={isExpanded}
+      defaultExpanded={initialExpanded}
       onTabChange={setEntityTab}
-      onToggleExpand={() => setIsExpanded((prev) => !prev)}
       onAddTransactions={() => {}}
     />
   );

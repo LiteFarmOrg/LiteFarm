@@ -36,7 +36,6 @@ const ProfitabilityWidget = () => {
   const currencySymbol = useCurrencySymbol();
 
   const [entityTab, setEntityTab] = useState<EntityTab>(EntityTab.CROPS);
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const { startDate, endDate, option, customRange, updateDateRange, availableYears } =
     useProfitabilityDateRange();
@@ -131,9 +130,7 @@ const ProfitabilityWidget = () => {
       availableYears={availableYears}
       updateDateRange={updateDateRange}
       entityTab={entityTab}
-      isExpanded={isExpanded}
       onTabChange={setEntityTab}
-      onToggleExpand={() => setIsExpanded((prev) => !prev)}
       onAddTransactions={() => history.push(FINANCES_HOME_URL)}
     />
   );

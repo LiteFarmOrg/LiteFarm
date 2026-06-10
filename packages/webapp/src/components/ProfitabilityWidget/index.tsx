@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ProfitabilityDateRangeSelector from './ProfitabilityDateRangeSelector';
 import CallToActionBanner from './CallToActionBanner';
@@ -50,9 +51,8 @@ export interface PureProfitabilityWidgetProps {
   availableYears: number[];
   updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
   entityTab: EntityTab;
-  isExpanded: boolean;
+  defaultExpanded?: boolean;
   onTabChange: (tab: EntityTab) => void;
-  onToggleExpand: () => void;
   onAddTransactions: () => void;
 }
 
@@ -73,12 +73,13 @@ const PureProfitabilityWidget = ({
   availableYears,
   updateDateRange,
   entityTab,
-  isExpanded,
+  defaultExpanded = false,
   onTabChange,
-  onToggleExpand,
   onAddTransactions,
 }: PureProfitabilityWidgetProps) => {
   const { t } = useTranslation('profitability');
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const toggleExpand = () => setIsExpanded((prev) => !prev);
 
   const formatCurrency = (value: number): string => formatCurrencyValue(currencySymbol, value);
 
@@ -123,7 +124,7 @@ const PureProfitabilityWidget = ({
         margin={`${kpis.margin}%`}
       />
 
-      <ExpandableSection isExpanded={isExpanded} onToggle={onToggleExpand}>
+      <ExpandableSection isExpanded={isExpanded} onToggle={toggleExpand}>
         <div className={styles.expandableBodyContent}>
           <RevenueExpenseBars
             revenueGroups={revenueGroups}

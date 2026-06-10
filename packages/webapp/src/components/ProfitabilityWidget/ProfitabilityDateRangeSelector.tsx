@@ -28,19 +28,19 @@ const PROFITABILITY_ALLOWED_OPTIONS: DateRangeOptions[] = [
   DateRangeOptions.CUSTOM,
 ];
 
-export interface DateRangeDropdownProps {
+export interface ProfitabilityDateRangeSelectorProps {
   dateRange: DateRangeData;
   updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
   availableYears: number[];
   className?: string;
 }
 
-const DateRangeDropdown = ({
+const ProfitabilityDateRangeSelector = ({
   dateRange,
   updateDateRange,
   availableYears,
   className,
-}: DateRangeDropdownProps) => {
+}: ProfitabilityDateRangeSelectorProps) => {
   const dynamicOptions: DynamicDateRangeOption[] = useMemo(
     () => availableYears.map(formatYearOption),
     [availableYears],
@@ -58,4 +58,4 @@ const DateRangeDropdown = ({
   );
 };
 
-export default DateRangeDropdown;
+export default ProfitabilityDateRangeSelector;

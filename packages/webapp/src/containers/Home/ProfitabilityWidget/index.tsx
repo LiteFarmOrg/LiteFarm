@@ -21,7 +21,7 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { getExpense, getFarmExpenseType } from '../../Finances/actions';
 import { getRevenueTypes, getSales } from '../../Finances/saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
-import DateRangeDropdown from '../../../components/ProfitabilityWidget/DateRangeDropdown';
+import ProfitabilityDateRangeSelector from '../../../components/ProfitabilityWidget/ProfitabilityDateRangeSelector';
 import CallToActionBanner from '../../../components/ProfitabilityWidget/CallToActionBanner';
 import EntityProfitTable from '../../../components/ProfitabilityWidget/EntityProfitTable';
 import ExpandableSection from '../../../components/ProfitabilityWidget/ExpandableSection';
@@ -81,7 +81,7 @@ const ProfitabilityWidget = () => {
   const header = (
     <div className={styles.widgetHeader}>
       <h2 className={styles.widgetTitle}>{t('WIDGET_TITLE')}</h2>
-      <DateRangeDropdown
+      <ProfitabilityDateRangeSelector
         dateRange={dateRange}
         updateDateRange={updateDateRange}
         availableYears={availableYears}

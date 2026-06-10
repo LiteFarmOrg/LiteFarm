@@ -221,7 +221,10 @@ export const mapSalesToRevenueItems = (
             );
             return {
               key: cvs.crop_variety_id,
-              title: formatCropVarietyLabel(cropVariety),
+              title: formatCropVarietyLabel({
+                crop_variety_name: cropVariety?.crop_variety_name,
+                crop_translation_key: cropVariety?.crop.crop_translation_key,
+              }),
               subtitle: `${convertedQuantity} ${quantityUnit}`,
               quantity: convertedQuantity,
               quantityUnit,

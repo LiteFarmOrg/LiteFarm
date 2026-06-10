@@ -18,8 +18,6 @@ import { useSelector } from 'react-redux';
 import { cropVarietiesSelector } from '../../cropVarietySlice';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import { tasksSelector } from '../../taskSlice';
-import { taskTypesSelector } from '../../taskTypeSlice';
-import { userFarmsByFarmSelector } from '../../userFarmSlice';
 import { allExpenseTypeSelector, expenseSelector, salesSelector } from '../../Finances/selectors';
 import {
   useGetAnimalsQuery,
@@ -85,9 +83,7 @@ export default function useProfitabilityData({
   const revenueTypes = useSelector(allRevenueTypesSelector);
   const expenseTypes = useSelector(allExpenseTypeSelector);
   const tasks = useSelector(tasksSelector);
-  const taskTypes = useSelector(taskTypesSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
-  const users = useSelector(userFarmsByFarmSelector);
   const { data: animals } = useGetAnimalsQuery();
   const { data: animalBatches } = useGetAnimalBatchesQuery();
   const { data: defaultAnimalTypes } = useGetDefaultAnimalTypesQuery();
@@ -166,10 +162,6 @@ export default function useProfitabilityData({
       topExpenseCategories: topExpenseCategoriesResult,
       entityRows,
     };
-    // The user/taskTypes selectors are read for shape parity with
-    // useTransactions; they're not consumed by the pure aggregation utils
-    // but are listed so the memo invalidates if the underlying farm switches.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isLoading,
     dateFilter,
@@ -184,8 +176,6 @@ export default function useProfitabilityData({
     defaultAnimalTypes,
     customAnimalTypes,
     entityTab,
-    taskTypes,
-    users,
   ]);
 
   return {

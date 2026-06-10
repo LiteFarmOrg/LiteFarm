@@ -15,10 +15,7 @@
 
 import moment from 'moment';
 import { chooseIdentification } from '../../Animals/utils';
-import {
-  filterSalesByDateRange as filterSalesByDateRangeImpl,
-  filterExpensesByDateRange as filterExpensesByDateRangeImpl,
-} from '../../Finances/util';
+import { filterSalesByDateRange, filterExpensesByDateRange } from '../../Finances/util';
 import { EntityTab, type TrendDirection } from '../../../components/ProfitabilityWidget/constants';
 
 export interface DateFilter {
@@ -86,13 +83,6 @@ export type EntityProfitRow =
       expense: number;
       netProfit: number;
     };
-
-/**
- * Re-exports the existing Finances helper so callers can resolve sales+expenses
- * filtering through a single utils module.
- */
-export const filterSalesByDateRange = filterSalesByDateRangeImpl;
-export const filterExpensesByDateRange = filterExpensesByDateRangeImpl;
 
 /**
  * Filters a task list to those whose effective date (completion or abandon)
@@ -266,14 +256,14 @@ export function topNRevenueTypes(
     const isCustom = type.farm_id !== null;
     categories.push({
       id: `revenue_${typeId}`,
-      label: isCustom ? (type.revenue_name ?? '') : '',
+      label: isCustom ? type.revenue_name ?? '' : '',
       labelKey: isCustom ? null : `revenue:${type.revenue_translation_key}.REVENUE_NAME`,
       total,
     });
   }
 
   categories.sort((a, b) => b.total - a.total);
-  return withPercentOfTotal(categories.slice(0, n));
+  return withPercentOfTotal(categories).slice(0, n);
 }
 
 /**
@@ -365,7 +355,7 @@ export function topNExpenseCategories(
     const isCustom = type.farm_id !== null;
     categories.push({
       id: `expense_${typeId}`,
-      label: isCustom ? (type.expense_name ?? '') : '',
+      label: isCustom ? type.expense_name ?? '' : '',
       labelKey: isCustom ? null : `expense:${type.expense_translation_key}.EXPENSE_NAME`,
       total,
     });
@@ -382,7 +372,7 @@ export function topNExpenseCategories(
   }
 
   categories.sort((a, b) => b.total - a.total);
-  return withPercentOfTotal(categories.slice(0, n));
+  return withPercentOfTotal(categories).slice(0, n);
 }
 
 interface AggregateByEntityInput {

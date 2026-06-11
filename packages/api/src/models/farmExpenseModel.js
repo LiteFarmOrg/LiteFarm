@@ -71,6 +71,20 @@ class Expense extends baseModel {
       },
     };
   }
+
+  static async getExpensesWithAnimalIds(animalIds, trx) {
+    return Expense.query(trx)
+      .joinRelated('farm_expense_animal')
+      .whereIn('farm_expense_animal.animal_id', animalIds)
+      .whereNotDeleted();
+  }
+
+  static async getExpensesWithBatchIds(batchIds, trx) {
+    return Expense.query(trx)
+      .joinRelated('farm_expense_animal')
+      .whereIn('farm_expense_animal.animal_batch_id', batchIds)
+      .whereNotDeleted();
+  }
 }
 
 export default Expense;

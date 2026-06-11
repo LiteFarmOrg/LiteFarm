@@ -17,9 +17,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import PureProfitabilityWidget from '../../components/ProfitabilityWidget';
 import type { GroupBar } from '../../components/ProfitabilityWidget/RevenueExpenseBars';
-import type { EntityProfitTableRow } from '../../components/ProfitabilityWidget/EntityProfitTable';
 import { CtaVariant, EntityTab } from '../../components/ProfitabilityWidget/constants';
-import type { KpiResult } from '../../containers/Home/ProfitabilityWidget/utils';
+import type { EntityProfitRow, KpiResult } from '../../containers/Home/ProfitabilityWidget/utils';
 import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 import { componentDecorators } from '../Pages/config/Decorators';
 
@@ -42,22 +41,26 @@ const kpis: KpiResult = {
 const yoyTrend = { percent: 12, direction: 'up' as const };
 
 const revenueGroups: GroupBar[] = [
-  { id: 'revenue_1', label: 'Crop sale', total: 30000, percentOfTotal: 71 },
-  { id: 'revenue_2', label: 'Animal sale', total: 9000, percentOfTotal: 21 },
-  { id: 'revenue_3', label: 'Custom revenue', total: 3000, percentOfTotal: 8 },
+  { id: 'revenue_1', label: 'Crop sale', labelKey: null, total: 30000, percentOfTotal: 71 },
+  { id: 'revenue_2', label: 'Animal sale', labelKey: null, total: 9000, percentOfTotal: 21 },
+  { id: 'revenue_3', label: 'Custom revenue', labelKey: null, total: 3000, percentOfTotal: 8 },
 ];
 
 const expenseCategories: GroupBar[] = [
-  { id: 'expense_1', label: 'Seeds', total: 12000, percentOfTotal: 51 },
-  { id: 'expense_2', label: 'Labour', total: 8000, percentOfTotal: 34 },
-  { id: 'expense_3', label: 'Fuel', total: 3749.25, percentOfTotal: 15 },
+  { id: 'expense_1', label: 'Seeds', labelKey: null, total: 12000, percentOfTotal: 51 },
+  { id: 'expense_2', label: 'Labour', labelKey: null, total: 8000, percentOfTotal: 34 },
+  { id: 'expense_3', label: 'Fuel', labelKey: null, total: 3749.25, percentOfTotal: 15 },
 ];
 
-const cropRows: EntityProfitTableRow[] = [
+// Crop rows carry the variety name plus a crop translation key; the table
+// joins them ("Yellow Carrot, Carrot") and re-resolves on language change.
+const cropRows: EntityProfitRow[] = [
   {
     id: 'crop_100',
     kind: 'crop',
-    label: 'Yellow Carrot, Carrot',
+    cropVarietyId: 100,
+    label: 'Yellow Carrot',
+    cropTranslationKey: 'CARROT',
     revenue: 1200,
     expense: 320,
     netProfit: 880,
@@ -65,7 +68,9 @@ const cropRows: EntityProfitTableRow[] = [
   {
     id: 'crop_101',
     kind: 'crop',
-    label: 'Red Onion, Onion',
+    cropVarietyId: 101,
+    label: 'Red Onion',
+    cropTranslationKey: 'ONION',
     revenue: 800,
     expense: 200,
     netProfit: 600,
@@ -73,17 +78,20 @@ const cropRows: EntityProfitTableRow[] = [
   {
     id: 'crop_103',
     kind: 'crop',
-    label: 'Soybeans, Soybean',
+    cropVarietyId: 103,
+    label: 'Soybeans',
+    cropTranslationKey: 'SOYBEAN',
     revenue: 0,
     expense: 1200,
     netProfit: -1200,
   },
 ];
 
-const animalRows: EntityProfitTableRow[] = [
+const animalRows: EntityProfitRow[] = [
   {
     id: 'animal_50',
     kind: 'animal',
+    isTotal: false,
     label: 'Bessie',
     revenue: 2000,
     expense: 300,
@@ -92,16 +100,21 @@ const animalRows: EntityProfitTableRow[] = [
   {
     id: 'batch_60',
     kind: 'animal',
+    isTotal: false,
     label: 'Spring Calves',
     revenue: 1200,
     expense: 150,
     netProfit: 1050,
   },
+  // Custom animal type: no typeTranslationKey, so the table renders
+  // t('TABLE.TYPE_TOTAL', { type: 'Cattle' }) -> "Cattle total".
   {
-    id: 'default_type_1',
+    id: 'custom_type_5',
     kind: 'animal',
     isTotal: true,
-    label: 'All Cattle',
+    defaultTypeId: null,
+    customTypeId: 5,
+    label: 'Cattle',
     revenue: 3200,
     expense: 450,
     netProfit: 2750,

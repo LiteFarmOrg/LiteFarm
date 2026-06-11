@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ProfitabilityDateRangeSelector from './ProfitabilityDateRangeSelector';
 import CallToActionBanner from './CallToActionBanner';
-import EntityProfitTable, { EntityProfitTableRow } from './EntityProfitTable';
+import EntityProfitTable from './EntityProfitTable';
 import ExpandableSection from './ExpandableSection';
 import KpiSection, { KpiTrend } from './KpiSection';
 import ProfitabilityWidgetSkeleton, {
@@ -26,7 +26,7 @@ import ProfitabilityWidgetSkeleton, {
 import RevenueExpenseBars, { GroupBar } from './RevenueExpenseBars';
 import { CtaVariant, EntityTab } from './constants';
 import { DateRangeData } from '../DateRangeSelector/types';
-import type { KpiResult } from '../../containers/Home/ProfitabilityWidget/utils';
+import type { EntityProfitRow, KpiResult } from '../../containers/Home/ProfitabilityWidget/utils';
 import styles from './styles.module.scss';
 
 const formatCurrencyValue = (symbol: string, value: number): string => {
@@ -45,7 +45,7 @@ export interface PureProfitabilityWidgetProps {
   yoyTrend: KpiTrend | null;
   revenueGroups: GroupBar[];
   expenseCategories: GroupBar[];
-  tableRows: EntityProfitTableRow[];
+  tableRows: EntityProfitRow[];
   currencySymbol: string;
   dateRange: DateRangeData;
   availableYears: number[];

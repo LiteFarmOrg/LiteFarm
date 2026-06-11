@@ -513,7 +513,7 @@ async function refreshTokens() {
     await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
-      response.data?.access,
+      response.data?.refresh,
     );
     return response.data;
   } catch (error) {
@@ -541,7 +541,7 @@ async function authenticateToGetTokens() {
     await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
-      response.data?.access,
+      response.data?.refresh,
     );
     return response.data;
   } catch (error) {

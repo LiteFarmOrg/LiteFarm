@@ -152,6 +152,10 @@ const SaleController = {
         const sales = await SaleModel.query()
           .whereNotDeleted()
           .where({ farm_id })
+          .orderBy([
+            { column: 'sale_date', order: 'desc' },
+            { column: 'sale_id', order: 'desc' },
+          ])
           .withGraphFetched('[crop_variety_sale, animal_sale]');
         if (!sales.length) {
           // Craig: I think this should return 200 otherwise we get an error in Finances front end, i changed it xD

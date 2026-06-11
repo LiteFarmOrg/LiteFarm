@@ -17,6 +17,8 @@ import { groupBy as lodashGroupBy } from 'lodash-es';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import {
+  ANIMAL_INVENTORY_ID,
+  ANIMAL_SALE,
   CROP_VARIETY_ID,
   CROP_VARIETY_SALE,
   CUSTOMER_NAME,
@@ -27,13 +29,16 @@ import {
   SALE_DATE,
   SALE_VALUE,
   VALUE,
-} from '../../components/Forms/GeneralRevenue/constants';
+} from '../../components/Forms/RevenueForm/constants';
 import i18n from '../../locales/i18n';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
 import { isSameDay } from '../../util/date-migrate-TS';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
+import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { transactionTypeEnum } from './useTransactions';
+import { getAnimalBatchLabel, parseInventoryId } from '../../util/animal';
+import { AnimalOrBatchKeys } from '../Animals/types';
+import { formatCropVarietyLabel } from '../../util/crop';
 
 // Polyfill for tests and older browsers
 const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
@@ -80,12 +85,23 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
   return [];
 }
 
+export function filterExpensesByDateRange(expenses, startDate, endDate) {
+  if (!expenses || !Array.isArray(expenses)) {
+    return [];
+  }
+  return expenses.filter((expense) => {
+    const date = moment(expense.expense_date);
+    return date.isSameOrAfter(startDate, 'day') && date.isSameOrBefore(endDate, 'day');
+  });
+}
+
 export function calcActualRevenue(transactions) {
   return transactions
     .filter(
       ({ transactionType }) =>
         transactionType === transactionTypeEnum.revenue ||
-        transactionType === transactionTypeEnum.cropRevenue,
+        transactionType === transactionTypeEnum.cropRevenue ||
+        transactionType === transactionTypeEnum.animalRevenue,
     )
     .reduce((sum, curTransaction) => sum + curTransaction.amount, 0);
 }
@@ -93,12 +109,6 @@ export function calcActualRevenue(transactions) {
 export function calcActualRevenueFromRevenueItems(revenueItems) {
   return revenueItems.reduce((sum, curItem) => sum + curItem.totalAmount, 0);
 }
-
-export const getRevenueFormType = (revenueType) => {
-  return revenueType?.entity_type === 'crop'
-    ? REVENUE_FORM_TYPES.CROP_SALE
-    : REVENUE_FORM_TYPES.GENERAL;
-};
 
 export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   const groupingOptions = [
@@ -157,7 +167,52 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   return labourItemGroups;
 };
 
-export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
+export const generateExpenseItems = (expense, cropVarieties, animals, animalBatches) => {
+  const { farm_expense_animal, farm_expense_crop_variety } = expense;
+
+  if (!farm_expense_animal?.length && !farm_expense_crop_variety?.length) {
+    return [{ title: expense.note, amount: -expense.value }];
+  }
+
+  const items = [];
+  let sum = 0;
+
+  if (farm_expense_animal?.length > 0) {
+    farm_expense_animal.forEach((animalExpense) => {
+      items.push({
+        title: getAnimalBatchLabel(animalExpense, animals, animalBatches),
+        amount: -animalExpense.allocated_value,
+      });
+      sum += animalExpense.allocated_value;
+    });
+  } else {
+    farm_expense_crop_variety.forEach(({ crop_variety_id, allocated_value }) => {
+      const cropVariety = cropVarieties.find(
+        (cropVariety) => cropVariety.crop_variety_id === crop_variety_id,
+      );
+      items.push({ title: formatCropVarietyLabel(cropVariety), amount: -allocated_value });
+      sum += allocated_value;
+    });
+  }
+
+  const unAllocatedAmount = expense.value - sum;
+  if (unAllocatedAmount) {
+    items.push({
+      title: i18n.t('FINANCES.TRANSACTION.AMOUNT_UNATTRIBUTED'),
+      amount: -unAllocatedAmount,
+    });
+  }
+
+  return items;
+};
+
+export const mapSalesToRevenueItems = (
+  sales,
+  revenueTypes,
+  cropVarieties,
+  animals = [],
+  animalBatches = [],
+) => {
   const revenueItems = sales.map((sale) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
@@ -168,25 +223,47 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
       return {
         sale,
         totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
-        financeItemsProps: cropVarietySale.map((cvs) => {
-          const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
-          const cropVariety = cropVarieties.find(
-            (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
-          );
-          const cropVarietyName = cropVariety?.crop_variety_name;
-          const cropTranslationKey = cropVariety?.crop.crop_translation_key;
-          const title = cropVarietyName
-            ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
-            : i18n.t(`crop:${cropTranslationKey}`);
-          return {
-            key: cvs.crop_variety_id,
-            title,
-            subtitle: `${convertedQuantity} ${quantityUnit}`,
-            quantity: convertedQuantity,
-            quantityUnit,
-            amount: cvs.sale_value,
-          };
-        }),
+        financeItemsProps: cropVarietySale
+          .map((cvs) => {
+            const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
+            const cropVariety = cropVarieties.find(
+              (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
+            );
+            return {
+              key: cvs.crop_variety_id,
+              title: formatCropVarietyLabel({
+                crop_variety_name: cropVariety?.crop_variety_name,
+                crop_translation_key: cropVariety?.crop.crop_translation_key,
+              }),
+              subtitle: `${convertedQuantity} ${quantityUnit}`,
+              quantity: convertedQuantity,
+              quantityUnit,
+              amount: cvs.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
+      };
+    } else if (revenueType?.entity_type === 'animal') {
+      const quantityUnit = getMassUnit();
+      const animalSale = sale.animal_sale ?? [];
+      return {
+        sale,
+        totalAmount: animalSale.reduce((total, row) => total + row.sale_value, 0),
+        financeItemsProps: animalSale
+          .map((row) => {
+            const convertedQuantity = roundToTwoDecimal(getMass(row.quantity).toString());
+            const key =
+              row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
+            return {
+              key,
+              title: getAnimalBatchLabel(row, animals, animalBatches),
+              subtitle: `${convertedQuantity} ${quantityUnit}`,
+              quantity: convertedQuantity,
+              quantityUnit,
+              amount: row.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
       };
     } else {
       return {
@@ -242,6 +319,19 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
         crop_variety_id: c[CROP_VARIETY_ID],
       };
     });
+  } else if (revenueType?.entity_type === 'animal') {
+    sale.value = undefined;
+    sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
+      const { kind, id } = parseInventoryId(a[ANIMAL_INVENTORY_ID]);
+      const isBatch = kind === AnimalOrBatchKeys.BATCH;
+      return {
+        sale_value: a[SALE_VALUE],
+        quantity: a[QUANTITY],
+        quantity_unit: a[QUANTITY_UNIT].label,
+        animal_id: isBatch ? null : id,
+        animal_batch_id: isBatch ? id : null,
+      };
+    });
   } else {
     sale.crop_variety_sale = undefined;
     sale.value = data[VALUE];
@@ -291,3 +381,32 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
 };
 
 export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
+export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
+
+const transformCropAllocations = (allocations) => {
+  return (allocations || []).map(({ id, allocated_value }) => {
+    return { crop_variety_id: id, allocated_value };
+  });
+};
+
+const transformAnimalAllocations = (allocations) => {
+  return (allocations || []).map(({ id, allocated_value }) => {
+    const { kind, id: animalId } = parseInventoryId(id);
+    const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
+    return { [idKey]: animalId, allocated_value };
+  });
+};
+
+export const transformExpenseAllocations = ({ allocations, entityType }) => {
+  return {
+    farm_expense_crop_variety: entityType === 'crop' ? transformCropAllocations(allocations) : [],
+    farm_expense_animal: entityType === 'animal' ? transformAnimalAllocations(allocations) : [],
+  };
+};
+
+export const getNoOptionsMessage = (entity) => {
+  return () =>
+    entity === 'crop'
+      ? i18n.t('SELECT.NO_CROP_VARIETIES')
+      : i18n.t('SELECT.NO_ANIMALS_IN_INVENTORY');
+};

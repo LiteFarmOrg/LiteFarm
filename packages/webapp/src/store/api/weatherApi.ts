@@ -15,16 +15,16 @@
 
 import { api } from './apiSlice';
 import { weatherUrl } from '../../apiConfig';
-import { WeatherData } from './types';
+import { WeatherForecast } from './types';
 
 export const weatherApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getWeather: build.query<WeatherData, { measurementSystem?: string }>({
-      query: ({ measurementSystem }) => `${weatherUrl}`,
+    getWeatherForecast: build.query<WeatherForecast, void>({
+      query: () => `${weatherUrl}`,
       providesTags: ['Weather'],
       keepUnusedDataFor: 7200, // Cache data for 2 hours (7200 seconds)
     }),
   }),
 });
 
-export const { useGetWeatherQuery } = weatherApi;
+export const { useGetWeatherForecastQuery } = weatherApi;

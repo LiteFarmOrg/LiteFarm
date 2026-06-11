@@ -636,6 +636,7 @@
     "BACK": "back",
     "CLEAR_DATES": "Clear dates",
     "CUSTOM_RANGE": "Pick a custom range",
+    "LAST_12_MONTHS": "Last 12 months",
     "LAST_FOURTEEN_DAYS": "Last 14 days",
     "LAST_MONTH": "Last month",
     "LAST_SEVEN_DAYS": "Last 7 days",
@@ -768,6 +769,12 @@
       "TITLE": "Edit Expense",
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
+    },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "Is this expense associated with animals or crops?",
+      "EXCEEDED_ERROR": "Amount used cannot exceed the total amount to allocate",
+      "SELECT_ANIMALS": "Select animals from your inventory",
+      "TOTAL_TO_ALLOCATE": "Total amount to allocate"
     },
     "ITEM_NAME": "Item Name",
     "NO_EXPENSE": "No expense found",
@@ -1097,6 +1104,8 @@
       "REVENUE_TYPES": "Search revenue type"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "Amount unattributed",
+      "ANIMALS": "Animals",
       "CROPS": "Crops",
       "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",
@@ -1880,11 +1889,15 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
+      "ANIMAL_NOTES_PLACEHOLDER": "Animal sale description",
+      "CROP_NOTES_PLACEHOLDER": "Crop sale description",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
       "FLOW": "revenue creation",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
+      "NOTES_PLACEHOLDER": "Sale description",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
+      "SELECT_CROPS": "Select crops",
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },
@@ -1958,6 +1971,10 @@
     "ANIMALS_GROUPS": "Animal groups",
     "ANIMALS_INVENTORY": "Animal inventory",
     "ANIMALS_LOCATION": "Animal locations"
+  },
+  "SELECT": {
+    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory",
+    "NO_CROP_VARIETIES": "You have no crop varieties"
   },
   "SENSOR": {
     "ARRAY": "Array",
@@ -2211,6 +2228,10 @@
     "UPLOAD_LAB_DOCUMENT": "Upload lab document",
     "WILL_SAVE_ONLINE": "Will save when online"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "Next time slot",
+    "PREVIOUS_TIME_SLOT": "Previous time slot"
+  },
   "UNIT": {
     "TIME": {
       "DAY": "days",
@@ -2240,7 +2261,11 @@
     "HOURLY_WAGE_TOOLTIP": "This task-specific wage will override the assignee's default wage. Default worker wages can be managed in the People tab."
   },
   "WEATHER": {
+    "FROST_EXPECTED": "⚠️ Frost Expected (Low {{threshold}})",
+    "FROST_RISK": "Frost risk",
     "HUMIDITY": "Humidity",
+    "PRECIPITATION": "Precipitation",
+    "TITLE": "Weather & conditions",
     "WIND": "Wind"
   },
   "WELCOME_SCREEN": {

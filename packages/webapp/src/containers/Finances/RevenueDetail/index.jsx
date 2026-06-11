@@ -22,16 +22,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import CropSaleInputs, { getCropSaleDefaultValues } from '../CropSaleInputs';
+import RevenueForm from '../../../components/Forms/RevenueForm';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import {
-  isCropSale,
-  mapRevenueFormDataToApiCallFormat,
-  mapRevenueTypesToReactSelectOptions,
-} from '../util';
+import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
-import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
+import { getEntityTypeDefaultValues } from '../EntitySaleInputs';
+import { REVENUE_TYPE_OPTION } from '../../../components/Forms/RevenueForm/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 function RevenueDetail() {
@@ -59,7 +55,7 @@ function RevenueDetail() {
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypesArray);
 
   const onSubmit = (data) => {
-    const editedSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, null);
+    const editedSale = mapRevenueFormDataToApiCallFormat(data, revenueTypesArray, sale_id, null);
     dispatch(updateSale(editedSale));
   };
 
@@ -81,17 +77,15 @@ function RevenueDetail() {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
 
+  const entitySaleDefaultValues = getEntityTypeDefaultValues(sale, revenueType?.entity_type);
+
   return (
-    <GeneralRevenue
+    <RevenueForm
       key={isEditing ? 'editing' : 'readonly'}
       onSubmit={isEditing ? onSubmit : undefined}
       title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}
       sale={sale}
-      CustomFormChildren={CropSaleInputs}
-      customFormChildrenDefaultValues={
-        isCropSale(revenueType) ? getCropSaleDefaultValues(sale) : undefined
-      }
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}
       onClick={isEditing ? undefined : handleEdit}
@@ -100,6 +94,7 @@ function RevenueDetail() {
       buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
       onRetire={onRetire}
       revenueTypes={revenueTypesArray}
+      entitySaleDefaultValues={entitySaleDefaultValues}
     />
   );
 }

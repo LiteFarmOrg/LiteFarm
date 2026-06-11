@@ -244,6 +244,7 @@ const allResults = [
     amount: -20,
     note: 'Expense 2',
     relatedId: 'c239a46a-69e6-11ee-8e6f-0242ac180006',
+    items: [{ amount: -20, title: 'Expense 2' }],
   },
   {
     icon: 'LABOUR',
@@ -280,6 +281,7 @@ const allResults = [
     amount: -100,
     note: 'Expense 3',
     relatedId: '39bc4644-6e8a-11ee-a583-0242ac180005',
+    items: [{ amount: -100, title: 'Expense 3' }],
   },
   {
     icon: 'CROP_SALE',
@@ -338,6 +340,7 @@ const allResults = [
     amount: -10,
     note: 'Expense 1',
     relatedId: 'aff01e2e-69e6-11ee-9b0c-0242ac180006',
+    items: [{ amount: -10, title: 'Expense 1' }],
   },
   {
     icon: 'CROP_SALE',

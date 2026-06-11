@@ -22,6 +22,7 @@ import ProfitLossIcon from '../../assets/images/finance/Profit-loss-icn.svg?reac
 
 // Revenue types
 import CropSaleIcon from '../../assets/images/finance/Crop-sale-icn.svg?react';
+import AnimalSaleIcon from '../../assets/images/nav/animals.svg?react';
 import CustomTypeIcon from '../../assets/images/finance/Custom-revenue.svg?react';
 
 // Expense types
@@ -116,6 +117,7 @@ export const iconMap = {
   PROFIT_LOSS: ProfitLossIcon,
   // Revenue types
   CROP_SALE: CropSaleIcon,
+  ANIMAL_SALE: AnimalSaleIcon,
   CUSTOM: CustomTypeIcon,
   // Expense types
   EQUIPMENT: EquipIcon,

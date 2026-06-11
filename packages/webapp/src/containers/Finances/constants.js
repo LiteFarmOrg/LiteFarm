@@ -33,11 +33,6 @@ export const UPDATE_SALE = 'UPDATE_SALE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const SET_IS_FETCHING_DATA = 'SET_IS_FETCHING_DATA';
 
-export const REVENUE_FORM_TYPES = {
-  CROP_SALE: 'crop_sale',
-  GENERAL: 'general',
-};
-
 export const LABOUR_ITEMS_GROUPING_OPTIONS = {
   EMPLOYEE: 'EMPLOYEE',
   TASK_TYPE: 'TASK_TYPE',

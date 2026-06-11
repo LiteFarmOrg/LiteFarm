@@ -15,6 +15,9 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
+import { cropVarietyOptionsSelector } from '../../cropVarietySlice';
+import { animalOptionsSelector } from '../../../store/selectors/animals';
+import { transformExpenseAllocations } from '../util';
 
 const ExpenseDetail = () => {
   const history = useHistory();
@@ -30,6 +33,8 @@ const ExpenseDetail = () => {
 
   const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
   const expense = useSelector(expenseByIdSelector(expense_id));
+  const cropVarietyOptions = useSelector(cropVarietyOptionsSelector);
+  const animalOptions = useSelector(animalOptionsSelector);
 
   useEffect(() => {
     if (!expense) {
@@ -61,6 +66,7 @@ const ExpenseDetail = () => {
       expense_type_id: formData.type.value,
       note: formData.note,
       value: parseFloat(parseFloat(formData.value).toFixed(2)),
+      ...transformExpenseAllocations(formData),
     };
 
     dispatch(updateExpense({ expense_id, data }));
@@ -91,6 +97,8 @@ const ExpenseDetail = () => {
         view={isEditing ? 'edit' : 'read-only'}
         buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
         expenseTypeReactSelectOptions={expenseTypeReactSelectOptions}
+        cropVarietyOptions={cropVarietyOptions}
+        animalOptions={animalOptions}
       />
     )
   );

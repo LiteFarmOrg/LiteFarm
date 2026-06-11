@@ -16,6 +16,7 @@
 import React from 'react';
 import PureExpenseDetail from '../../../components/Finances/PureExpenseDetail';
 import decorators from '../config/Decorators';
+import { animalOptions, cropVarietyOptions } from './mockData';
 
 export default {
   title: 'Page/Finance/PureExpenseDetail',
@@ -35,6 +36,8 @@ const args = {
     expense_type_id: 'e4c53d48-16f6-11ee-b336-0242ac120004',
     value: 800,
   },
+  cropVarietyOptions,
+  animalOptions,
   expenseTypeReactSelectOptions: [
     {
       value: 'e4c53d48-16f6-11ee-b336-0242ac120004',
@@ -109,4 +112,28 @@ EditView.args = {
   view: 'edit',
   buttonText: 'Update',
   ...args,
+};
+
+export const ReadOnlyWithCrops = Template.bind({});
+ReadOnlyWithCrops.args = {
+  ...ReadOnlyView.args,
+  expense: {
+    ...args.expense,
+    farm_expense_crop_variety: [
+      { crop_variety_id: 'cv-1', allocated_value: 300 },
+      { crop_variety_id: 'cv-2', allocated_value: 500 },
+    ],
+  },
+};
+
+export const EditWithAnimals = Template.bind({});
+EditWithAnimals.args = {
+  ...EditView.args,
+  expense: {
+    ...args.expense,
+    farm_expense_animal: [
+      { animal_id: 1, allocated_value: 400 },
+      { animal_batch_id: 1, allocated_value: 400 },
+    ],
+  },
 };

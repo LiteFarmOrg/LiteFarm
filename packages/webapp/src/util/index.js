@@ -177,8 +177,3 @@ export const sumObjectValues = (obj) => {
 export const toTranslationKey = (text) => {
   return text.toUpperCase().replaceAll(' ', '_');
 };
-
-export const getFirstNameWithLastInitial = (user) => {
-  const lastInitial = user.last_name?.[0]?.toUpperCase();
-  return `${user.first_name}${lastInitial ? ` ${lastInitial}.` : ''}`;
-};

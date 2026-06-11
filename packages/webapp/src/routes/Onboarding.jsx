@@ -16,9 +16,8 @@
 /* eslint-disable react/no-children-prop */
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-
 import { useSelector } from 'react-redux';
-import { userFarmLengthSelector } from '../containers/userFarmSlice';
+import { userFarmLengthSelector, userFarmStatusSelector } from '../containers/userFarmSlice';
 import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
@@ -27,33 +26,29 @@ const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-const InterestedOrganic = React.lazy(
-  () =>
-    import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
+const InterestedOrganic = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-    ),
+const CertificationSelection = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
+  ),
 );
 
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-    ),
+const CertifierSelectionMenu = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
+  ),
 );
 
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
-    ),
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
+  ),
 );
 
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
+const RequestCertifier = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
 function OnboardingFlow(props) {
@@ -65,8 +60,9 @@ function OnboardingFlow(props) {
   );
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
+  const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
 
-  const requireConditionProps = { ...props, hasUserFarms };
+  const requireConditionProps = { ...props, hasUserFarms, farmsLoaded };
 
   return (
     <Switch>
@@ -174,6 +170,7 @@ const RequireCondition = ({
   has_consent,
   farm_id,
   hasUserFarms,
+  farmsLoaded,
 }) => {
   if (condition) {
     return children;
@@ -196,7 +193,11 @@ const RequireCondition = ({
   }
 
   if ((!farm_id || !step_one) && !hasUserFarms) {
-    return <Redirect to="/welcome" />;
+    // hasUserFarms === 0 is ambiguous ("no farms" vs "list not fetched yet");
+    // only treat it as "no farms" once the list has loaded, else route to /farm_selection,
+    // where ChooseFarm owns the "no farms -> /welcome" decision.
+    const target = farmsLoaded ? '/welcome' : '/farm_selection';
+    return <Redirect to={target} />;
   }
 
   if (!farm_id && hasUserFarms) {

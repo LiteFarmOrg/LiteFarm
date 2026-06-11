@@ -1,4 +1,8 @@
 {
+  "ANIMAL_SALE": {
+    "REVENUE_NAME": "Animal Sale",
+    "CUSTOM_DESCRIPTION": "Revenues generated from the sales of animal products."
+  },
   "CROP_SALE": {
     "REVENUE_NAME": "Crop Sale",
     "CUSTOM_DESCRIPTION": "Revenues associated with the sale of crops harvested from this farm."

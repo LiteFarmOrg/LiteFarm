@@ -151,9 +151,6 @@ export function* getExpenseSaga() {
       yield put(setExpense(result.data));
     }
   } catch (e) {
-    if (e.response?.status === 404) {
-      yield put(setExpense([]));
-    }
     console.log('failed to fetch expenses from database');
   }
 }
@@ -367,13 +364,7 @@ export function* getRevenueTypesSaga() {
 
   try {
     const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
-
-    // TODO LF-5274: Remove filter when ANIMAL_SALE is supported
-    const formattedResult = result.data.filter(({ farm_id, revenue_translation_key }) => {
-      return !!farm_id || revenue_translation_key !== 'ANIMAL_SALE';
-    });
-
-    yield put(getRevenueTypesSuccess(formattedResult));
+    yield put(getRevenueTypesSuccess(result.data));
   } catch (e) {
     console.log('failed to fetch revenue types from database');
   }

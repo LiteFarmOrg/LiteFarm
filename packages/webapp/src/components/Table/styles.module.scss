@@ -43,7 +43,8 @@
     cursor: pointer;
   }
 
-  &[aria-checked="true"], &[aria-checked="true"]:hover {
+  &[aria-checked='true'],
+  &[aria-checked='true']:hover {
     border: solid 1px var(--Colors-Accent-Accent-yellow-400);
     background-color: var(--Colors-Accent-Accent-yellow-50);
 
@@ -61,7 +62,7 @@
         border: solid 1px var(--Colors-Accent-Accent-yellow-400);
         border-left: none;
       }
-    };
+    }
   }
 
   // override mui's style
@@ -84,12 +85,12 @@
   margin: 0 16px 0 16px;
 }
 
-.alternatingRowColor:not([aria-checked="true"]) {
+.alternatingRowColor:not([aria-checked='true']) {
   &:nth-of-type(odd) {
-    background-color: var(--tableAlternateRowBackground);
+    background-color: var(--Colors-Backgrounds-table-row-bg);
 
     .tableCell {
-      border-bottom: solid 1px var(--tableAlternateRowBackground);
+      border-bottom: solid 1px var(--Colors-Backgrounds-table-row-bg);
     }
   }
   &:nth-of-type(even) {
@@ -111,7 +112,8 @@
   }
 }
 
-.tableHead, .headerLabel {
+.tableHead,
+.headerLabel {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -125,7 +127,7 @@
 }
 
 .headerLabel {
-  &.active{
+  &.active {
     color: var(--Colors-Secondary-Secondary-green-700);
   }
 }
@@ -134,7 +136,7 @@
   padding: 4px 8px;
   border-spacing: 8px;
   border: solid 1px var(---Colors-Neutral-Neutral-50);
-  
+
   & > td {
     border-top: solid 1px var(--Colors-Neutral-Neutral-50);
     border-bottom: solid 1px var(--Colors-Neutral-Neutral-50);
@@ -149,7 +151,7 @@
       border: solid 1px var(--Colors-Neutral-Neutral-50);
       border-left: none;
     }
-  };
+  }
 }
 
 .extraRowSpacingTable {
@@ -215,7 +217,7 @@
 }
 
 .pagination {
-  > div > div svg:nth-child(3)  {
+  > div > div svg:nth-child(3) {
     color: var(--grey600);
   }
 }
@@ -234,7 +236,7 @@
 }
 
 .icon {
-  min-width: 24px
+  min-width: 24px;
 }
 
 .icon:hover {
@@ -252,10 +254,10 @@
 // Spacing between Header and Body
 // https://stackoverflow.com/questions/9258754/spacing-between-thead-and-tbody
 .tableBody::before {
-    content: "-";
-    display: block;
-    line-height: 16px;
-    color: transparent;
+  content: '-';
+  display: block;
+  line-height: 16px;
+  color: transparent;
 }
 
 // checkbox

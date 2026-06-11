@@ -243,7 +243,7 @@ export default {
       .select('deleted')
       .first();
 
-    return record.deleted;
+    return record?.deleted;
   },
 
   /**

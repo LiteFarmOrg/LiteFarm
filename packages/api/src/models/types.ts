@@ -71,7 +71,7 @@ interface UserTimeStamps extends Timestamps {
   updated_by_user_id: User['user_id'];
 }
 
-interface BaseProperties extends UserTimeStamps {
+export interface BaseProperties extends UserTimeStamps {
   deleted: boolean;
 }
 

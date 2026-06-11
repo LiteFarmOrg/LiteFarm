@@ -389,6 +389,60 @@ async function farmExpenseFactory(
     .returning('*');
 }
 
+function fakeFarmExpenseCropVariety(defaultData = {}) {
+  return {
+    allocated_value: faker.datatype.float({ min: 1, max: 1000 }),
+    ...defaultData,
+  };
+}
+
+async function farm_expense_crop_varietyFactory(
+  { promisedExpense = farmExpenseFactory(), promisedCropVariety = crop_varietyFactory() } = {},
+  data = fakeFarmExpenseCropVariety(),
+) {
+  const [[expense], [cropVariety]] = await Promise.all([promisedExpense, promisedCropVariety]);
+  return knex('farm_expense_crop_variety')
+    .insert({
+      farm_expense_id: expense.farm_expense_id,
+      crop_variety_id: cropVariety.crop_variety_id,
+      ...data,
+    })
+    .returning('*');
+}
+
+function fakeFarmExpenseAnimal(defaultData = {}) {
+  return {
+    allocated_value: faker.datatype.float({ min: 1, max: 1000 }),
+    ...defaultData,
+  };
+}
+
+async function farm_expense_animalFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedExpense = farmExpenseFactory(),
+    promisedAnimal,
+    promisedAnimalBatch,
+    animalOrBatch = 'animal',
+  } = {},
+  data = fakeFarmExpenseAnimal(),
+) {
+  const [farm, [expense]] = await Promise.all([promisedFarm, promisedExpense]);
+  const [animal, animalBatch] = await Promise.all([
+    promisedAnimal || animalFactory({ promisedFarm: Promise.resolve(farm) }),
+    promisedAnimalBatch || animal_batchFactory({ promisedFarm: Promise.resolve(farm) }),
+  ]);
+  const [{ id: animal_id }] = animal;
+  const [{ id: animal_batch_id }] = animalBatch;
+  return knex('farm_expense_animal')
+    .insert({
+      farm_expense_id: expense.farm_expense_id,
+      ...(animalOrBatch === 'animal' ? { animal_id } : { animal_batch_id }),
+      ...data,
+    })
+    .returning('*');
+}
+
 function fakeCrop(defaultData = {}) {
   return {
     crop_common_name: faker.lorem.words(),
@@ -3120,5 +3174,9 @@ export default {
   farm_noteFactory,
   fakeAnimalSale,
   animal_saleFactory,
+  fakeFarmExpenseCropVariety,
+  farm_expense_crop_varietyFactory,
+  fakeFarmExpenseAnimal,
+  farm_expense_animalFactory,
   baseProperties,
 };

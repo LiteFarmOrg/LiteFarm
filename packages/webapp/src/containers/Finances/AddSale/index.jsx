@@ -13,9 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import CropSaleInputs from '../CropSaleInputs';
+import RevenueForm from '../../../components/Forms/RevenueForm';
 import { addSale } from '../actions';
 import { userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,14 +50,13 @@ function AddSale() {
 
   return (
     <HookFormPersistProvider>
-      <GeneralRevenue
+      <RevenueForm
         onSubmit={onSubmit}
         title={t('common:ADD_ITEM', {
           itemName: translatedRevenueName,
           interpolation: { escapeValue: false },
         })}
         currency={useCurrencySymbol()}
-        CustomFormChildren={CropSaleInputs}
         view={'add'}
         handleGoBack={handleGoBack}
         buttonText={t('common:SAVE')}

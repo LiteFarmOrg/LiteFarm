@@ -33,7 +33,7 @@ export const taskStatusTranslateKey = {
 
 import { languageCodes } from '../../../hooks/useLanguageOptions';
 import { getIntlDate } from '../../../util/date-migrate-TS';
-import { getFirstNameWithLastInitial } from '../../../util';
+import { getFirstNameWithLastInitial } from '../../../util/getFirstNameWithLastInitial';
 import RevisionInfoText from '../../RevisionInfoText';
 
 export const PureTaskCard = ({

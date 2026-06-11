@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import { cropEntitiesSelector } from './cropSlice';
 import { pick } from '../util/pick';
 import produce from 'immer';
+import { formatCropVarietyLabel } from '../util/crop';
 
 const getCropVariety = (obj) => {
   return pick(obj, [
@@ -196,3 +197,12 @@ export const cropVarietiesByCropIdSelector = (cropId) => {
     cropVarieties.filter((c) => c.crop_id === cropId),
   );
 };
+
+export const cropVarietyOptionsSelector = createSelector([cropVarietiesSelector], (cropVarieties) =>
+  cropVarieties
+    .map((cropVariety) => ({
+      value: cropVariety.crop_variety_id,
+      label: formatCropVarietyLabel(cropVariety),
+    }))
+    .sort((a, b) => String(a.label).localeCompare(String(b.label))),
+);

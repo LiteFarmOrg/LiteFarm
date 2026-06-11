@@ -26,16 +26,6 @@ import { EntityTab } from './constants';
 import type { EntityProfitRow } from '../../containers/Home/ProfitabilityWidget/utils';
 import styles from './styles.module.scss';
 
-interface EntityProfitTableRow {
-  id: string;
-  kind: 'crop' | 'animal';
-  label: string;
-  isTotal?: boolean;
-  revenue: number;
-  expense: number;
-  netProfit: number;
-}
-
 export interface EntityProfitTableProps {
   rows: EntityProfitRow[];
   entityTab: EntityTab;
@@ -58,31 +48,23 @@ const EntityProfitTable = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const displayRows: EntityProfitTableRow[] = useMemo(
+  const resolveLabel = (row: EntityProfitRow): string => {
+    if (row.kind === 'crop' && row.cropTranslationKey) {
+      return `${row.label}, ${t(`crop:${row.cropTranslationKey}`)}`;
+    }
+    if (row.kind === 'animal' && row.isTotal) {
+      const typeName = row.typeTranslationKey
+        ? t(`animal:TYPE.${row.typeTranslationKey}`)
+        : row.label;
+      return t('TABLE.TYPE_TOTAL', { type: typeName });
+    }
+    return row.label;
+  };
+
+  const displayRows: EntityProfitRow[] = useMemo(
     () =>
       rows
-        .map((row) => {
-          let label = row.label;
-          let isTotal = false;
-          if (row.kind === 'crop' && row.cropTranslationKey) {
-            label = `${row.label}, ${t(`crop:${row.cropTranslationKey}`)}`;
-          } else if (row.kind === 'animal' && row.isTotal) {
-            isTotal = true;
-            const typeName = row.typeTranslationKey
-              ? t(`animal:TYPE.${row.typeTranslationKey}`)
-              : row.label;
-            label = t('TABLE.TYPE_TOTAL', { type: typeName });
-          }
-          return {
-            id: row.id,
-            kind: row.kind,
-            label,
-            isTotal,
-            revenue: row.revenue,
-            expense: row.expense,
-            netProfit: row.netProfit,
-          };
-        })
+        .map((row) => ({ ...row, label: resolveLabel(row) }))
         // Sort total rows to the bottom, then alphabetically by label.
         // The desktop table pins totals via pinToBottom; the mobile card
         // list has no such mechanism and depends on this ordering
@@ -109,11 +91,11 @@ const EntityProfitTable = ({
   const emptyStateMessage =
     entityTab === EntityTab.CROPS ? t('TABLE.NO_CROP_VARIETIES') : t('TABLE.NO_ANIMALS');
 
-  const renderLabel = (row: EntityProfitTableRow): ReactNode => {
+  const renderLabel = (row: EntityProfitRow): ReactNode => {
     return <span className={clsx(row.isTotal && styles.cellTotal)}>{row.label}</span>;
   };
 
-  const renderCurrencyCell = (value: number, isTotal?: boolean): ReactNode => {
+  const renderCurrencyCell = (value: number, isTotal: boolean): ReactNode => {
     return (
       <span className={clsx(styles.cellNumeric, isTotal && styles.cellTotal)}>
         {formatCurrency(value)}
@@ -121,7 +103,7 @@ const EntityProfitTable = ({
     );
   };
 
-  const renderNetProfit = (row: EntityProfitTableRow): ReactNode => {
+  const renderNetProfit = (row: EntityProfitRow): ReactNode => {
     return (
       <span
         className={clsx(styles.cellNetProfit, row.netProfit < 0 && styles.cellNetProfitNegative)}
@@ -142,13 +124,13 @@ const EntityProfitTable = ({
       id: 'revenue',
       label: t('translation:FINANCES.REVENUE'),
       align: Alignment.RIGHT,
-      format: (row: EntityProfitTableRow) => renderCurrencyCell(row.revenue, row.isTotal),
+      format: (row: EntityProfitRow) => renderCurrencyCell(row.revenue, row.isTotal),
     },
     {
       id: 'expense',
       label: t('TABLE.EXPENSE'),
       align: Alignment.RIGHT,
-      format: (row: EntityProfitTableRow) => renderCurrencyCell(row.expense, row.isTotal),
+      format: (row: EntityProfitRow) => renderCurrencyCell(row.expense, row.isTotal),
     },
     {
       id: 'netProfit',
@@ -202,7 +184,7 @@ const EntityProfitTable = ({
           alternatingRowColor
           shouldFixTableLayout
           headerClass={styles.profitabilityTableHeader}
-          pinToBottom={(row) => !!row.isTotal}
+          pinToBottom={(row) => row.isTotal}
         />
       )}
       <p className={styles.tableFootnote}>{t('TABLE.FOOTNOTE')}</p>

@@ -58,6 +58,7 @@ const cropRows: EntityProfitRow[] = [
   {
     id: 'crop_100',
     kind: 'crop',
+    isTotal: false,
     cropVarietyId: 100,
     label: 'Yellow Carrot',
     cropTranslationKey: 'CARROT',
@@ -68,6 +69,7 @@ const cropRows: EntityProfitRow[] = [
   {
     id: 'crop_101',
     kind: 'crop',
+    isTotal: false,
     cropVarietyId: 101,
     label: 'Red Onion',
     cropTranslationKey: 'ONION',
@@ -78,6 +80,7 @@ const cropRows: EntityProfitRow[] = [
   {
     id: 'crop_103',
     kind: 'crop',
+    isTotal: false,
     cropVarietyId: 103,
     label: 'Soybeans',
     cropTranslationKey: 'SOYBEAN',

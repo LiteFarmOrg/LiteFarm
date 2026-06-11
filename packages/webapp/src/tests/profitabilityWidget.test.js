@@ -438,11 +438,21 @@ describe('aggregateByEntity', () => {
     });
     const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
     // 100: revenue 120, expense 40 → profit 80
-    expect(byId.crop_100).toMatchObject({ revenue: 120, expense: 40, netProfit: 80 });
+    expect(byId.crop_100).toMatchObject({
+      isTotal: false,
+      revenue: 120,
+      expense: 40,
+      netProfit: 80,
+    });
     // 101: revenue 80, no expense → profit 80
-    expect(byId.crop_101).toMatchObject({ revenue: 80, expense: 0, netProfit: 80 });
+    expect(byId.crop_101).toMatchObject({ isTotal: false, revenue: 80, expense: 0, netProfit: 80 });
     // 102: no revenue, expense 20 → profit -20
-    expect(byId.crop_102).toMatchObject({ revenue: 0, expense: 20, netProfit: -20 });
+    expect(byId.crop_102).toMatchObject({
+      isTotal: false,
+      revenue: 0,
+      expense: 20,
+      netProfit: -20,
+    });
   });
 
   test('animals tab lists each individual first, then a per-type total combining individuals and batches', () => {

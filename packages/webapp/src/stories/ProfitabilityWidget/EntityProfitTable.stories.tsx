@@ -29,6 +29,7 @@ const allRows: EntityProfitRow[] = [
   {
     id: 'crop_100',
     kind: 'crop',
+    isTotal: false,
     cropVarietyId: 100,
     label: 'Yellow Carrot',
     revenue: 1200,
@@ -38,6 +39,7 @@ const allRows: EntityProfitRow[] = [
   {
     id: 'crop_101',
     kind: 'crop',
+    isTotal: false,
     cropVarietyId: 101,
     label: 'Red Carrot',
     revenue: 800,
@@ -47,6 +49,7 @@ const allRows: EntityProfitRow[] = [
   {
     id: 'crop_102',
     kind: 'crop',
+    isTotal: false,
     cropVarietyId: 102,
     label: 'Heirloom Tomato',
     revenue: 0,
@@ -56,6 +59,7 @@ const allRows: EntityProfitRow[] = [
   {
     id: 'crop_103',
     kind: 'crop',
+    isTotal: false,
     cropVarietyId: 103,
     label: 'Soybeans',
     revenue: 0,

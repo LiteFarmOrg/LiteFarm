@@ -55,6 +55,7 @@ export type EntityProfitRow =
   | {
       id: string;
       kind: 'crop';
+      isTotal: false;
       cropVarietyId: number;
       label: string;
       cropTranslationKey?: string | null;
@@ -547,6 +548,7 @@ export function aggregateByEntity({
       return {
         id: entry.id,
         kind: 'crop',
+        isTotal: false,
         cropVarietyId: entry.cropVarietyId,
         label: cropVariety?.crop_variety_name ?? '',
         cropTranslationKey: cropVariety?.crop?.crop_translation_key ?? null,

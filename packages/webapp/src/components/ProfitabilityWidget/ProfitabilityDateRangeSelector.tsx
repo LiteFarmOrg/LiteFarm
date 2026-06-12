@@ -33,6 +33,7 @@ export interface ProfitabilityDateRangeSelectorProps {
   updateDateRange: (newDateRange: Partial<DateRangeData>) => void;
   availableYears: number[];
   className?: string;
+  disabled?: boolean;
 }
 
 const ProfitabilityDateRangeSelector = ({
@@ -40,6 +41,7 @@ const ProfitabilityDateRangeSelector = ({
   updateDateRange,
   availableYears,
   className,
+  disabled,
 }: ProfitabilityDateRangeSelectorProps) => {
   const dynamicOptions: DynamicDateRangeOption[] = useMemo(
     () => availableYears.map(formatYearOption),
@@ -54,6 +56,7 @@ const ProfitabilityDateRangeSelector = ({
       allowedOptions={PROFITABILITY_ALLOWED_OPTIONS}
       dynamicOptions={dynamicOptions}
       className={className}
+      disabled={disabled}
     />
   );
 };

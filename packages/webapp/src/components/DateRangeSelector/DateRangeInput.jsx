@@ -35,6 +35,7 @@ export default function DateRangeInput({
   onValidityChange,
   allowedOptions,
   dynamicOptions,
+  disabled,
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
@@ -93,7 +94,11 @@ export default function DateRangeInput({
     return (
       <div className={styles.window}>
         <Calendar />
-        <span className={clsx(styles.windowValue, className)}>{formattedOption}</span>
+        <span
+          className={clsx(styles.windowValue, className, disabled && styles.windowValueDisabled)}
+        >
+          {formattedOption}
+        </span>
       </div>
     );
   };
@@ -131,6 +136,7 @@ export default function DateRangeInput({
         ref={selectRef}
         options={options}
         placeholder={placeholder}
+        isDisabled={disabled}
         menuIsOpen={isMenuOpen}
         onMenuOpen={() => setIsMenuOpen(true)}
         onMenuClose={() => setIsMenuOpen(false)}
@@ -187,6 +193,7 @@ DateRangeInput.propTypes = {
   changeDateRangeMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
   onValidityChange: PropTypes.func,
+  disabled: PropTypes.bool,
   allowedOptions: PropTypes.arrayOf(PropTypes.string),
   dynamicOptions: PropTypes.arrayOf(
     PropTypes.shape({

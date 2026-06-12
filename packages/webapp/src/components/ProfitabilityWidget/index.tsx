@@ -95,6 +95,7 @@ const PureProfitabilityWidget = ({
         updateDateRange={updateDateRange}
         availableYears={availableYears}
         className={styles.dateRangeTrigger}
+        disabled={isEmpty}
       />
     </div>
   );

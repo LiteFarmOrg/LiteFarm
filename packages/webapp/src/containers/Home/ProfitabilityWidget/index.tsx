@@ -20,6 +20,7 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { getExpense, getFarmExpenseType } from '../../Finances/actions';
 import { getRevenueTypes, getSales } from '../../Finances/saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
+import { getDateInputFormat } from '../../../util/moment';
 import PureProfitabilityWidget from '../../../components/ProfitabilityWidget';
 import { CtaVariant, EntityTab } from '../../../components/ProfitabilityWidget/constants';
 import { DateRangeData } from '../../../components/DateRangeSelector/types';
@@ -37,8 +38,8 @@ const ProfitabilityWidget = () => {
     useProfitabilityDateRange();
 
   const data = useProfitabilityData({
-    startDate: typeof startDate === 'string' ? startDate : undefined,
-    endDate: typeof endDate === 'string' ? endDate : undefined,
+    startDate: startDate ? getDateInputFormat(startDate) : undefined,
+    endDate: endDate ? getDateInputFormat(endDate) : undefined,
     entityTab,
   });
 

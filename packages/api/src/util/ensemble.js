@@ -77,10 +77,10 @@ const getEnsembleSensors = async (farm_id) => {
 
   const farm = await FarmModel.query().findById(farm_id);
   const farmCenterCoordinates = farm.grid_points;
-
   const sensorArrays = [];
   for (const system of orgSystems) {
-    const systemProfiles = await getOrganisationProfiles(farmEnsembleAddon.org_pk, system.pk);
+    const { results: systemProfiles = [] } =
+      (await getOrganisationProfiles(farmEnsembleAddon.org_pk, system.pk)) ?? {};
 
     const mappedProfiles = systemProfiles
       .filter((profile) => profile.water_profile?.sensors?.length)
@@ -336,7 +336,7 @@ async function getOrganisationProfiles(organisation_pk, system_id) {
   try {
     const axiosObject = {
       method: 'get',
-      url: `${ensembleAPI}/organizations/${organisation_pk}/pivot_irrigation/${system_id}/profiles`,
+      url: `${ensembleAPI}/organizations/${organisation_pk}/systems/${system_id}/profiles`,
     };
 
     const onError = () => {
@@ -513,7 +513,7 @@ async function refreshTokens() {
     await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
-      response.data?.access,
+      response.data?.refresh,
     );
     return response.data;
   } catch (error) {
@@ -541,7 +541,7 @@ async function authenticateToGetTokens() {
     await AddonPartnerModel.patchAccessAndRefreshTokens(
       ENSEMBLE_BRAND,
       response.data?.access,
-      response.data?.access,
+      response.data?.refresh,
     );
     return response.data;
   } catch (error) {

@@ -1,0 +1,102 @@
+{
+  "EXPORT_README_TITLE": "Entendre la vostra exportació de certificació",
+  "N": "N",
+  "N/A": "N/A",
+  "NO": "No",
+  "NOT_SURE": "No estic segur",
+  "OPERATION_NAME": "NOM DE L'OPERACIÓ",
+  "RECORD_A": {
+    "ACRES": "Acres",
+    "AREA": "Àrea",
+    "BUILDING": "(edificis, bosc, zona de biodiversitat, accés)",
+    "CERTIFIED": "Certificat",
+    "CROPS_OR_ANIMALS": "Conreu(s) o tipus d'animal per unitat",
+    "CURRENT_STATUS": "Estat actual - marqueu un per Unitat",
+    "EXPORT_DOCUMENT_NAME": "REGISTRE A",
+    "HEADER": "REGISTRE A - IDENTIFICACIÓ DEL LLOGARET",
+    "HECTARES": "Hectàrees",
+    "INDIVIDUAL_PRODUCTION_UNIT": "per a cada Unitat de Producció individual (p.ex., Lloc/Camp/CA/Àrea Definida - segons correspongui a la vostra Operació i etiquetat al vostre mapa)",
+    "NAME_OR_ID": "Nom o ID #",
+    "NEW": "Nou",
+    "NEW_AREA": "Àrea (afegida aquest any)",
+    "NON_ORGANIC": "Àrea No Orgànica a",
+    "NON_PRODUCING": "No productiu",
+    "OPERATION_NAME": "NOM DE L'OPERACIÓ",
+    "ORGANIC_AREA": "Àrea Orgànica",
+    "PLEASE_VERIFY": "Verify els detalls i feu els canvis necessaris anualment. Si l'Operació gestiona múltiples Llocs separats, assegureu-vos de descriure cada lloc per separat. Consulteu la pestanya d'exemple proporcionada a continuació per veure exemples de com emplenar aquest formulari.",
+    "PRODUCTION": "producció",
+    "REMOVED": "Eliminat del Programa",
+    "REPORTING_PERIOD": "Període d'informació",
+    "ROW_FT": "Peus de filera",
+    "ROW_M": "Metres de filera",
+    "SIZE_IN_PREFERRED_UNIT": "Mida en la Unitat de Mesura Preferida",
+    "SPLIT": "Dividit/Paral·lel",
+    "SQ_FT": "Peus quadrats",
+    "SQ_M": "Metres quadrats",
+    "TRANSITIONAL": "Transitori",
+    "WHY_REMOVED": "Per què s'ha eliminat o altres notes"
+  },
+  "RECORD_D": {
+    "DATE_COMPLETED": "Data de compleció",
+    "EXPORT_DOCUMENT_NAME": "REGISTRE D",
+    "FROM": "Des de",
+    "HEADER": "Registre D- Llavors i Material de Plantació",
+    "NOTE": {
+      "LIST_ALL": "Llisteu TOTES les llavors i el material de plantació utilitzats durant el període d'informació. Si us plau, tingueu en compte:",
+      "ONE": "Assegureu-vos que els rebuts de compra, etiquetes, marques i certificats orgànics per a totes les llavors/material estan disponibles per a la revisió durant la inspecció.",
+      "TWO": {
+        "A": "Cerca de Disponibilitat Comercial segons COS 5.3- (Registre D1 o equivalent)",
+        "B": "Documentació que confirmi l'estat no GE",
+        "C": "Documentació que confirmi que qualsevol tractament, com els inoculants o els recobriments de llavors, és conforme amb la LSP (nota: la conformitat amb el NOP no és suficient)",
+        "PART_1": "Quan s'utilitzin",
+        "PART_2": "llavors/material de plantació no orgànics",
+        "PART_3": ", cal que la següent documentació estigui disponible durant la inspecció"
+      }
+    },
+    "REPORTING_PERIOD": "Període d'Informació",
+    "TABLE_COLUMN": {
+      "IS_SEARCH_COMPLETED": "Si és Llavors/Material No-CO, s'ha completat una Cerca? (S/N)",
+      "LIST_SEED_TREATMENTS": "Llista els Tractaments de Llavors (Si n'hi ha)",
+      "LOT_NUMBER": "Núm. de Lot (on correspongui)",
+      "NON_GE_DOCS_AVAILABLE": "Documents no-GE disponibles? (S/N)",
+      "NOTES": "Notes/Dates de plantació perennes/etc.",
+      "SEED_CROP_OR_PLANTING_STOCK": "Conreu/Varietat de Llavors o Material de Plantació",
+      "STATUS_CERTIFIED_ORGANIC": "Estat de les Llavors/Material = Certificat Orgànic? (S/N)",
+      "SUPPLIER": "Font/Proveïdor",
+      "TREATMENT_DOCS_AVAILABLE": "Documents de Tractament disponibles? (S/N)"
+    },
+    "TO": "Fins a"
+  },
+  "RECORD_I": {
+    "CLEANERS": "Neteja",
+    "CROP_PRODUCTION_AIDS": "Ajuts per a la Producció de Conreus",
+    "EXPORT_DOCUMENT_NAME": "REGISTRE I",
+    "HEADER": "Registre I",
+    "INPUT_CATEGORY": "Categoria d'Insum",
+    "LOCATIONS": "Ubicació(s)",
+    "NOTE": {
+      "LIST_ALL": "Llisteu TOTS els insums utilitzats en els últims 12 mesos o des de l'últim Registre I presentat. Podeu triar utilitzar aquest document per mantenir un registre continu dels insums utilitzats al llarg de la temporada.",
+      "LIVESTOCK_INPUTS": "Nota: Els Insums Ramaders: Pinso, additius del pinso i suplements, productes per a la cura de la salut i ajuts a la producció, llitera per als animals, etc. s'han de llistar al Registre LI - Insums Ramaders.",
+      "ONE": {
+        "PART_1": "Esmenes del sòl, nutrició dels conreus, ajuts i materials per a la producció de conreus:",
+        "PART_2": "p.ex., com a cobertes, adobs, pesticides foliars, compost, fem, mescles per a terres de messos o components, torba, esmenes del sòl, etc."
+      },
+      "PLEASE_USE_SEPARATE_RECORD": "Si us plau, utilitzeu un Registre d'Insums separat per a cada categoria d'insum, tal com es descriu a continuació, i pugeu cadascun a la ubicació de càrrega corresponent de la Secció 99 - Càrregues:",
+      "PREP_INPUTS": "Nota: Els Insums de Preparació: Additius alimentaris, Altres ingredients, Ajuts de processament s'han de llistar al Registre PM - Llista Mestra d'Ingredients de Processament i ajuts de processament.",
+      "TWO": "Neteja, desinfectants, sanititzants, substàncies per a la gestió de plagues a les instal·lacions."
+    },
+    "REPORTING_PERIOD": "PERÍODE D'INFORMACIÓ",
+    "TABLE_COLUMN": {
+      "CROP_FIELD_APPLIED_TO": "Conreu/Camp on s'ha aplicat o Unitat de Producció on s'ha utilitzat",
+      "DATE_USED": "Data d'ús",
+      "LISTED_IN_PSL": "Apareix a la LSP? (S/N)",
+      "NOTES": "Notes",
+      "PRODUCT_NAME": "Nom del producte",
+      "QUANTITY": "Quantitat",
+      "SUPPLIER": "Marca o Font/Proveïdor"
+    },
+    "VARIETALS": "Varietal(s)"
+  },
+  "Y": "S",
+  "YES": "Sí"
+}

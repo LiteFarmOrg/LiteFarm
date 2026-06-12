@@ -95,6 +95,7 @@ export const globalTypes = {
         { value: 'hi', title: 'Hindi' },
         { value: 'pa', title: 'Punjabi' },
         { value: 'ml', title: 'Malayalam' },
+        { value: 'ca', title: 'Catalan' },
       ],
       showName: true,
     },

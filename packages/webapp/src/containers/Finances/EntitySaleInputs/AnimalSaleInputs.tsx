@@ -68,7 +68,7 @@ export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
       const unit = record.quantity_unit;
       const formattedEntry: AnimalSaleDefaultRecord = {
         ...record,
-        quantity_unit: unit ? (unitMap[unit] ?? { label: unit, value: unit }) : undefined,
+        quantity_unit: unit ? unitMap[unit] ?? { label: unit, value: unit } : undefined,
       };
       return [key, formattedEntry];
     }),

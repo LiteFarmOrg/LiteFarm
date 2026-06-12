@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import TextButton from '../Form/Button/TextButton';
 import { IconLink, Main } from '../Typography';
 import Icon from '../Icons';
-import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
+import TrashIcon from '../../assets/images/animals/trash_icon_new.svg?react';
 import styles from './styles.module.scss';
 
 export interface InlineWarningProps {

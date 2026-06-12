@@ -16,7 +16,7 @@
 import { ReactNode } from 'react';
 import Icon from '../../Icons';
 import TextButton from '../Button/TextButton';
-import { ReactComponent as XIcon } from '../../../assets/images/x-icon.svg';
+import XIcon from '../../../assets/images/x-icon.svg?react';
 import styles from './styles.module.scss';
 
 interface HeaderWithBackAndCloseProps {

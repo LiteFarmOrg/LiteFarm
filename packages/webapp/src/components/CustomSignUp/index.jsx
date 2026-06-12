@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
-import { ReactComponent as Logo } from '../../assets/images/signUp/logo.svg';
-import { ReactComponent as LineBreak } from '../../assets/images/signUp/lineBreak.svg';
+import Logo from '../../assets/images/signUp/logo.svg?react';
+import LineBreak from '../../assets/images/signUp/lineBreak.svg?react';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
 import React from 'react';

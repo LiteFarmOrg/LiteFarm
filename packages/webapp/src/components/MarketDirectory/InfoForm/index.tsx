@@ -38,9 +38,9 @@ import {
   hookFormMinValidation,
 } from '../../Form/hookformValidationUtils';
 import ImagePicker from '../../ImagePicker';
-import { ReactComponent as InstagramIcon } from '../../../assets/images/socials/instagram.svg';
-import { ReactComponent as FacebookIcon } from '../../../assets/images/socials/facebook.svg';
-import { ReactComponent as XIcon } from '../../../assets/images/socials/x.svg';
+import InstagramIcon from '../../../assets/images/socials/instagram.svg?react';
+import FacebookIcon from '../../../assets/images/socials/facebook.svg?react';
+import XIcon from '../../../assets/images/socials/x.svg?react';
 import PrivateBadge from '../../SimpleBadges/PrivateBadge';
 import type { GetOnFileUpload } from '../../ImagePicker/useImagePickerUpload';
 import {

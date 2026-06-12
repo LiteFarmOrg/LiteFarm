@@ -1,6 +1,6 @@
 import Button from '../../components/Form/Button';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
+import EditIcon from '../../assets/images/edit.svg?react';
 
 export default {
   title: 'Components/Button',

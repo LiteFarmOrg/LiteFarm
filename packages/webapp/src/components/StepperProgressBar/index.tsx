@@ -21,12 +21,12 @@ import StepLabel from '@mui/material/StepLabel';
 import StepConnector from '@mui/material/StepConnector';
 import type { StepIconProps } from '@mui/material/StepIcon';
 import styles from './styles.module.scss';
-import { ReactComponent as DoneLight } from '../../assets/images/stepper/done-light.svg';
-import { ReactComponent as ActiveLight } from '../../assets/images/stepper/active-light.svg';
-import { ReactComponent as DefaultLight } from '../../assets/images/stepper/disabled-light.svg';
-import { ReactComponent as DoneDark } from '../../assets/images/stepper/done-dark.svg';
-import { ReactComponent as ActiveDark } from '../../assets/images/stepper/active-dark.svg';
-import { ReactComponent as DefaultDark } from '../../assets/images/stepper/disabled-dark.svg';
+import DoneLight from '../../assets/images/stepper/done-light.svg?react';
+import ActiveLight from '../../assets/images/stepper/active-light.svg?react';
+import DefaultLight from '../../assets/images/stepper/disabled-light.svg?react';
+import DoneDark from '../../assets/images/stepper/done-dark.svg?react';
+import ActiveDark from '../../assets/images/stepper/active-dark.svg?react';
+import DefaultDark from '../../assets/images/stepper/disabled-dark.svg?react';
 
 export type StepperProgressBarProps = {
   steps: string[];

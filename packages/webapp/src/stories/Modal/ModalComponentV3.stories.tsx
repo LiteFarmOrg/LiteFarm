@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Meta, StoryObj } from '@storybook/react/*';
+import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import ModalComponent, { ModalComponentProps } from '../../components/Modals/ModalComponent/v3';
 import { Label } from '../../components/Typography';
 import Button from '../../components/Form/Button';
-import { ReactComponent as Email } from '../../assets/images/export/email/Email.svg';
+import Email from '../../assets/images/export/email/Email.svg?react';
 
 export default {
   title: 'Components/Modals/ModalComponentV3',

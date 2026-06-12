@@ -24,7 +24,7 @@ import {
   useMarkFarmNotesReadMutation,
 } from '../../store/api/farmNotesReadApi';
 import type { FarmNote } from '../../store/api/types';
-import { ReactComponent as MessageTextSquareIcon } from '../../assets/images/message-text-square-02.svg';
+import MessageTextSquareIcon from '../../assets/images/message-text-square-02.svg?react';
 import FarmNoteFormContainer from './FarmNoteForm';
 import FarmNoteList from '../../components/FarmNotes/FarmNoteList/';
 import Spinner from '../../components/Spinner';

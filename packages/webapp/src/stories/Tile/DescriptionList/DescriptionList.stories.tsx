@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Meta, StoryObj } from '@storybook/react/*';
+import { Meta, StoryObj } from '@storybook/react';
 import DescriptionList, { LabelSize } from '../../../components/Tile/DescriptionList';
 import { iPData, backgroundIconData, dataWithIconData, mockTextData } from './mockData';
 import weatherKPIStyle from '../../../containers/SensorReadings/v2/styles.module.scss';

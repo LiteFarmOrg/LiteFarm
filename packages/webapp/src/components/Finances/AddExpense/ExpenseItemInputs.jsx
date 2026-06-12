@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import { IconLink } from '../../Typography';
-import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg?react';
 import Input, { getInputErrors } from '../../Form/Input';
 import ExpenseEntitySection from '../ExpenseEntitySection';
 import { DATE, NOTE, VALUE } from './constants';

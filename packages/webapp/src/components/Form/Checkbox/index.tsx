@@ -18,9 +18,9 @@ import styles from './checkbox.module.scss';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import clsx from 'clsx';
 import { Error, Main } from '../../Typography';
-import { ReactComponent as PartiallyChecked } from '../../../assets/images/partially-checked.svg';
-import { ReactComponent as UncheckedEnabled } from '../../../assets/images/unchecked-enabled.svg';
-import { ReactComponent as CheckedEnabled } from '../../../assets/images/checked-enabled.svg';
+import PartiallyChecked from '../../../assets/images/partially-checked.svg?react';
+import UncheckedEnabled from '../../../assets/images/unchecked-enabled.svg?react';
+import CheckedEnabled from '../../../assets/images/checked-enabled.svg?react';
 
 interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name?: string;

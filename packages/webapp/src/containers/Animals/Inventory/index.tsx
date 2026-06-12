@@ -289,7 +289,7 @@ export default function AnimalInventory({
   );
 
   const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasAssociatedRecords } =
-    useAnimalOrBatchRemoval(selectedInventoryIds, inventory, setSelectedInventoryIds);
+    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
 
   const animalsColumns = useMemo(
     () => [

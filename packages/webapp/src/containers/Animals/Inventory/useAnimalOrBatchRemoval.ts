@@ -51,7 +51,6 @@ const getInventoryId = ({ animal_id, animal_batch_id }: RecordWithAnimalOrBatch)
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
-  animalTasksWithInventoryIds: { id: string; tasks: Animal['tasks'] }[],
   setSelectedInventoryIds?: Dispatch<SetStateAction<string[]>>,
 ) => {
   const dispatch = useDispatch();

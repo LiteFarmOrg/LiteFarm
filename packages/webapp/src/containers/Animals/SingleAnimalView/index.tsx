@@ -182,10 +182,7 @@ function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
   };
 
   const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasAssociatedRecords } =
-    useAnimalOrBatchRemoval(
-      [getInventoryId()],
-      [{ ...(selectedAnimal || selectedBatch)!, id: getInventoryId() }],
-    );
+    useAnimalOrBatchRemoval([getInventoryId()]);
 
   const onConfirmRemoval = async (formData: FormFields) => {
     const result = await onConfirmRemoveAnimals(formData);

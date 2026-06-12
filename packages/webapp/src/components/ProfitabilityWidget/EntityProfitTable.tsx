@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -23,20 +23,11 @@ import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';
 import { TableKind, Alignment, TableV2Column } from '../Table/types';
 import { EntityTab } from './constants';
+import type { EntityProfitRow } from '../../containers/Home/ProfitabilityWidget/utils';
 import styles from './styles.module.scss';
 
-export interface EntityProfitTableRow {
-  id: string;
-  kind: 'crop' | 'animal';
-  label: string;
-  isTotal?: boolean;
-  revenue: number;
-  expense: number;
-  netProfit: number;
-}
-
 export interface EntityProfitTableProps {
-  rows: EntityProfitTableRow[];
+  rows: EntityProfitRow[];
   entityTab: EntityTab;
   onTabChange: (tab: EntityTab) => void;
   currencySymbol: string;
@@ -52,10 +43,39 @@ const EntityProfitTable = ({
   hasCropVarieties,
   hasAnimals,
 }: EntityProfitTableProps) => {
-  const { t } = useTranslation('profitability');
+  const { t } = useTranslation(['profitability', 'animal']);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const resolveLabel = (row: EntityProfitRow): string => {
+    if (row.kind === 'crop' && row.cropTranslationKey) {
+      return `${row.label}, ${t(`crop:${row.cropTranslationKey}`)}`;
+    }
+    if (row.kind === 'animal' && row.isTotal) {
+      const typeName = row.typeTranslationKey
+        ? t(`animal:TYPE.${row.typeTranslationKey}`)
+        : row.label;
+      return t('TABLE.TYPE_TOTAL', { type: typeName });
+    }
+    return row.label;
+  };
+
+  const displayRows: EntityProfitRow[] = useMemo(
+    () =>
+      rows
+        .map((row) => ({ ...row, label: resolveLabel(row) }))
+        // Sort total rows to the bottom, then alphabetically by label.
+        // The desktop table pins totals via pinToBottom; the mobile card
+        // list has no such mechanism and depends on this ordering
+        .sort((a, b) => {
+          if (a.isTotal !== b.isTotal) {
+            return a.isTotal ? 1 : -1;
+          }
+          return a.label.localeCompare(b.label);
+        }),
+    [rows, t],
+  );
 
   const formatCurrency = (value: number): string =>
     `${currencySymbol}${Math.abs(value).toFixed(2)}`;
@@ -71,11 +91,11 @@ const EntityProfitTable = ({
   const emptyStateMessage =
     entityTab === EntityTab.CROPS ? t('TABLE.NO_CROP_VARIETIES') : t('TABLE.NO_ANIMALS');
 
-  const renderLabel = (row: EntityProfitTableRow): ReactNode => {
+  const renderLabel = (row: EntityProfitRow): ReactNode => {
     return <span className={clsx(row.isTotal && styles.cellTotal)}>{row.label}</span>;
   };
 
-  const renderCurrencyCell = (value: number, isTotal?: boolean): ReactNode => {
+  const renderCurrencyCell = (value: number, isTotal: boolean): ReactNode => {
     return (
       <span className={clsx(styles.cellNumeric, isTotal && styles.cellTotal)}>
         {formatCurrency(value)}
@@ -83,7 +103,7 @@ const EntityProfitTable = ({
     );
   };
 
-  const renderNetProfit = (row: EntityProfitTableRow): ReactNode => {
+  const renderNetProfit = (row: EntityProfitRow): ReactNode => {
     return (
       <span
         className={clsx(styles.cellNetProfit, row.netProfit < 0 && styles.cellNetProfitNegative)}
@@ -104,13 +124,13 @@ const EntityProfitTable = ({
       id: 'revenue',
       label: t('translation:FINANCES.REVENUE'),
       align: Alignment.RIGHT,
-      format: (row: EntityProfitTableRow) => renderCurrencyCell(row.revenue, row.isTotal),
+      format: (row: EntityProfitRow) => renderCurrencyCell(row.revenue, row.isTotal),
     },
     {
       id: 'expense',
       label: t('TABLE.EXPENSE'),
       align: Alignment.RIGHT,
-      format: (row: EntityProfitTableRow) => renderCurrencyCell(row.expense, row.isTotal),
+      format: (row: EntityProfitRow) => renderCurrencyCell(row.expense, row.isTotal),
     },
     {
       id: 'netProfit',
@@ -142,7 +162,7 @@ const EntityProfitTable = ({
         </div>
       ) : isMobile ? (
         <div className={styles.entityCardList}>
-          {rows.map((row) => (
+          {displayRows.map((row) => (
             <div key={row.id} className={styles.entityCard}>
               <div className={styles.entityCardContent}>
                 <div className={styles.entityCardHeader}>{row.label}</div>
@@ -160,11 +180,11 @@ const EntityProfitTable = ({
         <Table
           kind={TableKind.V2}
           columns={columns}
-          data={rows}
+          data={displayRows}
           alternatingRowColor
           shouldFixTableLayout
           headerClass={styles.profitabilityTableHeader}
-          pinToBottom={(row) => !!row.isTotal}
+          pinToBottom={(row) => row.isTotal}
         />
       )}
       <p className={styles.tableFootnote}>{t('TABLE.FOOTNOTE')}</p>

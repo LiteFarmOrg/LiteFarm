@@ -16,6 +16,7 @@
 import { useState } from 'react';
 import EntityProfitTable from '../../components/ProfitabilityWidget/EntityProfitTable';
 import { EntityTab } from '../../components/ProfitabilityWidget/constants';
+import type { EntityProfitRow } from '../../containers/Home/ProfitabilityWidget/utils';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 export default {
@@ -24,10 +25,12 @@ export default {
   decorators: componentDecorators,
 };
 
-const allRows = [
+const allRows: EntityProfitRow[] = [
   {
     id: 'crop_100',
-    kind: 'crop' as const,
+    kind: 'crop',
+    isTotal: false,
+    cropVarietyId: 100,
     label: 'Yellow Carrot',
     revenue: 1200,
     expense: 320,
@@ -35,7 +38,9 @@ const allRows = [
   },
   {
     id: 'crop_101',
-    kind: 'crop' as const,
+    kind: 'crop',
+    isTotal: false,
+    cropVarietyId: 101,
     label: 'Red Carrot',
     revenue: 800,
     expense: 200,
@@ -43,7 +48,9 @@ const allRows = [
   },
   {
     id: 'crop_102',
-    kind: 'crop' as const,
+    kind: 'crop',
+    isTotal: false,
+    cropVarietyId: 102,
     label: 'Heirloom Tomato',
     revenue: 0,
     expense: 0,
@@ -51,7 +58,9 @@ const allRows = [
   },
   {
     id: 'crop_103',
-    kind: 'crop' as const,
+    kind: 'crop',
+    isTotal: false,
+    cropVarietyId: 103,
     label: 'Soybeans',
     revenue: 0,
     expense: 1200,
@@ -59,7 +68,8 @@ const allRows = [
   },
   {
     id: 'animal_50',
-    kind: 'animal' as const,
+    kind: 'animal',
+    isTotal: false,
     label: 'Bessie',
     revenue: 2000,
     expense: 300,
@@ -67,17 +77,21 @@ const allRows = [
   },
   {
     id: 'batch_60',
-    kind: 'animal' as const,
+    kind: 'animal',
+    isTotal: false,
     label: 'Spring Calves',
     revenue: 1200,
     expense: 150,
     netProfit: 1050,
   },
+  // Custom animal type: the table renders t('TABLE.TYPE_TOTAL', { type: 'Cattle' }).
   {
-    id: 'default_type_1',
-    kind: 'animal' as const,
+    id: 'custom_type_1',
+    kind: 'animal',
     isTotal: true,
-    label: 'Cattle total',
+    defaultTypeId: null,
+    customTypeId: 1,
+    label: 'Cattle',
     revenue: 3200,
     expense: 450,
     netProfit: 2750,

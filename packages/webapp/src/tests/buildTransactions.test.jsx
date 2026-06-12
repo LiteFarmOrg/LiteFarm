@@ -287,7 +287,7 @@ const allResults = [
     icon: 'CROP_SALE',
     date: '2023-10-18T00:00:00.000Z',
     transactionType: 'CROP_REVENUE',
-    typeLabel: 'CROP_SALE.REVENUE_NAME',
+    typeLabel: 'Crop Sale',
     amount: 30,
     note: 'Customer 2',
     items: [
@@ -346,7 +346,7 @@ const allResults = [
     icon: 'CROP_SALE',
     date: '2023-10-12T00:00:00.000Z',
     transactionType: 'CROP_REVENUE',
-    typeLabel: 'CROP_SALE.REVENUE_NAME',
+    typeLabel: 'Crop Sale',
     amount: 100,
     note: 'Customer 1',
     items: [

@@ -4,9 +4,9 @@ import { useForm, FormProvider } from 'react-hook-form';
 import LocationButtons from './LocationButtons';
 import LocationPageHeader from './LocationPageHeader';
 import Form from '../Form';
-import AreaDetails from './AreaDetails/AreaDetails';
-import LineDetails from './LineDetails/LineDetails';
-import PointDetails from './PointDetails/PointDetails';
+import AreaDetails from './AreaDetails';
+import LineDetails from './LineDetails';
+import PointDetails from './PointDetails';
 import RouterTab from '../RouterTab';
 import useLocationRouterTabs from '../../containers/LocationDetails/useLocationRouterTabs';
 import { Variant } from '../RouterTab/Tab';
@@ -60,7 +60,6 @@ export function PureLocationDetailLayout({
       return (
         <AreaDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
@@ -74,7 +73,6 @@ export function PureLocationDetailLayout({
       return (
         <LineDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}
@@ -86,7 +84,6 @@ export function PureLocationDetailLayout({
       return (
         <PointDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}

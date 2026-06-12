@@ -19,11 +19,11 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import useLocations from '../../../hooks/location/useLocations';
 import useCropLocations from '../../../hooks/location/useCropLocations';
 import useAnimalLocations from '../../../hooks/location/useAnimalLocations';
 import useLocationsById from '../../../hooks/location/useLocationsById';
+import { InternalMapLocationType } from '../../../store/api/types';
 
 export default function TaskLocationsSwitch() {
   const location = useLocation();
@@ -176,7 +176,9 @@ function TaskAnimalLocations({ history, location }) {
 
 function TaskSoilSampleLocations({ history, location }) {
   const { t } = useTranslation();
-  const soilSampleLocations = useSelector(soilSampleLocationsSelector);
+  const { locations: soilSampleLocations } = useLocations({
+    filterBy: InternalMapLocationType.SOIL_SAMPLE_LOCATION,
+  });
   const onContinue = () => {
     history.push('/add_task/task_details', location.state);
   };

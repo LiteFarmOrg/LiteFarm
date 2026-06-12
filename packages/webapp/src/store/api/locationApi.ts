@@ -66,11 +66,13 @@ export const locationApi = api.injectEndpoints({
         type: InternalMapLocationType;
       }>
     >({
-      query: ({ data, type, location_id }) => ({
-        url: `${locationURL}/${type}/${location_id}`,
-        method: 'PUT',
-        body: data,
-      }),
+      query: ({ data, type, location_id }) => {
+        return {
+          url: `${locationURL}/${type}/${location_id}`,
+          method: 'PUT',
+          body: data,
+        };
+      },
       invalidatesTags: ['Locations'],
     }),
   }),

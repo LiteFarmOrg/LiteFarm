@@ -34,7 +34,6 @@ import useDrawingManager from './useDrawingManager';
 import { createShapeCapture } from './createShapeCapture';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
-import { getLocations } from '../saga';
 import {
   mapFilterSettingSelector,
   setMapFilterHideAll,
@@ -145,10 +144,6 @@ export default function Map({ isCompactSideMenu }) {
   useEffect(() => {
     if (drawingState.pointChanged) dispatch(setIsRedrawing(true));
   }, [drawingState.pointChanged]);
-
-  useEffect(() => {
-    dispatch(getLocations());
-  }, []);
 
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);

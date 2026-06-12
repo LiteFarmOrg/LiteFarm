@@ -15,7 +15,7 @@ export const up = function (knex) {
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
         .notNullable();
-      table.string('token').notNullable();
+      table.string('token', 64).notNullable();
       table.boolean('is_used').defaultTo(false).notNullable();
       table.timestamps(false, true);
       table.primary(['user_id', 'farm_id']);

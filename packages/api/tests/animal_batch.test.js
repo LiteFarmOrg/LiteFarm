@@ -1350,6 +1350,68 @@ describe('Animal Batch Tests', () => {
         },
       });
     });
+
+    describe('Delete animals with finance records', () => {
+      let farm;
+      let owner;
+      let animalSaleRevenueType;
+      let animalBatch;
+
+      beforeEach(async () => {
+        const { mainFarm, user } = await returnUserFarms(1);
+        farm = mainFarm;
+        owner = user;
+        [animalSaleRevenueType] = await mocks.revenue_typeFactory({
+          promisedFarm: [farm],
+          properties: { entity_type: 'animal' },
+        });
+        animalBatch = await makeAnimalBatch(farm, { default_type_id: defaultTypeId });
+      });
+
+      test('Should not be able to delete a batch with existing sale records', async () => {
+        const [sale] = await mocks.saleFactory(
+          { promisedUserFarm: [farm] },
+          mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+        );
+        await mocks.animal_saleFactory({
+          promisedSale: [sale],
+          promisedAnimalBatch: [animalBatch],
+          animalOrBatch: 'batch',
+        });
+
+        const res = await deleteRequest({
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+          query: `ids=${animalBatch.id}&${deleteDateParam}`,
+        });
+
+        expect(res.status).toBe(400);
+        expect(res.error.text).toBe('Animals with associated sales cannot be deleted');
+      });
+
+      test('Should not be able to delete an animal with existing expense records', async () => {
+        const [expenseType] = await mocks.farmExpenseTypeFactory({ promisedFarm: [farm] });
+        const [expense] = await mocks.farmExpenseFactory({
+          promisedExpenseType: [expenseType],
+          promisedUserFarm: [{ user_id: owner.user_id, farm_id: farm.farm_id }],
+        });
+        await mocks.farm_expense_animalFactory({
+          promisedFarm: [farm],
+          promisedExpense: [expense],
+          promisedAnimalBatch: [animalBatch],
+          animalOrBatch: 'batch',
+        });
+
+        const res = await deleteRequest({
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+          query: `ids=${animalBatch.id}&${deleteDateParam}`,
+        });
+
+        expect(res.status).toBe(400);
+        expect(res.error.text).toBe('Animals with associated expenses cannot be deleted');
+      });
+    });
   });
 
   // MIDDLEWARE tests

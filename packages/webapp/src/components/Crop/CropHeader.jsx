@@ -1,4 +1,3 @@
-import React from 'react';
 import { Label, Text, Title } from '../Typography';
 import { ReactComponent as Back } from '../../assets/images/managementPlans/back.svg';
 import { useTranslation } from 'react-i18next';
@@ -38,7 +37,7 @@ function CropHeader({ variety, onBackClick }) {
         <div className={styles.headerTitleContainer} onClick={onBackClick}>
           <Back style={{ verticalAlign: 'text-bottom' }} />
           <Title className={clsx(styles.headerTitle, styles.textOverFlowBehaviour)}>
-            {t(`crop:${crop_translation_key}`)}
+            {crop_variety_name || t(`crop:${crop_translation_key}`)}
           </Title>
         </div>
         <div className={styles.headerAttributesContainer}>

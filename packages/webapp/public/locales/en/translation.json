@@ -517,6 +517,7 @@
   },
   "CROP": {
     "ADD_CROP": "Add a crop",
+    "ADD_CROP_VARIETY": "Add a crop variety",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
@@ -620,7 +621,8 @@
       "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future crop plans. You'll need to complete or abandon those plans to retire this crop",
       "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
     },
-    "SUPPLIER": "Supplier"
+    "SUPPLIER": "Supplier",
+    "TITLE": "{{crop_name}} varieties"
   },
   "DATE_RANGE": {
     "INVALID_RANGE_MESSAGE": "End date must be after start date to return results"

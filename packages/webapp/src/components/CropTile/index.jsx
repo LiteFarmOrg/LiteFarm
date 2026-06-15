@@ -101,6 +101,7 @@ PureCropTile.propTypes = {
     active: PropTypes.number,
     planned: PropTypes.number,
     completed: PropTypes.number,
+    noPlans: PropTypes.number,
   }),
   needsPlan: PropTypes.bool,
   title: PropTypes.string,

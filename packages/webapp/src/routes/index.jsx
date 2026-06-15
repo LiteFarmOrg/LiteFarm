@@ -81,8 +81,8 @@ const AddSensorsForm = React.lazy(() => import('../containers/AddSensors'));
 
 const CropCatalogue = React.lazy(() => import('../containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('../containers/CropVarieties'));
-const AddCrop = React.lazy(() => import('../containers/AddCropVariety/AddCropVariety'));
-const EditCrop = React.lazy(() => import('../containers/EditCropVariety'));
+const AddCropVariety = React.lazy(() => import('../containers/AddCropVariety/AddCropVariety'));
+const EditCropVariety = React.lazy(() => import('../containers/EditCropVariety'));
 const ComplianceInfo = React.lazy(() => import('../containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('../containers/AddNewCrop'));
 const PlantingLocation = React.lazy(
@@ -298,7 +298,11 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/user/:user_id" exact children={<EditUser />} />
                     <Route path="/consent" exact children={<ConsentForm />} />
                     <Route path="/crop/new" exact children={<AddNewCrop />} />
-                    <Route path="/crop/:crop_id/add_crop_variety" exact children={<AddCrop />} />
+                    <Route
+                      path="/crop/:crop_id/add_crop_variety"
+                      exact
+                      children={<AddCropVariety />}
+                    />
                     <Route
                       path="/crop/:crop_id/add_crop_variety/compliance"
                       exact
@@ -313,7 +317,7 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route
                       path="/crop/:variety_id/edit_crop_variety"
                       exact
-                      children={<EditCrop />}
+                      children={<EditCropVariety />}
                     />
                     <Route
                       path="/crop/:variety_id/add_management_plan/planted_already"
@@ -790,7 +794,7 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route
                       path="/crop/:variety_id/edit_crop_variety"
                       exact
-                      children={<EditCrop />}
+                      children={<EditCropVariety />}
                     />
                     <Route path="/documents" exact children={<Documents />} />
                     <Route path="/documents/add_document" exact children={<AddDocument />} />
@@ -826,7 +830,11 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/sensor_array/:id" exact>
                       <SensorReadings type={'sensor_array'} />
                     </Route>
-                    <Route path="/crop/:crop_id/add_crop_variety" exact children={<AddCrop />} />
+                    <Route
+                      path="/crop/:crop_id/add_crop_variety"
+                      exact
+                      children={<AddCropVariety />}
+                    />
                     <Route
                       path="/crop/:crop_id/add_crop_variety/compliance"
                       exact

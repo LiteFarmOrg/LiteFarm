@@ -12,12 +12,7 @@ import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { getCropVarieties } from '../saga';
-import {
-  cropCatalogueFilterDateSelector,
-  cropVarietyFilterSelector,
-  isFilterCurrentlyActiveSelector,
-  setCropCatalogueFilterDate,
-} from '../filterSlice';
+import { cropVarietyFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CropVarietyFilterPage from '../Filter/CropVariety';
@@ -78,9 +73,6 @@ export default function CropVarieties() {
     setIsFilterOpen(true);
   };
 
-  const date = useSelector(cropCatalogueFilterDateSelector);
-  const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
-
   const onGoBack = () => history.push('/crop_catalogue');
 
   const goToVarietyManagement = (varietyId) => {
@@ -121,8 +113,6 @@ export default function CropVarieties() {
         />
       )}
 
-      {/* <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} /> */}
-
       <div ref={containerRef}>
         {sum + filteredCropsWithoutManagementPlan.length ? (
           <>
@@ -130,8 +120,6 @@ export default function CropVarieties() {
             <CropStatusInfoBox
               status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
-              date={date}
-              setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {

@@ -38,7 +38,7 @@ function CropHeader({ variety, onBackClick }) {
         <div className={styles.headerTitleContainer} onClick={onBackClick}>
           <Back style={{ verticalAlign: 'text-bottom' }} />
           <Title className={clsx(styles.headerTitle, styles.textOverFlowBehaviour)}>
-            {t(`crop:${crop_translation_key}`)}
+            {crop_variety_name || t(`crop:${crop_translation_key}`)}
           </Title>
         </div>
         <div className={styles.headerAttributesContainer}>

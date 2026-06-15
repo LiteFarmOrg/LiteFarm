@@ -48,6 +48,7 @@ function ComplianceInfoForm() {
         onGoBack={onGoBack}
         match={match}
         crop={crop}
+        isNewCrop={isNewCrop}
       />
     </HookFormPersistProvider>
   );

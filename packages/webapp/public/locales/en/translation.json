@@ -517,6 +517,7 @@
   },
   "CROP": {
     "ADD_CROP": "Add a crop",
+    "ADD_CROP_VARIETY": "Add a crop variety",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",

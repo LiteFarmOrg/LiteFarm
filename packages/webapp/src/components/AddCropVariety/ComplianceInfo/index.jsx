@@ -19,6 +19,7 @@ export default function ComplianceInfo({
   useHookFormPersist,
   match,
   crop,
+  isNewCrop,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const CERTIFIED_ORGANIC = 'organic';
@@ -64,7 +65,7 @@ export default function ComplianceInfo({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        title={t('CROP.ADD_CROP')}
+        title={isNewCrop ? t('CROP.ADD_CROP') : t('CROP.ADD_CROP_VARIETY')}
         value={progress}
         style={{
           marginBottom: '23px',

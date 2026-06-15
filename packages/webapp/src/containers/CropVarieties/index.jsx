@@ -87,7 +87,7 @@ export default function CropVarieties() {
   return (
     <Layout>
       <PageTitle
-        title={t(`crop:${crop.crop_translation_key}`)}
+        title={t('CROP_VARIETIES.TITLE', { crop_name: t(`crop:${crop.crop_translation_key}`) })}
         style={{ paddingBottom: '20px' }}
         onGoBack={onGoBack}
       />

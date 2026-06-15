@@ -22,57 +22,7 @@ import LocationManagementPlan from '../containers/LocationDetails/LocationManage
 import LocationFieldTechnology from '../containers/LocationDetails/LocationFieldTechnology';
 import LocationIrrigation from '../containers/LocationDetails/LocationIrrigation';
 import EditLocationDetailForm from '../containers/LocationDetails/EditLocationDetailForm';
-
-// Location route configuration - maps location type to enabled tabs
-export const locationRouteConfig = {
-  field: {
-    enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
-  },
-  garden: {
-    enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
-  },
-  greenhouse: {
-    enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
-  },
-  barn: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  gate: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  water_valve: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  soil_sample_location: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  buffer_zone: {
-    enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
-  },
-  watercourse: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  fence: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  natural_area: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  residence: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  surface_water: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  ceremonial_area: {
-    enabledTabs: ['details', 'tasks'],
-  },
-  farm_site_boundary: {
-    enabledTabs: ['details', 'tasks', 'field_technology', 'irrigation'],
-  },
-};
-
-export const allLocationTypes = Object.keys(locationRouteConfig);
+import { locationRouteConfig } from './locationRouteConfig';
 
 export default function LocationDetailsRoutes({ locationType }) {
   const isAdmin = useSelector(isAdminSelector);

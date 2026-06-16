@@ -24,6 +24,10 @@ export const locationApi = api.injectEndpoints({
       queryFn: async (_arg, { getState }, _extraOptions, baseQuery) => {
         const state = getState() as RootState;
         const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+        if (!farm_id) {
+          // Skip the request rather than calling /location/farm/undefined, which the backend rejects with a 403.
+          return { error: { status: 'CUSTOM_ERROR', error: 'No farm selected' } };
+        }
         const result = await baseQuery({
           url: `${getLocationsByFarmIdUrl(farm_id)}`,
           method: 'GET',

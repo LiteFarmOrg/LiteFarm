@@ -636,6 +636,7 @@
     "BACK": "वापस",
     "CLEAR_DATES": "तारीखें साफ करें",
     "CUSTOM_RANGE": "कस्टम रेंज चुनें",
+    "LAST_12_MONTHS": "पिछले 12 महीने",
     "LAST_FOURTEEN_DAYS": "पिछले 14 दिन",
     "LAST_MONTH": "पिछले 14 दिन",
     "LAST_SEVEN_DAYS": "पिछले 7 दिन",
@@ -768,6 +769,12 @@
       "TITLE": "खर्च संपादित करें",
       "TITLE_1": "खर्च संपादित करें (1 का 2)",
       "TITLE_2": "खर्च संपादित करें (2 का 2)"
+    },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "क्या यह व्यय पशुओं या फसलों से संबंधित है?",
+      "EXCEEDED_ERROR": "उपयोग की गई राशि आवंटित की जाने वाली कुल राशि से अधिक नहीं हो सकती",
+      "SELECT_ANIMALS": "अपनी इन्वेंटरी से पशु चुनें",
+      "TOTAL_TO_ALLOCATE": "आवंटित की जाने वाली कुल राशि"
     },
     "ITEM_NAME": "आइटम का नाम",
     "NO_EXPENSE": "कोई खर्च नहीं मिला",
@@ -906,6 +913,7 @@
       "RESIDENCE": "निवास",
       "SATELLITE": "उपग्रह पृष्ठभूमि",
       "SENSOR": "सेंसर",
+      "SENSOR_ARRAY": "सेंसर ऐरे",
       "SHOW_ALL": "सभी दिखाएं",
       "SOIL_SAMPLE_LOCATION": "मिट्टी के नमूने का स्थान",
       "SURFACE_WATER": "सतही जल",
@@ -1096,6 +1104,8 @@
       "REVENUE_TYPES": "राजस्व प्रकार खोजें"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "असंबद्ध राशि",
+      "ANIMALS": "पशु",
       "CROPS": "फसलें",
       "DAILY_TOTAL": "दैनिक कुल",
       "LABOUR_EXPENSE": "श्रम खर्च",
@@ -1846,7 +1856,8 @@
       "CUSTOM_REVENUE_NAME": "कस्टम राजस्व का नाम",
       "CUSTOM_REVENUE_TYPE": "कस्टम राजस्व प्रकार",
       "DUPLICATE_NAME": "इस नाम का एक राजस्व प्रकार पहले से मौजूद है। कृपया दूसरा चुनें।",
-      "DUPLICATE_NAME_RETIRED": "इस नाम का एक सेवानिवृत्त राजस्व प्रकार पहले से मौजूद है। कृपया दूसरा चुनें।"
+      "DUPLICATE_NAME_RETIRED": "इस नाम का एक सेवानिवृत्त राजस्व प्रकार पहले से मौजूद है। कृपया दूसरा चुनें।",
+      "ENTITY_ASSOCIATION_LABEL": "क्या यह आय पशुओं या फसलों से संबंधित है?"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "कस्टम राजस्व विवरण",
     "DELETE": {
@@ -1878,11 +1889,15 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "कस्टम राजस्व प्रकार जोड़ें",
       "ADD_REVENUE": "राजस्व जोड़ें",
+      "ANIMAL_NOTES_PLACEHOLDER": "पशु उत्पादों की बिक्री से प्राप्त आय",
+      "CROP_NOTES_PLACEHOLDER": "फसलों की बिक्री से प्राप्त आय",
       "CROP_REQUIRED": "आवश्यक",
       "CROP_VARIETY": "फसल की किस्म",
       "FLOW": "राजस्व सृजन",
       "MANAGE_CUSTOM_REVENUE_TYPE": "कस्टम राजस्व प्रकार प्रबंधित करें",
+      "NOTES_PLACEHOLDER": "बिक्री से प्राप्त आय",
       "SALE_VALUE_ERROR": "बिक्री मूल्य 999,999,999 से कम एक सकारात्मक संख्या होनी चाहिए",
+      "SELECT_CROPS": "फसलें चुनें",
       "TABLE_HEADERS": {
         "TOTAL": "कुल"
       },
@@ -1956,6 +1971,10 @@
     "ANIMALS_GROUPS": "जानवर समूह",
     "ANIMALS_INVENTORY": "जानवर सूची",
     "ANIMALS_LOCATION": "जानवर स्थान"
+  },
+  "SELECT": {
+    "NO_ANIMALS_IN_INVENTORY": "आपकी इन्वेंटरी में कोई पशु नहीं है",
+    "NO_CROP_VARIETIES": "आपके खेत में फसल की कोई किस्म नहीं है"
   },
   "SENSOR": {
     "ARRAY": "ऐरे",
@@ -2209,6 +2228,10 @@
     "UPLOAD_LAB_DOCUMENT": "लैब दस्तावेज़ अपलोड करें",
     "WILL_SAVE_ONLINE": "ऑनलाइन होने पर सहेज लिया जाएगा"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "अगला समय स्लॉट",
+    "PREVIOUS_TIME_SLOT": "पिछला समय स्लॉट"
+  },
   "UNIT": {
     "TIME": {
       "DAY": "दिन",
@@ -2238,7 +2261,11 @@
     "HOURLY_WAGE_TOOLTIP": "यह कार्य-विशिष्ट मज़दूरी नियुक्त व्यक्ति की डिफ़ॉल्ट मज़दूरी को बदल देगी। डिफ़ॉल्ट मज़दूरी “लोग” टैब में प्रबंधित की जा सकती है।"
   },
   "WEATHER": {
+    "FROST_EXPECTED": "⚠️ पाला पड़ने की संभावना (न्यूनतम {{threshold}})",
+    "FROST_RISK": "पाले का जोखिम",
     "HUMIDITY": "आर्द्रता",
+    "PRECIPITATION": "वर्षा",
+    "TITLE": "मौसम और परिस्थितियाँ",
     "WIND": "हवा"
   },
   "WELCOME_SCREEN": {

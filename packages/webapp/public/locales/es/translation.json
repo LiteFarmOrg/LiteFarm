@@ -517,6 +517,7 @@
   },
   "CROP": {
     "ADD_CROP": "Agregar un cultivo",
+    "ADD_CROP_VARIETY": "Agregar una nueva variedad",
     "ADD_IMAGE": "Agregar imagen personalizada",
     "ANNUAL": "Anual",
     "ANNUAL_OR_PERENNIAL": "¿El cultivo es anual o perenne?",
@@ -620,7 +621,8 @@
       "UNABLE_TO_RETIRE": "Solo puede retirar cultivos que no tengan planes de cultivo activos o futuros. Deberá completar o abandonar esos planes para retirar este cultivo.",
       "UNABLE_TO_RETIRE_TITLE": "Incapaz de retirar"
     },
-    "SUPPLIER": "Proveedor/a"
+    "SUPPLIER": "Proveedor/a",
+    "TITLE": "Variedades de {{crop_name}}"
   },
   "DATE_RANGE": {
     "INVALID_RANGE_MESSAGE": "La fecha de finalización debe ser posterior a la fecha de inicio para obtener resultados"
@@ -636,6 +638,7 @@
     "BACK": "atrás",
     "CLEAR_DATES": "Limpiar fechas",
     "CUSTOM_RANGE": "Elegir un rango personalizado",
+    "LAST_12_MONTHS": "Últimos 12 meses",
     "LAST_FOURTEEN_DAYS": "Últimos 14 días",
     "LAST_MONTH": "Último mes",
     "LAST_SEVEN_DAYS": "Últimos 7 días",
@@ -768,6 +771,12 @@
       "TITLE": "Editar gasto",
       "TITLE_1": "Editar gastos (1 de 2)",
       "TITLE_2": "Editar gastos (2 de 2)"
+    },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "¿Este gasto está asociado con animales o cultivos?",
+      "EXCEEDED_ERROR": "La cantidad utilizada no puede exceder la cantidad total a asignar",
+      "SELECT_ANIMALS": "Selecciona animales de tu inventario",
+      "TOTAL_TO_ALLOCATE": "Cantidad total a asignar"
     },
     "ITEM_NAME": "Nombre del gasto",
     "NO_EXPENSE": "Sin gasto",
@@ -906,6 +915,7 @@
       "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
       "SENSOR": "Sensor",
+      "SENSOR_ARRAY": "Formacion de sensores",
       "SHOW_ALL": "Muestra todo",
       "SOIL_SAMPLE_LOCATION": "Ubicación de la muestra de suelo",
       "SURFACE_WATER": "Agua de superficie",
@@ -1096,6 +1106,8 @@
       "REVENUE_TYPES": "Buscar tipo de ingreso"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "Cantidad no atribuida",
+      "ANIMALS": "Animales",
       "CROPS": "Cultivos",
       "DAILY_TOTAL": "TOTAL DIARIO",
       "LABOUR_EXPENSE": "Gasto de trabajo",
@@ -1846,7 +1858,8 @@
       "CUSTOM_REVENUE_NAME": "Nombre de ingreso personalizado",
       "CUSTOM_REVENUE_TYPE": "Tipo de ingreso personalizado",
       "DUPLICATE_NAME": "Ya existe un tipo de ingreso con este nombre. Por favor, elija uno diferente.",
-      "DUPLICATE_NAME_RETIRED": "Ya existe un tipo de ingreso retirado con este nombre. Por favor, elija uno diferente."
+      "DUPLICATE_NAME_RETIRED": "Ya existe un tipo de ingreso retirado con este nombre. Por favor, elija uno diferente.",
+      "ENTITY_ASSOCIATION_LABEL": "¿Este gasto está asociado con animales o cultivos?"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Descripción de tipo de ingreso personalizado",
     "DELETE": {
@@ -1878,11 +1891,15 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Agregar tipo de ingreso personalizado",
       "ADD_REVENUE": "Agregar ingreso",
+      "ANIMAL_NOTES_PLACEHOLDER": "Descripción de venta animal",
+      "CROP_NOTES_PLACEHOLDER": "Descripción de venta de cultivos",
       "CROP_REQUIRED": "Cultivo es obligatorio",
       "CROP_VARIETY": "Variedad de cultivo",
       "FLOW": "creación de ingreso",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Administrar tipos de ingreso personalizados",
+      "NOTES_PLACEHOLDER": "Descripción de venta",
       "SALE_VALUE_ERROR": "El valor de venta debe ser un número positivo menor a 999,999,999",
+      "SELECT_CROPS": "Seleccionar cultivos",
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },
@@ -1956,6 +1973,10 @@
     "ANIMALS_GROUPS": "Grupo de animales",
     "ANIMALS_INVENTORY": "Inventario de animales",
     "ANIMALS_LOCATION": "Localización de animales"
+  },
+  "SELECT": {
+    "NO_ANIMALS_IN_INVENTORY": "No tienes animales en tu inventario",
+    "NO_CROP_VARIETIES": "No tienes variedades de cultivos"
   },
   "SENSOR": {
     "ARRAY": "Matriz",
@@ -2209,6 +2230,10 @@
     "UPLOAD_LAB_DOCUMENT": "Subir documento de laboratorio",
     "WILL_SAVE_ONLINE": "Guardará cuando esté en línea"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "Siguiente intervalo de tiempo",
+    "PREVIOUS_TIME_SLOT": "Intervalo de tiempo anterior"
+  },
   "UNIT": {
     "TIME": {
       "DAY": "dias",
@@ -2238,7 +2263,11 @@
     "HOURLY_WAGE_TOOLTIP": "Este salario específico de la tarea anulará el salario predeterminado del trabajador asignado. Los salarios predeterminados de los trabajadores pueden ser gestionados en la pestaña Personas."
   },
   "WEATHER": {
+    "FROST_EXPECTED": "⚠️ Helada esperada (bajo {{threshold}})",
+    "FROST_RISK": "Riesgo de Helada",
     "HUMIDITY": "Humedad",
+    "PRECIPITATION": "Precipitación",
+    "TITLE": "Clima y condiciones",
     "WIND": "Viento"
   },
   "WELCOME_SCREEN": {

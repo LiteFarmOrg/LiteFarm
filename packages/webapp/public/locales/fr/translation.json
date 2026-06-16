@@ -517,6 +517,7 @@
   },
   "CROP": {
     "ADD_CROP": "Ajouter une culture",
+    "ADD_CROP_VARIETY": "Ajouter une nouvelle variété",
     "ADD_IMAGE": "Ajouter une image personnalisée",
     "ANNUAL": "Annuelle",
     "ANNUAL_OR_PERENNIAL": "La culture est-elle annuelle ou vivace ?",
@@ -620,7 +621,8 @@
       "UNABLE_TO_RETIRE": "Vous ne pouvez retirer que des cultures qui n'ont aucun plan de culture actif ou futur. Vous devez terminer ou abandonner ces plans pour, ensuite, retirer cette culture",
       "UNABLE_TO_RETIRE_TITLE": "Impossible de retirer cette culture"
     },
-    "SUPPLIER": "Fournisseur"
+    "SUPPLIER": "Fournisseur",
+    "TITLE": "Variétés {{crop_name}}"
   },
   "DATE_RANGE": {
     "INVALID_RANGE_MESSAGE": "La date 'De' doit précéder la date 'À' que des résultats soient retournés"
@@ -636,6 +638,7 @@
     "BACK": "Retour",
     "CLEAR_DATES": "Effacer toutes les dates",
     "CUSTOM_RANGE": "Intervalle personnalisé",
+    "LAST_12_MONTHS": "Les 12 derniers mois",
     "LAST_FOURTEEN_DAYS": "Derniers 14 jours",
     "LAST_MONTH": "Dernier mois",
     "LAST_SEVEN_DAYS": "Derniers 7 jours",
@@ -768,6 +771,12 @@
       "TITLE": "Modifier la dépense",
       "TITLE_1": "Modifier la dépense (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
+    },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "Cette dépense est-elle associée à des animaux ou à des cultures ?",
+      "EXCEEDED_ERROR": "Le montant utilisé ne doit pas dépasser le montant total à allouer",
+      "SELECT_ANIMALS": "Sélectionnez les animaux de votre inventaire",
+      "TOTAL_TO_ALLOCATE": "Montant total à allouer"
     },
     "ITEM_NAME": "Nom de la dépense",
     "NO_EXPENSE": "Aucune dépense trouvée",
@@ -906,6 +915,7 @@
       "RESIDENCE": "Résidence",
       "SATELLITE": "Image satellite",
       "SENSOR": "Capteur",
+      "SENSOR_ARRAY": "Pile de capteurs",
       "SHOW_ALL": "Afficher tout",
       "SOIL_SAMPLE_LOCATION": "Emplacement de l’échantillon de sol",
       "SURFACE_WATER": "Eaux de surface",
@@ -1096,6 +1106,8 @@
       "REVENUE_TYPES": "Rechercher un type de recette"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "Montant non attribué",
+      "ANIMALS": "Animaux",
       "CROPS": "Cultures",
       "DAILY_TOTAL": "Total quotidien",
       "LABOUR_EXPENSE": "Dépense de main-d'œuvre",
@@ -1846,7 +1858,8 @@
       "CUSTOM_REVENUE_NAME": "Nom de la recette personnalisée",
       "CUSTOM_REVENUE_TYPE": "Type de recette personnalisée",
       "DUPLICATE_NAME": "Un type de recette portant ce nom existe déjà.  Veuillez en choisir un autre.",
-      "DUPLICATE_NAME_RETIRED": "Un type de recette desactivée portant ce nom existe déjà.  Veuillez en choisir un autre."
+      "DUPLICATE_NAME_RETIRED": "Un type de recette desactivée portant ce nom existe déjà.  Veuillez en choisir un autre.",
+      "ENTITY_ASSOCIATION_LABEL": "Cette recette est-elle associée à des animaux ou des cultures ?"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Description du revenu personnalisé",
     "DELETE": {
@@ -1878,11 +1891,15 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de recette personnalisé",
       "ADD_REVENUE": "Ajouter une recette",
+      "ANIMAL_NOTES_PLACEHOLDER": "Description de la vente d'animaux",
+      "CROP_NOTES_PLACEHOLDER": "Description de la vente de culture",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
       "FLOW": "Création de recettes",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Gérer les types de recettes personnalisées",
+      "NOTES_PLACEHOLDER": "Description de la vente",
       "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif inférieur à 999,999,999",
+      "SELECT_CROPS": "Sélectionner les cultures",
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },
@@ -1956,6 +1973,10 @@
     "ANIMALS_GROUPS": "Groupes d'animaux",
     "ANIMALS_INVENTORY": "Inventaire d'animaux",
     "ANIMALS_LOCATION": "Emplacements des animaux"
+  },
+  "SELECT": {
+    "NO_ANIMALS_IN_INVENTORY": "Vous n'avez pas d'animaux dans votre inventaire",
+    "NO_CROP_VARIETIES": "Vous n'avez pas de variétés de cultures"
   },
   "SENSOR": {
     "ARRAY": "Pile",
@@ -2209,6 +2230,10 @@
     "UPLOAD_LAB_DOCUMENT": "Charger un document de labo",
     "WILL_SAVE_ONLINE": "Sera sauvegarder quand vous serez en ligne"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "Prochain créneau horaire",
+    "PREVIOUS_TIME_SLOT": "Plage horaire précédente"
+  },
   "UNIT": {
     "TIME": {
       "DAY": "jours",
@@ -2238,7 +2263,11 @@
     "HOURLY_WAGE_TOOLTIP": "Ce salaire spécifique à la tâche remplacera le salaire par défaut du salarié. Les salaires par défaut des employés peuvent être gérés dans l'onglet Personnes."
   },
   "WEATHER": {
+    "FROST_EXPECTED": "⚠️ Gel attendu ( {{threshold}} faible)",
+    "FROST_RISK": "Risque de gel",
     "HUMIDITY": "Humidité",
+    "PRECIPITATION": "Précipitations",
+    "TITLE": "Météo & conditions",
     "WIND": "Vent"
   },
   "WELCOME_SCREEN": {

@@ -156,6 +156,7 @@
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
+    "FAIL_DELETE": "Fallo al retirar",
     "SUCCESS_DELETE": " retirada/o con éxito",
     "SUCCESS_PATCH": " actualizo/a con éxito.",
     "SUCCESS_POST": " creo/a con éxito."

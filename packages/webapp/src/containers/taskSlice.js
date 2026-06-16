@@ -245,17 +245,20 @@ export const taskEntitiesSelector = createSelector(
         taskEntities[task_id].managementPlans =
           taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
           [];
+        // Drop location_ids with no cached location so tasksSelector never reads farm_id off undefined.
         taskEntities[task_id].locations =
-          taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
-          [];
+          taskEntities[task_id].locations
+            ?.map((location_id) => locationEntities[location_id])
+            .filter(Boolean) || [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][getSubtaskName(task_translation_key)] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
+          // Keep the location only when its record is cached, so an unloaded location yields [] not [undefined].
           taskEntities[task_id].locations = subtask.planting_management_plan.location_id
-            ? [locationEntities[subtask.planting_management_plan.location_id]]
+            ? [locationEntities[subtask.planting_management_plan.location_id]].filter(Boolean)
             : [];
           taskEntities[task_id].managementPlans = [
             getManagementPlanByPlantingManagementPlan(subtask),

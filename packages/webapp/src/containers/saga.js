@@ -421,7 +421,10 @@ export const getCropsAndManagementPlans = createAction('getCropsAndManagementPla
 
 export function* getCropsAndManagementPlansSaga() {
   try {
-    yield all([put(locationApi.endpoints.getLocations.initiate()), call(getCropsSaga)]);
+    yield all([
+      call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
+      call(getCropsSaga),
+    ]);
     yield call(getCropVarietiesSaga);
     yield call(getManagementPlansSaga);
   } catch (e) {
@@ -477,11 +480,30 @@ export function* checkAppVersionSaga() {
   if (isStoreOutdated) logout();
 }
 
+// Subscription handles for farm-scoped RTK Query queries
+// Retained so clearOldFarmStateSaga can release them before invalidating tags;
+// with no remaining subscriber, invalidateTags removes each cached entry
+// (removeQueryResult) instead of refetching it.
+let farmScopedQuerySubscriptions = [];
+
+function* openFarmScopedQuery(initiateThunk) {
+  // Starting a query with `.initiate()` returns a handle for that query — an object of shape
+  //  ({ requestId, unsubscribe, refetch, ... })
+  // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#removing-a-subscription
+  const subscription = yield put(initiateThunk);
+  farmScopedQuerySubscriptions.push(subscription);
+}
+
+function releaseFarmScopedQuerySubscriptions() {
+  farmScopedQuerySubscriptions.forEach((subscription) => subscription?.unsubscribe?.());
+  farmScopedQuerySubscriptions = [];
+}
+
 export function* fetchAllSaga() {
   const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
   if (!has_consent) return history.push('/consent');
 
-  yield put(api.endpoints.getSensors.initiate());
+  yield call(openFarmScopedQuery, api.endpoints.getSensors.initiate());
 
   const isAdmin = yield select(isAdminSelector);
   const adminTasks = [
@@ -500,7 +522,7 @@ export function* fetchAllSaga() {
     put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
     put(api.endpoints.getAnimalMovementPurposes.initiate()),
     //Todo: LF-4672 Remove once refactor to rtk is complete
-    put(locationApi.endpoints.getLocations.initiate()),
+    call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
@@ -508,13 +530,14 @@ export function* fetchAllSaga() {
   yield put(fetchAllFinanceData());
 
   // Animals
+  // Open farm-scoped queries through openFarmScopedQuery so their subscriptions can be released on farm switch
   yield all([
-    put(api.endpoints.getAnimals.initiate()),
-    put(api.endpoints.getAnimalBatches.initiate()),
-    put(api.endpoints.getDefaultAnimalTypes.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getAnimals.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getAnimalBatches.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getDefaultAnimalTypes.initiate()),
     put(api.endpoints.getDefaultAnimalBreeds.initiate()),
-    put(api.endpoints.getCustomAnimalTypes.initiate()),
-    put(api.endpoints.getCustomAnimalBreeds.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getCustomAnimalTypes.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getCustomAnimalBreeds.initiate()),
     put(api.endpoints.getAnimalSexes.initiate()),
     put(api.endpoints.getAnimalIdentifierTypes.initiate()),
     put(api.endpoints.getAnimalIdentifierColors.initiate()),
@@ -534,6 +557,11 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
+  releaseFarmScopedQuerySubscriptions();
+  // RTK Query tracks subscriptions in two places: a live copy that `unsubscribe` updates right
+  // away, and the redux store, which catches up one microtask later. `invalidateTags` reads the
+  // store copy, so `delay(0)` lets it catch up first
+  yield delay(0);
   yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
 
   // Reset finance loading state

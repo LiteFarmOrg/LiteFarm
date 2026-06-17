@@ -1,0 +1,54 @@
+{
+  "EQUIPMENT": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "SOIL_AMENDMENT": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "MACHINERY": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "PEST_CONTROL": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "FUEL": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "LAND": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "SEEDS_AND_PLANTS": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "MISCELLANEOUS": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "UTILITIES": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "LABOUR": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "INFRASTRUCTURE": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "TRANSPORTATION": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  },
+  "SERVICES": {
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
+  }
+}

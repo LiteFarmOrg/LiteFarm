@@ -15,7 +15,11 @@
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ANIMAL_INVENTORY_ID, ANIMAL_SALE } from '../../../components/Forms/RevenueForm/constants';
+import {
+  ANIMAL_INVENTORY_ID,
+  ANIMAL_SALE,
+  MEASURED_BY_UNIT,
+} from '../../../components/Forms/RevenueForm/constants';
 import AnimalSaleItem from '../../../components/Forms/RevenueForm/AnimalSaleItem';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
 import { measurementSelector } from '../../userFarmSlice';
@@ -31,6 +35,7 @@ interface BaseAnimalSaleRecord<TQuantityUnit> {
   animal_batch_id: number | null;
   quantity: number;
   quantity_unit: TQuantityUnit;
+  measured_by: 'weight' | 'volume' | 'unit';
   sale_value: number;
 }
 
@@ -68,7 +73,11 @@ export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
       const unit = record.quantity_unit;
       const formattedEntry: AnimalSaleDefaultRecord = {
         ...record,
-        quantity_unit: unit ? (unitMap[unit] ?? { label: unit, value: unit }) : undefined,
+        // A unit (count) measure has no convertible unit, so it carries no SelectOption.
+        quantity_unit:
+          record.measured_by === MEASURED_BY_UNIT || !unit
+            ? undefined
+            : (unitMap[unit] ?? { label: unit, value: unit }),
       };
       return [key, formattedEntry];
     }),

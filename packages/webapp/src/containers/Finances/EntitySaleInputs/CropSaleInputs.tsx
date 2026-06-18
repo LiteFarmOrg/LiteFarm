@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import {
   CROP_VARIETY_SALE,
   CROP_VARIETY_ID,
+  MEASURED_BY_UNIT,
 } from '../../../components/Forms/RevenueForm/constants';
 import CropSaleItem from '../../../components/Forms/RevenueForm/CropSaleItem';
 import { cropVarietiesSelector, cropVarietyOptionsSelector } from '../../cropVarietySlice';
@@ -39,12 +40,15 @@ export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
       [cur.crop_variety_id]: {
         crop_variety_id: cur.crop_variety_id,
         quantity: cur.quantity,
-        quantity_unit: cur.quantity_unit
-          ? ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
-              label: cur.quantity_unit,
-              value: cur.quantity_unit,
-            })
-          : undefined,
+        measured_by: cur.measured_by,
+        // A unit (count) measure has no convertible unit, so it carries no SelectOption.
+        quantity_unit:
+          cur.measured_by === MEASURED_BY_UNIT || !cur.quantity_unit
+            ? undefined
+            : ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
+                label: cur.quantity_unit,
+                value: cur.quantity_unit,
+              }),
         sale_value: cur.sale_value,
       },
     }),
@@ -59,6 +63,7 @@ interface CropVarietySaleRecord {
   crop_variety_id: number;
   quantity: number;
   quantity_unit: string | undefined;
+  measured_by: 'weight' | 'volume' | 'unit';
   sale_value: number;
 }
 

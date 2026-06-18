@@ -13,12 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useFormContext } from 'react-hook-form';
-import { harvestAmounts } from '../../../util/convert-units/unit';
-import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
+import { Controller, useFormContext } from 'react-hook-form';
+import { harvestAmounts, waterUsage } from '../../../util/convert-units/unit';
+import {
+  MEASURED_BY,
+  MEASURED_BY_UNIT,
+  MEASURED_BY_VOLUME,
+  MEASURED_BY_WEIGHT,
+  QUANTITY,
+  QUANTITY_UNIT,
+  SALE_VALUE,
+} from './constants';
 import Unit from '../../Form/Unit';
-import Input, { getInputErrors } from '../../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
+import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
 
 interface SaleLineItemProps {
   fieldPrefix: string;
@@ -46,6 +56,9 @@ function SaleLineItem({
     watch,
     formState: { errors },
   } = useFormContext();
+  const quantityName = `${fieldPrefix}.${entityId}.${QUANTITY}`;
+  const unitName = `${fieldPrefix}.${entityId}.${QUANTITY_UNIT}`;
+  const measuredByName = `${fieldPrefix}.${entityId}.${MEASURED_BY}`;
   const saleValueName = `${fieldPrefix}.${entityId}.${SALE_VALUE}`;
 
   register(`${fieldPrefix}.${entityId}.${entityIdFieldKey}`, {
@@ -53,23 +66,75 @@ function SaleLineItem({
     value: entityId,
   });
 
+  const measuredByOptions = [
+    { value: MEASURED_BY_WEIGHT, label: t('SALE.ADD_SALE.MEASURED_BY_WEIGHT') },
+    { value: MEASURED_BY_VOLUME, label: t('SALE.ADD_SALE.MEASURED_BY_VOLUME') },
+    { value: MEASURED_BY_UNIT, label: t('SALE.ADD_SALE.MEASURED_BY_UNIT') },
+  ];
+
+  const measuredBy = watch(measuredByName) ?? MEASURED_BY_WEIGHT;
+
   return (
     <>
-      {/* @ts-expect-error */}
-      <Unit
-        label={t('common:QUANTITY')}
-        register={register}
-        name={`${fieldPrefix}.${entityId}.${QUANTITY}`}
-        displayUnitName={`${fieldPrefix}.${entityId}.${QUANTITY_UNIT}`}
-        unitType={harvestAmounts}
-        system={system}
-        hookFormSetValue={setValue}
-        hookFormGetValue={getValues}
-        hookFromWatch={watch}
-        control={control}
-        required
-        disabled={disabledInput}
-      />
+      <div className={styles.measuredByRow}>
+        <div className={styles.measuredByField}>
+          <Controller
+            control={control}
+            name={measuredByName}
+            defaultValue={MEASURED_BY_WEIGHT}
+            rules={{ required: true }}
+            render={({ field: { onChange, value } }) => (
+              <ReactSelect
+                label={t('SALE.ADD_SALE.MEASURED_BY')}
+                options={measuredByOptions}
+                value={measuredByOptions.find((option) => option.value === value)}
+                onChange={(option) => {
+                  // quantity is stored in the active measure's database unit (kg, l, or the
+                  // raw count), so a value carried over from the previous measure would be
+                  // misread. Clear the value and its unit when the measure changes.
+                  setValue(quantityName, null);
+                  setValue(unitName, undefined);
+                  onChange((option as { value: string }).value);
+                }}
+                isDisabled={disabledInput}
+              />
+            )}
+          />
+        </div>
+        <div className={styles.quantityField}>
+          {measuredBy === MEASURED_BY_UNIT ? (
+            <Input
+              label={t('common:QUANTITY')}
+              type="number"
+              onKeyDown={integerOnKeyDown}
+              hookFormRegister={register(quantityName, {
+                required: true,
+                valueAsNumber: true,
+                min: { value: 1, message: t('common:REQUIRED') },
+              })}
+              errors={getInputErrors(errors, quantityName)}
+              disabled={disabledInput}
+            />
+          ) : (
+            /* @ts-expect-error Unit is an untyped JS component */
+            <Unit
+              key={measuredBy}
+              label={t('common:QUANTITY')}
+              register={register}
+              name={quantityName}
+              displayUnitName={unitName}
+              unitType={measuredBy === MEASURED_BY_VOLUME ? waterUsage : harvestAmounts}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFromWatch={watch}
+              control={control}
+              required
+              disabled={disabledInput}
+            />
+          )}
+        </div>
+      </div>
       <Input
         label={`${t('SALE.ADD_SALE.TABLE_HEADERS.TOTAL')} (${currency})`}
         type="number"

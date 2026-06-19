@@ -44,6 +44,7 @@ const RevenueForm = ({
   currency,
   sale,
   persistedFormData,
+  useHookFormPersist = () => ({}),
   view,
   handleGoBack,
   onClick,
@@ -82,7 +83,11 @@ const RevenueForm = ({
     watch,
     control,
     setValue,
+    getValues,
   } = reactHookFormFunctions;
+
+  // Mirrors PureAddExpense; on unmount, rewinds the multi-step flow's pages out of history
+  useHookFormPersist(getValues);
 
   const selectedTypeOption = watch(REVENUE_TYPE_OPTION);
   const selectedRevenueType = revenueTypes?.find(

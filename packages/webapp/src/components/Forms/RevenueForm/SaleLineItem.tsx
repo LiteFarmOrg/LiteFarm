@@ -67,9 +67,9 @@ function SaleLineItem({
   });
 
   const measuredByOptions = [
-    { value: MEASURED_BY_WEIGHT, label: t('SALE.ADD_SALE.MEASURED_BY_WEIGHT') },
-    { value: MEASURED_BY_VOLUME, label: t('SALE.ADD_SALE.MEASURED_BY_VOLUME') },
-    { value: MEASURED_BY_UNIT, label: t('SALE.ADD_SALE.MEASURED_BY_UNIT') },
+    { value: MEASURED_BY_WEIGHT, label: t('common:WEIGHT') },
+    { value: MEASURED_BY_VOLUME, label: t('common:VOLUME') },
+    { value: MEASURED_BY_UNIT, label: t('common:UNIT') },
   ];
 
   const measuredBy = watch(measuredByName) ?? MEASURED_BY_WEIGHT;

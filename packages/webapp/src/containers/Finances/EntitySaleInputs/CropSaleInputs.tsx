@@ -21,6 +21,7 @@ import {
   CROP_VARIETY_ID,
   MEASURED_BY_UNIT,
 } from '../../../components/Forms/RevenueForm/constants';
+import { getMeasuredByFromUnit } from '../util';
 import CropSaleItem from '../../../components/Forms/RevenueForm/CropSaleItem';
 import { cropVarietiesSelector, cropVarietyOptionsSelector } from '../../cropVarietySlice';
 import { measurementSelector } from '../../userFarmSlice';
@@ -33,24 +34,33 @@ import { getNoOptionsMessage } from '../util';
 
 export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
   const existingSales = sale?.crop_variety_sale?.reduce<
-    Record<number, Omit<CropVarietySaleRecord, 'quantity_unit'> & { quantity_unit?: SelectOption }>
+    Record<
+      number,
+      Omit<CropVarietySaleRecord, 'quantity_unit'> & {
+        quantity_unit?: SelectOption;
+        measured_by: string;
+      }
+    >
   >(
     (acc, cur) => ({
       ...acc,
-      [cur.crop_variety_id]: {
-        crop_variety_id: cur.crop_variety_id,
-        quantity: cur.quantity,
-        measured_by: cur.measured_by,
-        // A unit (count) measure has no convertible unit, so it carries no SelectOption.
-        quantity_unit:
-          cur.measured_by === MEASURED_BY_UNIT || !cur.quantity_unit
-            ? undefined
-            : ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
-                label: cur.quantity_unit,
-                value: cur.quantity_unit,
-              }),
-        sale_value: cur.sale_value,
-      },
+      [cur.crop_variety_id]: (() => {
+        const measuredBy = getMeasuredByFromUnit(cur.quantity_unit);
+        return {
+          crop_variety_id: cur.crop_variety_id,
+          quantity: cur.quantity,
+          measured_by: measuredBy,
+          // A unit (count) measure has no convertible unit, so it carries no SelectOption.
+          quantity_unit:
+            measuredBy === MEASURED_BY_UNIT || !cur.quantity_unit
+              ? undefined
+              : (getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
+                  label: cur.quantity_unit,
+                  value: cur.quantity_unit,
+                },
+          sale_value: cur.sale_value,
+        };
+      })(),
     }),
     {},
   );
@@ -63,7 +73,6 @@ interface CropVarietySaleRecord {
   crop_variety_id: number;
   quantity: number;
   quantity_unit: string | undefined;
-  measured_by: 'weight' | 'volume' | 'unit';
   sale_value: number;
 }
 

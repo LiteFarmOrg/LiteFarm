@@ -479,7 +479,7 @@ describe('Sale Tests', () => {
         revenue_type_id: cropSaleRevenueType.revenue_type_id,
         crop_variety_sale: [
           {
-            ...mocks.fakeCropVarietySale({ measured_by: 'volume', quantity_unit: 'l' }),
+            ...mocks.fakeCropVarietySale({ quantity_unit: 'l' }),
             crop_variety_id: cropVariety.crop_variety_id,
           },
         ],
@@ -492,7 +492,6 @@ describe('Sale Tests', () => {
           .query()
           .where('sale_id', sales[0].sale_id);
         expect(cropVarietySales.length).toBe(1);
-        expect(cropVarietySales[0].measured_by).toBe('volume');
         expect(cropVarietySales[0].quantity_unit).toBe('l');
       });
     });
@@ -504,7 +503,6 @@ describe('Sale Tests', () => {
         animal_sale: [
           mocks.fakeAnimalSale({
             animal_id: animal.id,
-            measured_by: 'unit',
             quantity_unit: 'unit',
           }),
         ],
@@ -515,7 +513,6 @@ describe('Sale Tests', () => {
         const sales = await saleModel.query().where('farm_id', farm.farm_id);
         const animalSales = await animalSaleModel.query().where('sale_id', sales[0].sale_id);
         expect(animalSales.length).toBe(1);
-        expect(animalSales[0].measured_by).toBe('unit');
         expect(animalSales[0].quantity_unit).toBe('unit');
       });
     });

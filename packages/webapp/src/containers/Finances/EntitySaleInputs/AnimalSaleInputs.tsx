@@ -20,6 +20,7 @@ import {
   ANIMAL_SALE,
   MEASURED_BY_UNIT,
 } from '../../../components/Forms/RevenueForm/constants';
+import { getMeasuredByFromUnit } from '../util';
 import AnimalSaleItem from '../../../components/Forms/RevenueForm/AnimalSaleItem';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
 import { measurementSelector } from '../../userFarmSlice';
@@ -35,13 +36,14 @@ interface BaseAnimalSaleRecord<TQuantityUnit> {
   animal_batch_id: number | null;
   quantity: number;
   quantity_unit: TQuantityUnit;
-  measured_by: 'weight' | 'volume' | 'unit';
   sale_value: number;
 }
 
 // API data returns a string for quantity_unit, but form data uses SelectOption
 type AnimalSaleRecord = BaseAnimalSaleRecord<string | undefined>;
-type AnimalSaleDefaultRecord = BaseAnimalSaleRecord<SelectOption | undefined>;
+type AnimalSaleDefaultRecord = BaseAnimalSaleRecord<SelectOption | undefined> & {
+  measured_by: string;
+};
 
 export interface AnimalSale {
   animal_sale?: AnimalSaleRecord[];
@@ -71,13 +73,15 @@ export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
     sale.animal_sale.map((record) => {
       const key = saleRecordToOptionKey(record);
       const unit = record.quantity_unit;
+      const measuredBy = getMeasuredByFromUnit(unit);
       const formattedEntry: AnimalSaleDefaultRecord = {
         ...record,
+        measured_by: measuredBy,
         // A unit (count) measure has no convertible unit, so it carries no SelectOption.
         quantity_unit:
-          record.measured_by === MEASURED_BY_UNIT || !unit
+          measuredBy === MEASURED_BY_UNIT || !unit
             ? undefined
-            : (unitMap[unit] ?? { label: unit, value: unit }),
+            : unitMap[unit] ?? { label: unit, value: unit },
       };
       return [key, formattedEntry];
     }),

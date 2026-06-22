@@ -17,11 +17,6 @@ const SALE_TABLES = ['crop_variety_sale', 'animal_sale'];
 
 export const up = async function (knex) {
   for (const tableName of SALE_TABLES) {
-    // measured_by: existing rows recorded weight only, so backfill them via the default.
-    await knex.schema.alterTable(tableName, (table) => {
-      table.enu('measured_by', ['weight', 'volume', 'unit']).notNullable().defaultTo('weight');
-    });
-
     // Widen quantity_unit to allow volume units and the count marker.
     await knex.schema.raw(`
       ALTER TABLE "${tableName}"
@@ -46,9 +41,5 @@ export const down = async function (knex) {
       ADD CONSTRAINT "${tableName}_quantity_unit_check"
       CHECK (quantity_unit IN ('kg', 'mt', 'lb', 't'))
     `);
-
-    await knex.schema.alterTable(tableName, (table) => {
-      table.dropColumn('measured_by');
-    });
   }
 };

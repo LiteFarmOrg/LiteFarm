@@ -44,7 +44,6 @@ class CropVarietySale extends Model {
           type: 'string',
           enum: ['kg', 'mt', 'lb', 't', 'ml', 'l', 'gal', 'fl-oz', 'unit'],
         },
-        measured_by: { type: 'string', enum: ['weight', 'volume', 'unit'] },
         sale_value: {
           type: 'number',
           format: 'float',

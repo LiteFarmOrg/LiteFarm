@@ -26,6 +26,7 @@ import {
   MEASURED_BY,
   MEASURED_BY_UNIT,
   MEASURED_BY_VOLUME,
+  MEASURED_BY_WEIGHT,
   NOTE,
   QUANTITY,
   QUANTITY_UNIT,
@@ -213,10 +214,23 @@ export const generateExpenseItems = (expense, cropVarieties, animals, animalBatc
   return items;
 };
 
+// Derive measured_by from quantity_unit
+export const getMeasuredByFromUnit = (quantityUnit) => {
+  if (!quantityUnit || quantityUnit === COUNT_UNIT) {
+    return MEASURED_BY_UNIT;
+  }
+  const allVolumeUnits = [...waterUsage.metric.units, ...waterUsage.imperial.units];
+  if (allVolumeUnits.includes(quantityUnit)) {
+    return MEASURED_BY_VOLUME;
+  }
+  return MEASURED_BY_WEIGHT;
+};
+
 // Crop and animal sale quantities are stored in the measure's database unit (kg for
 // weight, l for volume, the raw integer for unit). Resolve each stored value to a display
 // value and label for the user's measurement system.
-const getSaleQuantityDisplay = (measuredBy, quantity) => {
+const getSaleQuantityDisplay = (quantityUnit, quantity) => {
+  const measuredBy = getMeasuredByFromUnit(quantityUnit);
   if (measuredBy === MEASURED_BY_UNIT) {
     return {
       quantity: roundToTwoDecimal(quantity),
@@ -260,7 +274,7 @@ export const mapSalesToRevenueItems = (
         financeItemsProps: cropVarietySale
           .map((cvs) => {
             const { quantity, quantityUnit } = getSaleQuantityDisplay(
-              cvs.measured_by,
+              cvs.quantity_unit,
               cvs.quantity,
             );
             const cropVariety = cropVarieties.find(
@@ -288,7 +302,7 @@ export const mapSalesToRevenueItems = (
         financeItemsProps: animalSale
           .map((row) => {
             const { quantity, quantityUnit } = getSaleQuantityDisplay(
-              row.measured_by,
+              row.quantity_unit,
               row.quantity,
             );
             const key =
@@ -355,7 +369,6 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
       return {
         sale_value: c[SALE_VALUE],
         quantity: c[QUANTITY],
-        measured_by: measuredBy,
         quantity_unit: measuredBy === MEASURED_BY_UNIT ? COUNT_UNIT : c[QUANTITY_UNIT].value,
         crop_variety_id: c[CROP_VARIETY_ID],
       };
@@ -369,7 +382,6 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
       return {
         sale_value: a[SALE_VALUE],
         quantity: a[QUANTITY],
-        measured_by: measuredBy,
         quantity_unit: measuredBy === MEASURED_BY_UNIT ? COUNT_UNIT : a[QUANTITY_UNIT].value,
         animal_id: isBatch ? null : id,
         animal_batch_id: isBatch ? id : null,

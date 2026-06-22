@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { PersistedFormWrapper } from './PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from './PureLocationDetailLayout';
@@ -81,6 +82,21 @@ export default function PureLocationFormWrapper({
   isAdmin = false,
   locationType,
 }) {
+  const geometryKey = { area: 'grid_points', line: 'line_points', point: 'point' }[
+    getFigureType(locationType)
+  ];
+  const hasGeometry = !!persistedFormData?.[geometryKey];
+
+  useEffect(() => {
+    if (!hasGeometry) {
+      history.replace({ pathname: '/map' });
+    }
+  }, [hasGeometry, history]);
+
+  if (!hasGeometry) {
+    return null;
+  }
+
   const onSubmit = (data) => {
     // area units lift value up to top level
     if (getFigureType(locationType) === 'area') {

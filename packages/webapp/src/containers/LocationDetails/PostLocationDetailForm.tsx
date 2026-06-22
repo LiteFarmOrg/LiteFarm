@@ -13,11 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSelector, measurementSelector } from '../userFarmSlice';
-import { formatLocationTypeToLocationForDB, getFigureType } from './utils';
+import { formatLocationTypeToLocationForDB } from './utils';
 import { InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import useHookFormPersist from '../hooks/useHookFormPersist';
@@ -37,17 +36,6 @@ function PostLocationDetailForm({ locationType }: { locationType: InternalMapLoc
   const { farm_id } = useSelector(loginSelector);
 
   const [addLocationByType] = useAddLocationByTypeMutation();
-
-  const geometryKey = { area: 'grid_points', line: 'line_points', point: 'point' }[
-    getFigureType(locationType)
-  ];
-  // The drawn shape's geometry only lives in the form-persist slice;
-  // if missing leave rather than submit a figure the backend will reject
-  useEffect(() => {
-    if (!persistedFormData?.[geometryKey]) {
-      history.replace({ pathname: '/map' });
-    }
-  }, [persistedFormData, geometryKey, history]);
 
   const submitForm = async (data: { formData: any }) => {
     const { formData } = data;

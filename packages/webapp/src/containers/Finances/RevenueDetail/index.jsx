@@ -15,10 +15,11 @@
 
 import React, { useEffect } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { measurementSelector } from '../../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -43,6 +44,7 @@ function RevenueDetail() {
   const revenueTypes = useSortedRevenueTypes();
   const sale = useSelector(revenueByIdSelector(sale_id));
   const revenueType = useSelector(revenueTypeByIdSelector(sale?.revenue_type_id));
+  const system = useSelector(measurementSelector);
 
   useEffect(() => {
     if (!sale) {
@@ -77,7 +79,11 @@ function RevenueDetail() {
     setValue(REVENUE_TYPE_OPTION, newType);
   };
 
-  const entitySaleDefaultValues = getEntityTypeDefaultValues(sale, revenueType?.entity_type);
+  const entitySaleDefaultValues = getEntityTypeDefaultValues(
+    sale,
+    revenueType?.entity_type,
+    system,
+  );
 
   return (
     <RevenueForm

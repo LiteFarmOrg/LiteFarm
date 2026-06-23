@@ -470,3 +470,10 @@ export const getNoOptionsMessage = (entity) => {
       ? i18n.t('SELECT.NO_CROP_VARIETIES')
       : i18n.t('SELECT.NO_ANIMALS_IN_INVENTORY');
 };
+
+export const getSaleUnitOption = ({ quantity_unit, quantity }, system, measuredBy, unitMap) => {
+  const { quantityUnit } =
+    measuredBy === MEASURED_BY_UNIT ? {} : getSaleQuantityDisplay(quantity_unit, quantity, system);
+
+  return quantityUnit ? unitMap[quantityUnit] : undefined;
+};

@@ -13,11 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import moment from 'moment';
-import { InputAdornment } from '@mui/material';
 import { DatePicker as MuiXDatePicker } from '@mui/x-date-pickers';
 import { TimePicker as MuiXTimePicker } from '@mui/x-date-pickers/TimePicker';
+import type { FieldOwnerState } from '@mui/x-date-pickers/models';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import InputBaseLabel, { InputBaseLabelProps } from '../../Form/InputBase/InputBaseLabel';
@@ -31,30 +30,13 @@ interface DateTimePickerProps extends InputBaseLabelProps {
   className?: string;
 }
 
-const createSlotProps = (
-  Icon: React.ElementType,
-  handleOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  disabled: boolean,
-) => ({
-  textField: {
-    fullWidth: true,
-    InputProps: {
-      classes: {
-        disabled: styles.inputDisabled,
-        focused: styles.inputFocusBorder,
-        root: styles.input,
-      },
-      startAdornment: (
-        <InputAdornment position="start">
-          <Icon
-            onClick={() => !disabled && handleOpen(true)}
-            className={clsx(styles.icon, disabled && styles.disabled)}
-          />
-        </InputAdornment>
-      ),
-    },
-  },
-});
+const pickerSlotProps = {
+  field: { openPickerButtonPosition: 'start' as const },
+  textField: { fullWidth: true, className: styles.field },
+  openPickerIcon: (ownerState: FieldOwnerState) => ({
+    className: clsx(styles.icon, ownerState.isFieldDisabled && styles.iconDisabled),
+  }),
+};
 
 export const DateInput = ({
   date,
@@ -63,8 +45,6 @@ export const DateInput = ({
   label,
   ...labelProps
 }: DateTimePickerProps) => {
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-
   const { dateFormat } = getLocaleDateTimeFormats();
 
   return (
@@ -74,12 +54,8 @@ export const DateInput = ({
         format={dateFormat}
         defaultValue={moment(date)}
         disabled={disabled}
-        open={isDatePickerOpen}
-        onClose={() => setIsDatePickerOpen(false)}
-        slotProps={{
-          ...createSlotProps(Calendar, setIsDatePickerOpen, disabled),
-        }}
-        slots={{ openPickerIcon: () => null }}
+        slots={{ openPickerIcon: Calendar }}
+        slotProps={pickerSlotProps}
       />
     </div>
   );
@@ -92,8 +68,6 @@ export const TimeInput = ({
   label,
   ...labelProps
 }: DateTimePickerProps) => {
-  const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
-
   const { timeFormat, uses12HourFormat } = getLocaleDateTimeFormats();
 
   return (
@@ -103,11 +77,9 @@ export const TimeInput = ({
         defaultValue={moment(date)}
         format={timeFormat}
         disabled={disabled}
-        open={isTimePickerOpen}
-        onClose={() => setIsTimePickerOpen(false)}
         ampm={uses12HourFormat}
-        slotProps={createSlotProps(Clock, setIsTimePickerOpen, disabled)}
-        slots={{ openPickerIcon: () => null }}
+        slots={{ openPickerIcon: Clock }}
+        slotProps={pickerSlotProps}
       />
     </div>
   );

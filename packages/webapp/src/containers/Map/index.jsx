@@ -189,7 +189,7 @@ export default function Map({ isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets, assetGeometriesRef, markerClusterRef, isLocationsFetching } =
+  const { drawAssets, assetGeometriesRef, markerClusterRef, isLocationsLoading } =
     useMapAssetRenderer({
       isClickable: !drawingState.type,
       drawingState: drawingState,
@@ -424,7 +424,7 @@ export default function Map({ isCompactSideMenu }) {
 
   return (
     <>
-      {!isLocationsFetching && isLoaded && (
+      {!isLocationsLoading && isLoaded && (
         <>
           {!drawingState.type && !showSuccessHeader && <PureMapHeader farmName={farm_name} />}
           {showSuccessHeader && (
@@ -560,7 +560,7 @@ export default function Map({ isCompactSideMenu }) {
         </>
       )}
       <LoadingBackdrop
-        isOpen={isLocationsFetching}
+        isOpen={isLocationsLoading}
         isCompactSideMenu={isCompactSideMenu}
         dataName={t('MENU.MAP').toLocaleLowerCase()}
       />

@@ -37,6 +37,8 @@ export type WeatherStationKPIParams = Extract<
   | 'barometric_pressure'
   | 'solar_radiation'
   | 'rainfall_rate'
+  | 'vapor_pressure_deficit'
+  | 'wet_bulb_temperature'
 >;
 
 export interface FormattedSensorDatapoint {

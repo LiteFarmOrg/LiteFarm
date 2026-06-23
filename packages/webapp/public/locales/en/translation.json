@@ -1989,9 +1989,14 @@
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "ET_SENSOR": "ET sensor",
       "IR_TEMPERATURE_SENSOR": "IR temperature sensor",
+      "SDI-12_WEATHER_STATION": "SDI-12 weather station",
       "SOIL_WATER_POTENTIAL_SENSOR": "Soil water potential sensor",
+      "TIPPING_BUCKET_RAIN_GAUGE": "Tipping bucket rain gauge",
+      "TURBINE_FLOW_METER": "Turbine flow meter",
       "WEATHER_STATION": "Weather station",
+      "WIND_SENSOR_VOLTAGE": "Wind sensor voltage",
       "WIND_SPEED_SENSOR": "Wind speed sensor"
     },
     "ESCI": {
@@ -2018,6 +2023,7 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "Barometric pressure",
       "CUMULATIVE_RAINFALL": "Cumulative rainfall",
+      "EVAPOTRANSPIRATION": "Evapotranspiration",
       "LATEST_READING": "Latest reading:",
       "RAINFALL_RATE": "Rainfall rate",
       "RELATIVE_HUMIDITY": "Relative humidity",
@@ -2028,7 +2034,10 @@
       "TYPES": "Reading types",
       "UNKNOWN": "Unknown",
       "UPDATE_READINGS": "Update readings",
+      "VAPOR_PRESSURE_DEFICIT": "Vapor pressure deficit",
+      "VOLUME": "Volume",
       "WATER_PRESSURE": "Water pressure",
+      "WET_BULB_TEMPERATURE": "Wet bulb temperature",
       "WIND_DIRECTION": "Wind direction",
       "WIND_SPEED": "Wind speed",
       "WIND_SPEED_AND_DIRECTION": "Wind speed & direction"

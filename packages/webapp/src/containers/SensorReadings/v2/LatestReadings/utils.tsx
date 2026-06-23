@@ -25,6 +25,7 @@ import {
   STANDALONE_SENSOR_COLORS_MAP,
   WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS,
   WEATHER_STATION_KPI_PARAMS,
+  WEATHER_STATION_SENSOR_NAMES,
 } from '../constants';
 import { SensorKPIprops } from '../../../../components/Tile/SensorTile/SensorKPI';
 import {
@@ -108,11 +109,15 @@ export const formatStandaloneSensorReadingsToKPIProps = (
   system: System,
   t: TFunction,
 ): TileData[] | SensorReadingKPIprops[] => {
-  if (sensor.name === 'Weather station') {
+  if (WEATHER_STATION_SENSOR_NAMES.includes(sensor.name)) {
     return formatSensorReadingsToWeatherKPIProps(sensor, readings, system, t);
   }
 
-  const result = SENSOR_READING_TYPES[sensor.name].flatMap((param) => {
+  // Ensemble can send sensor names LiteFarm does not model. Those have no curated
+  // reading set, so render nothing rather than leaking every raw parameter.
+  const readingTypes = SENSOR_READING_TYPES[sensor.name] ?? [];
+
+  const result = readingTypes.flatMap((param) => {
     const foundReadings = readings.find(({ reading_type }) => reading_type === param);
     if (!foundReadings) {
       return [];
@@ -122,11 +127,17 @@ export const formatStandaloneSensorReadingsToKPIProps = (
 
     return {
       ...generateTMeasurement(param, value, foundReadings.unit, system, t),
-      color: STANDALONE_SENSOR_COLORS_MAP[param],
+      color: STANDALONE_SENSOR_COLORS_MAP[param as keyof typeof STANDALONE_SENSOR_COLORS_MAP],
     };
   });
 
-  return !!result.length ? result : getGeneralSensorDefaultKPIProps(sensor.name, t);
+  if (result.length) {
+    return result;
+  }
+
+  // Modelled sensors show a labelled set of dashes when no data is available;
+  // unmodelled sensors have no such set, so render nothing.
+  return SENSOR_READING_TYPES[sensor.name] ? getGeneralSensorDefaultKPIProps(sensor.name, t) : [];
 };
 
 const WindSpeedDirectionData = ({
@@ -253,12 +264,12 @@ export const formatSensorReadingsToWeatherKPIProps = (
 };
 
 const getGeneralSensorDefaultKPIProps = (
-  sensorName: Exclude<SensorTypes, 'Weather station'>,
+  sensorName: SensorTypes,
   t: TFunction,
 ): SensorReadingKPIprops[] => {
   return SENSOR_READING_TYPES[sensorName].map((key) => ({
     ...generateTMeasurement(key, undefined, undefined, undefined, t),
-    color: STANDALONE_SENSOR_COLORS_MAP[key],
+    color: STANDALONE_SENSOR_COLORS_MAP[key as keyof typeof STANDALONE_SENSOR_COLORS_MAP],
   }));
 };
 

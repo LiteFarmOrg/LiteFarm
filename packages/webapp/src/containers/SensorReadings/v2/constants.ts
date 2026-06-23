@@ -26,15 +26,34 @@ import type {
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
-export const SENSOR_READING_TYPES: Record<SensorTypes, ChartSupportedReadingTypes[]> = {
+export const SENSOR_READING_TYPES: Record<SensorTypes, SensorReadingTypes[]> = {
   'Soil Water Potential Sensor': ['temperature', 'soil_water_potential', 'soil_water_content'],
   'IR Temperature Sensor': ['temperature'],
   'Wind speed sensor': ['wind_speed'],
   'Drip line pressure sensor': ['water_pressure'],
   'Weather station': ['temperature', 'relative_humidity', 'rainfall_rate', 'cumulative_rainfall'],
+  'SDI-12 weather station': [
+    'temperature',
+    'relative_humidity',
+    'rainfall_rate',
+    'cumulative_rainfall',
+  ],
+  'Wind sensor voltage': ['wind_speed'],
+  'Turbine Flow Meter': ['volume'],
+  'Tipping Bucket Rain Gauge': ['cumulative_rainfall'],
+  'ET sensor': ['evapotranspiration'],
 };
 
-export const SENSOR_ARRAY_CHART_PARAMS = SENSOR_READING_TYPES['Soil Water Potential Sensor'];
+// Sensor names that render through the weather-station KPI path.
+export const WEATHER_STATION_SENSOR_NAMES: SensorTypes[] = [
+  'Weather station',
+  'SDI-12 weather station',
+];
+
+// The soil-water-potential reading set is entirely chart-supported.
+export const SENSOR_ARRAY_CHART_PARAMS = SENSOR_READING_TYPES[
+  'Soil Water Potential Sensor'
+] as ChartSupportedReadingTypes[];
 
 export const CHART_SUPPORTED_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
@@ -56,6 +75,8 @@ export const WEATHER_STATION_KPI_PARAMS: WeatherStationKPIParams[] = [
   'barometric_pressure',
   'solar_radiation',
   'rainfall_rate',
+  'vapor_pressure_deficit',
+  'wet_bulb_temperature',
 ];
 
 export const WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS = [
@@ -66,6 +87,8 @@ export const WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS = [
   'BAROMETRIC_PRESSURE',
   'SOLAR_RADIATION',
   'RAINFALL_RATE',
+  'VAPOR_PRESSURE_DEFICIT',
+  'WET_BULB_TEMPERATURE',
 ];
 
 export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, string> = {

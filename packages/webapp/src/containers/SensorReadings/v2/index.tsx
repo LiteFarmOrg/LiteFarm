@@ -84,7 +84,9 @@ const getChartsProps = (type: SensorType, sensors: Sensor[]) => {
   }
 
   return {
-    readingTypes: SENSOR_READING_TYPES[sensors[0].name],
+    // useFormattedSensorReadings filters to CHART_SUPPORTED_PARAMS, so any
+    // non-chartable reading types in this list are ignored at render time.
+    readingTypes: (SENSOR_READING_TYPES[sensors[0].name] ?? []) as ChartSupportedReadingTypes[],
     getSensorColorMap: getSensorColorMapFunc(sensors[0].external_id),
     getChartColors,
     className: styles.sensor,

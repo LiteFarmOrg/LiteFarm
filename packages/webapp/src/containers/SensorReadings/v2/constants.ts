@@ -42,6 +42,15 @@ export const SENSOR_READING_TYPES: Record<SensorTypes, SensorReadingTypes[]> = {
   'Turbine Flow Meter': ['volume'],
   'Tipping Bucket Rain Gauge': ['cumulative_rainfall'],
   'ET sensor': ['evapotranspiration'],
+  'Soil Water Content Sensor': ['moisture', 'temperature', 'electrical_conductivity'],
+  'Humidity Sensor': [
+    'relative_humidity',
+    'temperature',
+    'vapor_pressure_deficit',
+    'wet_bulb_temperature',
+  ],
+  // DripDrain reading types are not yet modelled; renders no KPI for now.
+  'DripDrain Sensor': [],
 };
 
 // Sensor names that render through the weather-station KPI path.

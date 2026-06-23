@@ -222,14 +222,19 @@ export type SensorTypes =
   | 'Drip line pressure sensor'
   | 'Turbine Flow Meter'
   | 'Tipping Bucket Rain Gauge'
-  | 'ET sensor';
+  | 'ET sensor'
+  | 'Soil Water Content Sensor'
+  | 'Humidity Sensor'
+  | 'DripDrain Sensor';
 
 export type SensorReadingTypes =
   | 'barometric_pressure'
   | 'cumulative_rainfall'
   | 'current'
+  | 'electrical_conductivity'
   | 'energy'
   | 'evapotranspiration'
+  | 'moisture'
   | 'rainfall_rate'
   | 'relative_humidity'
   | 'soc'

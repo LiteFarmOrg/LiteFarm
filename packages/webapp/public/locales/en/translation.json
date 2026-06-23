@@ -1988,10 +1988,13 @@
       "DEVICE_TYPE": "Device type"
     },
     "DEVICE_TYPES": {
+      "DRIPDRAIN_SENSOR": "DripDrain sensor",
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
       "ET_SENSOR": "ET sensor",
+      "HUMIDITY_SENSOR": "Humidity sensor",
       "IR_TEMPERATURE_SENSOR": "IR temperature sensor",
       "SDI-12_WEATHER_STATION": "SDI-12 weather station",
+      "SOIL_WATER_CONTENT_SENSOR": "Soil water content sensor",
       "SOIL_WATER_POTENTIAL_SENSOR": "Soil water potential sensor",
       "TIPPING_BUCKET_RAIN_GAUGE": "Tipping bucket rain gauge",
       "TURBINE_FLOW_METER": "Turbine flow meter",
@@ -2023,8 +2026,10 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "Barometric pressure",
       "CUMULATIVE_RAINFALL": "Cumulative rainfall",
+      "ELECTRICAL_CONDUCTIVITY": "Electrical conductivity",
       "EVAPOTRANSPIRATION": "Evapotranspiration",
       "LATEST_READING": "Latest reading:",
+      "MOISTURE": "Moisture",
       "RAINFALL_RATE": "Rainfall rate",
       "RELATIVE_HUMIDITY": "Relative humidity",
       "SOIL_WATER_CONTENT": "Soil water content",

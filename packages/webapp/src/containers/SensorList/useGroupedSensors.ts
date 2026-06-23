@@ -105,14 +105,17 @@ const formatSensorToGroup = (
 };
 
 const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSummary => {
-  const summaryMap = sensors.reduce((acc, { name }) => {
-    if (!(name in acc)) {
-      acc[name] = 0;
-    }
-    acc[name] += 1;
+  const summaryMap = sensors.reduce(
+    (acc, { name }) => {
+      if (!(name in acc)) {
+        acc[name] = 0;
+      }
+      acc[name] += 1;
 
-    return acc;
-  }, {} as Record<Sensor['name'], number>);
+      return acc;
+    },
+    {} as Record<Sensor['name'], number>,
+  );
 
   return {
     [SensorType.SENSOR_ARRAY]: sensor_arrays.length,
@@ -156,13 +159,19 @@ const useGroupedSensors = (): {
   sensorSummary: SensorSummary;
   groupedSensors: GroupedSensors[];
 } => {
-  const { data: sensors, isLoading: isLoadingSensors } = useGetSensorsQuery();
+  const {
+    data: sensors,
+    isLoading: isLoadingSensors,
+    isFetching: isFetchingSensors,
+  } = useGetSensorsQuery();
   const system = useSelector(measurementSelector);
   const { locations: farmAreas, isLoading: isLoadingFarmAreas } = useLocations({
     filterBy: FigureType.AREA,
   });
 
-  const isLoading = isLoadingSensors || isLoadingFarmAreas;
+  const hasNoSensorData = !sensors?.sensors.length && !sensors?.sensor_arrays.length;
+  const isLoading =
+    isLoadingSensors || isLoadingFarmAreas || (isFetchingSensors && hasNoSensorData);
   const dataNotReady = !sensors || !farmAreas;
 
   const sensorsData =

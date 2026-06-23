@@ -28,7 +28,6 @@ import {
 import Unit from '../../Form/Unit';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
-import { BATCH_COUNT_LIMIT } from '../../../containers/Animals/AddAnimals/utils';
 import styles from './styles.module.scss';
 
 interface SaleLineItemProps {
@@ -90,8 +89,7 @@ function SaleLineItem({
                 options={measuredByOptions}
                 value={measuredByOptions.find((option) => option.value === value)}
                 onChange={(option) => {
-                  // reset quantity and unit once measured by changes
-                  setValue(quantityName, null);
+                  // Clear quantity and unit when measure type changes                  setValue(quantityName, null);
                   setValue(unitName, undefined);
                   onChange((option as { value: string }).value);
                 }}
@@ -110,7 +108,7 @@ function SaleLineItem({
                 required: true,
                 valueAsNumber: true,
                 min: 1,
-                max: BATCH_COUNT_LIMIT,
+                max: 999999999,
               })}
               errors={getInputErrors(errors, quantityName)}
               disabled={disabledInput}

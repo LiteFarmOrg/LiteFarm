@@ -472,6 +472,7 @@ export const getNoOptionsMessage = (entity) => {
 };
 
 export const getSaleUnitOption = ({ quantity_unit, quantity }, system, measuredBy, unitMap) => {
+  // Pre-computes the display unit from saved data; useUnit doesn't resolve it correctly in this context.
   const { quantityUnit } =
     measuredBy === MEASURED_BY_UNIT ? {} : getSaleQuantityDisplay(quantity_unit, quantity, system);
 

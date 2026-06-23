@@ -16,8 +16,8 @@
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { Title, Main } from '../../Typography';
-import { ReactComponent as RelaxedFarmer } from '../../../assets/images/animals/relaxed-farmer.svg';
-import { ReactComponent as ChevronRight } from '../../../assets/images/buttons/chevron-right.svg';
+import RelaxedFarmer from '../../../assets/images/animals/relaxed-farmer.svg?react';
+import ChevronRight from '../../../assets/images/buttons/chevron-right.svg?react';
 import Button from '../../Form/Button';
 import { IconSummary } from './IconSummary';
 import { AnimalSummary, BatchSummary } from './types';

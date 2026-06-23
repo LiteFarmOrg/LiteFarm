@@ -17,7 +17,7 @@ import React, { Component } from 'react';
 import styles from './styles.module.scss';
 import history from '../../history';
 import InfoBoxComponent from '../InfoBoxComponent';
-import { ReactComponent as GreyHeaderChevron } from '../../assets/images/header-chevron-left.svg';
+import GreyHeaderChevron from '../../assets/images/header-chevron-left.svg?react';
 
 // takes 2 props
 // title - String

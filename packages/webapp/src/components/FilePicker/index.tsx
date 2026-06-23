@@ -15,7 +15,7 @@
 
 import styles from './styles.module.scss';
 import { ContainerWithIcon } from '../ContainerWithIcon/ContainerWithIcon';
-import { ReactComponent as TrashIcon } from '../../assets/images/document/trash.svg';
+import TrashIcon from '../../assets/images/document/trash.svg?react';
 import { FilePickerFunctions } from './useFilePickerUpload';
 import { mediaEnum } from '../../containers/MediaWithAuthentication/constants';
 import CertifierSelectionMenuItem from '../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';

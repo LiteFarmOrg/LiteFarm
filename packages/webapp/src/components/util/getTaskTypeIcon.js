@@ -1,19 +1,19 @@
-import { ReactComponent as CustomIcon } from '../../assets/images/task/Custom.svg';
-import { ReactComponent as RecordSoilSample } from '../../assets/images/task/RecordSoilSample.svg';
-import { ReactComponent as Sales } from '../../assets/images/task/Sales.svg';
-import { ReactComponent as Scout } from '../../assets/images/task/Scout.svg';
-import { ReactComponent as WashAndPack } from '../../assets/images/task/WashAndPack.svg';
-import { ReactComponent as Transplant } from '../../assets/images/task/Transplant.svg';
-import { ReactComponent as Harvest } from '../../assets/images/task/Harvest.svg';
-import { ReactComponent as PestControl } from '../../assets/images/task/PestControl.svg';
-import { ReactComponent as Irrigate } from '../../assets/images/task/Irrigate.svg';
-import { ReactComponent as Transport } from '../../assets/images/task/Transport.svg';
-import { ReactComponent as FieldWork } from '../../assets/images/task/FieldWork.svg';
-import { ReactComponent as Plant } from '../../assets/images/task/Plant.svg';
-import { ReactComponent as SocialEvent } from '../../assets/images/task/SocialEvent.svg';
-import { ReactComponent as Clean } from '../../assets/images/task/Clean.svg';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
-import { ReactComponent as Movement } from '../../assets/images/task/Movement.svg';
+import CustomIcon from '../../assets/images/task/Custom.svg?react';
+import RecordSoilSample from '../../assets/images/task/RecordSoilSample.svg?react';
+import Sales from '../../assets/images/task/Sales.svg?react';
+import Scout from '../../assets/images/task/Scout.svg?react';
+import WashAndPack from '../../assets/images/task/WashAndPack.svg?react';
+import Transplant from '../../assets/images/task/Transplant.svg?react';
+import Harvest from '../../assets/images/task/Harvest.svg?react';
+import PestControl from '../../assets/images/task/PestControl.svg?react';
+import Irrigate from '../../assets/images/task/Irrigate.svg?react';
+import Transport from '../../assets/images/task/Transport.svg?react';
+import FieldWork from '../../assets/images/task/FieldWork.svg?react';
+import Plant from '../../assets/images/task/Plant.svg?react';
+import SocialEvent from '../../assets/images/task/SocialEvent.svg?react';
+import Clean from '../../assets/images/task/Clean.svg?react';
+import SoilAmendment from '../../assets/images/task/SoilAmendment.svg?react';
+import Movement from '../../assets/images/task/Movement.svg?react';
 
 /**
  * Provides the appropriate icon for a specified task type.

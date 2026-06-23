@@ -18,7 +18,7 @@ import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link-01.svg';
+import ExternalLinkIcon from '../../assets/images/icon_external_link-01.svg?react';
 import { getLocalizedDateString } from '../../util/moment';
 import { Variant } from '../RouterTab/Tab';
 import Table from '../Table';

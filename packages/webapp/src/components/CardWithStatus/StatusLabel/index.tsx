@@ -16,7 +16,7 @@
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import { Link } from 'react-router-dom';
-import { ReactComponent as ExternalLinkIcon } from '../../../assets/images/icon_external_link.svg';
+import ExternalLinkIcon from '../../../assets/images/icon_external_link.svg?react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { HTMLAttributes } from 'react';

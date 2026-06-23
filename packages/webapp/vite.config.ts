@@ -11,9 +11,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // see https://sass-lang.com/d/legacy-js-api
-        // api: 'modern-compiler' requires Vite 5.4+
-        silenceDeprecations: ['legacy-js-api'],
+        api: 'modern-compiler',
       },
     },
   },

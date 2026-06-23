@@ -23,7 +23,7 @@ import SensorsDateRangeSelector from '../../../components/Sensor/v2/SensorsDateR
 import LatestReadings from './LatestReadings';
 import Charts, { ChartsProps } from './Charts';
 import { StatusIndicatorPill } from '../../../components/StatusIndicatorPill';
-import { ReactComponent as SensorIcon } from '../../../assets/images/map/signal-01.svg';
+import SensorIcon from '../../../assets/images/map/signal-01.svg?react';
 import useSensorsDateRange from '../../../components/Sensor/v2/SensorsDateRange/useSensorsDateRange';
 import ManageESciSection from '../../../components/ManageESciSection';
 import { useGetSensorsQuery } from '../../../store/api/apiSlice';

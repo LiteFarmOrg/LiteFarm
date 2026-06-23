@@ -22,7 +22,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import PageTitle from '../../PageTitle/v2';
 import ReactSelect from '../../Form/ReactSelect';
 import { IconLink } from '../../Typography';
-import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg?react';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
@@ -98,8 +98,8 @@ const RevenueForm = ({
   const notesPlaceholder = isCropSale(selectedRevenueType)
     ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
     : isAnimalSale(selectedRevenueType)
-      ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
-      : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
+    ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
+    : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
 
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {

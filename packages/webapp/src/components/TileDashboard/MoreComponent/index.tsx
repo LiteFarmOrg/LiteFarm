@@ -19,7 +19,7 @@ import clsx from 'clsx';
 import { ClickAwayListener } from '@mui/material';
 import styles from './styles.module.scss';
 import { DashboardTile } from '../DashboardTile';
-import { ReactComponent as ChevronDown } from '../../../assets/images/animals/chevron-down.svg';
+import ChevronDown from '../../../assets/images/animals/chevron-down.svg?react';
 import TextButton from '../../Form/Button/TextButton';
 import { TypeCountTile, FilterId } from '..';
 

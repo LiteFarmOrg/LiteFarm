@@ -14,6 +14,7 @@
  */
 
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { harvestAmounts, waterUsage } from '../../../util/convert-units/unit';
 import {
   MEASURED_BY,
@@ -27,7 +28,7 @@ import {
 import Unit from '../../Form/Unit';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
-import { useTranslation } from 'react-i18next';
+import { BATCH_COUNT_LIMIT } from '../../../containers/Animals/AddAnimals/utils';
 import styles from './styles.module.scss';
 
 interface SaleLineItemProps {
@@ -89,9 +90,7 @@ function SaleLineItem({
                 options={measuredByOptions}
                 value={measuredByOptions.find((option) => option.value === value)}
                 onChange={(option) => {
-                  // quantity is stored in the active measure's database unit (kg, l, or the
-                  // raw count), so a value carried over from the previous measure would be
-                  // misread. Clear the value and its unit when the measure changes.
+                  // reset quantity and unit once measured by changes
                   setValue(quantityName, null);
                   setValue(unitName, undefined);
                   onChange((option as { value: string }).value);
@@ -110,7 +109,8 @@ function SaleLineItem({
               hookFormRegister={register(quantityName, {
                 required: true,
                 valueAsNumber: true,
-                min: { value: 1, message: t('common:REQUIRED') },
+                min: 1,
+                max: BATCH_COUNT_LIMIT,
               })}
               errors={getInputErrors(errors, quantityName)}
               disabled={disabledInput}

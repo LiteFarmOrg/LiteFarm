@@ -31,14 +31,12 @@ export const QUANTITY = 'quantity';
 export const QUANTITY_UNIT = 'quantity_unit';
 export const SALE_VALUE = 'sale_value';
 
-// measured_by: shared by crop and animal sale line items
+// animal sale
+export const ANIMAL_SALE = 'animal_sale';
+export const ANIMAL_INVENTORY_ID = 'animal_inventory_id';
+
 export const MEASURED_BY = 'measured_by';
 export const MEASURED_BY_WEIGHT = 'weight';
 export const MEASURED_BY_VOLUME = 'volume';
 export const MEASURED_BY_UNIT = 'unit';
-// quantity_unit value stored for a unit (count) measure, which has no convertible unit
 export const COUNT_UNIT = 'unit';
-
-// animal sale
-export const ANIMAL_SALE = 'animal_sale';
-export const ANIMAL_INVENTORY_ID = 'animal_inventory_id';

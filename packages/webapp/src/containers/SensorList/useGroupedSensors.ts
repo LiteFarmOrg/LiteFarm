@@ -159,19 +159,14 @@ const useGroupedSensors = (): {
   sensorSummary: SensorSummary;
   groupedSensors: GroupedSensors[];
 } => {
-  const {
-    data: sensors,
-    isLoading: isLoadingSensors,
-    isFetching: isFetchingSensors,
-  } = useGetSensorsQuery();
+  const { data: sensors, isFetching: isFetchingSensors } = useGetSensorsQuery();
   const system = useSelector(measurementSelector);
   const { locations: farmAreas, isLoading: isLoadingFarmAreas } = useLocations({
     filterBy: FigureType.AREA,
   });
 
   const hasNoSensorData = !sensors?.sensors.length && !sensors?.sensor_arrays.length;
-  const isLoading =
-    isLoadingSensors || isLoadingFarmAreas || (isFetchingSensors && hasNoSensorData);
+  const isLoading = isLoadingFarmAreas || (isFetchingSensors && hasNoSensorData);
   const dataNotReady = !sensors || !farmAreas;
 
   const sensorsData =

@@ -61,8 +61,10 @@ const generateTMeasurement = (
 ): TMeasurement => {
   return {
     measurement: t(`SENSOR.READING.${readingType.toUpperCase()}`),
-    value: value && system ? convertEsciReadingValue(value, readingType, system) : '-',
-    unit: (value && unit && system && getReadingUnit(readingType, system, unit)) || '',
+    value:
+      isValidNumber(value) && system ? convertEsciReadingValue(value, readingType, system) : '-',
+    unit:
+      (isValidNumber(value) && unit && system && getReadingUnit(readingType, system, unit)) || '',
   };
 };
 

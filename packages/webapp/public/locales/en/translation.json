@@ -2030,6 +2030,8 @@
       "CUMULATIVE_RAINFALL": "Cumulative rainfall",
       "ELECTRICAL_CONDUCTIVITY": "Electrical conductivity",
       "EVAPOTRANSPIRATION": "Evapotranspiration",
+      "HEAT_FLUX": "Heat flux",
+      "LATENT_ENERGY_FLUX": "Latent energy flux",
       "LATEST_READING": "Latest reading:",
       "MOISTURE": "Moisture",
       "RAINFALL_RATE": "Rainfall rate",

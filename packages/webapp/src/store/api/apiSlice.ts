@@ -62,6 +62,7 @@ import type {
   IrrigationPrescription,
   IrrigationPrescriptionDetails,
 } from './types';
+import { SUPPORTED_SENSOR_NAMES } from './types';
 
 import { addDaysToDate } from '../../util/date';
 import { API_TAGS, ApiTag } from './apiTags';
@@ -361,6 +362,12 @@ export const api = createApi({
       query: () => `${sensorUrl}`,
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
       providesTags: ['Sensors'],
+      // Ensemble can return sensor types LiteFarm does not model. Drop them here
+      // so only supported types reach the list, map, and reading pages.
+      transformResponse: (response: SensorData) => ({
+        ...response,
+        sensors: response.sensors.filter((sensor) => SUPPORTED_SENSOR_NAMES.includes(sensor.name)),
+      }),
     }),
     getSensorReadings: build.query<
       SensorReadings[],

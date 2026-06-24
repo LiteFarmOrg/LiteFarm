@@ -41,7 +41,7 @@ export const SENSOR_READING_TYPES: Record<SensorTypes, SensorReadingTypes[]> = {
   'Wind sensor voltage': ['wind_speed'],
   'Turbine Flow Meter': ['volume'],
   'Tipping Bucket Rain Gauge': ['cumulative_rainfall'],
-  'ET sensor': ['evapotranspiration'],
+  'ET sensor': ['evapotranspiration', 'latent_energy_flux', 'heat_flux'],
   'Soil Water Content Sensor': ['moisture', 'temperature', 'electrical_conductivity'],
   'Humidity Sensor': [
     'relative_humidity',
@@ -73,6 +73,9 @@ export const CHART_SUPPORTED_PARAMS: ChartSupportedReadingTypes[] = [
   'soil_water_content',
   'water_pressure',
   'wind_speed',
+  'moisture',
+  'electrical_conductivity',
+  'evapotranspiration',
 ];
 
 export const WEATHER_STATION_KPI_PARAMS: WeatherStationKPIParams[] = [
@@ -109,6 +112,9 @@ export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, st
   soil_water_content: colors.chartPurple,
   water_pressure: colors.chartBrown,
   wind_speed: colors.chartBrown,
+  moisture: colors.chartPurple, // matches soil_water_content
+  electrical_conductivity: colors.chartBrown,
+  evapotranspiration: colors.chartBlue,
 };
 
 export const LINE_COLORS = [
@@ -194,6 +200,17 @@ export const esciUnitTypeMap: Partial<
     imperial: {
       unit: 'in',
       displayUnit: 'in/h',
+    },
+    baseUnit: 'mm',
+  },
+  evapotranspiration: {
+    metric: {
+      unit: 'mm',
+      displayUnit: 'mm',
+    },
+    imperial: {
+      unit: 'in',
+      displayUnit: 'in',
     },
     baseUnit: 'mm',
   },

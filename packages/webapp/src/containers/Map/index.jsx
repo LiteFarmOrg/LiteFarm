@@ -80,6 +80,7 @@ export default function Map({ isCompactSideMenu }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
+  const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
 
   const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
@@ -189,11 +190,12 @@ export default function Map({ isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets, assetGeometriesRef, markerClusterRef } = useMapAssetRenderer({
-    isClickable: !drawingState.type,
-    drawingState: drawingState,
-    showingConfirmButtons: showingConfirmButtons,
-  });
+  const { drawAssets, assetGeometriesRef, markerClusterRef, isFetchingInternalLocations } =
+    useMapAssetRenderer({
+      isClickable: !drawingState.type,
+      drawingState: drawingState,
+      showingConfirmButtons: showingConfirmButtons,
+    });
 
   // Cleanup listeners on map instance objects
   useEffect(() => {
@@ -210,6 +212,29 @@ export default function Map({ isCompactSideMenu }) {
       }
     };
   }, [gMaps]);
+
+  // Draw locations on map
+  const hasDrawnRef = useRef(false);
+  useEffect(() => {
+    if (!gMap || !gMaps || isFetchingInternalLocations || hasDrawnRef.current) {
+      return;
+    }
+    hasDrawnRef.current = true;
+    const mapBounds = new gMaps.LatLngBounds();
+    drawAssets(gMap, gMaps, mapBounds);
+
+    if (history.location.state?.isStepBack) {
+      reconstructOverlay();
+    }
+
+    if (history.location.state?.cameraInfo) {
+      const { zoom, location } = history.location.state.cameraInfo;
+      if (zoom && location) {
+        gMap.setZoom(zoom);
+        gMap.setCenter(location);
+      }
+    }
+  }, [gMap, gMaps, isFetchingInternalLocations]);
 
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = async ({ map, maps }) => {
@@ -295,22 +320,7 @@ export default function Map({ isCompactSideMenu }) {
     rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
-    // Drawing locations on map
-    let mapBounds = new maps.LatLngBounds();
-
-    drawAssets(map, maps, mapBounds);
-
-    if (history.location.state?.isStepBack) {
-      reconstructOverlay();
-    }
-
-    if (history.location.state?.cameraInfo) {
-      const { zoom, location } = history.location.state.cameraInfo;
-      if (zoom && location) {
-        map.setZoom(zoom);
-        map.setCenter(location);
-      }
-    }
+    setGMap(map);
     setGMaps(maps);
   };
 

@@ -189,12 +189,11 @@ export default function Map({ isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets, assetGeometriesRef, markerClusterRef, isLocationsLoading } =
-    useMapAssetRenderer({
-      isClickable: !drawingState.type,
-      drawingState: drawingState,
-      showingConfirmButtons: showingConfirmButtons,
-    });
+  const { drawAssets, assetGeometriesRef, markerClusterRef } = useMapAssetRenderer({
+    isClickable: !drawingState.type,
+    drawingState: drawingState,
+    showingConfirmButtons: showingConfirmButtons,
+  });
 
   // Cleanup listeners on map instance objects
   useEffect(() => {
@@ -424,7 +423,7 @@ export default function Map({ isCompactSideMenu }) {
 
   return (
     <>
-      {!isLocationsLoading && isLoaded && (
+      {isLoaded && (
         <>
           {!drawingState.type && !showSuccessHeader && <PureMapHeader farmName={farm_name} />}
           {showSuccessHeader && (
@@ -560,7 +559,7 @@ export default function Map({ isCompactSideMenu }) {
         </>
       )}
       <LoadingBackdrop
-        isOpen={isLocationsLoading}
+        isOpen={!isLoaded}
         isCompactSideMenu={isCompactSideMenu}
         dataName={t('MENU.MAP').toLocaleLowerCase()}
       />

@@ -115,8 +115,6 @@ export const formatStandaloneSensorReadingsToKPIProps = (
     return formatSensorReadingsToWeatherKPIProps(sensor, readings, system, t);
   }
 
-  // Ensemble can send sensor names LiteFarm does not model. Those have no curated
-  // reading set, so render nothing rather than leaking every raw parameter.
   const readingTypes = SENSOR_READING_TYPES[sensor.name] ?? [];
 
   const result = readingTypes.flatMap((param) => {
@@ -137,8 +135,6 @@ export const formatStandaloneSensorReadingsToKPIProps = (
     return result;
   }
 
-  // Modelled sensors show a labelled set of dashes when no data is available;
-  // unmodelled sensors have no such set, so render nothing.
   return SENSOR_READING_TYPES[sensor.name] ? getGeneralSensorDefaultKPIProps(sensor.name, t) : [];
 };
 

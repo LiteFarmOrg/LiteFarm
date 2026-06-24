@@ -30,6 +30,7 @@ import { useGetSensorsQuery } from '../../../store/api/apiSlice';
 import { getStatusProps } from './utils';
 import { toTranslationKey } from '../../../util';
 import {
+  CHART_SUPPORTED_PARAMS,
   LINE_COLORS,
   SENSOR_ARRAY_CHART_PARAMS,
   SENSOR_READING_TYPES,
@@ -37,7 +38,7 @@ import {
 } from './constants';
 import type { ChartSupportedReadingTypes } from './types';
 import { SensorType } from '../../../types/sensor';
-import { Sensor } from '../../../store/api/types';
+import { Sensor, SensorReadingTypes } from '../../../store/api/types';
 import styles from './styles.module.scss';
 import { createSmartIrrigationDisplayName } from '../../../util/smartIrrigation';
 
@@ -75,6 +76,9 @@ const getChartColors: ChartsProps['getChartColors'] = (readingType: ChartSupport
   return { title: paramColor, yAxisTick: paramColor };
 };
 
+const isChartSupported = (type: SensorReadingTypes): type is ChartSupportedReadingTypes =>
+  (CHART_SUPPORTED_PARAMS as SensorReadingTypes[]).includes(type);
+
 const getChartsProps = (type: SensorType, sensors: Sensor[]) => {
   if (type === SensorType.SENSOR_ARRAY) {
     return {
@@ -84,9 +88,7 @@ const getChartsProps = (type: SensorType, sensors: Sensor[]) => {
   }
 
   return {
-    // useFormattedSensorReadings filters to CHART_SUPPORTED_PARAMS, so any
-    // non-chartable reading types in this list are ignored at render time.
-    readingTypes: (SENSOR_READING_TYPES[sensors[0].name] ?? []) as ChartSupportedReadingTypes[],
+    readingTypes: (SENSOR_READING_TYPES[sensors[0].name] ?? []).filter(isChartSupported),
     getSensorColorMap: getSensorColorMapFunc(sensors[0].external_id),
     getChartColors,
     className: styles.sensor,

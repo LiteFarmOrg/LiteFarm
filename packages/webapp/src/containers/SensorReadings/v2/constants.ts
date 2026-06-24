@@ -26,8 +26,14 @@ import type {
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
+const SOIL_WATER_POTENTIAL_READING_TYPES: ChartSupportedReadingTypes[] = [
+  'temperature',
+  'soil_water_potential',
+  'soil_water_content',
+];
+
 export const SENSOR_READING_TYPES: Record<SensorTypes, SensorReadingTypes[]> = {
-  'Soil Water Potential Sensor': ['temperature', 'soil_water_potential', 'soil_water_content'],
+  'Soil Water Potential Sensor': SOIL_WATER_POTENTIAL_READING_TYPES,
   'IR Temperature Sensor': ['temperature'],
   'Wind speed sensor': ['wind_speed'],
   'Drip line pressure sensor': ['water_pressure'],
@@ -59,10 +65,7 @@ export const WEATHER_STATION_SENSOR_NAMES: SensorTypes[] = [
   'SDI-12 weather station',
 ];
 
-// The soil-water-potential reading set is entirely chart-supported.
-export const SENSOR_ARRAY_CHART_PARAMS = SENSOR_READING_TYPES[
-  'Soil Water Potential Sensor'
-] as ChartSupportedReadingTypes[];
+export const SENSOR_ARRAY_CHART_PARAMS = SOIL_WATER_POTENTIAL_READING_TYPES;
 
 export const CHART_SUPPORTED_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',

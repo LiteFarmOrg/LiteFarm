@@ -362,12 +362,24 @@ export const api = createApi({
       query: () => `${sensorUrl}`,
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
       providesTags: ['Sensors'],
-      // Ensemble can return sensor types LiteFarm does not model. Drop them here
+      // Ensemble can return sensor types LiteFarm does not model. Drop those sensors,
+      // then prune each sensor array's membership list to the surviving sensors and
+      // drop any array left with no members. This keeps the data internally consistent
       // so only supported types reach the list, map, and reading pages.
-      transformResponse: (response: SensorData) => ({
-        ...response,
-        sensors: response.sensors.filter((sensor) => SUPPORTED_SENSOR_NAMES.includes(sensor.name)),
-      }),
+      transformResponse: (response: SensorData) => {
+        const sensors = response.sensors.filter((sensor) =>
+          SUPPORTED_SENSOR_NAMES.includes(sensor.name),
+        );
+        const supportedEsids = new Set(sensors.map(({ external_id }) => external_id));
+        const sensor_arrays = response.sensor_arrays
+          .map((sensorArray) => ({
+            ...sensorArray,
+            sensors: sensorArray.sensors.filter((esid) => supportedEsids.has(esid)),
+          }))
+          .filter((sensorArray) => sensorArray.sensors.length > 0);
+
+        return { sensors, sensor_arrays };
+      },
     }),
     getSensorReadings: build.query<
       SensorReadings[],

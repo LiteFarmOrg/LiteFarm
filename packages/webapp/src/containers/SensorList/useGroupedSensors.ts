@@ -81,7 +81,7 @@ const formatSensorArrayToGroup = (
 ) => {
   return {
     ...sensorArray,
-    sensors: mappedSensors[sensorArray.id],
+    sensors: mappedSensors[sensorArray.id] ?? [],
     type: SensorType.SENSOR_ARRAY,
     fields: getAreaDataForPoint(sensorArray.point, areaLocations),
     isAddonSensor: true,
@@ -105,14 +105,17 @@ const formatSensorToGroup = (
 };
 
 const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSummary => {
-  const summaryMap = sensors.reduce((acc, { name }) => {
-    if (!(name in acc)) {
-      acc[name] = 0;
-    }
-    acc[name] += 1;
+  const summaryMap = sensors.reduce(
+    (acc, { name }) => {
+      if (!(name in acc)) {
+        acc[name] = 0;
+      }
+      acc[name] += 1;
 
-    return acc;
-  }, {} as Record<Sensor['name'], number>);
+      return acc;
+    },
+    {} as Record<Sensor['name'], number>,
+  );
 
   return {
     [SensorType.SENSOR_ARRAY]: sensor_arrays.length,

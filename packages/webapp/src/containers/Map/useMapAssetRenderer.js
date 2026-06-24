@@ -17,6 +17,7 @@ import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { cleanupGeometryListeners } from '../../util/google-maps/cleanupListeners';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
@@ -64,6 +65,12 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
   const assetGeometriesRef = useRef({});
+
+  const mapRef = useRef(null);
+  const mapsRef = useRef(null);
+  const mapClickListenerRef = useRef(null);
+  const initialDrawDoneRef = useRef(false);
+  const prevFetchingRef = useRef(false);
 
   // Keep ref (for cleanup) in sync with state
   useEffect(() => {
@@ -149,8 +156,8 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
         ? drawNoFillArea
         : drawArea
       : isLine(assetType)
-        ? drawLine
-        : drawPoint;
+      ? drawLine
+      : drawPoint;
   };
 
   const { maxZoomRef } = useMaxZoom();
@@ -231,18 +238,25 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     }
   }, [drawingState.isActive, showingConfirmButtons, farmLocationMarker]);
 
-  const drawAssets = (map, maps, mapBounds) => {
+  const drawAssets = (map, maps, mapBounds, startingState = null) => {
+    mapRef.current = map;
+    mapsRef.current = maps;
+    initialDrawDoneRef.current = true;
+
     maps.event.addListenerOnce(map, 'idle', function () {
       // markerClusterRef?.current?.repaint();
     });
 
-    // Event listener for general map click
-    maps.event.addListener(map, 'click', function (mapsMouseEvent) {
+    // Replace old map click listener to avoid duplicates on re-draw
+    if (mapClickListenerRef.current) {
+      maps.event.removeListener(mapClickListenerRef.current);
+    }
+    mapClickListenerRef.current = maps.event.addListener(map, 'click', function (mapsMouseEvent) {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, false);
     });
 
     let hasLocation = false;
-    const newState = { ...assetGeometries };
+    const newState = startingState !== null ? { ...startingState } : { ...assetGeometries };
     const assets = { ...areaAssets, ...lineAssets, ...pointAssets };
     const assetsWithLocations = Object.keys(assets).filter(
       (type) =>
@@ -586,6 +600,36 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       isAddonSensor: point.isAddonSensor,
     };
   };
+
+  const redrawAssets = () => {
+    if (!initialDrawDoneRef.current || !mapRef.current || !mapsRef.current) {
+      return;
+    }
+
+    // Remove all existing overlays from the map before re-drawing
+    Object.values(assetGeometriesRef.current).forEach((geometries) => {
+      const items = Array.isArray(geometries) ? geometries : [geometries];
+      items.forEach((geometry) => {
+        geometry.polygon?.setMap(null);
+        geometry.marker?.setMap(null);
+        geometry.polyline?.setMap(null);
+      });
+    });
+    cleanupGeometryListeners(assetGeometriesRef.current, mapsRef.current);
+    setPoints({});
+
+    const emptyState = initAssetGeometriesState();
+    const mapBounds = new mapsRef.current.LatLngBounds();
+    drawAssets(mapRef.current, mapsRef.current, mapBounds, emptyState);
+  };
+
+  useEffect(() => {
+    const wasFetching = prevFetchingRef.current;
+    prevFetchingRef.current = isLocationsFetching;
+    if (wasFetching && !isLocationsFetching) {
+      redrawAssets();
+    }
+  }, [isLocationsFetching]);
 
   return {
     drawAssets,

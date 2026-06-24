@@ -40,7 +40,10 @@ class CropVarietySale extends Model {
           type: 'number',
           format: 'float',
         },
-        quantity_unit: { type: 'string' },
+        quantity_unit: {
+          type: 'string',
+          enum: ['kg', 'mt', 'lb', 't', 'ml', 'l', 'gal', 'fl-oz', 'unit'],
+        },
         sale_value: {
           type: 'number',
           format: 'float',

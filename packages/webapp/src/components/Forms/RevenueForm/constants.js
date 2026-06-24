@@ -34,3 +34,9 @@ export const SALE_VALUE = 'sale_value';
 // animal sale
 export const ANIMAL_SALE = 'animal_sale';
 export const ANIMAL_INVENTORY_ID = 'animal_inventory_id';
+
+export const MEASURED_BY = 'measured_by';
+export const MEASURED_BY_WEIGHT = 'weight';
+export const MEASURED_BY_VOLUME = 'volume';
+export const MEASURED_BY_UNIT = 'unit';
+export const COUNT_UNIT = 'unit';

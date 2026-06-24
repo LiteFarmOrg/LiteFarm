@@ -19,9 +19,14 @@ import { useTranslation } from 'react-i18next';
 import {
   ANIMAL_INVENTORY_ID,
   ANIMAL_SALE,
+  COUNT_UNIT,
   CROP_VARIETY_ID,
   CROP_VARIETY_SALE,
   CUSTOMER_NAME,
+  MEASURED_BY,
+  MEASURED_BY_UNIT,
+  MEASURED_BY_VOLUME,
+  MEASURED_BY_WEIGHT,
   NOTE,
   QUANTITY,
   QUANTITY_UNIT,
@@ -31,7 +36,14 @@ import {
   VALUE,
 } from '../../components/Forms/RevenueForm/constants';
 import i18n from '../../locales/i18n';
-import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
+import { roundToTwoDecimal } from '../../util';
+import {
+  convertFn,
+  getDefaultUnit,
+  harvestAmounts,
+  waterUsage,
+} from '../../util/convert-units/unit';
+import { convert } from '../../util/convert-units/convert';
 import { isSameDay } from '../../util/date-migrate-TS';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
@@ -206,26 +218,69 @@ export const generateExpenseItems = (expense, cropVarieties, animals, animalBatc
   return items;
 };
 
+// Derive measured_by from quantity_unit
+export const getMeasuredByFromUnit = (quantityUnit) => {
+  if (!quantityUnit || quantityUnit === COUNT_UNIT) {
+    return MEASURED_BY_UNIT;
+  }
+  const allVolumeUnits = [...waterUsage.metric.units, ...waterUsage.imperial.units];
+  if (allVolumeUnits.includes(quantityUnit)) {
+    return MEASURED_BY_VOLUME;
+  }
+  return MEASURED_BY_WEIGHT;
+};
+
+// Crop and animal sale quantities are stored in the measure's database unit (kg for
+// weight, l for volume, the raw integer for unit). Resolve each stored value to a display
+// value and label for the user's measurement system.
+const getSaleQuantityDisplay = (quantityUnit, quantity, system) => {
+  const measuredBy = getMeasuredByFromUnit(quantityUnit);
+  if (measuredBy === MEASURED_BY_UNIT) {
+    return {
+      quantity: roundToTwoDecimal(quantity),
+      quantityUnit: i18n.t('SALE.ADD_SALE.COUNT_UNIT_LABEL'),
+    };
+  }
+
+  const unitType = measuredBy === MEASURED_BY_VOLUME ? waterUsage : harvestAmounts;
+
+  if (convert().describe(quantityUnit)?.system === system) {
+    return {
+      quantity: roundToTwoDecimal(
+        convertFn(unitType, quantity, unitType.databaseUnit, quantityUnit),
+      ),
+      quantityUnit,
+    };
+  }
+
+  const { displayUnit, displayValue } = getDefaultUnit(unitType, quantity, system);
+  return { quantity: displayValue, quantityUnit: displayUnit };
+};
+
 export const mapSalesToRevenueItems = (
   sales,
   revenueTypes,
   cropVarieties,
   animals = [],
   animalBatches = [],
+  system,
 ) => {
   const revenueItems = sales.map((sale) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
     );
     if (revenueType?.entity_type === 'crop') {
-      const quantityUnit = getMassUnit();
       const cropVarietySale = sale.crop_variety_sale;
       return {
         sale,
         totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
         financeItemsProps: cropVarietySale
           .map((cvs) => {
-            const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
+            const { quantity, quantityUnit } = getSaleQuantityDisplay(
+              cvs.quantity_unit,
+              cvs.quantity,
+              system,
+            );
             const cropVariety = cropVarieties.find(
               (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
             );
@@ -235,8 +290,8 @@ export const mapSalesToRevenueItems = (
                 crop_variety_name: cropVariety?.crop_variety_name,
                 crop_translation_key: cropVariety?.crop.crop_translation_key,
               }),
-              subtitle: `${convertedQuantity} ${quantityUnit}`,
-              quantity: convertedQuantity,
+              subtitle: `${quantity} ${quantityUnit}`,
+              quantity,
               quantityUnit,
               amount: cvs.sale_value,
             };
@@ -244,21 +299,24 @@ export const mapSalesToRevenueItems = (
           .sort((a, b) => String(a.title).localeCompare(String(b.title))),
       };
     } else if (revenueType?.entity_type === 'animal') {
-      const quantityUnit = getMassUnit();
       const animalSale = sale.animal_sale ?? [];
       return {
         sale,
         totalAmount: animalSale.reduce((total, row) => total + row.sale_value, 0),
         financeItemsProps: animalSale
           .map((row) => {
-            const convertedQuantity = roundToTwoDecimal(getMass(row.quantity).toString());
+            const { quantity, quantityUnit } = getSaleQuantityDisplay(
+              row.quantity_unit,
+              row.quantity,
+              system,
+            );
             const key =
               row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
             return {
               key,
               title: getAnimalBatchLabel(row, animals, animalBatches),
-              subtitle: `${convertedQuantity} ${quantityUnit}`,
-              quantity: convertedQuantity,
+              subtitle: `${quantity} ${quantityUnit}`,
+              quantity,
               quantityUnit,
               amount: row.sale_value,
             };
@@ -312,10 +370,11 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
   if (revenueType?.entity_type === 'crop') {
     sale.value = undefined;
     sale.crop_variety_sale = Object.values(data[CROP_VARIETY_SALE]).map((c) => {
+      const measuredBy = c[MEASURED_BY];
       return {
         sale_value: c[SALE_VALUE],
         quantity: c[QUANTITY],
-        quantity_unit: c[QUANTITY_UNIT].label,
+        quantity_unit: measuredBy === MEASURED_BY_UNIT ? COUNT_UNIT : c[QUANTITY_UNIT].value,
         crop_variety_id: c[CROP_VARIETY_ID],
       };
     });
@@ -324,10 +383,11 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
     sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
       const { kind, id } = parseInventoryId(a[ANIMAL_INVENTORY_ID]);
       const isBatch = kind === AnimalOrBatchKeys.BATCH;
+      const measuredBy = a[MEASURED_BY];
       return {
         sale_value: a[SALE_VALUE],
         quantity: a[QUANTITY],
-        quantity_unit: a[QUANTITY_UNIT].label,
+        quantity_unit: measuredBy === MEASURED_BY_UNIT ? COUNT_UNIT : a[QUANTITY_UNIT].value,
         animal_id: isBatch ? null : id,
         animal_batch_id: isBatch ? id : null,
       };
@@ -409,4 +469,12 @@ export const getNoOptionsMessage = (entity) => {
     entity === 'crop'
       ? i18n.t('SELECT.NO_CROP_VARIETIES')
       : i18n.t('SELECT.NO_ANIMALS_IN_INVENTORY');
+};
+
+export const getSaleUnitOption = ({ quantity_unit, quantity }, system, measuredBy, unitMap) => {
+  // Pre-computes the display unit from saved data; useUnit doesn't resolve it correctly in this context.
+  const { quantityUnit } =
+    measuredBy === MEASURED_BY_UNIT ? {} : getSaleQuantityDisplay(quantity_unit, quantity, system);
+
+  return quantityUnit ? unitMap[quantityUnit] : undefined;
 };

@@ -13,6 +13,7 @@ import { SUNDAY } from '../../../util/dateRange';
 import { cropVarietiesSelector } from '../../cropVarietySlice';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import { measurementSelector } from '../../userFarmSlice';
 import ActualRevenueItem from '../ActualRevenueItem';
 import { getRevenueTypes, getSales } from '../saga';
 import { salesSelector } from '../selectors';
@@ -42,6 +43,7 @@ export default function ActualRevenue() {
   const sales = useSelector(salesSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
+  const system = useSelector(measurementSelector);
   const { data: animals } = useGetAnimalsQuery();
   const { data: animalBatches } = useGetAnimalBatchesQuery();
   const { startDate: fromDate, endDate: toDate } = useFinancesDateRange({ weekStartDate: SUNDAY });
@@ -52,9 +54,17 @@ export default function ActualRevenue() {
   );
   const revenueItems = useMemo(
     () =>
-      mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties, animals, animalBatches),
-    [filteredSales, allRevenueTypes, cropVarieties, animals, animalBatches],
+      mapSalesToRevenueItems(
+        filteredSales,
+        allRevenueTypes,
+        cropVarieties,
+        animals,
+        animalBatches,
+        system,
+      ),
+    [filteredSales, allRevenueTypes, cropVarieties, animals, animalBatches, system],
   );
+
   const revenueForWholeFarm = useMemo(
     () => calcActualRevenueFromRevenueItems(revenueItems),
     [revenueItems],

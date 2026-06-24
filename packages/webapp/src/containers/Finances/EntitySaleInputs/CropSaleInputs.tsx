@@ -20,6 +20,7 @@ import {
   CROP_VARIETY_SALE,
   CROP_VARIETY_ID,
 } from '../../../components/Forms/RevenueForm/constants';
+import { getMeasuredByFromUnit, getSaleUnitOption } from '../util';
 import CropSaleItem from '../../../components/Forms/RevenueForm/CropSaleItem';
 import { cropVarietiesSelector, cropVarietyOptionsSelector } from '../../cropVarietySlice';
 import { measurementSelector } from '../../userFarmSlice';
@@ -29,24 +30,32 @@ import type { CropVarietySaleTileData } from '../../../components/CropTile/CropV
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect/index';
 import { getNoOptionsMessage } from '../util';
+import { System } from '../../../types';
 
-export const getCropSaleDefaultValues = (sale: CropSale | undefined) => {
+export const getCropSaleDefaultValues = (sale: CropSale | undefined, system: System) => {
+  const unitMap = getUnitOptionMap() as Record<string, SelectOption>;
+
   const existingSales = sale?.crop_variety_sale?.reduce<
-    Record<number, Omit<CropVarietySaleRecord, 'quantity_unit'> & { quantity_unit?: SelectOption }>
+    Record<
+      number,
+      Omit<CropVarietySaleRecord, 'quantity_unit'> & {
+        quantity_unit?: SelectOption;
+        measured_by: string;
+      }
+    >
   >(
     (acc, cur) => ({
       ...acc,
-      [cur.crop_variety_id]: {
-        crop_variety_id: cur.crop_variety_id,
-        quantity: cur.quantity,
-        quantity_unit: cur.quantity_unit
-          ? ((getUnitOptionMap() as Record<string, SelectOption>)[cur.quantity_unit] ?? {
-              label: cur.quantity_unit,
-              value: cur.quantity_unit,
-            })
-          : undefined,
-        sale_value: cur.sale_value,
-      },
+      [cur.crop_variety_id]: (() => {
+        const measuredBy = getMeasuredByFromUnit(cur.quantity_unit);
+        return {
+          crop_variety_id: cur.crop_variety_id,
+          measured_by: measuredBy,
+          quantity: cur.quantity,
+          quantity_unit: getSaleUnitOption(cur, system, measuredBy, unitMap),
+          sale_value: cur.sale_value,
+        };
+      })(),
     }),
     {},
   );

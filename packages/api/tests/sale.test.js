@@ -473,6 +473,67 @@ describe('Sale Tests', () => {
       });
     });
 
+    test('crop_variety_sale measured by volume should persist the volume unit', async () => {
+      const saleBody = {
+        ...commonSampleReqBody,
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
+        crop_variety_sale: [
+          {
+            ...mocks.fakeCropVarietySale({ quantity_unit: 'l' }),
+            crop_variety_id: cropVariety.crop_variety_id,
+          },
+        ],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(201);
+        const sales = await saleModel.query().where('farm_id', farm.farm_id);
+        const cropVarietySales = await cropVarietySaleModel
+          .query()
+          .where('sale_id', sales[0].sale_id);
+        expect(cropVarietySales.length).toBe(1);
+        expect(cropVarietySales[0].quantity_unit).toBe('l');
+      });
+    });
+
+    test('animal_sale measured by unit (count) should persist the unit marker', async () => {
+      const saleBody = {
+        ...commonSampleReqBody,
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [
+          mocks.fakeAnimalSale({
+            animal_id: animal.id,
+            quantity_unit: 'unit',
+          }),
+        ],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(201);
+        const sales = await saleModel.query().where('farm_id', farm.farm_id);
+        const animalSales = await animalSaleModel.query().where('sale_id', sales[0].sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].quantity_unit).toBe('unit');
+      });
+    });
+
+    test('Should return 400 if quantity_unit is outside the allowed set', async () => {
+      const saleBody = {
+        ...commonSampleReqBody,
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
+        crop_variety_sale: [
+          {
+            ...mocks.fakeCropVarietySale({ quantity_unit: 'bogus' }),
+            crop_variety_id: cropVariety.crop_variety_id,
+          },
+        ],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(400);
+      });
+    });
+
     test('Should allow animal sales with retired animals or animal batches', async () => {
       const [removedAnimal] = await mocks.animalFactory({ promisedFarm: [farm] });
       const [removedBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });

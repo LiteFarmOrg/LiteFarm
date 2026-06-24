@@ -16,6 +16,7 @@
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { ANIMAL_INVENTORY_ID, ANIMAL_SALE } from '../../../components/Forms/RevenueForm/constants';
+import { getMeasuredByFromUnit, getSaleUnitOption } from '../util';
 import AnimalSaleItem from '../../../components/Forms/RevenueForm/AnimalSaleItem';
 import EntitySalePicker from '../../../components/Forms/RevenueForm/EntitySalePicker';
 import { measurementSelector } from '../../userFarmSlice';
@@ -25,6 +26,7 @@ import { animalOptionsSelector } from '../../../store/selectors/animals';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import type { SelectOption } from '../../../components/Form/ReactSelect/CheckboxMultiSelect';
 import { getNoOptionsMessage } from '../util';
+import { System } from '../../../types';
 
 interface BaseAnimalSaleRecord<TQuantityUnit> {
   animal_id: number | null;
@@ -36,7 +38,9 @@ interface BaseAnimalSaleRecord<TQuantityUnit> {
 
 // API data returns a string for quantity_unit, but form data uses SelectOption
 type AnimalSaleRecord = BaseAnimalSaleRecord<string | undefined>;
-type AnimalSaleDefaultRecord = BaseAnimalSaleRecord<SelectOption | undefined>;
+type AnimalSaleDefaultRecord = BaseAnimalSaleRecord<SelectOption | undefined> & {
+  measured_by: string;
+};
 
 export interface AnimalSale {
   animal_sale?: AnimalSaleRecord[];
@@ -55,7 +59,7 @@ const saleRecordToOptionKey = (record: AnimalSaleRecord) => {
   return `${key}_${id}`;
 };
 
-export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
+export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined, system: System) => {
   if (!sale?.animal_sale) {
     return { [ANIMAL_SALE]: undefined };
   }
@@ -66,9 +70,11 @@ export const getAnimalSaleDefaultValues = (sale: AnimalSale | undefined) => {
     sale.animal_sale.map((record) => {
       const key = saleRecordToOptionKey(record);
       const unit = record.quantity_unit;
+      const measuredBy = getMeasuredByFromUnit(unit);
       const formattedEntry: AnimalSaleDefaultRecord = {
         ...record,
-        quantity_unit: unit ? (unitMap[unit] ?? { label: unit, value: unit }) : undefined,
+        measured_by: measuredBy,
+        quantity_unit: getSaleUnitOption(record, system, measuredBy, unitMap),
       };
       return [key, formattedEntry];
     }),

@@ -89,7 +89,8 @@ function SaleLineItem({
                 options={measuredByOptions}
                 value={measuredByOptions.find((option) => option.value === value)}
                 onChange={(option) => {
-                  // Clear quantity and unit when measure type changes                  setValue(quantityName, null);
+                  // Clear quantity and unit when measure type changes
+                  setValue(quantityName, null);
                   setValue(unitName, undefined);
                   onChange((option as { value: string }).value);
                 }}

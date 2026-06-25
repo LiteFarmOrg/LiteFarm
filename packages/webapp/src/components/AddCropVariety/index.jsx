@@ -24,6 +24,7 @@ export default function PureAddCropVariety({
   imageUploader,
   handleGoBack,
   farmCropVarieties,
+  isNewCrop,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const COMMON_NAME = 'crop_variety_name';
@@ -122,7 +123,7 @@ export default function PureAddCropVariety({
         style={{ marginBottom: '24px' }}
         onGoBack={handleGoBack}
         onCancel={historyCancel}
-        title={t('CROP.ADD_CROP')}
+        title={isNewCrop ? t('CROP.ADD_CROP') : t('CROP.ADD_CROP_VARIETY')}
         value={progress}
       />
 

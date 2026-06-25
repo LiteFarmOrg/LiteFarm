@@ -31,6 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import saleModel from '../src/models/saleModel.js';
 import cropVarietySaleModel from '../src/models/cropVarietySaleModel.js';
+import animalSaleModel from '../src/models/animalSaleModel.js';
 import revenueTypeModel from '../src/models/revenueTypeModel.js';
 
 describe('Sale Tests', () => {
@@ -40,6 +41,10 @@ describe('Sale Tests', () => {
   let ownerFarm;
   let crop;
   let cropVariety;
+  let generalRevenueType;
+  let animalSaleRevenueType;
+  let animal;
+  let animalBatch;
 
   beforeAll(() => {
     _token = global.token;
@@ -61,8 +66,10 @@ describe('Sale Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   async function getRequest(
@@ -74,8 +81,10 @@ describe('Sale Tests', () => {
       .get(`/sale/${farm_id_in_params}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   async function deleteRequest(
@@ -87,8 +96,10 @@ describe('Sale Tests', () => {
       .delete(`/sale/${sale_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   async function patchRequest(
@@ -103,8 +114,10 @@ describe('Sale Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .then((res) => callback(null, res))
-      .catch((_err) => callback(_err));
+      .then(
+        (res) => callback(null, res),
+        (_err) => callback(_err),
+      );
   }
 
   function fakeUserFarm(role = 1) {
@@ -123,6 +136,15 @@ describe('Sale Tests', () => {
     );
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
     [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
+    animalSaleRevenueType = await revenueTypeModel
+      .query()
+      .where('revenue_name', 'Animal Sale')
+      .first();
+    [generalRevenueType] = await mocks.revenue_typeFactory({
+      promisedFarm: [farm],
+    });
+    [animal] = await mocks.animalFactory({ promisedFarm: [farm] });
+    [animalBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
   });
 
   afterAll(async () => {
@@ -224,6 +246,23 @@ describe('Sale Tests', () => {
           expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(
             cropVariety1.crop_variety_id,
           );
+        });
+      });
+
+      test('Response includes animal_sale nested on animal-type sales', async () => {
+        const [sale] = await mocks.saleFactory(
+          { promisedUserFarm: [ownerFarm] },
+          mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+        );
+        await mocks.animal_saleFactory({ promisedSale: [sale], promisedAnimal: [animal] });
+
+        await getRequest({ user_id: owner.user_id }, (_err, res) => {
+          expect(res.status).toBe(200);
+          const found = res.body.find((s) => s.sale_id === sale.sale_id);
+          expect(found).toBeDefined();
+          expect(found.animal_sale).toBeDefined();
+          expect(found.animal_sale.length).toBe(1);
+          expect(found.animal_sale[0].animal_id).toBe(animal.id);
         });
       });
 
@@ -374,6 +413,7 @@ describe('Sale Tests', () => {
   });
 
   describe('Post sale', () => {
+    let commonSampleReqBody;
     let sampleReqBody;
     let crop2;
     let cropVariety2;
@@ -391,9 +431,13 @@ describe('Sale Tests', () => {
         .where('revenue_name', 'Crop Sale')
         .first();
 
-      sampleReqBody = {
+      commonSampleReqBody = {
         ...mocks.fakeSale(),
         farm_id: farm.farm_id,
+      };
+
+      sampleReqBody = {
+        ...commonSampleReqBody,
         crop_variety_sale: [
           {
             ...mocks.fakeCropVarietySale(),
@@ -406,6 +450,126 @@ describe('Sale Tests', () => {
         ],
         revenue_type_id: cropSaleRevenueType.revenue_type_id,
       };
+    });
+
+    test('animal_sale array should create animal_sale rows', async () => {
+      const fakeAnimalSale = mocks.fakeAnimalSale({ animal_id: animal.id });
+      const saleBody = {
+        ...mocks.fakeSale(),
+        farm_id: farm.farm_id,
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [fakeAnimalSale],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(201);
+        const sales = await saleModel.query().where('farm_id', farm.farm_id);
+        expect(sales.length).toBe(1);
+        const animalSales = await animalSaleModel.query().where('sale_id', sales[0].sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal.id);
+        expect(animalSales[0].quantity).toBe(fakeAnimalSale.quantity);
+        expect(animalSales[0].sale_value).toBe(fakeAnimalSale.sale_value);
+      });
+    });
+
+    test('crop_variety_sale measured by volume should persist the volume unit', async () => {
+      const saleBody = {
+        ...commonSampleReqBody,
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
+        crop_variety_sale: [
+          {
+            ...mocks.fakeCropVarietySale({ quantity_unit: 'l' }),
+            crop_variety_id: cropVariety.crop_variety_id,
+          },
+        ],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(201);
+        const sales = await saleModel.query().where('farm_id', farm.farm_id);
+        const cropVarietySales = await cropVarietySaleModel
+          .query()
+          .where('sale_id', sales[0].sale_id);
+        expect(cropVarietySales.length).toBe(1);
+        expect(cropVarietySales[0].quantity_unit).toBe('l');
+      });
+    });
+
+    test('animal_sale measured by unit (count) should persist the unit marker', async () => {
+      const saleBody = {
+        ...commonSampleReqBody,
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [
+          mocks.fakeAnimalSale({
+            animal_id: animal.id,
+            quantity_unit: 'unit',
+          }),
+        ],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(201);
+        const sales = await saleModel.query().where('farm_id', farm.farm_id);
+        const animalSales = await animalSaleModel.query().where('sale_id', sales[0].sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].quantity_unit).toBe('unit');
+      });
+    });
+
+    test('Should return 400 if quantity_unit is outside the allowed set', async () => {
+      const saleBody = {
+        ...commonSampleReqBody,
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
+        crop_variety_sale: [
+          {
+            ...mocks.fakeCropVarietySale({ quantity_unit: 'bogus' }),
+            crop_variety_id: cropVariety.crop_variety_id,
+          },
+        ],
+      };
+
+      await postSaleRequest(saleBody, {}, async (_err, res) => {
+        expect(res.status).toBe(400);
+      });
+    });
+
+    test('Should allow animal sales with retired animals or animal batches', async () => {
+      const [removedAnimal] = await mocks.animalFactory({ promisedFarm: [farm] });
+      const [removedBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
+      const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+      await knex('animal').where('id', removedAnimal.id).update({
+        removal_date: new Date().toISOString(),
+        animal_removal_reason_id: animalRemovalReason.id,
+      });
+      await knex('animal_batch').where('id', removedBatch.id).update({
+        removal_date: new Date().toISOString(),
+        animal_removal_reason_id: animalRemovalReason.id,
+      });
+
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [mocks.fakeAnimalSale({ animal_id: removedAnimal.id })],
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(201);
+        },
+      );
+
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: removedBatch.id })],
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(201);
+        },
+      );
     });
 
     test('Should return 400 if crop_variety_sale is undefined', async () => {
@@ -434,6 +598,199 @@ describe('Sale Tests', () => {
       await postSaleRequest(sampleReqBody, {}, async (_err, res) => {
         expect(res.status).toBe(400);
       });
+    });
+
+    test('Should return 400 if revenue_type_id is missing', async () => {
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: undefined },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
+    test('Should return 400 if revenue_type_id is invalid', async () => {
+      const [deletedRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', deletedRevenueType.revenue_type_id)
+        .update({ deleted: true });
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: deletedRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      const [retiredRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', retiredRevenueType.revenue_type_id)
+        .update({ retired: true });
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: retiredRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      const [otherFarmsRevenueType] = await mocks.revenue_typeFactory({
+        properties: { entity_type: 'crop' },
+      });
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: otherFarmsRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
+    test('Should return 400 if value is provided for crop/animal sales', async () => {
+      await postSaleRequest({ ...sampleReqBody, value: 100 }, {}, async (_err, res) => {
+        expect(res.status).toBe(400);
+      });
+
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: animalBatch.id })],
+          value: 100,
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
+    test(`Should return 400 when revenue_type's entity_type and data do not match`, async () => {
+      await postSaleRequest(
+        { ...sampleReqBody, revenue_type_id: animalSaleRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: animalBatch.id })],
+          revenue_type_id: generalRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
+    test('Should return 400 for missing data', async () => {
+      await postSaleRequest(
+        { ...commonSampleReqBody, revenue_type_id: generalRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      await postSaleRequest(
+        { ...commonSampleReqBody, revenue_type_id: cropSaleRevenueType.revenue_type_id },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
+    test('Should return 400 if animal_sale has both animal_id and animal_batch_id', async () => {
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [
+            mocks.fakeAnimalSale({ animal_id: animal.id, animal_batch_id: animalBatch.id }),
+          ],
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
+    test('Should return 400 if animalId/animalBatchId is invalid', async () => {
+      const [animalOnAnotherFarm] = await mocks.animalFactory();
+      const [animalBatchOnAnotherFarm] = await mocks.animal_batchFactory();
+      const [deletedAnimal] = await mocks.animalFactory({ promisedFarm: [farm] });
+      await knex('animal').where('id', deletedAnimal.id).update({ deleted: true });
+      const [deletedAnimalBatch] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
+      await knex('animal_batch').where('id', deletedAnimalBatch.id).update({ deleted: true });
+
+      for (const invalidAnimal of [animalOnAnotherFarm, deletedAnimal]) {
+        await postSaleRequest(
+          {
+            ...commonSampleReqBody,
+            animal_sale: [mocks.fakeAnimalSale({ animal_id: invalidAnimal.id })],
+            revenue_type_id: animalSaleRevenueType.revenue_type_id,
+          },
+          {},
+          async (_err, res) => {
+            expect(res.status).toBe(400);
+          },
+        );
+      }
+
+      for (const invalidBatch of [animalBatchOnAnotherFarm, deletedAnimalBatch]) {
+        await postSaleRequest(
+          {
+            ...commonSampleReqBody,
+            animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: invalidBatch.id })],
+            revenue_type_id: animalSaleRevenueType.revenue_type_id,
+          },
+          {},
+          async (_err, res) => {
+            expect(res.status).toBe(400);
+          },
+        );
+      }
+    });
+
+    test('Should return 400 if animal_sale item does not have either animal_id or animal_batch_id', async () => {
+      await postSaleRequest(
+        {
+          ...commonSampleReqBody,
+          animal_sale: [
+            mocks.fakeAnimalSale({ animal_id: animal.id }),
+            mocks.fakeAnimalSale(), // missing both animal_id and animal_batch_id
+          ],
+          revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        },
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
     });
 
     // TODO: Edge case.
@@ -546,7 +903,6 @@ describe('Sale Tests', () => {
       const testGeneralSale = async (userId) => {
         const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
           promisedFarm: [{ farm_id: farm.farm_id }],
-          properties: { agriculture_associated: null, crop_generated: false },
         });
         delete sampleReqBody.crop_variety_sale;
         sampleReqBody.value = 50.5;
@@ -662,6 +1018,54 @@ describe('Sale Tests', () => {
       };
     });
 
+    test('Should allow patching a sale with a retired revenue type', async () => {
+      const [retiredRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', retiredRevenueType.revenue_type_id)
+        .update({ retired: true });
+      await patchRequest(
+        { revenue_type_id: retiredRevenueType.revenue_type_id },
+        sale.sale_id,
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(200);
+        },
+      );
+    });
+
+    test('Should return 400 if revenue_type_id is invalid', async () => {
+      const [deletedRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+        properties: { entity_type: 'crop' },
+      });
+      await knex('revenue_type')
+        .where('revenue_type_id', deletedRevenueType.revenue_type_id)
+        .update({ deleted: true });
+      await patchRequest(
+        { revenue_type_id: deletedRevenueType.revenue_type_id },
+        sale.sale_id,
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+
+      const [otherFarmsRevenueType] = await mocks.revenue_typeFactory({
+        properties: { entity_type: 'crop' },
+      });
+      await patchRequest(
+        { revenue_type_id: otherFarmsRevenueType.revenue_type_id },
+        sale.sale_id,
+        {},
+        async (_err, res) => {
+          expect(res.status).toBe(400);
+        },
+      );
+    });
+
     test('Should return 400 if more than one crop_variety_sale with duplicate sale_id and crop_variety_id pair (pkey violation)', async () => {
       patchData.crop_variety_sale = [
         {
@@ -682,10 +1086,200 @@ describe('Sale Tests', () => {
       });
     });
 
+    test('Should return 400 if more than one animal_sale with duplicate sale_id and animal_id pair', async () => {
+      const data = {
+        animal_sale: [
+          mocks.fakeAnimalSale({ animal_id: animal.id }),
+          mocks.fakeAnimalSale({ animal_id: animal.id }),
+        ],
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+      };
+      await patchRequest(data, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(400);
+      });
+    });
+
+    test('Should return 400 if more than one animal_sale with duplicate sale_id and animal_batch_id pair', async () => {
+      const data = {
+        animal_sale: [
+          mocks.fakeAnimalSale({ animal_batch_id: animalBatch.id }),
+          mocks.fakeAnimalSale({ animal_batch_id: animalBatch.id }),
+        ],
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+      };
+      await patchRequest(data, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(400);
+      });
+    });
+
     test('Should return 400 if there are no crop variety sales in patch data', async () => {
       patchData.crop_variety_sale = [];
       await patchRequest(patchData, sale.sale_id, {}, async (_err, res) => {
         expect(res.status).toBe(400);
+      });
+    });
+
+    test('PATCH replaces existing animal_sale rows rather than appending', async () => {
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.animal_saleFactory({ promisedSale: [sale], promisedAnimal: [animal] });
+
+      const [animal2] = await mocks.animalFactory({ promisedFarm: [farm] });
+      const fakeAnimalSale = mocks.fakeAnimalSale({ animal_id: animal2.id });
+      const patchBody = {
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [fakeAnimalSale],
+      };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const animalSales = await animalSaleModel.query().where('sale_id', sale.sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal2.id);
+      });
+    });
+
+    test('PATCH from animal sale to general sale deletes animal_sale rows', async () => {
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.animal_saleFactory({ promisedSale: [sale], promisedAnimal: [animal] });
+
+      const [generalRevenueType] = await mocks.revenue_typeFactory({
+        promisedFarm: [farm],
+      });
+      const patchBody = {
+        revenue_type_id: generalRevenueType.revenue_type_id,
+        value: 99,
+      };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const animalSales = await animalSaleModel.query().where('sale_id', sale.sale_id);
+        expect(animalSales.length).toBe(0);
+      });
+    });
+
+    test('PATCH from crop sale to animal sale deletes crop_variety_sale rows and creates animal_sale rows', async () => {
+      const cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: cropSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.crop_variety_saleFactory({
+        promisedCropVariety: [cropVariety],
+        promisedSale: [sale],
+      });
+
+      const patchBody = {
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [mocks.fakeAnimalSale({ animal_id: animal.id })],
+      };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const cvSales = await cropVarietySaleModel.query().where('sale_id', sale.sale_id);
+        expect(cvSales.length).toBe(0);
+        const animalSales = await animalSaleModel.query().where('sale_id', sale.sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal.id);
+      });
+    });
+
+    test('PATCH from general sale to animal sale deletes value', async () => {
+      const [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: generalRevenueType.revenue_type_id, value: 100 }),
+      );
+
+      const patchBody = {
+        revenue_type_id: animalSaleRevenueType.revenue_type_id,
+        animal_sale: [mocks.fakeAnimalSale({ animal_batch_id: animalBatch.id })],
+      };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updatedSale = await saleModel.query().where('sale_id', sale.sale_id);
+        const animalSales = await animalSaleModel.query().where('sale_id', sale.sale_id);
+        expect(updatedSale[0].value).toBeNull();
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_batch_id).toBe(animalBatch.id);
+      });
+    });
+
+    test('Without revenue_type_id in body, falls back to existing revenue type', async () => {
+      const [animalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.animal_saleFactory({ promisedSale: [animalSale], promisedAnimal: [animal] });
+
+      const [animal2] = await mocks.animalFactory({ promisedFarm: [farm] });
+      const patchBody = { animal_sale: [mocks.fakeAnimalSale({ animal_id: animal2.id })] };
+
+      await patchRequest(patchBody, animalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const animalSales = await animalSaleModel.query().where('sale_id', animalSale.sale_id);
+        expect(animalSales.length).toBe(1);
+        expect(animalSales[0].animal_id).toBe(animal2.id);
+      });
+    });
+
+    test('General sale with same revenue_type_id updates value', async () => {
+      const [generalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: generalRevenueType.revenue_type_id, value: 50 }),
+      );
+
+      const patchBody = {
+        revenue_type_id: generalRevenueType.revenue_type_id,
+        value: 99,
+      };
+
+      await patchRequest(patchBody, generalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updatedSale = await saleModel.query().findById(generalSale.sale_id);
+        expect(updatedSale.value).toBe(99);
+      });
+    });
+
+    test('Updates customer_name without revenue_type_id across all revenue types', async () => {
+      const patchBody = { customer_name: 'updated customer name' };
+
+      await patchRequest(patchBody, sale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updated = await saleModel.query().findById(sale.sale_id);
+        expect(updated.customer_name).toBe(patchBody.customer_name);
+      });
+
+      const [animalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+      );
+      await mocks.animal_saleFactory({ promisedSale: [animalSale], promisedAnimal: [animal] });
+
+      await patchRequest(patchBody, animalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updated = await saleModel.query().findById(animalSale.sale_id);
+        expect(updated.customer_name).toBe(patchBody.customer_name);
+      });
+
+      const [generalSale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: generalRevenueType.revenue_type_id }),
+      );
+
+      await patchRequest(patchBody, generalSale.sale_id, {}, async (_err, res) => {
+        expect(res.status).toBe(200);
+        const updated = await saleModel.query().findById(generalSale.sale_id);
+        expect(updated.customer_name).toBe(patchBody.customer_name);
+        expect(updated.value).toBe(generalSale.value);
       });
     });
 

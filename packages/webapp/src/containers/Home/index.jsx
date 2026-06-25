@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
-import WeatherBoard from '../../containers/WeatherBoard';
+import WeatherForecast from '../../containers/WeatherForecast';
+import ProfitabilityWidget from './ProfitabilityWidget';
 import PureHome from '../../components/Home';
-import { userFarmSelector } from '../userFarmSlice';
-import { useTranslation } from 'react-i18next';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import {
   chooseFarmFlowSelector,
@@ -12,15 +12,14 @@ import {
   endSwitchFarmModal,
   switchFarmSelector,
 } from '../ChooseFarm/chooseFarmFlowSlice';
-
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import FarmNotes from '../FarmNotes';
+import { getLocalizedDateString } from '../../util/moment';
 
 export default function Home() {
-  const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const defaultImageUrl = getSeason(userFarm?.grid_points?.lat);
   const { showSpotLight, showExportModal } = useSelector(chooseFarmFlowSelector);
@@ -31,6 +30,7 @@ export default function Home() {
   const { mediaUrl: authenticatedImageUrl, isLoading } = useMediaWithAuthentication({
     fileUrls: [userFarm.farm_image_url],
   });
+  const isAdmin = useSelector(isAdminSelector);
 
   const { refetch: refetchSensors } = useGetSensorsQuery();
 
@@ -41,13 +41,21 @@ export default function Home() {
 
   return (
     <PureHome
-      greeting={t('HOME.GREETING')}
       first_name={userFarm?.first_name}
+      farmName={userFarm?.farm_name}
+      // imgUrl not currently used but should be restored in the final design
       imgUrl={authenticatedImageUrl || (isLoading ? '' : defaultImageUrl)}
+      date={getLocalizedDateString(new Date(), {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })}
     >
       <FarmNotes />
 
-      {userFarm ? <WeatherBoard /> : null}
+      {userFarm ? <WeatherForecast /> : null}
+      {userFarm && isAdmin ? <ProfitabilityWidget /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
       {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}

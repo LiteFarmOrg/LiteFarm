@@ -1,0 +1,725 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+/* ── Widget shell ───────────────────────────────────────── */
+
+.widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--White);
+  border-radius: 4px;
+  padding: 32px;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  @include md-breakpoint {
+    padding: 16px;
+  }
+}
+
+.widgetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  // Mobile: the date selector drops below the title and spans the full width.
+  @include xs-breakpoint {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+}
+
+.widgetTitle {
+  margin: 0;
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+.dateRangeTrigger {
+  max-width: 280px;
+
+  @include xs-breakpoint {
+    max-width: none;
+  }
+}
+
+.expandableBodyContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── KpiSection ─────────────────────────────────────────── */
+
+.kpiSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kpiHero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border: 1px solid rgba(0, 160, 175, 0.2);
+  border-radius: 4px;
+  background-color: rgba(0, 160, 175, 0.05);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  .kpiHeroTile {
+    height: auto;
+    border: none;
+    padding: 0;
+
+    dt {
+      font-size: 12px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--Blue-acqua);
+    }
+
+    dd {
+      color: var(--Blue-acqua);
+      text-shadow: 1px 1px 0 var(--White);
+    }
+  }
+}
+
+/* ── TrendBadge ────────────────────────────────────────── */
+
+.trendBadge {
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--Dark-acqua);
+}
+
+.trendBadge.placeholder {
+  color: var(--Colors-Neutral-Neutral-200);
+}
+
+.trendArrow {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  &.up {
+    transform: none;
+  }
+
+  &.flat {
+    transform: rotate(45deg);
+  }
+
+  &.down {
+    transform: rotate(90deg);
+  }
+}
+
+.trendSuffix {
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.trendSuffixShort {
+  display: none;
+}
+
+@include xs-breakpoint {
+  .trendBadge {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: 4px;
+    row-gap: 2px;
+  }
+
+  .trendPercent {
+    order: -1;
+    flex-basis: 100%;
+    text-align: right;
+  }
+
+  .trendSuffixFull {
+    display: none;
+  }
+
+  .trendSuffixShort {
+    display: inline;
+  }
+}
+
+.kpiCompactRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+
+  // Mobile: Total revenue and Total expenses sit side by side on the first
+  // row; Margin spans the full width below them.
+  @include xs-breakpoint {
+    grid-template-columns: repeat(2, 1fr);
+
+    .kpiTile.margin {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .kpiTile {
+    height: auto;
+    border-radius: 4px;
+    padding: 8px 16px;
+    background-color: transparent;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+    dt {
+      font-size: 12px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    dd {
+      text-shadow: 1px 1px 0 var(--White);
+    }
+  }
+
+  .kpiTile.revenue {
+    border-color: rgba(192, 225, 221, 0.8);
+    color: var(--Colors-Primary-Primary-teal-600);
+    &.expanded {
+      background-color: rgba(48, 143, 133, 0.05);
+    }
+  }
+
+  .kpiTile.expenses {
+    border-color: rgba(235, 96, 52, 0.2);
+    color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+    &.expanded {
+      background-color: rgba(235, 96, 52, 0.05);
+    }
+  }
+
+  .kpiTile.margin {
+    border-color: var(--Colors-Accent---singles-Purple-light);
+    color: var(--Colors-Accent---singles-Purple-dark);
+    &.expanded {
+      background-color: rgba(58, 0, 112, 0.05);
+    }
+  }
+
+  @include xs-breakpoint {
+    .kpiTile {
+      dt {
+        font-size: 10px;
+      }
+
+      dd {
+        font-size: 16px;
+        line-height: normal;
+      }
+    }
+  }
+}
+
+/* ── RevenueExpenseBars ─────────────────────────────────── */
+
+.revenueExpenseBars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  // Mobile: stack the revenue and expense columns vertically.
+  @include xs-breakpoint {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.barsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.barsColumnHeading {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--Colors-Neutral-Neutral-900);
+}
+
+.barRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.barRowHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--Colors-Neutral-Neutral-900);
+}
+
+.barRowLabel {
+  text-align: start;
+}
+
+.barRowValue {
+  font-weight: 600;
+}
+
+.barProgress {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.barProgress.revenue {
+  background-color: var(--Colors-Primary-Primary-teal-50);
+
+  .barFill {
+    background-color: var(--Colors-Primary-Primary-teal-600);
+  }
+}
+
+.barProgress.expense {
+  background-color: var(--Accent-red-lighter);
+
+  .barFill {
+    background-color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+  }
+}
+
+/* ── EntityProfitTable ──────────────────────────────────── */
+
+.entityProfitTable {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profitabilityTableHeader {
+  background-color: var(--Cream-3);
+  border-bottom: 1px solid var(--Cream-2);
+  color: var(--Colors-Neutral-Neutral-500);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+}
+
+.cellNumeric {
+  color: var(--Colors-Neutral-Neutral-900);
+  text-align: right;
+}
+.cellNetProfit {
+  color: var(--Blue-acqua);
+  font-weight: 700;
+  text-align: right;
+}
+.cellNetProfitNegative {
+  color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+}
+.cellTotal {
+  font-weight: 700;
+}
+
+/* Mobile card view (replaces the table below the `sm` breakpoint) */
+
+.entityCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entityCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  border-radius: 8px;
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  &:nth-child(even) {
+    background: var(--Colors-Backgrounds-table-row-bg);
+  }
+}
+
+.entityCardContent {
+  align-self: stretch;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.entityCardHeader {
+  text-align: start;
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.entityCardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entityCardLabel {
+  color: var(--Colors-Neutral-Neutral-700);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+}
+
+.entityEmptyState {
+  height: 140px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  background: var(--White);
+}
+
+.entityEmptyStateText {
+  color: var(--Colors-Neutral-Neutral-300);
+  font-style: italic;
+  text-align: center;
+}
+
+.tableFootnote {
+  text-align: start;
+  color: var(--Colors-Accent-Accent-yellow-900);
+  font-style: italic;
+}
+
+/* ── ExpandableSection ──────────────────────────────────── */
+
+.expandableSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.expandableSection.expanded {
+  border: 1px solid var(--Colors-Accent---singles-Blue-light);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.expandableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--Colors-Accent---singles-Blue-full);
+}
+
+.expandableSection.expanded .expandableHeader {
+  background-color: var(--Colors-Backgrounds-table-row-bg);
+}
+
+.expandableChevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--Colors-Accent---singles-Blue-light);
+  border: 1px solid var(--Blue-medium);
+  color: var(--Colors-Accent---singles-Blue-full);
+}
+
+.expandableBody {
+  padding: 16px;
+}
+
+/* ── CallToActionBanner ─────────────────────────────────── */
+
+.ctaBanner {
+  background-color: var(--Colors-Secondary-Secondary-green-50);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.ctaBannerText {
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  text-align: start;
+}
+
+.ctaBannerAction {
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  @include xs-breakpoint {
+    align-self: center;
+  }
+}
+
+/* ── Skeleton (Empty State) ─────────────────────────────── */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skeletonKpiSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonKpiCard {
+  border: 1px solid var(--Colors-Neutral-Neutral-100);
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 65px;
+}
+
+.skeletonKpiHero {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skeletonKpiLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--Colors-Neutral-Neutral-200);
+}
+
+.skeletonKpiValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--Colors-Neutral-Neutral-100);
+  text-shadow: 1px 1px 0 var(--White);
+}
+
+.skeletonKpiTrend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--Colors-Neutral-Neutral-200);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.skeletonKpiTrendSuffix {
+  font-weight: 600;
+}
+
+.skeletonKpiCompactRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+
+  @include xs-breakpoint {
+    grid-template-columns: repeat(2, 1fr);
+
+    .skeletonKpiCard.margin {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .skeletonKpiCard {
+    min-width: 0;
+  }
+}
+
+.skeletonPlaceholder {
+  background-color: #eaeaea;
+  border-radius: 4px;
+}
+
+.skeletonExpandedContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skeletonBarsSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  // Mobile: stack the revenue and expense columns vertically, mirroring
+  // `.revenueExpenseBars` so the skeleton matches the loaded layout.
+  @include xs-breakpoint {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skeletonBarsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skeletonBarsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonBarRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonBarRowHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skeletonBarLabel {
+  width: 94px;
+  height: 16px;
+}
+
+.skeletonBarValue {
+  width: 45px;
+  height: 16px;
+}
+
+.skeletonBarTrack {
+  height: 8px;
+  border-radius: 12px;
+  background-color: var(--Colors-Neutral-Neutral-50);
+}
+
+.skeletonTableSection {
+  display: flex;
+  flex-direction: column;
+}
+
+// Mobile skeleton card list. The 8px inter-card gap matches `.entityCardList`;
+// the 12px top margin matches the tab-to-content spacing in `.entityProfitTable`.
+.skeletonCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+// Placeholder for the entity-name header inside each mobile skeleton card.
+.skeletonCardHeader {
+  width: 110px;
+  height: 16px;
+}
+
+.skeletonTableHeader {
+  display: flex;
+  background-color: var(--Cream-3);
+  border-bottom: 1px solid var(--Cream-2);
+}
+
+.skeletonTableHeaderCell {
+  flex: 1;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--Colors-Neutral-Neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+}
+
+.skeletonTableRow {
+  display: flex;
+
+  &:nth-child(even) {
+    background-color: var(--Colors-Backgrounds-table-row-bg);
+  }
+
+  &:not(:first-child) {
+    border-top: 1px solid rgba(195, 200, 193, 0.5);
+  }
+}
+
+.skeletonTableCell {
+  flex: 1;
+  padding: 8.5px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.skeletonAlignRight {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.skeletonCellLabel {
+  width: 94px;
+  height: 16px;
+}
+
+.skeletonCellRevenue {
+  width: 49px;
+  height: 16px;
+}
+
+.skeletonCellExpense {
+  width: 59px;
+  height: 16px;
+}
+
+.skeletonCellNetProfit {
+  width: 63px;
+  height: 16px;
+}

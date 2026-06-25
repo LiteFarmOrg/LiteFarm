@@ -29,22 +29,6 @@ import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import offlineReadinessReducer from '../hooks/useOfflineReadiness/offlineReadinessSlice';
 
-import barnReducer from '../containers/barnSlice';
-import ceremonialReducer from '../containers/ceremonialSlice';
-import farmSiteBoundaryReducer from '../containers/farmSiteBoundarySlice';
-import fieldReducer from '../containers/fieldSlice';
-import gardenReducer from '../containers/gardenSlice';
-import greenhouseReducer from '../containers/greenhouseSlice';
-import surfaceWaterReducer from '../containers/surfaceWaterSlice';
-import naturalAreaReducer from '../containers/naturalAreaSlice';
-import residenceReducer from '../containers/residenceSlice';
-import bufferZoneReducer from '../containers/bufferZoneSlice';
-import watercourseReducer from '../containers/watercourseSlice';
-import fenceReducer from '../containers/fenceSlice';
-import gateReducer from '../containers/gateSlice';
-import waterValveReducer from '../containers/waterValveSlice';
-import soilSampleLocationReducer from '../containers/soilSampleLocationSlice';
-
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
 import taskReducer from '../containers/taskSlice';
@@ -61,6 +45,7 @@ import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
+import profitabilityWidgetReducer from '../containers/Home/ProfitabilityWidget/slice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
@@ -165,21 +150,6 @@ const entitiesReducer = combineReducers({
   cropReducer,
   cropVarietyReducer,
   alertReducer,
-  barnReducer,
-  ceremonialReducer,
-  farmSiteBoundaryReducer,
-  fieldReducer,
-  gardenReducer,
-  greenhouseReducer,
-  surfaceWaterReducer,
-  naturalAreaReducer,
-  residenceReducer,
-  bufferZoneReducer,
-  watercourseReducer,
-  fenceReducer,
-  gateReducer,
-  waterValveReducer,
-  soilSampleLocationReducer,
   showedSpotlightReducer,
   managementPlanReducer,
   cropManagementPlanReducer,
@@ -226,6 +196,7 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
+  profitabilityWidgetReducer,
   mapLocationReducer,
   hookFormPersistReducer,
   filterReducer,

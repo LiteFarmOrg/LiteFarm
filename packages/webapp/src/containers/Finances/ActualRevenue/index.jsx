@@ -13,6 +13,7 @@ import { SUNDAY } from '../../../util/dateRange';
 import { cropVarietiesSelector } from '../../cropVarietySlice';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import { measurementSelector } from '../../userFarmSlice';
 import ActualRevenueItem from '../ActualRevenueItem';
 import { getRevenueTypes, getSales } from '../saga';
 import { salesSelector } from '../selectors';
@@ -27,6 +28,7 @@ import {
   FINANCES_HOME_URL,
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
+import { useGetAnimalBatchesQuery, useGetAnimalsQuery } from '../../../store/api/apiSlice';
 
 export default function ActualRevenue() {
   const history = useHistory();
@@ -41,6 +43,9 @@ export default function ActualRevenue() {
   const sales = useSelector(salesSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
+  const system = useSelector(measurementSelector);
+  const { data: animals } = useGetAnimalsQuery();
+  const { data: animalBatches } = useGetAnimalBatchesQuery();
   const { startDate: fromDate, endDate: toDate } = useFinancesDateRange({ weekStartDate: SUNDAY });
 
   const filteredSales = useMemo(
@@ -48,9 +53,18 @@ export default function ActualRevenue() {
     [sales, fromDate, toDate],
   );
   const revenueItems = useMemo(
-    () => mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties),
-    [filteredSales, allRevenueTypes, cropVarieties],
+    () =>
+      mapSalesToRevenueItems(
+        filteredSales,
+        allRevenueTypes,
+        cropVarieties,
+        animals,
+        animalBatches,
+        system,
+      ),
+    [filteredSales, allRevenueTypes, cropVarieties, animals, animalBatches, system],
   );
+
   const revenueForWholeFarm = useMemo(
     () => calcActualRevenueFromRevenueItems(revenueItems),
     [revenueItems],

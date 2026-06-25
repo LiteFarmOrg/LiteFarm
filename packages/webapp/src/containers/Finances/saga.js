@@ -151,9 +151,6 @@ export function* getExpenseSaga() {
       yield put(setExpense(result.data));
     }
   } catch (e) {
-    if (e.response?.status === 404) {
-      yield put(setExpense([]));
-    }
     console.log('failed to fetch expenses from database');
   }
 }
@@ -367,7 +364,6 @@ export function* getRevenueTypesSaga() {
 
   try {
     const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
-
     yield put(getRevenueTypesSuccess(result.data));
   } catch (e) {
     console.log('failed to fetch revenue types from database');
@@ -397,7 +393,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 export const addCustomRevenueType = createAction('addRevenueTypeSaga');
 
 export function* addRevenueTypeSaga({
-  payload: { revenue_name, crop_generated, custom_description },
+  payload: { revenue_name, entity_type, custom_description },
 }) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -405,8 +401,7 @@ export function* addRevenueTypeSaga({
 
   const body = {
     revenue_name,
-    agriculture_associated: null,
-    crop_generated,
+    entity_type,
     farm_id: farm_id,
     custom_description,
   };

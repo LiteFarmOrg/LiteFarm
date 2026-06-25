@@ -22,6 +22,7 @@ import { ReactComponent as ProfitLossIcon } from '../../assets/images/finance/Pr
 
 // Revenue types
 import { ReactComponent as CropSaleIcon } from '../../assets/images/finance/Crop-sale-icn.svg';
+import { ReactComponent as AnimalSaleIcon } from '../../assets/images/nav/animals.svg';
 import { ReactComponent as CustomTypeIcon } from '../../assets/images/finance/Custom-revenue.svg';
 
 // Expense types
@@ -116,6 +117,7 @@ export const iconMap = {
   PROFIT_LOSS: ProfitLossIcon,
   // Revenue types
   CROP_SALE: CropSaleIcon,
+  ANIMAL_SALE: AnimalSaleIcon,
   CUSTOM: CustomTypeIcon,
   // Expense types
   EQUIPMENT: EquipIcon,

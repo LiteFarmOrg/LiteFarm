@@ -28,7 +28,6 @@ export default function PureNavigation({
     'translation',
     'crop',
     'common',
-    'disease',
     'task',
     'expense',
     'revenue',

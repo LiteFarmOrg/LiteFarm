@@ -138,7 +138,7 @@ export const farmNoteApi = api.injectEndpoints({
                 ...draft[noteIndex],
                 note: data.note,
                 is_private: data.is_private,
-                image_url: file ? 'pending' : data.image_url ?? draft[noteIndex].image_url,
+                image_url: file ? 'pending' : (data.image_url ?? draft[noteIndex].image_url),
                 updated_at: new Date().toISOString(),
                 to_sync: true,
               };

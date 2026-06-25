@@ -4,15 +4,14 @@ import { useForm, FormProvider } from 'react-hook-form';
 import LocationButtons from './LocationButtons';
 import LocationPageHeader from './LocationPageHeader';
 import Form from '../Form';
-import AreaDetails from './AreaDetails/AreaDetails';
-import LineDetails from './LineDetails/LineDetails';
-import PointDetails from './PointDetails/PointDetails';
+import AreaDetails from './AreaDetails';
+import LineDetails from './LineDetails';
+import PointDetails from './PointDetails';
 import RouterTab from '../RouterTab';
 import useLocationRouterTabs from '../../containers/LocationDetails/useLocationRouterTabs';
-import { useSelector } from 'react-redux';
-import { locationByIdSelector } from '../../containers/locationSlice';
 import { Variant } from '../RouterTab/Tab';
 import CardLayout from '../Layout/CardLayout';
+import useLocationsById from '../../hooks/location/useLocationsById';
 
 export function PureLocationDetailLayout({
   history,
@@ -51,8 +50,9 @@ export function PureLocationDetailLayout({
 
   // TODO: Move this up to container when just 1 container exists for locations
   const { location_id } = match.params;
-  const location =
-    isViewLocationPage && location_id && useSelector(locationByIdSelector(location_id));
+  const { locations: locationById } = useLocationsById(location_id);
+  const location = isViewLocationPage && location_id && locationById;
+
   const routerTabs = location && useLocationRouterTabs(location);
 
   const details = useMemo(() => {
@@ -60,7 +60,6 @@ export function PureLocationDetailLayout({
       return (
         <AreaDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
@@ -74,7 +73,6 @@ export function PureLocationDetailLayout({
       return (
         <LineDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}
@@ -86,7 +84,6 @@ export function PureLocationDetailLayout({
       return (
         <PointDetails
           name={t(`FARM_MAP.${translationKey}.NAME`)}
-          history={history}
           isCreateLocationPage={isCreateLocationPage}
           isEditLocationPage={isEditLocationPage}
           isViewLocationPage={isViewLocationPage}

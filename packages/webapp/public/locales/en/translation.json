@@ -517,6 +517,7 @@
   },
   "CROP": {
     "ADD_CROP": "Add a crop",
+    "ADD_CROP_VARIETY": "Add a crop variety",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
@@ -620,7 +621,8 @@
       "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future crop plans. You'll need to complete or abandon those plans to retire this crop",
       "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
     },
-    "SUPPLIER": "Supplier"
+    "SUPPLIER": "Supplier",
+    "TITLE": "{{crop_name}} varieties"
   },
   "DATE_RANGE": {
     "INVALID_RANGE_MESSAGE": "End date must be after start date to return results"
@@ -636,6 +638,7 @@
     "BACK": "back",
     "CLEAR_DATES": "Clear dates",
     "CUSTOM_RANGE": "Pick a custom range",
+    "LAST_12_MONTHS": "Last 12 months",
     "LAST_FOURTEEN_DAYS": "Last 14 days",
     "LAST_MONTH": "Last month",
     "LAST_SEVEN_DAYS": "Last 7 days",
@@ -768,6 +771,12 @@
       "TITLE": "Edit Expense",
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
+    },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "Is this expense associated with animals or crops?",
+      "EXCEEDED_ERROR": "Amount used cannot exceed the total amount to allocate",
+      "SELECT_ANIMALS": "Select animals from your inventory",
+      "TOTAL_TO_ALLOCATE": "Total amount to allocate"
     },
     "ITEM_NAME": "Item Name",
     "NO_EXPENSE": "No expense found",
@@ -906,6 +915,7 @@
       "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SENSOR": "Sensor",
+      "SENSOR_ARRAY": "Sensor array",
       "SHOW_ALL": "Show all",
       "SOIL_SAMPLE_LOCATION": "Soil sample location",
       "SURFACE_WATER": "Surface water",
@@ -1096,6 +1106,8 @@
       "REVENUE_TYPES": "Search revenue type"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "Amount unattributed",
+      "ANIMALS": "Animals",
       "CROPS": "Crops",
       "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",
@@ -1846,7 +1858,8 @@
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another.",
-      "DUPLICATE_NAME_RETIRED": "A retired revenue type with this name already exists.  Please choose another."
+      "DUPLICATE_NAME_RETIRED": "A retired revenue type with this name already exists.  Please choose another.",
+      "ENTITY_ASSOCIATION_LABEL": "Is this revenue associated with animals or crops?"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {
@@ -1878,11 +1891,17 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
+      "ANIMAL_NOTES_PLACEHOLDER": "Animal sale description",
+      "COUNT_UNIT_LABEL": "unit(s)",
+      "CROP_NOTES_PLACEHOLDER": "Crop sale description",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
       "FLOW": "revenue creation",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
+      "MEASURED_BY": "Measured by",
+      "NOTES_PLACEHOLDER": "Sale description",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
+      "SELECT_CROPS": "Select crops",
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },
@@ -1957,6 +1976,10 @@
     "ANIMALS_INVENTORY": "Animal inventory",
     "ANIMALS_LOCATION": "Animal locations"
   },
+  "SELECT": {
+    "NO_ANIMALS_IN_INVENTORY": "You have no animals in your inventory",
+    "NO_CROP_VARIETIES": "You have no crop varieties"
+  },
   "SENSOR": {
     "ARRAY": "Array",
     "DAYS_AGO": "{{time}} day(s) ago",
@@ -1967,10 +1990,18 @@
       "DEVICE_TYPE": "Device type"
     },
     "DEVICE_TYPES": {
+      "DRIPDRAIN_SENSOR": "DripDrain sensor",
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "ET_SENSOR": "ET sensor",
+      "HUMIDITY_SENSOR": "Humidity sensor",
       "IR_TEMPERATURE_SENSOR": "IR temperature sensor",
+      "SDI-12_WEATHER_STATION": "SDI-12 weather station",
+      "SOIL_WATER_CONTENT_SENSOR": "Soil water content sensor",
       "SOIL_WATER_POTENTIAL_SENSOR": "Soil water potential sensor",
+      "TIPPING_BUCKET_RAIN_GAUGE": "Tipping bucket rain gauge",
+      "TURBINE_FLOW_METER": "Turbine flow meter",
       "WEATHER_STATION": "Weather station",
+      "WIND_SENSOR_VOLTAGE": "Wind sensor voltage",
       "WIND_SPEED_SENSOR": "Wind speed sensor"
     },
     "ESCI": {
@@ -1997,7 +2028,12 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "Barometric pressure",
       "CUMULATIVE_RAINFALL": "Cumulative rainfall",
+      "ELECTRICAL_CONDUCTIVITY": "Electrical conductivity",
+      "EVAPOTRANSPIRATION": "Evapotranspiration",
+      "HEAT_FLUX": "Heat flux",
+      "LATENT_ENERGY_FLUX": "Latent energy flux",
       "LATEST_READING": "Latest reading:",
+      "MOISTURE": "Moisture",
       "RAINFALL_RATE": "Rainfall rate",
       "RELATIVE_HUMIDITY": "Relative humidity",
       "SOIL_WATER_CONTENT": "Soil water content",
@@ -2007,7 +2043,10 @@
       "TYPES": "Reading types",
       "UNKNOWN": "Unknown",
       "UPDATE_READINGS": "Update readings",
+      "VAPOR_PRESSURE_DEFICIT": "Vapor pressure deficit",
+      "VOLUME": "Volume",
       "WATER_PRESSURE": "Water pressure",
+      "WET_BULB_TEMPERATURE": "Wet bulb temperature",
       "WIND_DIRECTION": "Wind direction",
       "WIND_SPEED": "Wind speed",
       "WIND_SPEED_AND_DIRECTION": "Wind speed & direction"
@@ -2209,6 +2248,10 @@
     "UPLOAD_LAB_DOCUMENT": "Upload lab document",
     "WILL_SAVE_ONLINE": "Will save when online"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "Next time slot",
+    "PREVIOUS_TIME_SLOT": "Previous time slot"
+  },
   "UNIT": {
     "TIME": {
       "DAY": "days",
@@ -2238,7 +2281,11 @@
     "HOURLY_WAGE_TOOLTIP": "This task-specific wage will override the assignee's default wage. Default worker wages can be managed in the People tab."
   },
   "WEATHER": {
+    "FROST_EXPECTED": "⚠️ Frost Expected (Low {{threshold}})",
+    "FROST_RISK": "Frost risk",
     "HUMIDITY": "Humidity",
+    "PRECIPITATION": "Precipitation",
+    "TITLE": "Weather & conditions",
     "WIND": "Wind"
   },
   "WELCOME_SCREEN": {

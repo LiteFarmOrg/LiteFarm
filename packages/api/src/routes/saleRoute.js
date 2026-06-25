@@ -19,16 +19,16 @@ import express from 'express';
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import validateSale from '../middleware/validation/sale.js';
 import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
 import isCreator from '../middleware/acl/isCreator.js';
+import { checkSaleBody } from '../middleware/validation/checkSale.js';
 
 //TODO fix URL
 router.post(
   '/',
-  validateSale,
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:sales']),
+  checkSaleBody('add'),
   SaleController.addSale(),
 );
 router.get(
@@ -57,6 +57,7 @@ router.patch(
       isCreator({ params: 'sale_id' }),
       hasFarmAccess({ params: 'sale_id' }),
     )(req, res, next),
+  checkSaleBody('update'),
   SaleController.patchSales(),
 );
 

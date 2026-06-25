@@ -22,6 +22,7 @@ import type {
   AnimalBatch,
 } from '../store/api/types';
 import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../containers/Animals/types';
+import { chooseIdentification } from '../containers/Animals/utils';
 
 /**
  * Generates a unique ID based on the given type or breed entity.
@@ -77,4 +78,21 @@ export const generateInventoryId = (
 export const parseInventoryId = (inventoryId: string): { kind: AnimalOrBatchKeys; id: number } => {
   const [kind, id] = inventoryId.split('_');
   return { kind: kind as AnimalOrBatchKeys, id: Number(id) };
+};
+
+export const getAnimalBatchLabel = (
+  {
+    animal_id,
+    animal_batch_id,
+  }: {
+    animal_id: number | null;
+    animal_batch_id: number | null;
+  },
+  animals: Animal[],
+  animalBatches: AnimalBatch[],
+) => {
+  const matched = animal_id
+    ? animals.find((a) => a.id === animal_id)
+    : animalBatches.find((b) => b.id === animal_batch_id);
+  return matched ? chooseIdentification(matched) : animal_id ?? animal_batch_id;
 };

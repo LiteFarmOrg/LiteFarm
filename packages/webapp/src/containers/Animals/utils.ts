@@ -86,3 +86,9 @@ export const chooseAnimalBreedLabel = (
     return null;
   }
 };
+
+export const generateSelectOptionLabel = (animalOrBatch: Animal | AnimalBatch) => {
+  const removed = !!animalOrBatch.removal_date;
+  const identifier = chooseIdentification(animalOrBatch);
+  return removed ? `${identifier} (${i18n.t('common:REMOVED').toLowerCase()})` : identifier;
+};

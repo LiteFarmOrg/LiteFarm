@@ -38,6 +38,17 @@ import { generateMockPrescriptionDetails } from './generateMockPrescriptionDetai
 import { getAreaOfPolygon } from './geoUtils.js';
 
 /**
+ * The body Ensemble returns when a prescription-generation batch is accepted.
+ * Generation runs asynchronously; status starts as 'processing' and the outcome
+ * is later available from the prescriptions/status/{task_id} endpoint.
+ */
+interface EsciPrescriptionRequestResponse {
+  message: string;
+  task_id: string;
+  status: string;
+}
+
+/**
  * Retrieves Ensemble's addon partner id.
  *
  * @returns A promise that resolves to the addon partner id.
@@ -388,10 +399,14 @@ export async function sendAllFieldAndCropDataToEsci(allFarmData: AllOrganisation
       continue;
     }
     try {
-      await sendFieldAndCropDataToEsci(orgData, Number(orgPk));
+      const { task_id, status } = await sendFieldAndCropDataToEsci(orgData, Number(orgPk));
+      console.log(
+        `ESci prescription request accepted for org ${orgPk}: task_id ${task_id}, status ${status}`,
+      );
       results.push({
         organisationId: Number(orgPk),
-        status: 'success',
+        status,
+        task_id,
       });
     } catch (error) {
       const { message, code } = error as LiteFarmCustomError;
@@ -414,7 +429,7 @@ export async function sendAllFieldAndCropDataToEsci(allFarmData: AllOrganisation
 export async function sendFieldAndCropDataToEsci(
   organisationFarmData: EnsembleLocationAndCropData[],
   org_pk: number,
-) {
+): Promise<EsciPrescriptionRequestResponse> {
   try {
     const axiosObject = {
       method: 'post',
@@ -429,7 +444,8 @@ export async function sendFieldAndCropDataToEsci(
       throw customError(message, status);
     };
 
-    await ensembleAPICall(axiosObject, onError);
+    const response = await ensembleAPICall(axiosObject, onError);
+    return response.data;
   } catch (error) {
     console.log(error);
     throw error;

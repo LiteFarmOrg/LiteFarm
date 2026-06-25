@@ -389,6 +389,60 @@ async function farmExpenseFactory(
     .returning('*');
 }
 
+function fakeFarmExpenseCropVariety(defaultData = {}) {
+  return {
+    allocated_value: faker.datatype.float({ min: 1, max: 1000 }),
+    ...defaultData,
+  };
+}
+
+async function farm_expense_crop_varietyFactory(
+  { promisedExpense = farmExpenseFactory(), promisedCropVariety = crop_varietyFactory() } = {},
+  data = fakeFarmExpenseCropVariety(),
+) {
+  const [[expense], [cropVariety]] = await Promise.all([promisedExpense, promisedCropVariety]);
+  return knex('farm_expense_crop_variety')
+    .insert({
+      farm_expense_id: expense.farm_expense_id,
+      crop_variety_id: cropVariety.crop_variety_id,
+      ...data,
+    })
+    .returning('*');
+}
+
+function fakeFarmExpenseAnimal(defaultData = {}) {
+  return {
+    allocated_value: faker.datatype.float({ min: 1, max: 1000 }),
+    ...defaultData,
+  };
+}
+
+async function farm_expense_animalFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedExpense = farmExpenseFactory(),
+    promisedAnimal,
+    promisedAnimalBatch,
+    animalOrBatch = 'animal',
+  } = {},
+  data = fakeFarmExpenseAnimal(),
+) {
+  const [farm, [expense]] = await Promise.all([promisedFarm, promisedExpense]);
+  const [animal, animalBatch] = await Promise.all([
+    promisedAnimal || animalFactory({ promisedFarm: Promise.resolve(farm) }),
+    promisedAnimalBatch || animal_batchFactory({ promisedFarm: Promise.resolve(farm) }),
+  ]);
+  const [{ id: animal_id }] = animal;
+  const [{ id: animal_batch_id }] = animalBatch;
+  return knex('farm_expense_animal')
+    .insert({
+      farm_expense_id: expense.farm_expense_id,
+      ...(animalOrBatch === 'animal' ? { animal_id } : { animal_batch_id }),
+      ...data,
+    })
+    .returning('*');
+}
+
 function fakeCrop(defaultData = {}) {
   return {
     crop_common_name: faker.lorem.words(),
@@ -1968,6 +2022,43 @@ async function crop_variety_saleFactory(
     .returning('*');
 }
 
+function fakeAnimalSale(defaultData = {}) {
+  return {
+    sale_value: faker.datatype.number(1000),
+    quantity: faker.datatype.number(1000),
+    quantity_unit: faker.helpers.arrayElement(['kg', 'mt', 'lb', 't']),
+    ...defaultData,
+  };
+}
+
+async function animal_saleFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedSale = saleFactory(),
+    promisedAnimal,
+    promisedAnimalBatch,
+    animalOrBatch = 'animal',
+  } = {},
+  animalSale = fakeAnimalSale(),
+) {
+  const [farm, sale] = await Promise.all([promisedFarm, promisedSale]);
+  const [animal, animalBatch] = await Promise.all([
+    promisedAnimal || animalFactory({ promisedFarm: Promise.resolve(farm) }),
+    promisedAnimalBatch || animal_batchFactory({ promisedFarm: Promise.resolve(farm) }),
+  ]);
+  const [{ id: animal_id }] = animal;
+  const [{ id: animal_batch_id }] = animalBatch;
+  const [{ sale_id }] = sale;
+
+  return knex('animal_sale')
+    .insert({
+      ...(animalOrBatch === 'animal' ? { animal_id } : { animal_batch_id }),
+      sale_id,
+      ...animalSale,
+    })
+    .returning('*');
+}
+
 function fakeSupportTicket(farm_id, defaultData = {}) {
   const support_type = ['Request information', 'Report a bug', 'Request a feature', 'Other'];
   const contact_method = ['email', 'whatsapp'];
@@ -2362,8 +2453,12 @@ async function populateDefaultRevenueTypes() {
     {
       revenue_name: 'Crop Sale',
       revenue_translation_key: 'CROP_SALE',
-      agriculture_associated: null,
-      crop_generated: true,
+      entity_type: 'crop',
+    },
+    {
+      revenue_name: 'Animal Sale',
+      revenue_translation_key: 'ANIMAL_SALE',
+      entity_type: 'animal',
     },
   ];
   for (const type of types) {
@@ -2372,7 +2467,7 @@ async function populateDefaultRevenueTypes() {
     });
     if (!revenueTypeInDb) {
       const base = baseProperties(1);
-      return knex('revenue_type')
+      await knex('revenue_type')
         .insert({ ...type, ...base })
         .returning('*');
     }
@@ -3077,5 +3172,11 @@ export default {
   market_directory_partner_permissionsFactory,
   fakeFarmNote,
   farm_noteFactory,
+  fakeAnimalSale,
+  animal_saleFactory,
+  fakeFarmExpenseCropVariety,
+  farm_expense_crop_varietyFactory,
+  fakeFarmExpenseAnimal,
+  farm_expense_animalFactory,
   baseProperties,
 };

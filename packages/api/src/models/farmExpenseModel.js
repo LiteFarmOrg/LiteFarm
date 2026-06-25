@@ -14,6 +14,8 @@
  */
 
 import baseModel from './baseModel.js';
+import FarmExpenseCropVarietyModel from './farmExpenseCropVarietyModel.js';
+import FarmExpenseAnimalModel from './farmExpenseAnimalModel.js';
 
 class Expense extends baseModel {
   static get tableName() {
@@ -47,6 +49,41 @@ class Expense extends baseModel {
       },
       additionalProperties: false,
     };
+  }
+
+  static get relationMappings() {
+    return {
+      farm_expense_crop_variety: {
+        relation: baseModel.HasManyRelation,
+        modelClass: FarmExpenseCropVarietyModel,
+        join: {
+          from: 'farmExpense.farm_expense_id',
+          to: 'farm_expense_crop_variety.farm_expense_id',
+        },
+      },
+      farm_expense_animal: {
+        relation: baseModel.HasManyRelation,
+        modelClass: FarmExpenseAnimalModel,
+        join: {
+          from: 'farmExpense.farm_expense_id',
+          to: 'farm_expense_animal.farm_expense_id',
+        },
+      },
+    };
+  }
+
+  static async getExpensesWithAnimalIds(animalIds, trx) {
+    return Expense.query(trx)
+      .joinRelated('farm_expense_animal')
+      .whereIn('farm_expense_animal.animal_id', animalIds)
+      .whereNotDeleted();
+  }
+
+  static async getExpensesWithBatchIds(batchIds, trx) {
+    return Expense.query(trx)
+      .joinRelated('farm_expense_animal')
+      .whereIn('farm_expense_animal.animal_batch_id', batchIds)
+      .whereNotDeleted();
   }
 }
 

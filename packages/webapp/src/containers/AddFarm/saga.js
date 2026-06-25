@@ -24,12 +24,10 @@ import {
   setLoadingStart,
   userFarmSelector,
 } from '../userFarmSlice';
-import { axios, getHeader, selectFarm } from '../saga';
+import { axios, clearOldFarmStateSaga, getHeader, selectFarmSaga } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
-import { invalidateTags } from '../../store/api/apiSlice';
-import { FarmLibraryTags, FarmTags } from '../../store/api/apiTags';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
@@ -60,9 +58,6 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
 
-    // Clear old farm RTK Query data
-    yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
-
     const user = getUserResult?.data;
     yield put(
       postFarmSuccess({
@@ -73,7 +68,8 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
         country_code: addFarmData.country,
       }),
     );
-    yield put(selectFarm({ farm_id }));
+    yield call(selectFarmSaga, { payload: { farm_id } });
+    yield call(clearOldFarmStateSaga);
     history.push('/role_selection');
   } catch (e) {
     yield put(setLoadingEnd());

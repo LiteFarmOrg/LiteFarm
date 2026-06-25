@@ -38,7 +38,7 @@ export default function LocationPageHeader({
   return (
     <PageTitle
       title={title}
-      onCancel={isCreateLocationPage && onCancel}
+      onCancel={isCreateLocationPage ? onCancel : undefined}
       onGoBack={onGoBack}
       style={{ marginBottom: '24px' }}
     />

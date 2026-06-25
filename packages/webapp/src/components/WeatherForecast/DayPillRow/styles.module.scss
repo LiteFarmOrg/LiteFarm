@@ -1,0 +1,102 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.pill {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 72px;
+  padding: 0 16px;
+  background-color: var(--White);
+  border: 1px solid var(--Brand-Accents-colors-and-overlays-Accent-green-light);
+  border-radius: 8px;
+  color: var(--Colors-Primary-Primary-teal-800);
+  font-size: 14px;
+  line-height: 1.2;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--Colors-Primary-Primary-teal-50);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--Colors-Primary-Primary-teal-400);
+    outline-offset: 2px;
+  }
+}
+
+.selected {
+  border: 1px solid var(--Colors-Primary-Primary-teal-200);
+  background: var(--Colors-Primary-Primary-teal-50);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -16px;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 16px solid var(--Colors-Primary-Primary-teal-200);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    width: 0;
+    height: 0;
+    transform: translateX(-50%);
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-top: 15px solid var(--Colors-Primary-Primary-teal-50);
+    z-index: 1;
+  }
+}
+
+.frostLabel {
+  width: 100%;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+  line-height: 1.2;
+  padding-top: 8px;
+  border-top: 1px solid var(--Brand-Accents-colors-and-overlays-Accent-red);
+
+  @include truncateText();
+}

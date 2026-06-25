@@ -1,0 +1,118 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.date {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--Colors-Primary-Primary-teal-700);
+}
+
+.tempBlock {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.temp {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--Colors-Primary-Primary-teal-700);
+  line-height: 1;
+}
+
+.tempBlock :global(.wi) {
+  font-size: 56px;
+  color: var(--Colors-Primary-Primary-teal-700);
+}
+
+@include md-breakpoint {
+  .titleRow {
+    flex-direction: column;
+
+    > * {
+      width: 100%;
+    }
+  }
+
+  .date {
+    text-align: left;
+  }
+
+  .tempBlock {
+    justify-content: space-between;
+  }
+}
+
+.titleRow + .metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  color: var(--Colors-Primary-Primary-teal-900);
+  letter-spacing: 0.4px;
+  text-align: left;
+
+  dt {
+    font-size: 12px;
+  }
+
+  dd {
+    font-size: 16px;
+  }
+
+  > div {
+    border-radius: 0;
+
+    &:nth-child(1) {
+      border-right: none;
+      border-radius: 8px 0 0 0;
+    }
+    &:nth-child(2) {
+      border-left: none;
+    }
+    &:last-child {
+      border-radius: 0 8px 0 0;
+    }
+  }
+
+  @include md-breakpoint {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    > div {
+      &:nth-child(2) {
+        border-radius: 0 8px 0 0;
+      }
+      &:last-child {
+        border-radius: 0;
+      }
+    }
+  }
+}

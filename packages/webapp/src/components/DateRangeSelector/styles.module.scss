@@ -19,15 +19,27 @@
 
 .window {
   display: flex;
+
+  // calendar icon
+  svg {
+    flex-shrink: 0;
+  }
 }
 
 .windowValue {
   color: var(--grey900);
   margin-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:not(.invalid) {
     font-weight: 700;
   }
+}
+
+.windowValueDisabled {
+  color: var(--grey600);
 }
 
 .selectedMenuOptionInMenu {

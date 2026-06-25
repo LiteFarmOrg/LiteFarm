@@ -23,14 +23,15 @@ export interface ExpenseType {
   retired: boolean;
 }
 
+export type EntityType = 'crop' | 'animal' | null;
+
 export interface RevenueType {
   revenue_type_id: number;
   revenue_name: string;
   revenue_translation_key: string;
   farm_id: string | null;
   deleted: boolean;
-  agriculture_associated: boolean | null;
-  crop_generated: boolean;
+  entity_type: EntityType;
   custom_description: string | null;
   retired: boolean;
 }

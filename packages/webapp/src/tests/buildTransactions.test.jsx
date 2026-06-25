@@ -17,6 +17,7 @@ import { describe, expect, test } from 'vitest';
 import { buildTransactions } from '../containers/Finances/useTransactions';
 
 const testData = {
+  system: 'metric',
   expenses: [
     {
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
@@ -174,8 +175,7 @@ const testData = {
       revenue_translation_key: 'CROP_SALE',
       farm_id: null,
       deleted: false,
-      agriculture_associated: true,
-      crop_generated: true,
+      entity_type: 'crop',
     },
     {
       revenue_type_id: 2,
@@ -183,8 +183,7 @@ const testData = {
       revenue_translation_key: 'CUSTOM_TYPE',
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
       deleted: false,
-      agriculture_associated: false,
-      crop_generated: false,
+      entity_type: null,
     },
   ],
   cropVarieties: [
@@ -246,6 +245,7 @@ const allResults = [
     amount: -20,
     note: 'Expense 2',
     relatedId: 'c239a46a-69e6-11ee-8e6f-0242ac180006',
+    items: [{ amount: -20, title: 'Expense 2' }],
   },
   {
     icon: 'LABOUR',
@@ -282,12 +282,13 @@ const allResults = [
     amount: -100,
     note: 'Expense 3',
     relatedId: '39bc4644-6e8a-11ee-a583-0242ac180005',
+    items: [{ amount: -100, title: 'Expense 3' }],
   },
   {
     icon: 'CROP_SALE',
     date: '2023-10-18T00:00:00.000Z',
     transactionType: 'CROP_REVENUE',
-    typeLabel: 'CROP_SALE.REVENUE_NAME',
+    typeLabel: 'Crop Sale',
     amount: 30,
     note: 'Customer 2',
     items: [
@@ -302,10 +303,10 @@ const allResults = [
       {
         amount: 20,
         key: 'e19e81de-6e16-11ee-8cc5-0242ac180005',
-        subtitle: '10 kg',
+        subtitle: '0.01 mt',
         title: 'Abricot, ABRICOT',
-        quantity: 10,
-        quantityUnit: 'kg',
+        quantity: 0.01,
+        quantityUnit: 'mt',
       },
     ],
     relatedId: 16,
@@ -340,12 +341,13 @@ const allResults = [
     amount: -10,
     note: 'Expense 1',
     relatedId: 'aff01e2e-69e6-11ee-9b0c-0242ac180006',
+    items: [{ amount: -10, title: 'Expense 1' }],
   },
   {
     icon: 'CROP_SALE',
     date: '2023-10-12T00:00:00.000Z',
     transactionType: 'CROP_REVENUE',
-    typeLabel: 'CROP_SALE.REVENUE_NAME',
+    typeLabel: 'Crop Sale',
     amount: 100,
     note: 'Customer 1',
     items: [

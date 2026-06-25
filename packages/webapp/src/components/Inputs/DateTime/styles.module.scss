@@ -13,43 +13,39 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// styles taken from the <Input /> component
+// Styles for the MUI X DatePicker / TimePicker field, taken from the <Input /> component.
 
-.input {
-  height: 48px;
-  width: inherit;
-}
-
-.inputDisabled.inputDisabled {
-  background-color: var(--inputDisabled);
-
-  span {
-    color: var(--grey600);
+.field {
+  :global(.MuiPickersOutlinedInput-root) {
+    height: 48px;
   }
 
-  &.inputDisabled {
-    > fieldset {
-      border-color: var(--inputDefault);
-    }
-  }
-}
-
-.inputFocusBorder {
-  &.inputFocusBorder.inputFocusBorder.inputFocusBorder > fieldset {
+  // Focus border
+  :global(.MuiPickersOutlinedInput-root.Mui-focused .MuiPickersOutlinedInput-notchedOutline) {
     border-color: var(--inputActive);
     border-width: 1px;
   }
-}
 
-.icon {
-  path {
-    stroke: var(--fontColor);
+  // Disabled fill + border
+  :global(.MuiPickersOutlinedInput-root.Mui-disabled) {
+    background-color: var(--inputDisabled);
+  }
+  :global(.MuiPickersOutlinedInput-root.Mui-disabled .MuiPickersOutlinedInput-notchedOutline) {
+    border-color: var(--inputDefault);
+  }
+
+  // Disabled text, to match the disabled icon
+  :global(.MuiPickersOutlinedInput-root.Mui-disabled *) {
+    color: var(--grey600);
   }
 }
 
-.icon.disabled {
-  path {
-    stroke: var(--grey600);
-  }
-  cursor: default;
+// Trigger icon (calendar / clock). The class is applied directly to the SVG via the
+// openPickerIcon slot, so no MUI class targeting is needed.
+.icon path {
+  stroke: var(--fontColor);
+}
+
+.iconDisabled path {
+  stroke: var(--grey600);
 }

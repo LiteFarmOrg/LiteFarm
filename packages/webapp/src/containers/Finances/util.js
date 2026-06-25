@@ -17,9 +17,16 @@ import { groupBy as lodashGroupBy } from 'lodash-es';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import {
+  ANIMAL_INVENTORY_ID,
+  ANIMAL_SALE,
+  COUNT_UNIT,
   CROP_VARIETY_ID,
   CROP_VARIETY_SALE,
   CUSTOMER_NAME,
+  MEASURED_BY,
+  MEASURED_BY_UNIT,
+  MEASURED_BY_VOLUME,
+  MEASURED_BY_WEIGHT,
   NOTE,
   QUANTITY,
   QUANTITY_UNIT,
@@ -27,13 +34,23 @@ import {
   SALE_DATE,
   SALE_VALUE,
   VALUE,
-} from '../../components/Forms/GeneralRevenue/constants';
+} from '../../components/Forms/RevenueForm/constants';
 import i18n from '../../locales/i18n';
-import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
+import { roundToTwoDecimal } from '../../util';
+import {
+  convertFn,
+  getDefaultUnit,
+  harvestAmounts,
+  waterUsage,
+} from '../../util/convert-units/unit';
+import { convert } from '../../util/convert-units/convert';
 import { isSameDay } from '../../util/date-migrate-TS';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
+import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { transactionTypeEnum } from './useTransactions';
+import { getAnimalBatchLabel, parseInventoryId } from '../../util/animal';
+import { AnimalOrBatchKeys } from '../Animals/types';
+import { formatCropVarietyLabel } from '../../util/crop';
 
 // Polyfill for tests and older browsers
 const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
@@ -80,12 +97,23 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
   return [];
 }
 
+export function filterExpensesByDateRange(expenses, startDate, endDate) {
+  if (!expenses || !Array.isArray(expenses)) {
+    return [];
+  }
+  return expenses.filter((expense) => {
+    const date = moment(expense.expense_date);
+    return date.isSameOrAfter(startDate, 'day') && date.isSameOrBefore(endDate, 'day');
+  });
+}
+
 export function calcActualRevenue(transactions) {
   return transactions
     .filter(
       ({ transactionType }) =>
         transactionType === transactionTypeEnum.revenue ||
-        transactionType === transactionTypeEnum.cropRevenue,
+        transactionType === transactionTypeEnum.cropRevenue ||
+        transactionType === transactionTypeEnum.animalRevenue,
     )
     .reduce((sum, curTransaction) => sum + curTransaction.amount, 0);
 }
@@ -93,10 +121,6 @@ export function calcActualRevenue(transactions) {
 export function calcActualRevenueFromRevenueItems(revenueItems) {
   return revenueItems.reduce((sum, curItem) => sum + curItem.totalAmount, 0);
 }
-
-export const getRevenueFormType = (revenueType) => {
-  return revenueType?.crop_generated ? REVENUE_FORM_TYPES.CROP_SALE : REVENUE_FORM_TYPES.GENERAL;
-};
 
 export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   const groupingOptions = [
@@ -155,36 +179,149 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   return labourItemGroups;
 };
 
-export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
+export const generateExpenseItems = (expense, cropVarieties, animals, animalBatches) => {
+  const { farm_expense_animal, farm_expense_crop_variety } = expense;
+
+  if (!farm_expense_animal?.length && !farm_expense_crop_variety?.length) {
+    return [{ title: expense.note, amount: -expense.value }];
+  }
+
+  const items = [];
+  let sum = 0;
+
+  if (farm_expense_animal?.length > 0) {
+    farm_expense_animal.forEach((animalExpense) => {
+      items.push({
+        title: getAnimalBatchLabel(animalExpense, animals, animalBatches),
+        amount: -animalExpense.allocated_value,
+      });
+      sum += animalExpense.allocated_value;
+    });
+  } else {
+    farm_expense_crop_variety.forEach(({ crop_variety_id, allocated_value }) => {
+      const cropVariety = cropVarieties.find(
+        (cropVariety) => cropVariety.crop_variety_id === crop_variety_id,
+      );
+      items.push({ title: formatCropVarietyLabel(cropVariety), amount: -allocated_value });
+      sum += allocated_value;
+    });
+  }
+
+  const unAllocatedAmount = expense.value - sum;
+  if (unAllocatedAmount) {
+    items.push({
+      title: i18n.t('FINANCES.TRANSACTION.AMOUNT_UNATTRIBUTED'),
+      amount: -unAllocatedAmount,
+    });
+  }
+
+  return items;
+};
+
+// Derive measured_by from quantity_unit
+export const getMeasuredByFromUnit = (quantityUnit) => {
+  if (!quantityUnit || quantityUnit === COUNT_UNIT) {
+    return MEASURED_BY_UNIT;
+  }
+  const allVolumeUnits = [...waterUsage.metric.units, ...waterUsage.imperial.units];
+  if (allVolumeUnits.includes(quantityUnit)) {
+    return MEASURED_BY_VOLUME;
+  }
+  return MEASURED_BY_WEIGHT;
+};
+
+// Crop and animal sale quantities are stored in the measure's database unit (kg for
+// weight, l for volume, the raw integer for unit). Resolve each stored value to a display
+// value and label for the user's measurement system.
+const getSaleQuantityDisplay = (quantityUnit, quantity, system) => {
+  const measuredBy = getMeasuredByFromUnit(quantityUnit);
+  if (measuredBy === MEASURED_BY_UNIT) {
+    return {
+      quantity: roundToTwoDecimal(quantity),
+      quantityUnit: i18n.t('SALE.ADD_SALE.COUNT_UNIT_LABEL'),
+    };
+  }
+
+  const unitType = measuredBy === MEASURED_BY_VOLUME ? waterUsage : harvestAmounts;
+
+  if (convert().describe(quantityUnit)?.system === system) {
+    return {
+      quantity: roundToTwoDecimal(
+        convertFn(unitType, quantity, unitType.databaseUnit, quantityUnit),
+      ),
+      quantityUnit,
+    };
+  }
+
+  const { displayUnit, displayValue } = getDefaultUnit(unitType, quantity, system);
+  return { quantity: displayValue, quantityUnit: displayUnit };
+};
+
+export const mapSalesToRevenueItems = (
+  sales,
+  revenueTypes,
+  cropVarieties,
+  animals = [],
+  animalBatches = [],
+  system,
+) => {
   const revenueItems = sales.map((sale) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
     );
-    if (revenueType?.crop_generated) {
-      const quantityUnit = getMassUnit();
+    if (revenueType?.entity_type === 'crop') {
       const cropVarietySale = sale.crop_variety_sale;
       return {
         sale,
         totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
-        financeItemsProps: cropVarietySale.map((cvs) => {
-          const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
-          const cropVariety = cropVarieties.find(
-            (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
-          );
-          const cropVarietyName = cropVariety?.crop_variety_name;
-          const cropTranslationKey = cropVariety?.crop.crop_translation_key;
-          const title = cropVarietyName
-            ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
-            : i18n.t(`crop:${cropTranslationKey}`);
-          return {
-            key: cvs.crop_variety_id,
-            title,
-            subtitle: `${convertedQuantity} ${quantityUnit}`,
-            quantity: convertedQuantity,
-            quantityUnit,
-            amount: cvs.sale_value,
-          };
-        }),
+        financeItemsProps: cropVarietySale
+          .map((cvs) => {
+            const { quantity, quantityUnit } = getSaleQuantityDisplay(
+              cvs.quantity_unit,
+              cvs.quantity,
+              system,
+            );
+            const cropVariety = cropVarieties.find(
+              (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
+            );
+            return {
+              key: cvs.crop_variety_id,
+              title: formatCropVarietyLabel({
+                crop_variety_name: cropVariety?.crop_variety_name,
+                crop_translation_key: cropVariety?.crop.crop_translation_key,
+              }),
+              subtitle: `${quantity} ${quantityUnit}`,
+              quantity,
+              quantityUnit,
+              amount: cvs.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
+      };
+    } else if (revenueType?.entity_type === 'animal') {
+      const animalSale = sale.animal_sale ?? [];
+      return {
+        sale,
+        totalAmount: animalSale.reduce((total, row) => total + row.sale_value, 0),
+        financeItemsProps: animalSale
+          .map((row) => {
+            const { quantity, quantityUnit } = getSaleQuantityDisplay(
+              row.quantity_unit,
+              row.quantity,
+              system,
+            );
+            const key =
+              row.animal_id != null ? `animal_${row.animal_id}` : `batch_${row.animal_batch_id}`;
+            return {
+              key,
+              title: getAnimalBatchLabel(row, animals, animalBatches),
+              subtitle: `${quantity} ${quantityUnit}`,
+              quantity,
+              quantityUnit,
+              amount: row.sale_value,
+            };
+          })
+          .sort((a, b) => String(a.title).localeCompare(String(b.title))),
       };
     } else {
       return {
@@ -230,14 +367,29 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
   const revenueType = revenueTypes.find(
     (type) => type.revenue_type_id === data[REVENUE_TYPE_OPTION].value,
   );
-  if (revenueType?.crop_generated) {
+  if (revenueType?.entity_type === 'crop') {
     sale.value = undefined;
     sale.crop_variety_sale = Object.values(data[CROP_VARIETY_SALE]).map((c) => {
+      const measuredBy = c[MEASURED_BY];
       return {
         sale_value: c[SALE_VALUE],
         quantity: c[QUANTITY],
-        quantity_unit: c[QUANTITY_UNIT].label,
+        quantity_unit: measuredBy === MEASURED_BY_UNIT ? COUNT_UNIT : c[QUANTITY_UNIT].value,
         crop_variety_id: c[CROP_VARIETY_ID],
+      };
+    });
+  } else if (revenueType?.entity_type === 'animal') {
+    sale.value = undefined;
+    sale.animal_sale = Object.values(data[ANIMAL_SALE]).map((a) => {
+      const { kind, id } = parseInventoryId(a[ANIMAL_INVENTORY_ID]);
+      const isBatch = kind === AnimalOrBatchKeys.BATCH;
+      const measuredBy = a[MEASURED_BY];
+      return {
+        sale_value: a[SALE_VALUE],
+        quantity: a[QUANTITY],
+        quantity_unit: measuredBy === MEASURED_BY_UNIT ? COUNT_UNIT : a[QUANTITY_UNIT].value,
+        animal_id: isBatch ? null : id,
+        animal_batch_id: isBatch ? id : null,
       };
     });
   } else {
@@ -286,4 +438,43 @@ export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
     ? type.custom_description
     : i18n.t(`${typeCategory}:${type[translationKey]}.CUSTOM_DESCRIPTION`);
   return [typeName, description].filter(Boolean).join(' ');
+};
+
+export const isCropSale = (revenueType) => revenueType?.entity_type === 'crop';
+export const isAnimalSale = (revenueType) => revenueType?.entity_type === 'animal';
+
+const transformCropAllocations = (allocations) => {
+  return (allocations || []).map(({ id, allocated_value }) => {
+    return { crop_variety_id: id, allocated_value };
+  });
+};
+
+const transformAnimalAllocations = (allocations) => {
+  return (allocations || []).map(({ id, allocated_value }) => {
+    const { kind, id: animalId } = parseInventoryId(id);
+    const idKey = kind === AnimalOrBatchKeys.ANIMAL ? 'animal_id' : 'animal_batch_id';
+    return { [idKey]: animalId, allocated_value };
+  });
+};
+
+export const transformExpenseAllocations = ({ allocations, entityType }) => {
+  return {
+    farm_expense_crop_variety: entityType === 'crop' ? transformCropAllocations(allocations) : [],
+    farm_expense_animal: entityType === 'animal' ? transformAnimalAllocations(allocations) : [],
+  };
+};
+
+export const getNoOptionsMessage = (entity) => {
+  return () =>
+    entity === 'crop'
+      ? i18n.t('SELECT.NO_CROP_VARIETIES')
+      : i18n.t('SELECT.NO_ANIMALS_IN_INVENTORY');
+};
+
+export const getSaleUnitOption = ({ quantity_unit, quantity }, system, measuredBy, unitMap) => {
+  // Pre-computes the display unit from saved data; useUnit doesn't resolve it correctly in this context.
+  const { quantityUnit } =
+    measuredBy === MEASURED_BY_UNIT ? {} : getSaleQuantityDisplay(quantity_unit, quantity, system);
+
+  return quantityUnit ? unitMap[quantityUnit] : undefined;
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
@@ -16,8 +16,8 @@ import WaterUsageCalculatorModal from '../../Modals/WaterUsageCalculatorModal';
 import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskTypes/saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
-import { cropLocationsSelector } from '../../../containers/locationSlice';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
+import useCropLocations from '../../../hooks/location/useCropLocations';
 
 export const generateIrrigationTypeOption = (type, defaultTypes, t) => {
   return {
@@ -51,7 +51,7 @@ export default function PureIrrigationTask({
   const [showWaterUseCalculatorModal, setShowWaterUseCalculatorModal] = useState(false);
   const irrigationTaskTypes =
     useSelector(irrigationTaskTypesSliceSelector)?.irrigationTaskTypes || [];
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const location =
     locations?.length &&
     cropLocations.filter(

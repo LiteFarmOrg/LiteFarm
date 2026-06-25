@@ -66,6 +66,7 @@ function AddCropVarietyForm() {
         }
         handleGoBack={() => history.back()}
         farmCropVarieties={farmCropVarieties}
+        isNewCrop={isNewCrop}
       />
     </HookFormPersistProvider>
   );

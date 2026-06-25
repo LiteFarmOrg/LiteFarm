@@ -15,10 +15,8 @@ import { useHistory } from 'react-router-dom';
 import { getCropsAndManagementPlans } from '../saga';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
-  cropCatalogueFilterDateSelector,
   cropCatalogueFilterSelector,
   isFilterCurrentlyActiveSelector,
-  setCropCatalogueFilterDate,
   resetCropCatalogueFilter,
 } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
@@ -69,9 +67,6 @@ export default function CropCatalogue() {
   const onFilterOpen = () => {
     setIsFilterOpen(true);
   };
-
-  const date = useSelector(cropCatalogueFilterDateSelector);
-  const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
 
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const isFilterCurrentlyActive = useSelector(isFilterCurrentlyActiveSelector('cropCatalogue'));
@@ -130,8 +125,6 @@ export default function CropCatalogue() {
             <CropStatusInfoBox
               status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
-              date={date}
-              setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {

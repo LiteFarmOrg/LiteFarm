@@ -19,7 +19,7 @@ export default function PureCropTile({
   isPastVariety,
   isCropTemplate,
   children,
-  isSelected,
+  isSelected = false,
   status,
 }) {
   const { active = 0, abandoned = 0, planned = 0, completed = 0, noPlans = 0 } = cropCount;
@@ -92,7 +92,7 @@ export default function PureCropTile({
   );
 }
 
-PureCropTile.prototype = {
+PureCropTile.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   style: PropTypes.object,
@@ -101,6 +101,7 @@ PureCropTile.prototype = {
     active: PropTypes.number,
     planned: PropTypes.number,
     completed: PropTypes.number,
+    noPlans: PropTypes.number,
   }),
   needsPlan: PropTypes.bool,
   title: PropTypes.string,

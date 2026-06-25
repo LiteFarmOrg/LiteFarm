@@ -17,6 +17,7 @@ import { useState } from 'react';
 import type { StoryObj } from '@storybook/react';
 import {
   CheckboxMultiSelect,
+  CheckboxMultiSelectProps,
   type SelectOption,
 } from '../../../components/Form/ReactSelect/CheckboxMultiSelect/';
 import { componentDecorators } from '../../Pages/config/Decorators';
@@ -35,6 +36,7 @@ interface CheckboxMultiSelectStoryArgs {
   isDisabled?: boolean;
   placeholder?: string;
   showSelectionStatus?: boolean;
+  noOptionsMessage?: CheckboxMultiSelectProps['noOptionsMessage'];
 }
 
 const CheckboxMultiSelectWrapper = (args: CheckboxMultiSelectStoryArgs) => {
@@ -86,6 +88,14 @@ export const CustomPlaceholder: Story = {
 export const WithSelectionStatus: Story = {
   args: {
     showSelectionStatus: true,
+  },
+  render: (args) => <CheckboxMultiSelectWrapper {...args} />,
+};
+
+export const WithCustomNoOptionsMessage: Story = {
+  args: {
+    options: [],
+    noOptionsMessage: () => <span>You have no options</span>,
   },
   render: (args) => <CheckboxMultiSelectWrapper {...args} />,
 };

@@ -12,12 +12,11 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 import ExpenseItemsForType from './ExpenseItemsForType';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { NOTE, VALUE, DATE, EXPENSE_DETAIL } from './constants';
@@ -73,22 +72,24 @@ export default function PureAddExpense({
   onSubmit,
   useHookFormPersist,
   persistedFormData,
+  cropVarietyOptions,
+  animalOptions,
 }) {
   const { t } = useTranslation();
 
-  const {
-    register,
-    control,
-    watch,
-    getValues,
-    formState: { isValid, errors },
-    handleSubmit,
-  } = useForm({
+  const methods = useForm({
     mode: 'onBlur',
     defaultValues: {
       [EXPENSE_DETAIL]: getDefaultExpenseDetail(types, persistedFormData?.[EXPENSE_DETAIL]),
     },
   });
+
+  const {
+    getValues,
+    watch,
+    formState: { isValid },
+    handleSubmit,
+  } = methods;
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -97,38 +98,38 @@ export default function PureAddExpense({
   const hasExpenseItem = Object.keys(expenseDetail).some((key) => !!expenseDetail[key].length);
 
   return (
-    <Form
-      buttonGroup={
-        <Button
-          disabled={!(isValid && hasExpenseItem)}
-          onClick={handleSubmit(onSubmit)}
-          type={'submit'}
-          fullLength
-        >
-          {t('common:SAVE')}
-        </Button>
-      }
-    >
-      <MultiStepPageTitle
-        onGoBack={onGoBack}
-        onCancel={historyCancel}
-        title={t('EXPENSE.ADD_EXPENSE.NEW_EXPENSE_ITEM')}
-        value={66}
-        style={{ marginBottom: '24px' }}
-      />
-      {types.map((type) => {
-        return (
-          <ExpenseItemsForType
-            key={type.id}
-            type={type}
-            register={register}
-            control={control}
-            getValues={getValues}
-            errors={errors}
-          />
-        );
-      })}
-    </Form>
+    <FormProvider {...methods}>
+      <Form
+        buttonGroup={
+          <Button
+            disabled={!(isValid && hasExpenseItem)}
+            onClick={handleSubmit(onSubmit)}
+            type={'submit'}
+            fullLength
+          >
+            {t('common:SAVE')}
+          </Button>
+        }
+      >
+        <MultiStepPageTitle
+          onGoBack={onGoBack}
+          onCancel={historyCancel}
+          title={t('EXPENSE.ADD_EXPENSE.NEW_EXPENSE_ITEM')}
+          value={66}
+          style={{ marginBottom: '24px' }}
+        />
+        {types.map((type) => {
+          return (
+            <ExpenseItemsForType
+              key={type.id}
+              type={type}
+              cropVarietyOptions={cropVarietyOptions}
+              animalOptions={animalOptions}
+            />
+          );
+        })}
+      </Form>
+    </FormProvider>
   );
 }
 
@@ -142,4 +143,6 @@ PureAddExpense.propTypes = {
   onGoBack: PropTypes.func,
   onSubmit: PropTypes.func,
   useHookFormPersist: PropTypes.func,
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };

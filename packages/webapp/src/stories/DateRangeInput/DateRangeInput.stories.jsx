@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { Suspense } from 'react';
-import { within, userEvent, screen, fireEvent } from '@storybook/test';
+import { within, userEvent, fireEvent } from '@storybook/test';
 import { expect } from '@storybook/test';
 import selectEvent from 'react-select-event';
 import moment from 'moment';
@@ -21,6 +21,7 @@ import DateRangeInput from '../../components/DateRangeSelector/DateRangeInput';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 import { FROM_DATE, TO_DATE } from '../../components/Form/DateRangePicker';
+import { dynamicOptions } from './mockData';
 
 export default {
   title: 'Components/DateRangeInput',
@@ -47,17 +48,18 @@ export const WithPlaceholder = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const select = await canvas.findByRole('combobox');
+    let select = await canvas.findByRole('combobox');
     await selectEvent.openMenu(select);
 
-    let option = await screen.findByText('Pick a custom range');
-    await fireEvent.click(option);
+    let option = await within(document.body).findByText('Pick a custom range');
+    await userEvent.click(option);
 
-    const [input1] = await canvas.findAllByTestId('input');
-    await fireEvent.click(option);
+    const [input1] = await within(document.body).findAllByTestId('input');
 
     await userEvent.type(input1, '2023-11-01');
-    await selectEvent.openMenu(select);
+    await userEvent.keyboard('{Escape}');
+    select = await canvas.findByRole('combobox', {}, { timeout: 5000 });
+    await userEvent.click(select);
 
     const selectedOptionText = await canvas.findByText('Year to date');
     expect(selectedOptionText).toBeInTheDocument();
@@ -77,17 +79,17 @@ export const WithDefaultOption = {
     const select = canvas.getByRole('combobox');
     await selectEvent.openMenu(select);
 
-    let option = screen.getByText('Last 7 days');
+    let option = within(document.body).getByText('Last 7 days');
     await userEvent.click(option);
 
     await selectEvent.openMenu(select);
-    option = screen.getAllByText('Last 7 days')[1];
+    option = within(document.body).getAllByText('Last 7 days')[1];
     expect(option).toHaveStyle('font-weight: 700');
 
-    option = screen.getByText('Pick a custom range');
+    option = within(document.body).getByText('Pick a custom range');
     await userEvent.click(option);
 
-    const backButton = await canvas.findByText('back');
+    const backButton = await within(document.body).findByText('back');
     expect(backButton).toBeInTheDocument();
     expect(backButton).toHaveStyle('color: #9faabe'); // disabled; --grey500 is the disabled color defined on TextButton
 
@@ -97,7 +99,7 @@ export const WithDefaultOption = {
     selectedOptionText = canvas.getByText('yyyy.mm.dd - yyyy.mm.dd');
     expect(selectedOptionText).toBeInTheDocument();
 
-    const [input1, input2] = canvas.getAllByTestId('input');
+    const [input1, input2] = within(document.body).getAllByTestId('input');
     await userEvent.clear(input1);
     await userEvent.clear(input2);
 
@@ -107,7 +109,7 @@ export const WithDefaultOption = {
     await userEvent.type(input2, '2022-11-01');
     expect(selectedOptionText).toBeInTheDocument();
 
-    const errorMessage = await canvas.findByText(
+    const errorMessage = await within(document.body).findByText(
       `End date must be after start date to return results`,
     );
     expect(errorMessage).toBeInTheDocument();
@@ -135,10 +137,10 @@ export const WithDefaultCustomDateRange = {
     const select = canvas.getByRole('combobox');
     await selectEvent.openMenu(select);
 
-    let option = screen.getByText('Pick a custom range');
+    let option = within(document.body).getByText('Pick a custom range');
     await fireEvent.click(option);
 
-    const [input1, input2] = await canvas.findAllByTestId('input');
+    const [input1, input2] = await within(document.body).findAllByTestId('input');
     await userEvent.clear(input1);
     await userEvent.clear(input2);
 
@@ -152,7 +154,7 @@ export const WithDefaultCustomDateRange = {
     selectedOptionText = await canvas.findByText('2021-01-01 - 2023-12-31');
     expect(selectedOptionText).toBeInTheDocument();
 
-    const clearButton = canvas.getByText('Clear dates');
+    const clearButton = within(document.body).getByText('Clear dates');
     await userEvent.click(clearButton);
 
     const errorMessage = canvas.queryByText(`End date must be after start date to return results`);
@@ -166,14 +168,54 @@ export const WithDefaultCustomDateRange = {
     selectedOptionText = await canvas.findByText('2023-01-01 - 2024-01-01');
     expect(selectedOptionText).toBeInTheDocument();
 
-    const backButton = await canvas.findByText('back');
+    const backButton = await within(document.body).findByText('back');
     expect(backButton).toBeInTheDocument();
 
     await userEvent.click(backButton);
-    option = await screen.findByText('Pick a custom range');
+    option = await within(document.body).findByText('Pick a custom range');
     expect(option).toHaveStyle('font-weight: 700');
 
     await userEvent.click(document.body);
     expect(selectedOptionText).toBeInTheDocument();
+  },
+};
+
+const args = {
+  changeDateRangeMethod: (from, to) => console.log({ from, to }),
+  onChangeDateRangeOption: (option) => console.log(option),
+  onValidityChange: (validity) => console.log(validity),
+};
+
+export const WithAllowedOptions = {
+  args: {
+    ...args,
+    allowedOptions: [DateRangeOptions.YEAR_TO_DATE, DateRangeOptions.LAST_12_MONTHS],
+  },
+};
+
+export const WithDefaultAndDynamicOptions = {
+  args: {
+    ...args,
+    dynamicOptions,
+  },
+};
+
+export const WithDynamicOptionsOnly = {
+  args: {
+    ...args,
+    allowedOptions: [],
+    dynamicOptions,
+  },
+};
+
+export const WithAllowedAndDynamicOptions = {
+  args: {
+    ...args,
+    allowedOptions: [
+      DateRangeOptions.YEAR_TO_DATE,
+      DateRangeOptions.LAST_12_MONTHS,
+      DateRangeOptions.CUSTOM,
+    ],
+    dynamicOptions,
   },
 };

@@ -9,12 +9,6 @@ import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
 import {
-  animalLocationsSelector,
-  cropLocationEntitiesSelector,
-  cropLocationsSelector,
-  locationsSelector,
-} from '../../locationSlice';
-import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
   useCurrentWildManagementPlanTiles,
 } from '../TaskCrops/useManagementPlanTilesByLocationIds';
@@ -25,7 +19,11 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { getProgress } from '../util';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
+import useLocations from '../../../hooks/location/useLocations';
+import useCropLocations from '../../../hooks/location/useCropLocations';
+import useAnimalLocations from '../../../hooks/location/useAnimalLocations';
+import useLocationsById from '../../../hooks/location/useLocationsById';
+import { InternalMapLocationType } from '../../../store/api/types';
 
 export default function TaskLocationsSwitch() {
   const location = useLocation();
@@ -70,15 +68,14 @@ export default function TaskLocationsSwitch() {
 }
 
 function TaskActiveAndPlannedCropLocations({ history, location }) {
-  const cropLocations = useSelector(cropLocationsSelector);
-  const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
+  const { locations: cropLocations } = useCropLocations();
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
   const activeAndPlannedLocationsIds = Object.keys(
     useActiveAndCurrentManagementPlanTilesByLocationIds(cropLocationsIds),
   );
-  const activeAndPlannedLocations = activeAndPlannedLocationsIds.map(
-    (location_id) => cropLocationEntities[location_id],
-  );
+  const { locations: activeAndPlannedLocations } = useLocationsById(activeAndPlannedLocationsIds, {
+    deleted: true,
+  });
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
@@ -99,7 +96,7 @@ function TaskActiveAndPlannedCropLocations({ history, location }) {
 
 function TaskTransplantLocations({ history, location }) {
   const { t } = useTranslation();
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const onContinue = () => {
     history.push('/add_task/planting_method', location.state);
   };
@@ -118,7 +115,7 @@ function TaskTransplantLocations({ history, location }) {
 
 function TaskIrrigationLocations({ history, location }) {
   const { t } = useTranslation();
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
   const onContinue = () => {
     history.push('/add_task/task_crops', location.state);
@@ -140,7 +137,7 @@ function TaskIrrigationLocations({ history, location }) {
 //This goes to all crop locations, multiSelect, not wildCrops with pins
 function TaskSoilAmendmentLocations({ history, location }) {
   const { t } = useTranslation();
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const onContinue = () => {
     history.push('/add_task/task_crops', location.state);
   };
@@ -159,7 +156,7 @@ function TaskSoilAmendmentLocations({ history, location }) {
 
 function TaskAnimalLocations({ history, location }) {
   const { t } = useTranslation();
-  const animalLocations = useSelector(animalLocationsSelector);
+  const { locations: animalLocations } = useAnimalLocations();
   const onContinue = () => {
     history.push('/add_task/task_details', location.state);
   };
@@ -179,7 +176,9 @@ function TaskAnimalLocations({ history, location }) {
 
 function TaskSoilSampleLocations({ history, location }) {
   const { t } = useTranslation();
-  const soilSampleLocations = useSelector(soilSampleLocationsSelector);
+  const { locations: soilSampleLocations } = useLocations({
+    filterBy: InternalMapLocationType.SOIL_SAMPLE_LOCATION,
+  });
   const onContinue = () => {
     history.push('/add_task/task_details', location.state);
   };
@@ -197,7 +196,7 @@ function TaskSoilSampleLocations({ history, location }) {
 
 function TaskCustomLocations({ history, location }) {
   const dispatch = useDispatch();
-  const locations = useSelector(locationsSelector);
+  const { locations = [] } = useLocations();
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
   const activeAndCurrentManagementPlansByLocationIds =
     useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
@@ -237,7 +236,7 @@ function TaskCustomLocations({ history, location }) {
 
 function TaskAllLocations({ history, location }) {
   const dispatch = useDispatch();
-  const locations = useSelector(locationsSelector);
+  const { locations = [] } = useLocations();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const readOnlyPinCoordinates = useReadOnlyPinCoordinates();

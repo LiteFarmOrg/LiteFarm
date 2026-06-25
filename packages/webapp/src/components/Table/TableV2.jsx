@@ -106,6 +106,7 @@ export default function TableV2(props) {
     tableContainerClass,
     tbodyClass,
     rowClass,
+    pinToBottom,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -155,14 +156,13 @@ export default function TableV2(props) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      data
-        .slice()
-        .sort(getComparator(order, orderBy, comparator))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, data],
-  );
+  const visibleRows = useMemo(() => {
+    const sorted = data.slice().sort(getComparator(order, orderBy, comparator));
+    const ordered = pinToBottom
+      ? [...sorted.filter((row) => !pinToBottom(row)), ...sorted.filter(pinToBottom)]
+      : sorted;
+    return ordered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  }, [order, orderBy, page, rowsPerPage, data, comparator, pinToBottom]);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -346,4 +346,5 @@ TableV2.propTypes = {
   headerClass: PropTypes.any,
   rowClass: PropTypes.any,
   extraRowSpacing: PropTypes.bool,
+  pinToBottom: PropTypes.func,
 };

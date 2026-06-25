@@ -10,11 +10,13 @@ import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { animalLocationsSelector, cropLocationsSelector } from '../../locationSlice';
-import { soilSampleLocationsSelector } from '../../soilSampleLocationSlice';
 import { hasAvailableProductsSelector } from '../../productSlice';
 import { TASK_TYPES } from '../constants';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
+import useCropLocations from '../../../hooks/location/useCropLocations';
+import useAnimalLocations from '../../../hooks/location/useAnimalLocations';
+import { InternalMapLocationType } from '../../../store/api/types';
+import useLocations from '../../../hooks/location/useLocations';
 
 function TaskTypeSelection() {
   const location = useLocation();
@@ -51,13 +53,17 @@ function TaskTypeSelection() {
 
   const hasCurrentManagementPlans =
     useSelector(currentAndPlannedManagementPlansSelector)?.length > 0;
-
-  const hasAnimalMovementLocations = useSelector(animalLocationsSelector)?.length > 0;
-  const hasSoilSampleLocations = useSelector(soilSampleLocationsSelector)?.length > 0;
+  const { locations: animalLocations } = useAnimalLocations();
+  const hasAnimalMovementLocations = animalLocations?.length > 0;
+  const { locations: soilSampleLocations } = useLocations({
+    filterBy: InternalMapLocationType.SOIL_SAMPLE_LOCATION,
+  });
+  const hasSoilSampleLocations = soilSampleLocations?.length > 0;
   const hasSoilAmendmentProducts = useSelector((state) =>
     hasAvailableProductsSelector(state, TASK_TYPES.SOIL_AMENDMENT),
   );
-  const hasIrrigationLocations = useSelector(cropLocationsSelector)?.length > 0;
+  const { locations: cropLocations } = useCropLocations();
+  const hasIrrigationLocations = cropLocations?.length > 0;
 
   return (
     <>

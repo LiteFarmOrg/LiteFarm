@@ -20,6 +20,7 @@ export const parameters = {
   },
   layout: 'fullscreen',
   chromatic: { disableSnapshot: true },
+  viewport: { defaultViewport: 'reset' },
 };
 const store = {
   getState: () => {
@@ -47,7 +48,6 @@ export const decorators = [
         'translation',
         'crop',
         'common',
-        'disease',
         'task',
         'expense',
         'fertilizer',
@@ -56,6 +56,7 @@ export const decorators = [
         'role',
         'harvest_uses',
         'soil',
+        'profitability',
       ],
       { useSuspense: false },
     );

@@ -225,7 +225,7 @@ const RevenueForm = ({
             disabled={disabledInput}
           />
         )}
-        <div style={{ marginTop: 'auto', paddingTop: '24px' }}>
+        <div style={{ marginTop: 'auto', paddingTop: '32px' }}>
           {readonly && !isDeleting && (
             <IconLink
               style={{ color: 'var(--grey600)' }}

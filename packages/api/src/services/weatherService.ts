@@ -80,48 +80,36 @@ interface OpenWeatherForecastResponse {
 const OPEN_WEATHER_APP_ID = credentials.OPEN_WEATHER_APP_ID;
 const openWeatherAPI = endpoints.openWeatherAPI;
 
-async function fetchOpenWeatherForecast(
-  lat: number,
-  lon: number,
-  units: string,
-): Promise<OpenWeatherForecastResponse> {
-  try {
-    const url = `${openWeatherAPI}?units=${units}&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en`;
-    const response = await axios.get<OpenWeatherForecastResponse>(url);
-    return response.data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    throw Object.assign(new Error('Failed to fetch weather data'), {
-      status: axiosError.response?.status,
-      details: axiosError.response?.data ?? axiosError.message,
-    });
-  }
-}
-
-function mapSlots(list: OpenWeatherListEntry[]): WeatherForecastSlot[] {
-  return list.map((entry) => ({
-    dt: entry.dt,
-    tempC: entry.main.temp,
-    iconCode: entry.weather[0].icon,
-    pop: entry.pop ?? 0,
-    rainMm3h: entry.rain?.['3h'] ?? 0,
-    snowMm3h: entry.snow?.['3h'] ?? 0,
-    windMs: entry.wind.speed,
-    humidity: entry.main.humidity,
-  }));
-}
-
 export const weatherService = {
   async fetchForecast({ lat, lon }: WeatherParams): Promise<WeatherForecast> {
-    const data = await fetchOpenWeatherForecast(lat, lon, 'metric');
+    try {
+      const url = `${openWeatherAPI}?units=metric&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en`;
+      const response = await axios.get<OpenWeatherForecastResponse>(url);
+      const data = response.data;
 
-    return {
-      city: {
-        name: data.city.name,
-        timezoneOffsetSeconds: data.city.timezone,
-      },
-      slots: mapSlots(data.list),
-    };
+      return {
+        city: {
+          name: data.city.name,
+          timezoneOffsetSeconds: data.city.timezone,
+        },
+        slots: data.list.map((entry) => ({
+          dt: entry.dt,
+          tempC: entry.main.temp,
+          iconCode: entry.weather[0].icon,
+          pop: entry.pop ?? 0,
+          rainMm3h: entry.rain?.['3h'] ?? 0,
+          snowMm3h: entry.snow?.['3h'] ?? 0,
+          windMs: entry.wind.speed,
+          humidity: entry.main.humidity,
+        })),
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      throw Object.assign(new Error('Failed to fetch weather data'), {
+        status: axiosError.response?.status,
+        details: axiosError.response?.data ?? axiosError.message,
+      });
+    }
   },
 
   async fetchLegacyForecast({
@@ -129,19 +117,38 @@ export const weatherService = {
     lon,
     units,
   }: LegacyWeatherParams): Promise<LegacyWeatherCompat> {
-    const data = await fetchOpenWeatherForecast(lat, lon, units);
-    const [first] = data.list;
+    try {
+      const url = `${openWeatherAPI}?units=${units}&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en`;
+      const response = await axios.get<OpenWeatherForecastResponse>(url);
+      const data = response.data;
+      const [first] = data.list;
 
-    return {
-      city: data.city.name,
-      temp: Math.round(first.main.temp),
-      humidity: first.main.humidity,
-      icon: first.weather[0].icon,
-      date: first.dt,
-      wind: first.wind.speed,
-      measurement: units,
-      slots: mapSlots(data.list),
-    };
+      return {
+        city: data.city.name,
+        temp: Math.round(first.main.temp),
+        humidity: first.main.humidity,
+        icon: first.weather[0].icon,
+        date: first.dt,
+        wind: first.wind.speed,
+        measurement: units,
+        slots: data.list.map((entry) => ({
+          dt: entry.dt,
+          tempC: entry.main.temp,
+          iconCode: entry.weather[0].icon,
+          pop: entry.pop ?? 0,
+          rainMm3h: entry.rain?.['3h'] ?? 0,
+          snowMm3h: entry.snow?.['3h'] ?? 0,
+          windMs: entry.wind.speed,
+          humidity: entry.main.humidity,
+        })),
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      throw Object.assign(new Error('Failed to fetch weather data'), {
+        status: axiosError.response?.status,
+        details: axiosError.response?.data ?? axiosError.message,
+      });
+    }
   },
 };
 

@@ -47,9 +47,15 @@ export interface WeatherForecast {
  *
  * The legacy WeatherBoard bundle (still live in cached service workers) renders
  * `city` directly as a React child, so it must stay a string and the legacy
- * top-level fields must be present. `slots` is included so the WeatherForecast
- * bundle released alongside the new API does not crash in `groupSlotsByLocalDay`.
- * The clean shape lives at `GET /weather/forecast`.
+ * top-level fields must be present.
+ *
+ * `slots` is intentionally an empty array. The WeatherForecast bundle released
+ * alongside the new API also requests this URL and iterates `slots`, computing
+ * dates with `city.timezoneOffsetSeconds` — which is undefined here because
+ * `city` is a string, producing `new Date(NaN)` and a RangeError. An empty list
+ * means it iterates nothing, skips the date math, and renders its empty state
+ * instead of crashing. It must stay an array: omitting it would throw on
+ * `slots.forEach`. The full forecast lives at `GET /weather/forecast`.
  */
 export interface LegacyWeatherCompat {
   city: string;
@@ -131,16 +137,7 @@ export const weatherService = {
         date: first.dt,
         wind: first.wind.speed,
         measurement: units,
-        slots: data.list.map((entry) => ({
-          dt: entry.dt,
-          tempC: entry.main.temp,
-          iconCode: entry.weather[0].icon,
-          pop: entry.pop ?? 0,
-          rainMm3h: entry.rain?.['3h'] ?? 0,
-          snowMm3h: entry.snow?.['3h'] ?? 0,
-          windMs: entry.wind.speed,
-          humidity: entry.main.humidity,
-        })),
+        slots: [],
       };
     } catch (error) {
       const axiosError = error as AxiosError;

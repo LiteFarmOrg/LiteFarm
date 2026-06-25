@@ -94,6 +94,7 @@ export const soilAmendmentFertiliserTypesUrl = `${URI}/soil_amendment_fertiliser
 export const productUrl = `${URI}/product`;
 export const farmAddonUrl = `${URI}/farm_addon`;
 export const weatherUrl = `${URI}/weather`;
+export const weatherForecastUrl = `${URI}/weather/forecast`;
 export const irrigationPrescriptionUrl = `${URI}/irrigation_prescriptions`;
 export const marketDirectoryInfoUrl = `${URI}/market_directory_info`;
 export const marketProductCategoryUrl = `${URI}/market_product_categories`;
@@ -168,6 +169,7 @@ export default {
   productUrl,
   farmAddonUrl,
   weatherUrl,
+  weatherForecastUrl,
   marketDirectoryInfoUrl,
   marketDirectoryPartnersUrl,
   farmNoteUrl,

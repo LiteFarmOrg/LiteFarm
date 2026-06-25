@@ -646,7 +646,7 @@
     "LAST_WEEK": "Dernière semaine",
     "THIS_MONTH": "Ce mois",
     "THIS_WEEK": "Cette semaine",
-    "YEAR_TO_DATE": "1 année"
+    "YEAR_TO_DATE": "Année en cours"
   },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "V",
@@ -1038,7 +1038,7 @@
     "TABS": {
       "ADDONS": "Addons",
       "BASIC_PROFILE": "Profil de base",
-      "MARKET_DIRECTORY": "Annuaire des marchés"
+      "MARKET_DIRECTORY": "Répertoires des marchés"
     }
   },
   "FIELDS": {
@@ -1558,7 +1558,7 @@
       "PRODUCTS_CATEGORIES": "Catégorie de produit"
     },
     "KNOW_A_MARKETPLACE": "Connaissez un marché que nous devrions soutenir ?<br />Partagez-le avec nous.",
-    "MARKET_DIRECTORIES": "Annuaire des marchés",
+    "MARKET_DIRECTORIES": "Répertoires des marchés",
     "MARKET_DIRECTORY_INFO": "Informations sur l'annuaire du marché",
     "NO_PARTNER": "Nous n'avons pas de partenaire dans votre région pour le moment.",
     "PARTNERS": {
@@ -1892,11 +1892,13 @@
       "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de recette personnalisé",
       "ADD_REVENUE": "Ajouter une recette",
       "ANIMAL_NOTES_PLACEHOLDER": "Description de la vente d'animaux",
+      "COUNT_UNIT_LABEL": "unité(s)",
       "CROP_NOTES_PLACEHOLDER": "Description de la vente de culture",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
       "FLOW": "Création de recettes",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Gérer les types de recettes personnalisées",
+      "MEASURED_BY": "Mesuré par",
       "NOTES_PLACEHOLDER": "Description de la vente",
       "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif inférieur à 999,999,999",
       "SELECT_CROPS": "Sélectionner les cultures",

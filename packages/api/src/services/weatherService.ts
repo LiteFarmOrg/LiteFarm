@@ -22,6 +22,10 @@ interface WeatherParams {
   lon: number;
 }
 
+interface LegacyWeatherParams extends WeatherParams {
+  units: string;
+}
+
 export interface WeatherForecastSlot {
   dt: number;
   tempC: number;
@@ -35,6 +39,32 @@ export interface WeatherForecastSlot {
 
 export interface WeatherForecast {
   city: { name: string; timezoneOffsetSeconds: number };
+  slots: WeatherForecastSlot[];
+}
+
+/**
+ * Backward-compatible superset served from `GET /weather`.
+ *
+ * The legacy WeatherBoard bundle (still live in cached service workers) renders
+ * `city` directly as a React child, so it must stay a string and the legacy
+ * top-level fields must be present.
+ *
+ * `slots` is intentionally an empty array. The WeatherForecast bundle released
+ * alongside the new API also requests this URL and iterates `slots`, computing
+ * dates with `city.timezoneOffsetSeconds` — which is undefined here because
+ * `city` is a string, producing `new Date(NaN)` and a RangeError. An empty list
+ * means it iterates nothing, skips the date math, and renders its empty state
+ * instead of crashing. It must stay an array: omitting it would throw on
+ * `slots.forEach`. The full forecast lives at `GET /weather/forecast`.
+ */
+export interface LegacyWeatherCompat {
+  city: string;
+  temp: number;
+  humidity: number;
+  icon: string;
+  date: number;
+  wind: number;
+  measurement: string;
   slots: WeatherForecastSlot[];
 }
 
@@ -78,6 +108,36 @@ export const weatherService = {
           windMs: entry.wind.speed,
           humidity: entry.main.humidity,
         })),
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      throw Object.assign(new Error('Failed to fetch weather data'), {
+        status: axiosError.response?.status,
+        details: axiosError.response?.data ?? axiosError.message,
+      });
+    }
+  },
+
+  async fetchLegacyForecast({
+    lat,
+    lon,
+    units,
+  }: LegacyWeatherParams): Promise<LegacyWeatherCompat> {
+    try {
+      const url = `${openWeatherAPI}?units=${units}&lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_APP_ID}&lang=en`;
+      const response = await axios.get<OpenWeatherForecastResponse>(url);
+      const data = response.data;
+      const [first] = data.list;
+
+      return {
+        city: data.city.name,
+        temp: Math.round(first.main.temp),
+        humidity: first.main.humidity,
+        icon: first.weather[0].icon,
+        date: first.dt,
+        wind: first.wind.speed,
+        measurement: units,
+        slots: [],
       };
     } catch (error) {
       const axiosError = error as AxiosError;

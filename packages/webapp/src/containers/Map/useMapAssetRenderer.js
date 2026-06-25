@@ -597,6 +597,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     isLocationsLoading,
     isLocationsFetching,
     isFetchingInternalLocations,
+    isLoadingExternalLocations,
   };
 };
 

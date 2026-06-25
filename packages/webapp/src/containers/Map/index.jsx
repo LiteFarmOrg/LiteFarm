@@ -190,12 +190,17 @@ export default function Map({ isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets, assetGeometriesRef, markerClusterRef, isFetchingInternalLocations } =
-    useMapAssetRenderer({
-      isClickable: !drawingState.type,
-      drawingState: drawingState,
-      showingConfirmButtons: showingConfirmButtons,
-    });
+  const {
+    drawAssets,
+    assetGeometriesRef,
+    markerClusterRef,
+    isFetchingInternalLocations,
+    isLoadingExternalLocations,
+  } = useMapAssetRenderer({
+    isClickable: !drawingState.type,
+    drawingState: drawingState,
+    showingConfirmButtons: showingConfirmButtons,
+  });
 
   // Cleanup listeners on map instance objects
   useEffect(() => {
@@ -216,7 +221,13 @@ export default function Map({ isCompactSideMenu }) {
   // Draw locations on map
   const hasDrawnRef = useRef(false);
   useEffect(() => {
-    if (!gMap || !gMaps || isFetchingInternalLocations || hasDrawnRef.current) {
+    if (
+      !gMap ||
+      !gMaps ||
+      isFetchingInternalLocations ||
+      isLoadingExternalLocations ||
+      hasDrawnRef.current
+    ) {
       return;
     }
     hasDrawnRef.current = true;
@@ -234,7 +245,7 @@ export default function Map({ isCompactSideMenu }) {
         gMap.setCenter(location);
       }
     }
-  }, [gMap, gMaps, isFetchingInternalLocations]);
+  }, [gMap, gMaps, isFetchingInternalLocations, isLoadingExternalLocations]);
 
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = async ({ map, maps }) => {
@@ -569,7 +580,7 @@ export default function Map({ isCompactSideMenu }) {
         </>
       )}
       <LoadingBackdrop
-        isOpen={!isLoaded}
+        isOpen={!isLoaded || isLoadingExternalLocations}
         isCompactSideMenu={isCompactSideMenu}
         dataName={t('MENU.MAP').toLocaleLowerCase()}
       />

@@ -580,7 +580,8 @@ export default function Map({ isCompactSideMenu }) {
         </>
       )}
       <LoadingBackdrop
-        isOpen={!isLoaded || isLoadingExternalLocations}
+        isOpen={!isLoaded || (!isFetchingInternalLocations && isLoadingExternalLocations)}
+        showDelay={400}
         isCompactSideMenu={isCompactSideMenu}
         dataName={t('MENU.MAP').toLocaleLowerCase()}
       />

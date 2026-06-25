@@ -26,15 +26,46 @@ import type {
 import type { ExtendedMeasureUnits } from '../../../util/convert-units/convert';
 import { ChartSupportedReadingTypes, WeatherStationKPIParams } from './types';
 
-export const SENSOR_READING_TYPES: Record<SensorTypes, ChartSupportedReadingTypes[]> = {
-  'Soil Water Potential Sensor': ['temperature', 'soil_water_potential', 'soil_water_content'],
+const SOIL_WATER_POTENTIAL_READING_TYPES: ChartSupportedReadingTypes[] = [
+  'temperature',
+  'soil_water_potential',
+  'soil_water_content',
+];
+
+export const SENSOR_READING_TYPES: Record<SensorTypes, SensorReadingTypes[]> = {
+  'Soil Water Potential Sensor': SOIL_WATER_POTENTIAL_READING_TYPES,
   'IR Temperature Sensor': ['temperature'],
   'Wind speed sensor': ['wind_speed'],
   'Drip line pressure sensor': ['water_pressure'],
   'Weather station': ['temperature', 'relative_humidity', 'rainfall_rate', 'cumulative_rainfall'],
+  'SDI-12 weather station': [
+    'temperature',
+    'relative_humidity',
+    'rainfall_rate',
+    'cumulative_rainfall',
+  ],
+  'Wind sensor voltage': ['wind_speed'],
+  'Turbine Flow Meter': ['volume'],
+  'Tipping Bucket Rain Gauge': ['cumulative_rainfall'],
+  'ET sensor': ['evapotranspiration', 'latent_energy_flux', 'heat_flux'],
+  'Soil Water Content Sensor': ['moisture', 'temperature', 'electrical_conductivity'],
+  'Humidity Sensor': [
+    'relative_humidity',
+    'temperature',
+    'vapor_pressure_deficit',
+    'wet_bulb_temperature',
+  ],
+  // DripDrain reading types are not yet modelled; renders no KPI for now.
+  'DripDrain Sensor': [],
 };
 
-export const SENSOR_ARRAY_CHART_PARAMS = SENSOR_READING_TYPES['Soil Water Potential Sensor'];
+// Sensor names that render through the weather-station KPI path.
+export const WEATHER_STATION_SENSOR_NAMES: SensorTypes[] = [
+  'Weather station',
+  'SDI-12 weather station',
+];
+
+export const SENSOR_ARRAY_CHART_PARAMS = SOIL_WATER_POTENTIAL_READING_TYPES;
 
 export const CHART_SUPPORTED_PARAMS: ChartSupportedReadingTypes[] = [
   'temperature',
@@ -45,6 +76,9 @@ export const CHART_SUPPORTED_PARAMS: ChartSupportedReadingTypes[] = [
   'soil_water_content',
   'water_pressure',
   'wind_speed',
+  'moisture',
+  'electrical_conductivity',
+  'evapotranspiration',
 ];
 
 export const WEATHER_STATION_KPI_PARAMS: WeatherStationKPIParams[] = [
@@ -56,6 +90,8 @@ export const WEATHER_STATION_KPI_PARAMS: WeatherStationKPIParams[] = [
   'barometric_pressure',
   'solar_radiation',
   'rainfall_rate',
+  'vapor_pressure_deficit',
+  'wet_bulb_temperature',
 ];
 
 export const WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS = [
@@ -66,6 +102,8 @@ export const WEATHER_STATION_KPI_DEFAULT_LABEL_KEYS = [
   'BAROMETRIC_PRESSURE',
   'SOLAR_RADIATION',
   'RAINFALL_RATE',
+  'VAPOR_PRESSURE_DEFICIT',
+  'WET_BULB_TEMPERATURE',
 ];
 
 export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, string> = {
@@ -77,6 +115,9 @@ export const STANDALONE_SENSOR_COLORS_MAP: Record<ChartSupportedReadingTypes, st
   soil_water_content: colors.chartPurple,
   water_pressure: colors.chartBrown,
   wind_speed: colors.chartBrown,
+  moisture: colors.chartPurple, // matches soil_water_content
+  electrical_conductivity: colors.chartBrown,
+  evapotranspiration: colors.chartBlue,
 };
 
 export const LINE_COLORS = [
@@ -162,6 +203,17 @@ export const esciUnitTypeMap: Partial<
     imperial: {
       unit: 'in',
       displayUnit: 'in/h',
+    },
+    baseUnit: 'mm',
+  },
+  evapotranspiration: {
+    metric: {
+      unit: 'mm',
+      displayUnit: 'mm',
+    },
+    imperial: {
+      unit: 'in',
+      displayUnit: 'in',
     },
     baseUnit: 'mm',
   },

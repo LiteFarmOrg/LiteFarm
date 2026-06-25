@@ -212,18 +212,36 @@ export type SoilAmendmentProduct = Product & {
 };
 
 // As specified by Ensemble
-export type SensorTypes =
-  | 'Weather station'
-  | 'Soil Water Potential Sensor'
-  | 'IR Temperature Sensor'
-  | 'Wind speed sensor'
-  | 'Drip line pressure sensor';
+// Single source of truth for the sensor types LiteFarm models. The SensorTypes
+// union is derived from it, and getSensors filters out any name not listed here.
+export const SUPPORTED_SENSOR_NAMES = [
+  'Weather station',
+  'SDI-12 weather station',
+  'Soil Water Potential Sensor',
+  'IR Temperature Sensor',
+  'Wind speed sensor',
+  'Wind sensor voltage',
+  'Drip line pressure sensor',
+  'Turbine Flow Meter',
+  'Tipping Bucket Rain Gauge',
+  'ET sensor',
+  'Soil Water Content Sensor',
+  'Humidity Sensor',
+  'DripDrain Sensor',
+] as const;
+
+export type SensorTypes = (typeof SUPPORTED_SENSOR_NAMES)[number];
 
 export type SensorReadingTypes =
   | 'barometric_pressure'
   | 'cumulative_rainfall'
   | 'current'
+  | 'electrical_conductivity'
   | 'energy'
+  | 'evapotranspiration'
+  | 'heat_flux'
+  | 'latent_energy_flux'
+  | 'moisture'
   | 'rainfall_rate'
   | 'relative_humidity'
   | 'soc'
@@ -232,8 +250,11 @@ export type SensorReadingTypes =
   | 'solar_radiation'
   | 'solenoid_control'
   | 'temperature'
+  | 'vapor_pressure_deficit'
   | 'voltage'
+  | 'volume'
   | 'water_pressure'
+  | 'wet_bulb_temperature'
   | 'wind_direction'
   | 'wind_speed'
   | 'wind_speed_metadata'; // irrigation prescription metadata

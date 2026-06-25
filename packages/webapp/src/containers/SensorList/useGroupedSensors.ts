@@ -81,7 +81,7 @@ const formatSensorArrayToGroup = (
 ) => {
   return {
     ...sensorArray,
-    sensors: mappedSensors[sensorArray.id],
+    sensors: mappedSensors[sensorArray.id] ?? [],
     type: SensorType.SENSOR_ARRAY,
     fields: getAreaDataForPoint(sensorArray.point, areaLocations),
     isAddonSensor: true,

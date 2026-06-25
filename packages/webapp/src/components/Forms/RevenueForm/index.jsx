@@ -98,8 +98,8 @@ const RevenueForm = ({
   const notesPlaceholder = isCropSale(selectedRevenueType)
     ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
     : isAnimalSale(selectedRevenueType)
-      ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
-      : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
+    ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
+    : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
 
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {
@@ -225,7 +225,7 @@ const RevenueForm = ({
             disabled={disabledInput}
           />
         )}
-        <div style={{ marginTop: 'auto' }}>
+        <div style={{ marginTop: 'auto', paddingTop: '24px' }}>
           {readonly && !isDeleting && (
             <IconLink
               style={{ color: 'var(--grey600)' }}

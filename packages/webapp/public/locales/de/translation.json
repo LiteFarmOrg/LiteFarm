@@ -78,7 +78,6 @@
   },
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "Ein anderes Produkt hinzufügen",
-    "ADD_NEW_PRODUCT": "",
     "ADDITIONAL_NUTRIENTS": "Zusätzliche Nährstoffe",
     "AMMONIUM": "Ammonium (NH₄)",
     "BORON": "Bor (B)",
@@ -133,7 +132,6 @@
     "DO_YOU_WANT_TO_ASSIGN": "Möchten Sie die Aufgabe jetzt vergeben?",
     "DUPLICATE_NAME": "Es existiert bereits ein Produkt mit diesem Namen. Bitte wählen Sie einen anderen.",
     "EDIT_CUSTOM_TASK": "Benutzerdefinierte Aufgabe bearbeiten",
-    "EDIT_TASK_WAGE": "",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Beschreiben Sie die Art der Feldarbeit",
       "TYPE": {
@@ -150,11 +148,9 @@
       "TYPE_OF_FIELD_WORK": "Art der Feldarbeit"
     },
     "GO_TO_CATALOGUE": "Pflanzenkatalog öffnen",
-    "GO_TO_INVENTORY": "",
     "HARVEST_EVERYTHING": "Alles ernten, was reif ist",
     "HARVESTING_INFO": "Jeder Plan wird eine individuelle Ernteaufgabe erzeugen",
     "HOURLY_WAGE": {
-      "ASSIGNEE_CURRENT_WAGE": "",
       "ASSIGNEE_WAGE_WARNING": "{{name}} hat derzeit keinen Stundenlohn zugewiesen.",
       "DONT_ASK": "Nein, fragen Sie nicht noch einmal nach diesem Mitarbeiter",
       "FOR_THIS_TASK": "Ja, nur für diese Aufgabe",
@@ -211,23 +207,11 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Bitte beschreiben Sie den Grund für diese Bewegung"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "Du brauchst einen Ort oder ein Gebiet, wo Tiere bewegt werden können. Gehe zur Karte, um einen Tierstandort zu erstellen.",
-    "NEED_IRRIGATION_LOCATION": "",
-    "NEED_IRRIGATION_LOCATION_WORKER": "",
     "NEED_MANAGEMENT_PLAN": "Sie benötigen einen aktiven oder geplanten Anbauplan, bevor Sie eine Ernteaufgabe oder eine Umpflanzaufgabe planen können. Rufen Sie den Pflanzenkatalog auf, um jetzt einen Plan zu erstellen.",
-    "NEED_SOIL_AMENDMENT_PRODUCTS": "",
-    "NEED_SOIL_SAMPLE_LOCATION": "",
-    "NEED_SOIL_SAMPLE_LOCATION_WORKER": "",
     "NO_ANIMAL_LOCATION": "Keine zugelassenen Tierstandorte",
-    "NO_IRRIGATION_LOCATIONS": "",
     "NO_MANAGEMENT_PLAN": "Keine förderfähigen Anbaupläne",
-    "NO_SOIL_AMENDMENT_PRODUCTS": "",
-    "NO_SOIL_SAMPLE_LOCATION": "",
     "NOTES_LABEL": "Gibt es etwas Spezielles, das zu dieser Aufgabe hinzugefügt werden sollte?",
     "NOTES_PLACEHOLDER": "Anweisungen oder Spezifikationen für den Beauftragten hinzufügen",
-    "OFFLINE_NOTICE": {
-      "CANNOT_ADD_NEW": "",
-      "YOURE_OFFLINE": ""
-    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biologische Kontrolle",
       "FLAME_WEEDING": "Flammenunkrautbekämpfung",
@@ -283,25 +267,8 @@
       "VOLUME": "Volumen",
       "WEIGHT": "Gewicht"
     },
-    "SOIL_SAMPLE_VIEW": {
-      "LOCATION_COUNT": "",
-      "SAMPLE_DEPTH_RANGE": "",
-      "SAMPLE_PER_LOCATION_COUNT": "",
-      "SAMPLE_TOOL": {
-        "AUGER": "",
-        "SOIL_PROBE": "",
-        "SPADE": ""
-      },
-      "SAMPLING_TOOL": ""
-    },
     "TASK": "Aufgabe",
     "TASK_NOTES_CHAR_LIMIT": "Notizen müssen weniger als 10.000 Zeichen umfassen",
-    "TASK_SPECIFIC_HOURLY_WAGE": "",
-    "TASK_WAGE": {
-      "NO_TASK_WAGE": "",
-      "TASK_WAGE_SET": "",
-      "WANT_TO_SET_HOURLY_WAGE": ""
-    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Erzählen Sie uns von dieser Aufgabe",
     "THIS_TASK_IS_COMPLETED": "Diese Aufgabe ist bereits abgeschlossen",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "Wenn Sie auf \"Speichern\" klicken, wird diese Aufgabe sofort gespeichert. Sie werden dann aufgefordert, sie abzuschließen.",
@@ -309,19 +276,6 @@
     "WAGE_OVERRIDE": "Lohnaufhebung",
     "WHAT_PLANTING_METHOD": "Was ist die Umpflanzmethode?",
     "WILD_CROP": "Wildfrüchte"
-  },
-  "ADDON": {
-    "DISCONNECT_MODAL": {
-      "CANCEL": "",
-      "CONFIRM": ""
-    },
-    "ESCI": {
-      "DISCONNECT_ESCI": "",
-      "INFO": "",
-      "MODAL_INFO": "",
-      "MODAL_TITLE": ""
-    },
-    "ORGANISATION_ID": ""
   },
   "ANIMAL": {
     "ADD_MORE_BODY_TEXT": "Haben Sie einen anderen Tiertyp oder eine andere Rasse?",
@@ -378,8 +332,6 @@
       "ANIMALS_BETA_CONTENT": "Erhalten Sie einen ersten Einblick in unsere neue Funktion zur Tierverwaltung – jetzt in der Beta-Phase! Ihr Feedback ist entscheidend, während wir diese Funktion weiterentwickeln. Bitte teilen Sie uns eventuelle Fehler oder Verbesserungsvorschläge mit. Wir schätzen Ihre Hilfe bei der Verbesserung von LiteFarm sehr! Mehr über die Beta erfahren Sie <a>hier</a>",
       "ANIMALS_BETA_HEADING": "Einführung der neuen Tierfunktion",
       "ANIMALS_CONTENT": "Erhalten Sie einen ersten Einblick in unsere neue Funktion zur Tierverwaltung – jetzt in der Beta-Phase! Ihr Feedback ist entscheidend, während wir diese Funktion weiterentwickeln. Bitte teilen Sie uns eventuelle Fehler oder Verbesserungsvorschläge mit. Wir schätzen Ihre Hilfe bei der Verbesserung von LiteFarm sehr! Mehr über die Beta erfahren Sie <a>hier</a>",
-      "INVENTORY_BETA_CONTENT": "",
-      "INVENTORY_BETA_HEADING": "",
       "TITLE": "Beta"
     }
   },
@@ -517,7 +469,6 @@
   },
   "CROP": {
     "ADD_CROP": "Kulturpflanze hinzufügen",
-    "ADD_CROP_VARIETY": "",
     "ADD_IMAGE": "Benutzerdefiniertes Bild hinzufügen",
     "ANNUAL": "Einjährig",
     "ANNUAL_OR_PERENNIAL": "Handelt es sich um eine einjährige oder mehrjährige Pflanze?",
@@ -638,7 +589,6 @@
     "BACK": "zurück",
     "CLEAR_DATES": "Datumsangaben klären",
     "CUSTOM_RANGE": "Wählen Sie ein benutzerdefinierten Bereich aus",
-    "LAST_12_MONTHS": "",
     "LAST_FOURTEEN_DAYS": "Letzten 14 Tage",
     "LAST_MONTH": "Letzter Monat",
     "LAST_SEVEN_DAYS": "Letzten 7 Tage",
@@ -656,24 +606,6 @@
     "THURSDAY": "D",
     "TUESDAY": "D",
     "WEDNESDAY": "M"
-  },
-  "DIRECTION": {
-    "E": "",
-    "ENE": "",
-    "ESE": "",
-    "N": "",
-    "NE": "",
-    "NNE": "",
-    "NNW": "",
-    "NW": "",
-    "S": "",
-    "SE": "",
-    "SSE": "",
-    "SSW": "",
-    "SW": "",
-    "W": "",
-    "WNW": "",
-    "WSW": ""
   },
   "DOCUMENTS": {
     "ADD": {
@@ -771,12 +703,6 @@
       "TITLE": "Ausgaben bearbeiten",
       "TITLE_1": "Ausgabe bearbeiten(1 von 2)",
       "TITLE_2": "Ausgabe bearbeiten (2 von 2)"
-    },
-    "ENTITY_SECTION": {
-      "ENTITY_ASSOCIATION_LABEL": "",
-      "EXCEEDED_ERROR": "",
-      "SELECT_ANIMALS": "",
-      "TOTAL_TO_ALLOCATE": ""
     },
     "ITEM_NAME": "Artikelname",
     "NO_EXPENSE": "Keine Kosten gefunden",
@@ -915,9 +841,7 @@
       "RESIDENCE": "Wohnsitz",
       "SATELLITE": "Satellitenansicht",
       "SENSOR": "Sensor",
-      "SENSOR_ARRAY": "",
       "SHOW_ALL": "Alle anzeigen",
-      "SOIL_SAMPLE_LOCATION": "",
       "SURFACE_WATER": "Oberflächengewässer",
       "TITLE": "Filtern Sie Ihre Karte",
       "WATER_VALVE": "Wasserventil",
@@ -934,13 +858,6 @@
       "EDIT_TITLE": "Residenz bearbeiten",
       "NAME": "Name der Residenz",
       "TITLE": "Wohnsitz hinzufügen"
-    },
-    "SOIL_SAMPLE_LOCATION": {
-      "EDIT_TITLE": "",
-      "LATITUDE": "",
-      "LONGITUDE": "",
-      "NAME": "",
-      "TITLE": ""
     },
     "SPOTLIGHT": {
       "ADD": "Standorte zu Ihrer Karte hinzufügen",
@@ -960,8 +877,6 @@
     "TAB": {
       "CROPS": "Kulturpflanzen",
       "DETAILS": "Details",
-      "FIELD_TECHNOLOGY": "",
-      "IRRIGATION": "",
       "TASKS": "Aufgaben"
     },
     "TITLE": "Landwirtschaftskarte",
@@ -1011,34 +926,6 @@
       "NAME": "Name des Wasserlaufs",
       "TITLE": "Wasserlauf hinzufügen",
       "WIDTH": "Breite des Wasserlaufs"
-    }
-  },
-  "FARM_NOTE": {
-    "ADD_A_NOTE": "",
-    "ATTACH_PHOTO": "",
-    "CANCEL": "",
-    "COLLAPSE": "",
-    "DELETE_CONFIRMATION": {
-      "BODY": "",
-      "TITLE": ""
-    },
-    "DELETE_NOTE": "",
-    "EDIT_NOTE": "",
-    "EMPTY_STATE": "",
-    "EXPIRATION_WARNING": "",
-    "FARM_NOTES": "",
-    "HAS_UNREAD_NOTES": "",
-    "NEW_NOTE": "",
-    "NOTE_LABEL": "",
-    "NOTE_PLACEHOLDER": "",
-    "PRIVATE_NOTE": "",
-    "SAVE_NOTE": ""
-  },
-  "FARM_SETTINGS": {
-    "TABS": {
-      "ADDONS": "",
-      "BASIC_PROFILE": "",
-      "MARKET_DIRECTORY": ""
     }
   },
   "FIELDS": {
@@ -1106,8 +993,6 @@
       "REVENUE_TYPES": "Suche nach Einkommensart"
     },
     "TRANSACTION": {
-      "AMOUNT_UNATTRIBUTED": "",
-      "ANIMALS": "",
       "CROPS": "Kulturpflanzen",
       "DAILY_TOTAL": "TÄGLICH GESAMT",
       "LABOUR_EXPENSE": "Arbeitskosten",
@@ -1121,7 +1006,7 @@
     "OVER_255_CHARS": "Der Text darf 255 Zeichen nicht überschreiten"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "",
+    "ATTACHMENT_LABEL": "Bildschirmfoto oder Datei hochladen",
     "EMAIL": "E-Mail",
     "FEEDBACK_INVITATION": "Hilfe erhalten oder Feedback geben",
     "MESSAGE_LABEL": "Nachricht",
@@ -1146,13 +1031,6 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} andere",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} andere",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} andere"
-  },
-  "IMAGE_LIGHTBOX": {
-    "ESC_TO_CLOSE": ""
-  },
-  "IMAGE_UPLOAD_CAPTURE": {
-    "PHOTO_LIBRARY": "",
-    "TAKE_PHOTO": ""
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1201,35 +1079,12 @@
       "INFO": "Organische Substanz im Boden ist notwendig, um ein gesundes Bodenmilieu für Ihre Pflanzen zu erhalten. Wir erstellen diese Informationen auf der Grundlage der Ergebnisse Ihrer letzten Bodenanalyse. Wenn Sie keine Daten haben, sagen wir die potenzielle organische Bodensubstanz für Ihren Standort global voraus.",
       "TITLE": "Organische Substanz im Boden"
     },
-    "TAPE": {
-      "COMPLETED": "",
-      "IN_PROGRESS": "",
-      "LOAD_ERROR": "",
-      "NOT_FILLED": "",
-      "RESULTS_LOAD_ERROR": "",
-      "RESULTS_TITLE": "",
-      "TITLE": "",
-      "UPDATE_ANSWERS": ""
-    },
     "TITLE": "Analysen",
     "UNAVAILABLE": "Nicht verfügbar"
   },
   "INTRODUCE_MAP": {
     "BODY": "Die Farmkarte hat neue Funktionen. Sie ist jetzt unter dem Menüpunkt Mein Betrieb zu finden.",
     "TITLE": "Wir haben die Farmkarten aktualisiert!"
-  },
-  "INVENTORY": {
-    "PRODUCT_NAME": "",
-    "PRODUCT_TYPE": "",
-    "REMOVE_CONFIRMATION": {
-      "BODY": "",
-      "TITLE": ""
-    },
-    "SOIL_AMENDMENT": "",
-    "UNABLE_TO_REMOVE": {
-      "BODY": "",
-      "TITLE": ""
-    }
   },
   "INVITATION": {
     "BIRTH_YEAR": "Geburtsjahr",
@@ -1275,25 +1130,6 @@
     "WAGE": "Stundenlohn",
     "WAGE_ERROR": "Der Lohn muss eine gültige, nicht-negative Dezimalzahl sein",
     "WAGE_RANGE_ERROR": "Das Gehalt muss eine positive Zahl sein, die kleiner als 999.999.999 ist."
-  },
-  "IRRIGATION_PRESCRIPTION": {
-    "APPLICATION_DEPTH": "",
-    "APPROVE_AND_CREATE_TASK": "",
-    "AVAILABLE_SOIL_MOISTURE": "",
-    "DATA_FROM": "",
-    "ESTIMATED_WATER_CONSUMPTION": "",
-    "ET_RATE": "",
-    "FULL_IRRIGATION_REPORT": "",
-    "IRRIGATION_PRESCRIPTION_FILES": "",
-    "IRRIGATION_PRESCRIPTIONS": "",
-    "IRRIGATION_ZONE": "",
-    "PRESCRIPTION_DATE": "",
-    "SOIL_MOISTURE_DEFICIT": "",
-    "START_DATE": "",
-    "START_TIME": "",
-    "TASK_STATUS": "",
-    "TITLE": "",
-    "ZONE": ""
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Lassen Sie uns Ihnen ein paar wichtige Dinge zeigen!",
@@ -1514,58 +1350,6 @@
     "WHERE_TRANSPLANT_LOCATION": "Wohin werden Sie umpflanzen?",
     "WILD_CROP": "Ernten Sie eine Wildpflanze?"
   },
-  "MARKET_DIRECTORY": {
-    "AGREE_WITH_TERMS": "",
-    "COMPLETE_PROFILE": "",
-    "CONSENT": {
-      "ALMOST_READY": "",
-      "CONSENT_TO_SHARE_INFORMATION": "",
-      "I_AGREE": "",
-      "SEE_ALL_DATA": "",
-      "TITLE": ""
-    },
-    "GET_LISTED": "",
-    "INFO_FORM": {
-      "ABOUT": "",
-      "ABOUT_PLACEHOLDER": "",
-      "AT_USERNAME": "",
-      "COUNTRY_CODE": "",
-      "EMAIL_ADDRESS": "",
-      "EMAIL_PLACEHOLDER": "",
-      "FARM_IDENTITY": "",
-      "FARM_LOGO": "",
-      "FARM_NAME": "",
-      "FARM_REPRESENTATIVE": "",
-      "FARM_STORE_CONTACT": "",
-      "FARM_STORE_LOCATION": "",
-      "INVALID_ADDRESS": "",
-      "INVALID_USERNAME_OR_URL": "",
-      "INVALID_WEBSITE": "",
-      "ONLINE_PRESENCE": "",
-      "PHONE_NUMBER": "",
-      "PRIVATE_INFO_NOTE": "",
-      "PRODUCT_CATEGORY": "",
-      "SOCIAL_INPUT_LABEL": "",
-      "WEBSITE": ""
-    },
-    "INFO_SUMMARY": {
-      "FARM_EMAIL": "",
-      "FARM_PROFILE": "",
-      "FARM_STORE_ADDRESS": "",
-      "FIRST_NAME_AND_LAST_NAME": "",
-      "ONLINE_PRESENCE_ITEM": "",
-      "PRODUCTS_AND_SERVICES": "",
-      "PRODUCTS_CATEGORIES": ""
-    },
-    "KNOW_A_MARKETPLACE": "",
-    "MARKET_DIRECTORIES": "",
-    "MARKET_DIRECTORY_INFO": "",
-    "NO_PARTNER": "",
-    "PARTNERS": {
-      "OFN_DESCRIPTION": ""
-    },
-    "WHERE_TO_BE_FEATURED": ""
-  },
   "MENU": {
     "ACTUAL_REVENUES": "Tatsächliche Einnahmen",
     "ANIMALS": "Tiere",
@@ -1579,7 +1363,6 @@
     "FARM_SETTINGS": "Einstellungen",
     "FINANCES": "Finanzen",
     "INSIGHTS": "Analysen",
-    "INVENTORY": "",
     "LABOUR_EXPENSES": "Arbeitskosten",
     "MAP": "Karte",
     "OTHER_EXPENSES": "Andere Ausgaben",
@@ -1618,10 +1401,6 @@
       "BODY": "Sie haben heute Aufgaben zu erledigen.",
       "TITLE": "Heute fällige Aufgaben"
     },
-    "NEW_IRRIGATION_PRESCRIPTION": {
-      "BODY": "",
-      "TITLE": ""
-    },
     "NONE_TO_DISPLAY": "Keine Benachrichtigungen.",
     "PAGE_TITLE": "Benachrichtigungen",
     "TAKE_ME_THERE": "Bring mich hin",
@@ -1645,10 +1424,6 @@
       "BODY": "Eine {{taskType}}-Aufgabe, die bisher Ihnen zugewiesen war, wurde von {{assigner}} einer anderen Person zugewiesen.",
       "TITLE": "Aufgabe neu zugewiesen"
     },
-    "TASK_RECOMPLETED_BY_OTHER_USER": {
-      "BODY": "",
-      "TITLE": ""
-    },
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} hat eine {{taskType}} Aufgabe als nicht zugewiesen markiert.",
       "TITLE": "Aufgabe nicht zugewiesen"
@@ -1662,25 +1437,6 @@
       "BODY": "Sie haben diese Woche noch nicht zugewiesene Aufgaben zu erledigen.",
       "TITLE": "Nicht zugewiesene Aufgaben"
     }
-  },
-  "OFFLINE": {
-    "ARE_OFFLINE": "",
-    "BADGE": {
-      "TITLE": "",
-      "TOOLTIP_CONTENT": ""
-    },
-    "CHANGES_WILL_SYNC": "",
-    "LOG_OUT_MODAL": {
-      "INFO": "",
-      "TITLE": ""
-    },
-    "NOT_READY_BADGE": {
-      "TITLE": "",
-      "TOOLTIP_CONTENT": ""
-    },
-    "NOT_READY_WARNING": "",
-    "PREPARE_TO_WORK_OFFLINE": "",
-    "REFRESH": ""
   },
   "OUTRO": {
     "ALL_DONE": "Großartig! Sie sind fertig. Sind Sie bereit, sich die Hände schmutzig zu machen?",
@@ -1741,7 +1497,6 @@
       "USER_ADDRESS_LENGTH": "Die Benutzeradresse darf 255 Zeichen nicht überschreiten"
     },
     "FARM": {
-      "ADDONS": "",
       "ADDRESS": "Adresse",
       "CHANGE_IMAGE": "Bild wechseln",
       "CLICK_TO_UPLOAD": "Zum Hochladen klicken",
@@ -1858,8 +1613,7 @@
       "CUSTOM_REVENUE_NAME": "Benutzerdefinierter Umsatzname",
       "CUSTOM_REVENUE_TYPE": "Benutzerdefinierte Einnahmeart",
       "DUPLICATE_NAME": "Eine Einnahmeart mit diesem Namen existiert bereits.  Bitte wählen Sie eine andere.",
-      "DUPLICATE_NAME_RETIRED": "Eine ausgeschiedene Einnahmeart mit diesem Namen existiert bereits.  Bitte wählen Sie eine andere.",
-      "ENTITY_ASSOCIATION_LABEL": ""
+      "DUPLICATE_NAME_RETIRED": "Eine ausgeschiedene Einnahmeart mit diesem Namen existiert bereits.  Bitte wählen Sie eine andere."
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Beschreibung der benutzerdefinierten Einnahmen",
     "DELETE": {
@@ -1875,11 +1629,6 @@
       "REVENUE_TYPE": "Einnahmeart"
     }
   },
-  "REVISION_PROMPT": {
-    "FIX_IT_NOW": "",
-    "NOTICED_SOMETHING_OFF": "",
-    "UPDATE_THIS_TASK": ""
-  },
   "ROLE_SELECTION": {
     "FARM_EO": "Referent für Beratung",
     "FARM_MANAGER": "Farmmanager",
@@ -1891,17 +1640,11 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Benutzerdefinierte Einnahmeart hinzufügen",
       "ADD_REVENUE": "Einnahme hinzufügen",
-      "ANIMAL_NOTES_PLACEHOLDER": "",
-      "COUNT_UNIT_LABEL": "",
-      "CROP_NOTES_PLACEHOLDER": "",
       "CROP_REQUIRED": "Erforderlich",
       "CROP_VARIETY": "Pflanzenart",
       "FLOW": "Schaffung von Einnahmen",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Benutzerdefinierte Einkommensarten verwalten",
-      "MEASURED_BY": "",
-      "NOTES_PLACEHOLDER": "",
       "SALE_VALUE_ERROR": "Der Verkaufswert muss eine positive Zahl kleiner als 999.999.999 sein.",
-      "SELECT_CROPS": "",
       "TABLE_HEADERS": {
         "TOTAL": "Gesamt"
       },
@@ -1976,70 +1719,21 @@
     "ANIMALS_INVENTORY": "Tierbestand",
     "ANIMALS_LOCATION": "Tierstandorte"
   },
-  "SELECT": {
-    "NO_ANIMALS_IN_INVENTORY": "",
-    "NO_CROP_VARIETIES": ""
-  },
   "SENSOR": {
-    "ARRAY": "",
     "DAYS_AGO": "{{time}} Tag(e) zuvor",
     "DEPTH": "Tiefe",
-    "DETAIL": {
-      "ADD_SENSORS": "",
-      "DETECTED_FIELD": "",
-      "DEVICE_TYPE": ""
-    },
-    "DEVICE_TYPES": {
-      "DRIP_LINE_PRESSURE_SENSOR": "",
-      "IR_TEMPERATURE_SENSOR": "",
-      "SOIL_WATER_POTENTIAL_SENSOR": "",
-      "WEATHER_STATION": "",
-      "WIND_SPEED_SENSOR": ""
-    },
-    "ESCI": {
-      "ACTIVE_CONNECTION": "",
-      "CONNECT_NEW_SENSOR": "",
-      "CURRENT_SUPPORT": "",
-      "ENSEMBLE_ESID": "",
-      "ENTER_ID": "",
-      "MANAGE_LINK": "",
-      "NAME": "",
-      "ORGANISATION_ID": "",
-      "ORGANISATION_ID_ERROR": "",
-      "ORGANISATION_ID_GENERIC_ERROR": "",
-      "SEE_ENSEMBLE_SENSOR_LIST": "",
-      "SHORT_NAME": "",
-      "TO_MANAGE_SENSORS": ""
-    },
     "HOURS_AGO": "{{time}} Stunde(n) zuvor",
     "MINUTES_AGO": "{{time}} Minute(n) vor",
     "MONTHS_AGO": "vor {{time}} Monat(en)",
     "NO_DATA_FOUND": "Keine Sensormesswerte gefunden",
-    "NO_RECENT_SENSOR_READINGS": "",
-    "PARTNER_SENSOR_LIST": "",
     "READING": {
-      "BAROMETRIC_PRESSURE": "",
-      "CUMULATIVE_RAINFALL": "",
-      "LATEST_READING": "",
-      "RAINFALL_RATE": "",
-      "RELATIVE_HUMIDITY": "",
       "SOIL_WATER_CONTENT": "Wassergehalt des Bodens",
       "SOIL_WATER_POTENTIAL": "Wasserpotenzial im Boden",
-      "SOLAR_RADIATION": "",
       "TEMPERATURE": "Temperatur",
       "TYPES": "Lesearten",
-      "UNKNOWN": "Unbekannt",
-      "UPDATE_READINGS": "",
-      "WATER_PRESSURE": "",
-      "WIND_DIRECTION": "",
-      "WIND_SPEED": "",
-      "WIND_SPEED_AND_DIRECTION": ""
+      "UNKNOWN": "Unbekannt"
     },
-    "SECONDS_AGO": "{{time}} Sekunde(n) zuvor",
-    "SENSOR_ARRAY": "",
-    "SENSOR_ARRAYS": "",
-    "STANDALONE_SENSOR": "",
-    "STANDALONE_SENSORS": ""
+    "SECONDS_AGO": "{{time}} Sekunde(n) zuvor"
   },
   "SIGNUP": {
     "CHANGES": "Lesen Sie mehr über die Änderungen",
@@ -2058,9 +1752,6 @@
     "WRONG_BROWSER": "LiteFarm ist für diesen Browser nicht optimiert.",
     "WRONG_BROWSER_BOTTOM": "Bitte melden Sie sich mit Chrome an."
   },
-  "SIMPLE_BADGE": {
-    "PRIVATE": ""
-  },
   "SLIDE_MENU": {
     "CROPS": "Kulturpflanzen",
     "DOCUMENTS": "Dokumente",
@@ -2072,13 +1763,7 @@
   "STATUS": {
     "ACTIVE": "Aktiv",
     "INACTIVE": "Inaktiv",
-    "INVITED": "Eingeladen",
-    "OFFLINE": "",
-    "ONLINE": "",
-    "SENSOR": {
-      "OFFLINE_TOOLTIP": "",
-      "ONLINE_TOOLTIP": ""
-    }
+    "INVITED": "Eingeladen"
   },
   "SURVEY_STACK": {
     "PRODUCED": "Produziert am",
@@ -2177,7 +1862,6 @@
     "DESCRIBE_HARVEST_USE": "Beschreiben Sie die Verwendung der Ernte",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Hat Ihnen diese Aufgabe Spaß gemacht?",
-    "DID_YOU_GET_RESULTS": "",
     "DUE_DATE": "Fälligkeitsdatum",
     "DURATION": "Dauer",
     "FILTER": {
@@ -2199,7 +1883,6 @@
     "HARVEST_USE_ALREADY_EXISTS": "Ernteeinsatz bereits vorhanden",
     "HOW_WILL_HARVEST_BE_USED": "Wie wird die Ernte genutzt?",
     "IRRIGATION_LOCATION": "Wählen Sie einen Bewässerungsstandort",
-    "LAB_DOCUMENTS": "",
     "LOCATIONS": "Standort(e)",
     "NO_LOCATIONS_FOR_TASK": "Kein spezieller Standort für diese Aufgabe erforderlich",
     "NO_TASKS_TO_DISPLAY": "Es gibt keine Aufgaben anzuzeigen.",
@@ -2215,7 +1898,6 @@
     "SELECT_TASK_LOCATIONS": "Wählen Sie die Aufgabenstellung(en)",
     "SELECT_WILD_CROP": "Diese Aufgabe zielt auf eine Wildpflanze ab",
     "SOIL_AMENDMENT_LOCATION": "Wählen Sie den/die Standort(e) der Bodenverbesserung",
-    "SOIL_SAMPLING_LOCATION": "",
     "STATUS": {
       "ABANDONED": "Eingestellt",
       "COMPLETED": "Abgeschlossen",
@@ -2228,13 +1910,7 @@
     "TASKS_COUNT_other": "{{count}} Aufgaben",
     "TRANSPLANT": "Umpflanzen",
     "TRANSPLANT_LOCATIONS": "Wählen Sie einen Umpflanzstandort",
-    "UNASSIGNED": "Nicht zugewiesen",
-    "UPLOAD_LAB_DOCUMENT": "",
-    "WILL_SAVE_ONLINE": ""
-  },
-  "TIME_STRIP": {
-    "NEXT_TIME_SLOT": "",
-    "PREVIOUS_TIME_SLOT": ""
+    "UNASSIGNED": "Nicht zugewiesen"
   },
   "UNIT": {
     "TIME": {
@@ -2255,21 +1931,16 @@
     "CLICK_TO_UPLOAD": "Zum Hochladen klicken",
     "DRAG_DROP": "oder ziehen und ablegen",
     "REMOVE_IMAGE": "Bild Entfernen",
-    "UNSUPPORTED_FILE_TYPE": "",
     "UPLOAD_IMAGE": "Bild Hochladen"
   },
   "WAGE": {
     "ERROR": "Der Lohn muss eine gültige, nicht-negative Dezimalzahl sein",
     "HOURLY_WAGE": "Stundenlohn",
     "HOURLY_WAGE_RANGE_ERROR": "Der Stundenlohn muss eine positive Zahl sein, die kleiner als 999.999.999 ist.",
-    "HOURLY_WAGE_TOOLTIP": ""
+    "HOURLY_WAGE_TOOLTIP": "Stundenlöhne können durch Auswahl einer Person auf der Registerkarte \"Personen\" unter \"Mein Betrieb\" festgelegt werden."
   },
   "WEATHER": {
-    "FROST_EXPECTED": "",
-    "FROST_RISK": "",
     "HUMIDITY": "Luftfeuchtigkeit",
-    "PRECIPITATION": "",
-    "TITLE": "",
     "WIND": "Wind"
   },
   "WELCOME_SCREEN": {

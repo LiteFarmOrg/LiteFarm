@@ -80,6 +80,7 @@ export default function Map({ isCompactSideMenu }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
+  const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
 
   const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
@@ -189,12 +190,17 @@ export default function Map({ isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets, assetGeometriesRef, markerClusterRef, isLocationsLoading } =
-    useMapAssetRenderer({
-      isClickable: !drawingState.type,
-      drawingState: drawingState,
-      showingConfirmButtons: showingConfirmButtons,
-    });
+  const {
+    drawAssets,
+    assetGeometriesRef,
+    markerClusterRef,
+    isFetchingInternalLocations,
+    isLoadingExternalLocations,
+  } = useMapAssetRenderer({
+    isClickable: !drawingState.type,
+    drawingState: drawingState,
+    showingConfirmButtons: showingConfirmButtons,
+  });
 
   // Cleanup listeners on map instance objects
   useEffect(() => {
@@ -211,6 +217,35 @@ export default function Map({ isCompactSideMenu }) {
       }
     };
   }, [gMaps]);
+
+  // Draw locations on map
+  const hasDrawnRef = useRef(false);
+  useEffect(() => {
+    if (
+      !gMap ||
+      !gMaps ||
+      isFetchingInternalLocations ||
+      isLoadingExternalLocations ||
+      hasDrawnRef.current
+    ) {
+      return;
+    }
+    hasDrawnRef.current = true;
+    const mapBounds = new gMaps.LatLngBounds();
+    drawAssets(gMap, gMaps, mapBounds);
+
+    if (history.location.state?.isStepBack) {
+      reconstructOverlay();
+    }
+
+    if (history.location.state?.cameraInfo) {
+      const { zoom, location } = history.location.state.cameraInfo;
+      if (zoom && location) {
+        gMap.setZoom(zoom);
+        gMap.setCenter(location);
+      }
+    }
+  }, [gMap, gMaps, isFetchingInternalLocations, isLoadingExternalLocations]);
 
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = async ({ map, maps }) => {
@@ -296,22 +331,7 @@ export default function Map({ isCompactSideMenu }) {
     rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
-    // Drawing locations on map
-    let mapBounds = new maps.LatLngBounds();
-
-    drawAssets(map, maps, mapBounds);
-
-    if (history.location.state?.isStepBack) {
-      reconstructOverlay();
-    }
-
-    if (history.location.state?.cameraInfo) {
-      const { zoom, location } = history.location.state.cameraInfo;
-      if (zoom && location) {
-        map.setZoom(zoom);
-        map.setCenter(location);
-      }
-    }
+    setGMap(map);
     setGMaps(maps);
   };
 
@@ -424,7 +444,7 @@ export default function Map({ isCompactSideMenu }) {
 
   return (
     <>
-      {!isLocationsLoading && isLoaded && (
+      {isLoaded && (
         <>
           {!drawingState.type && !showSuccessHeader && <PureMapHeader farmName={farm_name} />}
           {showSuccessHeader && (
@@ -560,7 +580,8 @@ export default function Map({ isCompactSideMenu }) {
         </>
       )}
       <LoadingBackdrop
-        isOpen={isLocationsLoading}
+        isOpen={!isLoaded || (!isFetchingInternalLocations && isLoadingExternalLocations)}
+        showDelay={400}
         isCompactSideMenu={isCompactSideMenu}
         dataName={t('MENU.MAP').toLocaleLowerCase()}
       />

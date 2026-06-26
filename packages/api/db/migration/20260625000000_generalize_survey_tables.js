@@ -16,6 +16,7 @@
 /**
  * Generalizes the bespoke TAPE survey storage into a reusable, multi-survey model:
  * - Renames `tape_survey` to `survey_response` and adds a `survey_key` column identifying which survey each row answers
+ * - Makes `survey_step` nullable, as it is TAPE-specific and not used by every survey
  * - Repurposes the TAPE permissions to generic survey_response permissions (add/get/edit).
  *
  * @param { import("knex").Knex } knex
@@ -32,6 +33,10 @@ export const up = async function (knex) {
   await knex('survey_response').update({ survey_key: 'tape' });
   await knex.schema.alterTable('survey_response', function (table) {
     table.string('survey_key').notNullable().alter();
+  });
+
+  await knex.schema.alterTable('survey_response', function (table) {
+    table.string('survey_step').nullable().alter();
   });
 
   // Repurpose the TAPE permissions (names only)
@@ -61,6 +66,9 @@ export const down = async function (knex) {
     .where({ permission_id: 187 })
     .update({ name: 'edit:tape_survey', description: 'edit tape_survey' });
 
+  await knex.schema.alterTable('survey_response', function (table) {
+    table.string('survey_step').notNullable().alter();
+  });
   await knex.schema.alterTable('survey_response', function (table) {
     table.dropColumn('survey_key');
   });

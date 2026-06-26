@@ -20,7 +20,7 @@ import SurveyResponseModel from '../models/surveyResponseModel.js';
 interface SurveyResponseData {
   survey_version: string;
   project_id: string;
-  survey_step: string;
+  survey_step?: string;
   [key: string]: unknown;
 }
 

@@ -15,9 +15,7 @@
 
 /**
  * Generalizes the bespoke TAPE survey storage into a reusable, multi-survey model:
- * - Renames `tape_survey` to `survey_response` and adds a `survey_key` column identifying which
- *   survey each row answers. The catalog of surveys, their CDN directories, and the country/version
- *   gating live in the frontend (SURVEY_INFO); the database only stores the responses.
+ * - Renames `tape_survey` to `survey_response` and adds a `survey_key` column identifying which survey each row answers
  * - Repurposes the TAPE permissions to generic survey_response permissions (add/get/edit).
  *
  * @param { import("knex").Knex } knex
@@ -29,14 +27,14 @@ export const up = async function (knex) {
   await knex.schema.alterTable('survey_response', function (table) {
     table.string('survey_key').nullable();
   });
+
   // Every existing row is a TAPE response.
   await knex('survey_response').update({ survey_key: 'tape' });
   await knex.schema.alterTable('survey_response', function (table) {
     table.string('survey_key').notNullable().alter();
   });
 
-  // Repurpose the TAPE permissions (names only) so existing rolePermissions rows keep working.
-  // 187 (edit:survey_response) backs the non-destructive update PATCH route.
+  // Repurpose the TAPE permissions (names only)
   await knex('permissions')
     .where({ permission_id: 185 })
     .update({ name: 'add:survey_response', description: 'add survey_response' });

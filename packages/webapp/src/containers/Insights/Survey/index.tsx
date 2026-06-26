@@ -48,7 +48,6 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  // Availability and CDN version come from the frontend survey config, gated by the farm's country.
   const surveyVersion = getSurveyVersion(surveyId, country_code);
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
@@ -100,7 +99,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     [addSurveyResponse, prefetchLatestResponse, dispatch, history, surveyId, farm_id],
   );
 
-  // Redirect to the Insights list if this survey is unknown or not available to the farm's country.
+  // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
     if (!surveyVersion) {
       history.replace('/Insights');

@@ -41,8 +41,6 @@ interface UpdateSurveyResponseReqBody {
   survey_response: SurveyResponseData;
 }
 
-// Objection's query builder does not expose columns of JS-defined models as TS properties, so
-// writes go through this minimally-typed insert.
 type InsertableQuery = { insert: (data: Record<string, unknown>) => Promise<unknown> };
 
 const surveyResponseController = {
@@ -88,7 +86,7 @@ const surveyResponseController = {
         if (!survey_key) {
           return res.status(400).json({ error: 'survey_key is required' });
         }
-        // The latest survey response of this kind for the farm, or null if none has been submitted.
+        // Find the latest survey response of this kind for the farm
         const result = await SurveyResponseModel.query()
           .where({ farm_id, survey_key })
           .orderBy('created_at', 'desc')
@@ -101,7 +99,7 @@ const surveyResponseController = {
     };
   },
 
-  // Not currently called from frontend; kept for future edit UI
+  // Note: Not currently called from frontend
   updateSurveyResponse() {
     return async (
       req: LiteFarmRequest<

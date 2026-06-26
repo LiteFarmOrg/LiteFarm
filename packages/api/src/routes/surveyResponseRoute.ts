@@ -27,15 +27,14 @@ router.post(
   surveyResponseController.createSurveyResponse(),
 );
 
-// Latest survey response of the kind given by the survey_key query param, for the requesting farm.
-// Reads the farm via the farm_id header, so no hasFarmAccess entity check is needed.
+// Latest survey response of the kind given by the survey_key query param
 router.get(
   '/',
   checkScope(['get:survey_response']),
   surveyResponseController.getLatestSurveyResponse(),
 );
 
-// Non-destructive update: appends a new version sharing the submission_id (see controller).
+// Non-destructive update: appends a new version sharing the submission_id
 router.patch(
   '/:submission_id',
   checkScope(['edit:survey_response']),

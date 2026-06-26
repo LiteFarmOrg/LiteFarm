@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2026 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (surveyResponse.test.js) is part of LiteFarm.
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -241,8 +241,7 @@ describe('Survey response endpoint tests', () => {
     });
 
     test('Should return 403 for an unknown submission_id', async () => {
-      // hasFarmAccess finds no row for the submission_id and rejects before the controller runs,
-      // so an unknown id is 403 (not authorized), not 404.
+      // hasFarmAccess finds no row for the submission_id and rejects before the controller runs
       const res = await patchRequest('00000000-0000-0000-0000-000000000000', {
         survey_version: 'v2',
         project_id: 'project-2',

@@ -109,10 +109,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   useEffect(() => {
     if (isSurveyJsonError) {
       const activeError = notifications.find(
-        ({ message }) => message === t('INSIGHTS.SURVEY.LOAD_ERROR'),
+        ({ message }) => message === t('INSIGHTS.TAPE.LOAD_ERROR'),
       );
       if (!activeError) {
-        dispatch(enqueueErrorSnackbar(t('INSIGHTS.SURVEY.LOAD_ERROR')));
+        dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.LOAD_ERROR')));
       }
     }
   }, [isSurveyJsonError]);

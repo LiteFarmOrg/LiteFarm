@@ -48,13 +48,13 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
 
   const isCompleted = !isError && !!surveyResponse?.id;
 
-  let currentData = t('INSIGHTS.SURVEY.NOT_FILLED');
+  let currentData = t('INSIGHTS.TAPE.NOT_FILLED');
   if (isFetching) {
     currentData = t('common:LOADING');
   } else if (inProgress) {
-    currentData = t('INSIGHTS.SURVEY.IN_PROGRESS');
+    currentData = t('INSIGHTS.TAPE.IN_PROGRESS');
   } else if (isCompleted) {
-    currentData = t('INSIGHTS.SURVEY.COMPLETED');
+    currentData = t('INSIGHTS.TAPE.COMPLETED');
   }
 
   const isLoading = currentData === t('common:LOADING');

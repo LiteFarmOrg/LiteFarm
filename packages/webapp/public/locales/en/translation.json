@@ -1202,10 +1202,6 @@
       "TITLE": "Soil OM"
     },
     "SURVEY": {
-      "COMPLETED": "Completed - See your results",
-      "IN_PROGRESS": "In progress",
-      "LOAD_ERROR": "Failed to load survey. Please try again later.",
-      "NOT_FILLED": "Not filled",
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"
     },

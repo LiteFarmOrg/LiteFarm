@@ -70,3 +70,10 @@ export const getAvailableSurveyIds = (countryCode?: string): string[] =>
  */
 export const getResultsComponent = (surveyId: string): ComponentType<{ surveyId: string }> =>
   SURVEY_INFO[surveyId]?.ResultsComponent ?? ThankYouResults;
+
+/**
+ * Whether a survey shows its own results page rather than the generic thank-you confirmation.
+ * Drives the completed-status wording on the Insights tile.
+ */
+export const surveyHasResultsPage = (surveyId: string): boolean =>
+  getResultsComponent(surveyId) !== ThankYouResults;

@@ -22,6 +22,7 @@ import { Semibold, Text } from '../../../components/Typography';
 import { useGetLatestSurveyResponseQuery } from '../../../store/api/surveyApi';
 import { surveyInProgressSelector } from './surveyDraftSlice';
 import { useSurveyTitle } from './useSurveyTitle';
+import { surveyHasResultsPage } from './surveys';
 
 interface SurveyInsightTileProps {
   surveyId: string;
@@ -54,7 +55,9 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
   } else if (inProgress) {
     currentData = t('INSIGHTS.TAPE.IN_PROGRESS');
   } else if (isCompleted) {
-    currentData = t('INSIGHTS.TAPE.COMPLETED');
+    currentData = surveyHasResultsPage(surveyId)
+      ? t('INSIGHTS.TAPE.COMPLETED')
+      : t('common:COMPLETED');
   }
 
   const isLoading = currentData === t('common:LOADING');

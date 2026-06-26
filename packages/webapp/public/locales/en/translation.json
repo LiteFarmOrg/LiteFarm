@@ -1175,6 +1175,9 @@
       "SPECIES_COUNT_other": "{{count}} species",
       "TITLE": "Biodiversity"
     },
+    "CATHI_GAO": {
+      "TITLE": "Cathi-Gao Research Project"
+    },
     "CLICK_TO_CALCULATE": "Click to calculate",
     "CURRENT": "Current",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",

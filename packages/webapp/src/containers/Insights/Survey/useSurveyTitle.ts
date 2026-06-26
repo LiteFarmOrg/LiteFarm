@@ -26,6 +26,7 @@ export const useSurveyTitle = (surveyId: string): string => {
 
   const titleBySurveyId: Record<string, string> = {
     tape: t('INSIGHTS.TAPE.TITLE'),
+    cathi_gao: t('INSIGHTS.CATHI_GAO.TITLE'),
   };
 
   return titleBySurveyId[surveyId] ?? t('INSIGHTS.SURVEY.TITLE');

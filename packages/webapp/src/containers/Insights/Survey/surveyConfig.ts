@@ -48,6 +48,11 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'fao', AU: 'au' },
   },
+  cathi_gao: {
+    image: tape_survey,
+    cdnDirectory: 'idems_surveys',
+    versionsByCountry: { NE: 'cathi_gao' }, // Niger only research project
+  },
 };
 
 /**

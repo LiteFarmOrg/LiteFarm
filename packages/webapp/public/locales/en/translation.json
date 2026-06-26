@@ -1201,6 +1201,10 @@
       "INFO": "Soil organic matter is needed to maintain a healthy soil environment for your crops. We populate this insight from your most recent soil analysis task results. If you do not have any data we predict the potential soil organic matter for your location globally.",
       "TITLE": "Soil OM"
     },
+    "SURVEY": {
+      "THANK_YOU": "Thank you. Your responses have been recorded.",
+      "TITLE": "Survey"
+    },
     "TAPE": {
       "COMPLETED": "Completed - See your results",
       "IN_PROGRESS": "In progress",

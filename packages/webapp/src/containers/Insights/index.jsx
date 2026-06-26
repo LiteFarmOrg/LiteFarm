@@ -39,8 +39,7 @@ import { BsChevronRight } from 'react-icons/bs';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
-import { useGetAvailableSurveysQuery } from '../../store/api/surveyApi';
-import { SURVEY_INFO } from './Survey/surveys';
+import { SURVEY_INFO, getAvailableSurveyIds } from './Survey/surveys';
 import SurveyInsightTile from './Survey/SurveyInsightTile';
 
 const Insights = () => {
@@ -56,8 +55,6 @@ const Insights = () => {
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
-  const { data: availableSurveys } = useGetAvailableSurveysQuery();
 
   const items = [
     {
@@ -140,23 +137,21 @@ const Insights = () => {
     return insightData;
   }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
 
-  // Surveys are shown only to admins and only when online; the backend already restricts the list
-  // to surveys available in the farm's country. Surveys without a frontend entry are not rendered.
+  // Surveys are shown only to admins and only when online. getAvailableSurveyIds gates the list to
+  // surveys available in the farm's country (see SURVEY_INFO).
   const surveyTiles = useMemo(() => {
-    if (isOffline || !isAdmin || !availableSurveys) {
+    if (isOffline || !isAdmin) {
       return [];
     }
-    return availableSurveys
-      .filter((survey) => survey.key in SURVEY_INFO)
-      .map((survey, index) => (
-        <SurveyInsightTile
-          key={survey.key}
-          surveyId={survey.key}
-          image={SURVEY_INFO[survey.key].image}
-          index={index}
-        />
-      ));
-  }, [availableSurveys, isOffline, isAdmin]);
+    return getAvailableSurveyIds(farm?.country_code).map((surveyId, index) => (
+      <SurveyInsightTile
+        key={surveyId}
+        surveyId={surveyId}
+        image={SURVEY_INFO[surveyId].image}
+        index={index}
+      />
+    ));
+  }, [farm?.country_code, isOffline, isAdmin]);
 
   const renderedItems = useMemo(() => {
     const otherTiles = items.map((item, index) =>

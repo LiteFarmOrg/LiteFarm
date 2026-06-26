@@ -48,30 +48,13 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
 
   const isCompleted = !isError && !!surveyResponse?.id;
 
-  // TAPE keeps its own status strings; other surveys fall back to the generic ones.
-  const statusBySurveyId: Record<
-    string,
-    { notFilled: string; inProgress: string; completed: string }
-  > = {
-    tape: {
-      notFilled: t('INSIGHTS.TAPE.NOT_FILLED'),
-      inProgress: t('INSIGHTS.TAPE.IN_PROGRESS'),
-      completed: t('INSIGHTS.TAPE.COMPLETED'),
-    },
-  };
-  const status = statusBySurveyId[surveyId] ?? {
-    notFilled: t('INSIGHTS.SURVEY.NOT_FILLED'),
-    inProgress: t('INSIGHTS.SURVEY.IN_PROGRESS'),
-    completed: t('INSIGHTS.SURVEY.COMPLETED'),
-  };
-
-  let currentData = status.notFilled;
+  let currentData = t('INSIGHTS.SURVEY.NOT_FILLED');
   if (isFetching) {
     currentData = t('common:LOADING');
   } else if (inProgress) {
-    currentData = status.inProgress;
+    currentData = t('INSIGHTS.SURVEY.IN_PROGRESS');
   } else if (isCompleted) {
-    currentData = status.completed;
+    currentData = t('INSIGHTS.SURVEY.COMPLETED');
   }
 
   const isLoading = currentData === t('common:LOADING');

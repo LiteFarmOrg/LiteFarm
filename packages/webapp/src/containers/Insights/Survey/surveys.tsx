@@ -21,20 +21,48 @@ import ThankYouResults from './ThankYouResults';
 interface SurveyInfo {
   image: string;
   ResultsComponent: ComponentType<{ surveyId: string }>;
+  // CDN directory under DO_CDN_URL holding the survey's `<version>.json` definitions.
+  cdnDirectory: string;
+  // Uppercase ISO-2 country code -> CDN version to load. The 'default' key is the global fallback;
+  // a survey with no 'default' is available only in the countries it lists explicitly.
+  versionsByCountry: Record<string, string>;
 }
 
 /**
- * Render-only metadata for each survey, keyed by the survey `key` (the same string used as the
- * DB survey identifier). Availability and CDN version come from the backend; this map only holds
- * what the frontend needs to draw the tile and the results page. A survey present in the backend
- * but absent here is not rendered, so a new survey can ship its backend row first and its tile later.
+ * The catalog of surveys, keyed by survey `key` (the same string stored in survey_response.survey_key).
+ * This is the single source of truth for the frontend: which surveys exist, the tile image and
+ * results component, the CDN directory, and the per-country version/availability. The database holds
+ * only the responses. Adding a survey is one entry here (plus its title string and CDN JSON).
  */
 export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape: {
     image: tape_survey,
     ResultsComponent: TapeResults,
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'fao', AU: 'au' },
   },
 };
+
+/**
+ * The CDN version of a survey for a given country, or undefined when the survey does not exist or is
+ * not available in that country. A country-specific entry wins over the global 'default'.
+ */
+export const getSurveyVersion = (surveyId: string, countryCode?: string): string | undefined => {
+  const info = SURVEY_INFO[surveyId];
+  if (!info) {
+    return undefined;
+  }
+  return (countryCode && info.versionsByCountry[countryCode]) ?? info.versionsByCountry.default;
+};
+
+/**
+ * The survey ids available to a farm in the given country: those with a country-specific or global
+ * version. Drives the Insights tile list.
+ */
+export const getAvailableSurveyIds = (countryCode?: string): string[] =>
+  Object.keys(SURVEY_INFO).filter(
+    (surveyId) => getSurveyVersion(surveyId, countryCode) !== undefined,
+  );
 
 /**
  * The results component for a survey, defaulting to the generic thank-you page when the survey

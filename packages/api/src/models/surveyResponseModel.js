@@ -29,7 +29,7 @@ class SurveyResponseModel extends BaseFormatModel {
       type: 'object',
       required: [
         'farm_id',
-        'survey_id',
+        'survey_key',
         'survey_version',
         'project_id',
         'survey_step',
@@ -39,7 +39,7 @@ class SurveyResponseModel extends BaseFormatModel {
         id: { type: 'integer' },
         submission_id: { type: 'string' },
         farm_id: { type: 'string' },
-        survey_id: { type: 'integer' },
+        survey_key: { type: 'string' },
         survey_version: { type: 'string' },
         project_id: { type: 'string' },
         survey_step: { type: 'string' },

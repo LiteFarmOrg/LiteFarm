@@ -22,12 +22,12 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
+import { SURVEY_INFO, getSurveyVersion } from './surveys';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
 import {
   usePrefetch,
-  useGetAvailableSurveysQuery,
   useGetSurveyJsonQuery,
   useAddSurveyResponseMutation,
 } from '../../../store/api/surveyApi';
@@ -46,11 +46,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const { surveyId } = useParams<{ surveyId: string }>();
   const surveyTitle = useSurveyTitle(surveyId);
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
-  const { farm_id } = useSelector(userFarmSelector);
+  const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  const { data: availableSurveys, isFetching: isAvailableSurveysFetching } =
-    useGetAvailableSurveysQuery();
-  const surveyMeta = availableSurveys?.find((survey) => survey.key === surveyId);
+  // Availability and CDN version come from the frontend survey config, gated by the farm's country.
+  const surveyVersion = getSurveyVersion(surveyId, country_code);
+  const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
     useSurveyPrepopulatedData(surveyId);
@@ -60,8 +60,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
   } = useGetSurveyJsonQuery(
-    { cdnDirectory: surveyMeta?.cdnDirectory ?? '', version: surveyMeta?.version ?? '' },
-    { skip: !surveyMeta },
+    { cdnDirectory: cdnDirectory ?? '', version: surveyVersion ?? '' },
+    { skip: !cdnDirectory || !surveyVersion },
   );
 
   const [addSurveyResponse] = useAddSurveyResponseMutation();
@@ -100,12 +100,12 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     [addSurveyResponse, prefetchLatestResponse, dispatch, history, surveyId, farm_id],
   );
 
-  // Redirect to the Insights list if this survey is not available to the farm's country.
+  // Redirect to the Insights list if this survey is unknown or not available to the farm's country.
   useEffect(() => {
-    if (!isAvailableSurveysFetching && availableSurveys && !surveyMeta) {
+    if (!surveyVersion) {
       history.replace('/Insights');
     }
-  }, [isAvailableSurveysFetching, availableSurveys, surveyMeta, history]);
+  }, [surveyVersion, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {
@@ -118,7 +118,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     }
   }, [isSurveyJsonError]);
 
-  const isLoading = isAvailableSurveysFetching || isPrepopulatedDataLoading || isSurveyJsonLoading;
+  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
 
   return (
     <div className={insightStyles.insightContainer}>

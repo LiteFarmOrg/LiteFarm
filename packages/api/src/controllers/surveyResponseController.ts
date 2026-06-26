@@ -15,22 +15,7 @@
 
 import { Response } from 'express';
 import { LiteFarmRequest } from '../types.js';
-import SurveyModel from '../models/surveyModel.js';
 import SurveyResponseModel from '../models/surveyResponseModel.js';
-import FarmModel from '../models/farmModel.js';
-
-interface AvailableSurveyRow {
-  key: string;
-  cdn_directory: string;
-  country_id: number | null;
-  version: string;
-}
-
-interface AvailableSurvey {
-  key: string;
-  cdnDirectory: string;
-  version: string;
-}
 
 interface SurveyResponseData {
   survey_version: string;
@@ -49,59 +34,10 @@ interface LatestSurveyResponseQuery {
 }
 
 // Objection's query builder does not expose columns of JS-defined models as TS properties, so
-// reads are cast to these minimal shapes and writes go through a minimally-typed insert.
-interface SurveyRow {
-  id: number;
-  key: string;
-  cdn_directory: string;
-}
-
+// writes go through this minimally-typed insert.
 type InsertableQuery = { insert: (data: Record<string, unknown>) => Promise<unknown> };
 
-/**
- * Collapses the rows returned by SurveyModel.getAvailableSurveysByCountryId to one entry per survey,
- * preferring the country-specific version over the global (null country_id) default.
- */
-const resolveAvailableSurveys = (
-  rows: AvailableSurveyRow[],
-  countryId: number | undefined,
-): AvailableSurvey[] => {
-  const byKey = new Map<string, AvailableSurveyRow>();
-  for (const row of rows) {
-    const existing = byKey.get(row.key);
-    // A country-specific row always wins over a global row.
-    if (!existing || (existing.country_id === null && row.country_id === countryId)) {
-      byKey.set(row.key, row);
-    }
-  }
-  return [...byKey.values()].map(({ key, cdn_directory, version }) => ({
-    key,
-    cdnDirectory: cdn_directory,
-    version,
-  }));
-};
-
-const surveyController = {
-  getAvailableSurveys() {
-    return async (req: LiteFarmRequest, res: Response) => {
-      try {
-        const { farm_id } = req.headers;
-        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
-        const farm = await FarmModel.query().select('country_id').where({ farm_id }).first();
-        if (!farm) {
-          return res.status(404).json({ error: 'Farm not found' });
-        }
-        const rows = (await SurveyModel.getAvailableSurveysByCountryId(
-          farm.country_id,
-        )) as unknown as AvailableSurveyRow[];
-        return res.status(200).send(resolveAvailableSurveys(rows, farm.country_id));
-      } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error });
-      }
-    };
-  },
-
+const surveyResponseController = {
   createSurveyResponse() {
     return async (
       req: LiteFarmRequest<unknown, unknown, unknown, CreateSurveyResponseReqBody>,
@@ -111,11 +47,8 @@ const surveyController = {
         const { farm_id } = req.headers;
         const user_id = req.auth?.user_id;
         const { survey_key, survey_response } = req.body;
-        const survey = (await SurveyModel.query().findOne({ key: survey_key })) as unknown as
-          | SurveyRow
-          | undefined;
-        if (!survey) {
-          return res.status(400).json({ error: 'Unknown survey_key' });
+        if (!survey_key) {
+          return res.status(400).json({ error: 'survey_key is required' });
         }
         const { survey_version, project_id, survey_step } = survey_response;
 
@@ -124,7 +57,7 @@ const surveyController = {
         }) as unknown as InsertableQuery;
         await insertQuery.insert({
           farm_id,
-          survey_id: survey.id,
+          survey_key,
           survey_response,
           survey_version,
           project_id,
@@ -144,15 +77,12 @@ const surveyController = {
       try {
         const { farm_id } = req.headers;
         const { survey_key } = req.query;
-        const survey = (await SurveyModel.query().findOne({ key: survey_key })) as unknown as
-          | SurveyRow
-          | undefined;
-        if (!survey) {
-          return res.status(400).json({ error: 'Unknown survey_key' });
+        if (!survey_key) {
+          return res.status(400).json({ error: 'survey_key is required' });
         }
         // Find the latest survey response of this kind for the farm.
         const result = await SurveyResponseModel.query()
-          .where({ farm_id, survey_id: survey.id })
+          .where({ farm_id, survey_key })
           .orderBy('created_at', 'desc')
           .first();
         if (!result) {
@@ -167,4 +97,4 @@ const surveyController = {
   },
 };
 
-export default surveyController;
+export default surveyResponseController;

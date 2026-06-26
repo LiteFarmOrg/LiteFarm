@@ -14,19 +14,13 @@
  */
 
 import { api } from './apiSlice';
-import { surveyUrl } from '../../apiConfig';
+import { surveyResponseUrl } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
-
-export interface AvailableSurvey {
-  key: string;
-  cdnDirectory: string;
-  version: string;
-}
 
 export interface SurveyResponseRecord {
   id: string;
   farm_id: string;
-  survey_id: number;
+  survey_key: string;
   survey_response: Record<string, any>;
   survey_version: string;
   project_id: string;
@@ -41,11 +35,6 @@ export interface AddSurveyResponseReqBody {
 
 export const surveyApi = api.injectEndpoints({
   endpoints: (build) => ({
-    // Surveys available to the current farm's country, each with the CDN directory and version to load.
-    getAvailableSurveys: build.query<AvailableSurvey[], void>({
-      query: () => surveyUrl,
-      providesTags: [{ type: 'SurveyResponse', id: 'AVAILABLE' }],
-    }),
     // Fetches the SurveyJS JSON definition from DO CDN.
     // Uses queryFn (not query) because this bypasses the LiteFarm API base URL and auth headers.
     getSurveyJson: build.query<Record<string, any>, { cdnDirectory: string; version: string }>({
@@ -66,14 +55,14 @@ export const surveyApi = api.injectEndpoints({
     }),
     getLatestSurveyResponse: build.query<SurveyResponseRecord, { surveyKey: string }>({
       query: ({ surveyKey }) => ({
-        url: `${surveyUrl}/response`,
+        url: surveyResponseUrl,
         params: { survey_key: surveyKey },
       }),
       providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyResponse', id: surveyKey }],
     }),
     addSurveyResponse: build.mutation<void, AddSurveyResponseReqBody>({
       query: (body) => ({
-        url: `${surveyUrl}/response`,
+        url: surveyResponseUrl,
         method: 'POST',
         body,
       }),
@@ -85,7 +74,6 @@ export const surveyApi = api.injectEndpoints({
 });
 
 export const {
-  useGetAvailableSurveysQuery,
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponseQuery,
   useAddSurveyResponseMutation,

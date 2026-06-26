@@ -33,6 +33,14 @@ interface LatestSurveyResponseQuery {
   survey_key?: string;
 }
 
+interface UpdateSurveyResponseParams {
+  submission_id: string;
+}
+
+interface UpdateSurveyResponseReqBody {
+  survey_response: SurveyResponseData;
+}
+
 // Objection's query builder does not expose columns of JS-defined models as TS properties, so
 // writes go through this minimally-typed insert.
 type InsertableQuery = { insert: (data: Record<string, unknown>) => Promise<unknown> };
@@ -86,6 +94,52 @@ const surveyResponseController = {
           .orderBy('created_at', 'desc')
           .first();
         return res.status(200).send(result ?? null);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
+    };
+  },
+
+  // Not currently called from frontend; kept for future edit UI
+  updateSurveyResponse() {
+    return async (
+      req: LiteFarmRequest<
+        unknown,
+        UpdateSurveyResponseParams,
+        unknown,
+        UpdateSurveyResponseReqBody
+      >,
+      res: Response,
+    ) => {
+      try {
+        const { farm_id } = req.headers;
+        const user_id = req.auth?.user_id;
+        const { submission_id } = req.params;
+        const { survey_response } = req.body;
+        const { survey_version, project_id, survey_step } = survey_response;
+
+        const existing = (await SurveyResponseModel.query().findOne({ submission_id })) as
+          | { survey_key: string }
+          | undefined;
+        if (!existing) {
+          return res.status(404).json({ error: 'Survey response not found' });
+        }
+
+        const insertQuery = SurveyResponseModel.query().context({
+          user_id,
+        }) as unknown as InsertableQuery;
+        await insertQuery.insert({
+          submission_id,
+          farm_id,
+          survey_key: existing.survey_key,
+          survey_response,
+          survey_version,
+          project_id,
+          survey_step,
+        });
+
+        return res.status(204).send();
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });

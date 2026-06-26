@@ -64,6 +64,20 @@ describe('Survey response endpoint tests', () => {
       .set('farm_id', farm_id);
   }
 
+  async function patchRequest(
+    submission_id,
+    survey_response,
+    { user_id = owner.user_id, farm_id = farm.farm_id } = {},
+  ) {
+    return chai
+      .request(server)
+      .patch(`/survey_response/${submission_id}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send({ survey_response });
+  }
+
   function fakeSurveyPayload(farm_id, survey_key = 'tape') {
     return {
       farm_id,
@@ -179,6 +193,83 @@ describe('Survey response endpoint tests', () => {
       const idsA = await createUserFarmIds(1);
       const idsB = await createUserFarmIds(1);
       const res = await getRequest({ farm_id: idsA.farm_id, user_id: idsB.user_id });
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('PATCH /survey_response/:submission_id', () => {
+    // Creates a survey response, then returns the submission_id the API assigned it.
+    async function createSubmission(farm_id = farm.farm_id, survey_key = 'tape') {
+      await postRequest(fakeSurveyPayload(farm_id, survey_key), { farm_id });
+      const getRes = await getRequest({ farm_id, survey_key });
+      return getRes.body.submission_id;
+    }
+
+    test('Update appends a new version and leaves the earlier one in place', async () => {
+      const submission_id = await createSubmission();
+
+      const res = await patchRequest(submission_id, {
+        survey_version: 'v2',
+        project_id: 'project-2',
+        survey_step: 'step-2',
+      });
+      expect(res.status).toBe(204);
+
+      // getLatestSurveyResponse returns the new version.
+      const getRes = await getRequest();
+      expect(getRes.status).toBe(200);
+      expect(getRes.body?.survey_response?.survey_step).toBe('step-2');
+
+      // Both versions are retained under the one submission_id; nothing was overwritten.
+      const rows = await knex('survey_response').where({ submission_id }).orderBy('id');
+      expect(rows.length).toBe(2);
+      expect(rows[0].survey_response.survey_step).toBe('step-1');
+      expect(rows[1].survey_response.survey_step).toBe('step-2');
+    });
+
+    test('Update reuses the existing survey_key rather than the request body', async () => {
+      const submission_id = await createSubmission(farm.farm_id, 'tape');
+
+      await patchRequest(submission_id, {
+        survey_version: 'v2',
+        project_id: 'project-2',
+        survey_step: 'step-2',
+      });
+
+      const rows = await knex('survey_response').where({ submission_id });
+      expect(rows.every((row) => row.survey_key === 'tape')).toBe(true);
+    });
+
+    test('Should return 403 for an unknown submission_id', async () => {
+      // hasFarmAccess finds no row for the submission_id and rejects before the controller runs,
+      // so an unknown id is 403 (not authorized), not 404.
+      const res = await patchRequest('00000000-0000-0000-0000-000000000000', {
+        survey_version: 'v2',
+        project_id: 'project-2',
+        survey_step: 'step-2',
+      });
+      expect(res.status).toBe(403);
+    });
+
+    test('Worker should not be able to update a survey response', async () => {
+      const submission_id = await createSubmission();
+      const worker = await createUserFarmIds(3);
+      const res = await patchRequest(
+        submission_id,
+        { survey_version: 'v2', project_id: 'project-2', survey_step: 'step-2' },
+        worker,
+      );
+      expect(res.status).toBe(403);
+    });
+
+    test('Should return 403 when the submission belongs to another farm', async () => {
+      const submission_id = await createSubmission();
+      const otherOwner = await createUserFarmIds(1);
+      const res = await patchRequest(
+        submission_id,
+        { survey_version: 'v2', project_id: 'project-2', survey_step: 'step-2' },
+        otherOwner,
+      );
       expect(res.status).toBe(403);
     });
   });

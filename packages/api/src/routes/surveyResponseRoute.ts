@@ -35,4 +35,12 @@ router.get(
   surveyResponseController.getLatestSurveyResponse(),
 );
 
+// Non-destructive update: appends a new version sharing the submission_id (see controller).
+router.patch(
+  '/:submission_id',
+  checkScope(['edit:survey_response']),
+  hasFarmAccess({ params: 'submission_id' }),
+  surveyResponseController.updateSurveyResponse(),
+);
+
 export default router;

@@ -18,7 +18,7 @@
  * - Renames `tape_survey` to `survey_response` and adds a `survey_key` column identifying which
  *   survey each row answers. The catalog of surveys, their CDN directories, and the country/version
  *   gating live in the frontend (SURVEY_INFO); the database only stores the responses.
- * - Repurposes the two TAPE permissions still in use to generic survey_response permissions.
+ * - Repurposes the TAPE permissions to generic survey_response permissions (add/get/edit).
  *
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -36,13 +36,16 @@ export const up = async function (knex) {
   });
 
   // Repurpose the TAPE permissions (names only) so existing rolePermissions rows keep working.
-  // Permission 187 (edit:tape_survey) backed the removed PATCH route and is now unused; left in place.
+  // 187 (edit:survey_response) backs the non-destructive update PATCH route.
   await knex('permissions')
     .where({ permission_id: 185 })
     .update({ name: 'add:survey_response', description: 'add survey_response' });
   await knex('permissions')
     .where({ permission_id: 186 })
     .update({ name: 'get:survey_response', description: 'get survey_response' });
+  await knex('permissions')
+    .where({ permission_id: 187 })
+    .update({ name: 'edit:survey_response', description: 'edit survey_response' });
 };
 
 /**
@@ -56,6 +59,9 @@ export const down = async function (knex) {
   await knex('permissions')
     .where({ permission_id: 186 })
     .update({ name: 'get:tape_survey', description: 'get tape_survey' });
+  await knex('permissions')
+    .where({ permission_id: 187 })
+    .update({ name: 'edit:tape_survey', description: 'edit tape_survey' });
 
   await knex.schema.alterTable('survey_response', function (table) {
     table.dropColumn('survey_key');

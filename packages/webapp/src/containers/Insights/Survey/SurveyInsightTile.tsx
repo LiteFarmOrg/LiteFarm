@@ -22,7 +22,7 @@ import { Semibold, Text } from '../../../components/Typography';
 import { useGetLatestSurveyResponseQuery } from '../../../store/api/surveyApi';
 import { surveyInProgressSelector } from './surveyDraftSlice';
 import { useSurveyTitle } from './useSurveyTitle';
-import { surveyHasResultsPage } from './surveys';
+import { surveyHasResultsPage } from './surveyConfig';
 
 interface SurveyInsightTileProps {
   surveyId: string;

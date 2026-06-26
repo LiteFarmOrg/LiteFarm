@@ -15,7 +15,7 @@
 
 import { Redirect, Switch, Route, useParams } from 'react-router-dom';
 import Survey from '../containers/Insights/Survey';
-import { getResultsComponent } from '../containers/Insights/Survey/surveys';
+import { getResultsComponent } from '../containers/Insights/Survey/surveyConfig';
 
 // Renders the results component the survey declares (or the generic thank-you page).
 const SurveyResults = () => {

@@ -20,7 +20,7 @@ import ThankYouResults from './ThankYouResults';
 
 interface SurveyInfo {
   image: string;
-  ResultsComponent: ComponentType<{ surveyId: string }>;
+  ResultsComponent?: ComponentType<{ surveyId: string }>;
   // CDN directory under DO_CDN_URL holding the survey's `<version>.json` definitions.
   cdnDirectory: string;
   // Uppercase ISO-2 country code -> CDN version to load. The 'default' key is the global fallback;
@@ -32,7 +32,14 @@ interface SurveyInfo {
  * The catalog of surveys, keyed by survey `key` (the same string stored in survey_response.survey_key).
  * This is the single source of truth for the frontend: which surveys exist, the tile image and
  * results component, the CDN directory, and the per-country version/availability. The database holds
- * only the responses. Adding a survey is one entry here (plus its title string and CDN JSON).
+ * only the responses.
+ *
+ * Adding a survey:
+ *  1. Add a SURVEY_INFO entry here: image, ResultsComponent (omit for the generic thank-you page),
+ *     cdnDirectory, versionsByCountry.
+ *  2. Add the title in useSurveyTitle.ts as a literal call: surveyKey: t('INSIGHTS.<KEY>.TITLE').
+ *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
+ *  4. Upload the survey's <version>.json to its CDN directory.
  */
 export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape: {

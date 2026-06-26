@@ -39,7 +39,7 @@ import { BsChevronRight } from 'react-icons/bs';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
-import { SURVEY_INFO, getAvailableSurveyIds } from './Survey/surveys';
+import { SURVEY_INFO, getAvailableSurveyIds } from './Survey/surveyConfig';
 import SurveyInsightTile from './Survey/SurveyInsightTile';
 
 const Insights = () => {

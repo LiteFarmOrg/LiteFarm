@@ -131,10 +131,10 @@ describe('Survey response endpoint tests', () => {
   });
 
   describe('GET /survey_response', () => {
-    test('Should return 404 when none exist', async () => {
+    test('Should return 200 with no survey response when none exist', async () => {
       const res = await getRequest();
-      expect(res.status).toBe(404);
-      expect(res.body.error).toBe('Survey response not found');
+      expect(res.status).toBe(200);
+      expect(res.body?.survey_response).toBeUndefined();
     });
 
     test('Should return the most recent survey response of the requested kind', async () => {
@@ -156,7 +156,8 @@ describe('Survey response endpoint tests', () => {
     test('Should not return another survey kind for the farm', async () => {
       await postRequest(fakeSurveyPayload(farm.farm_id, 'tape'));
       const res = await getRequest({ survey_key: 'some_other_survey' });
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(200);
+      expect(res.body?.survey_response).toBeUndefined();
     });
 
     test('Should return 400 when survey_key is missing', async () => {

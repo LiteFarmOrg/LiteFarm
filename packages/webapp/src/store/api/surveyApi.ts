@@ -53,7 +53,7 @@ export const surveyApi = api.injectEndpoints({
         }
       },
     }),
-    getLatestSurveyResponse: build.query<SurveyResponseRecord, { surveyKey: string }>({
+    getLatestSurveyResponse: build.query<SurveyResponseRecord | null, { surveyKey: string }>({
       query: ({ surveyKey }) => ({
         url: surveyResponseUrl,
         params: { survey_key: surveyKey },

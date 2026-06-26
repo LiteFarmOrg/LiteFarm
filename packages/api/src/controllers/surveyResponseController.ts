@@ -80,15 +80,12 @@ const surveyResponseController = {
         if (!survey_key) {
           return res.status(400).json({ error: 'survey_key is required' });
         }
-        // Find the latest survey response of this kind for the farm.
+        // The latest survey response of this kind for the farm, or null if none has been submitted.
         const result = await SurveyResponseModel.query()
           .where({ farm_id, survey_key })
           .orderBy('created_at', 'desc')
           .first();
-        if (!result) {
-          return res.status(404).json({ error: 'Survey response not found' });
-        }
-        return res.status(200).send(result);
+        return res.status(200).send(result ?? null);
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });

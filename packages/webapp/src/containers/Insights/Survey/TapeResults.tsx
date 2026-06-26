@@ -52,16 +52,20 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { data: surveyData, error: surveyDataError } = useGetLatestSurveyResponseQuery({
+  const {
+    data: surveyData,
+    error: surveyDataError,
+    isSuccess,
+  } = useGetLatestSurveyResponseQuery({
     surveyKey: surveyId,
   });
   const { survey_response } = surveyData || {};
   const notifications: { message: string }[] = useSelector(snackbarSelector);
 
   useEffect(() => {
-    // Redirect back to survey page if no saved survey data is found
-    // (e.g. if user tries to access results page directly without completing survey)
-    if (surveyDataError && 'status' in surveyDataError && surveyDataError?.status === 404) {
+    if (isSuccess && !surveyData) {
+      // No saved survey for this farm: send the user to fill it in (e.g. if they open the results
+      // page directly without completing the survey).
       history.replace(`/insights/survey/${surveyId}`);
     } else if (surveyDataError) {
       const activeError = notifications.find(
@@ -71,7 +75,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR')));
       }
     }
-  }, [surveyDataError]);
+  }, [surveyDataError, isSuccess, surveyData]);
 
   const tapeData = survey_response ? analyzeTAPEData(survey_response) : [];
 

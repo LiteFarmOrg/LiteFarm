@@ -13,16 +13,30 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const COUNTRY_VERSIONS = ['AU'];
+import Model from './baseFormatModel.js';
 
-/**
- * Returns the survey version key used to fetch the correct JSON from DO CDN,
- * based on the farm's 2-letter ISO country code.
- *
- * To add a new country-specific version:
- * 1. Upload `tape_surveys/<key>.json` to the DO Spaces bucket.
- * 2. Add a country_code to `COUNTRY_VERSIONS`.
- */
-export const getSurveyVersion = (countryCode: string | undefined): string | undefined => {
-  return countryCode && COUNTRY_VERSIONS.includes(countryCode) ? countryCode.toLowerCase() : 'fao';
-};
+class SurveyCountryModel extends Model {
+  static get tableName() {
+    return 'survey_country';
+  }
+
+  static get idColumn() {
+    return 'id';
+  }
+
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['survey_id', 'version'],
+      properties: {
+        id: { type: 'integer' },
+        survey_id: { type: 'integer' },
+        country_id: { type: ['integer', 'null'] },
+        version: { type: 'string' },
+      },
+      additionalProperties: false,
+    };
+  }
+}
+
+export default SurveyCountryModel;

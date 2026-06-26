@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 // images
-import tape_survey from '../../assets/images/insights/tape_survey.svg';
 import soil_om from '../../assets/images/insights/soil_om.svg';
 import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
 import biodiversity from '../../assets/images/insights/biodiversity.svg';
@@ -34,20 +33,19 @@ import {
   pricesSelector,
   soilOMSelector,
 } from './selectors';
-import { tapeSurveyStatusSelector } from './TapeSurvey/tapeSurveySlice';
 
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
-import { useGetTapeSurveyQuery } from '../../store/api/tapeSurveyApi';
-import { getSurveyVersion } from './TapeSurvey/getSurveyVersion';
+import { useGetAvailableSurveysQuery } from '../../store/api/surveyApi';
+import { SURVEY_INFO } from './Survey/surveys';
+import SurveyInsightTile from './Survey/SurveyInsightTile';
 
 const Insights = () => {
   const history = useHistory();
   const farm = useSelector(userFarmSelector);
-  const tapeStatus = useSelector(tapeSurveyStatusSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
   const labourHappinessData = useSelector(labourHappinessSelector);
@@ -59,22 +57,9 @@ const Insights = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const surveyVersion = getSurveyVersion(farm?.country_code);
-  const {
-    data: tapeSurvey,
-    isError: isTapeSurveyError,
-    isFetching: isTapeSurveyFetching,
-  } = useGetTapeSurveyQuery();
-
-  const isTapeSurveyCompleted = !isTapeSurveyError && !!tapeSurvey?.id;
+  const { data: availableSurveys } = useGetAvailableSurveysQuery();
 
   const items = [
-    {
-      label: t('INSIGHTS.TAPE.TITLE'),
-      image: tape_survey,
-      route: isTapeSurveyCompleted ? 'tape/results' : 'tape',
-      data_point: 'TAPE',
-    },
     {
       label: t('INSIGHTS.SOIL_OM.TITLE'),
       image: soil_om,
@@ -143,17 +128,7 @@ const Insights = () => {
   };
 
   const insightData = useMemo(() => {
-    let tapeCurrentData = t('INSIGHTS.TAPE.NOT_FILLED');
-    if (isTapeSurveyFetching) {
-      tapeCurrentData = t('common:LOADING');
-    } else if (tapeStatus.inProgress) {
-      tapeCurrentData = t('INSIGHTS.TAPE.IN_PROGRESS');
-    } else if (isTapeSurveyCompleted) {
-      tapeCurrentData = t('INSIGHTS.TAPE.COMPLETED');
-    }
-
     const insightData = {};
-    insightData['TAPE'] = tapeCurrentData;
     insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
@@ -163,28 +138,32 @@ const Insights = () => {
       ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
       : t('INSIGHTS.UNAVAILABLE');
     return insightData;
-  }, [
-    tapeStatus?.inProgress,
-    isTapeSurveyFetching,
-    isTapeSurveyCompleted,
-    soilOMData,
-    labourHappinessData,
-    biodiversityData,
-    pricesData,
-  ]);
+  }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
+
+  // Surveys are shown only to admins and only when online; the backend already restricts the list
+  // to surveys available in the farm's country. Surveys without a frontend entry are not rendered.
+  const surveyTiles = useMemo(() => {
+    if (isOffline || !isAdmin || !availableSurveys) {
+      return [];
+    }
+    return availableSurveys
+      .filter((survey) => survey.key in SURVEY_INFO)
+      .map((survey, index) => (
+        <SurveyInsightTile
+          key={survey.key}
+          surveyId={survey.key}
+          image={SURVEY_INFO[survey.key].image}
+          index={index}
+        />
+      ));
+  }, [availableSurveys, isOffline, isAdmin]);
 
   const renderedItems = useMemo(() => {
-    return (
-      insightData &&
-      items
-        .filter(
-          (item) => !((isOffline || !isAdmin || !surveyVersion) && item.data_point === 'TAPE'),
-        )
-        .map((item, index) => {
-          return renderItem(item, index, insightData[item.data_point]);
-        })
+    const otherTiles = items.map((item, index) =>
+      renderItem(item, surveyTiles.length + index, insightData[item.data_point]),
     );
-  }, [insightData, isOffline]);
+    return [...surveyTiles, ...otherTiles];
+  }, [insightData, isOffline, surveyTiles]);
 
   return (
     <div className={styles.insightContainer}>

@@ -14,31 +14,44 @@
  */
 
 import { api } from './apiSlice';
-import { tapeSurveyUrl } from '../../apiConfig';
+import { surveyUrl } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 
-export interface TapeSurveyRecord {
+export interface AvailableSurvey {
+  key: string;
+  cdnDirectory: string;
+  version: string;
+}
+
+export interface SurveyResponseRecord {
   id: string;
   farm_id: string;
+  survey_id: number;
   survey_response: Record<string, any>;
   survey_version: string;
   project_id: string;
   survey_step: string;
 }
 
-export interface AddTapeSurveyReqBody {
+export interface AddSurveyResponseReqBody {
   farm_id: string;
+  survey_key: string;
   survey_response: Record<string, any>;
 }
 
-export const tapeSurveyApi = api.injectEndpoints({
+export const surveyApi = api.injectEndpoints({
   endpoints: (build) => ({
+    // Surveys available to the current farm's country, each with the CDN directory and version to load.
+    getAvailableSurveys: build.query<AvailableSurvey[], void>({
+      query: () => surveyUrl,
+      providesTags: [{ type: 'SurveyResponse', id: 'AVAILABLE' }],
+    }),
     // Fetches the SurveyJS JSON definition from DO CDN.
     // Uses queryFn (not query) because this bypasses the LiteFarm API base URL and auth headers.
-    getTapeSurveyJson: build.query<Record<string, any>, string>({
-      queryFn: async (versionKey) => {
+    getSurveyJson: build.query<Record<string, any>, { cdnDirectory: string; version: string }>({
+      queryFn: async ({ cdnDirectory, version }) => {
         try {
-          const response = await fetch(`${DO_CDN_URL}/tape_surveys/${versionKey}.json`);
+          const response = await fetch(`${DO_CDN_URL}/${cdnDirectory}/${version}.json`);
           if (!response.ok) {
             return {
               error: { status: response.status, data: `Failed to fetch survey JSON` },
@@ -51,24 +64,30 @@ export const tapeSurveyApi = api.injectEndpoints({
         }
       },
     }),
-    getTapeSurvey: build.query<TapeSurveyRecord, void>({
-      query: () => `${tapeSurveyUrl}`,
-      providesTags: ['TapeSurvey'],
+    getLatestSurveyResponse: build.query<SurveyResponseRecord, { surveyKey: string }>({
+      query: ({ surveyKey }) => ({
+        url: `${surveyUrl}/response`,
+        params: { survey_key: surveyKey },
+      }),
+      providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyResponse', id: surveyKey }],
     }),
-    addTapeSurvey: build.mutation<void, AddTapeSurveyReqBody>({
+    addSurveyResponse: build.mutation<void, AddSurveyResponseReqBody>({
       query: (body) => ({
-        url: tapeSurveyUrl,
+        url: `${surveyUrl}/response`,
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['TapeSurvey'],
+      invalidatesTags: (_result, _error, { survey_key }) => [
+        { type: 'SurveyResponse', id: survey_key },
+      ],
     }),
   }),
 });
 
 export const {
-  useGetTapeSurveyJsonQuery,
-  useGetTapeSurveyQuery,
-  useAddTapeSurveyMutation,
+  useGetAvailableSurveysQuery,
+  useGetSurveyJsonQuery,
+  useGetLatestSurveyResponseQuery,
+  useAddSurveyResponseMutation,
   usePrefetch,
-} = tapeSurveyApi;
+} = surveyApi;

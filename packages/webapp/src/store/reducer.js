@@ -71,7 +71,7 @@ import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
-import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
+import surveyDraftReducer from '../containers/Insights/Survey/surveyDraftSlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -183,7 +183,7 @@ const entitiesReducer = combineReducers({
 
 const farmStateReducer = combineReducers({
   notificationReducer,
-  tapeSurveyReducer,
+  surveyDraftReducer,
 });
 
 const persistedStateReducer = combineReducers({

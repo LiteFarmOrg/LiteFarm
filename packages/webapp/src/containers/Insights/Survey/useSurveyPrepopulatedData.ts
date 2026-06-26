@@ -20,18 +20,20 @@ import { parseGoogleGeocodedAddress } from '../../../util/google-maps/parseAddre
 import { userFarmSelector } from '../../userFarmSlice';
 import { UserFarm } from '../../../types';
 
-interface TapeSurveyPrepopulatedData {
+interface SurveyPrepopulatedData {
   location_province?: string;
   location_municipality?: string;
   country?: string;
   gps_lat?: number;
   gps_lon?: number;
-  // Other pre-populated fields as needed:
-  // - Do you raise animals
-  // - Number of unique species in crop management plans
 }
 
-export const useTapeSurveyPrepopulatedData = () => {
+/**
+ * Returns pre-populated answers for a survey. Only the TAPE survey geocodes the farm address to
+ * pre-fill location/GPS fields; other surveys start empty. Survey-specific pre-population is added
+ * here per survey id.
+ */
+export const useSurveyPrepopulatedData = (surveyId: string) => {
   const { isLoaded } = useGoogleMapsLoader(['geocoding']);
 
   // @ts-expect-error -- userFarmSelector issue
@@ -41,6 +43,11 @@ export const useTapeSurveyPrepopulatedData = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (surveyId !== 'tape') {
+      setIsLoading(false);
+      return;
+    }
+
     const fetchGeocodedData = async () => {
       if (!isLoaded) {
         return;
@@ -54,7 +61,7 @@ export const useTapeSurveyPrepopulatedData = () => {
       try {
         const parsedAddress = await parseGoogleGeocodedAddress(userFarm.address);
 
-        const data: TapeSurveyPrepopulatedData = {
+        const data: SurveyPrepopulatedData = {
           country: parsedAddress.country,
           location_province: parsedAddress.location_province,
           location_municipality: parsedAddress.location_municipality,
@@ -71,7 +78,7 @@ export const useTapeSurveyPrepopulatedData = () => {
     };
 
     fetchGeocodedData();
-  }, [isLoaded, userFarm?.address, userFarm?.grid_points]);
+  }, [surveyId, isLoaded, userFarm?.address, userFarm?.grid_points]);
 
   return { prepopulatedData, isLoading };
 };

@@ -16,24 +16,25 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import tapeSurveyController from '../controllers/tapeSurveyController.js';
+import surveyController from '../controllers/surveyController.js';
 
 const router = express.Router();
 
+// Available surveys for the requesting farm's country. Reads the farm via the farm_id header,
+// so no hasFarmAccess entity check is needed (mirrors the market directory partner route).
+router.get('/', checkScope(['get:survey']), surveyController.getAvailableSurveys());
+
 router.post(
-  '/',
-  checkScope(['add:tape_survey']),
+  '/response',
+  checkScope(['add:survey_response']),
   hasFarmAccess({ body: 'farm_id' }),
-  tapeSurveyController.createTapeSurvey(),
+  surveyController.createSurveyResponse(),
 );
 
-router.get('/', checkScope(['get:tape_survey']), tapeSurveyController.getTapeSurvey());
-
-router.patch(
-  '/:submission_id',
-  checkScope(['edit:tape_survey']),
-  hasFarmAccess({ params: 'submission_id' }),
-  tapeSurveyController.updateTapeSurvey(),
+router.get(
+  '/response',
+  checkScope(['get:survey_response']),
+  surveyController.getLatestSurveyResponse(),
 );
 
 export default router;

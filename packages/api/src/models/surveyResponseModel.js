@@ -15,9 +15,9 @@
 
 import BaseFormatModel from './baseFormatModel.js';
 
-class TapeSurveyModel extends BaseFormatModel {
+class SurveyResponseModel extends BaseFormatModel {
   static get tableName() {
-    return 'tape_survey';
+    return 'survey_response';
   }
 
   static get idColumn() {
@@ -27,11 +27,19 @@ class TapeSurveyModel extends BaseFormatModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'survey_version', 'project_id', 'survey_step', 'survey_response'],
+      required: [
+        'farm_id',
+        'survey_id',
+        'survey_version',
+        'project_id',
+        'survey_step',
+        'survey_response',
+      ],
       properties: {
         id: { type: 'integer' },
         submission_id: { type: 'string' },
         farm_id: { type: 'string' },
+        survey_id: { type: 'integer' },
         survey_version: { type: 'string' },
         project_id: { type: 'string' },
         survey_step: { type: 'string' },
@@ -54,4 +62,4 @@ class TapeSurveyModel extends BaseFormatModel {
   }
 }
 
-export default TapeSurveyModel;
+export default SurveyResponseModel;

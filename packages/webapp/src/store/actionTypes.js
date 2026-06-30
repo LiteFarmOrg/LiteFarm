@@ -13,6 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { createAction } from '@reduxjs/toolkit';
+
 export const ActionTypes = {
-  SWITCH_FARMS: 'chooseFarmFlowReducer/startSwitchFarmModal',
+  RESET_FARM_STATE: 'farmStateReducer/reset',
 };
+
+// Dispatched by clearOldFarmStateSaga on every in-session farm entry (switch, add, invite
+// accept). rootReducer drops the farmStateReducer branch on this action so combineReducers
+// re-initialises it.
+export const resetFarmState = createAction(ActionTypes.RESET_FARM_STATE);

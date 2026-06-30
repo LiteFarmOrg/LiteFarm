@@ -8,22 +8,25 @@ on:
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
-    container: node:22.21
     defaults:
       run:
         working-directory: packages/webapp
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
         with:
-          package_json_file: "packages/webapp/package.json"
+          node-version: 22.21
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          package_json_file: packages/webapp/package.json
       - name: Install dependencies
-        run: pnpm install
-      - name: Publish to Chromatic
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
-        run: ./node_modules/.bin/chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: pnpm install --frozen-lockfile
+      - name: Run Chromatic
+        uses: chromaui/action@98132da0fca2211fb41b3af7b49ce85176007851 # v17.8.0
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: packages/webapp

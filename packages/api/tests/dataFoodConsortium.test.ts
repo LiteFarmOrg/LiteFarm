@@ -52,12 +52,28 @@ const mockedParseAddress = parseGoogleGeocodedAddress as jest.MockedFunction<
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
 import {
-  DfcEntity,
   expectedBaseDfcStructure,
+  getOrganizationCount,
   mockCompleteMarketDirectoryInfo,
   mockParsedAddress,
 } from './utils/dfcUtils.js';
 import type { MarketDirectoryPartner } from '../src/models/types.js';
+import MarketDirectoryInfo from '../src/models/marketDirectoryInfoModel.js';
+
+const associateProductWithMarketDirectory = async (
+  marketDirectory: MarketDirectoryInfo,
+  productCategoryId: string,
+) => {
+  await mocks.market_directory_info_market_product_categoryFactory({
+    promisedMarketDirectoryInfo: Promise.resolve([marketDirectory]),
+    promisedMarketProductCategory: Promise.resolve([
+      {
+        market_product_category_id: productCategoryId,
+        market_directory_info_id: faker.datatype.uuid(),
+      },
+    ]),
+  });
+};
 
 describe('Data Food Consortium Tests', () => {
   const testClientId = 'test-client-id';
@@ -153,43 +169,57 @@ describe('Data Food Consortium Tests', () => {
       expect(res.status).toBe(200);
 
       expect(res.body).toMatchObject(expectedBaseDfcStructure);
+
+      expect(res.headers['content-type']).toContain('application/ld+json');
+      expect(res.headers['content-type']).toContain('profile=dfc-v2');
     });
 
     test('Should return 404 when market directory info record does not exist', async () => {
       const nonExistentId = '00000000-0000-0000-0000-000000000000';
 
       const res = await getDfcEnterpriseRequest(nonExistentId);
-
       expect(res.status).toBe(404);
       expect(res.text).toBe('Enterprise not found');
     });
   });
 
   describe("GET all of a directory partner's DFC-formatted market directory data", () => {
-    test('Should return 200 with an array of DFC-formatted data', async () => {
+    test('Should return 200 with an object of DFC-formatted data', async () => {
       // Create a new partner to ensure clean test data
       const { partner, token } = await createPartnerWithAuth();
 
-      await Promise.all([
+      const marketDirectories = await Promise.all([
         createMarketDirectoryInfoForTest(partner),
         createMarketDirectoryInfoForTest(partner),
         createMarketDirectoryInfoForTest(partner),
       ]);
 
+      const [marketProductCategory1] = await mocks.market_product_categoryFactory('BAKERY');
+      const [marketProductCategory2] = await mocks.market_product_categoryFactory('DAIRY_PRODUCT');
+
+      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory1.id);
+      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory2.id);
+      await associateProductWithMarketDirectory(marketDirectories[1], marketProductCategory1.id);
+
       const res = await getAllClientEnterprisesRequest(token);
-
       expect(res.status).toBe(200);
+      expect(res.body).toMatchObject(expectedBaseDfcStructure);
+      expect(res.body['@graph']).toMatchObject(
+        expect.arrayContaining([
+          {
+            '@type': 'ldp:Container',
+            '@id': expect.stringContaining('/dfc/enterprises'),
+            'ldp:contains': expect.arrayContaining([expect.any(String)]),
+          },
+        ]),
+      );
+      expect(getOrganizationCount(res)).toBe(3);
 
-      expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(3);
-
-      // Verify each item matches DFC structure
-      res.body.forEach((enterprise: DfcEntity) => {
-        expect(enterprise).toMatchObject(expectedBaseDfcStructure);
-      });
+      expect(res.headers['content-type']).toContain('application/ld+json');
+      expect(res.headers['content-type']).toContain('profile=dfc-v2');
     });
 
-    test('Should return empty array when partner has no authorized farms', async () => {
+    test('Should return an empty object when partner has no authorized farms', async () => {
       const { token } = await createPartnerWithAuth();
 
       await Promise.all([
@@ -201,9 +231,7 @@ describe('Data Food Consortium Tests', () => {
       const res = await getAllClientEnterprisesRequest(token);
 
       expect(res.status).toBe(200);
-
-      expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(0);
+      expect(res.body).toEqual({});
     });
 
     test('Should only return farms authorized for the requesting partner', async () => {
@@ -218,7 +246,7 @@ describe('Data Food Consortium Tests', () => {
       const res = await getAllClientEnterprisesRequest(token);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveLength(2);
+      expect(getOrganizationCount(res)).toBe(2);
     });
 
     test('Should not return farms with sharing permissions revoked)', async () => {
@@ -233,7 +261,7 @@ describe('Data Food Consortium Tests', () => {
       const origRes = await getAllClientEnterprisesRequest(token);
 
       expect(origRes.status).toBe(200);
-      expect(origRes.body).toHaveLength(2);
+      expect(getOrganizationCount(origRes)).toBe(2);
 
       // Soft delete the farm-market directory partner record (revoke sharing)
       await knex('market_directory_partner_permissions')
@@ -246,7 +274,7 @@ describe('Data Food Consortium Tests', () => {
       const res = await getAllClientEnterprisesRequest(token);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveLength(1);
+      expect(getOrganizationCount(res)).toBe(1);
     });
   });
 

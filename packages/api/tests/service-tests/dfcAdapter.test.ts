@@ -111,7 +111,7 @@ describe('dfcAdapter', () => {
     expect(result).toMatchObject(expectedBaseDfcStructure);
 
     const enterprise = result['@graph'].find(
-      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Enterprise',
+      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Organization',
     );
 
     expect(enterprise).toMatchObject({
@@ -146,7 +146,7 @@ describe('dfcAdapter', () => {
     expect(result).toMatchObject(expectedBaseDfcStructure);
 
     const enterprise = result['@graph'].find(
-      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Enterprise',
+      (entity: DfcEntity) => entity['@type'] === 'dfc-b:Organization',
     );
 
     // Optional fields that weren't provided should not be present
@@ -179,11 +179,11 @@ describe('dfcAdapter', () => {
     const findEntity = (type: string) =>
       graph.find((entity: DfcEntity) => entity['@type'] === type);
 
-    expect(findEntity('dfc-b:Enterprise')).toMatchObject({
+    expect(findEntity('dfc-b:Organization')).toMatchObject({
       '@id': baseUrl,
-      'dfc-b:hasAddress': { '@id': `${baseUrl}#address` },
-      'dfc-b:hasMainContact': { '@id': `${baseUrl}#person-mainContact` },
-      'dfc-b:hasPhoneNumber': { '@id': `${baseUrl}#phoneNumber` },
+      'dfc-b:hasAddress': `${baseUrl}#address`,
+      'dfc-b:hasMainContact': `${baseUrl}#person-mainContact`,
+      'dfc-b:hasPhoneNumber': `${baseUrl}#phoneNumber`,
     });
 
     // Test other entities in the graph

@@ -208,11 +208,11 @@ importers:
         specifier: 2.7.2
         version: 2.7.2
       survey-core:
-        specifier: ^2.5.1
-        version: 2.5.1
+        specifier: ^2.5.30
+        version: 2.5.30
       survey-react-ui:
-        specifier: ^2.5.1
-        version: 2.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(survey-core@2.5.1)
+        specifier: ^2.5.30
+        version: 2.5.30(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(survey-core@2.5.30)
       terra-draw:
         specifier: 1.28.8
         version: 1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2)
@@ -6771,15 +6771,15 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  survey-core@2.5.1:
-    resolution: {integrity: sha512-BiGkP/pK+MiTAhd86h6XtgAmgC4jTdUE7zLHp8dkrGFBSHQOhPkQs8ciif9YMI31MilqVPS43trwLdxMytwwjw==}
+  survey-core@2.5.30:
+    resolution: {integrity: sha512-lGwAPkMisfSkctd0wLMqSsNCFpzR34IVeEN1/JLdE1Bt20ruNBNSIR5OR7QHslHXT/vMflKlpNmb+VL3BJxyJA==}
 
-  survey-react-ui@2.5.1:
-    resolution: {integrity: sha512-0jsy7arRXA2UiLzEHfFHUIeWBzcfXDisFyLBj8Ed4jeofHtc8XkYNXYsKcky2HSIjp9mocRnnJr3KzzeqeFJtQ==}
+  survey-react-ui@2.5.30:
+    resolution: {integrity: sha512-DWlvpgdF8udMFkZISOEplXhrMpHNrzqcTx1CAtZFbwdW5AQocSezqiPDTJVYQkZJGVrYVdo7Bs1IqZqoBriEyQ==}
     peerDependencies:
       react: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
       react-dom: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
-      survey-core: 2.5.1
+      survey-core: 2.5.30
 
   svg-parser@2.0.4:
     resolution: {integrity: sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==}
@@ -15466,13 +15466,13 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  survey-core@2.5.1: {}
+  survey-core@2.5.30: {}
 
-  survey-react-ui@2.5.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(survey-core@2.5.1):
+  survey-react-ui@2.5.30(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(survey-core@2.5.30):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      survey-core: 2.5.1
+      survey-core: 2.5.30
 
   svg-parser@2.0.4: {}
 

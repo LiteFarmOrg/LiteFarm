@@ -208,8 +208,7 @@ export const formatFarmDataToDfcStandard = async (
       connector,
       semanticId: `${enterpriseUrl}#socialMedia-x`,
       name: 'X',
-      // TODO: Restore to x.com when OFN updates their API
-      url: `https://twitter.com/${x}/`,
+      url: `https://x.com/${x}/`,
     });
     farm.addSocialMedia(xInstance);
     socialMediaInstances.push(xInstance);

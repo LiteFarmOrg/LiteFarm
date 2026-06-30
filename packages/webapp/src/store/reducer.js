@@ -232,9 +232,7 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (state && action.type === ActionTypes.RESET_FARM_STATE) {
-    // Reset farmStateReducer (notifications, survey drafts) by dropping the branch so
-    // combineReducers re-initialises it. These slices are farm-scoped but their selectors do
-    // not filter by farm_id, so they must be cleared on every farm change.
+    // Drop the farmStateReducer branch so combineReducers re-initialises it
     const { farmStateReducer, ...otherReducers } = state;
     state = otherReducers;
   }

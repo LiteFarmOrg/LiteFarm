@@ -101,7 +101,7 @@ import {
   userFarmsByFarmSelector,
 } from './userFarmSlice';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
-import { resetFarmState } from '../store/actionTypes';
+import { resetFarmStateReducer } from '../store/actionTypes';
 import { api, invalidateTags } from '../store/api/apiSlice';
 import { locationApi } from '../store/api/locationApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
@@ -556,7 +556,7 @@ export function* fetchAllSaga() {
 }
 
 export function* clearOldFarmStateSaga() {
-  yield put(resetFarmState());
+  yield put(resetFarmStateReducer());
   yield put(resetTasks());
   yield put(resetDateRange());
   releaseFarmScopedQuerySubscriptions();

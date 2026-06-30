@@ -19,7 +19,5 @@ export const ActionTypes = {
   RESET_FARM_STATE: 'farmStateReducer/reset',
 };
 
-// Dispatched by clearOldFarmStateSaga on every in-session farm entry (switch, add, invite
-// accept). rootReducer drops the farmStateReducer branch on this action so combineReducers
-// re-initialises it.
-export const resetFarmState = createAction(ActionTypes.RESET_FARM_STATE);
+// Dispatched by clearOldFarmStateSaga (switch, add, and invite)
+export const resetFarmStateReducer = createAction(ActionTypes.RESET_FARM_STATE);

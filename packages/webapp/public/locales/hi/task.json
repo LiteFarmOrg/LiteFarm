@@ -1,5 +1,5 @@
 {
-  "BED_PREPARATION_TASK": "बिस्तर तैयारी",
+  "BED_PREPARATION_TASK": "क्यारी की तैयारी",
   "DELIVERY": "वितरण",
   "SALE_TASK": "बिक्री",
   "SOCIAL_EVENT": "सामाजिक कार्यक्रम",
@@ -21,5 +21,6 @@
   "SOCIAL_TASK": "सामाजिक",
   "CLEANING_TASK": "सफाई",
   "SOIL_AMENDMENT_TASK": "मृदा संशोधन",
-  "MOVEMENT_TASK": "गति"
+  "MOVEMENT_TASK": "गति",
+  "SOIL_SAMPLE_TASK": "मिट्टी का नमूना"
 }

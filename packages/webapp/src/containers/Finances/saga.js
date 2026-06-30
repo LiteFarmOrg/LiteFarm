@@ -109,7 +109,7 @@ export function* updateSaleSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to update sale`);
-    switch (e.response.data) {
+    switch (e.response?.data) {
       case 'sale deleted':
         yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.SALE_DELETED')));
         history.push(FINANCES_HOME_URL);
@@ -151,9 +151,6 @@ export function* getExpenseSaga() {
       yield put(setExpense(result.data));
     }
   } catch (e) {
-    if (e.response.status === 404) {
-      yield put(setExpense([]));
-    }
     console.log('failed to fetch expenses from database');
   }
 }
@@ -344,7 +341,7 @@ export function* editExpenseSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(e);
-    switch (e.response.data) {
+    switch (e.response?.data) {
       case 'expense deleted':
         yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_DELETED')));
         history.push(FINANCES_HOME_URL);
@@ -367,7 +364,6 @@ export function* getRevenueTypesSaga() {
 
   try {
     const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
-
     yield put(getRevenueTypesSuccess(result.data));
   } catch (e) {
     console.log('failed to fetch revenue types from database');
@@ -397,7 +393,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 export const addCustomRevenueType = createAction('addRevenueTypeSaga');
 
 export function* addRevenueTypeSaga({
-  payload: { revenue_name, crop_generated, custom_description },
+  payload: { revenue_name, entity_type, custom_description },
 }) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -405,8 +401,7 @@ export function* addRevenueTypeSaga({
 
   const body = {
     revenue_name,
-    agriculture_associated: null,
-    crop_generated,
+    entity_type,
     farm_id: farm_id,
     custom_description,
   };

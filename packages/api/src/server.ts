@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.7.5',
+    release: '3.12.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -172,6 +172,17 @@ import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
 import sensorRoute from './routes/sensorRoute.js';
 import farmAddonRoute from './routes/farmAddonRoute.js';
+import weatherRoute from './routes/weatherRoute.js';
+import irrigationPrescriptionRoute from './routes/irrigationPrescriptionRoute.js';
+import irrigationPrescriptionRequestRoute from './routes/irrigationPrescriptionRequestRoute.js';
+import dataFoodConsortiumRoute from './routes/dataFoodConsortiumRoute.js';
+import marketDirectoryInfoRoute from './routes/marketDirectoryInfoRoute.js';
+import marketProductCategoryRoute from './routes/marketProductCategoryRoute.js';
+import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
+import offlineEventLogRoute from './routes/offlineEventLogRoute.js';
+import surveyResponseRoute from './routes/surveyResponseRoute.js';
+import farmNoteRoute from './routes/farmNoteRoute.js';
+import farmNotesReadRoute from './routes/farmNotesReadRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -228,8 +239,6 @@ app.set('json replacer', (key: string, value: string) => {
 
 // Apply default express.json() request size limit to all routes except sensor webhook
 const applyExpressJSON: RequestHandler = (req, res, next) => {
-  if (req.path.startsWith('/sensor/reading/partner/1/farm/')) return next();
-
   const jsonMiddleware = express.json({ limit: '100kB' });
   jsonMiddleware(req, res, next);
 };
@@ -284,6 +293,14 @@ app
   .set('json spaces', 2)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
+  .use('/dfc', dataFoodConsortiumRoute)
+  // Serve the .well-known/dfc file
+  .get('/.well-known/dfc', (_req, res) => {
+    res.json({
+      'https://github.com/datafoodconsortium/taxonomies/releases/latest/download/scopes.rdf#ReadEnterprise':
+        '/dfc/enterprises/',
+    });
+  })
   // ACL middleware
   .use(checkJwt)
 
@@ -339,7 +356,17 @@ app
   .use('/nomination', nominationRoutes)
   .use('/notification_user', notificationUserRoute)
   .use('/time_notification', timeNotificationRoute)
-  .use('/farm_addon', farmAddonRoute);
+  .use('/farm_addon', farmAddonRoute)
+  .use('/weather', weatherRoute)
+  .use('/irrigation_prescriptions', irrigationPrescriptionRoute)
+  .use('/irrigation_prescription_request', irrigationPrescriptionRequestRoute)
+  .use('/market_directory_info', marketDirectoryInfoRoute)
+  .use('/market_product_categories', marketProductCategoryRoute)
+  .use('/market_directory_partners', marketDirectoryPartnerRoute)
+  .use('/offline_event_log', offlineEventLogRoute)
+  .use('/survey_response', surveyResponseRoute)
+  .use('/farm_notes', farmNoteRoute)
+  .use('/farm_notes_read', farmNotesReadRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);
@@ -374,14 +401,13 @@ if (
   environment === 'production' ||
   environment === 'integration'
 ) {
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     // eslint-disable-next-line no-console
     logger.info('LiteFarm Backend listening on port ' + port);
   });
+  server.on('close', () => {
+    knex.destroy();
+  });
 }
-
-app.on('close', () => {
-  knex.destroy();
-});
 
 export default app;

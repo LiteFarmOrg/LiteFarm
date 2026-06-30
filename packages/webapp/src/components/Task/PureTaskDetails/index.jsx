@@ -14,6 +14,7 @@ import PurePestControlTask from '../PestControlTask';
 import PureIrrigationTask from '../PureIrrigationTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureMovementTask from '../MovementTask';
+import PureSoilSampleTask from '../SoilSampleTask';
 import { defaultValues as soilAmendmentProductDefaultValues } from '../AddSoilAmendmentProducts';
 import { getProgress } from '../../../containers/Task/util';
 
@@ -43,6 +44,14 @@ export default function PureTaskDetails({
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
     SOIL_AMENDMENT_TASK: {
       soil_amendment_task_products: [soilAmendmentProductDefaultValues],
+    },
+    SOIL_SAMPLE_TASK: {
+      soil_sample_task: {
+        samples_per_location: 1,
+        sample_depths_unit:
+          system === 'metric' ? { label: 'cm', value: 'cm' } : { label: 'in', value: 'in' },
+        sample_depths: [{ from: null, to: null }],
+      },
     },
   };
 
@@ -191,4 +200,5 @@ const taskComponents = {
   HARVEST_TASK: (props) => <PureHarvestingTask {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} createTask />,
   MOVEMENT_TASK: (props) => <PureMovementTask {...props} />,
+  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask {...props} />,
 };

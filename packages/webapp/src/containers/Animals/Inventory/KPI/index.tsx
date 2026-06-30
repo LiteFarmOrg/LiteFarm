@@ -14,7 +14,9 @@
  */
 
 import { useMemo } from 'react';
-import { useTranslation, TFunction, Trans } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
@@ -26,7 +28,6 @@ import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
 import { isAnimalTypeIconKey } from '../../../../components/Icons/icons';
 import { useSectionHeader } from '../../../../components/Navigation/useSectionHeaders';
-import { History } from 'history';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],
@@ -53,12 +54,12 @@ const formatAnimalTypes = (
 };
 
 interface KPIProps {
-  history: History;
   selectedTypeIds: string[];
   onTypeClick: (typeId: string) => void;
 }
 
-function KPI({ history, selectedTypeIds, onTypeClick }: KPIProps) {
+function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
+  const history = useHistory();
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const { data, isLoading } = useQueries([
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },
@@ -71,7 +72,11 @@ function KPI({ history, selectedTypeIds, onTypeClick }: KPIProps) {
     }
 
     const { defaultAnimalTypes, customAnimalTypes } = data;
-    const types = formatAnimalTypes([...defaultAnimalTypes, ...customAnimalTypes], onTypeClick, t);
+    const types = formatAnimalTypes(
+      [...(defaultAnimalTypes || []), ...(customAnimalTypes || [])],
+      onTypeClick,
+      t,
+    );
     types.sort(getComparator('asc', 'label'));
 
     return types;

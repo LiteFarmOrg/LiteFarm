@@ -83,17 +83,17 @@ export default function TableV2(props) {
     columns,
     data,
     FooterCell,
-    minRows,
+    minRows = 10,
     onRowClick,
     showPagination,
-    pageSizeOptions,
+    pageSizeOptions = [5, 10, 20, 50],
     onClickMore,
-    itemsToAddPerLoadMoreClick,
-    dense,
-    shouldFixTableLayout,
-    defaultOrderBy,
-    alternatingRowColor,
-    showHeader,
+    itemsToAddPerLoadMoreClick = 5,
+    dense = true,
+    shouldFixTableLayout = false,
+    defaultOrderBy = '',
+    alternatingRowColor = false,
+    showHeader = true,
     onCheck,
     handleSelectAllClick,
     selectedIds,
@@ -101,10 +101,12 @@ export default function TableV2(props) {
     maxHeight,
     spacerRowHeight,
     headerClass,
-    extraRowSpacing,
+    extraRowSpacing = false,
     comparator,
     tableContainerClass,
     tbodyClass,
+    rowClass,
+    pinToBottom,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -154,14 +156,13 @@ export default function TableV2(props) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const visibleRows = useMemo(
-    () =>
-      data
-        .slice()
-        .sort(getComparator(order, orderBy, comparator))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, data],
-  );
+  const visibleRows = useMemo(() => {
+    const sorted = data.slice().sort(getComparator(order, orderBy, comparator));
+    const ordered = pinToBottom
+      ? [...sorted.filter((row) => !pinToBottom(row)), ...sorted.filter(pinToBottom)]
+      : sorted;
+    return ordered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  }, [order, orderBy, page, rowsPerPage, data, comparator, pinToBottom]);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -207,6 +208,7 @@ export default function TableV2(props) {
                     alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
                     extraRowSpacing && styles.extraRowSpacing,
                     row.removed && styles.removedRow,
+                    rowClass,
                   )}
                 >
                   {shouldShowCheckbox && (
@@ -322,7 +324,7 @@ TableV2.propTypes = {
   data: PropTypes.array.isRequired,
   showPagination: PropTypes.bool,
   pageSizeOptions: PropTypes.arrayOf(PropTypes.number),
-  minRows: PropTypes.number.isRequired,
+  minRows: PropTypes.number,
   dense: PropTypes.bool,
   FooterCell: PropTypes.elementType,
   onClickMore: PropTypes.func,
@@ -342,17 +344,7 @@ TableV2.propTypes = {
   spacerRowHeight: PropTypes.number,
   /** Cheating here  using any since it is not meshing well with ts type */
   headerClass: PropTypes.any,
+  rowClass: PropTypes.any,
   extraRowSpacing: PropTypes.bool,
-};
-
-TableV2.defaultProps = {
-  minRows: 10,
-  pageSizeOptions: [5, 10, 20, 50],
-  itemsToAddPerLoadMoreClick: 5,
-  dense: true,
-  shouldFixTableLayout: false,
-  defaultOrderBy: '',
-  alternatingRowColor: false,
-  showHeader: true,
-  extraRowSpacing: false,
+  pinToBottom: PropTypes.func,
 };

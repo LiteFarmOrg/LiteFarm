@@ -1,4 +1,4 @@
-import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import PureEditCropVariety from '../../components/EditCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 // import { postCropAndVarietal, postVarietal } from './saga';
@@ -11,10 +11,11 @@ import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPer
 import { cropVarietySelector } from '../cropVarietySlice';
 import { patchVarietal } from '../AddCropVariety/saga';
 
-function EditCropVarietyForm({ history, match }) {
+function EditCropVarietyForm() {
+  const history = useHistory();
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
-  const { variety_id } = match.params;
+  const { variety_id } = useParams();
   const cropVariety = useSelector(cropVarietySelector(variety_id));
   const { interested } = useSelector(certifierSurveySelector, shallowEqual);
 

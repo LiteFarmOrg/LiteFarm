@@ -8,8 +8,11 @@ import { patchManagementPlan } from '../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import produce from 'immer';
 import { useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
-export default function ManagementDetails({ history, match }) {
+export default function ManagementDetails() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));

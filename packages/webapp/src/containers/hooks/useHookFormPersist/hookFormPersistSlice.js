@@ -9,10 +9,13 @@ export const initialState = {
   isRedrawing: false,
 };
 
-const getCorrectedPayload = (payload) => {
-  const result = cloneObject(payload);
+const getCorrectedPayload = (payload, propertiesToKeep) => {
+  const result = structuredClone(payload);
   const removeNullValues = (object) => {
     for (const key in object) {
+      if (propertiesToKeep?.includes(key)) {
+        continue;
+      }
       if (object[key] !== null && typeof object[key] === 'object') {
         removeNullValues(object[key]);
       } else if (!object[key] && object[key] !== 0 && object[key] !== false) {
@@ -45,7 +48,8 @@ const hookFormPersistSlice = createSlice({
       Object.assign(state.formData, payload);
     },
     hookFormPersistUnMount: (state, { payload }) => {
-      Object.assign(state.formData, getCorrectedPayload(payload));
+      const { values, propertiesToKeep } = payload;
+      Object.assign(state.formData, getCorrectedPayload(values, propertiesToKeep));
     },
     setFormData: (state, { payload }) => {
       state.formData = payload;

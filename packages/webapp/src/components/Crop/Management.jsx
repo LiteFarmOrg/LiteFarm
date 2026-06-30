@@ -1,17 +1,17 @@
 import Layout from '../Layout';
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { CardWithStatusContainer } from '../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import { ManagementPlanCard } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import Input from '../Form/Input';
-import { useSelector } from 'react-redux';
-import { cropLocationsSelector } from '../../containers/locationSlice';
 import LocationCreationModal from '../LocationCreationModal';
 import CropPlansModal from '../Modals/CropModals/CropPlansModal';
+import navStyles from '@navStyles';
+import useCropLocations from '../../hooks/location/useCropLocations';
 
 export default function PureCropManagement({
   history,
@@ -37,7 +37,7 @@ export default function PureCropManagement({
         )
       : managementPlanCardContents;
   }, [searchString, managementPlanCardContents]);
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const [createCropLocation, setCreateCropLocation] = useState(false);
 
   const dismissLocationCreationModal = () => {
@@ -93,7 +93,11 @@ export default function PureCropManagement({
         />
       )}
       {isAdmin && (
-        <AddLink data-cy="crop-addPlan" onClick={handleAddPlan}>
+        <AddLink
+          data-cy="crop-addPlan"
+          onClick={handleAddPlan}
+          className={navStyles.hideWhenOffline}
+        >
           {' '}
           {t('CROP_DETAIL.ADD_PLAN')}
         </AddLink>

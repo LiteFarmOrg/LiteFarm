@@ -1,13 +1,13 @@
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
-import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { postDocument } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
-import { DocumentUploader } from '../DocumentUploader';
 
-function AddDocument({ history }) {
+import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
+
+function AddDocument() {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = (data) => {
@@ -18,18 +18,15 @@ function AddDocument({ history }) {
     history.back();
   };
 
-  const deleteImage = (url) => {
-    dispatch(deleteUploadedFile({ url }));
-  };
+  const { isUploading, ...filePickerFunctions } = useFilePickerUpload();
 
   return (
     <PureDocumentDetailView
       onGoBack={onBack}
       submit={handleSubmit}
-      deleteImage={deleteImage}
+      filePickerFunctions={filePickerFunctions}
+      isUploading={isUploading}
       useHookFormPersist={useHookFormPersist}
-      imageComponent={(props) => <MediaWithAuthentication {...props} />}
-      documentUploader={(props) => <DocumentUploader {...props} />}
       isEdit={false}
       persistedPath={[]}
     />

@@ -24,7 +24,7 @@ type Tab = BaseTab & {
 type RouterTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'> & { history: History };
 
 export default function RouterTab({ history, ...props }: RouterTabProps) {
-  const isSelected = (tab: Tab) => history.location.pathname?.toLowerCase().includes(tab.path);
+  const isSelected = (tab: Tab) => history.location.pathname?.includes(tab.path);
   const onClick = (tab: Tab) => !isSelected(tab) && history.replace(tab.path, tab.state);
 
   return <TabComponent<Tab> onClick={onClick} isSelected={isSelected} {...props} />;

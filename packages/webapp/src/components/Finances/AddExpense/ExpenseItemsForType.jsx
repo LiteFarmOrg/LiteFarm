@@ -14,16 +14,16 @@
  */
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { AddLink, Main } from '../../Typography';
 import ExpenseItemInputs from './ExpenseItemInputs';
-import { getInputErrors } from '../../Form/Input';
 import { DATE, NOTE, VALUE, EXPENSE_DETAIL } from './constants';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import styles from './styles.module.scss';
 
-export default function ExpenseItemsForType({ type, register, control, getValues, errors }) {
+export default function ExpenseItemsForType({ type, cropVarietyOptions, animalOptions }) {
   const { t } = useTranslation();
+  const { control, getValues } = useFormContext();
 
   const itemsQuantity = getValues(`${EXPENSE_DETAIL}.${type.id}`).length;
   const { fields, append, remove } = useFieldArray({
@@ -45,13 +45,10 @@ export default function ExpenseItemsForType({ type, register, control, getValues
                 onRemove={() => {
                   remove(index);
                 }}
-                register={(fieldName, options) =>
-                  register(`${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`, options)
-                }
-                getErrors={(fieldName) =>
-                  getInputErrors(errors, `${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`)
-                }
                 isRemovable={itemsQuantity > 1}
+                fieldNamePrefix={`${EXPENSE_DETAIL}.${type.id}.${index}`}
+                cropVarietyOptions={cropVarietyOptions}
+                animalOptions={animalOptions}
               />
             );
           })}
@@ -70,8 +67,6 @@ export default function ExpenseItemsForType({ type, register, control, getValues
 
 ExpenseItemsForType.propTypes = {
   type: PropTypes.shape({ id: PropTypes.string, name: PropTypes.string }),
-  register: PropTypes.func,
-  control: PropTypes.any,
-  getValues: PropTypes.func,
-  errors: PropTypes.object,
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };

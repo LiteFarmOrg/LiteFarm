@@ -9,7 +9,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
 import { productsSelector } from './productSlice';
-import { locationEntitiesSelector } from './locationSlice';
+import { locationEntitiesSelector } from '../store/selectors/locations.ts';
 import { cleaningTaskEntitiesSelector } from './slice/taskSlice/cleaningTaskSlice';
 import { fieldWorkTaskEntitiesSelector } from './slice/taskSlice/fieldWorkTaskSlice';
 import { harvestTaskEntitiesSelector } from './slice/taskSlice/harvestTaskSlice';
@@ -22,6 +22,7 @@ import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTask
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
 import { animalMovementTaskEntitiesSelector } from './slice/taskSlice/animalMovementTaskSlice';
+import { soilSampleTaskEntitiesSelector } from './slice/taskSlice/soilSampleTaskSlice';
 import { getSubtaskName } from '../util/task';
 
 export const getTask = (obj) => {
@@ -37,6 +38,7 @@ export const getTask = (obj) => {
     'coordinates',
     'duration',
     'wage_at_moment',
+    'override_hourly_wage',
     'happiness',
     'complete_date',
     'late_time',
@@ -51,6 +53,10 @@ export const getTask = (obj) => {
     'soil_amendment_task_products',
     'animals',
     'animal_batches',
+    'documents',
+    'revision_date',
+    'revised_by_user_id',
+    'to_sync', // frontend-supplied temp field that will be purged when tasks are re-fetched from backend
   ]);
   //TODO: investigate why incomplete tasks wage_at_moment are null
   if (task.wage_at_moment === null) task.wage_at_moment = 0;
@@ -174,7 +180,7 @@ export const taskEntitiesSelector = createSelector(
     taskSelectors.selectEntities,
     taskTypeEntitiesSelector,
     managementPlanEntitiesSelector,
-    locationEntitiesSelector,
+    locationEntitiesSelector({ deleted: true }),
     cleaningTaskEntitiesSelector,
     fieldWorkTaskEntitiesSelector,
     irrigationTaskEntitiesSelector,
@@ -184,6 +190,7 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntitiesSelector,
     transplantTaskEntitiesSelector,
     animalMovementTaskEntitiesSelector,
+    soilSampleTaskEntitiesSelector,
     plantingManagementPlanEntitiesSelector,
   ],
   (
@@ -202,6 +209,7 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntities,
     transplantTaskEntities,
     animalMovementTaskEntities,
+    soilSampleTaskEntities,
     plantingManagementPlanEntities,
   ) => {
     const subTaskEntities = {
@@ -214,6 +222,7 @@ export const taskEntitiesSelector = createSelector(
       ...plantTaskEntities,
       ...transplantTaskEntities,
       ...animalMovementTaskEntities,
+      ...soilSampleTaskEntities,
     };
 
     const getManagementPlanByPlantingManagementPlan = ({
@@ -236,17 +245,20 @@ export const taskEntitiesSelector = createSelector(
         taskEntities[task_id].managementPlans =
           taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
           [];
+        // Drop location_ids with no cached location so tasksSelector never reads farm_id off undefined.
         taskEntities[task_id].locations =
-          taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
-          [];
+          taskEntities[task_id].locations
+            ?.map((location_id) => locationEntities[location_id])
+            .filter(Boolean) || [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][getSubtaskName(task_translation_key)] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
+          // Keep the location only when its record is cached, so an unloaded location yields [] not [undefined].
           taskEntities[task_id].locations = subtask.planting_management_plan.location_id
-            ? [locationEntities[subtask.planting_management_plan.location_id]]
+            ? [locationEntities[subtask.planting_management_plan.location_id]].filter(Boolean)
             : [];
           taskEntities[task_id].managementPlans = [
             getManagementPlanByPlantingManagementPlan(subtask),
@@ -356,3 +368,16 @@ export const taskWithProductSelector = (task_id) =>
     }
     return task;
   });
+
+export const selectIsProductUsedInPlannedTasks = createSelector(
+  [pendingTasksSelector, (_state, product_id) => product_id],
+  (pendingTasks, product_id) => {
+    if (!product_id || !pendingTasks?.length) {
+      return false;
+    }
+
+    return pendingTasks.some((task) =>
+      task.soil_amendment_task_products?.some((product) => product.product_id === product_id),
+    );
+  },
+);

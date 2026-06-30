@@ -13,7 +13,7 @@
 *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
 */
 
-@import '../../../assets/mixin';
+@use '../../../assets/mixin' as *;
 
 .containerWithButtons {
   height: 80px;
@@ -32,7 +32,6 @@
   }
 
   .backButtonIcon {
-    background-color: transparent;
     padding: 0;
   }
 
@@ -221,7 +220,6 @@
 .locationIcon {
   min-width: 100%;
   padding: 0;
-  background-color: transparent;
 }
 
 .locationText {

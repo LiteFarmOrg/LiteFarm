@@ -17,8 +17,10 @@ import { ReactComponent as BufferZone } from '../../assets/images/farmMapFilter/
 import { ReactComponent as Watercourse } from '../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence.svg';
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
+import { ReactComponent as SoilSampleLocation } from '../../assets/images/farmMapFilter/SoilSampleLocation.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
 import { ReactComponent as Sensor } from '../../assets/images/farmMapFilter/Sensor.svg';
+import { ReactComponent as SensorArray } from '../../assets/images/farmMapFilter/SensorArray.svg';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { locationEnum } from '../../containers/Map/constants';
@@ -141,12 +143,26 @@ export default function MapDrawer({
           icon: () => <Sensor style={{ transform: 'translate(-5px, 5px)' }} />,
           key: locationEnum.sensor,
         },
+        {
+          name: t('FARM_MAP.MAP_FILTER.SENSOR_ARRAY'),
+          icon: () => <SensorArray />,
+          key: locationEnum.sensor_array,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.SOIL_SAMPLE_LOCATION'),
+          icon: () => <SoilSampleLocation />,
+          key: locationEnum.soil_sample_location,
+        },
       ]
         .sort((firstLocationType, secondLocationType) =>
           firstLocationType.name.localeCompare(secondLocationType.name),
         )
         .filter(
-          ({ key }) => !availableFilterSettings || availableFilterSettings.point.includes(key),
+          // exclude sensor array from "add to map" drawer but include in "map filter" drawer
+          ({ key }) =>
+            !availableFilterSettings
+              ? key !== locationEnum.sensor_array
+              : availableFilterSettings.point.includes(key),
         ),
     [availableFilterSettings?.point],
   );

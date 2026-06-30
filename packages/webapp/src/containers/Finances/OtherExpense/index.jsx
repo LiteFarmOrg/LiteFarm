@@ -14,6 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import defaultStyles from '../styles.module.scss';
@@ -22,7 +23,6 @@ import { expenseSelector, allExpenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
 import { TableKind } from '../../../components/Table/types';
 import { getExpense, getFarmExpenseType } from '../actions';
-import history from '../../../history';
 import FinancesDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +34,7 @@ import { SUNDAY } from '../../../util/dateRange';
 import { createExpenseDetailsUrl, FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 const OtherExpense = () => {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 

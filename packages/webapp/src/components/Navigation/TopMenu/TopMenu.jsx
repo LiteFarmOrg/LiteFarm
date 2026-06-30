@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { logout } from '../../../util/jwt';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
 import { ReactComponent as VideoIcon } from '../../../assets/images/navbar/play-square.svg';
@@ -11,12 +10,12 @@ import { ReactComponent as NotificationIcon } from '../../../assets/images/notif
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import { ReactComponent as IconLogo } from '../../../assets/images/navbar/nav-logo.svg';
+import { ReactComponent as IconLogoOffline } from '../../../assets/images/navbar/nav-logo-offline.svg';
 import { ReactComponent as WordsLogo } from '../../../assets/images/middle_logo.svg';
 import { BiMenu } from 'react-icons/bi';
 import {
   AppBar,
   Toolbar,
-  Menu,
   MenuList,
   MenuItem,
   Popper,
@@ -36,28 +35,25 @@ import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FeedbackSurvey from '../../../containers/FeedbackSurvey';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
+import { useDrawerState } from '../../../contexts/appContext';
+import OfflineLogOutWarningModal from './OfflineLogoutWarningModal';
+import { storeActivity } from '../../../util/offlineEventLogger';
 
-const TopMenu = ({
-  history,
-  isMobile,
-  showNavActions,
-  onClickBurger,
-  showNav,
-  isFeedbackSurveyOpen,
-  setFeedbackSurveyOpen,
-}) => {
+const TUTORIALS_LINK = 'https://www.litefarm.org/tutorials';
+
+const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+  const offline = useIsOffline();
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
-  const selectedLanguage = getLanguageFromLocalStorage();
   const sectionHeader = useSectionHeader(history.location.pathname);
+  const {
+    isOpen: openMenu,
+    toggleDrawer: toggleMenu,
+    closeDrawer: closeMenu,
+  } = useDrawerState('profileMenu');
 
-  const [openMenu, setOpenMenu] = useState(false);
-  const toggleMenu = () => {
-    setOpenMenu((prev) => !prev);
-  };
-  const closeMenu = () => {
-    setOpenMenu(false);
-  };
+  const [showOfflineLogoutWarning, setShowOfflineLogoutWarning] = useState(false);
 
   const handleClick = (link) => {
     closeMenu();
@@ -75,23 +71,24 @@ const TopMenu = ({
     }
   };
 
-  const logOutClick = () => {
+  const onLogOut = () => {
     closeMenu();
     logout();
   };
 
+  const logOutClick = () => {
+    if (offline) {
+      closeMenu();
+      setShowOfflineLogoutWarning(true);
+      return;
+    }
+    onLogOut();
+  };
+
   const openTutorialsClick = () => {
     closeMenu();
-    const playlistIDs = {
-      es: 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
-      pt: 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
-      en: 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY',
-    };
 
-    const playList = playlistIDs[selectedLanguage] || playlistIDs['en'];
-    const url = 'https://www.youtube.com/playlist?list=' + playList;
-
-    const win = window.open(url, '_blank');
+    const win = window.open(TUTORIALS_LINK, '_blank');
     win.focus();
   };
 
@@ -102,6 +99,7 @@ const TopMenu = ({
       icon: <MyInfoIcon />,
       label: t('PROFILE_FLOATER.INFO'),
       externalLink: false,
+      disabled: offline,
     },
     {
       id: 'farm-selection',
@@ -109,6 +107,7 @@ const TopMenu = ({
       icon: <SwitchFarmIcon />,
       label: t('PROFILE_FLOATER.SWITCH'),
       externalLink: false,
+      disabled: offline,
     },
     {
       id: 'tutorials',
@@ -116,6 +115,7 @@ const TopMenu = ({
       icon: <VideoIcon />,
       label: t('PROFILE_FLOATER.TUTORIALS'),
       externalLink: true,
+      disabled: offline,
     },
     {
       id: 'logout',
@@ -127,9 +127,14 @@ const TopMenu = ({
   ];
 
   const menuItems = options.map((option) => {
-    const { id, onClick, icon, label, externalLink } = option;
+    const { id, onClick, icon, label, externalLink, disabled } = option;
     return (
-      <MenuItem key={id} onClick={onClick} classes={{ root: styles.menuItemRoot }}>
+      <MenuItem
+        key={id}
+        onClick={onClick}
+        classes={{ root: styles.menuItemRoot, disabled: styles.menuItemDisabled }}
+        disabled={disabled}
+      >
         <ListItemIcon classes={{ root: styles.listItemIconRoot }}>{icon}</ListItemIcon>
         <ListItemText classes={{ root: styles.itemTextRoot }}>{label}</ListItemText>
         {externalLink && <LaunchIcon />}
@@ -174,7 +179,7 @@ const TopMenu = ({
     <Drawer
       anchor={'bottom'}
       open={openMenu}
-      onClose={() => setOpenMenu(false)}
+      onClose={closeMenu}
       classes={{ paper: styles.drawerMenuPaper }}
     >
       <MenuList
@@ -186,7 +191,7 @@ const TopMenu = ({
         classes={{ list: styles.drawerMenuList, paper: styles.drawerMenuPaper }}
       >
         <ListSubheader classes={{ root: styles.drawerListSubheader }}>
-          <CloseX onClick={() => setOpenMenu(false)} />
+          <CloseX onClick={closeMenu} />
         </ListSubheader>
         {menuItems}
       </MenuList>
@@ -224,9 +229,10 @@ const TopMenu = ({
         className={styles.iconButton}
         classes={{ root: styles.notificationButton }}
         size="large"
+        disabled={offline}
       >
         <NotificationIcon />
-        <Alert />
+        {!offline && <Alert />}
       </IconButton>
       <IconButton
         data-cy="home-profileButton"
@@ -244,10 +250,7 @@ const TopMenu = ({
       >
         <ProfilePicture />
       </IconButton>
-      <FeedbackSurvey
-        isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
-      />
+      <FeedbackSurvey />
       {isMobile ? drawerMenu : floaterMenu}
     </>
   );
@@ -256,24 +259,49 @@ const TopMenu = ({
     if (withoutWords) {
       return (
         <IconButton onClick={onClick} className={styles.logo}>
-          <IconLogo alt="LiteFarm Logo" />
+          {offline ? <IconLogoOffline alt="LiteFarm Logo" /> : <IconLogo alt="LiteFarm Logo" />}
         </IconButton>
       );
     }
 
-    return <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />;
+    return (
+      // only for when showNavActions is false (i.e. on choose farm view); does not need offline version
+      <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />
+    );
+  };
+
+  const onLogOutOffline = async () => {
+    setShowOfflineLogoutWarning(false);
+
+    if (navigator.serviceWorker) {
+      const registration = await navigator.serviceWorker.ready;
+      if (registration.active) {
+        registration.active.postMessage('clear_queue');
+      }
+    }
+
+    storeActivity('', 'logout');
+    onLogOut();
   };
 
   return (
     showNav && (
-      <AppBar position="sticky" className={styles.appBar}>
-        <Toolbar
-          className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
-        >
-          {!showNavActions ? <Logo /> : showMainNavigation}
-          {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
-        </Toolbar>
-      </AppBar>
+      <>
+        <AppBar position="sticky" className={styles.appBar}>
+          <Toolbar
+            className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
+          >
+            {!showNavActions ? <Logo /> : showMainNavigation}
+            {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+          </Toolbar>
+        </AppBar>
+        {showOfflineLogoutWarning && (
+          <OfflineLogOutWarningModal
+            dismissModal={() => setShowOfflineLogoutWarning(false)}
+            onLogOut={onLogOutOffline}
+          />
+        )}
+      </>
     )
   );
 };

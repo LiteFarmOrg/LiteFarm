@@ -1,14 +1,12 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 
-const irrigationTaskTypesAdapter = createEntityAdapter({
-  selectId: (irrigationTaskType) => irrigationTaskType.irrigation_type_id,
-});
 const IrrigationTaskTypesSlice = createSlice({
   name: 'irrigationTaskTypesReducer',
-  initialState: irrigationTaskTypesAdapter.getInitialState({
+  initialState: {
     loading: false,
     irrigationTaskTypes: [],
-  }),
+  },
   reducers: {
     resetIrrigationTaskTypes: (state) => {
       Object.assign(state, {
@@ -19,7 +17,6 @@ const IrrigationTaskTypesSlice = createSlice({
     irrigationTaskTypesLoading: (state) => {
       Object.assign(state, {
         loading: true,
-        irrigationTaskTypes: [],
       });
     },
     irrigationTaskTypesSuccess: (state, { payload }) => {
@@ -32,8 +29,7 @@ const IrrigationTaskTypesSlice = createSlice({
     },
     irrigationTaskTypesFailure: (state) => {
       Object.assign(state, {
-        loading: true,
-        irrigationTaskTypes: [],
+        loading: false,
       });
     },
   },
@@ -49,3 +45,12 @@ export default IrrigationTaskTypesSlice.reducer;
 export const irrigationTaskTypesSliceSelector = (state) => {
   return state.entitiesReducer[IrrigationTaskTypesSlice.name];
 };
+
+export const irrigationTypeByKeyAndFarmIdSelector = (translationKey, farmId) =>
+  createSelector(irrigationTaskTypesSliceSelector, (types) => {
+    return types.irrigationTaskTypes.find(({ farm_id, irrigation_type_translation_key }) => {
+      // If farmId is provided (=custom type), match on farm_id; otherwise, match on null farm_id
+      const farmMatch = farmId ? farm_id === farmId : farm_id === null;
+      return farmMatch && irrigation_type_translation_key === translationKey;
+    });
+  });

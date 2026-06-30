@@ -1,8 +1,10 @@
-FROM node:20.17 as build
+FROM node:22.21 as build
 
 WORKDIR /usr/src/app
 
 COPY ./webapp/package.json ./webapp/.npmrc ./webapp/pnpm-lock.yaml /usr/src/app/
+
+COPY ./webapp/patches/ /usr/src/app/patches/
 
 RUN npm install pnpm@10.6.5 -g && pnpm install
 

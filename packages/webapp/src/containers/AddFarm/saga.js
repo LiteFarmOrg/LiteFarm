@@ -20,12 +20,11 @@ import {
   patchFarmSuccess,
   patchRoleStepTwoSuccess,
   postFarmSuccess,
-  selectFarmSuccess,
   setLoadingEnd,
   setLoadingStart,
   userFarmSelector,
 } from '../userFarmSlice';
-import { axios, getHeader } from '../saga';
+import { axios, clearOldFarmStateSaga, getHeader, selectFarmSaga } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
@@ -58,6 +57,7 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
       step_one_end: new Date(),
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
+
     const user = getUserResult?.data;
     yield put(
       postFarmSuccess({
@@ -65,14 +65,12 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
         ...farm,
         ...step,
         country: addFarmData.country,
+        country_code: addFarmData.country,
       }),
     );
-    yield put(selectFarmSuccess({ farm_id }));
+    yield call(selectFarmSaga, { payload: { farm_id } });
+    yield call(clearOldFarmStateSaga);
     history.push('/role_selection');
-    const {
-      data: { farm_token },
-    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
-    localStorage.setItem('farm_token', farm_token);
   } catch (e) {
     yield put(setLoadingEnd());
     const isFarmNameError =

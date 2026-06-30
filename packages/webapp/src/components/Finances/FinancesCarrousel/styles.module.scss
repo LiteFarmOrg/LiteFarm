@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .cardContent {
   display: flex;
@@ -321,4 +321,14 @@
     height: 42px;
   }
   @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
+}
+
+/* Offline styles */
+.cardContentOfflineButton {
+  pointer-events: none;
+  background-color: transparent;
+
+  svg {
+    display: none;
+  }
 }

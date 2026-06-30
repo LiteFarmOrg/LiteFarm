@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../assets/mixin.scss';
+@use '../../assets/mixin' as *;
 
 .surveyButton {
   display: flex;
@@ -26,7 +26,15 @@
   background-color: var(--Colors-Accent---singles-Blue-light);
   @include svgColorFill(var(--Colors-Accent---singles-Blue-full));
 
-  &:hover {
+  @media (hover: hover) {
+    &:hover {
+      width: 48px;
+      background-color: var(--Colors-Accent---singles-Blue-full);
+      @include svgColorFill(var(--White));
+    }
+  }
+
+  &:active {
     width: 48px;
     background-color: var(--Colors-Accent---singles-Blue-full);
     @include svgColorFill(var(--White));
@@ -35,6 +43,14 @@
   @include sm-breakpoint {
     width: 32px;
     transition: width 100ms ease-out, background-color 100ms ease-out;
+  }
+
+  &.offline {
+    cursor: default;
+    pointer-events: none;
+
+    background: var(--Colors-Neutral-Neutral-50);
+    @include svgColorFill(var(--Colors-Neutral-Neutral-200));
   }
 }
 

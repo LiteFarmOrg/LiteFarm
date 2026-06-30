@@ -92,9 +92,9 @@ const args = {
       estimated_water_usage: 1,
       estimated_water_usage_unit: 'gal',
       irrigation_type: {
-        irrigation_type_id: 19,
+        irrigation_type_id: 1,
         irrigation_type_name: 'CHANNEL',
-        farm_id: '7ec07118-a0b6-11ed-88a9-e66db4bef552',
+        farm_id: '',
         default_measuring_type: 'VOLUME',
         irrigation_type_translation_key: 'CHANNEL',
       },
@@ -103,8 +103,6 @@ const args = {
       default_location_application_depth: false,
       default_irrigation_task_type_location: false,
       default_irrigation_task_type_measurement: false,
-      irrigation_type_translation_key: 'CHANNEL',
-      irrigation_type_name: 'CHANNEL',
     },
     pinCoordinates: [],
     managementPlansByPinCoordinate: {},
@@ -133,9 +131,8 @@ Metric.args = { ...args, system: 'metric' };
 Metric.play = async ({ canvasElement }) => {
   const waterUsageTest = new UnitTest(canvasElement, 'unit', waterUsage);
 
-  // ideally "l", but this is an edge case and its improvement is low priority
-  await waterUsageTest.selectedUnitToBeInTheDocument('ml');
-  await waterUsageTest.visibleInputToHaveValue(1000);
+  await waterUsageTest.selectedUnitToBeInTheDocument('l');
+  await waterUsageTest.visibleInputToHaveValue(1);
   await waterUsageTest.hiddenInputToHaveValue(1);
 };
 

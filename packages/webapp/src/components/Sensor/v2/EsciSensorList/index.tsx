@@ -13,9 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { History } from 'history';
 import { Fragment, useState } from 'react';
 import clsx from 'clsx';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { VscLocation } from 'react-icons/vsc';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -24,23 +26,24 @@ import TextButton from '../../../Form/Button/TextButton';
 import MainContent, { IconType } from '../../../Expandable/MainContent';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
-import type {
-  SensorSummary,
-  GroupedSensors,
+import {
+  type SensorSummary,
+  type GroupedSensors,
+  SensorType,
 } from '../../../../containers/SensorList/useGroupedSensors';
 import SensorTable, { SensorTableVariant } from '../SensorTable';
 import OverviewStats, { OverviewStatsProps } from '../../../OverviewStats';
 import { ReactComponent as SensorIcon } from '../../../../assets/images/map/signal-01.svg';
 import { ReactComponent as SensorArrayIcon } from '../../../../assets/images/farmMapFilter/SensorArray.svg';
-import { SENSOR_ARRAY } from '../../../../containers/SensorReadings/constants';
 import { Location, UserFarm } from '../../../../types';
 import { toTranslationKey } from '../../../../util';
 import styles from './styles.module.scss';
 import LocationViewer from '../../../LocationPicker/LocationViewer';
 import { useMaxZoom } from '../../../../containers/Map/useMaxZoom';
+import { createSmartIrrigationDisplayName } from '../../../../util/smartIrrigation';
 
 const FormatKpiLabel: OverviewStatsProps['FormattedLabelComponent'] = ({ statKey, label }) => {
-  const Icon = statKey === SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
+  const Icon = statKey === SensorType.SENSOR_ARRAY ? SensorArrayIcon : SensorIcon;
   return (
     <div className={styles.kpiLabel}>
       <span className={styles.iconWrapper}>
@@ -81,9 +84,10 @@ type EsciSensorListProps = {
   groupedSensors: GroupedSensors[];
   summary: SensorSummary;
   userFarm: UserFarm;
+  history: History;
 };
 
-const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListProps) => {
+const EsciSensorList = ({ groupedSensors, summary, userFarm, history }: EsciSensorListProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const theme = useTheme();
@@ -97,6 +101,20 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
     setMapOpen(true);
   };
 
+  const handleMapSelect = () => {
+    if (!mapLocations.length) return;
+    const selectedLocation = mapLocations[0];
+
+    const cleanSensorId = (id: string): string => id.replace(/^sensor_/, '');
+
+    const readingsUrl =
+      selectedLocation.type === SensorType.SENSOR_ARRAY
+        ? `/sensor_array/${selectedLocation.id}`
+        : `/sensor/${cleanSensorId(selectedLocation.id)}`;
+
+    history.push(readingsUrl);
+  };
+
   const handleClose = () => {
     setMapOpen(false);
   };
@@ -106,15 +124,9 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
   >((acc, [key, count]) => {
     if (count) {
       acc.push(
-        key === SENSOR_ARRAY
-          ? { key: SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' }
+        key === SensorType.SENSOR_ARRAY
+          ? { key: SensorType.SENSOR_ARRAY, translationKey: 'SENSOR.SENSOR_ARRAYS' }
           : { key, translationKey: `SENSOR.DEVICE_TYPES.${toTranslationKey(key)}` },
-        // t('SENSOR.SENSOR_ARRAYS')
-        // t('SENSOR.DEVICE_TYPES.WEATHER_STATION')
-        // t('SENSOR.DEVICE_TYPES.SOIL_WATER_POTENTIAL')
-        // t('SENSOR.DEVICE_TYPES.IR_TEMPERATURE_SENSOR')
-        // t('SENSOR.DEVICE_TYPES.WIND_SPEED_SENSOR')
-        // t('SENSOR.DEVICE_TYPES.DRIP_LINE_PRESSURE_SENSOR')
       );
     }
 
@@ -130,6 +142,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
           maxZoomRef={maxZoomRef}
           getMaxZoom={getMaxZoom}
           handleClose={handleClose}
+          onSelect={handleMapSelect}
         />
       ) : (
         <div className={styles.wrapper}>
@@ -143,7 +156,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
             isCompact={isCompact}
           />
           <div className={styles.sensorGroups}>
-            {groupedSensors.map(({ id, point, isSensorArray, sensors, fields }) => {
+            {groupedSensors.map(({ id, point, type, sensors, fields, label, system }) => {
               const isExpanded = expandedIds.includes(id);
 
               return (
@@ -163,9 +176,14 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                         <div className={styles.mainContent}>
                           <SensorIconWithNumber number={sensors.length} />
                           <span>
-                            {isSensorArray
-                              ? t('SENSOR.SENSOR_ARRAY')
-                              : t('SENSOR.STANDALONE_SENSOR')}
+                            {createSmartIrrigationDisplayName({
+                              label,
+                              system,
+                              fallback:
+                                type === SensorType.SENSOR_ARRAY
+                                  ? t('SENSOR.SENSOR_ARRAY')
+                                  : t('SENSOR.STANDALONE_SENSOR'),
+                            })}
                           </span>
                         </div>
                       </MainContent>
@@ -177,7 +195,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                           variant={SensorTableVariant.SIMPLE}
                           isCompact={isCompact}
                         />
-                        <DetectedFields t={t} fields={fields} />
+                        <DetectedFields t={t} fields={fields.map(({ name }) => name)} />
                         <TextButton
                           className={styles.seeOnMapButton}
                           onClick={() =>
@@ -186,7 +204,7 @@ const EsciSensorList = ({ groupedSensors, summary, userFarm }: EsciSensorListPro
                               name: id,
                               location_id: id,
                               point,
-                              type: isSensorArray ? 'sensor_array' : 'sensor',
+                              type: type,
                             })
                           }
                         >

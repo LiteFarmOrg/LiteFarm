@@ -1,6 +1,5 @@
 import React from 'react';
 import { authenticatedDecorators } from '../config/Decorators';
-import { Rain } from '../../WeatherBoard/PureWeather.stories';
 import PureHome from '../../../components/Home';
 import { chromaticSmallScreen } from '../config/chromatic';
 
@@ -12,14 +11,12 @@ export default {
 
 const Template = (args) => <PureHome {...args} />;
 
-export const HomeRain = Template.bind({});
-HomeRain.args = {
-  greeting: 'Good morning,',
-  first_name: ' User Name',
-  children: <Rain {...Rain.args} />,
-  imgUrl:
-    'https://res.cloudinary.com/dfxanglyc/image/upload/v1552774058/portfolio/1024px-Nail___Gear.svg.png',
+export const Default = Template.bind({});
+Default.args = {
+  first_name: 'User Name',
+  farmName: 'Sunrise Farm',
+  date: 'Sunday 6 Apr 2026',
 };
-HomeRain.parameters = {
+Default.parameters = {
   ...chromaticSmallScreen,
 };

@@ -17,9 +17,9 @@ import chai from 'chai';
 
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-const chai_assert = chai.assert; // Using Assert style
-const chai_expect = chai.expect; // Using Expect style
-const chai_should = chai.should(); // Using Should style
+const _chai_assert = chai.assert; // Using Assert style
+const _chai_expect = chai.expect; // Using Expect style
+const _chai_should = chai.should(); // Using Should style
 import knex from '../src/util/knex.js';
 import server from './../src/server.js';
 import mocks from './mock.factories.js';
@@ -27,7 +27,7 @@ import { tableCleanup } from './testEnvironment.js';
 import * as insightHelpers from '../src/controllers/insightHelpers.js';
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -37,92 +37,82 @@ import moment from 'moment';
 import insigntController from '../src/controllers/insightController';
 
 describe('insights test', () => {
-  const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
+  const _emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Soil Om', () => {
-    test('Should get soil om if Im on my farm as an owner', async (done) => {
+    test('Should get soil om if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'soil_om', (err, res) => {
+      getInsight(farm_id, user_id, 'soil_om', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
-    test('Should get soil om if Im on my farm as a manager', async (done) => {
+    test('Should get soil om if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'soil_om', (err, res) => {
+      getInsight(farm_id, user_id, 'soil_om', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
 
-    test('Should get soil om if Im on my farm as a worker', async (done) => {
+    test('Should get soil om if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'soil_om', (err, res) => {
+      getInsight(farm_id, user_id, 'soil_om', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
   });
 
   describe('labour happiness', () => {
-    test('Should get labour happiness if Im on my farm as an owner', async (done) => {
+    test('Should get labour happiness if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {
+      getInsight(farm_id, user_id, 'labour_happiness', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
-    test('Should get labour happiness if Im on my farm as a manager', async (done) => {
+    test('Should get labour happiness if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {
+      getInsight(farm_id, user_id, 'labour_happiness', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
 
-    test('Should get labour happiness if Im on my farm as a worker', async (done) => {
+    test('Should get labour happiness if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {
+      getInsight(farm_id, user_id, 'labour_happiness', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
   });
 
   describe('biodiversity', () => {
-    test('Should get biodiversity if Im on my farm as an owner', async (done) => {
+    test('Should get biodiversity if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'biodiversity', (err, res) => {
+      getInsight(farm_id, user_id, 'biodiversity', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
-    test('Should get biodiversity if Im on my farm as a manager', async (done) => {
+    test('Should get biodiversity if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'biodiversity', (err, res) => {
+      getInsight(farm_id, user_id, 'biodiversity', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
 
-    test('Should get biodiversity if Im on my farm as a worker', async (done) => {
+    test('Should get biodiversity if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'biodiversity', (err, res) => {
+      getInsight(farm_id, user_id, 'biodiversity', (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
   });
 
   describe('prices distance', () => {
     describe('Unit tests', () => {
-      test('Distance between two coordinate test', async (done) => {
+      test('Distance between two coordinate test', async () => {
         expect(
           insightHelpers.distance(62.990967, -71.463767, 52.990967, -91.463767) - 1612.09,
         ).toBeLessThan(0.5);
@@ -130,10 +120,9 @@ describe('insights test', () => {
           insightHelpers.distance(-62.990967, 171.463767, -52.990967, 191.463767) - 1612.09,
         ).toBeLessThan(0.5);
         expect(insightHelpers.distance(62.990967, -71.463767, 62.990967, -71.463767)).toBe(0);
-        done();
       });
 
-      test('FormatPricesNearByData Test', async (done) => {
+      test('FormatPricesNearByData Test', async () => {
         const salesByCropsFarmIdMonth = [
           {
             year_month: '2020-12',
@@ -266,13 +255,12 @@ describe('insights test', () => {
         };
 
         expect(formatted2).toEqual(expected2);
-        done();
       });
 
       // FIXME: these tests are incomplete and skipped, seems a mocks.cropSaleFactory
       // doesn't exist anywhere in the project, perhaps someone forgot to push
       // that implementation.
-      xtest('queryCropSalesNearByStartDateAndFarmId test', async (done) => {
+      xtest('queryCropSalesNearByStartDateAndFarmId test', async () => {
         const startdate = moment('2020-12-01').format('YYYY-MM-DD');
         const gridPoint0 = { lat: 62.990967, lng: -71.463767 };
         const gridPoint5West = { lat: 62.990967, lng: -71.553767 };
@@ -370,16 +358,14 @@ describe('insights test', () => {
           { ...mocks.fakeUserFarm(), role_id: 1 },
         );
 
-        const {
-          rows: salesOfAFarm2020,
-        } = await insigntController.queryCropSalesNearByStartDateAndFarmId(startdate, farm_id);
+        const { rows: salesOfAFarm2020 } =
+          await insigntController.queryCropSalesNearByStartDateAndFarmId(startdate, farm_id);
         expect(salesOfAFarm2020.length).toBe(14);
-        const {
-          rows: salesOfAFarmCurrentYear,
-        } = await insigntController.queryCropSalesNearByStartDateAndFarmId(
-          moment().format('YYYY-MM-DD'),
-          farm_id,
-        );
+        const { rows: salesOfAFarmCurrentYear } =
+          await insigntController.queryCropSalesNearByStartDateAndFarmId(
+            moment().format('YYYY-MM-DD'),
+            farm_id,
+          );
         expect(salesOfAFarmCurrentYear.length).toBe(2);
         const getQuery = (distance) => ({
           distance,
@@ -388,7 +374,7 @@ describe('insights test', () => {
           startdate,
         });
 
-        getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(5), (err, res) => {
+        getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(5), (_err, res) => {
           expect(res.status).toBe(200);
           const crop0CommonName = crops[0].crop_common_name;
           const crop0TotalPrice =
@@ -408,7 +394,7 @@ describe('insights test', () => {
             crop1Sales[2].quantity +
             crop1Sales[3].quantity;
 
-          const crop12020CommonName = crops[1].crop_common_name;
+          const _crop12020CommonName = crops[1].crop_common_name;
           const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
           const crop12020TotalQuantity = crop12020Sales[0].quantity + crop12020Sales[1].quantity;
           const data = res.body.data;
@@ -450,7 +436,7 @@ describe('insights test', () => {
             }
           }
 
-          getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(10), (err, res) => {
+          getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(10), (_err, res) => {
             expect(res.status).toBe(200);
             const crop0CommonName = crops[0].crop_common_name;
             const crop0TotalPrice =
@@ -479,36 +465,32 @@ describe('insights test', () => {
                 ).toBeLessThan(0.01);
               }
             }
-            done();
           });
         });
       });
     });
 
-    test('Should get prices distance if Im on my farm as an owner', async (done) => {
+    test('Should get prices distance if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
       const query = mocks.fakePriceInsightForTests();
 
-      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
+      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
-    test('Should get prices distance if Im on my farm as a manager', async (done) => {
+    test('Should get prices distance if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
       const query = mocks.fakePriceInsightForTests();
-      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
+      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
 
-    test('Should get prices distance if Im on my farm as a worker', async (done) => {
+    test('Should get prices distance if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
       const query = mocks.fakePriceInsightForTests();
-      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
+      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (_err, res) => {
         expect(res.status).toBe(200);
-        done();
       });
     });
   });

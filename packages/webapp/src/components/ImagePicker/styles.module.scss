@@ -13,7 +13,7 @@
 *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
 */
 
-@import '../../assets/mixin.scss';
+@use '../../assets/mixin' as *;
 
 .imageContainer {
   display: flex;
@@ -78,6 +78,7 @@
   background-color: var(--grey100);
   border: 1px dashed var(--grey500);
   border-radius: 4px;
+  color: var(--grey900);
 
   .cameraIcon {
     width: 40px;

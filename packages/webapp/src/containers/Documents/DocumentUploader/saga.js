@@ -26,7 +26,6 @@ export function* uploadDocumentSaga({ payload }) {
     );
     if (result) {
       yield put(uploadFileSuccess({ ...result.data, file_name: payload.file.name }));
-      payload.onUploadEnd?.();
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     }
@@ -34,6 +33,7 @@ export function* uploadDocumentSaga({ payload }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     console.log(e);
   }
+  payload.onUploadEnd?.();
 }
 
 export default function* managementPlanSaga() {

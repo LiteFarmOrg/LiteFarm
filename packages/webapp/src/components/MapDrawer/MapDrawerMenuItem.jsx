@@ -36,7 +36,7 @@ export default function MapDrawerMenuItem({
           <EyeToggleIcon isFiltered={isFiltered} />
         ) : (
           <div className={styles.plusAdd}>
-            <Icon iconName={'PLUS_CIRCLE'} className={styles.plusIcon} />
+            <Icon iconName={'PLUS_CIRCLE'} />
             {t('common:ADD')}
           </div>
         )}

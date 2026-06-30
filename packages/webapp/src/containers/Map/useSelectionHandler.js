@@ -1,15 +1,15 @@
-import { containsCrops, isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
+import { isArea, isAreaLine, isLine, isPoint, locationEnum } from './constants';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import history from '../../history';
-import { cloneObject } from '../../util';
 
 /**
  *
  * Do not modify, copy or reuse
  */
 const useSelectionHandler = () => {
+  const history = useHistory();
   const initOverlappedLocations = {
     area: [],
     line: [],
@@ -27,7 +27,7 @@ const useSelectionHandler = () => {
       dispatch(canShowSelection(false));
     }
     if (dismissSelection) {
-      setOverlappedLocations(cloneObject(initOverlappedLocations));
+      setOverlappedLocations(structuredClone(initOverlappedLocations));
       setDismissSelection(false);
       return;
     }
@@ -41,13 +41,9 @@ const useSelectionHandler = () => {
         overlappedLocations.line.length === 0 &&
         overlappedLocations.point.length === 0
       ) {
-        containsCrops(overlappedLocations.area[0].type)
-          ? history.push(
-              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
-            )
-          : history.push(
-              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
-            );
+        history.push(
+          `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
+        );
       } else if (
         overlappedLocations.area.length === 0 &&
         overlappedLocations.line.length === 1 &&
@@ -68,9 +64,14 @@ const useSelectionHandler = () => {
             });
             dispatch(canShowSelection(true));
             dispatch(locations(locationArray));
-          } else if (overlappedLocations.point[0].type === locationEnum.sensor) {
+          } else if (
+            overlappedLocations.point[0].isAddonSensor &&
+            [locationEnum.sensor_array, locationEnum.sensor].includes(
+              overlappedLocations.point[0].type,
+            )
+          ) {
             history.push(
-              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/readings`,
+              `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}`,
             );
           } else {
             history.push(
@@ -103,7 +104,7 @@ const useSelectionHandler = () => {
     isLocationCluster,
     isSensor,
   ) => {
-    let overlappedLocationsCopy = cloneObject(initOverlappedLocations);
+    let overlappedLocationsCopy = structuredClone(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
         if (isArea(locationType) || isAreaLine(locationType)) {
@@ -152,6 +153,7 @@ const useSelectionHandler = () => {
                   name: point.location_name,
                   asset: point.asset,
                   type: point.type,
+                  isAddonSensor: point.isAddonSensor,
                 });
               });
           } else if (isSensor) {
@@ -161,6 +163,7 @@ const useSelectionHandler = () => {
                 name: point.location_name,
                 asset: point.asset,
                 type: point.type,
+                isAddonSensor: point.isAddonSensor,
                 preview: true,
               });
             });
@@ -172,14 +175,14 @@ const useSelectionHandler = () => {
                   name: point.location_name,
                   asset: point.asset,
                   type: point.type,
+                  isAddonSensor: point.isAddonSensor,
                 });
               }
             });
           }
         }
       });
-
-      setOverlappedLocations(cloneObject(overlappedLocationsCopy));
+      setOverlappedLocations(structuredClone(overlappedLocationsCopy));
     } else {
       setDismissSelection(true);
       dispatch(canShowSelection(false));

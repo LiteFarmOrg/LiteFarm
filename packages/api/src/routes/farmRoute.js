@@ -21,7 +21,7 @@ import authFarmId from '../middleware/acl/authFarmId.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
-import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
+import checkSchedulerPermission from '../middleware/acl/checkSchedulerPermission.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import { parseMultipartJson, handleImageOperations } from '../middleware/farm.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
@@ -74,7 +74,7 @@ router.delete(
 router.get(
   '/utc_offset_by_range/:min/:max',
   checkSchedulerJwt,
-  hasTimeNotificationsAccess,
+  checkSchedulerPermission('requestTimedNotifications'),
   farmController.getFarmsByOffsetRange,
 );
 

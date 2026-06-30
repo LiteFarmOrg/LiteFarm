@@ -1,9 +1,10 @@
 .buttonContainer {
+  width: 24px;
   background: none;
   border: 0;
-  color: var(--buttonPrimary);
   cursor: pointer;
-  max-height: 32px;
+  display: flex;
+  align-items: center;
 }
 
 .container {
@@ -21,4 +22,18 @@
 .leftContainer {
   display: inline-flex;
   gap: 12px;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.subtext {
+  font-size: 12px;
+
+  &.hasBackButton {
+    margin-left: 36px; // button width (24px) + gap (12px)
+  }
 }

@@ -15,35 +15,44 @@
 
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../userFarmSlice';
-import {
-  container_planting_depth,
-  convertFn,
-  roundToTwoDecimal,
-} from '../../util/convert-units/unit';
+import { container_planting_depth, convertFn } from '../../util/convert-units/unit';
+import { roundToOne } from '../../util/rounding';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
-import { areaSelector } from '../locationSlice';
-import { AreaLocation, getAreaLocationsContainingPoint } from '../../util/geoUtils';
-import type { SensorData, Sensor, SensorArray } from '../../store/api/types';
+import { getAreaLocationsContainingPoint } from '../../util/geoUtils';
+import { type SensorData, type Sensor, type SensorArray, FigureType } from '../../store/api/types';
 import { SensorInSimpleTableFormat } from '../AddSensors/types';
-import { Location, System } from '../../types';
-import { SENSOR_ARRAY } from '../SensorReadings/constants';
+import { System } from '../../types';
+import useLocations from '../../hooks/location/useLocations';
+import {
+  ExternalMapLocationType,
+  FlattenedField,
+  FlattenedInternalArea,
+} from '../../hooks/location/types';
 
 const STANDALONE = 'standalone' as const;
 
-export type SensorSummary = Record<Sensor['name'] | typeof SENSOR_ARRAY, number>;
+export enum SensorType {
+  SENSOR = ExternalMapLocationType.SENSOR,
+  SENSOR_ARRAY = ExternalMapLocationType.SENSOR_ARRAY,
+}
+
+export type SensorSummary = Record<Sensor['name'] | typeof SensorType.SENSOR_ARRAY, number>;
 
 export type GroupedSensors = {
   id: string;
+  label?: string;
+  system?: string;
   point: Sensor['point'];
-  fields: Location['name'][];
-  isSensorArray: boolean;
+  fields: Pick<FlattenedField, 'name' | 'location_id'>[];
+  type: SensorType;
   sensors: SensorInSimpleTableFormat[];
 };
 
-type FarmAreaLocation = Location & AreaLocation;
-
-const getAreaNamesForPoint = (point: Sensor['point'], areaLocations: FarmAreaLocation[]) => {
-  return getAreaLocationsContainingPoint(areaLocations, point).map(({ name }) => name);
+const getAreaDataForPoint = (point: Sensor['point'], areaLocations: FlattenedInternalArea[]) => {
+  return getAreaLocationsContainingPoint(areaLocations, point).map(({ name, location_id }) => ({
+    name,
+    location_id,
+  }));
 };
 
 const formatSensorToSimpleTableFormat = (
@@ -57,7 +66,7 @@ const formatSensorToSimpleTableFormat = (
   return {
     ...sensor,
     id: external_id,
-    formattedDepth: `${roundToTwoDecimal(convertedDepth)}${displayUnit}`,
+    formattedDepth: `${roundToOne(convertedDepth)}${displayUnit}`,
     deviceTypeKey: sensor.name.toUpperCase().replaceAll(' ', '_'),
   };
 };
@@ -68,26 +77,30 @@ type MappedSensors = { [key: SensorsMapKeys]: SensorInSimpleTableFormat[] };
 const formatSensorArrayToGroup = (
   sensorArray: SensorArray,
   mappedSensors: MappedSensors,
-  areaLocations: FarmAreaLocation[],
+  areaLocations: FlattenedInternalArea[],
 ) => {
   return {
     ...sensorArray,
-    sensors: mappedSensors[sensorArray.id],
-    isSensorArray: true,
-    fields: getAreaNamesForPoint(sensorArray.point, areaLocations),
+    sensors: mappedSensors[sensorArray.id] ?? [],
+    type: SensorType.SENSOR_ARRAY,
+    fields: getAreaDataForPoint(sensorArray.point, areaLocations),
+    isAddonSensor: true,
   };
 };
 
 const formatSensorToGroup = (
   sensor: SensorInSimpleTableFormat,
-  areaLocations: FarmAreaLocation[],
+  areaLocations: FlattenedInternalArea[],
 ) => {
   return {
     id: `sensor_${sensor.id}`,
+    label: sensor.label,
+    location_id: sensor.location_id,
     sensors: [sensor],
     point: sensor.point,
-    isSensorArray: false,
-    fields: getAreaNamesForPoint(sensor.point, areaLocations),
+    type: SensorType.SENSOR,
+    fields: getAreaDataForPoint(sensor.point, areaLocations),
+    isAddonSensor: true,
   };
 };
 
@@ -105,7 +118,7 @@ const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSumm
   );
 
   return {
-    [SENSOR_ARRAY]: sensor_arrays.length,
+    [SensorType.SENSOR_ARRAY]: sensor_arrays.length,
     ...summaryMap,
   };
 };
@@ -113,7 +126,7 @@ const getSummary = (sensors: Sensor[], sensor_arrays: SensorArray[]): SensorSumm
 const formatSensors = (
   getSensorsApiRes: SensorData,
   system: System,
-  farmAreas: FarmAreaLocation[],
+  farmAreas: FlattenedInternalArea[],
 ): { groupedSensors: GroupedSensors[]; sensorSummary: SensorSummary } => {
   const { sensors, sensor_arrays } = getSensorsApiRes;
 
@@ -146,15 +159,20 @@ const useGroupedSensors = (): {
   sensorSummary: SensorSummary;
   groupedSensors: GroupedSensors[];
 } => {
-  const { data, isLoading } = useGetSensorsQuery();
+  const { data: sensors, isFetching: isFetchingSensors } = useGetSensorsQuery();
   const system = useSelector(measurementSelector);
-  const farmAreas = useSelector(areaSelector);
-  const flattenedFarmAreas = Object.values(farmAreas).flat();
+  const { locations: farmAreas, isLoading: isLoadingFarmAreas } = useLocations({
+    filterBy: FigureType.AREA,
+  });
+
+  const hasNoSensorData = !sensors?.sensors.length && !sensors?.sensor_arrays.length;
+  const isLoading = isLoadingFarmAreas || (isFetchingSensors && hasNoSensorData);
+  const dataNotReady = !sensors || !farmAreas;
 
   const sensorsData =
-    isLoading || !data
+    isLoading || dataNotReady
       ? { sensorSummary: {} as SensorSummary, groupedSensors: [] }
-      : formatSensors(data, system, flattenedFarmAreas);
+      : formatSensors(sensors, system, farmAreas);
 
   return { isLoading, ...sensorsData };
 };

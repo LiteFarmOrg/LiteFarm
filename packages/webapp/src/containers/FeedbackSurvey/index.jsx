@@ -13,20 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import TextButton from '../../components/Form/Button/TextButton';
 import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
+import { useDrawerState } from '../../contexts/appContext';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
-export default function FeedbackSurvey({
-  isFeedbackSurveyOpen: isSurveyOpen,
-  setFeedbackSurveyOpen: setIsSurveyOpen,
-}) {
+export default function FeedbackSurvey() {
   const { t } = useTranslation();
-  const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
+  const {
+    isOpen: isSurveyOpen,
+    toggleDrawer: toggleSurveyOpen,
+    closeDrawer,
+  } = useDrawerState('feedbackSurvey');
+  const isOffline = useIsOffline();
 
   const title = (
     <div className={styles.surveyTitleWrapper}>
@@ -37,18 +41,21 @@ export default function FeedbackSurvey({
 
   const drawerContent = (
     <div className={styles.content}>
-      <HelpRequest closeDrawer={() => setIsSurveyOpen(false)} />
+      <HelpRequest closeDrawer={closeDrawer} />
     </div>
   );
 
   return (
     <div>
-      <TextButton className={styles.surveyButton} onClick={toggleSurveyOpen}>
+      <TextButton
+        className={clsx(styles.surveyButton, isOffline && styles.offline)}
+        onClick={toggleSurveyOpen}
+      >
         <SendIcon />
       </TextButton>
       <Drawer
         isOpen={isSurveyOpen}
-        onClose={() => setIsSurveyOpen(false)}
+        onClose={closeDrawer}
         title={title}
         addBackdrop={false}
         desktopVariant={DesktopDrawerVariants.SIDE_DRAWER}

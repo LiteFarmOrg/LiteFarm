@@ -32,6 +32,11 @@ import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
 import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
 import { NoAnimalLocationsModal } from '../../Modals/NoAnimalLocationsModal';
+import { NoSoilSampleLocationsModal } from '../../Modals/NoSoilSampleLocationsModal';
+import { NoSoilAmendmentProductsModal } from '../../Modals/NoSoilAmendmentProductsModal';
+import { NoIrrigationLocationsModal } from '../../Modals/NoIrrigationLocationsModal';
+import { PRODUCT_INVENTORY_URL } from '../../../util/siteMapConstants';
+import navStyles from '@navStyles';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -49,7 +54,7 @@ const icons = {
   CLEANING_TASK: <Clean />,
   TRANSPLANT_TASK: <Transplant />,
   FERTILIZE_TASK: <Fertilize />,
-  COLLECT_SOIL_SAMPLE_TASK: <CollectSoilSample />,
+  SOIL_SAMPLE_TASK: <CollectSoilSample />,
   MAINTENANCE_TASK: <Maintenance />,
   MOVEMENT_TASK: <Movement />,
 };
@@ -70,6 +75,10 @@ export const PureTaskTypeSelection = ({
   hasCurrentManagementPlans,
   hasAnimalMovementLocations,
   hasAnimals,
+  hasSoilSampleLocations,
+  hasSoilAmendmentProducts,
+  hasIrrigationLocations,
+  isOffline,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -90,38 +99,43 @@ export const PureTaskTypeSelection = ({
     onContinue();
   };
 
-  const [showPlantTaskModal, setShowPlantTaskModal] = useState();
+  const [errorModal, setErrorModal] = useState('');
+
   const goToCatalogue = () => history.push('/crop_catalogue');
   const goToMap = () => history.push('/map');
+  const goToInventory = () => history.push(PRODUCT_INVENTORY_URL);
   const onPlantTaskTypeClick = () => {
     if (shouldShowPlantTaskSpotLight) {
-      setShowPlantTaskModal(true);
+      setErrorModal('PLANT_TASK');
     } else {
       goToCatalogue();
     }
   };
-  const [showNoManagementPlanModal, setShowNoManagementPlanModal] = useState();
-  const onHarvestTransplantTaskClick = (task_type_id) => {
-    hasCurrentManagementPlans ? onSelectTask(task_type_id) : setShowNoManagementPlanModal(true);
-  };
-
-  const [showNoAnimalLocationsModal, setShowNoAnimalLocationsModal] = useState();
-  const onMovementTaskClick = (task_type_id) => {
-    hasAnimalMovementLocations ? onSelectTask(task_type_id) : setShowNoAnimalLocationsModal(true);
-  };
 
   const onTileClick = (taskType) => {
-    if (isTaskType(taskType, 'PLANT_TASK')) return onPlantTaskTypeClick(taskType.task_type_id);
-    if (isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) {
-      return onHarvestTransplantTaskClick(taskType.task_type_id);
+    if (isTaskType(taskType, 'PLANT_TASK')) {
+      return onPlantTaskTypeClick(taskType.task_type_id);
     }
-    if (isTaskType(taskType, 'MOVEMENT_TASK')) return onMovementTaskClick(taskType.task_type_id);
+    if (
+      ((isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) &&
+        !hasCurrentManagementPlans) ||
+      (isTaskType(taskType, 'MOVEMENT_TASK') && !hasAnimalMovementLocations) ||
+      (isTaskType(taskType, 'SOIL_SAMPLE_TASK') && !hasSoilSampleLocations) ||
+      (isTaskType(taskType, 'SOIL_AMENDMENT_TASK') && !hasSoilAmendmentProducts) ||
+      (isTaskType(taskType, 'IRRIGATION_TASK') && !hasIrrigationLocations)
+    ) {
+      return setErrorModal(taskType.task_translation_key);
+    }
     return onSelectTask(taskType.task_type_id);
   };
 
   const shouldDisplayTaskType = (taskType) => {
     const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin, hasAnimals);
     const { farm_id, task_translation_key } = taskType;
+
+    if (isOffline && isTaskType(taskType, 'PLANT_TASK')) {
+      return false;
+    }
 
     if (farm_id === null && supportedTaskTypes.has(task_translation_key)) {
       // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
@@ -149,6 +163,13 @@ export const PureTaskTypeSelection = ({
         />
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
+
+        {isOffline && (
+          <div className={styles.offlineNotice}>
+            <h3>{t('ADD_TASK.OFFLINE_NOTICE.YOURE_OFFLINE')}</h3>
+            <p>{t('ADD_TASK.OFFLINE_NOTICE.CANNOT_ADD_NEW')}</p>
+          </div>
+        )}
 
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
@@ -205,7 +226,7 @@ export const PureTaskTypeSelection = ({
             })}
         </div>
         {isAdmin && (
-          <div className={styles.cantFindCustomTypeWrapper}>
+          <div className={clsx(styles.cantFindCustomTypeWrapper, navStyles.hideWhenOffline)}>
             <CantFindCustomType
               customTypeMessages={{
                 info: t('ADD_TASK.CANT_FIND_INFO_TASK'),
@@ -216,23 +237,40 @@ export const PureTaskTypeSelection = ({
           </div>
         )}
       </Form>
-      {showPlantTaskModal && shouldShowPlantTaskSpotLight && (
+      {errorModal === 'PLANT_TASK' && shouldShowPlantTaskSpotLight && (
         <PlantingTaskModal
           goToCatalogue={goToCatalogue}
-          dismissModal={() => setShowPlantTaskModal(false)}
+          dismissModal={() => setErrorModal('')}
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
         />
       )}
-      {showNoManagementPlanModal && (
+      {['TRANSPLANT_TASK', 'HARVEST_TASK'].includes(errorModal) && (
         <NoCropManagementPlanModal
-          dismissModal={() => setShowNoManagementPlanModal(false)}
+          dismissModal={() => setErrorModal('')}
           goToCatalogue={goToCatalogue}
         />
       )}
-      {showNoAnimalLocationsModal && (
-        <NoAnimalLocationsModal
-          dismissModal={() => setShowNoAnimalLocationsModal(false)}
+      {errorModal === 'MOVEMENT_TASK' && (
+        <NoAnimalLocationsModal dismissModal={() => setErrorModal('')} goToMap={goToMap} />
+      )}
+      {errorModal === 'SOIL_SAMPLE_TASK' && (
+        <NoSoilSampleLocationsModal
+          dismissModal={() => setErrorModal('')}
           goToMap={goToMap}
+          isAdmin={isAdmin}
+        />
+      )}
+      {errorModal === 'SOIL_AMENDMENT_TASK' && (
+        <NoSoilAmendmentProductsModal
+          dismissModal={() => setErrorModal('')}
+          goToInventory={goToInventory}
+        />
+      )}
+      {errorModal === 'IRRIGATION_TASK' && (
+        <NoIrrigationLocationsModal
+          dismissModal={() => setErrorModal('')}
+          goToMap={goToMap}
+          isAdmin={isAdmin}
         />
       )}
     </>

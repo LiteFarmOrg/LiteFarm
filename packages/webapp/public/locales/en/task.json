@@ -21,5 +21,6 @@
   "SOCIAL_TASK": "Social",
   "CLEANING_TASK": "Clean",
   "SOIL_AMENDMENT_TASK": "Soil Amendment",
-  "MOVEMENT_TASK": "Movement"
+  "MOVEMENT_TASK": "Movement",
+  "SOIL_SAMPLE_TASK": "Soil Sampling"
 }

@@ -1,20 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
-import PureViewSupportedCertification
-  from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewSupportedCertification';
-import PureViewUnsupportedCertification
-  from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewUnsupportedCertification';
-import PureViewNotInterestedInCertification
-  from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewNotInterestedInCertification';
+import PureViewSupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewSupportedCertification';
+import PureViewUnsupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewUnsupportedCertification';
+import PureViewNotInterestedInCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewNotInterestedInCertification';
 
 import { certifierSelector } from '../certifierSlice';
 import { useEffect } from 'react';
-import { getAllSupportedCertifications, getAllSupportedCertifiers, getCertificationSurveys } from '../saga';
+import { useLocation, useHistory } from 'react-router-dom';
+import {
+  getAllSupportedCertifications,
+  getAllSupportedCertifiers,
+  getCertificationSurveys,
+} from '../saga';
 import { useTranslation } from 'react-i18next';
 import { resetAndUnLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useCertificationName } from '../useCertificationName';
 
-export default function ViewCertification({ history }) {
+export default function ViewCertification() {
+  const location = useLocation();
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,7 +39,7 @@ export default function ViewCertification({ history }) {
     history.push('/certification/interested_in_organic');
   };
   const onChangePreference = onAddCertification;
-  const showSuccessSnackBar = history.location?.state?.success;
+  const showSuccessSnackBar = location?.state?.success;
 
   return (
     <>

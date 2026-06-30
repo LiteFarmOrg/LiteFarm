@@ -122,6 +122,38 @@ class ManagementPlan extends baseModel {
       crop_management_plan: 'edit',
     };
   }
+
+  /**
+   * Retrieves the management plan with the most recent non-future seed date for a location
+   */
+  static async getMostRecentManagementPlanByLocationId(location_id, trx = null) {
+    const planGraphJoinedQueryString =
+      '[crop_variety.[crop], management_plan_group, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
+
+    const graphJoinedOptions = {
+      aliases: {
+        crop_management_plan: 'cmp',
+        planting_management_plans: 'pmps',
+      },
+    };
+
+    const currentDate = new Date().toISOString();
+
+    return await ManagementPlan.query(trx)
+      .whereNotDeleted()
+      .withGraphJoined(planGraphJoinedQueryString, graphJoinedOptions)
+      /*-----
+        this will ignore the original field of a planting task with transplant:
+          is_final_planting_management_plan = false
+        and the destination of a subsequent transplant task:
+          is_final_planting_management_plan = null */
+      .where('cmp:pmps.is_final_planting_management_plan', true)
+      /*------------*/
+      .andWhere('cmp:pmps.location_id', location_id)
+      .andWhere('cmp.seed_date', '<=', currentDate)
+      .orderBy('cmp.seed_date', 'desc')
+      .first();
+  }
 }
 
 export default ManagementPlan;

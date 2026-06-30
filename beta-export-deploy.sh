@@ -7,8 +7,8 @@ git stash
 git pull origin integration
 export NVM_DIR=~/.nvm
 source ~/.nvm/nvm.sh
-nvm install 20.17
-nvm use 20.17
+nvm install 22.21
+nvm use 22.21
 node -v
 cd packages/api
 npm install

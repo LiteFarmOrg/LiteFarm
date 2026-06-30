@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
 import { useSelector, shallowEqual } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -8,17 +9,20 @@ import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
 
-function TaskCompleteStepOne({ history, match, location }) {
+function TaskCompleteStepOne() {
+  const location = useLocation();
+  const history = useHistory();
   const {
     units: { measurement: system },
     country_id,
   } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
-  const task_id = match.params.task_id;
+  const { task_id } = useParams();
   const task = useSelector(taskWithProductSelector(task_id));
   const selectedTaskType = task?.taskType;
-  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
+  const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
   const persistedPaths = [`/tasks/${task_id}/complete`];
 
   const onContinue = (data) => {
@@ -36,6 +40,8 @@ function TaskCompleteStepOne({ history, match, location }) {
     );
   }, []);
 
+  const { isUploading, ...filePickerFunctions } = useFilePickerUpload();
+
   return (
     <HookFormPersistProvider>
       <PureCompleteStepOne
@@ -47,6 +53,8 @@ function TaskCompleteStepOne({ history, match, location }) {
         products={products}
         persistedPaths={persistedPaths}
         selectedTask={task}
+        filePickerFunctions={filePickerFunctions}
+        isUploading={isUploading}
       />
     </HookFormPersistProvider>
   );

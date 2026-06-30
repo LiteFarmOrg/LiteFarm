@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- @import '@assets/mixin.scss';
+@use '@assets/mixin' as *;
 
 .mainColumn {
   display: flex;
@@ -26,10 +26,18 @@
   min-width: 0;
 }
 
-.animalInventoryTitle {
+.betaSectionHeaderTitle {
   display: flex;
   flex-direction: row;
   gap: 8px;
+
+  .text {
+    color: var(--grey900);
+    @include xs-breakpoint {
+      order: 2;
+      color: inherit; // against a green background on mobile
+    }
+  }
 }
 
 .badge {
@@ -38,8 +46,7 @@
   }
 }
 
-.text {
-  @include xs-breakpoint {
-    order: 2;
-  }
+.generalTitle {
+  color: var(--grey900);
+  font-weight: 400;
 }

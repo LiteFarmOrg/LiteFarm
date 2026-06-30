@@ -23,6 +23,7 @@ import { ReactComponent as DocumentsIcon } from '../assets/images/nav/documents.
 import { ReactComponent as FarmSettingsIcon } from '../assets/images/nav/farmSettings.svg';
 import { ReactComponent as PeopleIcon } from '../assets/images/nav/people.svg';
 import { ReactComponent as CertificationsIcon } from '../assets/images/nav/certifications.svg';
+import { ReactComponent as InventoryIcon } from '../assets/images/nav/package.svg';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -35,8 +36,49 @@ import {
   FINANCES_URL,
   LABOUR_URL,
   OTHER_EXPENSE_URL,
+  PRODUCT_INVENTORY_URL,
 } from '../util/siteMapConstants';
 import Badge from '../components/Badge';
+
+const MENU_KEYS = {
+  MAP: 'map',
+  TASKS: 'tasks',
+  CROPS: 'crops',
+  ANIMALS: 'animals',
+  FINANCES: 'finances',
+  TRANSACTIONS: 'transactions',
+  OTHER_EXPENSE: 'other_expense',
+  LABOUR: 'labour',
+  ACTUAL_REVENUE: 'actual_revenue',
+  ESTIMATED_REVENUE: 'estimated_revenue',
+  INSIGHTS: 'insights',
+  DOCUMENTS: 'documents',
+  INVENTORY: 'inventory',
+  FARM: 'farm',
+  PEOPLE: 'people',
+  CERTIFICATION: 'certification',
+};
+
+export const offlineViewOnlyPageKeys = new Set([
+  MENU_KEYS.MAP,
+  MENU_KEYS.CROPS,
+  MENU_KEYS.ANIMALS,
+  MENU_KEYS.FINANCES,
+  MENU_KEYS.TRANSACTIONS,
+  MENU_KEYS.INVENTORY,
+]);
+
+export const offlineDisabledPageKeys = new Set([
+  MENU_KEYS.OTHER_EXPENSE,
+  MENU_KEYS.LABOUR,
+  MENU_KEYS.ACTUAL_REVENUE,
+  MENU_KEYS.ESTIMATED_REVENUE,
+  MENU_KEYS.INSIGHTS,
+  MENU_KEYS.DOCUMENTS,
+  MENU_KEYS.FARM,
+  MENU_KEYS.PEOPLE,
+  MENU_KEYS.CERTIFICATION,
+]);
 
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
@@ -44,22 +86,27 @@ export const useGetMenuItems = () => {
 
   const mainActions = useMemo(() => {
     const list = [
-      { label: t('MENU.MAP'), icon: <MapIcon />, path: '/map', key: 'map' },
-      { label: t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks', key: 'tasks' },
+      { label: t('MENU.MAP'), icon: <MapIcon />, path: '/map', key: MENU_KEYS.MAP },
+      { label: t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks', key: MENU_KEYS.TASKS },
       {
         label: t('MENU.CROPS'),
         icon: <CropsIcon />,
         path: '/crop_catalogue',
-        key: 'crops',
+        key: MENU_KEYS.CROPS,
       },
       {
         label: t('MENU.ANIMALS'),
         icon: <AnimalsIcon />,
         path: ANIMALS_INVENTORY_URL,
-        key: 'animals',
+        key: MENU_KEYS.ANIMALS,
         badge: <Badge isMenuItem={true} title={t('BADGE.BETA.TITLE')} showIcon={false} />,
       },
-      { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
+      {
+        label: t('MENU.INSIGHTS'),
+        icon: <InsightsIcon />,
+        path: '/Insights',
+        key: MENU_KEYS.INSIGHTS,
+      },
     ];
 
     if (isAdmin) {
@@ -67,28 +114,28 @@ export const useGetMenuItems = () => {
         label: t('MENU.FINANCES'),
         icon: <FinancesIcon />,
         path: FINANCES_URL,
-        key: 'finances',
+        key: MENU_KEYS.FINANCES,
         subMenu: [
           {
             label: t('MENU.TRANSACTION_LIST'),
             path: FINANCES_HOME_URL,
-            key: 'transactions',
+            key: MENU_KEYS.TRANSACTIONS,
           },
           {
             label: t('MENU.OTHER_EXPENSES'),
             path: OTHER_EXPENSE_URL,
-            key: 'other_expense',
+            key: MENU_KEYS.OTHER_EXPENSE,
           },
-          { label: t('MENU.LABOUR_EXPENSES'), path: LABOUR_URL, key: 'labour' },
+          { label: t('MENU.LABOUR_EXPENSES'), path: LABOUR_URL, key: MENU_KEYS.LABOUR },
           {
             label: t('MENU.ACTUAL_REVENUES'),
             path: ACTUAL_REVENUE_URL,
-            key: 'actual_revenue',
+            key: MENU_KEYS.ACTUAL_REVENUE,
           },
           {
             label: t('MENU.ESTIMATED_REVENUES'),
             path: ESTIMATED_REVENUE_URL,
-            key: 'estimated_revenue',
+            key: MENU_KEYS.ESTIMATED_REVENUE,
           },
         ],
       });
@@ -96,9 +143,16 @@ export const useGetMenuItems = () => {
         label: t('MENU.DOCUMENTS'),
         icon: <DocumentsIcon />,
         path: '/documents',
-        key: 'documents',
+        key: MENU_KEYS.DOCUMENTS,
       });
     }
+    list.push({
+      label: t('MENU.INVENTORY'),
+      icon: <InventoryIcon />,
+      path: PRODUCT_INVENTORY_URL,
+      key: MENU_KEYS.INVENTORY,
+      badge: <Badge isMenuItem={true} title={t('BADGE.BETA.TITLE')} showIcon={false} />,
+    });
     return list;
   }, [isAdmin, t]);
 
@@ -109,15 +163,20 @@ export const useGetMenuItems = () => {
             {
               label: t('MENU.FARM_SETTINGS'),
               icon: <FarmSettingsIcon />,
-              path: '/farm',
-              key: 'farm',
+              path: '/farm_settings/',
+              key: MENU_KEYS.FARM,
             },
-            { label: t('MENU.PEOPLE'), icon: <PeopleIcon />, path: '/people', key: 'people' },
+            {
+              label: t('MENU.PEOPLE'),
+              icon: <PeopleIcon />,
+              path: '/people',
+              key: MENU_KEYS.PEOPLE,
+            },
             {
               label: t('MENU.CERTIFICATIONS'),
               icon: <CertificationsIcon />,
               path: '/certification',
-              key: 'certification',
+              key: MENU_KEYS.CERTIFICATION,
             },
           ]
         : [],

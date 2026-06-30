@@ -29,6 +29,7 @@ interface SwitchProps {
   disabled?: boolean;
   classes?: {
     container?: string;
+    track?: string;
   };
 }
 
@@ -56,6 +57,7 @@ const Switch = ({
             isToggleVariant && styles.toggle,
             disabled && styles.disabled,
             (hideInnerText || isToggleVariant) && styles.hideInnerText,
+            classes?.track,
           )}
         >
           <span className={clsx(styles.innerText, styles.yes)}>{t('common:YES')}</span>

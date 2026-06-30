@@ -15,7 +15,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
 import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -28,7 +28,42 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import ReactSelect from '../../Form/ReactSelect';
 import { getDateInputFormat } from '../../../util/moment';
-import { NOTE, VALUE, DATE, TYPE } from '../AddExpense/constants';
+import { NOTE, VALUE, DATE, TYPE, ALLOCATIONS, ENTITY_TYPE } from '../AddExpense/constants';
+import ExpenseEntitySection from '../ExpenseEntitySection';
+
+export const sortAllocations = (allocations, options) => {
+  return allocations.slice().sort((a, b) => {
+    const aLabel = options.find(({ value }) => value === a.id)?.label ?? '';
+    const bLabel = options.find(({ value }) => value === b.id)?.label ?? '';
+
+    return aLabel.localeCompare(bLabel);
+  });
+};
+
+const getExpenseAllocationFormValues = (expense, cropVarietyOptions, animalOptions) => {
+  let allocations = [];
+  let entityType = null;
+  let options = [];
+
+  if (expense.farm_expense_crop_variety?.length) {
+    entityType = 'crop';
+    options = cropVarietyOptions;
+    allocations = expense.farm_expense_crop_variety.map(({ crop_variety_id, allocated_value }) => {
+      return { id: crop_variety_id, allocated_value };
+    });
+  } else if (expense.farm_expense_animal?.length) {
+    entityType = 'animal';
+    options = animalOptions;
+    allocations = expense.farm_expense_animal.map(
+      ({ animal_id, animal_batch_id, allocated_value }) => {
+        const id = animal_id ? `ANIMAL_${animal_id}` : `BATCH_${animal_batch_id}`;
+        return { id, allocated_value };
+      },
+    );
+  }
+  const sortedAllocations = entityType ? sortAllocations(allocations, options) : [];
+  return { [ENTITY_TYPE]: entityType, [ALLOCATIONS]: sortedAllocations };
+};
 
 const PureExpenseDetail = ({
   pageTitle,
@@ -40,15 +75,12 @@ const PureExpenseDetail = ({
   inputMaxChars = 100,
   expense,
   expenseTypeReactSelectOptions,
+  cropVarietyOptions,
+  animalOptions,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
-  const {
-    handleSubmit,
-    register,
-    control,
-    formState: { errors, isValid, isDirty },
-  } = useForm({
+  const methods = useForm({
     mode: 'onChange',
     defaultValues: {
       [NOTE]: expense.note,
@@ -57,106 +89,120 @@ const PureExpenseDetail = ({
         (option) => option.value === expense.expense_type_id,
       ),
       [VALUE]: expense.value,
+      ...getExpenseAllocationFormValues(expense, cropVarietyOptions, animalOptions),
     },
   });
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { errors, isValid, isDirty },
+  } = methods;
   const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
 
   return (
-    <Form
-      onSubmit={handleSubmit(onSubmit)}
-      buttonGroup={
-        <Button color={'primary'} fullLength disabled={disabledButton}>
-          {buttonText}
-        </Button>
-      }
-    >
-      <PageTitle style={{ marginBottom: '24px' }} onGoBack={handleGoBack} title={pageTitle} />
-      <Input
-        style={{ marginBottom: '24px' }}
-        label={t('EXPENSE.ITEM_NAME')}
-        hookFormRegister={register(NOTE, {
-          required: true,
-          maxLength: hookFormMaxCharsValidation(inputMaxChars),
-        })}
-        name={NOTE}
-        errors={getInputErrors(errors, NOTE)}
-        optional={false}
-        disabled={disabledInput}
-      />
-      <Input
-        style={{ marginBottom: '24px' }}
-        label={t('common:DATE')}
-        type={'date'}
-        hookFormRegister={register(DATE, { required: true })}
-        name={DATE}
-        errors={getInputErrors(errors, DATE)}
-        disabled={disabledInput}
-      />
-      <Controller
-        control={control}
-        name={TYPE}
-        rules={{ required: true }}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            label={t('EXPENSE.TYPE')}
-            options={expenseTypeReactSelectOptions}
-            onChange={onChange}
-            isDisabled={disabledInput}
-            value={value}
-            style={{ marginBottom: '24px' }}
-          />
-        )}
-      />
-      <Input
-        style={{ marginBottom: '24px' }}
-        label={t('EXPENSE.VALUE')}
-        type={'number'}
-        hookFormRegister={register(VALUE, {
-          required: true,
-          setValueAs: (v) => (v === '' ? null : +v),
-          min: { value: 0 },
-        })}
-        currency={useCurrencySymbol()}
-        name={VALUE}
-        errors={getInputErrors(errors, VALUE)}
-        optional={false}
-        disabled={disabledInput}
-      />
-      <div style={{ marginTop: 'auto' }}>
-        {readonly && !isDeleting && (
-          <IconLink
-            style={{ color: 'var(--grey600)' }}
-            icon={
-              <TrashIcon
-                style={{
-                  fill: 'var(--grey600)',
-                  stroke: 'var(--grey600)',
-                  transform: 'translate(0px, 6px)',
-                }}
-              />
-            }
-            onClick={() => setIsDeleting(true)}
-            isIconClickable
-          >
-            {t('EXPENSE.DELETE.LINK')}
-          </IconLink>
-        )}
+    <FormProvider {...methods}>
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        buttonGroup={
+          <Button color={'primary'} fullLength disabled={disabledButton}>
+            {buttonText}
+          </Button>
+        }
+      >
+        <PageTitle style={{ marginBottom: '24px' }} onGoBack={handleGoBack} title={pageTitle} />
+        <Input
+          style={{ marginBottom: '24px' }}
+          label={t('EXPENSE.ITEM_NAME')}
+          hookFormRegister={register(NOTE, {
+            required: true,
+            maxLength: hookFormMaxCharsValidation(inputMaxChars),
+          })}
+          name={NOTE}
+          errors={getInputErrors(errors, NOTE)}
+          optional={false}
+          disabled={disabledInput}
+        />
+        <Input
+          style={{ marginBottom: '24px' }}
+          label={t('common:DATE')}
+          type={'date'}
+          hookFormRegister={register(DATE, { required: true })}
+          name={DATE}
+          errors={getInputErrors(errors, DATE)}
+          disabled={disabledInput}
+        />
+        <Controller
+          control={control}
+          name={TYPE}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <ReactSelect
+              label={t('EXPENSE.TYPE')}
+              options={expenseTypeReactSelectOptions}
+              onChange={onChange}
+              isDisabled={disabledInput}
+              value={value}
+              style={{ marginBottom: '24px' }}
+            />
+          )}
+        />
+        <Input
+          style={{ marginBottom: '24px' }}
+          label={t('EXPENSE.VALUE')}
+          type={'number'}
+          hookFormRegister={register(VALUE, {
+            required: true,
+            setValueAs: (v) => (v === '' ? null : +v),
+            min: { value: 0 },
+          })}
+          currency={useCurrencySymbol()}
+          name={VALUE}
+          errors={getInputErrors(errors, VALUE)}
+          optional={false}
+          disabled={disabledInput}
+        />
+        <ExpenseEntitySection
+          cropVarietyOptions={cropVarietyOptions}
+          animalOptions={animalOptions}
+          disabled={disabledInput}
+        />
+        <div style={{ marginTop: 'auto' }}>
+          {readonly && !isDeleting && (
+            <IconLink
+              style={{ color: 'var(--grey600)' }}
+              icon={
+                <TrashIcon
+                  style={{
+                    fill: 'var(--grey600)',
+                    stroke: 'var(--grey600)',
+                    transform: 'translate(0px, 6px)',
+                  }}
+                />
+              }
+              onClick={() => setIsDeleting(true)}
+              isIconClickable
+            >
+              {t('EXPENSE.DELETE.LINK')}
+            </IconLink>
+          )}
 
-        {isDeleting && (
-          <DeleteBox
-            color="error"
-            onOk={onRetire}
-            onCancel={() => setIsDeleting(false)}
-            header={t('EXPENSE.DELETE.HEADER')}
-            headerIcon={<TrashIcon />}
-            message={t('EXPENSE.DELETE.MESSAGE')}
-            primaryButtonLabel={t('EXPENSE.DELETE.CONFIRM')}
-          />
-        )}
-      </div>
-    </Form>
+          {isDeleting && (
+            <DeleteBox
+              color="error"
+              onOk={onRetire}
+              onCancel={() => setIsDeleting(false)}
+              header={t('EXPENSE.DELETE.HEADER')}
+              headerIcon={<TrashIcon />}
+              message={t('EXPENSE.DELETE.MESSAGE')}
+              primaryButtonLabel={t('EXPENSE.DELETE.CONFIRM')}
+            />
+          )}
+        </div>
+      </Form>
+    </FormProvider>
   );
 };
 
@@ -170,6 +216,8 @@ PureExpenseDetail.propTypes = {
   inputMaxChars: PropTypes.number,
   expense: PropTypes.object,
   expenseTypeReactSelectOptions: PropTypes.arrayOf(PropTypes.object),
+  cropVarietyOptions: PropTypes.array,
+  animalOptions: PropTypes.array,
 };
 
 export default PureExpenseDetail;

@@ -63,6 +63,7 @@ export type PureAnimalInventoryProps = {
   showActionFloaterButton: boolean;
   extraRowSpacing?: boolean;
   hideNoResultsBlock?: boolean;
+  disableActionFloaterButton?: boolean;
 };
 
 const PureAnimalInventory = ({
@@ -89,6 +90,7 @@ const PureAnimalInventory = ({
   showActionFloaterButton,
   extraRowSpacing,
   hideNoResultsBlock,
+  disableActionFloaterButton,
 }: PureAnimalInventoryProps) => {
   const { t } = useTranslation();
 
@@ -107,7 +109,6 @@ const PureAnimalInventory = ({
           <PureSearchBarWithBackdrop
             value={searchString}
             onChange={(e: any) => setSearchString(e.target.value)}
-            isSearchActive={!!searchString}
             placeholderText={placeHolderText}
             zIndexBase={zIndexBase}
             isDesktop={isDesktop}
@@ -157,7 +158,7 @@ const PureAnimalInventory = ({
         ) : (
           <NoSearchResults
             className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
-            searchTerm={searchString}
+            searchTerm={searchString || ''}
             includeFiltersInClearSuggestion
           />
         )}
@@ -169,6 +170,7 @@ const PureAnimalInventory = ({
             type={'add'}
             onClick={() => history.push(ADD_ANIMALS_URL)}
             aria-label={t('ADD_ANIMAL.ADD_ANIMALS')}
+            disabled={disableActionFloaterButton}
           />
         </div>
       )}

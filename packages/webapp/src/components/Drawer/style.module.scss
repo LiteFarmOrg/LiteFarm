@@ -48,6 +48,17 @@
     .drawerContent {
       max-height: 100%;
       flex-grow: 1;
+
+      // iOS scroll-capture fix: on touch devices, ensure content always
+      // overflows the scroll container so the browser picks it as the
+      // scroll target instead of the page background.
+      @media (pointer: coarse) {
+        &::after {
+          content: '';
+          display: block;
+          height: 32px;
+        }
+      }
     }
   }
 }
@@ -61,7 +72,8 @@
 
 .sideDrawer {
   top: var(--global-navbar-height);
-  max-height: calc(100vh - var(--global-navbar-height));
+  max-height: calc(100vh - var(--global-navbar-height)); // fallback
+  max-height: calc(100dvh - var(--global-navbar-height)); // tracking iOS URL bar
 }
 
 .right {
@@ -78,6 +90,7 @@
 
   &.openD {
     bottom: 0;
+    max-height: calc(100% - var(--offline-indicator-offset));
   }
 }
 
@@ -112,6 +125,8 @@
 }
 
 .title {
+  display: flex;
+  align-items: center;
   font-size: 16px;
   font-weight: 600;
   color: #000;
@@ -129,13 +144,26 @@
   padding: 0 24px;
 }
 
-.close {
-  width: 36px;
-  height: 36px;
-
+.closeButton {
   svg {
     width: 28px;
     height: 28px;
     color: var(--grey600);
+  }
+
+  &.iconButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  &.textButton {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    span {
+      color: var(--Colors-Accent---singles-Blue-dark);
+      font-size: 16px;
+    }
   }
 }

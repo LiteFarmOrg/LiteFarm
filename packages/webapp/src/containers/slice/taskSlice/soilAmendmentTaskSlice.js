@@ -25,6 +25,13 @@ const upsertManySoilAmendmentTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllSoilAmendmentTask = (state, { payload: tasks }) => {
+  soilAmendmentTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getSoilAmendmentTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const soilAmendmentTaskAdapter = createEntityAdapter({
   selectId: (soilAmendmentTask) => soilAmendmentTask.task_id,
@@ -42,6 +49,7 @@ const soilAmendmentTaskSlice = createSlice({
     onLoadingSoilAmendmentTaskStart: onLoadingStart,
     onLoadingSoilAmendmentTaskFail: onLoadingFail,
     getSoilAmendmentTasksSuccess: upsertManySoilAmendmentTask,
+    getAllSoilAmendmentTasksSuccess: setAllSoilAmendmentTask,
     postSoilAmendmentTaskSuccess: upsertOneSoilAmendmentTask,
     editSoilAmendmentTaskSuccess: upsertOneSoilAmendmentTask,
     deleteSoilAmendmentTaskSuccess: soilAmendmentTaskAdapter.removeOne,
@@ -49,6 +57,7 @@ const soilAmendmentTaskSlice = createSlice({
 });
 export const {
   getSoilAmendmentTasksSuccess,
+  getAllSoilAmendmentTasksSuccess,
   postSoilAmendmentTaskSuccess,
   editSoilAmendmentTaskSuccess,
   onLoadingSoilAmendmentTaskStart,

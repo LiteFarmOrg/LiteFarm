@@ -21,9 +21,9 @@ import { useTranslation, Trans } from 'react-i18next';
 import clsx from 'clsx';
 
 export const NoSearchResults = ({
-  searchTerm,
-  includeFiltersInClearSuggestion,
-  className,
+  searchTerm = '',
+  includeFiltersInClearSuggestion = false,
+  className = '',
   style,
 }) => {
   const { t } = useTranslation();
@@ -53,12 +53,6 @@ NoSearchResults.propTypes = {
   includeFiltersInClearSuggestion: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
-};
-
-NoSearchResults.defaultProps = {
-  searchTerm: '',
-  includeFiltersInClearSuggestion: false,
-  className: '',
 };
 
 export default NoSearchResults;

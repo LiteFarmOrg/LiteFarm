@@ -37,12 +37,8 @@ async function tableCleanup(knex) {
     .whereNotNull('default_initial_location_id')
     .update({ default_initial_location_id: null });
   return knex.raw(`
-    DELETE FROM "partner_reading_type";
     DELETE FROM "farm_addon";
-    DELETE FROM "addon_partner";
-    DELETE FROM "sensor_reading_type";
-    DELETE FROM "sensor_reading";
-    DELETE FROM "sensor";
+    DELETE FROM "addon_partner"; 
     DELETE FROM "notification_user";
     DELETE FROM "notification";
     DELETE FROM "supportTicket";
@@ -57,6 +53,7 @@ async function tableCleanup(knex) {
     DELETE FROM "harvest_task";
     DELETE FROM "harvest_use_type";
     DELETE FROM "irrigation_task";
+    DELETE FROM "irrigation_type";
     DELETE FROM "scouting_task";
     DELETE FROM "pest_control_task";
     DELETE FROM "social_task";
@@ -71,6 +68,8 @@ async function tableCleanup(knex) {
     DELETE FROM "soil_amendment_method";
     DELETE FROM "soil_amendment_product";
     DELETE FROM "soil_amendment_fertiliser_type";
+    DELETE FROM "soil_sample_task";
+    DELETE FROM "product_farm";
     DELETE FROM "product";
     DELETE FROM "management_tasks";
     DELETE FROM "plant_task";
@@ -86,8 +85,13 @@ async function tableCleanup(knex) {
     DELETE FROM "cropDisease";
     DELETE FROM "price";
     DELETE FROM "crop_variety_sale";
+    DELETE FROM "animal_sale";
     DELETE FROM "sale";
     DELETE FROM "revenue_type";
+    DELETE FROM "farm_expense_animal";
+    DELETE FROM "farm_expense_crop_variety";
+    DELETE FROM "farmExpense";
+    DELETE FROM "farmExpenseType";
     DELETE FROM "broadcast_method";
     DELETE FROM "container_method";
     DELETE FROM "row_method";
@@ -108,6 +112,7 @@ async function tableCleanup(knex) {
     DELETE FROM "greenhouse";
     DELETE FROM "gate";
     DELETE FROM "water_valve";
+    DELETE FROM "soil_sample_location";
     DELETE FROM "buffer_zone";
     DELETE FROM "watercourse";
     DELETE FROM "fence";
@@ -118,8 +123,6 @@ async function tableCleanup(knex) {
     DELETE FROM "natural_area";
     DELETE FROM "organic_history";
     DELETE FROM "fertilizer";
-    DELETE FROM "farmExpense";
-    DELETE FROM "farmExpenseType";
     DELETE FROM "revenue_type";
     DELETE FROM "disease";
     DELETE FROM "pesticide";
@@ -146,6 +149,16 @@ async function tableCleanup(knex) {
     DELETE FROM "animal_removal_reason";
     DELETE FROM "farm_addon";
     DELETE FROM "addon_partner";
+    DELETE FROM "market_directory_partner_permissions";
+    DELETE FROM "market_directory_info_market_product_category";
+    DELETE FROM "market_directory_info";
+    DELETE FROM "market_product_category";
+    DELETE FROM "market_directory_partner_country";
+    DELETE FROM "market_directory_partner_auth";
+    DELETE FROM "market_directory_partner";
+    DELETE FROM "survey_response";
+    DELETE FROM "farm_notes_read";
+    DELETE FROM "farm_note";
     DELETE FROM "location";
     DELETE FROM "userFarm";
     DELETE FROM "farm";

@@ -152,13 +152,23 @@ class NotificationUser extends baseModel {
    * @static
    * @async
    */
-  static async clearAlerts(userId, farmId, notificationIds) {
-    const count = await NotificationUser.query()
+  static async clearAlerts(userId, farmId, notificationIds = []) {
+    const query = NotificationUser.query()
+      .context({ user_id: userId })
       .patch({ alert: false })
-      .whereIn('notification_id', notificationIds)
-      .andWhere('user_id', userId)
-      .andWhere('alert', true)
-      .context({ user_id: userId });
+      .where('user_id', userId)
+      .where('alert', true)
+      .whereIn(
+        'notification_id',
+        Notification.query().select('notification_id').where('farm_id', farmId),
+      );
+
+    if (notificationIds.length) {
+      query.whereIn('notification_id', notificationIds);
+    }
+
+    const count = await query;
+
     const userSubs = NotificationUser.subscriptions.get(userId);
     userSubs?.forEach((subscriber) => {
       subscriber?.forEach((subscription) => {

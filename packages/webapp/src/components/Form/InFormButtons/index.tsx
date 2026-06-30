@@ -15,23 +15,27 @@
 
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import Button from '../Button';
+import Button, { ButtonProps } from '../Button';
 import { Info } from '../../Typography';
 import styles from './styles.module.scss';
 
 export interface InFormButtonsProps {
   isDisabled?: boolean;
+  isCancelDisabled?: boolean;
   statusText?: string;
   confirmText: string;
   informationalText?: string;
-  onCancel: () => void;
+  onCancel?: () => void;
   onConfirm?: () => void;
   confirmButtonType?: 'button' | 'submit';
   className?: string;
+  confirmButtonColor?: ButtonProps['color'];
+  equalWidth?: boolean;
 }
 
 const InFormButtons = ({
   isDisabled,
+  isCancelDisabled,
   statusText,
   confirmText,
   informationalText,
@@ -39,20 +43,30 @@ const InFormButtons = ({
   onConfirm,
   confirmButtonType = 'button',
   className,
+  confirmButtonColor,
+  equalWidth,
 }: InFormButtonsProps) => {
   const { t } = useTranslation();
 
   return (
     <div className={clsx(styles.container, className)}>
-      <div className={styles.buttons}>
+      <div className={clsx(styles.buttons, equalWidth && styles.equalWidth)}>
         {statusText && <span className={styles.statusText}>{statusText}</span>}
-        <Button type="button" color="secondary-cta" className={styles.button} onClick={onCancel}>
-          {t('common:CANCEL')}
-        </Button>
+        {onCancel && (
+          <Button
+            type="button"
+            color="secondary-cta"
+            className={styles.button}
+            onClick={onCancel}
+            disabled={isCancelDisabled}
+          >
+            {t('common:CANCEL')}
+          </Button>
+        )}
         <Button
           type={confirmButtonType}
-          color="secondary"
-          className={clsx(styles.button, styles.confirmButton)}
+          color={confirmButtonColor || 'secondary'}
+          className={clsx(styles.button, !confirmButtonColor && styles.confirmButton)}
           onClick={onConfirm}
           disabled={isDisabled}
         >

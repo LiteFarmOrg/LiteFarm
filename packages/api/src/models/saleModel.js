@@ -17,6 +17,7 @@ import Model from './baseFormatModel.js';
 
 import baseModel from './baseModel.js';
 import cropVarietySaleModel from './cropVarietySaleModel.js';
+import animalSaleModel from './animalSaleModel.js';
 
 class Sale extends baseModel {
   static get tableName() {
@@ -42,7 +43,7 @@ class Sale extends baseModel {
         farm_id: { type: 'string' },
         revenue_type_id: { type: 'integer' },
         value: { type: ['number', 'null'], format: 'float' },
-        note: { type: ['string', 'null'], maxLength: 10000 },
+        note: { type: ['string', 'null'], maxLength: 3000 },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -75,7 +76,29 @@ class Sale extends baseModel {
           to: 'crop_variety_sale.sale_id',
         },
       },
+      animal_sale: {
+        relation: Model.HasManyRelation,
+        modelClass: animalSaleModel,
+        join: {
+          from: 'sale.sale_id',
+          to: 'animal_sale.sale_id',
+        },
+      },
     };
+  }
+
+  static async getSalesWithAnimalIds(animalIds, trx) {
+    return Sale.query(trx)
+      .joinRelated('animal_sale')
+      .whereIn('animal_sale.animal_id', animalIds)
+      .whereNotDeleted();
+  }
+
+  static async getSalesWithBatchIds(batchIds, trx) {
+    return Sale.query(trx)
+      .joinRelated('animal_sale')
+      .whereIn('animal_sale.animal_batch_id', batchIds)
+      .whereNotDeleted();
   }
 }
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -8,9 +9,11 @@ import { harvestUseTypesSelector } from '../../../harvestUseTypeSlice';
 import { taskWithProductSelector } from '../../../taskSlice';
 import AddHarvestUseTypeModal from './AddHarvestUseType';
 
-function HarvestUses({ history, match, location }) {
+function HarvestUses() {
+  const history = useHistory();
+  const location = useLocation();
   const system = useSelector(measurementSelector);
-  const task_id = match.params.task_id;
+  const { task_id } = useParams();
   const persistedPaths = [
     `/tasks/${task_id}/complete_harvest_quantity`,
     `/tasks/${task_id}/complete`,

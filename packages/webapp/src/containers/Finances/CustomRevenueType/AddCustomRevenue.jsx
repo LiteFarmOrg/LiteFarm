@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useHistory } from 'react-router-dom';
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,9 +21,10 @@ import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
 import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import CustomRevenueRadios from './CustomRevenueRadios';
+import CustomRevenueRadios from './CustomRevenueEntityTypeSelector';
 
-function AddCustomRevenue({ history }) {
+function AddCustomRevenue() {
+  const history = useHistory();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const revenueTypes = useSelector(allRevenueTypesSelector);
@@ -53,9 +55,7 @@ function AddCustomRevenue({ history }) {
           messageStatusTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
           messageStatusFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         })}
-        customFormFields={({ control, watch }) => (
-          <CustomRevenueRadios control={control} watch={watch} view="add" />
-        )}
+        customFormFields={({ control }) => <CustomRevenueRadios control={control} view="add" />}
       />
     </HookFormPersistProvider>
   );

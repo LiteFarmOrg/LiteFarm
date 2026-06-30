@@ -1,0 +1,51 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 413px;
+  padding: 32px;
+  background-color: var(--White);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  @include md-breakpoint {
+    padding: 16px;
+  }
+}
+
+.title {
+  margin-bottom: 32px;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--Colors-Neutral-Neutral-900);
+  text-align: left;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.timeStrip {
+  border-radius: 0 0 8px 8px;
+}

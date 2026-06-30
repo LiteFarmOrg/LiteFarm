@@ -10,13 +10,9 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { getCropVarieties } from '../saga';
-import {
-  cropCatalogueFilterDateSelector,
-  cropVarietyFilterSelector,
-  isFilterCurrentlyActiveSelector,
-  setCropCatalogueFilterDate,
-} from '../filterSlice';
+import { cropVarietyFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CropVarietyFilterPage from '../Filter/CropVariety';
@@ -25,8 +21,12 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import Drawer from '../../components/Drawer';
+import navStyles from '@navStyles';
 
-export default function CropVarieties({ history, match, location }) {
+export default function CropVarieties() {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -73,9 +73,6 @@ export default function CropVarieties({ history, match, location }) {
     setIsFilterOpen(true);
   };
 
-  const date = useSelector(cropCatalogueFilterDateSelector);
-  const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
-
   const onGoBack = () => history.push('/crop_catalogue');
 
   const goToVarietyManagement = (varietyId) => {
@@ -90,7 +87,7 @@ export default function CropVarieties({ history, match, location }) {
   return (
     <Layout>
       <PageTitle
-        title={`${t(`crop:${crop.crop_translation_key}`)} ${t('CROP_VARIETIES.CROP_VARIETIES')}`}
+        title={t('CROP_VARIETIES.TITLE', { crop_name: t(`crop:${crop.crop_translation_key}`) })}
         style={{ paddingBottom: '20px' }}
         onGoBack={onGoBack}
       />
@@ -116,8 +113,6 @@ export default function CropVarieties({ history, match, location }) {
         />
       )}
 
-      {/* <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} /> */}
-
       <div ref={containerRef}>
         {sum + filteredCropsWithoutManagementPlan.length ? (
           <>
@@ -125,8 +120,6 @@ export default function CropVarieties({ history, match, location }) {
             <CropStatusInfoBox
               status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
-              date={date}
-              setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {
@@ -203,7 +196,9 @@ export default function CropVarieties({ history, match, location }) {
         )}
       </div>
       {isAdmin && !isFilterCurrentlyActive && (
-        <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
+        <AddLink onClick={goToVarietyCreation} className={navStyles.hideWhenOffline}>
+          {t('CROP_VARIETIES.ADD_VARIETY')}
+        </AddLink>
       )}
     </Layout>
   );

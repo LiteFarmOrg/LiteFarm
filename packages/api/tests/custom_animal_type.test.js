@@ -25,7 +25,7 @@ import { tableCleanup } from './testEnvironment.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -36,16 +36,15 @@ import mocks from './mock.factories.js';
 import customAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 
 describe('Custom Animal Type Tests', () => {
-  let token;
+  let _token;
 
   beforeAll(() => {
-    token = global.token;
+    _token = global.token;
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   async function getRequest({ user_id, farm_id }, query = '') {

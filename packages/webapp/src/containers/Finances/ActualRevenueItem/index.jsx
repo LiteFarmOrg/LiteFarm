@@ -1,4 +1,4 @@
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
@@ -6,7 +6,8 @@ import { getManagementPlanCardDate } from '../../../util/moment';
 import { setSelectedSale } from '../actions';
 import { createRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
-const ActualRevenueItem = ({ revenueItem, history, ...props }) => {
+const ActualRevenueItem = ({ revenueItem, ...props }) => {
+  const history = useHistory();
   const { sale_id, sale_date, customer_name } = revenueItem.sale;
 
   const dispatch = useDispatch();

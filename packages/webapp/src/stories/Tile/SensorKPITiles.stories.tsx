@@ -150,6 +150,19 @@ export const SensorKPIOne: Story = {
   },
 };
 
+export const SensorKPIWithoutMeasurements: Story = {
+  args: {
+    tileType: 'sensorKpi',
+    kpiProps: [
+      {
+        ...sensorKpiProps,
+        color: colors[0],
+        measurements: [],
+      },
+    ],
+  },
+};
+
 const extraMeasurements = {
   measurements: [
     {

@@ -62,7 +62,7 @@ export default function PureEnterPasswordPage({
       buttonGroup={
         <>
           <Button color={'secondary'} type={'button'} fullLength onClick={onGoBack}>
-            {t('common:BACK')}
+            {t('common:GO_BACK')}
           </Button>
           <Button
             data-cy="enterPassword-submit"

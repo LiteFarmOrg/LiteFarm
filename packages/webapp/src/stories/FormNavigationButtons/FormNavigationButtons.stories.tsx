@@ -20,6 +20,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Main } from '../../components/Typography';
 import styles from './styles.module.scss';
 import FloatingContainer from '../../components/FloatingContainer';
+import { ChevronRight } from '@mui/icons-material';
 
 const meta: Meta<typeof FormNavigationButtons> = {
   title: 'Components/FormNavigationButtons',
@@ -83,6 +84,25 @@ export const WithPreviousButton: Story = {
     isFirstStep: false,
     onPrevious: () => console.log('It uses onPrevious prop.'),
   },
+};
+
+export const WithCustomNextButtonContent: Story = {
+  args: { nextButtonContent: 'NEXT' },
+};
+
+export const WithCustomSaveButtonContent: Story = {
+  args: {
+    isFinalStep: true,
+    saveButtonContent: (
+      <>
+        Approve <ChevronRight />
+      </>
+    ),
+  },
+};
+
+export const WithCustomCancelButtonContent: Story = {
+  args: { cancelButtonContent: 'Back' },
 };
 
 export const WithInformationalText: Story = {

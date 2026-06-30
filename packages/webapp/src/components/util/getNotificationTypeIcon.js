@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactComponent as SensorIcon } from '../../assets/images/farmMapFilter/Sensor.svg';
+import { ReactComponent as NotificationPivotIcon } from '../../assets/images/irrigation/notification-pivot-icon.svg';
 
 /**
  * Provides the appropriate icon for a specified notification type.
@@ -22,7 +22,7 @@ import { ReactComponent as SensorIcon } from '../../assets/images/farmMapFilter/
  */
 export default function getNotificationTypeIcon(key) {
   const iconDict = {
-    SENSOR: SensorIcon,
+    IRRIGATION_PRESCRIPTION: NotificationPivotIcon,
   };
 
   return iconDict[key];

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import knex from '../src/util/knex';
+import knex from '../src/util/knex.js';
 
 function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');
@@ -15,19 +15,19 @@ function fakeStation(defaultData = {}) {
   };
 }
 
-function usersFactory(userObject = fakeUser()) {
-  return knex('users').insert(userObject).returning('*');
+async function usersFactory(userObject = fakeUser()) {
+  return await knex('users').insert(userObject).returning('*');
 }
 
 function fakeUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
-    first_name: faker.name.findName(),
+    first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.uuid(),
     status_id: 1,
-    phone_number: faker.phone.phoneNumber(),
+    phone_number: faker.phone.number(),
     gender: faker.helpers.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.datatype.number({ min: 1900, max: new Date().getFullYear() }),
     do_not_email: false,
@@ -38,11 +38,11 @@ function fakeUser(defaultData = {}) {
 function fakeSSOUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
-    first_name: faker.name.findName(),
+    first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.datatype.number({ min: 2, max: 10 }),
-    phone_number: faker.phone.phoneNumber(),
+    phone_number: faker.phone.number(),
     ...defaultData,
   };
 }
@@ -57,19 +57,19 @@ async function farmFactory(farmObject = fakeFarm()) {
 
 function fakeFarm(defaultData = {}) {
   return {
-    farm_name: faker.company.companyName(),
+    farm_name: faker.company.name(),
     address: faker.address.streetAddress(),
     grid_points: {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     },
-    farm_phone_number: faker.phone.phoneNumber(),
+    farm_phone_number: faker.phone.number(),
     ...defaultData,
   };
 }
 
 async function userFarmFactory(
-  { promisedUser = usersFactory(), promisedFarm = farmFactory(), roleId } = {},
+  { promisedUser = usersFactory(), promisedFarm = farmFactory(), roleId = 0 } = {},
   userFarm = fakeUserFarm(),
 ) {
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
@@ -157,16 +157,20 @@ function fakeArea(stringify = true, defaultData = {}) {
     total_area: faker.datatype.number(2000),
     grid_points: stringify
       ? JSON.stringify([
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ])
       : [
-          ...Array(3).map(() => ({
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
-          })),
+          ...Array(3)
+            .fill()
+            .map(() => ({
+              lat: Number(faker.address.latitude()),
+              lng: Number(faker.address.longitude()),
+            })),
         ],
     perimeter: faker.datatype.number(),
     total_area_unit: faker.helpers.arrayElement(['m2', 'ha', 'ft2', 'ac']),
@@ -385,6 +389,60 @@ async function farmExpenseFactory(
     .returning('*');
 }
 
+function fakeFarmExpenseCropVariety(defaultData = {}) {
+  return {
+    allocated_value: faker.datatype.float({ min: 1, max: 1000 }),
+    ...defaultData,
+  };
+}
+
+async function farm_expense_crop_varietyFactory(
+  { promisedExpense = farmExpenseFactory(), promisedCropVariety = crop_varietyFactory() } = {},
+  data = fakeFarmExpenseCropVariety(),
+) {
+  const [[expense], [cropVariety]] = await Promise.all([promisedExpense, promisedCropVariety]);
+  return knex('farm_expense_crop_variety')
+    .insert({
+      farm_expense_id: expense.farm_expense_id,
+      crop_variety_id: cropVariety.crop_variety_id,
+      ...data,
+    })
+    .returning('*');
+}
+
+function fakeFarmExpenseAnimal(defaultData = {}) {
+  return {
+    allocated_value: faker.datatype.float({ min: 1, max: 1000 }),
+    ...defaultData,
+  };
+}
+
+async function farm_expense_animalFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedExpense = farmExpenseFactory(),
+    promisedAnimal,
+    promisedAnimalBatch,
+    animalOrBatch = 'animal',
+  } = {},
+  data = fakeFarmExpenseAnimal(),
+) {
+  const [farm, [expense]] = await Promise.all([promisedFarm, promisedExpense]);
+  const [animal, animalBatch] = await Promise.all([
+    promisedAnimal || animalFactory({ promisedFarm: Promise.resolve(farm) }),
+    promisedAnimalBatch || animal_batchFactory({ promisedFarm: Promise.resolve(farm) }),
+  ]);
+  const [{ id: animal_id }] = animal;
+  const [{ id: animal_batch_id }] = animalBatch;
+  return knex('farm_expense_animal')
+    .insert({
+      farm_expense_id: expense.farm_expense_id,
+      ...(animalOrBatch === 'animal' ? { animal_id } : { animal_batch_id }),
+      ...data,
+    })
+    .returning('*');
+}
+
 function fakeCrop(defaultData = {}) {
   return {
     crop_common_name: faker.lorem.words(),
@@ -524,7 +582,7 @@ function fakeExpense(defaultData = {}) {
   return {
     expense_date: faker.date.future(),
     value: faker.datatype.number(100),
-    note: faker.helpers.randomize(),
+    note: faker.lorem.sentence(),
     ...defaultData,
   };
 }
@@ -1133,9 +1191,39 @@ async function productFactory({ promisedFarm = farmFactory() } = {}, product = f
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('product')
-    .insert({ ...product, ...base, farm_id })
+
+  const { supplier, on_permitted_substances_list, ...productProperties } = product;
+  const [productTableRecord] = await knex('product')
+    .insert({
+      ...productProperties,
+      ...base,
+    })
     .returning('*');
+
+  let productFarm = {};
+
+  // Products without a farm_id can be considered as library products not yet added to inventory. These products would have no record in product_farm
+  if (farm_id) {
+    [productFarm] = await knex('product_farm')
+      .insert({
+        product_id: productTableRecord.product_id,
+        supplier,
+        on_permitted_substances_list,
+        farm_id,
+      })
+      .returning('*');
+  }
+
+  // Remove farm_id from the returned properties as this causes the factory test to fail
+  const { farm_id: removedFarmId, ...productFarmDetails } = productFarm;
+
+  // Return the product with flattened productFarm details, same as the API
+  const flattenedProduct = {
+    ...productTableRecord,
+    ...productFarmDetails,
+  };
+
+  return [flattenedProduct];
 }
 
 function fakeProduct(defaultData = {}) {
@@ -1238,6 +1326,40 @@ function fakeSoilAmendmentTaskProduct(defaultData = {}) {
   };
 }
 
+async function soil_sample_taskFactory(
+  { promisedTask = taskFactory() } = {},
+  soilSampleTask = fakeSoilSampleTask(),
+) {
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
+
+  return knex('soil_sample_task')
+    .insert({
+      task_id,
+      ...soilSampleTask,
+      sample_depths: JSON.stringify(soilSampleTask.sample_depths),
+    })
+    .returning('*');
+}
+
+function fakeSoilSampleTask(defaultData = {}) {
+  const samples_per_location = faker.datatype.number({ min: 1, max: 5 });
+  const sample_depths = Array(samples_per_location)
+    .fill(null)
+    .map(() => ({
+      from: faker.datatype.number({ min: 0, max: 100 }),
+      to: faker.datatype.number({ min: 0, max: 100 }),
+    }));
+
+  return {
+    samples_per_location,
+    sample_depths,
+    sample_depths_unit: faker.helpers.arrayElement(['cm', 'in']),
+    sampling_tool: faker.helpers.arrayElement(['SOIL_PROBE', 'AUGER', 'SPADE']),
+    ...defaultData,
+  };
+}
+
 async function management_tasksFactory({
   promisedTask = taskFactory(),
   promisedPlantingManagementPlan = planting_management_planFactory(),
@@ -1286,8 +1408,11 @@ function fakePesticide(defaultData = {}) {
 }
 
 function fakeTaskType(defaultData = {}) {
+  const task_name = faker.lorem.word();
+  const task_translation_key = defaultData.task_translation_key ?? task_name;
   return {
-    task_name: faker.lorem.word(),
+    task_name,
+    task_translation_key,
     ...defaultData,
   };
 }
@@ -1580,8 +1705,8 @@ async function harvest_taskFactory(
   { promisedTask = taskFactory() } = {},
   harvestLog = fakeHarvestTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('harvest_task')
     .insert({ task_id, ...harvestLog })
     .returning('*');
@@ -1628,8 +1753,8 @@ async function plant_taskFactory(
   { promisedTask = taskFactory() } = {},
   plant_task = fakePlantTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('plant_task')
     .insert({ task_id, ...plant_task })
     .returning('*');
@@ -1675,8 +1800,8 @@ async function field_work_taskFactory(
   { promisedTask = taskFactory() } = {},
   field_work_task = fakeFieldWorkTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('field_work_task')
     .insert({ task_id, ...field_work_task })
     .returning('*');
@@ -1689,8 +1814,8 @@ function fakeFieldWorkTask(defaultData = {}) {
 }
 
 async function soil_taskFactory({ promisedTask = taskFactory() } = {}, soil_task = fakeSoilTask()) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('soil_task')
     .insert({ task_id, ...soil_task })
     .returning('*');
@@ -1738,11 +1863,25 @@ function fakeSoilTask(defaultData = {}) {
 }
 
 async function irrigation_taskFactory(
-  { promisedTask = taskFactory() } = {},
+  { promisedTask = taskFactory(), promisedFarm } = {},
   irrigationTask = fakeIrrigationTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
+
+  if (!irrigationTask.irrigation_type_id) {
+    const properties =
+      irrigationTask.irrigation_type_name && irrigationTask.measuring_type
+        ? {
+            irrigation_type_name: irrigationTask.irrigation_type_name,
+            default_measuring_type: irrigationTask.measuring_type,
+          }
+        : {};
+    const [irrigationType] = await irrigation_typeFactory({ promisedFarm, properties });
+
+    irrigationTask.irrigation_type_id = irrigationType.irrigation_type_id;
+  }
+
   return knex('irrigation_task')
     .insert({ task_id, ...irrigationTask })
     .returning('*');
@@ -1756,12 +1895,31 @@ function fakeIrrigationTask(defaultData = {}) {
   };
 }
 
+async function irrigation_typeFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  irrigationType = fakeIrrigationType(properties),
+) {
+  const [[{ farm_id }], [{ user_id }]] = await Promise.all([promisedFarm, usersFactory()]);
+  const base = baseProperties(user_id);
+  return knex('irrigation_type')
+    .insert({ farm_id, ...base, ...irrigationType })
+    .returning('*');
+}
+
+function fakeIrrigationType(defaultData = {}) {
+  return {
+    irrigation_type_name: faker.helpers.arrayElement(['HAND_WATERING']),
+    default_measuring_type: faker.helpers.arrayElement(['VOLUME', 'DEPTH']),
+    ...defaultData,
+  };
+}
+
 async function scouting_taskFactory(
   { promisedTask = taskFactory() } = {},
   scouting_task = fakeScoutingTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('scouting_task')
     .insert({ task_id, ...scouting_task })
     .returning('*');
@@ -1774,12 +1932,25 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
+async function cleaning_taskFactory(
+  { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
+  cleaning_task = {},
+) {
+  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [{ task_id }] = task;
+  const [{ product_id }] =
+    Array.isArray(product) && product.length ? product : [{ product_id: undefined }];
+  return knex('cleaning_task')
+    .insert({ task_id, product_id, ...cleaning_task })
+    .returning('*');
+}
+
 async function animal_movement_taskFactory(
   { promisedTask = taskFactory() } = {},
   animal_movement_task = fakeAnimalMovementTask(),
 ) {
-  const [activity] = await Promise.all([promisedTask]);
-  const [{ task_id }] = activity;
+  const [task] = await Promise.all([promisedTask]);
+  const [{ task_id }] = task;
   return knex('animal_movement_task')
     .insert({ task_id, ...animal_movement_task })
     .returning('*');
@@ -1818,7 +1989,7 @@ async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale =
 
 function fakeSale(defaultData = {}) {
   return {
-    customer_name: faker.name.findName(),
+    customer_name: faker.name.firstName(),
     sale_date: faker.date.recent(),
     ...defaultData,
   };
@@ -1851,6 +2022,43 @@ async function crop_variety_saleFactory(
     .returning('*');
 }
 
+function fakeAnimalSale(defaultData = {}) {
+  return {
+    sale_value: faker.datatype.number(1000),
+    quantity: faker.datatype.number(1000),
+    quantity_unit: faker.helpers.arrayElement(['kg', 'mt', 'lb', 't']),
+    ...defaultData,
+  };
+}
+
+async function animal_saleFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedSale = saleFactory(),
+    promisedAnimal,
+    promisedAnimalBatch,
+    animalOrBatch = 'animal',
+  } = {},
+  animalSale = fakeAnimalSale(),
+) {
+  const [farm, sale] = await Promise.all([promisedFarm, promisedSale]);
+  const [animal, animalBatch] = await Promise.all([
+    promisedAnimal || animalFactory({ promisedFarm: Promise.resolve(farm) }),
+    promisedAnimalBatch || animal_batchFactory({ promisedFarm: Promise.resolve(farm) }),
+  ]);
+  const [{ id: animal_id }] = animal;
+  const [{ id: animal_batch_id }] = animalBatch;
+  const [{ sale_id }] = sale;
+
+  return knex('animal_sale')
+    .insert({
+      ...(animalOrBatch === 'animal' ? { animal_id } : { animal_batch_id }),
+      sale_id,
+      ...animalSale,
+    })
+    .returning('*');
+}
+
 function fakeSupportTicket(farm_id, defaultData = {}) {
   const support_type = ['Request information', 'Report a bug', 'Request a feature', 'Other'];
   const contact_method = ['email', 'whatsapp'];
@@ -1868,7 +2076,7 @@ function fakeSupportTicket(farm_id, defaultData = {}) {
     message: faker.lorem.paragraphs(),
     attachments,
     email: faker.internet.email(),
-    whatsapp: faker.phone.phoneNumber(),
+    whatsapp: faker.phone.number(),
     farm_id,
     ...defaultData,
   };
@@ -2245,8 +2453,12 @@ async function populateDefaultRevenueTypes() {
     {
       revenue_name: 'Crop Sale',
       revenue_translation_key: 'CROP_SALE',
-      agriculture_associated: null,
-      crop_generated: true,
+      entity_type: 'crop',
+    },
+    {
+      revenue_name: 'Animal Sale',
+      revenue_translation_key: 'ANIMAL_SALE',
+      entity_type: 'animal',
     },
   ];
   for (const type of types) {
@@ -2255,7 +2467,7 @@ async function populateDefaultRevenueTypes() {
     });
     if (!revenueTypeInDb) {
       const base = baseProperties(1);
-      return knex('revenue_type')
+      await knex('revenue_type')
         .insert({ ...type, ...base })
         .returning('*');
     }
@@ -2436,8 +2648,8 @@ async function animal_batchFactory(
       batch[0].sex_detail = details;
       return batch;
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((_err) => {
+      console.error(_err);
     });
 }
 
@@ -2548,14 +2760,22 @@ async function animal_type_use_relationshipFactory({
     .returning('*');
 }
 
-async function addon_partnerFactory(partner = { name: faker.company.companyName() }) {
-  return knex('addon_partner')
-    .insert({
-      ...partner,
-      access_token: faker.datatype.access_token,
-      refresh_token: faker.datatype.refresh_token,
-    })
-    .returning('*');
+async function addon_partnerFactory(partner) {
+  const fakePartner = partner ? null : { name: faker.company.name() };
+  const [existingPartner] = await knex('addon_partner').where({
+    name: partner ? partner.name : fakePartner.name,
+  });
+
+  if (!existingPartner) {
+    return knex('addon_partner')
+      .insert({
+        ...(partner ? partner : fakePartner),
+        access_token: faker.datatype.access_token,
+        refresh_token: faker.datatype.refresh_token,
+      })
+      .returning('*');
+  }
+  return [existingPartner];
 }
 
 async function farm_addonFactory({
@@ -2571,6 +2791,207 @@ async function farm_addonFactory({
     .insert({ farm_id, addon_partner_id, org_pk, org_uuid })
     .returning('*');
 }
+
+function fakeMarketDirectoryInfo(defaultData = {}) {
+  return {
+    farm_name: faker.lorem.word(),
+    contact_first_name: faker.name.firstName(),
+    contact_email: faker.internet.email(),
+    address: faker.address.streetAddress(),
+    ...defaultData,
+  };
+}
+
+async function market_directory_infoFactory({
+  promisedUserFarm = userFarmFactory(),
+  marketDirectoryInfo = fakeMarketDirectoryInfo(),
+} = {}) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ farm_id, user_id }] = userFarm;
+  const base = baseProperties(user_id);
+
+  return await knex('market_directory_info')
+    .insert({ farm_id, ...base, ...marketDirectoryInfo })
+    .returning('*');
+}
+
+function fakeMarketDirectoryPartnerAuth(defaultData = {}) {
+  return {
+    client_id: faker.datatype.uuid(),
+    keycloak_url: 'https://keycloak.test.com',
+    keycloak_realm: 'test-realm',
+    webhook_endpoint: faker.internet.url(),
+    ...defaultData,
+  };
+}
+
+async function market_directory_partner_authFactory(
+  { promisedPartner = market_directory_partnerFactory() } = {},
+  partnerAuth = fakeMarketDirectoryPartnerAuth(),
+) {
+  const [partner] = await Promise.all([promisedPartner]);
+  const [{ id: market_directory_partner_id }] = partner;
+
+  return knex('market_directory_partner_auth')
+    .insert({ market_directory_partner_id, ...partnerAuth })
+    .returning('*');
+}
+
+async function market_product_categoryFactory(key = faker.lorem.word()) {
+  return knex('market_product_category').insert({ key }).returning('*');
+}
+
+async function market_directory_info_market_product_categoryFactory({
+  promisedMarketDirectoryInfo = market_directory_infoFactory(),
+  promisedMarketProductCategory = market_product_categoryFactory(),
+} = {}) {
+  const [marketDirectoryInfo, marketProductCategory] = await Promise.all([
+    promisedMarketDirectoryInfo,
+    promisedMarketProductCategory,
+  ]);
+  const [{ id: marketDirectoryId }] = marketDirectoryInfo;
+  const [{ id: marketProductCategoryId }] = marketProductCategory;
+
+  return knex('market_directory_info_market_product_category')
+    .insert({
+      market_directory_info_id: marketDirectoryId,
+      market_product_category_id: marketProductCategoryId,
+    })
+    .returning('*');
+}
+
+function fakeKey() {
+  return faker.word
+    .conjunction({ length: { min: 1, max: 3 } })
+    .split(' ')
+    .map((word) => word.toUpperCase())
+    .join('_');
+}
+
+function fakeMarketDirectoryPartner(defaultData = {}) {
+  return { key: fakeKey(), ...defaultData };
+}
+
+async function market_directory_partnerFactory(
+  marketDirectoryPartner = fakeMarketDirectoryPartner(),
+) {
+  return knex('market_directory_partner').insert(marketDirectoryPartner).returning('*');
+}
+
+/**
+ * @param {Object} [options={}]
+ * @param {Promise<Array>} [options.promisedPartner=market_directory_partnerFactory()]
+ *   A promise resolving to an array containing the partner record.
+ * @param {Promise<Array>} options.promisedCountry
+ *   A promise resolving to an array containing the country record.
+ */
+async function market_directory_partner_countryFactory({
+  promisedPartner = market_directory_partnerFactory(),
+  promisedCountry,
+} = {}) {
+  const [partner, country] = await Promise.all([promisedPartner, promisedCountry]);
+  const [{ id: partnerId }] = partner;
+  const countryId = country?.[0]?.id || null;
+
+  return await knex('market_directory_partner_country')
+    .insert({ market_directory_partner_id: partnerId, country_id: countryId })
+    .returning('*');
+}
+
+async function market_directory_partner_permissionsFactory({
+  promisedDirectoryInfo = market_directory_infoFactory(),
+  promisedPartner = market_directory_partnerFactory(),
+} = {}) {
+  const [marketDirectoryInfo, partner] = await Promise.all([
+    promisedDirectoryInfo,
+    promisedPartner,
+  ]);
+  const [{ id: market_directory_info_id }] = marketDirectoryInfo;
+  const [{ id: market_directory_partner_id }] = partner;
+
+  return knex('market_directory_partner_permissions')
+    .insert({ market_directory_info_id, market_directory_partner_id })
+    .returning('*');
+}
+
+// External endpoint helper mocks
+export const buildExternalIrrigationPrescription = async ({
+  id,
+  providedFarm,
+  providedLocation,
+  providedManagementPlan = null,
+}) => {
+  const farm = providedFarm ?? farmFactory();
+  const location =
+    providedLocation ??
+    (await locationFactory({ promisedFarm: Promise.resolve(farm) ?? undefined }));
+  const managementPlan =
+    providedManagementPlan ??
+    (
+      await management_planFactory({
+        promisedFarm: Promise.resolve([farm]),
+      })
+    )[0];
+
+  return {
+    id: id ?? 1,
+    location_id: location.location_id,
+    management_plan_id: managementPlan.management_plan_id,
+    recommended_start_date: new Date().toISOString().split('T')[0],
+  };
+};
+
+export const buildIrrigationPrescription = async ({
+  providedExternalIrrigationPrescription,
+  providedPartner,
+  linkToTask = false,
+  providedFarm = {},
+  providedLocation = {},
+  providedIrrigationTask = null,
+}) => {
+  const externalIrrigationPrescription =
+    providedExternalIrrigationPrescription ?? (await buildExternalIrrigationPrescription({}));
+  const addonPartner = providedPartner ?? (await addon_partnerFactory());
+
+  const mockIrrigationTask = fakeIrrigationTask({
+    location_id: externalIrrigationPrescription.location_id,
+    irrigation_prescription_external_id: externalIrrigationPrescription.id,
+  });
+
+  let irrigationTask;
+  if (providedIrrigationTask) {
+    irrigationTask = providedIrrigationTask;
+  } else if (linkToTask && !providedIrrigationTask) {
+    const task = await taskFactory({ promisedFarm: [providedFarm] });
+    await location_tasksFactory({ promisedTask: task, promisedField: [providedLocation] });
+    [irrigationTask] = await irrigation_taskFactory({ promisedTask: task }, mockIrrigationTask);
+  }
+
+  return {
+    ...externalIrrigationPrescription,
+    partner_id: addonPartner.id,
+    task_id: irrigationTask?.task_id,
+  };
+};
+
+const fakeFarmNote = (defaultData = {}) => {
+  return {
+    note: faker.lorem.sentence(),
+    is_private: false,
+    ...defaultData,
+  };
+};
+
+const farm_noteFactory = async (
+  { promisedUserFarm = userFarmFactory({ roleId: 1 }) } = {},
+  farmNote = fakeFarmNote(),
+) => {
+  const [[{ user_id, farm_id }]] = await Promise.all([promisedUserFarm]);
+
+  return await knex('farm_note')
+    .insert({ user_id, farm_id, ...baseProperties(user_id), ...farmNote })
+    .returning('*');
+};
 
 export default {
   weather_stationFactory,
@@ -2639,9 +3060,12 @@ export default {
   soil_taskFactory,
   fakeSoilTask,
   fakeSoilAmendmentTaskProduct,
+  fakeSoilSampleTask,
+  soil_sample_taskFactory,
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,
+  cleaning_taskFactory,
   fakeScoutingTask,
   animal_movement_taskFactory,
   fakeAnimalMovementTask,
@@ -2734,5 +3158,25 @@ export default {
   animal_type_use_relationshipFactory,
   addon_partnerFactory,
   farm_addonFactory,
+  buildExternalIrrigationPrescription,
+  buildIrrigationPrescription,
+  fakeMarketDirectoryInfo,
+  market_directory_infoFactory,
+  market_product_categoryFactory,
+  market_directory_info_market_product_categoryFactory,
+  market_directory_partnerFactory,
+  market_directory_partner_countryFactory,
+  fakeMarketDirectoryPartner,
+  fakeMarketDirectoryPartnerAuth,
+  market_directory_partner_authFactory,
+  market_directory_partner_permissionsFactory,
+  fakeFarmNote,
+  farm_noteFactory,
+  fakeAnimalSale,
+  animal_saleFactory,
+  fakeFarmExpenseCropVariety,
+  farm_expense_crop_varietyFactory,
+  fakeFarmExpenseAnimal,
+  farm_expense_animalFactory,
   baseProperties,
 };

@@ -1,13 +1,13 @@
-import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PureRoleSelection from '../../components/RoleSelection';
 import { useDispatch, useSelector } from 'react-redux';
 import { patchRole } from '../AddFarm/saga';
-import history from '../../history';
 import { roleToId } from './roleMap';
 import { useTranslation } from 'react-i18next';
 import { userFarmSelector } from '../userFarmSlice';
 
 function RoleSelection() {
+  const history = useHistory();
   const { t } = useTranslation();
   const { role, owner_operated } = useSelector(userFarmSelector);
   const dispatch = useDispatch();

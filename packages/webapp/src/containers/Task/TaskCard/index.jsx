@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,14 +6,7 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
 import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
 import UpdateTaskDateModal from '../../../components/Modals/UpdateTaskDateModal';
-import {
-  assignTask,
-  assignTasksOnDate,
-  changeTaskDate,
-  changeTaskWage,
-  updateUserFarmWage,
-  setUserFarmWageDoNotAskAgain,
-} from '../saga';
+import { assignTask, assignTasksOnDate, changeTaskDate } from '../saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const TaskCard = ({
@@ -29,7 +22,9 @@ const TaskCard = ({
   selected,
   happiness,
   classes = { card: {} },
-  wage_at_moment,
+  revision_date,
+  revised_by_user_id,
+  to_sync = false,
   ...props
 }) => {
   const [showTaskAssignModal, setShowTaskAssignModal] = useState();
@@ -40,13 +35,6 @@ const TaskCard = ({
   };
   const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
   const onAssignTask = (task) => dispatch(assignTask(task));
-  const onUpdateUserFarmWage = (user) => dispatch(updateUserFarmWage(user));
-  const onSetUserFarmWageDoNotAskAgain = (user) => {
-    dispatch(setUserFarmWageDoNotAskAgain(user));
-  };
-  const onChangeTaskWage = (wage) => {
-    dispatch(changeTaskWage({ task_id, wage_at_moment: wage }));
-  };
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
   const immutableStatus = ['completed', 'abandoned'];
@@ -63,6 +51,7 @@ const TaskCard = ({
   } else {
     taskUnassigned = true;
   }
+  const reviser = users.find((user) => user.user_id === revised_by_user_id);
 
   return (
     <>
@@ -92,6 +81,9 @@ const TaskCard = ({
         isAdmin={isAdmin}
         isAssignee={isAssignee}
         language={language}
+        revision_date={revision_date}
+        reviser={reviser}
+        to_sync={to_sync}
       />
       {showTaskAssignModal && (
         <TaskQuickAssignModal
@@ -100,13 +92,9 @@ const TaskCard = ({
           isAssigned={!!assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
-          onUpdateUserFarmWage={onUpdateUserFarmWage}
-          onChangeTaskWage={onChangeTaskWage}
-          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
-          wage_at_moment={wage_at_moment}
         />
       )}
       {showDateAssignModal && (

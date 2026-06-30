@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../assets/mixin';
+@use '../../../assets/mixin' as *;
 
 .container {
   display: flex;
@@ -43,6 +43,13 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
+}
+
+.equalWidth {
+  > * {
+    flex: 1;
+    text-align: center;
+  }
 }
 
 .button {

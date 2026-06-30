@@ -27,3 +27,6 @@ export const PARTNERS = {
 };
 
 export const partnerIds = Object.values(PARTNERS).map(({ id }) => id);
+
+// Makes an array of PARTNERS properties to slightly more conveniently search for partner related properties
+export const partnerEntities = Object.values(PARTNERS).map((partner) => partner);

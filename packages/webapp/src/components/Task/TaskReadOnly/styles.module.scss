@@ -1,3 +1,5 @@
+@use '@assets/mixin' as *;
+
 .mapContainer {
   position: relative;
   height: 160px;
@@ -101,4 +103,48 @@
 
 .section {
   margin-bottom: 24px;
+}
+
+.irrigationPrescription {
+  margin-bottom: 16px;
+}
+
+.filesTitle {
+  margin-top: 8px;
+  margin-bottom: 18px;
+}
+
+.taskLocationsTitle {
+  margin-bottom: 12px;
+}
+
+.completeAbandonDetailsTitle {
+  margin-bottom: 24px;
+}
+
+.revisionInfo {
+  margin-top: -4px;
+  color: var(--teal900);
+  text-align: right;
+
+  @include md-breakpoint {
+    margin-top: 0;
+    text-align: left;
+  }
+}
+
+.taskWageSet {
+  color: var(--Colors-Neutral-Neutral-900);
+  padding-top: 12px;
+}
+
+.taskWageNotSet {
+  color: var(--Colors-Accent-Accent-yellow-900);
+  font-style: italic;
+  padding-top: 12px;
+}
+
+.locationList {
+  margin-bottom: 20px;
+  list-style-position: inside;
 }

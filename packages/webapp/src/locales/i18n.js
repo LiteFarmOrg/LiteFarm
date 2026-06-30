@@ -1,11 +1,15 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
-import backend from 'i18next-xhr-backend';
+import ChainedBackend from 'i18next-chained-backend';
+import HttpBackend from 'i18next-http-backend';
+import resourcesToBackend from 'i18next-resources-to-backend';
 import { APP_VERSION } from '../util/constants';
 
+// Backend Fallback: https://www.i18next.com/how-to/backend-fallback
+
 i18n
-  .use(backend)
+  .use(ChainedBackend)
   .use(initReactI18next)
   .use(I18nextBrowserLanguageDetector)
   .init({
@@ -22,10 +26,27 @@ i18n
     react: {
       useSuspense: true,
     },
+    ns: ['animal', 'crop', 'expense', 'revenue', 'task', 'market_directory_info', 'profitability'],
     backend: {
       queryStringParams: { v: APP_VERSION },
+      backends: [
+        HttpBackend,
+        resourcesToBackend((lng, ns) => {
+          if (lng === i18n.language) {
+            return import(`../../public/locales/${lng}/${ns}.json`);
+          } else if (lng === 'en') {
+            return import(`../../public/locales/${lng}/${ns}.json`);
+          }
+          throw new Error(`Language ${lng} not available offline`);
+        }),
+      ],
+      backendOptions: [
+        {
+          loadPath: '/locales/{{lng}}/{{ns}}.json',
+        },
+        {},
+      ],
     },
-    ns: ['crop', 'expense', 'task'],
   });
 
 export default i18n;

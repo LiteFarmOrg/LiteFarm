@@ -14,12 +14,13 @@
  */
 
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { downloadExport } from './saga';
 import i18n from '../../locales/i18n';
 
-export default function DownloadExport({ match }) {
-  const { id, from, to } = match.params;
+export default function DownloadExport() {
+  const { id, from, to } = useParams();
   let fileSrc = window.atob(id);
   const dispatch = useDispatch();
 

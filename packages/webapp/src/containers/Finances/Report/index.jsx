@@ -174,6 +174,16 @@ const Report = () => {
     closeExportReport();
   };
 
+  const handleTransactionFilter = (filterKey, filterState) => {
+    const hasActiveFilters = Object.values(filterState).some((filter) => {
+      return filter.active === true;
+    });
+
+    return setTypesFilter({
+      ...typesFilter,
+      [filterKey]: !hasActiveFilters ? undefined : filterState,
+    });
+  };
   return (
     <div>
       <TextButton onClick={() => setIsExportReportOpen(true)} className={styles.reportButton}>
@@ -205,9 +215,7 @@ const Report = () => {
           <TransactionFilterContent
             transactionsFilter={dashboardTypesFilter}
             filterContainerClassName={styles.filterContainer}
-            onChange={(filterKey, filterState) =>
-              setTypesFilter({ ...typesFilter, [filterKey]: filterState })
-            }
+            onChange={handleTransactionFilter}
           />
         </>
       </Drawer>

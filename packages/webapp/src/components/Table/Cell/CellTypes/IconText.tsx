@@ -25,6 +25,7 @@ export type IconTextProps = {
   photoUrl?: string | null;
   removed?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 };
 
 const IconText = ({
@@ -36,9 +37,10 @@ const IconText = ({
   removed,
   photoUrl,
   className,
+  style,
 }: IconTextProps) => {
   return (
-    <div className={clsx(styles.iconTextContainer, className)}>
+    <div className={clsx(styles.iconTextContainer, className)} style={style}>
       {photoUrl && iconName !== 'REMOVED_ANIMAL' ? (
         <img src={photoUrl} className={styles.photoUrl} />
       ) : (

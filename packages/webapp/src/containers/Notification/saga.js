@@ -22,6 +22,7 @@ import {
 } from '../notificationSlice';
 import { notificationsUrl, clearAlertsUrl } from '../../apiConfig';
 import history from '../../history';
+import { alertSelector } from '../Navigation/Alert/alertSlice';
 
 export const getNotification = createAction('getNotificationSaga');
 
@@ -39,17 +40,17 @@ export function* getNotificationSaga() {
 
 export const readNotification = createAction('readNotificationSaga');
 
-export function* readNotificationSaga({ payload }) {
+export function* readNotificationSaga({ payload: { notificationId } }) {
   const { user_id, farm_id } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
   try {
     yield call(
       axios.patch,
       notificationsUrl,
-      { notification_ids: [payload], status: 'Read' },
+      { notification_ids: [notificationId], status: 'Read' },
       header,
     );
-    history.push(`/notifications/${payload}/read_only`);
+    history.push(`/notifications/${notificationId}/read_only`);
   } catch (e) {
     console.error(e);
   }
@@ -58,11 +59,15 @@ export function* readNotificationSaga({ payload }) {
 export const clearAlerts = createAction('clearAlertsSaga');
 
 export function* clearAlertsSaga({ payload }) {
+  const { count } = yield select(alertSelector);
+  if (!count) return;
+
   const { user_id, farm_id } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
+
   try {
     // TODO figure out why this patch is sometimes performed more than once for single action dispatch.
-    yield call(axios.patch, clearAlertsUrl, { notification_ids: payload }, header);
+    yield call(axios.patch, clearAlertsUrl, payload && { notification_ids: payload }, header);
   } catch (e) {
     console.error(e);
   }

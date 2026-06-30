@@ -27,6 +27,13 @@ const upsertManyPestControlTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllPestControlTask = (state, { payload: tasks }) => {
+  pestControlTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getPestControlTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const pestControlTaskAdapter = createEntityAdapter({
   selectId: (pestControlTask) => pestControlTask.task_id,
@@ -44,6 +51,7 @@ const pestControlTaskSlice = createSlice({
     onLoadingPestControlTaskStart: onLoadingStart,
     onLoadingPestControlTaskFail: onLoadingFail,
     getPestControlTasksSuccess: upsertManyPestControlTask,
+    getAllPestControlTasksSuccess: setAllPestControlTask,
     postPestControlTaskSuccess: upsertOnePestControlTask,
     editPestControlTaskSuccess: upsertOnePestControlTask,
     deletePestControlTaskSuccess: pestControlTaskAdapter.removeOne,
@@ -51,6 +59,7 @@ const pestControlTaskSlice = createSlice({
 });
 export const {
   getPestControlTasksSuccess,
+  getAllPestControlTasksSuccess,
   postPestControlTaskSuccess,
   editPestControlTaskSuccess,
   onLoadingPestControlTaskStart,

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
@@ -32,11 +31,10 @@ export const taskStatusTranslateKey = {
   abandoned: 'ABANDONED',
 };
 
-const getDate = (date, language = 'en') => {
-  return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
-};
-
-import useLanguageOptions, { languageCodes } from '../../../hooks/useLanguageOptions';
+import { languageCodes } from '../../../hooks/useLanguageOptions';
+import { getIntlDate } from '../../../util/date-migrate-TS';
+import { getFirstNameWithLastInitial } from '../../../util/getFirstNameWithLastInitial';
+import RevisionInfoText from '../../RevisionInfoText';
 
 export const PureTaskCard = ({
   taskType,
@@ -55,6 +53,9 @@ export const PureTaskCard = ({
   isAdmin,
   isAssignee,
   language,
+  revision_date,
+  reviser,
+  to_sync = false,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -70,12 +71,9 @@ export const PureTaskCard = ({
   };
 
   const isAssigneeInactive = assignee?.status === 'Inactive';
-  let assigneeName = '';
-  if (assignee !== null) {
-    const lastName =
-      assignee.last_name.length > 0 ? assignee.last_name.toUpperCase().charAt(0) + '.' : '';
-    assigneeName = `${assignee.first_name} ${lastName}`;
-  }
+  const assigneeName = assignee ? getFirstNameWithLastInitial(assignee) : '';
+
+  const isRevised = !!revision_date;
 
   return (
     <CardWithStatus
@@ -84,6 +82,7 @@ export const PureTaskCard = ({
       style={style}
       status={status}
       label={t(`TASK.STATUS.${taskStatusTranslateKey[status]}`)}
+      className={clsx(to_sync && styles.cardAwaitingSync)}
       classes={{
         ...classes,
         card: {
@@ -95,8 +94,9 @@ export const PureTaskCard = ({
           ...classes.card,
         },
       }}
-      onClick={onClick}
+      onClick={to_sync ? undefined : onClick}
       score={happiness}
+      to_sync={to_sync}
     >
       <TaskIcon className={styles.taskIcon} />
       <div className={styles.info}>
@@ -117,7 +117,10 @@ export const PureTaskCard = ({
           >
             <CalendarIcon />
             <div data-cy="taskCard-dueDate">
-              {getDate(status === 'abandoned' ? props['abandonDate'] : completeOrDueDate, language)}
+              {getIntlDate(
+                status === 'abandoned' ? props['abandonDate'] : completeOrDueDate,
+                language,
+              )}
             </div>
           </div>
           {assignee ? (
@@ -157,6 +160,12 @@ export const PureTaskCard = ({
           )}
         </div>
       </div>
+      {isRevised && (
+        <div className={styles.revisionInfo}>
+          <RevisionInfoText revisionDate={revision_date} reviser={reviser} language={language} />
+        </div>
+      )}
+      {to_sync && <span className={styles.willSaveText}>{t('TASK.WILL_SAVE_ONLINE')}</span>}
     </CardWithStatus>
   );
 };
@@ -176,4 +185,5 @@ PureTaskCard.propTypes = {
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
   language: PropTypes.oneOf(languageCodes),
+  to_sync: PropTypes.bool,
 };

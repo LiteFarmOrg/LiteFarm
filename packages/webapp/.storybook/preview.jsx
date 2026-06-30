@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import state from './state';
 import { action } from '@storybook/addon-actions';
 import theme from '../src/assets/theme';
@@ -19,6 +20,7 @@ export const parameters = {
   },
   layout: 'fullscreen',
   chromatic: { disableSnapshot: true },
+  viewport: { defaultViewport: 'reset' },
 };
 const store = {
   getState: () => {
@@ -31,6 +33,7 @@ export const decorators = [
   (Story, context) => {
     // https://storybook.js.org/blog/internationalize-components-with-storybook/
     const { locale } = context.globals;
+    const initialEntries = context.parameters?.router?.initialEntries || ['/'];
 
     useEffect(() => {
       i18n.changeLanguage(locale);
@@ -45,7 +48,6 @@ export const decorators = [
         'translation',
         'crop',
         'common',
-        'disease',
         'task',
         'expense',
         'fertilizer',
@@ -54,20 +56,24 @@ export const decorators = [
         'role',
         'harvest_uses',
         'soil',
+        'profitability',
       ],
       { useSuspense: false },
     );
     return (
       <Provider store={store}>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <GlobalScss />
-            <CssBaseline />
-            <I18nextProvider i18n={i18n}>
-              <Story />
-            </I18nextProvider>
-          </ThemeProvider>
-        </StyledEngineProvider>
+        {/* https://v5.reactrouter.com/web/api/MemoryRouter */}
+        <MemoryRouter initialEntries={initialEntries}>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <GlobalScss />
+              <CssBaseline />
+              <I18nextProvider i18n={i18n}>
+                <Story />
+              </I18nextProvider>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        </MemoryRouter>
       </Provider>
     );
   },

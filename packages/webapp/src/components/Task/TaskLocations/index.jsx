@@ -13,6 +13,7 @@ import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import Switch from '../../Form/Switch';
+import DropdownLocationPicker from '../../LocationPicker/DropdownLocationPicker';
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -172,6 +173,21 @@ export default function PureTaskLocations({
             classes={{ container: styles.switchContainer }}
           />
         )}
+        <div
+          className={clsx(
+            styles.dropdownLocationPickerContainer,
+            isAnimalTask && styles.fullWidthPadding,
+          )}
+        >
+          <DropdownLocationPicker
+            locations={locations}
+            isMulti={isMulti}
+            onSelectLocation={onSelectLocation}
+            clearLocations={clearLocations}
+            selectedLocationIds={selectedLocationIds}
+            disabled={noLocationsChecked}
+          />
+        </div>
         <LocationPicker
           onSelectLocation={onSelectLocation}
           clearLocations={clearLocations}

@@ -1,19 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { saveAs } from 'file-saver';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
+import { DEFAULT_ZOOM, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppUIContext } from '../../contexts/appContext';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
-import {
-  sendMapToEmail,
-  setSpotlightToShown,
-  getSensorReadings,
-  getAllSensorReadingTypes,
-} from './saga';
+import { sendMapToEmail, setSpotlightToShown } from './saga';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
@@ -24,6 +21,7 @@ import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import PureMapHeader from '../../components/Map/Header';
 import { PureSnackbarWithoutBorder } from '../../components/PureSnackbar';
 import PureMapFooter from '../../components/Map/Footer';
+import { LoadingBackdrop } from '../../components/Loading/LoadingV2';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
@@ -33,11 +31,10 @@ import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
 import useDrawingManager from './useDrawingManager';
+import { createShapeCapture } from './createShapeCapture';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
-import { getLocations } from '../saga';
 import {
-  availableFilterSettingsSelector,
   mapFilterSettingSelector,
   setMapFilterHideAll,
   setMapFilterSetting,
@@ -62,9 +59,19 @@ import {
 } from './mapAddDrawerSlice';
 import clsx from 'clsx';
 import { ADD_SENSORS_URL } from '../../util/siteMapConstants';
+import {
+  cleanupGeometryListeners,
+  cleanupInstanceListeners,
+} from '../../util/google-maps/cleanupListeners';
+import useAvailableFilterSettings from './useAvailableFilterSettings';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 
-export default function Map({ history, isCompactSideMenu }) {
+export default function Map({ isCompactSideMenu }) {
+  const history = useHistory();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
+  const {
+    maps: { isLoaded },
+  } = useAppUIContext();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
   const isMapFilterSettingActive = useSelector(isMapFilterSettingActiveSelector);
@@ -75,7 +82,7 @@ export default function Map({ history, isCompactSideMenu }) {
   const overlayData = useSelector(hookFormPersistSelector);
   const [gMap, setGMap] = useState(null);
   const [gMaps, setGMaps] = useState(null);
-  const [gMapBounds, setGMapBounds] = useState(null);
+
   const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
@@ -87,6 +94,8 @@ export default function Map({ history, isCompactSideMenu }) {
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
     history?.location?.state?.hideLocationPin ?? false,
   );
+
+  const isOffline = useIsOffline();
 
   const initialLineData = {
     [locationEnum.watercourse]: {
@@ -138,14 +147,10 @@ export default function Map({ history, isCompactSideMenu }) {
   }, [drawingState.pointChanged]);
 
   useEffect(() => {
-    dispatch(getLocations());
-  }, []);
-
-  useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
   }, [showHeader]);
 
-  const showAddDrawer = mapAddDrawer.addDrawer;
+  const showAddDrawer = mapAddDrawer.addDrawer && !isOffline;
 
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
@@ -185,14 +190,66 @@ export default function Map({ history, isCompactSideMenu }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer({
+  const {
+    drawAssets,
+    assetGeometriesRef,
+    markerClusterRef,
+    isFetchingInternalLocations,
+    isLoadingExternalLocations,
+  } = useMapAssetRenderer({
     isClickable: !drawingState.type,
     drawingState: drawingState,
     showingConfirmButtons: showingConfirmButtons,
   });
-  const { getMaxZoom, maxZoom } = useMaxZoom();
-  const handleGoogleMapApi = (map, maps) => {
-    getMaxZoom(maps, map);
+
+  // Cleanup listeners on map instance objects
+  useEffect(() => {
+    if (!gMaps) return;
+    return () => {
+      if (assetGeometriesRef.current) {
+        cleanupGeometryListeners(assetGeometriesRef.current, gMaps);
+      }
+      if (markerClusterRef.current) {
+        cleanupInstanceListeners(markerClusterRef.current, gMaps);
+      }
+      if (drawingState.drawingManager) {
+        drawingState.drawingManager.destroy();
+      }
+    };
+  }, [gMaps]);
+
+  // Draw locations on map
+  const hasDrawnRef = useRef(false);
+  useEffect(() => {
+    if (
+      !gMap ||
+      !gMaps ||
+      isFetchingInternalLocations ||
+      isLoadingExternalLocations ||
+      hasDrawnRef.current
+    ) {
+      return;
+    }
+    hasDrawnRef.current = true;
+    const mapBounds = new gMaps.LatLngBounds();
+    drawAssets(gMap, gMaps, mapBounds);
+
+    if (history.location.state?.isStepBack) {
+      reconstructOverlay();
+    }
+
+    if (history.location.state?.cameraInfo) {
+      const { zoom, location } = history.location.state.cameraInfo;
+      if (zoom && location) {
+        gMap.setZoom(zoom);
+        gMap.setCenter(location);
+      }
+    }
+  }, [gMap, gMaps, isFetchingInternalLocations, isLoadingExternalLocations]);
+
+  const { getMaxZoom } = useMaxZoom();
+  const handleGoogleMapApi = async ({ map, maps }) => {
+    await getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -211,66 +268,51 @@ export default function Map({ history, isCompactSideMenu }) {
       return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
     };
 
-    // Create drawing manager
-    let drawingManagerInit = new maps.drawing.DrawingManager({
-      drawingMode: null,
-      drawingControl: false,
-      drawingControlOptions: {
-        position: maps.ControlPosition.TOP_CENTER,
-        drawingModes: [
-          maps.drawing.OverlayType.POLYGON,
-          maps.drawing.OverlayType.POLYLINE,
-          maps.drawing.OverlayType.MARKER,
-        ],
-      },
-      map: map,
-    });
-
-    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function (polygon) {
-      const polygonAreaCheck = (path) => {
-        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) {
-          setZeroAreaWarning(true);
-          setShowAdjustAreaSpotlightModal(false);
-        } else setZeroAreaWarning(false);
-      };
-      const path = polygon.getPath();
-      polygonAreaCheck(path);
-      maps.event.addListener(path, 'set_at', function () {
-        polygonAreaCheck(this);
-      });
-      maps.event.addListener(path, 'insert_at', function () {
-        polygonAreaCheck(this);
-      });
-    });
-    maps.event.addListener(drawingManagerInit, 'polylinecomplete', function (polyline) {
-      const polylineLengthCheck = (path) => {
-        if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
-          setShowZeroLengthWarning(true);
-          setShowAdjustLineSpotlightModal(false);
-        } else {
-          setShowZeroLengthWarning(false);
-        }
-      };
-      const path = polyline.getPath();
-      polylineLengthCheck(path);
-      maps.event.addListener(path, 'set_at', function () {
-        polylineLengthCheck(this);
-      });
-      maps.event.addListener(path, 'insert_at', function () {
-        polylineLengthCheck(this);
-      });
-    });
-    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
+    const handleShapeFinished = (drawing) => {
+      if (drawing.type === 'polygon') {
+        const polygonAreaCheck = (path) => {
+          if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) {
+            setZeroAreaWarning(true);
+            setShowAdjustAreaSpotlightModal(false);
+          } else {
+            setZeroAreaWarning(false);
+          }
+        };
+        const path = drawing.overlay.getPath();
+        polygonAreaCheck(path);
+        maps.event.addListener(path, 'set_at', function () {
+          polygonAreaCheck(this);
+        });
+        maps.event.addListener(path, 'insert_at', function () {
+          polygonAreaCheck(this);
+        });
+      } else if (drawing.type === 'polyline') {
+        const polylineLengthCheck = (path) => {
+          if (Math.round(maps.geometry.spherical.computeLength(path)) === 0) {
+            setShowZeroLengthWarning(true);
+            setShowAdjustLineSpotlightModal(false);
+          } else {
+            setShowZeroLengthWarning(false);
+          }
+        };
+        const path = drawing.overlay.getPath();
+        polylineLengthCheck(path);
+        maps.event.addListener(path, 'set_at', function () {
+          polylineLengthCheck(this);
+        });
+        maps.event.addListener(path, 'insert_at', function () {
+          polylineLengthCheck(this);
+        });
+      }
       setShowingConfirmButtons(true);
       finishDrawing(drawing, maps, map);
-      this.setDrawingMode();
+      capture.setMode(null);
       dispatch(setMapAddDrawerHide(farm_id));
-    });
-    initDrawingState(map, maps, drawingManagerInit, {
-      POLYGON: maps.drawing.OverlayType.POLYGON,
-      POLYLINE: maps.drawing.OverlayType.POLYLINE,
-      MARKER: maps.drawing.OverlayType.MARKER,
-    });
+    };
+
+    const capture = createShapeCapture(map, maps, handleShapeFinished);
+
+    initDrawingState(map, maps, capture);
 
     // Adding custom map components
     const zoomControlDiv = document.createElement('div');
@@ -289,24 +331,8 @@ export default function Map({ history, isCompactSideMenu }) {
     rootCompassControlDiv.render(<CustomCompass style={{ marginRight: '12px' }} />);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
-    // Drawing locations on map
-    let mapBounds = new maps.LatLngBounds();
-    const bounds = drawAssets(map, maps, mapBounds);
-
-    if (history.location.state?.isStepBack) {
-      reconstructOverlay();
-    }
-
-    if (history.location.state?.cameraInfo) {
-      const { zoom, location } = history.location.state.cameraInfo;
-      if (zoom && location) {
-        map.setZoom(zoom);
-        map.setCenter(location);
-      }
-    }
     setGMap(map);
     setGMaps(maps);
-    setGMapBounds(bounds);
   };
 
   const handleClickAdd = () => {
@@ -340,12 +366,7 @@ export default function Map({ history, isCompactSideMenu }) {
     }
   };
 
-  const availableFilterSettings = useSelector(availableFilterSettingsSelector);
-
-  useEffect(() => {
-    dispatch(getSensorReadings());
-    dispatch(getAllSensorReadingTypes());
-  }, []);
+  const availableFilterSettings = useAvailableFilterSettings();
 
   const handleAddMenuClick = (locationType) => {
     setZeroAreaWarning(false);
@@ -367,21 +388,10 @@ export default function Map({ history, isCompactSideMenu }) {
 
   const mapWrapperRef = useRef();
 
-  const handleVideoClick = () => {
-    history.push('/map/videos');
-  };
-
   const handleCloseSuccessHeader = () => {
     dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
   };
-
-  useEffect(() => {
-    if (maxZoom && gMap && gMaps && gMapBounds) {
-      const newBounds = drawAssets(gMap, gMaps, gMapBounds);
-      setGMapBounds(newBounds);
-    }
-  }, [maxZoom]);
 
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
@@ -434,145 +444,147 @@ export default function Map({ history, isCompactSideMenu }) {
 
   return (
     <>
-      {!drawingState.type && !showSuccessHeader && (
-        <PureMapHeader
-          farmName={farm_name}
-          handleVideoClick={handleVideoClick}
-          isAdmin={is_admin}
-        />
-      )}
-      {showSuccessHeader && (
-        <PureSnackbarWithoutBorder
-          className={styles.successSnackbar}
-          onDismiss={handleCloseSuccessHeader}
-          title={successMessage}
-        />
-      )}
-      <div data-cy="map-selection" className={styles.pageWrapper}>
-        <div className={styles.mapContainer}>
-          <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
-            <GoogleMap
-              data-cy="google-map"
-              style={{ flexGrow: 1 }}
-              bootstrapURLKeys={{
-                key: GMAPS_API_KEY,
-                libraries: ['drawing', 'geometry', 'places'],
-                language: localStorage.getItem('litefarm_lang'),
-              }}
-              center={grid_points}
-              defaultZoom={DEFAULT_ZOOM}
-              yesIWantToUseGoogleMapApiInternals
-              onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-              options={getMapOptions}
+      {isLoaded && (
+        <>
+          {!drawingState.type && !showSuccessHeader && <PureMapHeader farmName={farm_name} />}
+          {showSuccessHeader && (
+            <PureSnackbarWithoutBorder
+              className={styles.successSnackbar}
+              onDismiss={handleCloseSuccessHeader}
+              title={successMessage}
             />
-          </div>
-          {drawingState.type && (
-            <div
-              className={clsx(
-                styles.drawingBar,
-                isCompactSideMenu && styles.drawingBarWithCompactMenu,
+          )}
+          <div data-cy="map-selection" className={styles.pageWrapper}>
+            <div className={styles.mapContainer}>
+              <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
+                <GoogleMap
+                  data-cy="google-map"
+                  style={{ flexGrow: 1 }}
+                  center={grid_points}
+                  defaultZoom={DEFAULT_ZOOM}
+                  yesIWantToUseGoogleMapApiInternals
+                  onGoogleApiLoaded={handleGoogleMapApi}
+                  options={getMapOptions}
+                />
+              </div>
+              {drawingState.type && (
+                <div
+                  className={clsx(
+                    styles.drawingBar,
+                    isCompactSideMenu && styles.drawingBarWithCompactMenu,
+                  )}
+                >
+                  <DrawingManager
+                    drawingType={drawingState.type}
+                    isDrawing={drawingState.isActive}
+                    showLineModal={isLineWithWidth() && !drawingState.isActive}
+                    onClickBack={() => {
+                      setZeroAreaWarning(false);
+                      setShowZeroLengthWarning(false);
+                      resetDrawing(true);
+                      dispatch(resetAndUnLockFormData());
+                      closeDrawer();
+                      setShowingConfirmButtons(false);
+                    }}
+                    onClickTryAgain={() => {
+                      setZeroAreaWarning(false);
+                      setShowZeroLengthWarning(false);
+                      resetDrawing();
+                      startDrawing(drawingState.type);
+                      setShowingConfirmButtons(false);
+                      dispatch(setIsRedrawing(true));
+                    }}
+                    onClickConfirm={handleConfirm}
+                    showZeroAreaWarning={showZeroAreaWarning}
+                    showZeroLengthWarning={showZeroLengthWarning}
+                    confirmLine={handleLineConfirm}
+                    updateLineWidth={setLineWidth}
+                    system={system}
+                    lineData={overlayData}
+                    typeOfLine={drawingState.type}
+                    onLineParameterChange={() => {
+                      dispatch(setIsRedrawing(true));
+                    }}
+                  />
+                </div>
               )}
-            >
-              <DrawingManager
-                drawingType={drawingState.type}
-                isDrawing={drawingState.isActive}
-                showLineModal={isLineWithWidth() && !drawingState.isActive}
-                onClickBack={() => {
-                  setZeroAreaWarning(false);
-                  setShowZeroLengthWarning(false);
-                  resetDrawing(true);
-                  dispatch(resetAndUnLockFormData());
-                  closeDrawer();
-                  setShowingConfirmButtons(false);
+            </div>
+            <LocationSelectionModal history={history} />
+
+            {!drawingState.type && (
+              <PureMapFooter
+                isAdmin={is_admin}
+                showSpotlight={!showedSpotlight.map}
+                resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
+                onClickAdd={handleClickAdd}
+                showModal={showExportModal}
+                onClickExport={handleClickExport}
+                setShowMapFilter={setShowMapFilter}
+                showMapFilter={showMapFilter}
+                setShowAddDrawer={(showAddDrawer) => {
+                  dispatch(
+                    showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id),
+                  );
                 }}
-                onClickTryAgain={() => {
-                  setZeroAreaWarning(false);
-                  setShowZeroLengthWarning(false);
-                  resetDrawing();
-                  startDrawing(drawingState.type);
-                  setShowingConfirmButtons(false);
-                  dispatch(setIsRedrawing(true));
-                }}
-                onClickConfirm={handleConfirm}
-                showZeroAreaWarning={showZeroAreaWarning}
-                showZeroLengthWarning={showZeroLengthWarning}
-                confirmLine={handleLineConfirm}
-                updateLineWidth={setLineWidth}
-                system={system}
-                lineData={overlayData}
-                typeOfLine={drawingState.type}
-                onLineParameterChange={() => {
-                  dispatch(setIsRedrawing(true));
+                showAddDrawer={showAddDrawer}
+                handleClickFilter={handleClickFilter}
+                filterSettings={filterSettings}
+                onFilterMenuClick={handleFilterMenuClick}
+                onAddMenuClick={handleAddMenuClick}
+                availableFilterSettings={availableFilterSettings}
+                isMapFilterSettingActive={isMapFilterSettingActive}
+                isCompactSideMenu={isCompactSideMenu}
+                isOffline={isOffline}
+              />
+            )}
+            {showExportModal && (
+              <ExportMapModal
+                onClickDownload={handleDownload}
+                onClickShare={handleShare}
+                dismissModal={() => setShowExportModal(false)}
+              />
+            )}
+            {showDrawAreaSpotlightModal && (
+              <DrawAreaModal
+                dismissModal={() => {
+                  setShowDrawAreaSpotlightModal(false);
+                  dispatch(setSpotlightToShown('draw_area'));
                 }}
               />
-            </div>
-          )}
-        </div>
-        <LocationSelectionModal history={history} />
-
-        {!drawingState.type && (
-          <PureMapFooter
-            isAdmin={is_admin}
-            showSpotlight={!showedSpotlight.map}
-            resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
-            onClickAdd={handleClickAdd}
-            showModal={showExportModal}
-            onClickExport={handleClickExport}
-            setShowMapFilter={setShowMapFilter}
-            showMapFilter={showMapFilter}
-            setShowAddDrawer={(showAddDrawer) => {
-              dispatch(showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id));
-            }}
-            showAddDrawer={showAddDrawer}
-            handleClickFilter={handleClickFilter}
-            filterSettings={filterSettings}
-            onFilterMenuClick={handleFilterMenuClick}
-            onAddMenuClick={handleAddMenuClick}
-            availableFilterSettings={availableFilterSettings}
-            isMapFilterSettingActive={isMapFilterSettingActive}
-            isCompactSideMenu={isCompactSideMenu}
-          />
-        )}
-        {showExportModal && (
-          <ExportMapModal
-            onClickDownload={handleDownload}
-            onClickShare={handleShare}
-            dismissModal={() => setShowExportModal(false)}
-          />
-        )}
-        {showDrawAreaSpotlightModal && (
-          <DrawAreaModal
-            dismissModal={() => {
-              setShowDrawAreaSpotlightModal(false);
-              dispatch(setSpotlightToShown('draw_area'));
-            }}
-          />
-        )}
-        {showDrawLineSpotlightModal && (
-          <DrawLineModal
-            dismissModal={() => {
-              setShowDrawLineSpotlightModal(false);
-              dispatch(setSpotlightToShown('draw_line'));
-            }}
-          />
-        )}
-        {showAdjustAreaSpotlightModal && (
-          <AdjustAreaModal
-            dismissModal={() => {
-              setShowAdjustAreaSpotlightModal(false);
-              dispatch(setSpotlightToShown('adjust_area'));
-            }}
-          />
-        )}
-        {showAdjustLineSpotlightModal && (
-          <AdjustLineModal
-            dismissModal={() => {
-              setShowAdjustLineSpotlightModal(false);
-              dispatch(setSpotlightToShown('adjust_line'));
-            }}
-          />
-        )}
-      </div>
+            )}
+            {showDrawLineSpotlightModal && (
+              <DrawLineModal
+                dismissModal={() => {
+                  setShowDrawLineSpotlightModal(false);
+                  dispatch(setSpotlightToShown('draw_line'));
+                }}
+              />
+            )}
+            {showAdjustAreaSpotlightModal && (
+              <AdjustAreaModal
+                dismissModal={() => {
+                  setShowAdjustAreaSpotlightModal(false);
+                  dispatch(setSpotlightToShown('adjust_area'));
+                }}
+              />
+            )}
+            {showAdjustLineSpotlightModal && (
+              <AdjustLineModal
+                dismissModal={() => {
+                  setShowAdjustLineSpotlightModal(false);
+                  dispatch(setSpotlightToShown('adjust_line'));
+                }}
+              />
+            )}
+          </div>
+        </>
+      )}
+      <LoadingBackdrop
+        isOpen={!isLoaded || (!isFetchingInternalLocations && isLoadingExternalLocations)}
+        showDelay={400}
+        isCompactSideMenu={isCompactSideMenu}
+        dataName={t('MENU.MAP').toLocaleLowerCase()}
+      />
     </>
   );
 }

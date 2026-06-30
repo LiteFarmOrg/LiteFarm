@@ -13,7 +13,7 @@ const assets = [
   'gate',
   'water_valve',
   'farm_site_boundary',
-  'sensor',
+  'soil_sample_location',
 ];
 const figures = ['area', 'line', 'point'];
 
@@ -32,7 +32,7 @@ const figureMapping = {
   fence: 'line',
   gate: 'point',
   water_valve: 'point',
-  sensor: 'point',
+  soil_sample_location: 'point',
 };
 
 const promiseMapper = {
@@ -56,7 +56,7 @@ const modelMapping = {
   fence: modelValidation('fence'),
   gate: modelValidation('gate'),
   water_valve: modelValidation('water_valve'),
-  sensor: modelValidation('sensor'),
+  soil_sample_location: modelValidation('soil_sample_location'),
 };
 
 function figureValidation(data, figure) {
@@ -79,11 +79,12 @@ function modelValidation(asset) {
     const data = req.body;
     const isAssetValid = assetValidation(data, asset);
     const isFigureValid = figureValidation(data, figure);
-    isAssetValid && isFigureValid
-      ? next()
-      : res.status(400).send({
-          message: 'You are trying to modify an unallowed object',
-        });
+    if (isAssetValid && isFigureValid) {
+      return next();
+    }
+    return res.status(400).send({
+      message: 'You are trying to modify an unallowed object',
+    });
   };
 }
 

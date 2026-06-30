@@ -8,6 +8,8 @@ const Form = ({
   buttonGroup,
   onSubmit,
   fullWidthContent = false,
+  classNames = {},
+  hasWhiteBackground = false,
 }) => {
   return (
     <form onSubmit={onSubmit} className={styles.form} noValidate={true}>
@@ -16,6 +18,8 @@ const Form = ({
         classes={classes}
         isSVG={false}
         fullWidthContent={fullWidthContent}
+        className={classNames?.layout}
+        hasWhiteBackground={hasWhiteBackground}
       >
         {children}
       </Layout>
@@ -31,6 +35,9 @@ Form.propTypes = {
     footer: PropTypes.object,
   }),
   onSubmit: PropTypes.func,
+  classNames: PropTypes.exact({
+    layout: PropTypes.string,
+  }),
 };
 
 export default Form;

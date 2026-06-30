@@ -40,7 +40,6 @@ import {
   getTasksSaga,
 } from './Task/saga';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
-import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
 import {
   getBedMethodsSuccess,
   onLoadingBedMethodFail,
@@ -51,16 +50,6 @@ import {
   onLoadingBroadcastMethodFail,
   onLoadingBroadcastMethodStart,
 } from './broadcastMethodSlice';
-import {
-  getBufferZonesSuccess,
-  onLoadingBufferZoneFail,
-  onLoadingBufferZoneStart,
-} from './bufferZoneSlice';
-import {
-  getCeremonialsSuccess,
-  onLoadingCeremonialFail,
-  onLoadingCeremonialStart,
-} from './ceremonialSlice';
 import {
   getContainerMethodsSuccess,
   onLoadingContainerMethodFail,
@@ -82,22 +71,9 @@ import {
   onLoadingDocumentFail,
   onLoadingDocumentStart,
 } from './documentSlice';
-import {
-  getFarmSiteBoundarysSuccess,
-  onLoadingFarmSiteBoundaryFail,
-  onLoadingFarmSiteBoundaryStart,
-} from './farmSiteBoundarySlice';
-import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
-import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { resetTasksFilter } from './filterSlice';
 import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
-import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
-import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
-import {
-  getGreenhousesSuccess,
-  onLoadingGreenhouseFail,
-  onLoadingGreenhouseStart,
-} from './greenhouseSlice';
+import { fetchAllData as fetchAllFinanceData } from './Finances/saga';
 import {
   getAllManagementPlansSuccess,
   getManagementPlansSuccess,
@@ -105,31 +81,15 @@ import {
   onLoadingManagementPlanStart,
 } from './managementPlanSlice';
 import {
-  getNaturalAreasSuccess,
-  onLoadingNaturalAreaFail,
-  onLoadingNaturalAreaStart,
-} from './naturalAreaSlice';
-import {
   getPlantingManagementPlansSuccess,
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
 import {
-  getResidencesSuccess,
-  onLoadingResidenceFail,
-  onLoadingResidenceStart,
-} from './residenceSlice';
-import {
   getRowMethodsSuccess,
   onLoadingRowMethodFail,
   onLoadingRowMethodStart,
 } from './rowMethodSlice';
-import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
-import {
-  getSurfaceWatersSuccess,
-  onLoadingSurfaceWaterFail,
-  onLoadingSurfaceWaterStart,
-} from './surfaceWaterSlice';
 import { resetTasks } from './taskSlice';
 import {
   isAdminSelector,
@@ -141,21 +101,11 @@ import {
   userFarmsByFarmSelector,
 } from './userFarmSlice';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
-import {
-  getWaterValvesSuccess,
-  onLoadingWaterValveFail,
-  onLoadingWaterValveStart,
-} from './waterValveSlice';
-import {
-  getWatercoursesSuccess,
-  onLoadingWatercourseFail,
-  onLoadingWatercourseStart,
-} from './watercourseSlice';
-import { api } from '../store/api/apiSlice';
-
-const logUserInfoUrl = () => `${url}/userLog`;
-const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
-const getLocationsUrl = (farm_id) => `${url}/location/farm/${farm_id}`;
+import { api, invalidateTags } from '../store/api/apiSlice';
+import { locationApi } from '../store/api/locationApi';
+import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
+import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
+import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
 
 axiosWithoutInterceptors.interceptors.response.use(
   function (response) {
@@ -277,7 +227,7 @@ export function* getFarmInfoSaga() {
       return;
     }
     localStorage.setItem('role_id', userFarm.role_id);
-    yield put(getLocations());
+    yield put(locationApi.endpoints.getLocations.initiate());
     yield put(getManagementPlans());
   } catch (e) {
     console.log(e);
@@ -285,7 +235,10 @@ export function* getFarmInfoSaga() {
   }
 }
 
-export const putFarm = createAction(`putFarmSaga`);
+/**
+ * @type {import('@reduxjs/toolkit').ActionCreatorWithPayload<any, 'putFarmSaga'>}
+ */
+export const putFarm = createAction('putFarmSaga');
 
 export function* putFarmSaga({ payload: farm }) {
   const { farmUrl } = apiConfig;
@@ -317,78 +270,6 @@ export function* putFarmSaga({ payload: farm }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.UPDATE')));
   }
 }
-
-export const onLoadingLocationStart = createAction('onLoadingLocationStartSaga');
-
-export function* onLoadingLocationStartSaga() {
-  yield put(onLoadingFieldStart());
-  yield put(onLoadingGardenStart());
-  yield put(onLoadingCeremonialStart());
-  yield put(onLoadingBarnStart());
-  yield put(onLoadingFarmSiteBoundaryStart());
-  yield put(onLoadingGreenhouseStart());
-  yield put(onLoadingSurfaceWaterStart());
-  yield put(onLoadingNaturalAreaStart());
-  yield put(onLoadingResidenceStart());
-  yield put(onLoadingBufferZoneStart());
-  yield put(onLoadingWatercourseStart());
-  yield put(onLoadingFenceStart());
-  yield put(onLoadingGateStart());
-  yield put(onLoadingWaterValveStart());
-  yield put(onLoadingSensorStart());
-}
-
-export const getLocations = createAction('getLocationsSaga');
-
-export function* getLocationsSaga() {
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield put(onLoadingLocationStart());
-    const result = yield call(axios.get, getLocationsUrl(farm_id), header);
-    yield put(getLocationsSuccess(result.data));
-  } catch (e) {
-    console.log('failed to fetch fields from database');
-  }
-}
-
-export const getLocationsSuccess = createAction('getLocationsSuccessSaga');
-
-export function* getLocationsSuccessSaga({ payload: locations }) {
-  const locations_by_figure_type = Object.keys(figureTypeActionMap).reduce(
-    (map, locationType) => Object.assign(map, { [locationType]: [] }),
-    {},
-  );
-  for (const location of locations) {
-    locations_by_figure_type[location.figure.type].push(location);
-  }
-  for (const figure_type in figureTypeActionMap) {
-    try {
-      yield put(figureTypeActionMap[figure_type].success(locations_by_figure_type[figure_type]));
-    } catch (e) {
-      yield put(figureTypeActionMap[figure_type].fail(e));
-      console.log(e);
-    }
-  }
-}
-
-const figureTypeActionMap = {
-  field: { success: getFieldsSuccess, fail: onLoadingFieldFail },
-  garden: { success: getGardensSuccess, fail: onLoadingGardenFail },
-  barn: { success: getBarnsSuccess, fail: onLoadingBarnFail },
-  ceremonial_area: { success: getCeremonialsSuccess, fail: onLoadingCeremonialFail },
-  farm_site_boundary: { success: getFarmSiteBoundarysSuccess, fail: onLoadingFarmSiteBoundaryFail },
-  greenhouse: { success: getGreenhousesSuccess, fail: onLoadingGreenhouseFail },
-  surface_water: { success: getSurfaceWatersSuccess, fail: onLoadingSurfaceWaterFail },
-  natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
-  residence: { success: getResidencesSuccess, fail: onLoadingResidenceFail },
-  buffer_zone: { success: getBufferZonesSuccess, fail: onLoadingBufferZoneFail },
-  watercourse: { success: getWatercoursesSuccess, fail: onLoadingWatercourseFail },
-  fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
-  gate: { success: getGatesSuccess, fail: onLoadingGateFail },
-  water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
-  sensor: { success: getSensorSuccess, fail: onLoadingSensorFail },
-};
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {
   yield put(onLoadingBroadcastMethodStart());
@@ -498,11 +379,15 @@ export function* getManagementPlansSaga() {
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
     yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
   } catch (e) {
-    console.log(e);
-    yield put(onLoadingManagementPlanFail(e));
-    yield put(onLoadingCropManagementPlanFail(e));
-    yield put(onLoadingPlantingManagementPlanFail(e));
-    console.log('failed to fetch field crops from db');
+    if (e.response?.status === 404) {
+      yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: [] });
+    } else {
+      console.log(e);
+      yield put(onLoadingManagementPlanFail(e));
+      yield put(onLoadingCropManagementPlanFail(e));
+      yield put(onLoadingPlantingManagementPlanFail(e));
+      console.log('failed to fetch management plans from db');
+    }
   }
 }
 
@@ -523,8 +408,12 @@ export function* getManagementPlansByDateSaga() {
     );
     yield put(getManagementPlansSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingManagementPlanFail());
-    console.log('failed to fetch field crops by date');
+    if (e.response?.status === 404) {
+      yield put(getManagementPlansSuccess([]));
+    } else {
+      yield put(onLoadingManagementPlanFail());
+      console.log('failed to fetch management plans by date');
+    }
   }
 }
 
@@ -532,7 +421,10 @@ export const getCropsAndManagementPlans = createAction('getCropsAndManagementPla
 
 export function* getCropsAndManagementPlansSaga() {
   try {
-    yield all([call(getLocationsSaga), call(getCropsSaga)]);
+    yield all([
+      call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
+      call(getCropsSaga),
+    ]);
     yield call(getCropVarietiesSaga);
     yield call(getManagementPlansSaga);
   } catch (e) {
@@ -557,6 +449,7 @@ export function* getManagementPlansAndTasksSaga() {
 }
 
 export function* logUserInfoSaga() {
+  const { logUserInfoUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   if (!user_id) return;
   const header = getHeader(user_id, farm_id);
@@ -571,10 +464,10 @@ export function* logUserInfoSaga() {
     };
     if (!lastActiveDatetime || currentDateAsNumber - lastActiveDatetime > hour) {
       yield put(logUserInfoSuccess(farm_id));
-      yield call(axios.post, logUserInfoUrl(), data, header);
+      yield call(axios.post, logUserInfoUrl, data, header);
     } else if (prev_farm_id !== farm_id) {
       yield put(logUserInfoSuccess(farm_id));
-      yield call(axios.post, logUserInfoUrl(), data, header);
+      yield call(axios.post, logUserInfoUrl, data, header);
     }
   } catch (e) {
     console.log('failed to log user info');
@@ -587,11 +480,30 @@ export function* checkAppVersionSaga() {
   if (isStoreOutdated) logout();
 }
 
+// Subscription handles for farm-scoped RTK Query queries
+// Retained so clearOldFarmStateSaga can release them before invalidating tags;
+// with no remaining subscriber, invalidateTags removes each cached entry
+// (removeQueryResult) instead of refetching it.
+let farmScopedQuerySubscriptions = [];
+
+function* openFarmScopedQuery(initiateThunk) {
+  // Starting a query with `.initiate()` returns a handle for that query — an object of shape
+  //  ({ requestId, unsubscribe, refetch, ... })
+  // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#removing-a-subscription
+  const subscription = yield put(initiateThunk);
+  farmScopedQuerySubscriptions.push(subscription);
+}
+
+function releaseFarmScopedQuerySubscriptions() {
+  farmScopedQuerySubscriptions.forEach((subscription) => subscription?.unsubscribe?.());
+  farmScopedQuerySubscriptions = [];
+}
+
 export function* fetchAllSaga() {
   const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
   if (!has_consent) return history.push('/consent');
 
-  yield put(api.endpoints.getSensors.initiate());
+  yield call(openFarmScopedQuery, api.endpoints.getSensors.initiate());
 
   const isAdmin = yield select(isAdminSelector);
   const adminTasks = [
@@ -603,14 +515,37 @@ export function* fetchAllSaga() {
     put(getRoles()),
     put(getManagementPlansAndTasks()),
     call(getAllUserFarmsByFarmIDSaga),
+    put(getFieldWorkTypes()),
+    put(getIrrigationTaskTypes()),
+    put(api.endpoints.getSoilAmendmentMethods.initiate()),
+    put(api.endpoints.getSoilAmendmentPurposes.initiate()),
+    put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
+    put(api.endpoints.getAnimalMovementPurposes.initiate()),
+    //Todo: LF-4672 Remove once refactor to rtk is complete
+    call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
   ];
 
   yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
 
-  const {
-    data: { farm_token },
-  } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
-  localStorage.setItem('farm_token', farm_token);
+  yield put(fetchAllFinanceData());
+
+  // Animals
+  // Open farm-scoped queries through openFarmScopedQuery so their subscriptions can be released on farm switch
+  yield all([
+    call(openFarmScopedQuery, api.endpoints.getAnimals.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getAnimalBatches.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getDefaultAnimalTypes.initiate()),
+    put(api.endpoints.getDefaultAnimalBreeds.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getCustomAnimalTypes.initiate()),
+    call(openFarmScopedQuery, api.endpoints.getCustomAnimalBreeds.initiate()),
+    put(api.endpoints.getAnimalSexes.initiate()),
+    put(api.endpoints.getAnimalIdentifierTypes.initiate()),
+    put(api.endpoints.getAnimalIdentifierColors.initiate()),
+    put(api.endpoints.getAnimalMovementPurposes.initiate()),
+    put(api.endpoints.getAnimalOrigins.initiate()),
+    put(api.endpoints.getAnimalUses.initiate()),
+  ]);
+
   const appVersion = yield select(appVersionSelector);
   if (appVersion !== APP_VERSION) {
     yield put(setAppVersion());
@@ -622,31 +557,47 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
   yield put(resetDateRange());
-
-  yield put(
-    api.util.invalidateTags([
-      'Animals',
-      'AnimalBatches',
-      'CustomAnimalBreeds',
-      'CustomAnimalTypes',
-      'DefaultAnimalTypes', // needs to be cleared for KPI count
-      'FarmAddon',
-    ]),
-  );
+  releaseFarmScopedQuerySubscriptions();
+  // RTK Query tracks subscriptions in two places: a live copy that `unsubscribe` updates right
+  // away, and the redux store, which catches up one microtask later. `invalidateTags` reads the
+  // store copy, so `delay(0)` lets it catch up first
+  yield delay(0);
+  yield put(invalidateTags([...FarmTags, ...FarmLibraryTags]));
 
   // Reset finance loading state
   yield put(setIsFetchingData(true));
+}
+
+export const selectFarm = createAction('selectFarmSaga');
+
+export function* selectFarmSaga({ payload: { farm_id } }) {
+  yield put(selectFarmSuccess({ farm_id }));
+  try {
+    const { user_id } = yield select(loginSelector);
+    const header = getHeader(user_id, farm_id);
+    const {
+      data: { farm_token },
+    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, header);
+    localStorage.setItem('farm_token', farm_token);
+  } catch (e) {
+    console.error('failed to fetch farm token', e);
+  }
 }
 
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: farm }) {
   try {
-    yield put(selectFarmSuccess(farm));
+    yield call(selectFarmSaga, { payload: farm });
     const userFarm = yield select(userFarmSelector);
-    if (!userFarm.has_consent) return history.push('/consent');
-    history.push({ pathname: '/' });
     yield call(clearOldFarmStateSaga);
+    if (!userFarm.has_consent) {
+      // has_consent is derived in the userFarmSelector from DB has_consent && consent_version === CONSENT_VERSION
+      // Reachable when CONSENT_VERSION was bumped and the user hasn't re-accepted, or when an admin has changed the user's role (userFarmController.updateRole resets has_consent but leaves status='Active')
+      // Status 'Invited' farms do not use selectFarmAndFetchAllSaga, but instead use patchUserFarmStatusWithIdTokenUrl
+      return history.push('/consent');
+    }
+    history.push({ pathname: '/' });
     yield call(fetchAllSaga);
   } catch (e) {
     console.error('failed to fetch farm info', e);
@@ -679,14 +630,12 @@ export default function* getFarmIdSaga() {
   yield takeLeading(updateUser.type, updateUserSaga);
   yield takeLatest(getFarmInfo.type, getFarmInfoSaga);
   yield takeLeading(putFarm.type, putFarmSaga);
-  yield takeLatest(getLocations.type, getLocationsSaga);
   yield takeLatest(getManagementPlansByDate.type, getManagementPlansSaga);
   yield takeLatest(getManagementPlans.type, getManagementPlansSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
-  yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
-  yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
-  yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
+  yield takeLatest(selectFarm.type, selectFarmSaga);
+  yield takeLeading(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(getDocuments.type, getDocumentsSaga);
   yield takeLatest(
     getManagementPlanAndPlantingMethodSuccess.type,

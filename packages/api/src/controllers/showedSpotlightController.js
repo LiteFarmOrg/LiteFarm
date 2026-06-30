@@ -39,11 +39,11 @@ const showedSpotlightController = {
             'compliance_docs_and_certification',
             'transplant',
             'management_plan_creation',
-            'sensor_reading_chart',
             'repeat_management_plan_creation',
             'manage_custom_expense_type',
             'manage_custom_revenue_type',
             'animals_beta',
+            'inventory_beta',
           )
           .findById(user_id);
         res.status(200).send(data);

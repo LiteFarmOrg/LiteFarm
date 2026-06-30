@@ -32,6 +32,8 @@ import CustomAnimalBreedModel from '../../models/customAnimalBreedModel.js';
 import AnimalUseModel from '../../models/animalUseModel.js';
 import AnimalOriginModel from '../../models/animalOriginModel.js';
 import AnimalIdentifierType from '../../models/animalIdentifierTypeModel.js';
+import SaleModel from '../../models/saleModel.js';
+import FarmExpenseModel from '../../models/farmExpenseModel.js';
 import { ANIMAL_CREATE_LIMIT } from '../../util/animal.js';
 import { compareUpperCaseTrim, upperCaseTrim } from '../../util/util.js';
 
@@ -445,7 +447,7 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
       checkIsArray(req.body, 'Request body');
 
       if (req.body.length > ANIMAL_CREATE_LIMIT) {
-        return res.status(400).send(`Animal creation limit (${ANIMAL_CREATE_LIMIT}) exceeded.`);
+        throw customError(`Animal creation limit (${ANIMAL_CREATE_LIMIT}) exceeded.`);
       }
       for (const animalOrBatch of req.body) {
         const { type_name, breed_name } = animalOrBatch;
@@ -606,14 +608,38 @@ const checkAnimalsOrBatchesWithFinalizedTasks = async (animalOrBatchKey, ids, tr
       ? AnimalModel.getAnimalIdsWithFinalizedTasks
       : AnimalBatchModel.getBatchIdsWithFinalizedTasks;
 
-  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalizedTasks(trx, [
-    ...new Set(ids.split(',').map((id) => +id)),
-  ]);
+  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalizedTasks(trx, ids);
 
   for (const { tasks } of animalsOrBatches) {
     if (tasks.length) {
       throw customError('Animals with completed or abandoned tasks cannot be deleted');
     }
+  }
+};
+
+const checkAnimalsOrBatchesWithSalesRecords = async (animalOrBatchKey, ids, trx) => {
+  const getSalesWithAnimalIdsOrBatchIds =
+    animalOrBatchKey === 'animal'
+      ? SaleModel.getSalesWithAnimalIds
+      : SaleModel.getSalesWithBatchIds;
+
+  const sales = await getSalesWithAnimalIdsOrBatchIds(ids, trx);
+
+  if (sales.length) {
+    throw customError('Animals with associated sales cannot be deleted');
+  }
+};
+
+const checkAnimalsOrBatchesWithExpensesRecords = async (animalOrBatchKey, ids, trx) => {
+  const getExpensesWithAnimalIdsOrBatchIds =
+    animalOrBatchKey === 'animal'
+      ? FarmExpenseModel.getExpensesWithAnimalIds
+      : FarmExpenseModel.getExpensesWithBatchIds;
+
+  const expenses = await getExpensesWithAnimalIdsOrBatchIds(ids, trx);
+
+  if (expenses.length) {
+    throw customError('Animals with associated expenses cannot be deleted');
   }
 };
 
@@ -644,7 +670,11 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey) {
         throw customError('Must send date');
       }
       await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
-      await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, ids, trx);
+
+      const formattedIds = [...new Set(ids.split(',').map((id) => +id))];
+      await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, formattedIds, trx);
+      await checkAnimalsOrBatchesWithSalesRecords(animalOrBatchKey, formattedIds, trx);
+      await checkAnimalsOrBatchesWithExpensesRecords(animalOrBatchKey, formattedIds, trx);
 
       await trx.commit();
       next();

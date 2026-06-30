@@ -37,6 +37,7 @@ export type NumberInputWithSelectProps = {
   unitFieldName?: string;
   onChange: (fieldName: string, value: number | string | null) => void;
   onBlur?: () => void;
+  trigger?: () => void;
   reactSelectWidth?: number;
 };
 
@@ -55,6 +56,7 @@ const NumberInputWithSelect = ({
   className,
   onChange,
   onBlur,
+  trigger,
   value,
   unit,
   unitFieldName = '',
@@ -126,19 +128,25 @@ const NumberInputWithSelect = ({
         onBlur={(e) => {
           onBlur?.();
           inputProps.onBlur?.(e);
+          trigger?.();
         }}
-        onResetIconClick={clear}
+        onResetIconClick={() => {
+          clear();
+          trigger?.();
+        }}
         resetIconPosition="left"
         rightSection={
           unitOptions.length ? (
             <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
               <ReactSelect
                 options={unitOptions}
-                onChange={(option) => onChange(unitFieldName, option?.value || null)}
+                onChange={(option) => {
+                  onChange(unitFieldName, option?.value || null);
+                  trigger?.();
+                }}
                 value={unitOptions.find(({ value }) => value === unit)}
                 styles={{ ...(reactSelectStyles as any) }}
                 isDisabled={disabled}
-                onBlur={onBlur}
                 formatOptionLabel={formatOptionLabel}
               />
             </div>

@@ -32,11 +32,6 @@
       "UPDATE": "Documento atualizado com sucesso"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "Falha ao carregar o arquivo CSV"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
@@ -54,9 +49,9 @@
     "ERROR": {
       "ADD": "Falha ao adicionar novas despesas",
       "DELETE": "Falha ao excluir despesas",
-      "UPDATE": "Falha ao atualizar despesas!",
       "EXPENSE_DELETED": "Essa despesa não existe mais",
-      "EXPENSE_TYPE_DELETED": "Esse tipo de despesa foi eliminado"
+      "EXPENSE_TYPE_DELETED": "Esse tipo de despesa foi eliminado",
+      "UPDATE": "Falha ao atualizar despesas!"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",
@@ -86,6 +81,45 @@
       "UPDATE": "Informação da fazenda atualizada com sucesso!"
     }
   },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "Erro ao desconectar a extensão",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Erro ao obter prescrições de irrigação"
+    },
+    "SUCCESS_DISCONNECT_ADDON": "Extensão desconectada com sucesso"
+  },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "Não foi possível salvar nota",
+      "DELETE": "Não foi possível remover a nota",
+      "EDIT": "Falha de atualizar nota"
+    },
+    "SUCCESS": {
+      "ADD": "Salva com sucesso",
+      "DELETE": "Nota removida com sucesso",
+      "EDIT": "Nota atualizada com sucesso"
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a criação de sua tarefa automaticamente",
+        "ONLINE": "Nota criada. Aparecerá quando estiver online",
+        "SUCCESS": "A nota criada offline foi salva com sucesso"
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a criação de sua nota automaticamente",
+        "ONLINE": "Nota excluída. Será salva quando estiver online",
+        "SUCCESS": "Nota excluída offline foi salva com sucesso"
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a atualização de sua nota automaticamente",
+        "ONLINE": "Nota atualizada. Será salva quando estiver online",
+        "SUCCESS": "Nota atualizada offline foi salva com sucesso"
+      },
+      "FAILED": "Falha ao salvar alterações na nota",
+      "NOT_FOUND": "Falha ao salvar a nota: nota não existe mais",
+      "UNAUTHORIZED": "Falha ao salvar nota: permissões insuficientes"
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Algo deu errado ao enviar seu feedback. Por favor, tente novamente."
@@ -94,8 +128,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
-      "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado.",
-      "GET_TYPES": "Falha ao buscar uso/destino de colheita"
+      "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado."
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
@@ -123,10 +156,28 @@
   "MAP": {
     "FAIL_PATCH": "Falha ao atualizar",
     "FAIL_POST": "Falha ao adicionar novo/a",
+    "FAIL_DELETE": "Falha ao retirar",
     "SUCCESS_DELETE": " retirado/a com sucesso",
     "SUCCESS_PATCH": " atualizado/a com sucesso",
-    "SUCCESS_POST": " salvo/a com sucesso",
-    "SUCCESS_UPLOAD": "Carregado com sucesso"
+    "SUCCESS_POST": " salvo/a com sucesso"
+  },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "Falha ao salvar informação do Diretório do Mercado",
+      "UPDATE": "Falha ao atualizar as Informações do Diretório do Mercado"
+    },
+    "SUCCESS": {
+      "SAVE": "Informações do Diretório do Mercado salvas com sucesso",
+      "UPDATE": "Informações do Diretório do Mercado atualizadas com sucesso",
+      "UPDATE_LIVE_DATA": "Informações do Diretório do Mercado atualizadas com sucesso. Seus dados serão atualizados dentro de 24 horas."
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Falha ao salvar informação do Diretório do Mercado",
+    "SUCCESS": {
+      "CONSENT": "Informações do Diretório do Mercado salvas com sucesso",
+      "PARTNER": "Informações do Diretório do Mercado atualizadas com sucesso. Seus dados serão atualizados dentro de 24 horas."
+    }
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -145,10 +196,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Falha ao criar o produto",
+      "REMOVE": "Falha ao remover produto",
       "UPDATE": "Falha ao atualizar o produto"
     },
     "SUCCESS": {
       "CREATE": "Produto criado com sucesso",
+      "REMOVE": "Produto removido com sucesso",
       "UPDATE": "Produto atualizado com sucesso"
     }
   },
@@ -185,8 +238,8 @@
     "ERROR": {
       "ADD": "Falha ao adicionar venda",
       "DELETE": "Falha de excluir venda nova",
-      "UPDATE": "Falha de atualizar venda",
-      "SALE_DELETED": "Essa venda não existe mais"
+      "SALE_DELETED": "Essa venda não existe mais",
+      "UPDATE": "Falha de atualizar venda"
     },
     "SUCCESS": {
       "ADD": "Venda adicionada com sucesso",
@@ -194,25 +247,54 @@
       "UPDATE": "Venda atualizada com sucesso"
     }
   },
-  "SENSOR": {
-    "ERROR_UPDATE": "Erro ao atualizar sensor",
-    "SUCCESSFUL_UPDATE": "Sensor atualizado com sucesso"
-  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa abandonada com sucesso"
+      "SUCCESS": "Tarefa abandonada com sucesso",
+      "SYNC": {
+        "ONLINE": "Tarefa abandonada. Será salva quando estiver online",
+        "SUCCESS": "Tarefa abandonada offline foi salva com sucesso"
+      }
     },
     "COMPLETE": {
       "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa concluída com sucesso"
+      "SUCCESS": "Tarefa concluída com sucesso",
+      "SYNC": {
+        "ONLINE": "Tarefa concluída. Salva quando estiver online",
+        "SUCCESS": "Tarefa concluída offline foi salva com sucesso"
+      }
     },
     "CREATE": {
       "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa criada com sucesso"
+      "SUCCESS": "Tarefa criada com sucesso",
+      "SYNC": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a criação de sua tarefa automaticamente",
+        "ONLINE": "Tarefa criada. Aparecerá quando estiver online",
+        "SUCCESS": "A tarefa criada offline foi salva com sucesso"
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "Desculpe, nós estamos desligados no momento. Nós vamos tentar a sua remoção de tarefa automaticamente",
+        "ONLINE": "Tarefa excluída. Será salva quando estiver online",
+        "SUCCESS": "Tarefa abandonada offline foi salva com sucesso"
+      }
+    },
+    "SYNC": {
+      "FAILED": "Falha ao salvar alterações na tarefa",
+      "LOCATION_DELETED": "Falha ao salvar a tarefa: localização foi aposentada",
+      "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos automaticamente",
+      "NOT_FOUND": "Falha ao salvar a tarefa: tarefa não existe mais",
+      "UNAUTHORIZED": "Falha ao salvar tarefa: permissões insuficientes"
     },
     "UPDATE": {
-      "FAILED": "Falha ao atualizar a tarefa"
+      "FAILED": "Falha ao atualizar a tarefa",
+      "SUCCESS": "Tarefa atualizada com sucesso",
+      "SYNC": {
+        "NETWORK_ERROR": "Desculpe, estamos desligados no momento. Tentaremos novamente a atualização de sua tarefa automaticamente",
+        "ONLINE": "Tarefa atualizada. Será salva quando estiver online",
+        "SUCCESS": "A tarefa atualizada offline foi salva com sucesso"
+      }
     }
   },
   "TASK_TYPE": {

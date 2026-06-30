@@ -34,6 +34,13 @@ const upsertManyAnimalMovementTask = (state, { payload: tasks }) => {
   );
   onLoadingSuccess(state);
 };
+const setAllAnimalMovementTask = (state, { payload: tasks }) => {
+  animalMovementTaskAdapter.setAll(
+    state,
+    tasks.map((task) => getAnimalMovementTask(task)),
+  );
+  onLoadingSuccess(state);
+};
 
 const animalMovementTaskAdapter = createEntityAdapter({
   selectId: (animalMovementTask) => animalMovementTask.task_id,
@@ -51,6 +58,7 @@ const animalMovementTaskSlice = createSlice({
     onLoadingAnimalMovementTaskStart: onLoadingStart,
     onLoadingAnimalMovementTaskFail: onLoadingFail,
     getAnimalMovementTasksSuccess: upsertManyAnimalMovementTask,
+    getAllAnimalMovementTasksSuccess: setAllAnimalMovementTask,
     postAnimalMovementTaskSuccess: upsertOneAnimalMovementTask,
     editAnimalMovementTaskSuccess: upsertOneAnimalMovementTask,
     deleteAnimalMovementTaskSuccess: animalMovementTaskAdapter.removeOne,
@@ -58,6 +66,7 @@ const animalMovementTaskSlice = createSlice({
 });
 export const {
   getAnimalMovementTasksSuccess,
+  getAllAnimalMovementTasksSuccess,
   postAnimalMovementTaskSuccess,
   editAnimalMovementTaskSuccess,
   onLoadingAnimalMovementTaskStart,

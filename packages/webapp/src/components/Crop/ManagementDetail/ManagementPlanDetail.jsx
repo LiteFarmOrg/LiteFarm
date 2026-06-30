@@ -13,6 +13,7 @@ import { getDateInputFormat } from '../../../util/moment';
 import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
+import navStyles from '@navStyles';
 
 export default function PureManagementDetail({
   onBack,
@@ -89,6 +90,7 @@ export default function PureManagementDetail({
                   `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/edit`,
                 )
               }
+              className={navStyles.hideWhenOffline}
             >
               {t('common:EDIT')}
             </Button>

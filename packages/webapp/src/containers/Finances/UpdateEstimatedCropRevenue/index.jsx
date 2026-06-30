@@ -1,4 +1,4 @@
-import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import produce from 'immer';
@@ -8,8 +8,9 @@ import { measurementSelector } from '../../userFarmSlice';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 import { patchEstimatedCropRevenue } from '../saga';
 
-function UpdateEstimatedCropRevenue({ history, match }) {
-  const { management_plan_id } = match.params;
+function UpdateEstimatedCropRevenue() {
+  const history = useHistory();
+  const { management_plan_id } = useParams();
   const { t } = useTranslation();
 
   const dispatch = useDispatch();

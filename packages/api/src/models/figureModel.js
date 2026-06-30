@@ -38,6 +38,7 @@ class Figure extends Model {
           enum: [
             'gate',
             'water_valve',
+            'soil_sample_location',
             'farm_site_boundary',
             'field',
             'garden',
@@ -51,7 +52,6 @@ class Figure extends Model {
             'greenhouse',
             'barn',
             'pin',
-            'sensor',
           ],
         },
         location_id: { type: 'string' },

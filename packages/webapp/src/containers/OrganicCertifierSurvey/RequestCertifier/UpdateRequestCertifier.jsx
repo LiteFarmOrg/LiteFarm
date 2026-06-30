@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import { PureRequestCertifier } from '../../../components/OrganicCertifierSurvey/RequestCertifier/PureRequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
-import history from '../../../history';
 import { certifiersSelector } from '../certifierSlice';
 import { certifierSurveySelector } from '../slice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -9,6 +9,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { useCertificationName } from '../useCertificationName';
 
 export default function RequestCertifier() {
+  const history = useHistory();
   const survey = useSelector(certifierSurveySelector);
 
   const dispatch = useDispatch();

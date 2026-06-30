@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
-import { cropLocationByIdSelector } from '../../locationSlice';
-import {
-  currentManagementPlansByLocationIdSelector,
-  expiredManagementPlansByLocationIdSelector,
-  plannedManagementPlansByLocationIdSelector,
-} from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 import { useTranslation } from 'react-i18next';
+import useLocationCrops from './useLocationCrops';
+import useLocationRouterTabs from '../useLocationRouterTabs';
+import useLocationsById from '../../../hooks/location/useLocationsById';
 
-function LocationManagementPlan({ history, match, location }) {
+function LocationManagementPlan() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
-  const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
-  const pastCrops = useSelector(expiredManagementPlansByLocationIdSelector(location_id));
-  const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
+  const { locations: location } = useLocationsById(location_id, { deleted: true });
+  const { activeCrops, pastCrops, plannedCrops } = useLocationCrops(location_id);
+  const routerTabs = useLocationRouterTabs(location);
   const { t } = useTranslation();
 
   const onFilterChange = (e) => {
@@ -26,7 +26,7 @@ function LocationManagementPlan({ history, match, location }) {
   const onAddCrop = () => {
     history.push(`/crop_catalogue`);
   };
-  const { name } = useSelector(cropLocationByIdSelector(location_id));
+  const { name } = location;
 
   return (
     <>
@@ -41,6 +41,7 @@ function LocationManagementPlan({ history, match, location }) {
         match={match}
         title={name}
         location={location}
+        routerTabs={routerTabs}
       />
     </>
   );

@@ -14,6 +14,7 @@
  */
 
 import React, { useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import MainDocumentView from '../../../components/Documents/Main';
@@ -21,8 +22,9 @@ import { documentSelector } from '../../documentSlice';
 import ArchiveDocumentModal from '../../../components/Modals/ArchiveDocumentModal';
 import { archiveDocument } from '../saga';
 
-export default function MainDocument({ history, match }) {
-  const { document_id } = match.params;
+export default function MainDocument() {
+  const history = useHistory();
+  const { document_id } = useParams();
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const dispatch = useDispatch();
   const document = useSelector(documentSelector(document_id));

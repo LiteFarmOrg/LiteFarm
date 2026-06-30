@@ -50,9 +50,9 @@ const PurePestControlTask = ({
       controlMethodExposedValue?.value &&
       !productPests.includes(controlMethodExposedValue?.value)
     ) {
-      setValue('pest_control_task.product', null);
+      setValue('pest_control_task.product', undefined);
       setValue('pest_control_task.product_id', null);
-      setValue('pest_control_task.product_quantity', undefined);
+      setValue('pest_control_task.product_quantity', null);
       setValue('pest_control_task.product_quantity_unit', null, { shouldValidate: true });
     }
     if (controlMethodExposedValue?.value !== 'other') {

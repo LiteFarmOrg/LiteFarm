@@ -32,8 +32,10 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     const { id_token, user, isSignUp, isInvited } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', user.language_preference);
-    if (i18n.language !== getLanguageFromLocalStorage()) {
-      i18n.changeLanguage(getLanguageFromLocalStorage());
+    const requestedLang = getLanguageFromLocalStorage();
+    const targetLang = i18n.options.supportedLngs?.includes(requestedLang) ? requestedLang : 'en';
+    if (i18n.language !== targetLang) {
+      i18n.changeLanguage(targetLang);
     }
     if (isInvited) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.invited }));

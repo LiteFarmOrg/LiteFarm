@@ -41,7 +41,7 @@ export const MoreAnimalsCard = ({ className, onClick }: MoreAnimalCardProps) => 
       <Icons pill iconDetails={iconDetails} className={styles.animalIcons} />
       <p className={styles.addMoreText}>{t('ANIMAL.ADD_MORE_BODY_TEXT')}</p>
       <Button color="secondary-2" type="button" onClick={onClick}>
-        <Icon iconName="PLUS_CIRCLE" className={styles.buttonIcon} />
+        <Icon iconName="PLUS_CIRCLE" />
         {t('ANIMAL.ADD_MORE_BUTTON')}
       </Button>
     </div>

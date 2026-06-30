@@ -32,11 +32,6 @@
       "UPDATE": "Successfully updated document"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "Failed to upload the CSV file"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: failed to add varietal to database",
@@ -88,7 +83,42 @@
   },
   "FARM_ADDON": {
     "FAILED_DISCONNECT_ADDON": "Failed to disconnect addon",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Failed to get irrigation prescriptions"
+    },
     "SUCCESS_DISCONNECT_ADDON": "Successfully disconnected addon"
+  },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "Failed to save note",
+      "DELETE": "Failed to delete note",
+      "EDIT": "Failed to update note"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully saved note",
+      "DELETE": "Successfully deleted note",
+      "EDIT": "Successfully updated note"
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note creation automatically",
+        "ONLINE": "Note created. Will appear when you're back online",
+        "SUCCESS": "Note created offline has been saved successfully"
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note deletion automatically",
+        "ONLINE": "Note deleted. Will save when you're back online",
+        "SUCCESS": "Note deleted offline has been saved successfully"
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your note update automatically",
+        "ONLINE": "Note updated. Will save when you're back online",
+        "SUCCESS": "Note updated offline has been saved successfully"
+      },
+      "FAILED": "Note changes failed to save",
+      "NOT_FOUND": "Note failed to save: note no longer exists",
+      "UNAUTHORIZED": "Note failed to save: insufficient permissions"
+    }
   },
   "HELP_REQUEST": {
     "ERROR": {
@@ -98,8 +128,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",
-      "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
-      "GET_TYPES": "Failed to fetch harvest use types"
+      "AMOUNT_TOTAL": "Total does not equal the amount to allocate"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Successfully added custom harvest use type"
@@ -127,10 +156,28 @@
   "MAP": {
     "FAIL_PATCH": "Failed to update",
     "FAIL_POST": "Failed to add new",
+    "FAIL_DELETE": "Failed to retire",
     "SUCCESS_DELETE": "Successfully retired",
     "SUCCESS_PATCH": "Successfully updated",
-    "SUCCESS_POST": "Successfully saved",
-    "SUCCESS_UPLOAD": "Successfully uploaded"
+    "SUCCESS_POST": "Successfully saved"
+  },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "Failed to save Market Directory Info",
+      "UPDATE": "Failed to update Market Directory Info"
+    },
+    "SUCCESS": {
+      "SAVE": "Successfully saved Market Directory Info",
+      "UPDATE": "Successfully updated Market Directory Info",
+      "UPDATE_LIVE_DATA": "Successfully updated Market Directory Info. Your data will be updated within 24 hours."
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Failed to save Market Directory Consent",
+    "SUCCESS": {
+      "CONSENT": "Successfully saved Market Directory Consent",
+      "PARTNER": "Successfully saved Market Directory Consent. Your data will be updated within 24 hours."
+    }
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -149,10 +196,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Failed to create product",
+      "REMOVE": "Failed to remove product",
       "UPDATE": "Failed to update product"
     },
     "SUCCESS": {
       "CREATE": "Successfully created product",
+      "REMOVE": "Successfully removed product",
       "UPDATE": "Successfully updated product"
     }
   },
@@ -198,25 +247,54 @@
       "UPDATE": "Successfully updated sale"
     }
   },
-  "SENSOR": {
-    "ERROR_UPDATE": "Error updating sensor",
-    "SUCCESSFUL_UPDATE": "Sensor successfully updated"
-  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Failed to abandon task",
-      "SUCCESS": "Successfully abandoned task"
+      "SUCCESS": "Successfully abandoned task",
+      "SYNC": {
+        "ONLINE": "Task abandoned. Will save when you're back online",
+        "SUCCESS": "Task abandoned offline has been saved successfully"
+      }
     },
     "COMPLETE": {
       "FAILED": "Failed to complete task",
-      "SUCCESS": "Successfully completed task"
+      "SUCCESS": "Successfully completed task",
+      "SYNC": {
+        "ONLINE": "Task completed. Will save when you're back online",
+        "SUCCESS": "Task completed offline has been saved successfully"
+      }
     },
     "CREATE": {
       "FAILED": "Failed to create task",
-      "SUCCESS": "Successfully created task"
+      "SUCCESS": "Successfully created task",
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task creation automatically",
+        "ONLINE": "Task created. Will appear when you're back online",
+        "SUCCESS": "Task created offline has been saved successfully"
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task deletion automatically",
+        "ONLINE": "Task deleted. Will save when you're back online",
+        "SUCCESS": "Task deleted offline has been saved successfully"
+      }
+    },
+    "SYNC": {
+      "FAILED": "Task changes failed to save",
+      "LOCATION_DELETED": "Task failed to save: location has been retired",
+      "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry automatically",
+      "NOT_FOUND": "Task failed to save: task no longer exists",
+      "UNAUTHORIZED": "Task failed to save: insufficient permissions"
     },
     "UPDATE": {
-      "FAILED": "Failed to update task"
+      "FAILED": "Failed to update task",
+      "SUCCESS": "Successfully updated task",
+      "SYNC": {
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your task update automatically",
+        "ONLINE": "Task updated. Will save when you're back online",
+        "SUCCESS": "Task updated offline has been saved successfully"
+      }
     }
   },
   "TASK_TYPE": {

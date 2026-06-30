@@ -5,7 +5,12 @@ import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSa
 import i18n from '../../locales/i18n';
 import { loginSelector, putUserSuccess } from '../userFarmSlice';
 import history from '../../history';
-import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import {
+  enqueueErrorSnackbar,
+  enqueuePersistentSuccessSnackbar,
+  enqueueSuccessSnackbar,
+} from '../Snackbar/snackbarSlice';
+import { isOfflineSelector } from '../hooks/useOfflineDetector/offlineDetectorSlice';
 import {
   addManyTasksFromGetReq,
   addAllTasksFromGetReq,
@@ -24,51 +29,66 @@ import { pick } from '../../util/pick';
 import produce from 'immer';
 import { getObjectInnerValues } from '../../util';
 import {
+  getAllCleaningTasksSuccess,
   getCleaningTasksSuccess,
   onLoadingCleaningTaskFail,
   onLoadingCleaningTaskStart,
 } from '../slice/taskSlice/cleaningTaskSlice';
 import {
+  getAllFieldWorkTasksSuccess,
   getFieldWorkTasksSuccess,
   onLoadingFieldWorkTaskFail,
   onLoadingFieldWorkTaskStart,
 } from '../slice/taskSlice/fieldWorkTaskSlice';
 import {
+  getAllIrrigationTasksSuccess,
   getIrrigationTasksSuccess,
   onLoadingIrrigationTaskFail,
   onLoadingIrrigationTaskStart,
 } from '../slice/taskSlice/irrigationTaskSlice';
 import {
+  getAllPestControlTasksSuccess,
   getPestControlTasksSuccess,
   onLoadingPestControlTaskFail,
   onLoadingPestControlTaskStart,
 } from '../slice/taskSlice/pestControlTaskSlice';
 import {
+  getAllSoilAmendmentTasksSuccess,
   getSoilAmendmentTasksSuccess,
   onLoadingSoilAmendmentTaskFail,
   onLoadingSoilAmendmentTaskStart,
 } from '../slice/taskSlice/soilAmendmentTaskSlice';
 import {
+  getAlllHarvestTasksSuccess,
   getHarvestTasksSuccess,
   onLoadingHarvestTaskFail,
   onLoadingHarvestTaskStart,
 } from '../slice/taskSlice/harvestTaskSlice';
 import {
+  getAllPlantTasksSuccess,
   getPlantTasksSuccess,
   onLoadingPlantTaskFail,
   onLoadingPlantTaskStart,
 } from '../slice/taskSlice/plantTaskSlice';
 import {
   deleteTransplantTaskSuccess,
+  getAllTransplantTasksSuccess,
   getTransplantTasksSuccess,
   onLoadingTransplantTaskFail,
   onLoadingTransplantTaskStart,
 } from '../slice/taskSlice/transplantTaskSlice';
 import {
+  getAllAnimalMovementTasksSuccess,
   getAnimalMovementTasksSuccess,
   onLoadingAnimalMovementTaskFail,
   onLoadingAnimalMovementTaskStart,
 } from '../slice/taskSlice/animalMovementTaskSlice';
+import {
+  getAllSoilSampleTasksSuccess,
+  getSoilSampleTasksSuccess,
+  onLoadingSoilSampleTaskFail,
+  onLoadingSoilSampleTaskStart,
+} from '../slice/taskSlice/soilSampleTaskSlice';
 import { getPlantingMethodReqBody } from '../Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
 
 import {
@@ -87,8 +107,10 @@ import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../u
 import {
   formatAnimalIdsForReqBody,
   getCompleteMovementTaskBody,
+  getCompleteSoilSampleTaskBody,
   getEndpoint,
   getMovementTaskBody,
+  getSoilSampleTaskBody,
 } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
 
@@ -104,7 +126,7 @@ const taskTypeEndpoint = [
 
 // TypeScript complains without payload.
 // https://redux-toolkit.js.org/api/createAction#using-prepare-callbacks-to-customize-action-contents
-export const getProducts = createAction('getProductsSaga', function prepare(payload) {
+export const getProducts = createAction('getProductsSaga', function prepare(payload = {}) {
   return { payload };
 });
 
@@ -144,7 +166,19 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      const message = isOffline
+        ? i18n.t('message:TASK.UPDATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
+
+      // Optimistic update for task update
+      yield put(putTaskSuccess({ assignee_user_id, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    }
   }
 }
 
@@ -191,45 +225,58 @@ export function* changeTaskDateSaga({ payload: { task_id, due_date } }) {
     );
 
     yield put(putTaskSuccess({ due_date, task_id }));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.UPDATE.SUCCESS')));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      const message = isOffline
+        ? i18n.t('message:TASK.UPDATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
+
+      // Optimistic update for task update
+      yield put(putTaskSuccess({ due_date, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    }
   }
 }
 
 export const changeTaskWage = createAction('changeTaskWageSaga');
 
-export function* changeTaskWageSaga({ payload: { task_id, wage_at_moment } }) {
+export function* changeTaskWageSaga({
+  payload: { task_id, wage_at_moment, override_hourly_wage },
+}) {
   const { taskUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const patchData = { wage_at_moment, override_hourly_wage };
   try {
-    yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, { wage_at_moment }, header);
-    yield put(putTaskSuccess({ wage_at_moment, task_id }));
+    yield call(axios.patch, `${taskUrl}/patch_wage/${task_id}`, patchData, header);
+    yield put(putTaskSuccess({ ...patchData, task_id }));
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      const message = isOffline
+        ? i18n.t('message:TASK.UPDATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
+
+      // Optimistic update for task wage update
+      yield put(putTaskSuccess({ ...patchData, task_id }));
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.UPDATE.FAILED')));
+    }
   }
 }
 
-export const updateUserFarmWage = createAction('updateUserFarmWageSaga');
-
-export function* updateUserFarmWageSaga({ payload: user }) {
-  const { userFarmUrl } = apiConfig;
-  const { user_id, farm_id } = yield select(loginSelector);
-  const target_user_id = user.user_id;
-  const patchWageUrl = `${userFarmUrl}/wage/farm/${farm_id}/user/${target_user_id}`;
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield call(axios.patch, patchWageUrl, user, header);
-    yield put(putUserSuccess({ ...user, farm_id }));
-  } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
-    console.error(e);
-  }
-}
-
+/**
+ * @deprecated No longer used in task assignment flows and should be removed in future
+ */
 export const setUserFarmWageDoNotAskAgain = createAction('setUserFarmWageDoNotAskAgainSaga');
 
 export function* setUserFarmWageDoNotAskAgainSaga({ payload: user }) {
@@ -251,9 +298,13 @@ export const getPlantingTasksAndPlantingManagementPlansSuccess = createAction(
   'getPlantingTasksAndPlantingManagementPlansSuccessSaga',
 );
 
-export function* getPlantingTasksAndPlantingManagementPlansSuccessSaga({ payload: tasks }) {
+export function* getPlantingTasksAndPlantingManagementPlansSuccessSaga({
+  payload: { tasks, getAll = false },
+}) {
+  const getTasksSuccessFunc = getAll ? getAllPlantTasksSuccess : getPlantTasksSuccess;
+
   yield put(
-    getPlantTasksSuccess(
+    getTasksSuccessFunc(
       tasks.map((task) => ({
         ...task,
         planting_management_plan_id:
@@ -275,9 +326,13 @@ export const getTransplantTasksAndPlantingManagementPlansSuccess = createAction(
   'getTransplantTasksAndPlantingManagementPlansSuccessSaga',
 );
 
-export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ payload: tasks }) {
+export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({
+  payload: { tasks, getAll = false },
+}) {
+  const getTasksSuccessFunc = getAll ? getAllTransplantTasksSuccess : getTransplantTasksSuccess;
+
   yield put(
-    getTransplantTasksSuccess(
+    getTasksSuccessFunc(
       tasks.map((task) => ({
         ...task,
         planting_management_plan_id:
@@ -297,49 +352,70 @@ export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ paylo
 const taskTypeActionMap = {
   CLEANING_TASK: {
     success: (tasks) => put(getCleaningTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllCleaningTasksSuccess(tasks)),
     fail: onLoadingCleaningTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   FIELD_WORK_TASK: {
     success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllFieldWorkTasksSuccess(tasks)),
     fail: onLoadingFieldWorkTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   IRRIGATION_TASK: {
     success: (tasks) => put(getIrrigationTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllIrrigationTasksSuccess(tasks)),
     fail: onLoadingIrrigationTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   PEST_CONTROL_TASK: {
     success: (tasks) => put(getPestControlTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllPestControlTasksSuccess(tasks)),
     fail: onLoadingPestControlTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   SOIL_AMENDMENT_TASK: {
     success: (tasks) => put(getSoilAmendmentTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllSoilAmendmentTasksSuccess(tasks)),
     fail: onLoadingSoilAmendmentTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   HARVEST_TASK: {
     success: (tasks) => put(getHarvestTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAlllHarvestTasksSuccess(tasks)),
     fail: onLoadingHarvestTaskFail,
     completeUrl: (id) => createCompleteHarvestQuantityTaskUrl(id),
   },
   PLANT_TASK: {
     success: (tasks) =>
-      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: { tasks } }),
+    getAllSuccess: (tasks) =>
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, {
+        payload: { tasks, getAll: true },
+      }),
     fail: onLoadingPlantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   TRANSPLANT_TASK: {
     success: (tasks) =>
-      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
+      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: { tasks } }),
+    getAllSuccess: (tasks) =>
+      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, {
+        payload: { tasks, getAll: true },
+      }),
     fail: onLoadingTransplantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   MOVEMENT_TASK: {
     success: (tasks) => put(getAnimalMovementTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllAnimalMovementTasksSuccess(tasks)),
     fail: onLoadingAnimalMovementTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
+  },
+  SOIL_SAMPLE_TASK: {
+    success: (tasks) => put(getSoilSampleTasksSuccess(tasks)),
+    getAllSuccess: (tasks) => put(getAllSoilSampleTasksSuccess(tasks)),
+    fail: onLoadingSoilSampleTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
 };
@@ -356,9 +432,13 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingTransplantTaskStart());
   yield put(onLoadingIrrigationTaskStart());
   yield put(onLoadingAnimalMovementTaskStart());
+  yield put(onLoadingSoilSampleTaskStart());
 }
 
-function* handleGetTasksSuccess(tasks, successAction) {
+function* handleGetTasksSuccess(tasks, isGetAll = false) {
+  const successAction = isGetAll ? addAllTasksFromGetReq : addManyTasksFromGetReq;
+  const taskTypeSuccessActionKey = isGetAll ? 'getAllSuccess' : 'success';
+
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
     (tasksByTranslationKeyDefault, task_translation_key) => {
@@ -377,7 +457,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
 
   for (const task_translation_key in taskTypeActionMap) {
     try {
-      yield taskTypeActionMap[task_translation_key].success(
+      yield taskTypeActionMap[task_translation_key][taskTypeSuccessActionKey](
         tasksByTranslationKey[task_translation_key],
       );
     } catch (e) {
@@ -390,7 +470,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
 }
 
 export function* getTasksSuccessSaga({ payload: tasks }) {
-  yield handleGetTasksSuccess(tasks, addManyTasksFromGetReq);
+  yield handleGetTasksSuccess(tasks);
 }
 
 export const getTasks = createAction('getTasksSaga');
@@ -409,7 +489,7 @@ export function* getTasksSaga() {
 }
 
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
-  yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
+  yield handleGetTasksSuccess(tasks, true);
 }
 
 export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
@@ -489,22 +569,26 @@ const getTransplantTaskBody = (data, endpoint, managementPlanWithCurrentLocation
 };
 
 const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
-  const irrigation_task_type =
-    data.irrigation_task?.irrigation_type_name.value === 'OTHER'
+  const irrigationTypeName =
+    data.irrigation_task?.irrigation_type.value === 'OTHER'
       ? data.irrigation_task?.irrigation_task_type_other
-      : data.irrigation_task?.irrigation_type_name.value;
+      : data.irrigation_task?.irrigation_type.value;
+  const irrigationType = { irrigation_type_name: irrigationTypeName };
+  if (data.irrigation_task.irrigation_type.value !== 'OTHER') {
+    irrigationType.irrigation_type_id = data.irrigation_task.irrigation_type.irrigation_type_id;
+  }
   return produce(
     getPostTaskBody(data, 'irrigation_task', managementPlanWithCurrentLocationEntities),
     (data) => {
       data.irrigation_task = {
         ...data.irrigation_task,
-        irrigation_type_name: irrigation_task_type,
+        ...irrigationType,
         location_id: data.locations[0]?.location_id,
       };
       data.location_defaults = data.locations.map((location) => ({
         location_id: location.location_id,
         irrigation_task_type: data.irrigation_task.default_irrigation_task_type_location
-          ? irrigation_task_type
+          ? irrigationTypeName
           : undefined,
         ...(data.irrigation_task.default_location_application_depth
           ? pick(data.irrigation_task, ['application_depth', 'application_depth_unit'])
@@ -517,6 +601,7 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
         delete data.irrigation_task?.estimated_water_usage_unit;
       for (const element in data.irrigation_task) {
         [
+          'irrigation_type',
           'irrigation_task_type_other',
           'percent_of_location_irrigated_unit',
           'irrigated_area',
@@ -547,6 +632,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
   MOVEMENT_TASK: getMovementTaskBody,
+  SOIL_SAMPLE_TASK: getSoilSampleTaskBody,
 };
 
 const getPostTaskReqBody = (
@@ -596,23 +682,25 @@ export function* createTaskSaga({ payload }) {
       managementPlanWithCurrentLocationEntitiesSelector,
     );
     data = getCompleteCustomTaskTypeBody(data, task_translation_key);
-    const result = yield call(
-      axios.post,
-      `${taskUrl}/${endpoint}`,
-      getPostTaskReqBody(
-        data,
-        endpoint,
-        task_translation_key,
-        isCustomTask,
-        managementPlanWithCurrentLocationEntities,
-      ),
-      header,
+    const reqBody = getPostTaskReqBody(
+      data,
+      endpoint,
+      task_translation_key,
+      isCustomTask,
+      managementPlanWithCurrentLocationEntities,
     );
+    const result = yield call(axios.post, `${taskUrl}/${endpoint}`, reqBody, header);
     if (result) {
       const { task_id, taskType } =
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
+      if (task_translation_key === 'IRRIGATION_TASK') {
+        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+      }
       if (alreadyCompleted) {
+        if (['CLEANING_TASK', 'PEST_CONTROL_TASK'].includes(task_translation_key)) {
+          yield call(getProductsSaga);
+        }
         const isCustomTaskWithAnimals =
           isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
         yield call(onReqSuccessSaga, {
@@ -635,8 +723,19 @@ export function* createTaskSaga({ payload }) {
     }
   } catch (e) {
     console.log(e);
-    if (e.response.data === 'location deleted') {
+    if (e.response?.data === 'location deleted') {
       setShowCannotCreateModal(true);
+    } else if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      const message = isOffline
+        ? i18n.t('message:TASK.CREATE.SYNC.ONLINE')
+        : i18n.t('message:TASK.CREATE.SYNC.NETWORK_ERROR');
+      yield put(enqueuePersistentSuccessSnackbar(message));
+
+      // No optimistic update for task creation
+
+      history.push(returnPath ?? '/tasks');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
     }
@@ -716,18 +815,6 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
       const taskType = task_translation_key.toLowerCase();
       const irrigation_task = data.taskData[taskType];
       if (irrigation_task) {
-        if (typeof data.taskData[taskType].irrigation_type_name === 'string') {
-          data.taskData[taskType].irrigation_type_name = data.taskData[taskType]
-            ?.irrigation_task_type_other
-            ? data.taskData[taskType]?.irrigation_task_type_other
-            : data.taskData[taskType]?.irrigation_type_name;
-        } else {
-          data.taskData[taskType].irrigation_type_name =
-            data.taskData[taskType].irrigation_type_name.value === 'OTHER'
-              ? data.taskData[taskType].irrigation_task_type_other
-              : data.taskData[taskType].irrigation_type_name.value;
-        }
-
         data.taskData.location_defaults = [
           {
             location_id: data.location_id,
@@ -785,6 +872,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
   IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
   SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
   MOVEMENT_TASK: getCompleteMovementTaskBody,
+  SOIL_SAMPLE_TASK: getCompleteSoilSampleTaskBody,
 };
 
 export const completeTask = createAction('completeTaskSaga');
@@ -826,7 +914,31 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      const message = isOffline
+        ? i18n.t('message:TASK.COMPLETE.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
+
+      // Optimistic update for task completion
+      const optimisticTaskData = taskData.task // i.e. harvest tasks
+        ? { ...taskData, ...taskData.task }
+        : taskData;
+
+      yield put(
+        putTaskSuccess({
+          ...optimisticTaskData, // note: will not create the proper object for details view
+          task_id,
+          to_sync: true, // For visual indicator on to-be-synced tasks
+        }),
+      );
+
+      history.push(returnPath ?? '/tasks');
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+    }
   }
 }
 
@@ -846,7 +958,27 @@ export function* abandonTaskSaga({ payload: data }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.ABANDON.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      const message = isOffline
+        ? i18n.t('message:TASK.ABANDON.SYNC.ONLINE')
+        : i18n.t('message:TASK.UPDATE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
+
+      // Optimistic update for task abandonment
+      yield put(
+        putTaskSuccess({
+          ...patchData, // will create the proper object for details view
+          task_id,
+          to_sync: true, // For visual indicator on to-be-synced tasks
+        }),
+      );
+
+      history.push(returnPath ?? '/tasks');
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.ABANDON.FAILED')));
+    }
   }
 }
 
@@ -925,7 +1057,6 @@ export function* getHarvestUseTypesSaga() {
   } catch (e) {
     console.log('failed to get harvest use types');
     yield put(onLoadingHarvestUseTypeFail());
-    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES')));
   }
 }
 
@@ -970,11 +1101,34 @@ export function* deleteTaskSaga({ payload: data }) {
         yield put(deleteTransplantTaskSuccess(result.data.task_id));
       }
       yield put(deleteTaskSuccess(result.data));
+      if (task_type.task_translation_key === 'IRRIGATION_TASK') {
+        yield put(api.util.invalidateTags(['IrrigationPrescriptions']));
+      }
       yield put(enqueueSuccessSnackbar(i18n.t('TASK.DELETE.SUCCESS')));
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+    if (e.code === 'ERR_NETWORK') {
+      const isOffline = yield select(isOfflineSelector);
+
+      const message = isOffline
+        ? i18n.t('message:TASK.DELETE.SYNC.ONLINE')
+        : i18n.t('message:TASK.DELETE.SYNC.NETWORK_ERROR');
+      yield put(enqueueSuccessSnackbar(message));
+
+      // Optimistic update for task deletion
+
+      // Remove from transplant task store
+      // (Safe to call for non-transplant tasks; nothing will happen)
+      yield put(deleteTransplantTaskSuccess({ task_id }));
+
+      // Remove from general task store
+      yield put(deleteTaskSuccess({ task_id }));
+
+      history.back();
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('TASK.DELETE.FAILED')));
+    }
   }
 }
 
@@ -983,7 +1137,6 @@ export default function* taskSaga() {
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(changeTaskDate.type, changeTaskDateSaga);
   yield takeLeading(changeTaskWage.type, changeTaskWageSaga);
-  yield takeLeading(updateUserFarmWage.type, updateUserFarmWageSaga);
   yield takeLeading(setUserFarmWageDoNotAskAgain.type, setUserFarmWageDoNotAskAgainSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);

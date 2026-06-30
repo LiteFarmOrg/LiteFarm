@@ -712,50 +712,51 @@ PestControlTask.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const FieldWorkTask = Template.bind({});
-FieldWorkTask.args = {
-  handleGoBack: () => console.log('handleGoBack called'),
-  onSubmit: () => console.log('onSave called'),
-  handleCancel: () => console.log('handleCancel called'),
-  onError: () => console.log('onError called'),
-  useHookFormPersist: () => ({}),
-  persistedFormData: {
-    type: 9,
-    due_date: '2021-08-23',
-    locations: [
-      {
-        location_id: '1f31e024-2e98-44e4-9837-80f52d8ab010',
-      },
-      {
-        location_id: '61f7cd2c-c09d-43cf-9687-a0502236acfd',
-      },
-    ],
-    managementPlans: [
-      {
-        management_plan_id: 1166,
-      },
-      {
-        management_plan_id: 1177,
-      },
-      {
-        management_plan_id: 1179,
-      },
-    ],
-  },
-  selectedTaskType: {
-    task_type_id: 9,
-    task_name: 'Field Work',
-    task_translation_key: 'FIELD_WORK_TASK',
-    farm_id: null,
-  },
-  persistedPaths: [],
-  products: [],
-  system: 'metric',
-  managementPlanByLocations: managementPlansByLocationIds,
-};
-FieldWorkTask.parameters = {
-  ...chromaticSmallScreen,
-};
+// TODO: LF-4804 - Temporarily disabled due to Storybook-only infinite loop caused by useEffect
+// export const FieldWorkTask = Template.bind({});
+// FieldWorkTask.args = {
+//   handleGoBack: () => console.log('handleGoBack called'),
+//   onSubmit: () => console.log('onSave called'),
+//   handleCancel: () => console.log('handleCancel called'),
+//   onError: () => console.log('onError called'),
+//   useHookFormPersist: () => ({}),
+//   persistedFormData: {
+//     type: 9,
+//     due_date: '2021-08-23',
+//     locations: [
+//       {
+//         location_id: '1f31e024-2e98-44e4-9837-80f52d8ab010',
+//       },
+//       {
+//         location_id: '61f7cd2c-c09d-43cf-9687-a0502236acfd',
+//       },
+//     ],
+//     managementPlans: [
+//       {
+//         management_plan_id: 1166,
+//       },
+//       {
+//         management_plan_id: 1177,
+//       },
+//       {
+//         management_plan_id: 1179,
+//       },
+//     ],
+//   },
+//   selectedTaskType: {
+//     task_type_id: 9,
+//     task_name: 'Field Work',
+//     task_translation_key: 'FIELD_WORK_TASK',
+//     farm_id: null,
+//   },
+//   persistedPaths: [],
+//   products: [],
+//   system: 'metric',
+//   managementPlanByLocations: managementPlansByLocationIds,
+// };
+// FieldWorkTask.parameters = {
+//   ...chromaticSmallScreen,
+// };
 
 const soilAmendmentTaskArgs = {
   handleGoBack: () => console.log('handleGoBack called'),

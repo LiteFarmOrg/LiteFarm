@@ -13,24 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import InputBase, { type InputBaseSharedProps } from '../InputBase';
-import { FieldValues } from 'react-hook-form';
+import InputBase, { type InputBaseSharedProps, HTMLInputProps } from '../InputBase';
 import Icon from '../../Icons';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
 
-export type LockedInputProps<T extends FieldValues> = InputBaseSharedProps & { className?: string };
+export type LockedInputProps = InputBaseSharedProps &
+  Pick<HTMLInputProps, 'value'> & {
+    className?: string;
+  };
 
-export default function LockedInput<T extends FieldValues>({
-  className,
-  ...props
-}: LockedInputProps<T>) {
+export default function LockedInput({ className, ...props }: LockedInputProps) {
   return (
     <InputBase
       {...props}
       disabled
       className={className}
-      rightSection={<Icon iconName={'LOCKED'} className={clsx(styles.icon)} />}
+      rightSection={<Icon iconName={'LOCKED'} />}
     />
   );
 }

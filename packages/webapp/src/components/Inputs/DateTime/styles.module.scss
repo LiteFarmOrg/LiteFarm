@@ -1,0 +1,51 @@
+/*
+ *  Copyright 2025 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+// Styles for the MUI X DatePicker / TimePicker field, taken from the <Input /> component.
+
+.field {
+  :global(.MuiPickersOutlinedInput-root) {
+    height: 48px;
+  }
+
+  // Focus border
+  :global(.MuiPickersOutlinedInput-root.Mui-focused .MuiPickersOutlinedInput-notchedOutline) {
+    border-color: var(--inputActive);
+    border-width: 1px;
+  }
+
+  // Disabled fill + border
+  :global(.MuiPickersOutlinedInput-root.Mui-disabled) {
+    background-color: var(--inputDisabled);
+  }
+  :global(.MuiPickersOutlinedInput-root.Mui-disabled .MuiPickersOutlinedInput-notchedOutline) {
+    border-color: var(--inputDefault);
+  }
+
+  // Disabled text, to match the disabled icon
+  :global(.MuiPickersOutlinedInput-root.Mui-disabled *) {
+    color: var(--grey600);
+  }
+}
+
+// Trigger icon (calendar / clock). The class is applied directly to the SVG via the
+// openPickerIcon slot, so no MUI class targeting is needed.
+.icon path {
+  stroke: var(--fontColor);
+}
+
+.iconDisabled path {
+  stroke: var(--grey600);
+}

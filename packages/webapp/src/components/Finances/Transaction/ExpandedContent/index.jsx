@@ -12,7 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
@@ -23,16 +24,20 @@ import {
   LABOUR_URL,
 } from '../../../../util/siteMapConstants';
 import TextButton from '../../../Form/Button/TextButton';
-import CropSaleTable from './CropSaleTable';
 import GeneralTransactionTable from './GeneralTransactionTable';
 import LabourTable from './LabourTable';
+import EntitySaleTable from './EntitySaleTable';
 import styles from './styles.module.scss';
+import navStyles from '@navStyles';
 
 const components = {
   EXPENSE: (props) => <GeneralTransactionTable {...props} />,
   REVENUE: (props) => <GeneralTransactionTable {...props} />,
   LABOUR_EXPENSE: (props) => <LabourTable {...props} />,
-  CROP_REVENUE: (props) => <CropSaleTable {...props} />,
+  CROP_REVENUE: (props) => <EntitySaleTable {...props} titleLabel="FINANCES.TRANSACTION.CROPS" />,
+  ANIMAL_REVENUE: (props) => (
+    <EntitySaleTable {...props} titleLabel="FINANCES.TRANSACTION.ANIMALS" />
+  ),
 };
 
 const getDetailPageLink = ({ transactionType, relatedId }) => {
@@ -41,6 +46,7 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
     EXPENSE: createExpenseDetailsUrl(relatedId),
     REVENUE: createRevenueDetailsUrl(relatedId),
     CROP_REVENUE: createRevenueDetailsUrl(relatedId),
+    ANIMAL_REVENUE: createRevenueDetailsUrl(relatedId),
   }[transactionType];
 };
 
@@ -58,7 +64,10 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
 
   return (
     <div className={styles.expandedContent}>
-      <TextButton className={styles.toDetail} onClick={() => history.push(getDetailPageLink(data))}>
+      <TextButton
+        className={clsx(styles.toDetail, navStyles.hideWhenOffline)}
+        onClick={() => history.push(getDetailPageLink(data))}
+      >
         {toDetailText}
         <BsChevronRight />
       </TextButton>

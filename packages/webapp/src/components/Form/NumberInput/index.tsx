@@ -60,8 +60,9 @@ export default function NumberInput<T extends FieldValues>({
   ...props
 }: NumberInputProps<T>) {
   const { field, fieldState, formState } = useController({ name, control, rules, defaultValue });
-  const { inputProps, reset, numericValue, increment, decrement } = useNumberInput({
-    initialValue: field.value || get(formState.defaultValues, name) || defaultValue,
+  const rawInitialValue = field.value ?? get(formState.defaultValues, name) ?? defaultValue;
+  const { inputProps, numericValue, increment, decrement, clear } = useNumberInput({
+    initialValue: rawInitialValue === '' ? NaN : rawInitialValue,
     allowDecimal,
     decimalDigits,
     locale,
@@ -86,7 +87,7 @@ export default function NumberInput<T extends FieldValues>({
       {...inputProps}
       className={className}
       error={fieldState.error?.message}
-      onResetIconClick={reset}
+      onResetIconClick={clear}
       leftSection={currencySymbol}
       rightSection={
         <>

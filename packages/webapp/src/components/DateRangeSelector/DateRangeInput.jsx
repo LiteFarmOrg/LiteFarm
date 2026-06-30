@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
@@ -21,8 +21,10 @@ import { ReactComponent as Calendar } from '../../assets/images/dateInput/calend
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
 import ReactSelect from '../Form/ReactSelect';
 import CustomDateRangeSelector from './CustomDateRangeSelector';
+import { buildDateRangeOptions } from './helpers';
 import { DateRangeOptions as rangeOptions } from './types';
 import styles from './styles.module.scss';
+import { Popover } from '@mui/material';
 
 export default function DateRangeInput({
   defaultDateRangeOptionValue,
@@ -31,9 +33,15 @@ export default function DateRangeInput({
   placeholder,
   changeDateRangeMethod,
   onValidityChange,
+  allowedOptions,
+  dynamicOptions,
+  disabled,
 }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
-  const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(false);
+  const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(
+    defaultDateRangeOptionValue === rangeOptions.CUSTOM,
+  );
 
   const { t } = useTranslation();
   const selectRef = useRef(null);
@@ -45,24 +53,20 @@ export default function DateRangeInput({
   const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
   const isValid = !isCustomOptionSelected || !!(areValidDates && isValidRange);
 
-  const options = [
-    { value: rangeOptions.YEAR_TO_DATE, label: t('DATE_RANGE_SELECTOR.YEAR_TO_DATE') },
-    { value: rangeOptions.LAST_7_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS') },
-    { value: rangeOptions.LAST_14_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS') },
-    { value: rangeOptions.LAST_30_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS') },
-    { value: rangeOptions.THIS_WEEK, label: t('DATE_RANGE_SELECTOR.THIS_WEEK') },
-    { value: rangeOptions.LAST_WEEK, label: t('DATE_RANGE_SELECTOR.LAST_WEEK') },
-    { value: rangeOptions.THIS_MONTH, label: t('DATE_RANGE_SELECTOR.THIS_MONTH') },
-    { value: rangeOptions.LAST_MONTH, label: t('DATE_RANGE_SELECTOR.LAST_MONTH') },
-    { value: rangeOptions.CUSTOM, label: t('DATE_RANGE_SELECTOR.CUSTOM_RANGE') },
-  ];
+  const options = buildDateRangeOptions(t, allowedOptions, dynamicOptions);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      selectRef.current?.focus();
+    }
+  }, [isMenuOpen]);
 
   useEffect(() => {
     onValidityChange?.(isValid);
   }, [isValid, onValidityChange]);
 
   useEffect(() => {
-    if (!isValid & !isCustomDatePickerOpen) {
+    if (!isValid && !isCustomDatePickerOpen) {
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);
@@ -90,7 +94,11 @@ export default function DateRangeInput({
     return (
       <div className={styles.window}>
         <Calendar />
-        <span className={clsx(styles.windowValue, className)}>{formattedOption}</span>
+        <span
+          className={clsx(styles.windowValue, className, disabled && styles.windowValueDisabled)}
+        >
+          {formattedOption}
+        </span>
       </div>
     );
   };
@@ -104,17 +112,9 @@ export default function DateRangeInput({
     setCustomToDate(undefined);
   };
 
-  const onClickAway = () => {
-    if (!isCustomDatePickerOpen) {
-      return;
-    }
-    changeDateRangeMethod(customFromDate, customToDate);
-    setIsCustomDatePickerOpen(false);
-  };
-
   const onBack = () => {
     setIsCustomDatePickerOpen(false);
-    selectRef.current.focus();
+    setIsMenuOpen(true);
   };
 
   const changeStartDate = (date) => {
@@ -125,47 +125,61 @@ export default function DateRangeInput({
     setCustomToDate(date);
   };
 
+  const closeCustomDatePicker = () => {
+    setIsCustomDatePickerOpen(false);
+    changeDateRangeMethod(customFromDate, customToDate);
+  };
+
   return (
-    <ClickAwayListener onClickAway={onClickAway}>
-      <div className={styles.wrapper}>
-        <ReactSelect
-          ref={selectRef}
-          options={options}
-          placeholder={placeholder}
-          openMenuOnFocus={true}
-          onMenuOpen={() => setIsCustomDatePickerOpen(false)}
-          onChange={(e) => {
-            if (e?.value === rangeOptions.CUSTOM) {
-              setIsCustomDatePickerOpen(true);
-              setIsCustomOptionSelected(true);
-            } else {
-              setIsCustomOptionSelected(false);
-            }
-            onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
-          }}
-          formatOptionLabel={formatOptionLabel}
-          defaultValue={
-            defaultDateRangeOptionValue &&
-            options.find(({ value }) => value === defaultDateRangeOptionValue)
+    <div className={styles.wrapper}>
+      <ReactSelect
+        ref={selectRef}
+        options={options}
+        placeholder={placeholder}
+        isDisabled={disabled}
+        menuIsOpen={isMenuOpen}
+        onMenuOpen={() => setIsMenuOpen(true)}
+        onMenuClose={() => setIsMenuOpen(false)}
+        onChange={(e) => {
+          if (e?.value === rangeOptions.CUSTOM) {
+            setIsCustomDatePickerOpen(true);
+            setIsCustomOptionSelected(true);
+          } else {
+            setIsCustomOptionSelected(false);
           }
-          isSearchable={false}
+          onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
+        }}
+        formatOptionLabel={formatOptionLabel}
+        defaultValue={
+          defaultDateRangeOptionValue &&
+          options.find(({ value }) => value === defaultDateRangeOptionValue)
+        }
+        isSearchable={false}
+      />
+      <Popover
+        open={isCustomDatePickerOpen}
+        onClose={closeCustomDatePicker}
+        anchorEl={selectRef.current?.controlRef}
+        className={styles.popover}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <CustomDateRangeSelector
+          onBack={onBack}
+          onClear={clearCustomDateRange}
+          isValid={isValid}
+          isValidRange={isValidRange}
+          changeStartDate={changeStartDate}
+          changeEndDate={changeEndDate}
+          startDate={customFromDate}
+          endDate={customToDate}
+          fromDateMax={customToDate?.format('YYYY-MM-DD')}
+          toDateMin={customFromDate?.format('YYYY-MM-DD')}
         />
-        {isCustomDatePickerOpen && (
-          <CustomDateRangeSelector
-            onBack={onBack}
-            onClear={clearCustomDateRange}
-            isValid={isValid}
-            isValidRange={isValidRange}
-            changeStartDate={changeStartDate}
-            changeEndDate={changeEndDate}
-            startDate={customFromDate}
-            endDate={customToDate}
-            fromDateMax={customToDate?.format('YYYY-MM-DD')}
-            toDateMin={customFromDate?.format('YYYY-MM-DD')}
-          />
-        )}
-      </div>
-    </ClickAwayListener>
+      </Popover>
+    </div>
   );
 }
 
@@ -179,4 +193,14 @@ DateRangeInput.propTypes = {
   changeDateRangeMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
   onValidityChange: PropTypes.func,
+  disabled: PropTypes.bool,
+  allowedOptions: PropTypes.arrayOf(PropTypes.string),
+  dynamicOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+    }),
+  ),
 };

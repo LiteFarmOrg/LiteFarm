@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import Button from '../../../components/Form/Button';
@@ -29,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UnknownRecord({ history }) {
+export default function UnknownRecord() {
+  const history = useHistory();
   const { t } = useTranslation();
   const classes = useStyles();
   const goBack = () => {
@@ -52,7 +54,7 @@ export default function UnknownRecord({ history }) {
             goBack();
           }}
         >
-          {t('common:BACK')}
+          {t('common:GO_BACK')}
         </Button>
       }
     >

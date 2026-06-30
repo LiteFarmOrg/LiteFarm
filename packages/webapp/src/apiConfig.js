@@ -39,6 +39,8 @@ export const farmUrl = `${URI}/farm`;
 export const inviteUserUrl = `${URI}/user/invite`;
 //export const fieldURL = `${URI}/field`;
 export const locationURL = `${URI}/location`;
+export const getLocationsByFarmIdUrl = (farm_id) => `${locationURL}/farm/${farm_id}`;
+export const checkDeleteLocationUrl = `${locationURL}/check_delete`;
 export const cropURL = `${URI}/crop`;
 export const cropVarietyURL = `${URI}/crop_variety`;
 export const logURL = `${URI}/log`;
@@ -60,7 +62,6 @@ export const financeReportUrl = URI + '/export/finances';
 //export const contactURL = URI + '/contact';
 //export const farmDataUrl = URI + '/farmdata';
 export const userFarmUrl = `${URI}/user_farm`;
-export const weatherAPIKey = import.meta.env.VITE_WEATHER_API_KEY;
 // export const   userFarm = URI + '/user_farm';
 export const rolesUrl = URI + '/roles';
 //export const signUpUrl = `${URI}/sign_up`;
@@ -92,6 +93,18 @@ export const soilAmendmentPurposesUrl = `${URI}/soil_amendment_purposes`;
 export const soilAmendmentFertiliserTypesUrl = `${URI}/soil_amendment_fertiliser_types`;
 export const productUrl = `${URI}/product`;
 export const farmAddonUrl = `${URI}/farm_addon`;
+export const weatherUrl = `${URI}/weather`;
+export const weatherForecastUrl = `${URI}/weather/forecast`;
+export const irrigationPrescriptionUrl = `${URI}/irrigation_prescriptions`;
+export const marketDirectoryInfoUrl = `${URI}/market_directory_info`;
+export const marketProductCategoryUrl = `${URI}/market_product_categories`;
+export const marketDirectoryPartnersUrl = `${URI}/market_directory_partners`;
+export const supportTicketUrl = `${URI}/support_ticket`;
+export const logUserInfoUrl = `${URI}/userLog`;
+export const offlineEventLogUrl = `${URI}/offline_event_log`;
+export const surveyResponseUrl = `${URI}/survey_response`;
+export const farmNoteUrl = `${URI}/farm_notes`;
+export const farmNotesReadUrl = `${URI}/farm_notes_read`;
 
 export const url = URI;
 
@@ -100,8 +113,10 @@ export default {
   pseudoUserUrl,
   farmUrl,
   inviteUserUrl,
+  logUserInfoUrl,
   //fieldURL,
   locationURL,
+  getLocationsByFarmIdUrl,
   cropURL,
   cropVarietyURL,
   logURL,
@@ -123,7 +138,6 @@ export default {
   //contactURL,
   //farmDataUrl,
   userFarmUrl,
-  weatherAPIKey,
   // userFarm,
   rolesUrl,
   //signUpUrl,
@@ -154,5 +168,11 @@ export default {
   soilAmendmentFertiliserTypesUrl,
   productUrl,
   farmAddonUrl,
+  weatherUrl,
+  weatherForecastUrl,
+  marketDirectoryInfoUrl,
+  marketDirectoryPartnersUrl,
+  farmNoteUrl,
+  farmNotesReadUrl,
   url,
 };

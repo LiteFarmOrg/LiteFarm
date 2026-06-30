@@ -11,13 +11,12 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { getCropsAndManagementPlans } from '../saga';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
-  cropCatalogueFilterDateSelector,
   cropCatalogueFilterSelector,
   isFilterCurrentlyActiveSelector,
-  setCropCatalogueFilterDate,
   resetCropCatalogueFilter,
 } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
@@ -32,8 +31,10 @@ import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
 import Drawer from '../../components/Drawer';
+import navStyles from '@navStyles';
 
-export default function CropCatalogue({ history }) {
+export default function CropCatalogue() {
+  const history = useHistory();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -66,9 +67,6 @@ export default function CropCatalogue({ history }) {
   const onFilterOpen = () => {
     setIsFilterOpen(true);
   };
-
-  const date = useSelector(cropCatalogueFilterDateSelector);
-  const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
 
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const isFilterCurrentlyActive = useSelector(isFilterCurrentlyActiveSelector('cropCatalogue'));
@@ -127,8 +125,6 @@ export default function CropCatalogue({ history }) {
             <CropStatusInfoBox
               status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
-              date={date}
-              setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {
@@ -191,7 +187,7 @@ export default function CropCatalogue({ history }) {
           )
         )}
         {isAdmin && !isFilterCurrentlyActive && (
-          <>
+          <div className={navStyles.hideWhenOffline}>
             {!!crops?.length && (
               <>
                 <PageBreak
@@ -223,7 +219,7 @@ export default function CropCatalogue({ history }) {
             <AddLink data-cy="crop-addLink" onClick={onAddCrop}>
               {t('CROP_CATALOGUE.ADD_CROP')}
             </AddLink>
-          </>
+          </div>
         )}
       </div>
     </Layout>

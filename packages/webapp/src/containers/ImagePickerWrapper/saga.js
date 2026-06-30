@@ -1,6 +1,6 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
-import apiConfig from '../../apiConfig';
+import apiConfig, { marketDirectoryInfoUrl } from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
@@ -12,6 +12,7 @@ const imageRouteURL = {
   crop: cropURL,
   animal: animalsUrl,
   animalBatch: animalBatchesUrl,
+  marketDirectoryInfo: marketDirectoryInfoUrl,
   //deprecated
   'storybook/': cropVarietyURL,
 };

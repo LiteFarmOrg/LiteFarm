@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useMemo } from 'react';
-import i18n from '../../../locales/i18n';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
@@ -36,10 +35,9 @@ import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
 import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
-import { useSelector } from 'react-redux';
-import { locationsSelector } from '../../locationSlice';
-import { Location } from '../../../types';
 import { getComparator, orderEnum, animalDescendingComparator } from '../../../util/sort';
+import { chooseAnimalBreedLabel, chooseAnimalTypeLabel, chooseIdentification } from '../utils';
+import useLocations from '../../../hooks/location/useLocations';
 
 export type AnimalInventoryItem = {
   id: string;
@@ -61,12 +59,9 @@ export type AnimalInventoryItem = {
   custom_breed_id: number | null;
   default_breed_id: number | null;
   location_id?: string | null;
-  tasks: Animal['tasks'];
   removed?: boolean;
   photo_url: string | null;
 };
-
-const { t } = i18n;
 
 export const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
@@ -74,69 +69,6 @@ export const getDefaultAnimalIconName = (
 ) => {
   const typeKey = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key || 'CUSTOM_ANIMAL';
   return isAnimalTypeIconKey(typeKey) ? typeKey : 'CUSTOM_ANIMAL';
-};
-
-type hasId = {
-  id: number;
-  [key: string]: any;
-};
-
-const getProperty = (arr: hasId[] | undefined, id: number | null, key: string) => {
-  return arr?.find((el) => el.id === id)?.[key] || null;
-};
-
-const getAnimalTypeLabel = (key: string) => {
-  return t(`TYPE.${key}`, { ns: 'animal' });
-};
-
-const getAnimalBreedLabel = (key: string) => {
-  return t(`BREED.${key}`, { ns: 'animal' });
-};
-
-export const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
-  if ('identifier' in animalOrBatch && animalOrBatch.identifier) {
-    if (animalOrBatch.name && animalOrBatch.identifier) {
-      return `${animalOrBatch.name} | ${animalOrBatch.identifier}`;
-    } else if (!animalOrBatch.name && animalOrBatch.identifier) {
-      return animalOrBatch.identifier;
-    }
-  }
-  if (animalOrBatch.name) {
-    return animalOrBatch.name;
-  }
-  return `${t('ANIMAL.ANIMAL_ID')}${animalOrBatch.internal_identifier}`;
-};
-
-export const chooseAnimalTypeLabel = (
-  animalOrBatch: Animal | AnimalBatch,
-  defaultAnimalTypes: DefaultAnimalType[],
-  customAnimalTypes: CustomAnimalType[],
-) => {
-  if (animalOrBatch.default_type_id) {
-    return getAnimalTypeLabel(
-      getProperty(defaultAnimalTypes, animalOrBatch.default_type_id, 'key'),
-    );
-  } else if (animalOrBatch.custom_type_id) {
-    return getProperty(customAnimalTypes, animalOrBatch.custom_type_id, 'type');
-  } else {
-    return null;
-  }
-};
-
-export const chooseAnimalBreedLabel = (
-  animalOrBatch: Animal | AnimalBatch,
-  defaultAnimalBreeds: DefaultAnimalBreed[],
-  customAnimalBreeds: CustomAnimalBreed[],
-) => {
-  if (animalOrBatch.default_breed_id) {
-    return getAnimalBreedLabel(
-      getProperty(defaultAnimalBreeds, animalOrBatch.default_breed_id, 'key'),
-    );
-  } else if (animalOrBatch.custom_breed_id) {
-    return getProperty(customAnimalBreeds, animalOrBatch.custom_breed_id, 'breed');
-  } else {
-    return null;
-  }
 };
 
 const formatAnimalsData = (
@@ -177,7 +109,6 @@ const formatAnimalsData = (
         custom_breed_id: animal.custom_breed_id,
         default_breed_id: animal.default_breed_id,
         location_id: animal.location_id,
-        tasks: animal.tasks,
         removed: !!animal.animal_removal_reason_id,
         photo_url: animal.photo_url,
       };
@@ -219,7 +150,6 @@ const formatAnimalBatchesData = (
         custom_breed_id: batch.custom_breed_id,
         default_breed_id: batch.default_breed_id,
         location_id: batch.location_id,
-        tasks: batch.tasks,
         removed: !!batch.animal_removal_reason_id,
         photo_url: batch.photo_url,
       };
@@ -276,7 +206,7 @@ export const buildInventory = ({
 };
 
 const useAnimalInventory = (showRemoved = false) => {
-  const { data, isLoading } = useQueries([
+  const { data, isLoading: isLoadingAnimalsData } = useQueries([
     { label: 'animals', hook: useGetAnimalsQuery },
     { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
     { label: 'customAnimalBreeds', hook: useGetCustomAnimalBreedsQuery },
@@ -295,11 +225,13 @@ const useAnimalInventory = (showRemoved = false) => {
     defaultAnimalTypes,
   } = data;
 
-  const locations: Location[] = useSelector(locationsSelector);
+  const { locations, isLoading: isLoadingLocations } = useLocations();
   const locationsMap = locations?.reduce(
     (map, { location_id, name }) => ({ ...map, [location_id]: name }),
     {},
   );
+
+  const isLoading = isLoadingAnimalsData || isLoadingLocations;
 
   const inventory = useMemo(() => {
     if (isLoading) {

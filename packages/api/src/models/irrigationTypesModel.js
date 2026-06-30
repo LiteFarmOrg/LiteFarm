@@ -17,7 +17,7 @@ class IrrigationTypesModel extends BaseModel {
       type: 'object',
       required: [''],
       properties: {
-        irrigation_type_id: { type: 'string' },
+        irrigation_type_id: { type: 'integer' },
         irrigation_type_name: { type: 'string' },
         farm_id: { type: 'string' },
         default_measuring_type: { type: 'string' },

@@ -7,8 +7,8 @@ import { colors } from '../../../../../assets/theme';
 const CertifierSelectionMenuItem = ({
   color = 'secondary',
   certifierName = 'Certifier name',
-  style,
-  onClick,
+  style = {},
+  onClick = () => {},
   ...props
 }) => {
   return (

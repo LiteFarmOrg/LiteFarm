@@ -1,20 +1,23 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { cropLocationsSelector } from '../../../locationSlice';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { certifierSurveySelector } from '../../../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import TransplantSpotlight from './TransplantSpotlight';
 import { cropVarietySelector } from '../../../cropVarietySlice.js';
+import useCropLocations from '../../../../hooks/location/useCropLocations';
 
-export default function PlantingLocation({ history, match }) {
+export default function PlantingLocation() {
+  const history = useHistory();
+  const match = useRouteMatch();
   const isFinalLocationPage =
     match?.path === '/crop/:variety_id/add_management_plan/choose_final_planting_location';
   const variety_id = match.params.variety_id;
   const crop = useSelector(cropVarietySelector(variety_id));
-  const cropLocations = useSelector(cropLocationsSelector);
+  const { locations: cropLocations } = useCropLocations();
   const { default_initial_location_id } = useSelector(userFarmSelector);
   const {
     crop_management_plan: { already_in_ground, is_wild, for_cover, needs_transplant, is_seed },

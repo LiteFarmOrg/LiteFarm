@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
 import { resetPassword } from './saga';
@@ -7,9 +8,11 @@ import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
-function PasswordResetAccount({ history }) {
+function PasswordResetAccount() {
+  const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
-  const reset_token = history.location.state;
+  const reset_token = location.state;
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
   const { i18n } = useTranslation();

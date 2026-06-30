@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -14,8 +15,13 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
+import { cropVarietyOptionsSelector } from '../../cropVarietySlice';
+import { animalOptionsSelector } from '../../../store/selectors/animals';
+import { transformExpenseAllocations } from '../util';
 
-const ExpenseDetail = ({ history, match }) => {
+const ExpenseDetail = () => {
+  const history = useHistory();
+  const match = useRouteMatch();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -27,6 +33,8 @@ const ExpenseDetail = ({ history, match }) => {
 
   const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
   const expense = useSelector(expenseByIdSelector(expense_id));
+  const cropVarietyOptions = useSelector(cropVarietyOptionsSelector);
+  const animalOptions = useSelector(animalOptionsSelector);
 
   useEffect(() => {
     if (!expense) {
@@ -58,6 +66,7 @@ const ExpenseDetail = ({ history, match }) => {
       expense_type_id: formData.type.value,
       note: formData.note,
       value: parseFloat(parseFloat(formData.value).toFixed(2)),
+      ...transformExpenseAllocations(formData),
     };
 
     dispatch(updateExpense({ expense_id, data }));
@@ -88,6 +97,8 @@ const ExpenseDetail = ({ history, match }) => {
         view={isEditing ? 'edit' : 'read-only'}
         buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
         expenseTypeReactSelectOptions={expenseTypeReactSelectOptions}
+        cropVarietyOptions={cropVarietyOptions}
+        animalOptions={animalOptions}
       />
     )
   );

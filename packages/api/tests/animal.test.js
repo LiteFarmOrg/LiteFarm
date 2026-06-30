@@ -18,12 +18,8 @@ import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
-
-import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
-
-import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 import AnimalModel from '../src/models/animalModel.js';
 
 jest.mock('jsdom');
@@ -45,6 +41,7 @@ import {
   animalRemoveRequest,
   animalPatchRequest,
   animalDeleteRequest,
+  makeFarmsWithAnimalsAndBatches,
 } from './utils/animalUtils.js';
 
 describe('Animal Tests', () => {
@@ -53,8 +50,8 @@ describe('Animal Tests', () => {
   let defaultTypeId;
   let animalRemovalReasonId;
   let animalUse1;
-  let animalOrigin1;
-  let animalIdentifier1;
+  let _animalOrigin1;
+  let _animalIdentifier1;
 
   const mockDate = new Date('2024/3/12').toISOString();
 
@@ -67,8 +64,8 @@ describe('Animal Tests', () => {
     animalRemovalReasonId = animalRemovalReason.id;
 
     [animalUse1] = await mocks.animal_useFactory('OTHER');
-    [animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
-    [animalIdentifier1] = await mocks.animal_identifier_typeFactory(undefined, 'OTHER');
+    [_animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
+    [_animalIdentifier1] = await mocks.animal_identifier_typeFactory(undefined, 'OTHER');
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
@@ -95,7 +92,7 @@ describe('Animal Tests', () => {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  async function returnUserFarms(role, farm = undefined) {
+  async function returnUserFarms(role) {
     const [mainFarm] = await mocks.farmFactory();
     const [user] = await mocks.usersFactory();
 
@@ -122,10 +119,9 @@ describe('Animal Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -773,19 +769,19 @@ describe('Animal Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
 
         // Add animals to db
-        const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
-          mainFarm,
-          user,
-        );
+        const {
+          res: addRes,
+          returnedFirstAnimal,
+          returnedSecondAnimal,
+        } = await addAnimals(mainFarm, user);
         expect(addRes.status).toBe(201);
 
         // Edit animals in db
-        const { res: editRes, expectedFirstAnimal, expectedSecondAnimal } = await editAnimals(
-          mainFarm,
-          user,
-          returnedFirstAnimal,
-          returnedSecondAnimal,
-        );
+        const {
+          res: editRes,
+          expectedFirstAnimal,
+          expectedSecondAnimal,
+        } = await editAnimals(mainFarm, user, returnedFirstAnimal, returnedSecondAnimal);
         expect(editRes.status).toBe(204);
 
         // Get updated animals
@@ -829,10 +825,11 @@ describe('Animal Tests', () => {
       );
 
       // Use admin to add animals to db
-      const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
-        mainFarm,
-        admin,
-      );
+      const {
+        res: addRes,
+        returnedFirstAnimal,
+        returnedSecondAnimal,
+      } = await addAnimals(mainFarm, admin);
       expect(addRes.status).toBe(201);
 
       // Edit animals in db with non-admin
@@ -1253,6 +1250,64 @@ describe('Animal Tests', () => {
         },
       });
     });
+
+    describe('Delete animals with finance records', () => {
+      let farm;
+      let owner;
+      let animalSaleRevenueType;
+      let animal;
+
+      beforeEach(async () => {
+        const { mainFarm, user } = await returnUserFarms(1);
+        farm = mainFarm;
+        owner = user;
+        [animalSaleRevenueType] = await mocks.revenue_typeFactory({
+          promisedFarm: [farm],
+          properties: { entity_type: 'animal' },
+        });
+        animal = await makeAnimal(farm, { default_type_id: defaultTypeId });
+      });
+
+      test('Should not be able to delete an animal with existing sale records', async () => {
+        const [sale] = await mocks.saleFactory(
+          { promisedUserFarm: [farm] },
+          mocks.fakeSale({ revenue_type_id: animalSaleRevenueType.revenue_type_id }),
+        );
+        await mocks.animal_saleFactory({ promisedSale: [sale], promisedAnimal: [animal] });
+
+        const res = await deleteRequest({
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+          query: `ids=${animal.id}&${deleteDateParam}`,
+        });
+
+        expect(res.status).toBe(400);
+        expect(res.error.text).toBe('Animals with associated sales cannot be deleted');
+      });
+
+      test('Should not be able to delete an animal with existing expense records', async () => {
+        const [expenseType] = await mocks.farmExpenseTypeFactory({ promisedFarm: [farm] });
+        const [expense] = await mocks.farmExpenseFactory({
+          promisedExpenseType: [expenseType],
+          promisedUserFarm: [{ user_id: owner.user_id, farm_id: farm.farm_id }],
+        });
+        await mocks.farm_expense_animalFactory({
+          promisedFarm: [farm],
+          promisedExpense: [expense],
+          promisedAnimal: [animal],
+          animalOrBatch: 'animal',
+        });
+
+        const res = await deleteRequest({
+          user_id: owner.user_id,
+          farm_id: farm.farm_id,
+          query: `ids=${animal.id}&${deleteDateParam}`,
+        });
+
+        expect(res.status).toBe(400);
+        expect(res.error.text).toBe('Animals with associated expenses cannot be deleted');
+      });
+    });
   });
 
   // MIDDLEWARE tests
@@ -1366,7 +1421,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Custom type does not belong to farm',
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (animal, _existingAnimals, customs) => [
             {
               id: animal.id,
               custom_type_id: customs.otherFarm.otherCustomAnimalType.id,
@@ -1394,7 +1449,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Default type matches default breed -- default type is changed',
-          getPatchBody: (animal, existingAnimals) => [
+          getPatchBody: (_animal, existingAnimals) => [
             {
               id: existingAnimals[0].id,
               default_type_id: animalBreed2.default_type_id,
@@ -1413,7 +1468,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Default type matches default breed -- default breed is changed',
-          getPatchBody: (animal, existingAnimals) => [
+          getPatchBody: (_animal, existingAnimals) => [
             {
               id: existingAnimals[0].id,
               default_breed_id: animalBreed2.id,
@@ -1458,7 +1513,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Default type matches default breed -- both are changed but mismatch',
-          getPatchBody: (animal, existingAnimals) => [
+          getPatchBody: (_animal, existingAnimals) => [
             {
               id: existingAnimals[0].id,
               default_type_id: animalBreed.default_type_id,
@@ -1518,7 +1573,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Custom breed does not belong to farm',
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (animal, _existingAnimals, customs) => [
             {
               id: animal.id,
               custom_breed_id: customs.otherFarm.otherCustomAnimalBreed.id,
@@ -1531,7 +1586,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Default type matches custom breed -- default type is changed',
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (_animal, existingAnimals, _customs) => [
             {
               id: existingAnimals[0].id,
               default_type_id: animalBreed.default_type_id,
@@ -1550,7 +1605,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Default type matches custom breed -- custom type is changed',
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (_animal, existingAnimals, customs) => [
             {
               id: existingAnimals[0].id,
               custom_type_id: customs.customAnimalBreed2.custom_type_id,
@@ -1569,7 +1624,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Default type matches custom breed -- breed and type are changed',
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (_animal, existingAnimals, customs) => [
             {
               id: existingAnimals[0].id,
               default_type_id: customs.customAnimalBreed.default_type_id,
@@ -1624,12 +1679,12 @@ describe('Animal Tests', () => {
             return {
               model: AnimalUseRelationshipModel,
               where: { animal_id: existingAnimals[0].id },
-              getMatchingBody: (existingAnimals, records) => {
+              getMatchingBody: (_existingAnimals, _records) => {
                 return [];
               },
             };
           },
-          getPatchBody: (animal, existingAnimals) => [
+          getPatchBody: (_animal, existingAnimals) => [
             {
               id: existingAnimals[0].id,
               animal_use_relationships: [],
@@ -1656,7 +1711,7 @@ describe('Animal Tests', () => {
             return {
               model: AnimalUseRelationshipModel,
               where: { animal_id: existingAnimals[0].id },
-              getMatchingBody: (existingAnimals, records) => {
+              getMatchingBody: (_existingAnimals, records) => {
                 return [
                   {
                     ...records[0],
@@ -1667,7 +1722,7 @@ describe('Animal Tests', () => {
               },
             };
           },
-          getPatchBody: (animal, existingAnimals) => [
+          getPatchBody: (_animal, existingAnimals) => [
             {
               id: existingAnimals[0].id,
               animal_use_relationships: [
@@ -1722,7 +1777,7 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Cannot create a new type associated with an existing breed',
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (animal, _existingAnimals, customs) => [
             {
               id: animal.id,
               custom_breed_id: customs.customAnimalBreed.id,
@@ -1740,7 +1795,7 @@ describe('Animal Tests', () => {
             return {
               model: AnimalModel,
               where: { id: existingAnimals[0].id },
-              getMatchingBody: (existingAnimals, records, customs) => {
+              getMatchingBody: (_existingAnimals, records, customs) => {
                 return [
                   {
                     ...records[0],
@@ -1751,7 +1806,7 @@ describe('Animal Tests', () => {
               },
             };
           },
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (_animal, existingAnimals, customs) => [
             {
               id: existingAnimals[0].id,
               custom_type_id: customs.customAnimalType.id,
@@ -1768,11 +1823,11 @@ describe('Animal Tests', () => {
         {
           testName:
             'Successfully edit Custom type matches new breed name -- previous breed not exist',
-          getRawRecordMismatch: (existingAnimals, patchedAnimals) => {
+          getRawRecordMismatch: (_existingAnimals, patchedAnimals) => {
             return {
               model: CustomAnimalBreedModel,
               where: { id: patchedAnimals.custom_breed_id },
-              getMatchingBody: (existingAnimals, records, customs) => {
+              getMatchingBody: (_existingAnimals, records, customs) => {
                 return [
                   {
                     ...records[0],
@@ -1783,7 +1838,7 @@ describe('Animal Tests', () => {
               },
             };
           },
-          getPatchBody: (animal, existingAnimals, customs) => [
+          getPatchBody: (_animal, existingAnimals, customs) => [
             {
               id: existingAnimals[0].id,
               custom_type_id: customs.customAnimalType.id,

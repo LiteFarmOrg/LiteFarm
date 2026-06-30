@@ -66,8 +66,6 @@ class ShowedSpotlight extends Model {
         management_plan_creation_end: { type: ['string', 'null'] },
         planting_task: { type: 'boolean' },
         planting_task_end: { type: ['string', 'null'] },
-        sensor_reading_chart: { type: 'boolean' },
-        sensor_reading_chart_end: { type: ['string', 'null'] },
         repeat_management_plan_creation: { type: 'boolean' },
         repeat_management_plan_creation_end: { type: ['string', 'null'] },
         manage_custom_expense_type: { type: 'boolean' },
@@ -76,6 +74,8 @@ class ShowedSpotlight extends Model {
         manage_custom_revenue_type_end: { type: ['string', 'null'] },
         animals_beta: { type: 'boolean' },
         animals_beta_end: { type: ['string', 'null'] },
+        inventory_beta: { type: 'boolean' },
+        inventory_beta_end: { type: ['string', 'null'] },
       },
     };
   }

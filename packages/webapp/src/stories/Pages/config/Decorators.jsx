@@ -1,7 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 import { Router } from 'react-router-dom';
 import history from '../../../history';
 import Navigation from '../../../containers/Navigation';
+import { AppUIContext } from '../../../contexts/appContext';
 
 const setIdToken = () => {
   if (!localStorage.getItem('id_token')) {
@@ -11,6 +12,7 @@ const setIdToken = () => {
 
 export default [
   (story) => {
+    const [activeDrawer, setActiveDrawer] = useState(null);
     setIdToken();
     return (
       <div
@@ -21,19 +23,27 @@ export default [
           minHeight: '100vh',
         }}
       >
-        <Navigation history={history} />
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
+        <AppUIContext.Provider
+          value={{
+            activeDrawer,
+            setActiveDrawer,
+            maps: { isLoaded: true },
           }}
         >
-          {story()}
-        </div>
+          <Navigation />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
+        </AppUIContext.Provider>
       </div>
     );
   },
@@ -41,6 +51,7 @@ export default [
 
 export const authenticatedDecorators = [
   (story) => {
+    const [activeDrawer, setActiveDrawer] = useState(null);
     setIdToken();
     return (
       <div
@@ -51,19 +62,27 @@ export const authenticatedDecorators = [
           minHeight: '100vh',
         }}
       >
-        <Navigation history={history} />
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
+        <AppUIContext.Provider
+          value={{
+            activeDrawer,
+            setActiveDrawer,
+            maps: { isLoaded: true },
           }}
         >
-          {story()}
-        </div>
+          <Navigation />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
+        </AppUIContext.Provider>
       </div>
     );
   },
@@ -106,9 +125,27 @@ export const componentDecoratorsFullHeight = [
 export const v2TableDecorator = [
   (story) => {
     return (
-      <div style={{ padding: '24px' }}>
-        <div style={{ background: '#F6FBFA', padding: 10 }}>{story()}</div>
-      </div>
+      <Router history={history}>
+        <div style={{ padding: '24px' }}>
+          <div style={{ background: '#F6FBFA', padding: 10 }}>{story()}</div>
+        </div>
+      </Router>
+    );
+  },
+];
+
+export const navMenuControlDecorator = [
+  (story) => {
+    const [activeDrawer, setActiveDrawer] = useState(null);
+    return (
+      <AppUIContext.Provider
+        value={{
+          activeDrawer,
+          setActiveDrawer,
+        }}
+      >
+        {story()}
+      </AppUIContext.Provider>
     );
   },
 ];

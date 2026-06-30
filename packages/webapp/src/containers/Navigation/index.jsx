@@ -14,24 +14,32 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useHistory, matchPath } from 'react-router-dom';
+import clsx from 'clsx';
+import styles from './styles.module.scss';
 import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
-import useHistoryLocation from '../hooks/useHistoryLocation';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
-import { matchPath } from 'react-router-dom';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { offlineReadinessSelector } from '../../hooks/useOfflineReadiness/offlineReadinessSlice';
+import OfflineIndicator from '../OfflineIndicator';
 
-const Navigation = ({ history, children, ...props }) => {
+const Navigation = ({ children, ...props }) => {
+  const offline = useIsOffline();
+  const { wentOfflineDuringSetup, cacheValidation } = useSelector(offlineReadinessSelector);
+  const isReadyForOffline = !!cacheValidation?.isComplete;
+  const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
-  const historyLocation = useHistoryLocation(history);
   const isFarmSelected = useIsFarmSelected();
   const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
   const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>
-    matchPath(history.location.pathname, path),
+    matchPath(location.pathname, path),
   );
-  const isLoginPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
+  const isLoginPage = location.state?.component === CUSTOM_SIGN_UP;
   // Hides the top navigation bar with logo on the login component
   const showNav = !isLoginPage;
   // Shows the navigation links when farm is selected and not accepting an farm invitation
@@ -41,8 +49,11 @@ const Navigation = ({ history, children, ...props }) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
+  const showOfflineIndicator = offline || (wentOfflineDuringSetup && !isReadyForOffline);
+
   return (
-    <>
+    <div className={clsx(styles.navigationWrapper, showOfflineIndicator && styles.offlineMode)}>
+      <OfflineIndicator />
       <PureNavigation
         showNavigationSpotlight={!navigation}
         showNotificationSpotlight={navigation && !notification}
@@ -55,7 +66,7 @@ const Navigation = ({ history, children, ...props }) => {
         {children}
       </PureNavigation>
       {isFarmSelected && <ReleaseBadgeHandler {...props} />}
-    </>
+    </div>
   );
 };
 

@@ -23,7 +23,7 @@
   font-size: 14px;
   line-height: 14px;
   letter-spacing: 0px;
-  color: var(--Colors-Neutral-Neutral-900);
+  color: var(--titleColor, var(--Colors-Neutral-Neutral-900));
   margin-bottom: 16px;
 }
 

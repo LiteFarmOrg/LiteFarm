@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, Component, useMemo } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import history from '../../history';
 // images
 import soil_om from '../../assets/images/insights/soil_om.svg';
 import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
@@ -36,16 +36,22 @@ import {
 
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/bs';
-import { userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { Semibold, Text, Title } from '../../components/Typography';
+import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { SURVEY_INFO, getAvailableSurveyIds } from './Survey/surveyConfig';
+import SurveyInsightTile from './Survey/SurveyInsightTile';
 
 const Insights = () => {
+  const history = useHistory();
   const farm = useSelector(userFarmSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
   const labourHappinessData = useSelector(labourHappinessSelector);
   const biodiversityData = null;
   const pricesData = useSelector(pricesSelector);
+  const isOffline = useIsOffline();
+  const isAdmin = useSelector(isAdminSelector);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -87,30 +93,36 @@ const Insights = () => {
     history.push(`/Insights/${route}`);
   };
 
-  const renderItem = (item, index, currentData) => (
-    <div key={index} className={`insightItem item-${index} ${styles.insightItem}`}>
-      <div
-        className={`itemButton item-${index} ${styles.itemButton}`}
-        onClick={() => handleClick(item.route)}
-      >
-        <img
-          className={`itemIcon item-${index} ${styles.itemIcon}`}
-          src={item.image}
-          alt={item.label}
-        />
-        <div className={`itemText item-${index} ${styles.itemText}`}>
-          <Semibold>{item.label}</Semibold>
-          {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
-            <Text>{currentData}</Text>
-          ) : (
-            <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
-          )}
+  const renderItem = (item, index, currentData) => {
+    const isLoading = currentData === t('common:LOADING');
+
+    return (
+      <div key={index} className={`insightItem item-${index} ${styles.insightItem}`}>
+        <div
+          className={`itemButton item-${index} ${styles.itemButton} ${
+            isLoading ? styles.isLoading : ''
+          }`}
+          onClick={() => handleClick(item.route)}
+        >
+          <img
+            className={`itemIcon item-${index} ${styles.itemIcon}`}
+            src={item.image}
+            alt={item.label}
+          />
+          <div className={`itemText item-${index} ${styles.itemText}`}>
+            <Semibold className={styles.itemTitle}>{item.label}</Semibold>
+            {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
+              <Text>{currentData}</Text>
+            ) : (
+              <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
+            )}
+          </div>
+          <BsChevronRight className={styles.itemArrow} />
         </div>
-        <BsChevronRight className={styles.itemArrow} />
+        <hr className={styles.defaultLine} />
       </div>
-      <hr className={styles.defaultLine} />
-    </div>
-  );
+    );
+  };
 
   const insightData = useMemo(() => {
     const insightData = {};
@@ -125,14 +137,28 @@ const Insights = () => {
     return insightData;
   }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
 
+  // Surveys are shown only to admins and only when online. getAvailableSurveyIds gates the list to
+  // surveys available in the farm's country (see SURVEY_INFO).
+  const surveyTiles = useMemo(() => {
+    if (isOffline || !isAdmin) {
+      return [];
+    }
+    return getAvailableSurveyIds(farm?.country_code).map((surveyId, index) => (
+      <SurveyInsightTile
+        key={surveyId}
+        surveyId={surveyId}
+        image={SURVEY_INFO[surveyId].image}
+        index={index}
+      />
+    ));
+  }, [farm?.country_code, isOffline, isAdmin]);
+
   const renderedItems = useMemo(() => {
-    return (
-      insightData &&
-      items.map((item, index) => {
-        return renderItem(item, index, insightData[item.data_point]);
-      })
+    const otherTiles = items.map((item, index) =>
+      renderItem(item, surveyTiles.length + index, insightData[item.data_point]),
     );
-  }, [insightData]);
+    return [...surveyTiles, ...otherTiles];
+  }, [insightData, isOffline, surveyTiles]);
 
   return (
     <div className={styles.insightContainer}>
@@ -148,8 +174,7 @@ const Insights = () => {
           />
         </div>
       </div>
-      <hr style={{ marginBottom: '0px' }} />
-      <hr className={styles.defaultLineWithNoMarginTop} />
+      <hr className={styles.defaultLine} />
       {renderedItems}
     </div>
   );

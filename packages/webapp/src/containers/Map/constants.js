@@ -1,10 +1,12 @@
+import { ExternalMapLocationType } from '../../hooks/location/types';
+import { FigureType, InternalMapLocationType } from '../../store/api/types';
+
 export const DEFAULT_CENTER = {
   lat: 49.24966,
   lng: -123.237421,
 };
 export const DEFAULT_ZOOM = 15;
 export const DEFAULT_MAX_ZOOM = 18; //This was set to 20 before but there are points on the map that have smaller numbers so 18 would cover more cases by default.  The value is used as fallback only, so maps usually will have a more accurate value calculated for each farm.
-export const GMAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 export const ENVIRONMENT = import.meta.env.NODE_ENV;
 export const longPress = 500;
 
@@ -18,6 +20,8 @@ export const getAreaLocationTypes = () => [
   locationEnum.surface_water,
   locationEnum.natural_area,
   locationEnum.residence,
+  locationEnum.irrigation_zone,
+  locationEnum.pivot_sector,
 ];
 
 export const isArea = (type) => {
@@ -41,16 +45,26 @@ export const isNoFillArea = (type) => {
 };
 
 export const isLine = (type) => {
-  return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
+  return [
+    locationEnum.watercourse,
+    locationEnum.fence,
+    locationEnum.buffer_zone,
+    locationEnum.pivot_arm,
+  ].includes(type);
 };
 
 export const isPoint = (type) => {
   return [
     locationEnum.gate,
     locationEnum.water_valve,
+    locationEnum.soil_sample_location,
     locationEnum.sensor,
     locationEnum.sensor_array,
   ].includes(type);
+};
+
+export const isCircle = (type) => {
+  return [locationEnum.pivot].includes(type);
 };
 
 export const locationEnum = {
@@ -66,16 +80,15 @@ export const locationEnum = {
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
+  soil_sample_location: 'soil_sample_location',
   sensor: 'sensor',
   sensor_array: 'sensor_array',
   farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
-};
-
-export const bulkSenorUploadErrorTypeEnum = {
-  unable_to_claim_all_sensors: 'unable_to_claim_all_sensors',
-  validation_failure: 'validation_failure',
-  timeout_and_show_transition_modal: 'timeout',
+  pivot: 'pivot',
+  pivot_arm: 'pivot_arm',
+  irrigation_zone: 'irrigation_zone',
+  pivot_sector: 'pivot_sector',
 };
 
 export const polygonPath = (path, width, maps) => {
@@ -88,8 +101,6 @@ export const polygonPath = (path, width, maps) => {
   });
   return leftPoints.concat(rightPoints.reverse());
 };
-
-export const SENSOR_BULK_UPLOAD_SUCCESS = 'SENSOR_BULK_UPLOAD_SUCCESS';
 
 const linePathPolygonConstructor = (innerState, point, i, path) => {
   const { bearings, leftPoints, rightPoints, width, maps } = innerState;
@@ -156,4 +167,31 @@ const adjustAngle = (currentAngle) => {
     return angle;
   }
   return currentAngle;
+};
+
+// Shared location types
+export const MAP_LOCATION_TYPE_BY_FIGURE = {
+  [FigureType.AREA]: [
+    InternalMapLocationType.BARN,
+    InternalMapLocationType.CEREMONIAL_AREA,
+    InternalMapLocationType.FARM_SITE_BOUNDARY,
+    InternalMapLocationType.FIELD,
+    InternalMapLocationType.GARDEN,
+    InternalMapLocationType.GREENHOUSE,
+    InternalMapLocationType.NATURAL_AREA,
+    InternalMapLocationType.RESIDENCE,
+    InternalMapLocationType.SURFACE_WATER,
+  ],
+  [FigureType.LINE]: [
+    InternalMapLocationType.BUFFER_ZONE,
+    InternalMapLocationType.FENCE,
+    InternalMapLocationType.WATERCOURSE,
+  ],
+  [FigureType.POINT]: [
+    InternalMapLocationType.GATE,
+    InternalMapLocationType.WATER_VALVE,
+    InternalMapLocationType.SOIL_SAMPLE_LOCATION,
+    ExternalMapLocationType.SENSOR,
+    ExternalMapLocationType.SENSOR_ARRAY,
+  ],
 };

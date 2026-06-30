@@ -3,15 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
-import { animalLocationsSelector } from '../../locationSlice';
+import { hasAvailableProductsSelector } from '../../productSlice';
+import { TASK_TYPES } from '../constants';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
+import useCropLocations from '../../../hooks/location/useCropLocations';
+import useAnimalLocations from '../../../hooks/location/useAnimalLocations';
+import { InternalMapLocationType } from '../../../store/api/types';
+import useLocations from '../../../hooks/location/useLocations';
 
-function TaskTypeSelection({ history, match, location }) {
+function TaskTypeSelection() {
+  const location = useLocation();
+  const history = useHistory();
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
@@ -22,6 +31,7 @@ function TaskTypeSelection({ history, match, location }) {
   const { planting_task } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
   const { animalsExistOnFarm } = useAnimalsExist();
+  const isOffline = useIsOffline();
 
   useEffect(() => {
     dispatch(getTaskTypes());
@@ -43,8 +53,17 @@ function TaskTypeSelection({ history, match, location }) {
 
   const hasCurrentManagementPlans =
     useSelector(currentAndPlannedManagementPlansSelector)?.length > 0;
-
-  const hasAnimalMovementLocations = useSelector(animalLocationsSelector)?.length > 0;
+  const { locations: animalLocations } = useAnimalLocations();
+  const hasAnimalMovementLocations = animalLocations?.length > 0;
+  const { locations: soilSampleLocations } = useLocations({
+    filterBy: InternalMapLocationType.SOIL_SAMPLE_LOCATION,
+  });
+  const hasSoilSampleLocations = soilSampleLocations?.length > 0;
+  const hasSoilAmendmentProducts = useSelector((state) =>
+    hasAvailableProductsSelector(state, TASK_TYPES.SOIL_AMENDMENT),
+  );
+  const { locations: cropLocations } = useCropLocations();
+  const hasIrrigationLocations = cropLocations?.length > 0;
 
   return (
     <>
@@ -65,6 +84,10 @@ function TaskTypeSelection({ history, match, location }) {
           hasCurrentManagementPlans={hasCurrentManagementPlans}
           hasAnimalMovementLocations={hasAnimalMovementLocations}
           hasAnimals={animalsExistOnFarm}
+          hasSoilSampleLocations={hasSoilSampleLocations}
+          hasSoilAmendmentProducts={hasSoilAmendmentProducts}
+          hasIrrigationLocations={hasIrrigationLocations}
+          isOffline={isOffline}
         />
       </HookFormPersistProvider>
     </>

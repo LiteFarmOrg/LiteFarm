@@ -88,7 +88,8 @@ const userFarmController = {
             .where('userFarm.farm_id', farm_id)
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
+            .modify('withCountryCode');
         }
         res.status(200).send(rows);
       } catch (error) {
@@ -412,12 +413,10 @@ const userFarmController = {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.auth;
-      const { language_preference } = req.body;
+
+      // A new invitee has a uuid id and no password record yet
       if (!/^\d+$/.test(user_id)) {
-        const user = await UserModel.query()
-          .findById(user_id)
-          .patch({ language_preference })
-          .returning('*');
+        const user = await UserModel.query().findById(user_id);
         const passwordRow = await PasswordModel.query().findById(user_id);
         if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');

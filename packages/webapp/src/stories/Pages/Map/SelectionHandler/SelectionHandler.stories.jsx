@@ -1,12 +1,10 @@
-import React from 'react';
-import { componentDecoratorsWithoutPadding } from '../../config/Decorators';
 import PureSelectionHandler from '../../../../components/Map/SelectionHandler';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/LocationSelection',
   component: PureSelectionHandler,
-  decorators: componentDecoratorsWithoutPadding,
+  decorators: [(story) => <div style={{ marginLeft: '200px' }}>{story()}</div>],
 };
 
 const locations = [

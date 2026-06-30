@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mapCacheSelector, setMapCache, setRetrievedPoints } from './mapCacheSlice';
 import { userFarmSelector } from '../userFarmSlice';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
-import { pointSelector } from '../locationSlice';
 import { DEFAULT_MAX_ZOOM } from './constants';
+import useLocations from '../../hooks/location/useLocations';
+import useExternalLocations from '../../hooks/location/useExternalLocations';
 
 export function useMaxZoom() {
   const { maxZoom, retrievedPoints } = useSelector(mapCacheSelector);
@@ -12,18 +13,17 @@ export function useMaxZoom() {
   const setMaxZoom = (maxZoom) => {
     dispatch(setMapCache({ maxZoom, farm_id }));
   };
-  const points = useSelector(pointSelector);
+  const { locations: internalPoints } = useLocations({
+    filterBy: 'point',
+  });
+  const { locations: externalPoints } = useExternalLocations({ filterBy: 'point' });
+  const points = [...(internalPoints ?? []), ...(externalPoints ?? [])];
 
   const getMaxZoom = async (maps, map = null) => {
     if (!maxZoom) {
       const mapService = new maps.MaxZoomService();
       const pointsToQuery = [];
-      const pointsCollections = [
-        { point: grid_points },
-        ...points.gate,
-        ...points.water_valve,
-        ...points.sensor,
-      ];
+      const pointsCollections = [{ point: grid_points }, ...points];
       pointsCollections.forEach(({ point }) => {
         if (
           ![...pointsToQuery, ...retrievedPoints].some(
@@ -45,32 +45,31 @@ export function useMaxZoom() {
           });
         });
       });
-      Promise.all(promises)
-        .then(function (results) {
-          const cachedAndActivePoints = retrievedPoints.filter((element) =>
-            pointsCollections.some(
-              ({ point }) => point.lat === element.point.lat && point.lng === element.point.lng,
-            ),
-          );
-          const maxZooms = [...results, ...cachedAndActivePoints].map(({ maxZoom }) => maxZoom);
-          const minNumber = Math.min(...maxZooms);
-          setMaxZoom(minNumber);
-          dispatch(
-            setRetrievedPoints({
-              farm_id,
-              retrievedPoints: [...cachedAndActivePoints, ...results],
-            }),
-          );
-          if (map) map.setOptions({ maxZoom: minNumber });
-        })
-        .catch(function (error) {
-          console.log('Error getting available zooms: ', error);
-          const previousMaxZooms = retrievedPoints.map(({ maxZoom }) => maxZoom);
-          const fallbackZoom =
-            previousMaxZooms.length > 0 ? Math.min(...previousMaxZooms) : DEFAULT_MAX_ZOOM;
-          setMaxZoom(fallbackZoom);
-          if (map) map.setOptions({ maxZoom: fallbackZoom });
-        });
+      try {
+        const results = await Promise.all(promises);
+        const cachedAndActivePoints = retrievedPoints.filter((element) =>
+          pointsCollections.some(
+            ({ point }) => point.lat === element.point.lat && point.lng === element.point.lng,
+          ),
+        );
+        const maxZooms = [...results, ...cachedAndActivePoints].map(({ maxZoom }) => maxZoom);
+        const minNumber = Math.min(...maxZooms);
+        setMaxZoom(minNumber);
+        dispatch(
+          setRetrievedPoints({
+            farm_id,
+            retrievedPoints: [...cachedAndActivePoints, ...results],
+          }),
+        );
+        if (map) map.setOptions({ maxZoom: minNumber });
+      } catch (error) {
+        console.log('Error getting available zooms: ', error);
+        const previousMaxZooms = retrievedPoints.map(({ maxZoom }) => maxZoom);
+        const fallbackZoom =
+          previousMaxZooms.length > 0 ? Math.min(...previousMaxZooms) : DEFAULT_MAX_ZOOM;
+        setMaxZoom(fallbackZoom);
+        if (map) map.setOptions({ maxZoom: fallbackZoom });
+      }
     } else if (map) {
       map.setOptions({ maxZoom: maxZoom });
     }

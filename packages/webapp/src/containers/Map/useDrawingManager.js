@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { areaStyles, icons, lineStyles } from './mapStyles';
 import { isArea, isLine, isPoint, locationEnum, polygonPath } from './constants';
 import { useSelector } from 'react-redux';
@@ -15,7 +15,6 @@ export default function useDrawingManager() {
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
   const [drawingManager, setDrawingManager] = useState(null);
-  const [supportedDrawingModes, setDrawingModes] = useState(null);
   const [widthPolygon, setWidthPolygon] = useState(null);
   const [lineWidth, setLineWidth] = useState(null);
   const [drawLocationType, setDrawLocationType] = useState(null);
@@ -89,7 +88,7 @@ export default function useDrawingManager() {
         },
       );
       setDrawingToCheck({
-        type: maps.drawing.OverlayType.POLYGON,
+        type: 'polygon',
         overlay: redrawnPolygon,
       });
       bounds = getBounds(maps, overlayData.grid_points);
@@ -100,7 +99,7 @@ export default function useDrawingManager() {
         ...getDrawingOptions(type).polylineOptions,
       });
       const overlay = {
-        type: maps.drawing.OverlayType.POLYLINE,
+        type: 'polyline',
         overlay: redrawnLine,
       };
       redrawnLine.setMap(map);
@@ -118,12 +117,14 @@ export default function useDrawingManager() {
         setPointChanged(true);
       });
       setDrawingToCheck({
-        type: maps.drawing.OverlayType.MARKER,
+        type: 'marker',
         overlay: redrawnMarker,
       });
       bounds = getBounds(maps, [overlayData.point]);
     }
-    map.fitBounds(bounds);
+    if (bounds) {
+      map.fitBounds(bounds);
+    }
 
     return () => {
       if (!onSteppedBack) return;
@@ -146,18 +147,16 @@ export default function useDrawingManager() {
     }
   }, [drawingToCheck, showZeroAreaWarning, showZeroLengthWarning]);
 
-  const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
+  const initDrawingState = (map, maps, drawingManagerInit) => {
     setMap(map);
     setMaps(maps);
     setDrawingManager(drawingManagerInit);
-    setDrawingModes(drawingModes);
   };
 
   const startDrawing = (type) => {
     setDrawLocationType(type);
     setIsDrawing(true);
-    drawingManager.setOptions(getDrawingOptions(type));
-    drawingManager.setDrawingMode(getDrawingMode(type, supportedDrawingModes));
+    drawingManager.setMode(type);
   };
 
   const finishDrawing = (drawing, innerMap) => {
@@ -189,7 +188,7 @@ export default function useDrawingManager() {
   const closeDrawer = () => {
     setIsDrawing(false);
     setDrawLocationType(null);
-    drawingManager.setDrawingMode();
+    drawingManager.setMode(null);
   };
 
   const getVertices = (vertex) => ({
@@ -247,7 +246,6 @@ export default function useDrawingManager() {
   const drawingState = {
     type: drawLocationType,
     isActive: isDrawing,
-    supportedDrawingModes,
     drawingManager,
     drawingToCheck,
     showAdjustAreaSpotlightModal,
@@ -276,7 +274,7 @@ export default function useDrawingManager() {
   return [drawingState, drawingFunctions];
 }
 
-const getDrawingOptions = (type) => {
+export const getDrawingOptions = (type) => {
   if (isArea(type)) {
     const { colour } = areaStyles[type];
     return {
@@ -327,15 +325,6 @@ const getDrawingOptions = (type) => {
         crossOnDrag: false,
       },
     };
-
-  console.log('invalid location type');
-  return null;
-};
-
-const getDrawingMode = (type, supportedDrawingModes) => {
-  if (isArea(type)) return supportedDrawingModes.POLYGON;
-  if (isLine(type)) return supportedDrawingModes.POLYLINE;
-  if (isPoint(type)) return supportedDrawingModes.MARKER;
 
   console.log('invalid location type');
   return null;

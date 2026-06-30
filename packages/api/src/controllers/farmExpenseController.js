@@ -16,6 +16,8 @@
 import baseController from '../controllers/baseController.js';
 
 import FarmExpenseModel from '../models/farmExpenseModel.js';
+import FarmExpenseCropVarietyModel from '../models/farmExpenseCropVarietyModel.js';
+import FarmExpenseAnimalModel from '../models/farmExpenseAnimalModel.js';
 import ExpenseType from '../models/expenseTypeModel.js';
 import { transaction, Model } from 'objection';
 
@@ -26,11 +28,13 @@ const farmExpenseController = {
       try {
         const expenses = req.body;
         if (!Array.isArray(expenses)) {
-          res.status(400).send('needs to be an array of expense items');
+          return res.status(400).send('needs to be an array of expense items');
         }
         const resultArray = [];
         for (const e of expenses) {
-          const result = await baseController.post(FarmExpenseModel, e, req, { trx });
+          const result = await baseController.insertGraphWithResponse(FarmExpenseModel, e, req, {
+            trx,
+          });
           resultArray.push(result);
         }
         await trx.commit();
@@ -49,11 +53,7 @@ const farmExpenseController = {
         const farm_id = req.params.farm_id;
         const rows = await farmExpenseController.getByForeignKey(farm_id);
 
-        if (!rows.length) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(rows);
-        }
+        res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -68,36 +68,37 @@ const farmExpenseController = {
       .select('*')
       .from('farmExpense')
       .where('farmExpense.farm_id', farm_id)
-      .whereNotDeleted();
+      .whereNotDeleted()
+      .withGraphFetched('[farm_expense_animal, farm_expense_crop_variety]');
     return expenses;
   },
 
   updateFarmExpense() {
     return async (req, res) => {
-      const data = req.body;
+      const { farm_expense_animal, farm_expense_crop_variety, ...data } = req.body;
       const { farm_expense_id } = req.params;
       const { user_id } = req.auth;
 
       const trx = await transaction.start(Model.knex());
 
-      // do not allow updates to deleted records
-      if (await baseController.isDeleted(trx, FarmExpenseModel, { farm_expense_id })) {
-        await trx.rollback();
-        return res.status(409).send('expense deleted');
-      }
-
-      // do not allow to change to deleted expense type
-      if (
-        'expense_type_id' in data &&
-        (await baseController.isDeleted(trx, ExpenseType, {
-          expense_type_id: data.expense_type_id,
-        }))
-      ) {
-        await trx.rollback();
-        return res.status(409).send('expense type deleted');
-      }
-
       try {
+        // do not allow updates to deleted records
+        if (await baseController.isDeleted(trx, FarmExpenseModel, { farm_expense_id })) {
+          await trx.rollback();
+          return res.status(409).send('expense deleted');
+        }
+
+        // do not allow to change to deleted expense type
+        if (
+          'expense_type_id' in data &&
+          (await baseController.isDeleted(trx, ExpenseType, {
+            expense_type_id: data.expense_type_id,
+          }))
+        ) {
+          await trx.rollback();
+          return res.status(409).send('expense type deleted');
+        }
+
         const result = await FarmExpenseModel.query(trx)
           .context({ user_id })
           .where('farm_expense_id', farm_expense_id)
@@ -108,8 +109,37 @@ const farmExpenseController = {
           return res.status(400).send('failed to patch data');
         }
 
+        const isAddingCropVarietyExpense = !!farm_expense_crop_variety?.length;
+        const isAddingAnimalExpense = !!farm_expense_animal?.length;
+
+        if (farm_expense_crop_variety !== undefined || isAddingAnimalExpense) {
+          await FarmExpenseCropVarietyModel.query(trx)
+            .where('farm_expense_id', farm_expense_id)
+            .delete();
+          if (farm_expense_crop_variety?.length) {
+            await FarmExpenseCropVarietyModel.query(trx).insert(
+              farm_expense_crop_variety.map((item) => ({ ...item, farm_expense_id })),
+            );
+          }
+        }
+
+        if (farm_expense_animal !== undefined || isAddingCropVarietyExpense) {
+          await FarmExpenseAnimalModel.query(trx)
+            .where('farm_expense_id', farm_expense_id)
+            .delete();
+          if (farm_expense_animal?.length) {
+            await FarmExpenseAnimalModel.query(trx).insert(
+              farm_expense_animal.map((item) => ({ ...item, farm_expense_id })),
+            );
+          }
+        }
+
         await trx.commit();
-        return res.status(200).send(result);
+
+        const updatedExpense = await FarmExpenseModel.query()
+          .findById(farm_expense_id)
+          .withGraphFetched('[farm_expense_animal, farm_expense_crop_variety]');
+        return res.status(200).send(updatedExpense);
       } catch (error) {
         console.log(error);
         await trx.rollback();

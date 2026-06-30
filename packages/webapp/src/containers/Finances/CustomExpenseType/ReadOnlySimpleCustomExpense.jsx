@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useHistory, useParams } from 'react-router-dom';
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
@@ -22,8 +23,9 @@ import { expenseTypeByIdSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { createEditCustomExpenseURL } from '../../../util/siteMapConstants';
 
-function ReadOnlyCustomExpense({ history, match }) {
-  const expense_type_id = match.params.expense_type_id;
+function ReadOnlyCustomExpense() {
+  const history = useHistory();
+  const { expense_type_id } = useParams();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));

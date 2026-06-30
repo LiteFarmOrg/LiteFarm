@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -20,7 +21,7 @@ import PureAnimalInventory, {
 } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
-import { Paper, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
@@ -32,6 +33,7 @@ import FixedHeaderContainer, {
 } from '../../../components/Animals/FixedHeaderContainer';
 import KPI from './KPI';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
+import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';
 import styles from './styles.module.scss';
 import { useFilteredInventory } from './useFilteredInventory';
 import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
@@ -46,7 +48,7 @@ import FloatingContainer from '../../../components/FloatingContainer';
 import ExpandableItem from '../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../components/Expandable/useExpandableItem';
 import clsx from 'clsx';
-import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
+import BetaSpotlight from '../../Spotlights/BetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
 import { onAddTask } from '../../Task/onAddTask';
@@ -55,7 +57,7 @@ const HEIGHTS = {
   filterAndSearch: 64,
   containerPadding: 32,
 };
-const usedHeight = sumObjectValues(HEIGHTS);
+export const usedHeight = sumObjectValues(HEIGHTS);
 
 export enum View {
   DEFAULT = 'default',
@@ -84,9 +86,7 @@ interface AnimalInventoryProps {
   onSelect?: (newIds: string[]) => void;
   view?: View;
   isCompactSideMenu: boolean;
-  setFeedbackSurveyOpen: () => void;
   containerHeight: number;
-  history: History;
   showOnlySelected?: boolean;
   showLinks?: boolean;
   isCompleteView?: boolean;
@@ -186,7 +186,6 @@ const TaskAnimalInventory = ({
 };
 
 const MainAnimalInventory = ({
-  setFeedbackSurveyOpen,
   history,
   onTypeClick,
   selectedTypeIds,
@@ -194,19 +193,18 @@ const MainAnimalInventory = ({
   isAdmin,
   ...commonProps
 }: {
-  setFeedbackSurveyOpen: () => void;
   history: History;
   onTypeClick: (typeId: string) => void;
   selectedTypeIds: string[];
   actionMenuAndRemoveModal: ReactNode;
   isAdmin: boolean;
 } & CommonPureAnimalInventoryProps) => {
+  const isOffline = useIsOffline();
+
   return (
-    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+    <BetaSpotlight spotlight={'animals_beta'}>
       <FixedHeaderContainer
-        header={
-          <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
-        }
+        header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
         kind={ContainerKind.PAPER}
       >
@@ -221,11 +219,13 @@ const MainAnimalInventory = ({
           alternatingRowColor={true}
           showTableHeader={commonProps.isDesktop}
           showActionFloaterButton={isAdmin}
+          showInventorySelection={!isOffline}
+          disableActionFloaterButton={isOffline}
         >
           {actionMenuAndRemoveModal}
         </BaseAnimalInventory>
       </FixedHeaderContainer>
-    </AnimalsBetaSpotlight>
+    </BetaSpotlight>
   );
 };
 
@@ -243,14 +243,13 @@ export default function AnimalInventory({
   onSelect,
   view = View.DEFAULT,
   isCompactSideMenu,
-  setFeedbackSurveyOpen,
-  history,
   showOnlySelected = false,
   showLinks = true,
   isCompleteView,
   hideNoResultsBlock,
   showRemoved = false,
 }: AnimalInventoryProps) {
+  const history = useHistory();
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   useEffect(() => {
@@ -289,8 +288,8 @@ export default function AnimalInventory({
     [updateSelectedTypeIds],
   );
 
-  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks } =
-    useAnimalOrBatchRemoval(selectedInventoryIds, inventory, setSelectedInventoryIds);
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasAssociatedRecords } =
+    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
 
   const animalsColumns = useMemo(
     () => [
@@ -459,7 +458,7 @@ export default function AnimalInventory({
         onClose={() => setRemovalModalOpen(false)}
         onConfirm={onConfirmRemoveAnimals}
         showSuccessMessage={false}
-        hideDeleteOption={hasFinalizedTasks}
+        hideDeleteOption={hasAssociatedRecords}
       />
     </>
   );
@@ -496,7 +495,6 @@ export default function AnimalInventory({
 
   return (
     <MainAnimalInventory
-      setFeedbackSurveyOpen={setFeedbackSurveyOpen}
       onTypeClick={onTypeClick}
       selectedTypeIds={selectedTypeIds}
       actionMenuAndRemoveModal={actionMenuAndRemoveModal}

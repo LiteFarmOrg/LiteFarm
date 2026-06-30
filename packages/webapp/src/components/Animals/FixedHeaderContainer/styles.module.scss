@@ -13,7 +13,7 @@
 *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
 */
 
-@import '../../../assets/mixin.scss';
+@use '../../../assets/mixin' as *;
 
 .wrapper {
   height: calc(100vh - var(--global-navbar-height));
@@ -36,7 +36,7 @@
 
   @include lg-breakpoint {
     margin: 16px auto;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid var(--Colors-Primary-Primary-teal-50);
   }
 }

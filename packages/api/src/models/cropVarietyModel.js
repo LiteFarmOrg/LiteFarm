@@ -148,6 +148,13 @@ class CropVariety extends BaseModel {
       },
     };
   }
+
+  static async cropVarietiesBelongToFarm({ cropVarietyIds, farmId }) {
+    const rows = await CropVariety.query()
+      .whereIn('crop_variety_id', cropVarietyIds)
+      .where('farm_id', farmId);
+    return rows.length === cropVarietyIds.length;
+  }
 }
 
 export default CropVariety;

@@ -1,16 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import InvitedUserCreateAccountWithSSO from './InvitedUserCreateAccountWithSSO';
 import InvitedUserCreateAccountWithLiteFarm from './InvitedUserCreateAccountWithLiteFarm';
 
-export default function InvitedUserCreateAccount({ history }) {
-  return !!history?.location?.state?.google_id_token ? (
-    <InvitedUserCreateAccountWithSSO history={history} />
+export default function InvitedUserCreateAccount() {
+  const location = useLocation();
+  return location?.state?.google_id_token ? (
+    <InvitedUserCreateAccountWithSSO />
   ) : (
-    <InvitedUserCreateAccountWithLiteFarm history={history} />
+    <InvitedUserCreateAccountWithLiteFarm />
   );
 }
-
-InvitedUserCreateAccount.prototype = {
-  history: PropTypes.object,
-};

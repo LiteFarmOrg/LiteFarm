@@ -4,21 +4,21 @@ import { assets, figures, getNonModifiable } from '../middleware/validation/loca
 
 const LocationController = {
   getLocationsByFarm() {
-    return async (req, res, next) => {
+    return async (req, res) => {
       const { farm_id } = req.params;
       const locations = await LocationModel.query().where({ 'location.farm_id': farm_id })
         .withGraphJoined(`[
           figure.[area, line, point], 
-          gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
+          gate, water_valve, soil_sample_location, field, garden, buffer_zone, watercourse, fence,
           ceremonial_area, residence, surface_water, natural_area,
-          greenhouse, barn, farm_site_boundary, sensor, location_defaults
+          greenhouse, barn, farm_site_boundary, location_defaults
         ]`);
       return res.status(200).send(locations);
     };
   },
 
   deleteLocation() {
-    return async (req, res, next) => {
+    return async (req, res) => {
       const { location_id } = req.params;
       try {
         const isDeleted = await baseController.delete(LocationModel, location_id, req);
@@ -34,14 +34,14 @@ const LocationController = {
 
   // TODO: to deprecate
   checkDeleteLocation() {
-    return async (req, res, next) => {
+    return async (_req, res) => {
       return res.sendStatus(200);
     };
   },
 
   createLocation(asset) {
     const nonModifiable = getNonModifiable(asset);
-    return async (req, res, next) => {
+    return async (req, res) => {
       try {
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
@@ -61,7 +61,7 @@ const LocationController = {
 
   updateLocation(asset) {
     const nonModifiable = getNonModifiable(asset);
-    return async (req, res, next) => {
+    return async (req, res) => {
       try {
         const result = await LocationModel.transaction(async (trx) => {
           return await LocationModel.query(trx)

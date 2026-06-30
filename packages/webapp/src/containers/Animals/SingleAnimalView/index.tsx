@@ -14,13 +14,14 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
-import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
+// import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
 import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import { addNullstoMissingFields } from './utils';
@@ -34,7 +35,6 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
-import { locationsSelector } from '../../locationSlice';
 import {
   formatAnimalDetailsToDBStructure,
   formatBatchDetailsToDBStructure,
@@ -45,8 +45,9 @@ import { AnimalDetailsFormFields } from '../AddAnimals/types';
 import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
-import { CustomRouteComponentProps, Location } from '../../../types';
+import { CustomRouteComponentProps } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
+import useLocations from '../../../hooks/location/useLocations';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -60,7 +61,8 @@ interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
   isCompactSideMenu: boolean;
 }
 
-function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAnimalsProps) {
+function SingleAnimalView({ isCompactSideMenu }: AddAnimalsProps) {
+  const history = useHistory();
   const { t } = useTranslation(['translation', 'common', 'message']);
 
   // Header logic + display
@@ -91,7 +93,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
   // Form setup
   const dispatch = useDispatch();
-  const locations: Location[] = useSelector(locationsSelector);
+  const { locations } = useLocations();
 
   const getFormSteps = () => [
     {
@@ -101,11 +103,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
   ];
 
   const { defaultFormValues, selectedAnimal, selectedBatch, isFetchingAnimalsOrBatches } =
-    useInitialAnimalData({
-      history,
-      match,
-      location,
-    });
+    useInitialAnimalData();
 
   const isRemoved = !!defaultFormValues?.animal_removal_reason_id;
   const locationText = locations?.find(
@@ -183,16 +181,14 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
   };
 
-  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks } =
-    useAnimalOrBatchRemoval(
-      [getInventoryId()],
-      [{ ...(selectedAnimal || selectedBatch)!, id: getInventoryId() }],
-    );
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasAssociatedRecords } =
+    useAnimalOrBatchRemoval([getInventoryId()]);
 
   const onConfirmRemoval = async (formData: FormFields) => {
     const result = await onConfirmRemoveAnimals(formData);
 
     if (!result.error) {
+      // @ts-expect-error: temporary shim, will remove when upgrading to history@5
       history.back();
     }
   };
@@ -209,6 +205,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
+                // @ts-expect-error: temporary shim, will remove when upgrading to history@5
                 onBack={history.back}
                 /* @ts-expect-error */
                 animalOrBatch={defaultFormValues}
@@ -247,7 +244,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           onClose={() => setRemovalModalOpen(false)}
           onConfirm={onConfirmRemoval}
           showSuccessMessage={false}
-          hideDeleteOption={hasFinalizedTasks}
+          hideDeleteOption={hasAssociatedRecords}
         />
       </FixedHeaderContainer>
     </div>

@@ -15,6 +15,7 @@
 
 import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { AddLink } from '../Typography';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
@@ -23,6 +24,8 @@ import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import { ReactComponent as CameraIcon } from '../../assets/images/farm-profile/camera.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edit.svg';
+import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
+import { isImageFile } from '../../util/validation';
 import styles from './styles.module.scss';
 import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
 
@@ -47,12 +50,28 @@ type CommonProps = {
   shouldReset?: boolean;
 };
 
+/**
+ * CustomFileUpload pattern: For immediate upload of images
+ *
+ * This pattern is used with the useImagePickerUpload hook to:
+ * 1. Upload the image immediately when selected
+ * 2. Store the resulting URL in your form (not the File)
+ */
 type CustomFileUpload = CommonProps & {
   onSelectImage?: never;
   onFileUpload: OnFileUpload;
   shouldReset?: never;
 };
 
+/* DirectImageUpload pattern: For storing File objects in form state
+ *
+ * This pattern is used when you want to:
+ * 1. Get the raw File object when user selects an image
+ * 2. Store that File object directly in your form
+ * 3. Upload the file when form is submitted
+ *
+ * The parent component receives the File via onSelectImage callback and is responsible for storing it.
+ */
 type DirectImageUpload = CommonProps & {
   onSelectImage: (file: File) => void;
   onFileUpload?: never;
@@ -74,6 +93,7 @@ export default function ImagePicker({
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -88,6 +108,11 @@ export default function ImagePicker({
   };
 
   const showImage = (file: File) => {
+    if (!isImageFile(file)) {
+      dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
+      return;
+    }
+
     if (file.size > 5e6) {
       setShowFileSizeExceedsModal(true);
       return;

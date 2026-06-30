@@ -32,11 +32,6 @@
       "UPDATE": "Documento actualizado exitosamente"
     }
   },
-  "BULK_UPLOAD": {
-    "ERROR": {
-      "UPLOAD": "No se pudo subir el archivo CSV"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: No se pudo agregar variedad a la base de datos",
@@ -54,9 +49,9 @@
     "ERROR": {
       "ADD": "No se pudo agregar nuevos gastos",
       "DELETE": "No se pudo borrar gastos",
-      "UPDATE": "No se pudo actualizar gastos!",
       "EXPENSE_DELETED": "Este gasto ha dejado de existir",
-      "EXPENSE_TYPE_DELETED": "Este tipo de gasto se ha eliminado"
+      "EXPENSE_TYPE_DELETED": "Este tipo de gasto se ha eliminado",
+      "UPDATE": "No se pudo actualizar gastos!"
     },
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",
@@ -86,6 +81,45 @@
       "UPDATE": "Información sobre la finca actualizada exitosamente!"
     }
   },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "Error al desconectar el addon",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": "Falta de prescripciones de irrigación"
+    },
+    "SUCCESS_DISCONNECT_ADDON": "Addon desconectado con éxito"
+  },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "Error al guardar la nota",
+      "DELETE": "Error al eliminar la tarea",
+      "EDIT": "No se pudo actualizar la nota"
+    },
+    "SUCCESS": {
+      "ADD": "Nota agregada con éxito",
+      "DELETE": "Nota borrada exitosamente",
+      "EDIT": "Nota actualizada exitosamente"
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "Lo sentimos, estamos desconectados momentáneamente. Volveremos a intentar su creación de tareas automáticamente",
+        "ONLINE": "Nota creada. Aparecerá cuando te vuelvas a conectar",
+        "SUCCESS": "La nota creada sin conexión se ha guardado correctamente"
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "Lo sentimos, estamos desconectados momentáneamente. Volveremos a intentar borra la nota automáticamente",
+        "ONLINE": "Nota eliminada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea eliminada sin conexión se ha guardado correctamente"
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "Lo sentimos, estamos desconectados momentáneamente. Volveremos a intentar su actualización de tarea automáticamente",
+        "ONLINE": "Nota actualizada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La nota actualizada sin conexión se ha guardado correctamente"
+      },
+      "FAILED": "No se pudieron guardar los cambios de la nota",
+      "NOT_FOUND": "No se pudo guardar la nota: la nota ya no existe",
+      "UNAUTHORIZED": "No se pudo guardar la nota: permisos insuficientes"
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Algo ha fallado al enviar su comentario. Por favor, inténtelo de nuevo."
@@ -94,8 +128,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
-      "AMOUNT_TOTAL": "El total ingresado no es igual a la cosecha total",
-      "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha"
+      "AMOUNT_TOTAL": "El total ingresado no es igual a la cosecha total"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Tipos de usos habituales de la cosecha agregados exitosamente"
@@ -123,10 +156,28 @@
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
+    "FAIL_DELETE": "Fallo al retirar",
     "SUCCESS_DELETE": " retirada/o con éxito",
     "SUCCESS_PATCH": " actualizo/a con éxito.",
-    "SUCCESS_POST": " creo/a con éxito.",
-    "SUCCESS_UPLOAD": "Subido con éxito"
+    "SUCCESS_POST": " creo/a con éxito."
+  },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "Fallo al guardar la informacion del directorio del mercado",
+      "UPDATE": "Fallo al actualizar la informacion del directorio del mercado"
+    },
+    "SUCCESS": {
+      "SAVE": "Información del directorio del mercado guardada correctamente",
+      "UPDATE": "Información del directorio del mercado actualizada correctamente",
+      "UPDATE_LIVE_DATA": "Se ha actualizado correctamente el Directorio de Mercado Info. Tus datos se actualizarán en menos de 24 horas."
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "Fallo al guardar la informacion del directorio del mercado",
+    "SUCCESS": {
+      "CONSENT": "Información del directorio del mercado guardada correctamente",
+      "PARTNER": "Se ha actualizado correctamente el Directorio de Mercado Info. Tus datos se actualizarán en menos de 24 horas."
+    }
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -145,10 +196,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Error al crear el producto",
+      "REMOVE": "Fallo al remover el producto",
       "UPDATE": "Error al actualizar el producto"
     },
     "SUCCESS": {
       "CREATE": "Producto creado con éxito",
+      "REMOVE": "Producto removido exitosamente",
       "UPDATE": "Producto actualizado con éxito"
     }
   },
@@ -185,8 +238,8 @@
     "ERROR": {
       "ADD": "No se pudo agregar venta",
       "DELETE": "No se pudo borrar nueva venta",
-      "UPDATE": "No se pudo actualizar venta",
-      "SALE_DELETED": "Esta venta ya no existe"
+      "SALE_DELETED": "Esta venta ya no existe",
+      "UPDATE": "No se pudo actualizar venta"
     },
     "SUCCESS": {
       "ADD": "Venta agregada exitosamente",
@@ -194,25 +247,54 @@
       "UPDATE": "Venta actualizada exitosamente"
     }
   },
-  "SENSOR": {
-    "ERROR_UPDATE": "No se pudo actualizar el sensor",
-    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito"
-  },
   "TASK": {
     "ABANDON": {
       "FAILED": "No se pudo abandonar la tarea",
-      "SUCCESS": "Tarea abandonada con éxito"
+      "SUCCESS": "Tarea abandonada con éxito",
+      "SYNC": {
+        "ONLINE": "Tarea abandonada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea abandonada sin conexión se ha guardado correctamente"
+      }
     },
     "COMPLETE": {
       "FAILED": "No se pudo completar la tarea",
-      "SUCCESS": "Tarea completada con éxito"
+      "SUCCESS": "Tarea completada con éxito",
+      "SYNC": {
+        "ONLINE": "Tarea completada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea completada sin conexión se ha guardado correctamente"
+      }
     },
     "CREATE": {
       "FAILED": "No se pudo crear la tarea",
-      "SUCCESS": "Tarea creada con éxito"
+      "SUCCESS": "Tarea creada con éxito",
+      "SYNC": {
+        "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Volveremos a intentar su creación de tareas automáticamente",
+        "ONLINE": "Tarea creada. Aparecerá cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea creada sin conexión se ha guardado correctamente"
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Reintentaremos su eliminación de tareas automáticamente",
+        "ONLINE": "Tarea eliminada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea eliminada sin conexión se ha guardado correctamente"
+      }
+    },
+    "SYNC": {
+      "FAILED": "No se pudieron guardar los cambios de la tarea",
+      "LOCATION_DELETED": "No se pudo guardar la tarea: la ubicación ha sido retirada",
+      "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Volveremos a intentarlo automáticamente",
+      "NOT_FOUND": "No se pudo guardar la tarea: la tarea ya no existe",
+      "UNAUTHORIZED": "No se pudo guardar la tarea: permisos insuficientes"
     },
     "UPDATE": {
-      "FAILED": "No se pudo completar la tarea"
+      "FAILED": "No se pudo completar la tarea",
+      "SUCCESS": "Tarea actualizada correctamente",
+      "SYNC": {
+        "NETWORK_ERROR": "Lo sentimos, estamos apagados momentáneamente. Volveremos a intentar su actualización de tarea automáticamente",
+        "ONLINE": "Tarea actualizada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La tarea creada sin conexión se ha guardado correctamente"
+      }
     }
   },
   "TASK_TYPE": {

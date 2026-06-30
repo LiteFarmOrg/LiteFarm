@@ -26,11 +26,13 @@ const checkJwt = expressjwt({
     '/user/accept_invitation',
     '/user_farm/accept_invitation',
     '/notification_user/subscribe',
+    '/irrigation_prescription_request/scheduler',
+    '/offline_event_log',
     /\/time_notification\//i,
     /\/farm\/utc_offset_by_range\//i,
-    /\/sensor\/reading\/partner\/\d+\/farm\/*/,
     /\/api-docs\/*/,
     /\/api-spec\/*/,
+    /\/dfc\//i,
   ],
 });
 

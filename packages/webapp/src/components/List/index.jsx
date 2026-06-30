@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import IconDescriptionListItem from './ListItems/IconDescription/IconDescriptionListItem';
 import { listItemTypes } from './constants';
 import styles from './styles.module.scss';
+import clsx from 'clsx';
 
 const listItemComponents = {
   [listItemTypes.ICON_DESCRIPTION_CHECKBOX]: (props) => (
@@ -38,6 +39,8 @@ export default function List({
   listItemType,
   listItemData,
   formatListItemData,
+  compact,
+  className,
   ...props
 }) {
   const listItems = useMemo(() => {
@@ -52,7 +55,7 @@ export default function List({
   }, [children, listItemType, listItemData, formatListItemData]);
 
   return (
-    <ul className={styles.list} {...props}>
+    <ul className={clsx(styles.list, compact && styles.compact, className)} {...props}>
       {listItems}
     </ul>
   );
@@ -62,6 +65,8 @@ List.propTypes = {
   children: PropTypes.node,
   listItemType: PropTypes.oneOf(Object.keys(listItemComponents)),
   listItemData: PropTypes.array,
+  compact: PropTypes.bool,
+  className: PropTypes.string,
   /* formatListItemData must return an object that has "key" */
   formatListItemData: PropTypes.func,
 };

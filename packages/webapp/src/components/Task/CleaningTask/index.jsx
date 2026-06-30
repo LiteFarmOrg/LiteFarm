@@ -28,9 +28,9 @@ const PureCleaningTask = ({
 
   useEffect(() => {
     if (isCleaningAgentUsed === false && getValues('cleaning_task.product')) {
-      setValue('cleaning_task.product', null);
+      setValue('cleaning_task.product', undefined);
       setValue('cleaning_task.product_id', null);
-      setValue('cleaning_task.product_quantity', undefined);
+      setValue('cleaning_task.product_quantity', null);
       setValue('cleaning_task.product_quantity_unit', null, { shouldValidate: true });
     }
   }, [isCleaningAgentUsed]);

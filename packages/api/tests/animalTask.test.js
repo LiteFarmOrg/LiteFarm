@@ -17,12 +17,11 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 
 chai.use(chaiHttp);
-import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
-  jest.fn((req, res, next) => {
+  jest.fn((req, _res, next) => {
     req.auth = {};
     req.auth.user_id = req.get('user_id');
     next();
@@ -37,10 +36,7 @@ import {
   postTaskRequest,
   getTasksRequest,
   completeTaskRequest,
-  patchTaskDateRequest,
   userFarmTaskGenerator,
-  todayWithTimezone,
-  yesterdayInYYYYMMDD,
   fakeCompletionData,
   animalTaskGenerator,
 } from './utils/taskUtils.js';
@@ -68,15 +64,11 @@ const createFakeMovementTask = (purposeRelationships) => {
   return mocks.fakeAnimalMovementTask(movementTask);
 };
 
-const createMovementTaskForReqBody = (purposeIds, otherPurpose) => {
-  const animalMovementTask = {};
-
-  if (purposeIds) {
-    animalMovementTask.purpose_ids = purposeIds;
-  }
-  if (otherPurpose) {
-    animalMovementTask.other_purpose = otherPurpose;
-  }
+const createMovementTaskForReqBody = (purposeIds = undefined, otherPurpose = undefined) => {
+  const animalMovementTask = {
+    purpose_ids: purposeIds,
+    other_purpose: otherPurpose,
+  };
 
   return { animal_movement_task: animalMovementTask };
 };
@@ -109,12 +101,51 @@ const getAnimalLocations = async (animalOrBatch, ids) => {
 
 const getAnimalOrBatchIds = (animalsOrBatches) => animalsOrBatches.map(({ id }) => id);
 
+const createAnimalsAndBatches = async ({ farm_id, animalCount = 1, batchCount = 1 }) => {
+  const animals = await Promise.all(
+    new Array(animalCount).fill().map(() => mocks.animalFactory({ promisedFarm: [{ farm_id }] })),
+  );
+
+  const batches = await Promise.all(
+    new Array(batchCount)
+      .fill()
+      .map(() => mocks.animal_batchFactory({ promisedFarm: [{ farm_id }] })),
+  );
+
+  return {
+    animals: animals.map(([animal]) => animal),
+    batches: batches.map(([batch]) => batch),
+  };
+};
+
+const createLocations = async (farm_id, count = 2) => {
+  const locations = await Promise.all(
+    new Array(count).fill().map(() =>
+      mocks.locationFactory({
+        promisedFarm: [{ farm_id }],
+      }),
+    ),
+  );
+
+  return locations.map(([location]) => location);
+};
+
+const createDateOffset = (offset = {}) => {
+  const date = new Date();
+  if (offset.days) {
+    date.setDate(date.getDate() + offset.days);
+  }
+  if (offset.months) {
+    date.setMonth(date.getMonth() + offset.months);
+  }
+  return date;
+};
+
 describe('Animal task tests', () => {
   let user_id, farm_id, location_id, task_type_id, planting_management_plan_id;
   let animal1, animal2, animal3, animal4, batch1, batch2, batch3, batch4;
   let farmBId, farmBAnimal1, farmBBatch1, location2Id, farmBLocationId;
   let removedAnimal1, removedBatch1, deletedAnimal1, deletedBatch1;
-  let animalBornToday, animalBroughtInToday;
   let purpose1, purpose2, otherPurpose;
 
   beforeAll(async () => {
@@ -125,13 +156,8 @@ describe('Animal task tests', () => {
       task_translation_key: 'SOIL_AMENDMENT_TASK',
     });
 
-    ({
-      user_id,
-      farm_id,
-      location_id,
-      task_type_id,
-      planting_management_plan_id,
-    } = await userFarmTaskGenerator());
+    ({ user_id, farm_id, location_id, task_type_id, planting_management_plan_id } =
+      await userFarmTaskGenerator());
 
     [{ location_id: location2Id }] = await mocks.locationFactory({
       promisedFarm: [{ farm_id }],
@@ -173,15 +199,6 @@ describe('Animal task tests', () => {
     });
     [farmBAnimal1] = await mocks.animalFactory({ promisedFarm: [{ farm_id: farmBId }] });
     [farmBBatch1] = await mocks.animal_batchFactory({ promisedFarm: [{ farm_id: farmBId }] });
-
-    [animalBornToday] = await mocks.animalFactory({
-      promisedFarm: [{ farm_id }],
-      properties: { birth_date: todayWithTimezone },
-    });
-    [animalBroughtInToday] = await mocks.animalFactory({
-      promisedFarm: [{ farm_id }],
-      properties: { brought_in_date: todayWithTimezone },
-    });
 
     [otherPurpose] = await mocks.animal_movement_purposeFactory('OTHER');
     [[purpose1], [purpose2]] = await Promise.all(
@@ -684,7 +701,7 @@ describe('Animal task tests', () => {
         if (type === 'custom_task') {
           test('should complete a custom task with an attempt to remove all animals and batches from the task', async () => {
             const emptyIdsVariants = [[], null];
-            for (let emptyIds of emptyIdsVariants) {
+            for (const emptyIds of emptyIdsVariants) {
               await checkBeforeAfterAnimals({
                 beforeAnimalIds: [animal1.id, animal2.id, animal3.id],
                 beforeBatchIds: [batch1.id, batch2.id, batch3.id],
@@ -696,7 +713,7 @@ describe('Animal task tests', () => {
         } else {
           test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
             const emptyIdsVariants = [[], null];
-            for (let emptyIds of emptyIdsVariants) {
+            for (const emptyIds of emptyIdsVariants) {
               const { task_id } = await animalTaskFactory(fakeTaskData[type]());
               const patchRes = await completeTaskRequest(
                 { user_id, farm_id },
@@ -884,6 +901,8 @@ describe('Animal task tests', () => {
           updatedBatches.forEach(({ id, location_id }) => {
             expect(location_id).toBe(expectedBatchLocations[id]);
           });
+
+          return { task_id };
         };
 
         test('should complete an animal task without purpose relations and no updates', async () => {
@@ -901,7 +920,7 @@ describe('Animal task tests', () => {
             { before: [purpose1, purpose2], after: [otherPurpose] },
           ];
 
-          for (let { before, after } of purposes) {
+          for (const { before, after } of purposes) {
             await checkCompletedMovementTask(before, null, after, null);
           }
         });
@@ -1060,6 +1079,294 @@ describe('Animal task tests', () => {
           const patchRes = await completeMovementTaskReq(fakeCompletionData, task_id);
           expect(patchRes.status).toBe(400);
           expect(patchRes.error.text).toBe('location deleted');
+        });
+
+        describe('movement tasks re-completion tests', () => {
+          const dateToday = new Date();
+          const dateWeekAgo = createDateOffset({ days: -7 });
+          const dateMonthAgo = createDateOffset({ months: -1 });
+
+          test('should use the new complete date of a re-completed task when moving animals', async () => {
+            const {
+              animals: [animalA],
+              batches: [batchA],
+            } = await createAnimalsAndBatches({ farm_id });
+
+            const [locationA, locationB] = await createLocations(farm_id);
+
+            // Complete a movement task a month ago
+            const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationA.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateMonthAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+
+            // Re-complete the same task for today (don't touch animals or locations)
+            await completeMovementTaskReq(
+              {
+                ...fakeCompletionData,
+                complete_date: toLocal8601Extended(dateToday),
+              },
+              task_id,
+            );
+
+            // Complete a new movement task a week ago
+            // Animals and batches should not be moved as they were moved more recently
+            await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationB.location_id,
+              animals: [animalA],
+              bathes: [batchA],
+              completeDate: toLocal8601Extended(dateWeekAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+          });
+
+          test("shoud set an animal's location to last known location if it is removed from the re-completed task", async () => {
+            const {
+              animals: [animalA, animalB],
+              batches: [batchA, batchB],
+            } = await createAnimalsAndBatches({ farm_id, animalCount: 2, batchCount: 2 });
+
+            const [locationA, locationB] = await createLocations(farm_id);
+
+            // Complete a movement task a month ago with all animals and batches
+            await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationA.location_id,
+              animals: [animalA, animalB],
+              batches: [batchA, batchB],
+              completeDate: toLocal8601Extended(dateMonthAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+                [animalB.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+                [batchB.id]: locationA.location_id,
+              },
+            });
+
+            // Complete a movement task a week ago with all animals and batches
+            const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationB.location_id,
+              animals: [animalA, animalB],
+              batches: [batchA, batchB],
+              completeDate: toLocal8601Extended(dateWeekAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationB.location_id,
+                [animalB.id]: locationB.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationB.location_id,
+                [batchB.id]: locationB.location_id,
+              },
+            });
+
+            // Re-complete more recent task without animalB and batchB
+            await completeMovementTaskReq(
+              {
+                ...fakeCompletionData,
+                related_animal_ids: [animalA.id],
+                related_batch_ids: [batchA.id],
+              },
+              task_id,
+            );
+
+            const [updatedAnimalA, updatedAnimalB, updatedBatchA, updatedBatchB] =
+              await Promise.all([
+                knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
+                knex('animal').select('id', 'location_id').where('id', animalB.id).first(),
+                knex('animal_batch').select('id', 'location_id').where('id', batchA.id).first(),
+                knex('animal_batch').select('id', 'location_id').where('id', batchB.id).first(),
+              ]);
+
+            // animalA and batchA should maintain their location
+            expect(updatedAnimalA.location_id).toBe(locationB.location_id);
+            expect(updatedBatchA.location_id).toBe(locationB.location_id);
+
+            // animalB and batchB should be restored to their previous location (locationA)
+            expect(updatedAnimalB.location_id).toBe(locationA.location_id);
+            expect(updatedBatchB.location_id).toBe(locationA.location_id);
+          });
+
+          test('should null an animal location if there is no previous movement task associated with that animal, and it has been removed from the re-completed task', async () => {
+            const {
+              animals: [animalA, animalB],
+              batches: [batchA, batchB],
+            } = await createAnimalsAndBatches({ farm_id, animalCount: 2, batchCount: 2 });
+
+            const [locationA] = await createLocations(farm_id);
+
+            // Complete a movement task a month ago with all animals and batches
+            const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationA.location_id,
+              animals: [animalA, animalB],
+              batches: [batchA, batchB],
+              completeDate: toLocal8601Extended(dateMonthAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+                [animalB.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+                [batchB.id]: locationA.location_id,
+              },
+            });
+
+            // Re-complete the same task without animalB and batchB
+            await completeMovementTaskReq(
+              {
+                ...fakeCompletionData,
+                related_animal_ids: [animalA.id],
+                related_batch_ids: [batchA.id],
+              },
+              task_id,
+            );
+
+            const [updatedAnimalA, updatedAnimalB, updatedBatchA, updatedBatchB] =
+              await Promise.all([
+                knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
+                knex('animal').select('id', 'location_id').where('id', animalB.id).first(),
+                knex('animal_batch').select('id', 'location_id').where('id', batchA.id).first(),
+                knex('animal_batch').select('id', 'location_id').where('id', batchB.id).first(),
+              ]);
+
+            // animalA and batchA should maintain their location
+            expect(updatedAnimalA.location_id).toBe(locationA.location_id);
+            expect(updatedBatchA.location_id).toBe(locationA.location_id);
+
+            // animalB and batchB should have null location_id
+            expect(updatedAnimalB.location_id).toBeNull();
+            expect(updatedBatchB.location_id).toBeNull();
+          });
+
+          test('should re-calculate animal locations if re-completing to a date before another completed task', async () => {
+            const {
+              animals: [animalA],
+              batches: [batchA],
+            } = await createAnimalsAndBatches({ farm_id });
+
+            const [locationA, locationB] = await createLocations(farm_id);
+
+            // Complete a movement task today
+            const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationA.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateToday),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+
+            // Complete a new movement task a week ago
+            // Animals and batches should not be moved as they were moved more recently
+            await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationB.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateWeekAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+
+            // Re-complete the original task for a month ago
+            await completeMovementTaskReq(
+              {
+                ...fakeCompletionData,
+                complete_date: toLocal8601Extended(dateMonthAgo),
+              },
+              task_id,
+            );
+
+            const [updatedAnimalA, updatedBatchA] = await Promise.all([
+              knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
+              knex('animal_batch').select('id', 'location_id').where('id', batchA.id).first(),
+            ]);
+
+            // animals should reflect the location of the second task (locationB)
+            expect(updatedAnimalA.location_id).toBe(locationB.location_id);
+            expect(updatedBatchA.location_id).toBe(locationB.location_id);
+          });
+
+          test('should null animal locations if most recent task location is retired', async () => {
+            const {
+              animals: [animalA],
+              batches: [batchA],
+            } = await createAnimalsAndBatches({ farm_id });
+
+            const [locationA, locationB] = await createLocations(farm_id);
+
+            // Complete a movement task a week ago
+            await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationA.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateWeekAgo),
+              expectedAnimalLocations: {
+                [animalA.id]: locationA.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationA.location_id,
+              },
+            });
+
+            // Complete a new movement task today
+            // Animals and batches should be moved to locationB
+            const { task_id } = await checkAnimalMovementWithSpecificCompleteDate({
+              locationId: locationB.location_id,
+              animals: [animalA],
+              batches: [batchA],
+              completeDate: toLocal8601Extended(dateToday),
+              expectedAnimalLocations: {
+                [animalA.id]: locationB.location_id,
+              },
+              expectedBatchLocations: {
+                [batchA.id]: locationB.location_id,
+              },
+            });
+
+            // Delete locationA
+            await knex('location')
+              .update({ deleted: true })
+              .where({ location_id: locationA.location_id });
+
+            // Re-complete the 2nd task for a month ago
+            await completeMovementTaskReq(
+              {
+                ...fakeCompletionData,
+                complete_date: toLocal8601Extended(dateMonthAgo),
+              },
+              task_id,
+            );
+
+            const [updatedAnimalA, updatedBatchA] = await Promise.all([
+              knex('animal').select('id', 'location_id').where('id', animalA.id).first(),
+              knex('animal_batch').select('id', 'location_id').where('id', batchA.id).first(),
+            ]);
+
+            // animals should have null location_id since the most recent task refers to a deleted location
+            expect(updatedAnimalA.location_id).toBeNull();
+            expect(updatedBatchA.location_id).toBeNull();
+          });
         });
       });
     });

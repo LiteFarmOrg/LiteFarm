@@ -63,6 +63,11 @@ class CleaningTaskModel extends Model {
         json.weight = null;
         json.weight_unit = null;
       }
+    } else if (json.product_quantity === null) {
+      json.volume = null;
+      json.volume_unit = null;
+      json.weight = null;
+      json.weight_unit = null;
     }
     delete json.product_quantity;
     delete json.product_quantity_unit;
@@ -87,13 +92,15 @@ class CleaningTaskModel extends Model {
       properties: {
         task_id: { type: 'integer' },
         product_id: { type: ['integer', 'null'] },
-        other_purpose: { type: 'string' },
         cleaning_target: { type: ['string', 'null'] },
         agent_used: { type: ['boolean'] },
         water_usage: { type: ['number', 'null'] },
         water_usage_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
         product_quantity: { type: ['number', 'null'] },
-        product_quantity_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
+        product_quantity_unit: {
+          type: ['string', 'null'],
+          enum: ['ml', 'l', 'gal', 'fl-oz', null],
+        },
       },
       additionalProperties: false,
     };

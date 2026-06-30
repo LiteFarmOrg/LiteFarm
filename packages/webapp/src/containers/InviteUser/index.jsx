@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addPseudoWorker, getRoles, inviteUserToFarm } from './saga';
-import history from '../../history';
 import PureInviteUser from '../../components/InviteUser';
 import { rolesSelector } from '../Profile/People/slice';
 import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 
 function InviteUser() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { farm_id } = useSelector(loginSelector);
   const roles = useSelector(rolesSelector);

@@ -17,13 +17,13 @@ const inputClasses = {
 };
 
 export default function PureCustomSignUp({
-  inputs,
-  onSubmit,
-  disabled,
-  GoogleLoginButton,
-  classes,
-  isChrome,
-  errorMessage,
+  inputs = [{}],
+  onSubmit = () => {},
+  disabled = undefined,
+  GoogleLoginButton = undefined,
+  classes = {},
+  isChrome = true,
+  errorMessage = undefined,
 }) {
   const { t } = useTranslation();
   const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
@@ -36,7 +36,7 @@ export default function PureCustomSignUp({
           <NewReleaseCard style={{ marginTop: '32px', maxWidth: '312px' }} />
           {(!isChrome || !!errorMessage) && (
             <div className={styles.otherBrowserMessageTop}>
-              {!!errorMessage ? (
+              {errorMessage ? (
                 <Error style={{ maxWidth: '300px' }}>{errorMessage}</Error>
               ) : (
                 <>
@@ -88,14 +88,4 @@ PureCustomSignUp.prototype = {
   GoogleLoginButton: PropTypes.node,
   classes: PropTypes.objectOf(PropTypes.object),
   errorMessage: PropTypes.string,
-};
-
-PureCustomSignUp.defaultProps = {
-  inputs: [{}],
-  onSubmit: () => {},
-  disabled: undefined,
-  GoogleLoginButton: undefined,
-  classes: {},
-  isChrome: true,
-  errorMessage: undefined,
 };

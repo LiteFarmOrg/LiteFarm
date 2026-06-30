@@ -36,6 +36,7 @@ import {
   animalMovementPurposesUrl,
   sensorUrl,
   farmAddonUrl,
+  irrigationPrescriptionUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -58,46 +59,50 @@ import type {
   SensorData,
   FarmAddon,
   SensorReadings,
+  IrrigationPrescription,
+  IrrigationPrescriptionDetails,
 } from './types';
+import { SUPPORTED_SENSOR_NAMES } from './types';
+
+import { addDaysToDate } from '../../util/date';
+import { API_TAGS, ApiTag } from './apiTags';
+
+/**
+ * Invalidates one or more RTK Query cache tags.
+ *
+ * This helper provides a type-safe wrapper around `api.util.invalidateTags`
+ * ensuring only valid `ApiTag` values (defined in `API_TAGS`) can be used.
+ *
+ * @param {ApiTag[]} tags - An array of tag names to invalidate.
+ * @returns - The invalidateTags action,
+ * which can be dispatched directly or used inside a saga (e.g., `yield put(...)`).
+ */
+export const invalidateTags = (tags: ApiTag[]) => api.util.invalidateTags(tags);
+
+const NON_JSON_ENDPOINT_KEYS = new Set(['addSupportTicket', 'addFarmNote', 'editFarmNote']);
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: url,
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, { getState, endpoint }) => {
       const state = getState() as RootState;
 
-      headers.set('Content-Type', 'application/json');
       headers.set('Authorization', `Bearer ${localStorage.getItem('id_token')}`);
       headers.set('user_id', state.entitiesReducer.userFarmReducer.user_id || '');
       headers.set('farm_id', state.entitiesReducer.userFarmReducer.farm_id || '');
+
+      // Only set the content-type to json if appropriate.
+      if (!NON_JSON_ENDPOINT_KEYS.has(endpoint) && !headers.has('Content-Type')) {
+        headers.set('content-type', 'application/json');
+      }
 
       return headers;
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: [
-    'Animals',
-    'AnimalBatches',
-    'CustomAnimalBreeds',
-    'CustomAnimalTypes',
-    'DefaultAnimalBreeds',
-    'DefaultAnimalTypes',
-    'AnimalSexes',
-    'AnimalIdentifierTypes',
-    'AnimalIdentifierColors',
-    'AnimalMovementPurposes',
-    'AnimalOrigins',
-    'AnimalUses',
-    'AnimalRemovalReasons',
-    'SoilAmendmentMethods',
-    'SoilAmendmentPurposes',
-    'SoilAmendmentFertiliserTypes',
-    'SoilAmendmentProduct',
-    'Sensors',
-    'SensorReadings',
-    'FarmAddon',
-    'Weather',
-  ],
+  tagTypes: API_TAGS,
+  keepUnusedDataFor: 60 * 60 * 24 * 7, // 7 days
+  refetchOnMountOrArgChange: 60,
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -159,6 +164,18 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
+      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     removeAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
@@ -167,6 +184,18 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
+      async onQueryStarted(patch, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     deleteAnimals: build.mutation<Animal[], number[]>({
@@ -175,6 +204,18 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
+      async onQueryStarted(del, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     deleteAnimalBatches: build.mutation<AnimalBatch[], number[]>({
@@ -183,6 +224,18 @@ export const api = createApi({
         method: 'DELETE',
         params: del,
       }),
+      async onQueryStarted(del, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     addAnimals: build.mutation<Animal[], Partial<Animal>[]>({
@@ -191,6 +244,19 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
@@ -199,6 +265,19 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: [
         'AnimalBatches',
         'DefaultAnimalTypes',
@@ -208,10 +287,36 @@ export const api = createApi({
     }),
     updateAnimals: build.mutation<void, Partial<Animal>[]>({
       query: (body) => ({ url: `${animalsUrl}`, method: 'PATCH', body }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimals.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     updateAnimalBatches: build.mutation<void, Partial<AnimalBatch>[]>({
       query: (body) => ({ url: `${animalBatchesUrl}`, method: 'PATCH', body }),
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(api.endpoints.getAnimalBatches.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate());
+          await dispatch(api.endpoints.getDefaultAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate());
+          await dispatch(api.endpoints.getCustomAnimalTypes.initiate('?count=true'));
+          await dispatch(api.endpoints.getCustomAnimalBreeds.initiate());
+        } catch (err) {
+          // handled in component
+        }
+      },
       invalidatesTags: [
         'AnimalBatches',
         'DefaultAnimalTypes',
@@ -247,13 +352,37 @@ export const api = createApi({
         }),
       },
     ),
+    deleteSoilAmendmentProduct: build.mutation<void, SoilAmendmentProduct['product_id']>({
+      query: (productId) => ({
+        url: `${productUrl}/${productId}`,
+        method: 'DELETE',
+      }),
+    }),
     getSensors: build.query<SensorData, void>({
       query: () => `${sensorUrl}`,
       keepUnusedDataFor: 60 * 60 * 24 * 365, // 1 year
       providesTags: ['Sensors'],
+      // Ensemble can return sensor types LiteFarm does not model. Drop those sensors,
+      // then prune each sensor array's membership list to the surviving sensors and
+      // drop any array left with no members. This keeps the data internally consistent
+      // so only supported types reach the list, map, and reading pages.
+      transformResponse: (response: SensorData) => {
+        const sensors = response.sensors.filter((sensor) =>
+          SUPPORTED_SENSOR_NAMES.includes(sensor.name),
+        );
+        const supportedEsids = new Set(sensors.map(({ external_id }) => external_id));
+        const sensor_arrays = response.sensor_arrays
+          .map((sensorArray) => ({
+            ...sensorArray,
+            sensors: sensorArray.sensors.filter((esid) => supportedEsids.has(esid)),
+          }))
+          .filter((sensorArray) => sensorArray.sensors.length > 0);
+
+        return { sensors, sensor_arrays };
+      },
     }),
     getSensorReadings: build.query<
-      SensorReadings,
+      SensorReadings[],
       {
         esids: string; // as comma separated values e.g. 'LSZDWX,WV2JHV'
         startTime?: string; // ISO 8601
@@ -290,6 +419,32 @@ export const api = createApi({
       invalidatesTags: (_result, error) =>
         error ? [] : ['FarmAddon', 'Sensors', 'SensorReadings'],
     }),
+    getIrrigationPrescriptions: build.query<IrrigationPrescription[], void>({
+      query: () => {
+        const today = new Date();
+        const startDate = today.toISOString().split('T')[0];
+        const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
+        const params = new URLSearchParams({ startTime: startDate, endTime: endDate });
+
+        return `${irrigationPrescriptionUrl}?${params.toString()}`;
+      },
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          // TODO: Once tasks is migrated to rtk use invalidatesTags instead of onQueryStarted'
+          dispatch({ type: 'getTasksSaga' });
+          await queryFulfilled;
+        } catch (error: unknown) {
+          // getTasksSaga has its own try/catch block, this error handler will not catch that one
+          // @ts-expect-error - error type not definable
+          console.error('GET: Irrigation Prescriptions', error?.error ? error.error : error);
+        }
+      },
+      providesTags: ['IrrigationPrescriptions'],
+    }),
+    getIrrigationPrescriptionDetails: build.query<IrrigationPrescriptionDetails, number>({
+      query: (id) => `${irrigationPrescriptionUrl}/${id}`,
+      providesTags: ['IrrigationPrescriptionDetails'],
+    }),
   }),
 });
 
@@ -320,10 +475,14 @@ export const {
   useGetSoilAmendmentFertiliserTypesQuery,
   useAddSoilAmendmentProductMutation,
   useUpdateSoilAmendmentProductMutation,
+  useDeleteSoilAmendmentProductMutation,
   useGetSensorsQuery,
   useGetSensorReadingsQuery,
   useLazyGetSensorsQuery,
+  useLazyGetSensorReadingsQuery,
   useAddFarmAddonMutation,
   useGetFarmAddonQuery,
   useDeleteFarmAddonMutation,
+  useGetIrrigationPrescriptionsQuery,
+  useGetIrrigationPrescriptionDetailsQuery,
 } = api;

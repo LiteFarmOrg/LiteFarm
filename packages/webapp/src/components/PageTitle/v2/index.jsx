@@ -2,32 +2,39 @@ import { Title } from '../../Typography';
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { CancelButton } from '../CancelButton';
+import { ReactComponent as GreyHeaderChevron } from '../../../assets/images/header-chevron-left.svg';
 
-function PageTitle({ title, onGoBack, onCancel, style, label, classNames = {} }) {
+function PageTitle({ title, onGoBack, onCancel, style, label, classNames = {}, subtext }) {
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   return (
-    <div className={clsx(styles.container, classNames.wrapper)} style={style}>
-      <div className={styles.leftContainer} style={{ overflow: 'hidden', wordBreak: 'break-word' }}>
-        {onGoBack && (
-          <button type={'button'} className={styles.buttonContainer} onClick={onGoBack}>
-            <BsChevronLeft style={{ fontSize: '20px' }} />
-          </button>
+    <div className={clsx(classNames.wrapper)} style={style}>
+      <div className={clsx(styles.container)}>
+        <div className={styles.leftContainer}>
+          {onGoBack && (
+            <button type={'button'} className={styles.buttonContainer} onClick={onGoBack}>
+              <GreyHeaderChevron />
+            </button>
+          )}
+          <Title className={styles.title}>
+            {title.length > 77 ? `${title.substring(0, 77).trim()}...` : title}
+          </Title>
+        </div>
+        {!!onCancel && (
+          <CancelButton
+            onCancel={onCancel}
+            showConfirmCancelModal={showConfirmCancelModal}
+            setShowConfirmCancelModal={setShowConfirmCancelModal}
+          />
         )}
-        <Title style={{ marginBottom: 0 }}>
-          {title.length > 77 ? `${title.substring(0, 77).trim()}...` : title}
-        </Title>
+        {label}
       </div>
-      {!!onCancel && (
-        <CancelButton
-          onCancel={onCancel}
-          showConfirmCancelModal={showConfirmCancelModal}
-          setShowConfirmCancelModal={setShowConfirmCancelModal}
-        />
+      {subtext && (
+        <p className={clsx(styles.subtext, classNames.subtext, onGoBack && styles.hasBackButton)}>
+          {subtext}
+        </p>
       )}
-      {label}
     </div>
   );
 }
@@ -43,4 +50,5 @@ PageTitle.propTypes = {
   classNames: PropTypes.shape({
     wrapper: PropTypes.string,
   }),
+  subtext: PropTypes.node,
 };

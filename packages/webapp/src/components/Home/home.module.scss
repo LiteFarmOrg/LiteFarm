@@ -1,11 +1,18 @@
-@import '../../assets/mixin';
+@use '../../assets/mixin' as *;
+
 .container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  text-align: center;
-  background-size: cover;
-  background-position: center;
   flex: 1;
+  gap: 16px;
+  padding-block: 12px 88px;
   animation: fade 0.5s linear;
+
+  @include md-breakpoint {
+    gap: 8px;
+    padding: 8px 8px 88px;
+  }
 }
 
 @keyframes fade {
@@ -17,12 +24,32 @@
   }
 }
 
-.title {
-  font-size: 20px;
-  line-height: 28px;
-  transform: translateY(40px);
-  color: #ffffff;
-  min-width: 161px;
-  width: 80%;
-  margin: auto;
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.greeting {
+  @include fontFamily();
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: capitalize;
+  color: var(--Colors-Neutral-Neutral-900);
+
+  @include md-breakpoint {
+    font-size: 20px;
+  }
+}
+
+.subtitle {
+  @include fontFamily();
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-transform: capitalize;
+  color: var(--Colors-Neutral-Neutral-900);
 }

@@ -15,13 +15,14 @@
 
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import { Label, Main, Semibold, IconLink } from '../../Typography';
+import { Label, Main, Semibold, IconLink, Text } from '../../Typography';
+import { Trans } from 'react-i18next';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
@@ -47,18 +48,28 @@ import { BiPencil } from 'react-icons/bi';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
+import EditTaskWageModal from '../../Modals/EditTaskWageModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';
 import PureIrrigationTask from '../PureIrrigationTask';
 import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
+import { roundToTwo } from '../../../util/rounding';
 import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
 import {
   formatTaskAnimalsAsInventoryIds,
   formatTaskReadOnlyDefaultValues,
 } from '../../../util/task';
 import PureMovementTask from '../MovementTask';
+import PureSoilSampleTask from '../SoilSampleTask';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
+import PureIrrigationPrescription from '../../IrrigationPrescription';
+import PureDocumentTile from '../../../containers/Documents/DocumentTile';
+import PureDocumentTileContainer from '../../../containers/Documents/DocumentTile/DocumentTileContainer';
+import RevisionPrompt from '../RevisionPrompt';
+import RevisionInfoText from '../../RevisionInfoText';
+import LocationList from './LocationList';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -73,16 +84,18 @@ export default function PureTaskReadOnly({
   isAdmin,
   system,
   products,
+  externalIrrigationPrescription,
+  files = [],
   harvestUseTypes,
   maxZoomRef,
   getMaxZoom,
   onAssignTasksOnDate,
   onAssignTask,
   onChangeTaskDate,
-  onUpdateUserFarmWage,
   onChangeTaskWage,
-  onSetUserFarmWageDoNotAskAgain,
   wage_at_moment,
+  override_hourly_wage,
+  language,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -110,7 +123,6 @@ export default function PureTaskReadOnly({
       };
     }
   }, [task]);
-  const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner_user_id = task.owner_user_id;
   const {
     register,
@@ -134,7 +146,8 @@ export default function PureTaskReadOnly({
     ),
   };
 
-  const assignee = users.find((user) => user.user_id === task.assignee_user_id);
+  const getUserById = (id) => users.find((user) => user.user_id === id);
+  const assignee = getUserById(task.assignee_user_id);
   const isInactiveAssignee = assignee?.status === 'Inactive';
   let assigneeName = '';
   if (assignee !== undefined) {
@@ -150,16 +163,22 @@ export default function PureTaskReadOnly({
   const isOtherReason = task.abandonment_reason === 'OTHER';
   const isCurrent = !isCompleted && !isAbandoned;
   const taskStatus = getTaskStatus(task);
+  const isRevised = !!task.revision_date;
+  const isTransplantTask = isTaskType(taskType, 'TRANSPLANT_TASK');
 
-  const showTaskNotes =
-    !isTaskType(taskType, 'PLANT_TASK') && !isTaskType(taskType, 'TRANSPLANT_TASK');
+  const showTaskNotes = !isTaskType(taskType, 'PLANT_TASK') && !isTransplantTask;
 
   const [showTaskAssignModal, setShowTaskAssignModal] = useState(false);
   const [showDueDateModal, setShowDueDateModal] = useState(false);
+  const [showTaskWageModal, setShowTaskWageModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { country_id } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
+
+  const currencySymbol = useCurrencySymbol();
+
+  const hasWageOverride = !!override_hourly_wage;
 
   const canCompleteTask =
     user.user_id === task.assignee_user_id || (assignedToPseudoUser && user.is_admin);
@@ -170,6 +189,12 @@ export default function PureTaskReadOnly({
   const preDelete = () => {
     setIsDeleting(true);
   };
+
+  const isIrrigationTaskWithExternalPrescription =
+    isTaskType(taskType, 'IRRIGATION_TASK') && externalIrrigationPrescription;
+  const showLocations =
+    (task.locations?.length || task.pinCoordinates?.length) &&
+    !isIrrigationTaskWithExternalPrescription;
 
   return (
     <Layout
@@ -209,7 +234,20 @@ export default function PureTaskReadOnly({
             color={taskStatus}
           />
         }
+        subtext={
+          isRevised && (
+            <RevisionInfoText
+              revisionDate={task.revision_date}
+              reviser={getUserById(task.revised_by_user_id)}
+              language={language}
+            />
+          )
+        }
+        classNames={{ subtext: styles.revisionInfo }}
       />
+      {isCompleted && canCompleteTask && (
+        <RevisionPrompt onClick={onComplete} text={t('REVISION_PROMPT.UPDATE_THIS_TASK')} />
+      )}
       <div className={styles.editableContainer}>
         <Input
           label={t('ADD_TASK.ASSIGNEE')}
@@ -225,6 +263,28 @@ export default function PureTaskReadOnly({
         )}
       </div>
 
+      {isAdmin && (
+        <div className={styles.editableContainer}>
+          <div>
+            <Label>{t('ADD_TASK.TASK_SPECIFIC_HOURLY_WAGE')}</Label>
+            {hasWageOverride ? (
+              <Text className={styles.taskWageSet}>
+                <Trans
+                  i18nKey="ADD_TASK.TASK_WAGE.TASK_WAGE_SET"
+                  values={{ wage: `${currencySymbol}${roundToTwo(wage_at_moment)}` }}
+                  components={{ strong: <strong /> }}
+                />
+              </Text>
+            ) : (
+              <Text className={styles.taskWageNotSet}>{t('ADD_TASK.TASK_WAGE.NO_TASK_WAGE')}</Text>
+            )}
+          </div>
+          {isCurrent && (
+            <BiPencil className={styles.pencil} onClick={() => setShowTaskWageModal(true)} />
+          )}
+        </div>
+      )}
+
       <div className={styles.editableContainer}>
         <Input type={'date'} value={date} label={dateLabel} disabled />
         {isCurrent && isAdmin && (
@@ -238,10 +298,15 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {task.locations?.length || task.pinCoordinates?.length ? (
+      {showLocations ? (
         <>
-          <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
-          {isTaskType(taskType, 'TRANSPLANT_TASK') && (
+          <Semibold className={styles.taskLocationsTitle}>{t('TASK.LOCATIONS')}</Semibold>
+          <LocationList
+            isTransplantTask={isTransplantTask}
+            locations={task.locations}
+            selectedLocationIds={task.selectedLocationIds}
+          />
+          {isTransplantTask && (
             <TransplantLocationLabel
               locations={task.locations}
               selectedLocationId={task.selectedLocationIds[0]}
@@ -253,15 +318,31 @@ export default function PureTaskReadOnly({
               //  TODO: fix onSelectLocationRef in LocationPicker
             }}
             readOnlyPinCoordinates={task.pinCoordinates}
-            style={{ minHeight: '160px', marginBottom: '40px' }}
+            style={{ minHeight: '320px', marginBottom: '40px' }}
             locations={task.locations}
             selectedLocationIds={task.selectedLocationIds || []}
             farmCenterCoordinate={user.grid_points}
             maxZoomRef={maxZoomRef}
             getMaxZoom={getMaxZoom}
+            disableHover={true}
           />
         </>
       ) : null}
+
+      {isIrrigationTaskWithExternalPrescription && (
+        <div className={styles.irrigationPrescription}>
+          <PureIrrigationPrescription
+            fieldLocation={task.locations[0]}
+            pivotCenter={externalIrrigationPrescription.pivot?.center}
+            pivotRadiusInMeters={externalIrrigationPrescription.pivot?.radius}
+            pivotArc={externalIrrigationPrescription.pivot?.arc}
+            {...(externalIrrigationPrescription.prescription.uriData
+              ? { uriData: externalIrrigationPrescription.prescription.uriData }
+              : { vriData: externalIrrigationPrescription.prescription.vriData?.zones })}
+            system={system}
+          />
+        </div>
+      )}
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {
         return (
@@ -305,7 +386,9 @@ export default function PureTaskReadOnly({
 
       {isCompleted && (
         <div>
-          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.COMPLETION_DETAILS')}</Semibold>
+          <Semibold className={styles.completeAbandonDetailsTitle}>
+            {t('TASK.COMPLETION_DETAILS')}
+          </Semibold>
           <TimeSlider
             style={{ marginBottom: '40px' }}
             label={t('TASK.DURATION')}
@@ -373,7 +456,9 @@ export default function PureTaskReadOnly({
 
       {isAbandoned && (
         <div>
-          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.ABANDONMENT_DETAILS')}</Semibold>
+          <Semibold className={styles.completeAbandonDetailsTitle}>
+            {t('TASK.ABANDONMENT_DETAILS')}
+          </Semibold>
 
           <ReactSelect
             label={t('TASK.ABANDON.REASON_FOR_ABANDONMENT')}
@@ -429,7 +514,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+      <Semibold className={styles.filesTitle}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
@@ -450,6 +535,7 @@ export default function PureTaskReadOnly({
           system,
           products,
           task,
+          isCompleted,
         })}
       {showTaskNotes && (
         <InputAutoSize
@@ -459,6 +545,27 @@ export default function PureTaskReadOnly({
           optional
           disabled
         />
+      )}
+
+      {!!files.length && (
+        <div>
+          <Semibold className={styles.filesTitle}>
+            {isTaskType(taskType, 'IRRIGATION_TASK') &&
+              t('IRRIGATION_PRESCRIPTION.IRRIGATION_PRESCRIPTION_FILES')}
+            {isTaskType(taskType, 'SOIL_SAMPLE_TASK') && t('TASK.LAB_DOCUMENTS')}
+          </Semibold>
+          <PureDocumentTileContainer gap={16} padding={0}>
+            {files.map((file, index) => (
+              <PureDocumentTile
+                key={index}
+                title={file.file_name ?? file.url.split('/').at(-1)}
+                extensionName={file.url.split('.').at(-1)}
+                fileUrls={[file.url]}
+                preview={file.thumbnail_url}
+              />
+            ))}
+          </PureDocumentTileContainer>
+        </div>
       )}
 
       {isAdmin && isCurrent && !isDeleting && (
@@ -509,13 +616,17 @@ export default function PureTaskReadOnly({
           isAssigned={!!task?.assignee}
           onAssignTasksOnDate={onAssignTasksOnDate}
           onAssignTask={onAssignTask}
-          onUpdateUserFarmWage={onUpdateUserFarmWage}
-          onChangeTaskWage={onChangeTaskWage}
-          onSetUserFarmWageDoNotAskAgain={onSetUserFarmWageDoNotAskAgain}
           users={users}
           user={user}
           dismissModal={() => setShowTaskAssignModal(false)}
+        />
+      )}
+      {showTaskWageModal && (
+        <EditTaskWageModal
           wage_at_moment={wage_at_moment}
+          override_hourly_wage={override_hourly_wage}
+          onSave={onChangeTaskWage}
+          dismissModal={() => setShowTaskWageModal(false)}
         />
       )}
       {showDueDateModal && (
@@ -539,4 +650,5 @@ const taskComponents = {
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
   MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
+  SOIL_SAMPLE_TASK: (props) => <PureSoilSampleTask {...props} />,
 };

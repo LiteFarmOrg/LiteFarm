@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useLocation, useHistory } from 'react-router-dom';
 import PureTaskAnimalInventory from '../../../components/Task/TaskAnimalInventory';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTheme } from '@mui/styles';
@@ -20,7 +21,9 @@ import { useMediaQuery } from '@mui/material';
 import { useIsTaskType } from '../useIsTaskType';
 import { getProgress } from '../util';
 
-function TaskAnimalInventory({ history, location }) {
+function TaskAnimalInventory() {
+  const location = useLocation();
+  const history = useHistory();
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_animal_selection') : undefined;
 

@@ -22,15 +22,12 @@ export default function PureNavigation({
   children,
   isCompactSideMenu,
   setIsCompactSideMenu,
-  isFeedbackSurveyOpen,
-  setFeedbackSurveyOpen,
 }) {
   // This namespacing is needed for translations to work throughout the app
   const { t } = useTranslation([
     'translation',
     'crop',
     'common',
-    'disease',
     'task',
     'expense',
     'revenue',
@@ -82,8 +79,6 @@ export default function PureNavigation({
           showNavActions={showNavActions}
           onClickBurger={openSideMenu}
           showNav={showNav}
-          isFeedbackSurveyOpen={isFeedbackSurveyOpen}
-          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
         />
         {children}
       </div>

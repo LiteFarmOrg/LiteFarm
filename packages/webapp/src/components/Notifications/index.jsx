@@ -24,7 +24,6 @@ import { getNotificationCardDate } from '../../util/moment.js';
 import history from '../../history';
 import useTranslationUtil from '../../util/useTranslationUtil';
 import NotificationTimeline from './NotificationTimeline';
-import { createSensorErrorDownload, SENSOR_BULK_UPLOAD_FAIL } from '../../util/sensor';
 
 function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications }) {
   const { t } = useTranslation();
@@ -35,10 +34,7 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
     (!notification.ref?.url &&
       (!notification.ref?.entity ||
         !notification.ref?.entity?.type ||
-        !notification.ref?.entity?.id) &&
-      (!notification.ref?.error_download ||
-        !notification.ref?.error_download?.errors ||
-        !notification.ref?.error_download?.file_name)) ||
+        !notification.ref?.entity?.id)) ||
     notification.body.translation_key === 'NOTIFICATION.TASK_DELETED.BODY';
 
   const onTakeMeThere = () => {
@@ -47,23 +43,6 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       route = notification.ref.url;
     } else if (notification.ref.entity) {
       route = `/${notification.ref.entity.type}s/${notification.ref.entity.id}/read_only`;
-    } else if (
-      notification.ref.error_download &&
-      notification.context.notification_type === SENSOR_BULK_UPLOAD_FAIL
-    ) {
-      const translatedErrors = notification.ref.error_download.errors.map((e) => {
-        return {
-          row: e.row,
-          column: e.column,
-          errorMessage: e.variables ? t(e.translation_key, e.variables) : t(e.translation_key),
-        };
-      });
-      createSensorErrorDownload(
-        notification.ref.error_download.file_name,
-        translatedErrors,
-        notification.ref.error_download.error_type,
-        notification.ref.error_download.success ?? [],
-      );
     } else {
       route = '/';
     }
@@ -100,7 +79,7 @@ function PureNotificationReadOnly({ onGoBack, notification, relatedNotifications
       </div>
 
       <Semibold style={{ color: colors.teal700, marginBottom: '16px' }}>
-        {getNotificationTitle(notification.title)}
+        {getNotificationTitle(notification.title, notification.variables)}
       </Semibold>
       <Text style={{ fontSize: '16px', marginBottom: '16px' }}>
         {getNotificationBody(notification.body, notification.variables)}

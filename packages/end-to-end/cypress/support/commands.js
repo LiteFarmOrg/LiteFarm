@@ -253,3 +253,65 @@ const acceptSlideMenuSpotlights = (crop_menu_name) => {
     .and('not.be.disabled')
     .click();
 };
+
+Cypress.Commands.add('createUser', (overrides = {}) => {
+  const payload = {
+    first_name: 'Test',
+    last_name: 'User',
+    email: `test-${Date.now()}@example.com`,
+    password: 'Password123!',
+    language_preference: 'en',
+    ...overrides,
+  };
+
+  return cy
+    .request({
+      method: 'POST',
+      url: `${Cypress.env('apiUrl')}/user`,
+      body: payload,
+    })
+    .its('body');
+});
+
+Cypress.Commands.add('apiLogin', (email) => {
+  const payload = {
+    user: {
+      email: email,
+      password: 'Password123!',
+    },
+    screenSize: {
+      screen_width: 2506,
+      screen_height: 411,
+    },
+  };
+
+  return cy
+    .request({
+      method: 'POST',
+      url: `${Cypress.env('apiUrl')}/login`,
+      body: payload,
+    })
+    .its('body');
+});
+
+Cypress.Commands.add('createUserAndLogin', (overrides = {}) => {
+  return cy.createUser(overrides).then(({ user }) => {
+    return cy.apiLogin(user.email).then(({ id_token }) => {
+      return {
+        token: id_token,
+        user,
+        authHeader: {
+          Authorization: `Bearer ${id_token}`,
+        },
+      };
+    });
+  });
+});
+
+Cypress.Commands.add('injectTokenToUI', (token) => {
+  cy.visit('/', {
+    onBeforeLoad(win) {
+      win.localStorage.setItem('id_token', token);
+    },
+  });
+});

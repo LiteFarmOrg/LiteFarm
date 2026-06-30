@@ -2,8 +2,11 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["es5", "dom"],
+    "allowJs": true,
+    "checkJs": true,
     "types": ["cypress", "node"],
-    "baseUrl": "./cypress"
+    "baseUrl": "./cypress",
+    "ignoreDeprecations": "6.0"
   },
-  "include": ["**/*.ts"]
+  "include": ["cypress/**/*.js", "cypress/**/*.ts", "cypress/**/*.d.ts", "cypress.config.js"]
 }

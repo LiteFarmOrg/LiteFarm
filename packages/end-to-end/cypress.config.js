@@ -12,6 +12,9 @@ module.exports = defineConfig({
   },
   e2e: {
     baseUrl: 'http://localhost:3000',
+    env: {
+      apiUrl: 'http://localhost:5001',
+    },
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
       require('@cypress/code-coverage/task')(on, config);

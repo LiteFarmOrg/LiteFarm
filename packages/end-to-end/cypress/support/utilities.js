@@ -13,33 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const loadTranslationsAndConfigureUserFarm = ({ additionalTranslation }) => {
-  return cy.fixture('e2e-test-users.json').then((loadedUsers) => {
-    const users = loadedUsers;
-    const user = users[Cypress.env('USER')];
-
-    return cy
-      .fixture('../../../webapp/public/locales/' + user.locale + '/translation.json')
-      .then((translation) => {
-        cy.visit('/');
-
-        cy.loginOrCreateAccount(
-          user.email,
-          user.password,
-          user.name,
-          user.language,
-          translation['MENU']['CROPS'],
-          translation['MENU']['MAP'],
-          translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
-        );
-
-        return cy
-          .fixture(
-            '../../../webapp/public/locales/' + user.locale + `/${additionalTranslation}.json`,
-          )
-          .then((additionalTranslationData) => {
-            return [translation, additionalTranslationData];
-          });
-      });
-  });
+export const loadTranslations = ({ additionalTranslation, user }) => {
+  return cy
+    .fixture('../../../webapp/public/locales/' + user.language_preference + '/translation.json')
+    .then((translation) => {
+      return cy
+        .fixture(
+          '../../../webapp/public/locales/' +
+            user.language_preference +
+            `/${additionalTranslation}.json`,
+        )
+        .then((additionalTranslationData) => {
+          return [translation, additionalTranslationData];
+        });
+    });
 };

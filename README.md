@@ -214,14 +214,25 @@ When running Cypress E2E tests, it's recommended to use a dedicated test databas
 
 1. Start the dedicated test database container with `docker compose --profile testing up testing-db`
 1. Run the `dev` migrations `npm run migrate:dev:db` from `packages/api`.
+
+- Make sure you copied `packages/api/.env.default` to `packages/api/.env`
+- Update in the `.env` file the next (if necessary):
+  - `NODE_ENV=test`
+  - `TEST_DATABASE_PORT=5434` (or any port that you use to run the postgresql instance or container)
+
+1. Run the `packages/webapp` (follow the instructions on how to do it)
 1. Go to `packages/end-to-end` directory.
 1. Install the E2e test dependencies`npm i`.
 
 ### Execution
 
-1. Run the tests `npx cypress run`.
+1. Run the tests `$ npx cypress run`.
 
 As result videos and logs are going to be stored in the directories prompted by the shell.
+
+If you want to visualize the test execution, add the next flag: `--headed`
+
+1. `$ npx cypress run --headed`.
 
 ## API Integration tests
 

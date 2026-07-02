@@ -1,8 +1,4 @@
 {
-  "ANIMAL_SALE": {
-    "REVENUE_NAME": "",
-    "CUSTOM_DESCRIPTION": ""
-  },
   "CROP_SALE": {
     "REVENUE_NAME": "Verkauf von Feldfrüchten",
     "CUSTOM_DESCRIPTION": "Einnahmen aus dem Verkauf der auf diesem Betrieb geernteten Pflanzen."

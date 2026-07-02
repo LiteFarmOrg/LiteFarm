@@ -81,6 +81,45 @@
       "UPDATE": "Betriebsdaten erfolgreich aktualisiert!"
     }
   },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": ""
+    },
+    "SUCCESS_DISCONNECT_ADDON": ""
+  },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "FAILED": "",
+      "NOT_FOUND": "",
+      "UNAUTHORIZED": ""
+    }
+  },
   "HELP_REQUEST": {
     "ERROR": {
       "SEND": "Beim Senden Ihres Feedbacks hat etwas nicht geklappt. Bitte versuchen Sie es erneut."
@@ -117,9 +156,28 @@
   "MAP": {
     "FAIL_PATCH": "Aktualisierung fehlgeschlagen",
     "FAIL_POST": "Hinzufügen fehlgeschlagen",
+    "FAIL_DELETE": "",
     "SUCCESS_DELETE": "Erfolgreich zurückgezogen",
     "SUCCESS_PATCH": "Erfolgreich aktualisiert",
     "SUCCESS_POST": "Erfolgreich gespeichert"
+  },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "SAVE": "",
+      "UPDATE": "",
+      "UPDATE_LIVE_DATA": ""
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "",
+    "SUCCESS": {
+      "CONSENT": "",
+      "PARTNER": ""
+    }
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
@@ -138,10 +196,12 @@
   "PRODUCT": {
     "ERROR": {
       "CREATE": "Dokument konnte nicht erstellt werden",
+      "REMOVE": "",
       "UPDATE": "Dokument konnte nicht aktualisiert werden"
     },
     "SUCCESS": {
       "CREATE": "Dokument erfolgreich erstellt",
+      "REMOVE": "",
       "UPDATE": "Produkt erfolgreich aktualisiert"
     }
   },
@@ -190,18 +250,51 @@
   "TASK": {
     "ABANDON": {
       "FAILED": "Aufgabe nicht eingestellt",
-      "SUCCESS": "Aufgabe erfolgreich eingestellt"
+      "SUCCESS": "Aufgabe erfolgreich eingestellt",
+      "SYNC": {
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
     },
     "COMPLETE": {
       "FAILED": "Aufgabe nicht erfüllt",
-      "SUCCESS": "Aufgabe erfolgreich abgeschlossen"
+      "SUCCESS": "Aufgabe erfolgreich abgeschlossen",
+      "SYNC": {
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
     },
     "CREATE": {
       "FAILED": "Fehler beim Erstellen der Aufgabe",
-      "SUCCESS": "Aufgabe erfolgreich erstellt"
+      "SUCCESS": "Aufgabe erfolgreich erstellt",
+      "SYNC": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
+    },
+    "SYNC": {
+      "FAILED": "",
+      "LOCATION_DELETED": "",
+      "NETWORK_ERROR": "",
+      "NOT_FOUND": "",
+      "UNAUTHORIZED": ""
     },
     "UPDATE": {
-      "FAILED": "Aktualisierung der Aufgabe fehlgeschlagen"
+      "FAILED": "Aktualisierung der Aufgabe fehlgeschlagen",
+      "SUCCESS": "",
+      "SYNC": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
     }
   },
   "TASK_TYPE": {

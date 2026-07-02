@@ -1,0 +1,54 @@
+{
+  "EQUIPMENT": {
+    "EXPENSE_NAME": "Sprzęt",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z podstawowymi narzędziami, zaopatrzeniem i częściami do użytku w gospodarstwie."
+  },
+  "SOIL_AMENDMENT": {
+    "EXPENSE_NAME": "Zmiana gleby",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z dodatkami, takimi jak nawozy, które poprawiają właściwości gleby."
+  },
+  "MACHINERY": {
+    "EXPENSE_NAME": "Maszyny",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z zakupem, leasingiem, wynajmem i konserwacją maszyn."
+  },
+  "PEST_CONTROL": {
+    "EXPENSE_NAME": "Zwalczanie szkodników",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z zakupem składników, produktów i urządzeń wykorzystywanych do zwalczania niepożądanych gatunków."
+  },
+  "FUEL": {
+    "EXPENSE_NAME": "Paliwo",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z zasilaniem infrastruktury, pojazdów, maszyn i urządzeń."
+  },
+  "LAND": {
+    "EXPENSE_NAME": "Ziemia",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z zakupem, finansowaniem, leasingiem, wynajmem, dostępem, podatkami i innymi opłatami z tytułu własności lub użytkowania gruntów."
+  },
+  "SEEDS_AND_PLANTS": {
+    "EXPENSE_NAME": "Nasiona i Rośliny",
+    "CUSTOM_DESCRIPTION": "Zakup nasion, sadzonek i szczepów wykorzystywanych do sadzenia i przesadzania."
+  },
+  "MISCELLANEOUS": {
+    "EXPENSE_NAME": "Różne",
+    "CUSTOM_DESCRIPTION": "Wszystko inne. Rozważ utworzenie niestandardowego typu wydatków, jeśli w przyszłości będziesz mieć dodatkowe wydatki tego typu."
+  },
+  "UTILITIES": {
+    "EXPENSE_NAME": "Media",
+    "CUSTOM_DESCRIPTION": "Cykliczne wydatki związane z elektrycznością, gazem, wodą (w tym nawadnianiem), wywozem śmieci i innymi okresowymi usługami."
+  },
+  "LABOUR": {
+    "EXPENSE_NAME": "Praca na zlecenie",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z pracownikami zatrudnionymi na podstawie umowy."
+  },
+  "INFRASTRUCTURE": {
+    "EXPENSE_NAME": "Infrastruktura",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z budową lub ulepszaniem struktur w gospodarstwie."
+  },
+  "TRANSPORTATION": {
+    "EXPENSE_NAME": "Transport",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z budową lub modernizacją struktur w gospodarstwie."
+  },
+  "SERVICES": {
+    "EXPENSE_NAME": "Usługi",
+    "CUSTOM_DESCRIPTION": "Wydatki związane z innymi usługami, takimi jak licencjonowanie, certyfikacja, wsparcie agronomiczne, testowanie, marketing i inne."
+  }
+}

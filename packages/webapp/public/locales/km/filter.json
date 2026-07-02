@@ -1,0 +1,50 @@
+{
+  "CROP_CATALOGUE": {
+    "ABANDONED": "បោះបង់",
+    "ACTIVE": "សកម្ម",
+    "COMPLETE": "បំពេញ",
+    "LOCATION": "ទីតាំង",
+    "NEEDS_PLAN": "ត្រូវការផែនការ",
+    "PLANNED": "មានផែនការ",
+    "STATUS": "ស្ថានភាព",
+    "SUPPLIERS": "អ្នកផ្គត់ផ្គង់"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "ផលិតផលសម្រាប់សម្អាត",
+    "CROP_COMPLIANCE": "ការអនុវត្តតាមស្តង់ដារដំណាំ",
+    "FERTILIZING_PRODUCT": "ផលិតផលជី",
+    "INVOICES": "វិក័យបត្រ",
+    "OTHER": "ផ្សេងទៀត",
+    "PEST_CONTROL_PRODUCT": "ផលិតផលត្រួតពិនិត្យថ្នាំសត្វល្អិត",
+    "RECEIPTS": "បង្កាន់ដៃ",
+    "SOIL_AMENDMENT": "ការកែប្រែដី",
+    "SOIL_SAMPLE_RESULTS": "លទ្ធផលសំណាកដី",
+    "UNCATEGORIZED": "មិនទាន់ចាត់ប្រភេទ",
+    "WATER_SAMPLE_RESULTS": "លទ្ធផលសំណាកទឹក"
+  },
+  "FILTER": {
+    "FROM_DATE": "ពី",
+    "TO_DATE": "ទៅ",
+    "VALID_ON": "មានសុពលភាពដល់"
+  },
+  "INVENTORY": {
+    "CUSTOM": "បង្កើតតាមតម្រូវការ",
+    "CUSTOM_OR_LITEFARM_LIBRARY": "បណ្ណាល័យ ឡៃហ្វាម រឺ​​ បណ្ណាល័យបង្កើតតាមតម្រូវការ",
+    "DRY": "ស្ងួត",
+    "FERTILISER_TYPE": "ប្រភេទជី",
+    "LIQUID": "រាវ",
+    "LITEFARM_LIBRARY": "បណ្ណាល័យ ឡៃហ្វាម",
+    "TITLE": "តម្រងជ្រើសតែផលិតផលកែដី"
+  },
+  "TASKS": {
+    "ABANDONED": "បោះបង់",
+    "ACTIVE": "សកម្ម",
+    "COMPLETED": "បំពេញ",
+    "FOR_REVIEW": "សម្រាប់ពិនិត្យ",
+    "LATE": "យឺត",
+    "LOCATION": "ទីតាំង",
+    "PLANNED": "មានផែនការ",
+    "STATUS": "ស្ថានភាព",
+    "SUPPLIERS": "អ្នកផ្គត់ផ្គង់"
+  }
+}

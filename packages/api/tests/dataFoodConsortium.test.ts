@@ -57,21 +57,19 @@ import {
   mockCompleteMarketDirectoryInfo,
   mockParsedAddress,
 } from './utils/dfcUtils.js';
-import type { MarketDirectoryPartner } from '../src/models/types.js';
-import MarketDirectoryInfo from '../src/models/marketDirectoryInfoModel.js';
+import type {
+  MarketDirectoryInfo,
+  MarketDirectoryPartner,
+  MarketProductCategory,
+} from '../src/models/types.js';
 
 const associateProductWithMarketDirectory = async (
   marketDirectory: MarketDirectoryInfo,
-  productCategoryId: string,
+  marketProductCategory: MarketProductCategory,
 ) => {
   await mocks.market_directory_info_market_product_categoryFactory({
     promisedMarketDirectoryInfo: Promise.resolve([marketDirectory]),
-    promisedMarketProductCategory: Promise.resolve([
-      {
-        market_product_category_id: productCategoryId,
-        market_directory_info_id: faker.datatype.uuid(),
-      },
-    ]),
+    promisedMarketProductCategory: Promise.resolve([marketProductCategory]),
   });
 };
 
@@ -197,9 +195,9 @@ describe('Data Food Consortium Tests', () => {
       const [marketProductCategory1] = await mocks.market_product_categoryFactory('BAKERY');
       const [marketProductCategory2] = await mocks.market_product_categoryFactory('DAIRY_PRODUCT');
 
-      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory1.id);
-      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory2.id);
-      await associateProductWithMarketDirectory(marketDirectories[1], marketProductCategory1.id);
+      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory1);
+      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory2);
+      await associateProductWithMarketDirectory(marketDirectories[1], marketProductCategory1);
 
       const res = await getAllClientEnterprisesRequest(token);
       expect(res.status).toBe(200);

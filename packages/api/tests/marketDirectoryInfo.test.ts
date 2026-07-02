@@ -202,12 +202,16 @@ async function makeMarketDirectoryInfo(
   userFarmIds: HeadersParams,
   marketDirectoryInfo: CompleteMarketDirectoryInfoReq,
 ) {
-  const { market_product_categories = [], ...filteredMarketDirectoryInfo } = marketDirectoryInfo;
+  const { market_product_categories, ...filteredMarketDirectoryInfo } = marketDirectoryInfo;
   const [directoryInfo] = await mocks.market_directory_infoFactory({
     promisedUserFarm: Promise.resolve([userFarmIds]),
     marketDirectoryInfo: filteredMarketDirectoryInfo,
   });
-  for (const category of market_product_categories) {
+  const marketProductCategories =
+    market_product_categories?.map((category) => ({
+      id: category.market_product_category_id,
+    })) || [];
+  for (const category of marketProductCategories) {
     await mocks.market_directory_info_market_product_categoryFactory({
       promisedMarketDirectoryInfo: Promise.resolve([directoryInfo]),
       promisedMarketProductCategory: Promise.resolve([category]),

@@ -2850,7 +2850,7 @@ async function market_directory_info_market_product_categoryFactory({
     promisedMarketProductCategory,
   ]);
   const [{ id: marketDirectoryId }] = marketDirectoryInfo;
-  const [{ market_product_category_id: marketProductCategoryId }] = marketProductCategory;
+  const [{ id: marketProductCategoryId }] = marketProductCategory;
 
   return knex('market_directory_info_market_product_category')
     .insert({

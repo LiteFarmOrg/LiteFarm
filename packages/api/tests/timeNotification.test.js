@@ -564,10 +564,7 @@ describe('Time Based Notification Tests', () => {
       });
 
       test('One notification record should be created for the latest irrigation prescription on each location', async () => {
-        // Organisation lookup (2nd Ensemble call) and any retry resolve to an empty array.
-        mockedAxios.mockResolvedValue({ data: [] });
-        // Prescription list (1st Ensemble call) — paginated envelope.
-        await mockedAxios.mockResolvedValueOnce({
+        const listResponse = {
           status: 201,
           data: {
             count: 4,
@@ -596,7 +593,15 @@ describe('Time Based Notification Tests', () => {
               },
             ],
           },
-        });
+        };
+
+        // Prescription requests return the paginated envelope; the organisation
+        // lookup (and anything else) returns an empty array.
+        mockedAxios.mockImplementation((config) =>
+          config.url?.includes('/prescriptions')
+            ? Promise.resolve(listResponse)
+            : Promise.resolve({ data: [] }),
+        );
 
         const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
 
@@ -625,10 +630,8 @@ describe('Time Based Notification Tests', () => {
       });
 
       test('Selects the latest prescription per location when responses are in descending order', async () => {
-        // Organisation lookup (2nd Ensemble call) and any retry resolve to an empty array.
-        mockedAxios.mockResolvedValue({ data: [] });
-        // Prescription list (1st Ensemble call) — paginated envelope, descending order.
-        await mockedAxios.mockResolvedValueOnce({
+        // Prescription list in descending order.
+        const listResponse = {
           status: 201,
           data: {
             count: 2,
@@ -647,7 +650,15 @@ describe('Time Based Notification Tests', () => {
               },
             ],
           },
-        });
+        };
+
+        // Prescription requests return the paginated envelope; the organisation
+        // lookup (and anything else) returns an empty array.
+        mockedAxios.mockImplementation((config) =>
+          config.url?.includes('/prescriptions')
+            ? Promise.resolve(listResponse)
+            : Promise.resolve({ data: [] }),
+        );
 
         const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
 
@@ -684,13 +695,13 @@ describe('Time Based Notification Tests', () => {
           },
         };
 
-        // Each controller call fetches the list then the organisation; the organisation
-        // lookup (and any retry) resolves to an empty array.
-        mockedAxios
-          .mockResolvedValue({ data: [] })
-          .mockResolvedValueOnce(listResponse)
-          .mockResolvedValueOnce({ data: [] })
-          .mockResolvedValueOnce(listResponse);
+        // Prescription requests return the paginated envelope; the organisation
+        // lookup (and anything else) returns an empty array
+        mockedAxios.mockImplementation((config) =>
+          config.url?.includes('/prescriptions')
+            ? Promise.resolve(listResponse)
+            : Promise.resolve({ data: [] }),
+        );
 
         const res1 = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
 
@@ -711,10 +722,7 @@ describe('Time Based Notification Tests', () => {
       });
 
       test('Notifications should not be sent for irrigation prescriptions associated with deleted locations', async () => {
-        // Organisation lookup (2nd Ensemble call) and any retry resolve to an empty array.
-        mockedAxios.mockResolvedValue({ data: [] });
-        // Prescription list (1st Ensemble call) — paginated envelope.
-        await mockedAxios.mockResolvedValueOnce({
+        const listResponse = {
           status: 201,
           data: {
             count: 4,
@@ -743,7 +751,15 @@ describe('Time Based Notification Tests', () => {
               },
             ],
           },
-        });
+        };
+
+        // Prescription requests return the paginated envelope; the organisation
+        // lookup (and anything else) returns an empty array.
+        mockedAxios.mockImplementation((config) =>
+          config.url?.includes('/prescriptions')
+            ? Promise.resolve(listResponse)
+            : Promise.resolve({ data: [] }),
+        );
 
         // Delete the first location
         await knex('location').where({ location_id: field.location_id }).update({ deleted: true });

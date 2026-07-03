@@ -138,10 +138,8 @@ export const getIrrigationPrescriptions = async (
   // Get and check data
   const irrigationPrescriptionListResponse = await ensembleAPICall(axiosObject, onError);
 
-  // Ensemble will paginate this endpoint, returning prescriptions under 'results'
-  // Accept both the paginated envelope and the original bare array
-  const responseBody = irrigationPrescriptionListResponse.data;
-  const prescriptions = Array.isArray(responseBody) ? responseBody : responseBody?.results ?? [];
+  // Ensemble paginates this endpoint, returning prescriptions under 'results'
+  const { results: prescriptions = [] } = irrigationPrescriptionListResponse.data ?? {};
 
   // Add url names (org and system) to each prescription
   const organisation = await getValidEnsembleOrg(externalOrganizationIds.org_uuid);

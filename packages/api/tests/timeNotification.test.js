@@ -616,6 +616,36 @@ describe('Time Based Notification Tests', () => {
         );
       });
 
+      test('Selects the latest prescription per location when responses are in descending order', async () => {
+        await mockedAxios.mockResolvedValue({
+          status: 201,
+          data: [
+            {
+              id: 402,
+              recommended_start_date: '2025-05-08',
+              location_id: field.location_id,
+            },
+            {
+              id: 401,
+              recommended_start_date: '2025-05-07',
+              location_id: field.location_id,
+            },
+          ],
+        });
+
+        const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
+
+        expect(res.status).toBe(201);
+
+        const rows = await knex('notification')
+          .where('farm_id', farm.farm_id)
+          .whereRaw("(context->'irrigation_prescription_id') IN (?, ?)", [401, 402]);
+
+        expect(rows).toHaveLength(1);
+        expect(rows[0].context.irrigation_prescription_id).toBe(402);
+        expect(rows[0].ref.url).toBe('/irrigation_prescription/402');
+      });
+
       test('Repeat notifications are not sent for the same irrigation prescription', async () => {
         await mockedAxios.mockResolvedValue({
           status: 201,

@@ -90,7 +90,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         }).unwrap();
         prefetchLatestResponse({ surveyKey: surveyId });
         dispatch(clearSurvey({ surveyId }));
-        history.push(`/insights/survey/${surveyId}/results`);
+        // Replace instead of push so the browser back button returns to Insights
+        history.replace(`/insights/survey/${surveyId}/results`);
       } catch {
         // Display the default "An error occurred and we could not save the results." message.
         options.showSaveError();

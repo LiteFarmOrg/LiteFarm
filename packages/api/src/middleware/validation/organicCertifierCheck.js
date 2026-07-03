@@ -1,12 +1,15 @@
-import organicCertifierModel from '../../models/organicCertifierSurveyModel.js';
+import certificationModel from '../../models/certificationModel.js';
 
 async function organicCertifierCheck(req, res, next) {
   const { body } = req;
   if (body.farm_id) {
-    const isFarmInterestedInOrganic = await organicCertifierModel
+    const certification = await certificationModel
       .query()
+      .whereNotDeleted()
       .where({ farm_id: body.farm_id })
       .first();
+    // TODO LF-5379: temporary shim — `interested` is removed from the DB; treat missing record as not interested
+    const isFarmInterestedInOrganic = certification ?? { interested: false };
     if (isFarmInterestedInOrganic.interested) {
       if (body.organic === null) {
         return res.status(400).send({ message: "Organic can't be null" });

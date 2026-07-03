@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldModel.js) is part of LiteFarm.
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,46 +14,41 @@
  */
 
 import Model from './baseFormatModel.js';
-import certificationSystemTypeModel from './certificationSystemTypeModel.js';
+import certifierModel from './certifierModel.js';
 
-class Certifier extends Model {
+class CertificationSystemType extends Model {
   static get tableName() {
-    return 'certifiers';
+    return 'certification_system_type';
   }
 
   static get idColumn() {
-    return 'certifier_id';
+    return 'id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id'],
       properties: {
-        certifier_id: { type: 'integer' },
-        certification_id: { type: 'integer' },
-        certifier_name: { type: 'string' },
-        certifier_acronym: { type: 'string' },
-        supported: { type: 'boolean' },
-        survey_id: { type: 'string' },
+        id: { type: 'integer' },
+        name: { type: 'string' },
+        translation_key: { type: 'string' },
       },
       additionalProperties: false,
     };
   }
 
   static get relationMappings() {
-    // Import models here to prevent require loops.
     return {
-      certificationSystemType: {
-        modelClass: certificationSystemTypeModel,
-        relation: Model.BelongsToOneRelation,
+      certifiers: {
+        modelClass: certifierModel,
+        relation: Model.HasManyRelation,
         join: {
-          from: 'certifiers.system_type_id',
-          to: 'certification_system_type.id',
+          from: 'certification_system_type.id',
+          to: 'certifiers.system_type_id',
         },
       },
     };
   }
 }
 
-export default Certifier;
+export default CertificationSystemType;

@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldModel.js) is part of LiteFarm.
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,42 +14,94 @@
  */
 
 import Model from './baseFormatModel.js';
-import certifierModel from './certifierModel.js';
+import BaseModel from './baseModel.js';
+import userFarmModel from './userFarmModel.js';
+import farmModel from './farmModel.js';
 
-class Certification extends Model {
+class Certification extends BaseModel {
   static get tableName() {
-    return 'certifications';
+    return 'certification';
   }
 
   static get idColumn() {
-    return 'certification_id';
+    return 'id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id'],
+      required: ['farm_id'],
       properties: {
-        certification_id: { type: 'integer' },
-        certification_name: { type: 'string' },
-        certification_translation_key: { type: 'string' },
+        id: { type: 'integer' },
+        farm_id: { type: 'string' },
+        system_type_id: { type: ['integer', 'null'] },
+        certifier_id: { type: ['integer', 'null'] },
+        requested_system_type: { type: ['string', 'null'] },
+        requested_certifier: { type: ['string', 'null'] },
+        is_active: { type: 'boolean' },
+        certification_type: { type: ['string', 'null'] },
+        certificate_number: { type: ['string', 'null'] },
+        certificate_member_id: { type: ['string', 'null'] },
+        scope: { type: ['array', 'null'] },
+        issue_date: { type: ['string', 'null'] },
+        valid_until: { type: ['string', 'null'] },
+        certificate_document_url: { type: ['string', 'null'] },
+        ...super.baseProperties,
       },
       additionalProperties: false,
     };
   }
 
   static get relationMappings() {
-    // Import models here to prevent require loops.
     return {
-      certifiers: {
-        modelClass: certifierModel,
-        relation: Model.HasManyRelation,
+      userFarm: {
+        modelClass: userFarmModel,
+        relation: Model.BelongsToOneRelation,
         join: {
-          from: 'certificationModel.certification_id',
-          to: 'certifierModel.certification_id',
+          from: ['certification.updated_by_user_id', 'certification.farm_id'],
+          to: ['userFarm.user_id', 'userFarm.farm_id'],
+        },
+      },
+      farm: {
+        modelClass: farmModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'certification.farm_id',
+          to: 'farm.farm_id',
         },
       },
     };
+  }
+
+  // TODO LF-5379: temporary shim — maps new DB column names back to old API field names for frontend compatibility
+  $formatJson(json) {
+    json = super.$formatJson(json);
+    json.survey_id = json.id;
+    json.certification_id = json.system_type_id;
+    json.requested_certification = json.requested_system_type;
+    json.interested = true;
+    delete json.id;
+    delete json.system_type_id;
+    delete json.requested_system_type;
+    return json;
+  }
+
+  // TODO LF-5379: temporary shim — maps old API field names back to new DB column names
+  $parseJson(json) {
+    json = super.$parseJson(json);
+    if (json.survey_id !== undefined) {
+      json.id = json.survey_id;
+      delete json.survey_id;
+    }
+    if (json.certification_id !== undefined) {
+      json.system_type_id = json.certification_id;
+      delete json.certification_id;
+    }
+    if (json.requested_certification !== undefined) {
+      json.requested_system_type = json.requested_certification;
+      delete json.requested_certification;
+    }
+    return json;
   }
 }
 

@@ -2107,10 +2107,9 @@ function fakeOrganicCertifierSurvey(farm_id, defaultData = {}) {
   const now = new Date();
   return {
     certifier_id: faker.helpers.arrayElement(certifierIDS),
-    certification_id: faker.helpers.arrayElement(certificationIDS),
+    system_type_id: faker.helpers.arrayElement(certificationIDS),
     created_at: past,
     updated_at: faker.date.between(past, now),
-    interested: faker.datatype.boolean(),
     farm_id,
     ...defaultData,
   };
@@ -2131,7 +2130,7 @@ async function organicCertifierSurveyFactory(
 ) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ farm_id, user_id }] = userFarm;
-  return knex('organicCertifierSurvey')
+  return knex('certification')
     .insert({
       ...organicCertifierSurvey,
       farm_id,

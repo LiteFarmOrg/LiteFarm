@@ -13,9 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import OrganicCertifierSurveyModel from '../models/organicCertifierSurveyModel.js';
-
 import CertificationModel from '../models/certificationModel.js';
+import CertificationSystemTypeModel from '../models/certificationSystemTypeModel.js';
 import CertifierModel from '../models/certifierModel.js';
 import UserModel from '../models/userModel.js';
 import FarmModel from '../models/farmModel.js';
@@ -38,15 +37,15 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const result = await OrganicCertifierSurveyModel.query()
+        const result = await CertificationModel.query()
           .whereNotDeleted()
           .where({ farm_id })
           .first();
+        // TODO LF-5379: temporary shim — return legacy `interested: false` shape when no record exists
         if (!result) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(result);
+          return res.status(200).json({ interested: false });
         }
+        return res.status(200).send(result);
       } catch (error) {
         //handle more exceptions
         console.error(error);
@@ -60,7 +59,7 @@ const organicCertifierSurveyController = {
   getAllSupportedCertifications() {
     return async (_req, res) => {
       try {
-        const result = await CertificationModel.query().select('*');
+        const result = await CertificationSystemTypeModel.query().select('*');
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -83,7 +82,7 @@ const organicCertifierSurveyController = {
         const result = await CertifierModel.query()
           .select(
             'certifiers.certifier_id',
-            'certifiers.certification_id',
+            'certifiers.system_type_id',
             'certifiers.certifier_name',
             'certifiers.certifier_acronym',
             'certifiers.survey_id',
@@ -118,9 +117,16 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
-        const result = await OrganicCertifierSurveyModel.query()
+        // TODO LF-5379: temporary shim — ignore `interested: false` from frontend instead of creating a record
+        const { interested, ...rest } = req.body;
+
+        if (interested === false) {
+          return res.status(200).json({ interested: false });
+        }
+
+        const result = await CertificationModel.query()
           .context({ user_id })
-          .insert(req.body)
+          .insert(rest)
           .returning('*');
         res.status(201).send(result);
       } catch (error) {
@@ -135,11 +141,21 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
-        const result = await OrganicCertifierSurveyModel.query()
+        // TODO LF-5379: temporary shim — soft-delete on `interested: false` and map `survey_id` from frontend
+        const { farm_id, interested, ...rest } = req.body;
+
+        if (interested === false) {
+          await CertificationModel.query()
+            .context({ user_id })
+            .where({ farm_id })
+            .patch({ deleted: true });
+          return res.status(200).json({ interested: false });
+        }
+
+        const { survey_id: surveyId, id: _id, ...patchData } = rest;
+        const result = await CertificationModel.query()
           .context({ user_id })
-          .findById(req.body.survey_id)
-          .update(req.body)
-          .returning('*');
+          .patchAndFetchById(surveyId, patchData);
         return res.status(200).send(result);
       } catch (error) {
         console.log(error);
@@ -160,26 +176,24 @@ const organicCertifierSurveyController = {
           message: 'Bad request. Missing properties',
         });
       }
-      const organicCertifierSurvey = await knex('organicCertifierSurvey')
-        .where({ farm_id, interested: true })
+      const certificationRecord = await knex('certification')
+        .where({ farm_id, deleted: false })
         .first();
 
       // Skip the whole flow in case this Farm is not pursuing any cert.
-      if (organicCertifierSurvey === undefined) {
+      if (certificationRecord === undefined) {
         return res
           .status(400)
           .json({ message: 'You are not currently pursuing any certifications.' });
       }
 
-      const certification = organicCertifierSurvey.certification_id
-        ? await knex('certifications')
-            .where({ certification_id: organicCertifierSurvey.certification_id })
+      const certification = certificationRecord.system_type_id
+        ? await knex('certification_system_type')
+            .where({ id: certificationRecord.system_type_id })
             .first()
         : undefined;
-      const certifier = organicCertifierSurvey.certifier_id
-        ? await knex('certifiers')
-            .where({ certifier_id: organicCertifierSurvey.certifier_id })
-            .first()
+      const certifier = certificationRecord.certifier_id
+        ? await knex('certifiers').where({ certifier_id: certificationRecord.certifier_id }).first()
         : undefined;
       const documents = await DocumentModel.query()
         .withGraphJoined('files')
@@ -210,7 +224,7 @@ const organicCertifierSurveyController = {
       const body = {
         exportId: uuidv4(),
         ...extraInfo,
-        organicCertifierSurvey,
+        organicCertifierSurvey: certificationRecord,
         certifier,
         certification,
         files,
@@ -619,11 +633,12 @@ const organicCertifierSurveyController = {
   async isCanadianFarm(farm_id) {
     const certifierCountry = await knex.raw(
       `SELECT *
-       FROM "organicCertifierSurvey" ocs
-                JOIN certifier_country cf ON ocs.certifier_id = cf.certifier_id
-                JOIN countries c ON c.id = cf.country_id
+       FROM certification c
+                JOIN certifier_country cf ON c.certifier_id = cf.certifier_id
+                JOIN countries co ON co.id = cf.country_id
        WHERE country_name = 'Canada'
-         AND farm_id = ?`,
+         AND c.deleted = false
+         AND c.farm_id = ?`,
       [farm_id],
     );
     return certifierCountry.rows.length > 0;
@@ -729,10 +744,10 @@ const organicCertifierSurveyController = {
 
   delOrganicCertifierSurvey() {
     return async (req, res) => {
-      const survey_id = req.params.survey_id;
+      const id = req.params.id;
       try {
         const user_id = req.auth.user_id;
-        await OrganicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).delete();
+        await CertificationModel.query().context({ user_id }).findById(id).delete();
         res.sendStatus(200);
       } catch (error) {
         console.error(error);

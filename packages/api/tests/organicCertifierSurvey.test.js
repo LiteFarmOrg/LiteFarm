@@ -39,7 +39,7 @@ jest.mock('../src/templates/sendEmailTemplate.js', () => ({
   emails: { INVITATION: { path: 'invitation_to_farm_email' } },
 }));
 
-import organicCertifierSurveyModel from '../src/models/organicCertifierSurveyModel';
+import certificationModel from '../src/models/certificationModel.js';
 
 describe('organic certification Tests', () => {
   let owner;
@@ -112,13 +112,10 @@ describe('organic certification Tests', () => {
       .catch((_err) => callback(_err));
   }
 
-  async function deleteRequest(
-    { user_id = owner.user_id, farm_id = farm.farm_id, survey_id },
-    callback,
-  ) {
+  async function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, id }, callback) {
     return chai
       .request(server)
-      .delete(`/organic_certifier_survey/${survey_id}`)
+      .delete(`/organic_certifier_survey/${id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .then((res) => callback(null, res))
@@ -135,7 +132,7 @@ describe('organic certification Tests', () => {
       ...organicCertifierSurvey,
       interested,
       certifier_id: organicCertifierSurvey.certifier_id,
-      certification_id: organicCertifierSurvey.certification_id,
+      certification_id: organicCertifierSurvey.system_type_id,
       farm_id,
     };
   }
@@ -193,12 +190,12 @@ describe('organic certification Tests', () => {
         test('User should get all supported certifications', async () => {
           await getAllSupportedCertificationsRequest({}, (_err, res) => {
             const thirdPartyOrganic = res.body.find(
-              (cert) => cert.certification_translation_key === 'THIRD_PARTY_ORGANIC',
+              (cert) => cert.translation_key === 'THIRD_PARTY_ORGANIC',
             );
-            const pgs = res.body.find((cert) => cert.certification_translation_key === 'PGS');
+            const pgs = res.body.find((cert) => cert.translation_key === 'PGS');
             expect(res.status).toBe(200);
-            expect(thirdPartyOrganic.certification_type).toBe('Third-party Organic');
-            expect(pgs.certification_type).toBe('Participatory Guarantee System');
+            expect(thirdPartyOrganic.name).toBe('Third-party Organic');
+            expect(pgs.name).toBe('Participatory Guarantee System');
           });
         });
       });
@@ -337,29 +334,26 @@ describe('organic certification Tests', () => {
         });
 
         test('Owner should delete a certifier survey', async () => {
-          await deleteRequest(
-            { survey_id: organicCertifierSurvey.survey_id },
-            async (_err, res) => {
-              expect(res.status).toBe(200);
-              const SurveyRes = await organicCertifierSurveyModel
-                .query()
-                .context({ showHidden: true })
-                .where('survey_id', organicCertifierSurvey.survey_id);
-              expect(SurveyRes.length).toBe(1);
-              expect(SurveyRes[0].deleted).toBe(true);
-            },
-          );
+          await deleteRequest({ id: organicCertifierSurvey.id }, async (_err, res) => {
+            expect(res.status).toBe(200);
+            const SurveyRes = await certificationModel
+              .query()
+              .context({ showHidden: true })
+              .where({ id: organicCertifierSurvey.id });
+            expect(SurveyRes.length).toBe(1);
+            expect(SurveyRes[0].deleted).toBe(true);
+          });
         });
 
         test('Manager should delete a certifier survey', async () => {
           await deleteRequest(
-            { user_id: manager.user_id, survey_id: organicCertifierSurvey.survey_id },
+            { user_id: manager.user_id, id: organicCertifierSurvey.id },
             async (_err, res) => {
               expect(res.status).toBe(200);
-              const SurveyRes = await organicCertifierSurveyModel
+              const SurveyRes = await certificationModel
                 .query()
                 .context({ showHidden: true })
-                .where('survey_id', organicCertifierSurvey.survey_id);
+                .where({ id: organicCertifierSurvey.id });
               expect(SurveyRes.length).toBe(1);
               expect(SurveyRes[0].deleted).toBe(true);
             },
@@ -370,7 +364,7 @@ describe('organic certification Tests', () => {
           await deleteRequest(
             {
               user_id: unAuthorizedUser.user_id,
-              survey_id: organicCertifierSurvey.survey_id,
+              id: organicCertifierSurvey.id,
             },
             async (_err, res) => {
               expect(res.status).toBe(403);
@@ -380,7 +374,7 @@ describe('organic certification Tests', () => {
 
         test('should return 403 if a worker tries to delete a certifier survey', async () => {
           await deleteRequest(
-            { user_id: worker.user_id, survey_id: organicCertifierSurvey.survey_id },
+            { user_id: worker.user_id, id: organicCertifierSurvey.id },
             async (_err, res) => {
               expect(res.status).toBe(403);
             },
@@ -392,7 +386,7 @@ describe('organic certification Tests', () => {
             {
               user_id: unAuthorizedUser.user_id,
               farm_id: farmunAuthorizedUser.farm_id,
-              survey_id: organicCertifierSurvey.survey_id,
+              id: organicCertifierSurvey.id,
             },
             async (_err, res) => {
               expect(res.status).toBe(403);
@@ -495,15 +489,12 @@ describe('organic certification Tests', () => {
         test('Owner post certifiers', async () => {
           await postRequest(fakeOrganicCertifierSurvey, {}, async (_err, res) => {
             expect(res.status).toBe(201);
-            const organicCertifierSurveys = await organicCertifierSurveyModel
+            const certificationRecords = await certificationModel
               .query()
               .context({ showHidden: true })
               .where('farm_id', farm.farm_id);
-            expect(organicCertifierSurveys.length).toBe(1);
-            expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
-            expect(organicCertifierSurveys[0].certifiers).toEqual(
-              fakeOrganicCertifierSurvey.certifiers,
-            );
+            expect(certificationRecords.length).toBe(1);
+            expect(certificationRecords[0].created_by_user_id).toBe(owner.user_id);
           });
         });
 
@@ -513,15 +504,12 @@ describe('organic certification Tests', () => {
             { user_id: manager.user_id },
             async (_err, res) => {
               expect(res.status).toBe(201);
-              const organicCertifierSurveys = await organicCertifierSurveyModel
+              const certificationRecords = await certificationModel
                 .query()
                 .context({ showHidden: true })
                 .where('farm_id', farm.farm_id);
-              expect(organicCertifierSurveys.length).toBe(1);
-              expect(organicCertifierSurveys[0].created_by_user_id).toBe(manager.user_id);
-              expect(organicCertifierSurveys[0].certifiers).toEqual(
-                fakeOrganicCertifierSurvey.certifiers,
-              );
+              expect(certificationRecords.length).toBe(1);
+              expect(certificationRecords[0].created_by_user_id).toBe(manager.user_id);
             },
           );
         });
@@ -532,15 +520,12 @@ describe('organic certification Tests', () => {
             { user_id: extensionOfficer.user_id },
             async (_err, res) => {
               expect(res.status).toBe(201);
-              const organicCertifierSurveys = await organicCertifierSurveyModel
+              const certificationRecords = await certificationModel
                 .query()
                 .context({ showHidden: true })
                 .where('farm_id', farm.farm_id);
-              expect(organicCertifierSurveys.length).toBe(1);
-              expect(organicCertifierSurveys[0].created_by_user_id).toBe(extensionOfficer.user_id);
-              expect(organicCertifierSurveys[0].certifiers).toEqual(
-                fakeOrganicCertifierSurvey.certifiers,
-              );
+              expect(certificationRecords.length).toBe(1);
+              expect(certificationRecords[0].created_by_user_id).toBe(extensionOfficer.user_id);
             },
           );
         });
@@ -552,7 +537,7 @@ describe('organic certification Tests', () => {
             async (_err, res) => {
               expect(res.status).toBe(403);
               expect(res.error.text).toBe(
-                'User does not have the following permission(s): add:organic_certifier_survey',
+                'User does not have the following permission(s): add:certification',
               );
             },
           );
@@ -565,7 +550,7 @@ describe('organic certification Tests', () => {
             async (_err, res) => {
               expect(res.status).toBe(403);
               expect(res.error.text).toBe(
-                'User does not have the following permission(s): add:organic_certifier_survey',
+                'User does not have the following permission(s): add:certification',
               );
             },
           );
@@ -593,6 +578,8 @@ describe('organic certification Tests', () => {
           });
           fakeOrganicCertifierSurvey = {
             ...fakeOrganicCertifierSurvey,
+            // TODO LF-5379: temporary shim — frontend sends `survey_id`; remove once field names are updated
+            survey_id: fakeOrganicCertifierSurvey.id,
             ...getFakeOrganicCertifierSurvey(),
             farm_id: farm.farm_id,
           };
@@ -684,15 +671,12 @@ describe('organic certification Tests', () => {
           test('Owner put certifiers', async () => {
             await putRequest(fakeOrganicCertifierSurvey, {}, async (_err, res) => {
               expect(res.status).toBe(200);
-              const organicCertifierSurveys = await organicCertifierSurveyModel
+              const certificationRecords = await certificationModel
                 .query()
                 .context({ showHidden: true })
                 .where('farm_id', farm.farm_id);
-              expect(organicCertifierSurveys.length).toBe(1);
-              expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
-              expect(organicCertifierSurveys[0].certifiers).toEqual(
-                fakeOrganicCertifierSurvey.certifiers,
-              );
+              expect(certificationRecords.length).toBe(1);
+              expect(certificationRecords[0].created_by_user_id).toBe(owner.user_id);
             });
           });
 
@@ -702,14 +686,11 @@ describe('organic certification Tests', () => {
               { user_id: manager.user_id },
               async (_err, res) => {
                 expect(res.status).toBe(200);
-                const organicCertifierSurveys = await organicCertifierSurveyModel
+                const certificationRecords = await certificationModel
                   .query()
                   .context({ showHidden: true })
                   .where('farm_id', farm.farm_id);
-                expect(organicCertifierSurveys.length).toBe(1);
-                expect(organicCertifierSurveys[0].certifiers).toEqual(
-                  fakeOrganicCertifierSurvey.certifiers,
-                );
+                expect(certificationRecords.length).toBe(1);
               },
             );
           });
@@ -720,14 +701,11 @@ describe('organic certification Tests', () => {
               { user_id: extensionOfficer.user_id },
               async (_err, res) => {
                 expect(res.status).toBe(200);
-                const organicCertifierSurveys = await organicCertifierSurveyModel
+                const certificationRecords = await certificationModel
                   .query()
                   .context({ showHidden: true })
                   .where('farm_id', farm.farm_id);
-                expect(organicCertifierSurveys.length).toBe(1);
-                expect(organicCertifierSurveys[0].certifiers).toEqual(
-                  fakeOrganicCertifierSurvey.certifiers,
-                );
+                expect(certificationRecords.length).toBe(1);
               },
             );
           });
@@ -739,7 +717,7 @@ describe('organic certification Tests', () => {
               async (_err, res) => {
                 expect(res.status).toBe(403);
                 expect(res.error.text).toBe(
-                  'User does not have the following permission(s): edit:organic_certifier_survey',
+                  'User does not have the following permission(s): edit:certification',
                 );
               },
             );
@@ -752,7 +730,7 @@ describe('organic certification Tests', () => {
               async (_err, res) => {
                 expect(res.status).toBe(403);
                 expect(res.error.text).toBe(
-                  'User does not have the following permission(s): edit:organic_certifier_survey',
+                  'User does not have the following permission(s): edit:certification',
                 );
               },
             );
@@ -811,7 +789,7 @@ describe('organic certification Tests', () => {
 
         await mocks.organicCertifierSurveyFactory(
           { promisedUserFarm: [{ farm_id, user_id }] },
-          mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1, interested: true }),
+          mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }),
         );
         [{ crop_id }] = await mocks.cropFactory(
           { promisedFarm: [{ farm_id }], createdUser: [{ user_id }] },

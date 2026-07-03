@@ -24,7 +24,7 @@ import validateOrganicSurvey from '../middleware/validation/addAndPutOrganicSurv
 router.get(
   '/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:organic_certifier_survey']),
+  checkScope(['get:certification']),
   organicCertifierSurveyController.getCertificationSurveyByFarmId(),
 );
 router.get(
@@ -36,36 +36,36 @@ router.get(
   '/:farm_id/supported_certifiers',
   hasFarmAccess({
     params: 'farm_id',
-    body: 'certification_id',
+    body: 'system_type_id',
   }),
   organicCertifierSurveyController.getAllSupportedCertifiers(),
 );
 router.post(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:organic_certifier_survey']),
+  checkScope(['add:certification']),
   validateOrganicSurvey,
   organicCertifierSurveyController.addOrganicCertifierSurvey(),
 );
 router.put(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['edit:organic_certifier_survey']),
+  checkScope(['edit:certification']),
   validateOrganicSurvey,
   organicCertifierSurveyController.putOrganicCertifierSurvey(),
 );
 
 router.delete(
-  '/:survey_id',
-  hasFarmAccess({ params: 'survey_id' }),
-  checkScope(['delete:organic_certifier_survey']),
+  '/:id',
+  hasFarmAccess({ tableName: 'certification' }),
+  checkScope(['delete:certification']),
   organicCertifierSurveyController.delOrganicCertifierSurvey(),
 );
 
 router.post(
   '/request_export',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:organic_certifier_survey']),
+  checkScope(['add:certification']),
   organicCertifierSurveyController.triggerExport(),
 );
 

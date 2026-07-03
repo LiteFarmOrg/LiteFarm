@@ -517,6 +517,7 @@
   },
   "CROP": {
     "ADD_CROP": "ഒരു വിള ചേർക്കുക",
+    "ADD_CROP_VARIETY": "",
     "ADD_IMAGE": "ഇഷ്ടാനുസൃത ചിത്രം ചേർക്കുക",
     "ANNUAL": "വാർഷികം",
     "ANNUAL_OR_PERENNIAL": "വിള വാർഷികമോ വറ്റാത്തതോ ആണോ?",
@@ -637,6 +638,7 @@
     "BACK": "തിരികെ",
     "CLEAR_DATES": "ചേർക്കപ്പെട്ട ദിനങ്ങൾ ഒഴിവാക്കുക",
     "CUSTOM_RANGE": "ഇഷ്‌ടാനുസൃത ശ്രേണി തിരഞ്ഞെടുക്കുക",
+    "LAST_12_MONTHS": "",
     "LAST_FOURTEEN_DAYS": "കഴിഞ്ഞ 14 ദിവസം",
     "LAST_MONTH": "കഴിഞ്ഞ മാസം",
     "LAST_SEVEN_DAYS": "കഴിഞ്ഞ 7 ദിവസം",
@@ -769,6 +771,12 @@
       "TITLE": "ചെലവ് തിരുത്തുക",
       "TITLE_1": "ചെലവ് തിരുത്തുക(2-ൽ 1)",
       "TITLE_2": "ചെലവ് തിരുത്തുക(2-ൽ 2)"
+    },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "",
+      "EXCEEDED_ERROR": "",
+      "SELECT_ANIMALS": "",
+      "TOTAL_TO_ALLOCATE": ""
     },
     "ITEM_NAME": "ഇനത്തിൻ്റെ പേര്",
     "NO_EXPENSE": "ചെലവൊന്നും കണ്ടെത്തിയില്ല",
@@ -907,6 +915,7 @@
       "RESIDENCE": "താമസസ്ഥലം",
       "SATELLITE": "ഉപഗ്രഹ പശ്ചാത്തലം",
       "SENSOR": "സെൻസർ",
+      "SENSOR_ARRAY": "",
       "SHOW_ALL": "എല്ലാം കാണിക്കുക",
       "SOIL_SAMPLE_LOCATION": "മണ്ണ് സാമ്പിൾ സ്ഥാനം",
       "SURFACE_WATER": "ഉപരിതല ജലം",
@@ -1004,6 +1013,27 @@
       "WIDTH": "ജലപാതയുടെ വീതി"
     }
   },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "",
+    "ATTACH_PHOTO": "",
+    "CANCEL": "",
+    "COLLAPSE": "",
+    "DELETE_CONFIRMATION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "DELETE_NOTE": "",
+    "EDIT_NOTE": "",
+    "EMPTY_STATE": "",
+    "EXPIRATION_WARNING": "",
+    "FARM_NOTES": "",
+    "HAS_UNREAD_NOTES": "",
+    "NEW_NOTE": "",
+    "NOTE_LABEL": "",
+    "NOTE_PLACEHOLDER": "",
+    "PRIVATE_NOTE": "",
+    "SAVE_NOTE": ""
+  },
   "FARM_SETTINGS": {
     "TABS": {
       "ADDONS": "ആഡ്-ഓണുകൾ",
@@ -1076,6 +1106,8 @@
       "REVENUE_TYPES": "വരുമാന തരത്തിനായി തിരയുക"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "",
+      "ANIMALS": "",
       "CROPS": "വിളകൾ",
       "DAILY_TOTAL": "പ്രതിദിന ആകെ",
       "LABOUR_EXPENSE": "തൊഴിൽ ചെലവുകൾ",
@@ -1089,7 +1121,7 @@
     "OVER_255_CHARS": "വാചകം 255 ക്യാറക്‌ടറിൽ കവിയാൻ പാടില്ല"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "സ്ക്രീൻഷോട്ടോ ഫയലോ അപ്ലോഡ് ചെയ്യുക",
+    "ATTACHMENT_LABEL": "",
     "EMAIL": "ഇമെയിൽ",
     "FEEDBACK_INVITATION": "സഹായം നേടുക അല്ലെങ്കിൽ ഞങ്ങൾക്ക് പ്രതികരണം നൽകുക",
     "MESSAGE_LABEL": "സന്ദേശം",
@@ -1114,6 +1146,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} മറ്റ്",
     "PLUS_OTHERS_COUNT_many": "+ മറ്റ് {{count}}",
     "PLUS_OTHERS_COUNT_other": "+ മറ്റ് {{count}}"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": ""
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "",
+    "TAKE_PHOTO": ""
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1165,7 +1204,9 @@
     "TAPE": {
       "COMPLETED": "പൂർത്തിയായി – നിങ്ങളുടെ ഫലങ്ങൾ കാണുക",
       "IN_PROGRESS": "പുരോഗമിക്കുന്നു",
+      "LOAD_ERROR": "",
       "NOT_FILLED": "പൂരിപ്പിച്ചിട്ടില്ല",
+      "RESULTS_LOAD_ERROR": "",
       "RESULTS_TITLE": "അഗ്രോഇക്കോളജിക്കൽ ട്രാൻസിഷൻസ് (CAET) സ്‌കോറുകളുടെ വിവരണം",
       "TITLE": "ടേപ്പ് സർവേ (അഗ്രോഇക്കോളജി പ്രകടന വിലയിരുത്തൽ ഉപകരണം)",
       "UPDATE_ANSWERS": "നിങ്ങളുടെ ഉത്തരങ്ങൾ അപ്‌ഡേറ്റ് ചെയ്യുക"
@@ -1817,7 +1858,8 @@
       "CUSTOM_REVENUE_NAME": "ഇഷ്‌ടാനുസൃത വരുമാന നാമം",
       "CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരം",
       "DUPLICATE_NAME": "ഈ പേരിലുള്ള ഒരു വരുമാനം തരം ഇതിനകം നിലവിലുണ്ട്. ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക.",
-      "DUPLICATE_NAME_RETIRED": "ഈ പേരിൽ ഒരു വിരമിച്ച വരുമാന തരം ഇതിനകം നിലവിലുണ്ട്.  ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക."
+      "DUPLICATE_NAME_RETIRED": "ഈ പേരിൽ ഒരു വിരമിച്ച വരുമാന തരം ഇതിനകം നിലവിലുണ്ട്.  ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക.",
+      "ENTITY_ASSOCIATION_LABEL": ""
     },
     "CUSTOM_REVENUE_DESCRIPTION": "ഇഷ്‌ടാനുസൃത വരുമാന വിവരണം",
     "DELETE": {
@@ -1849,11 +1891,17 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരം ചേർക്കുക",
       "ADD_REVENUE": "വരുമാനം ചേർക്കുക",
+      "ANIMAL_NOTES_PLACEHOLDER": "",
+      "COUNT_UNIT_LABEL": "",
+      "CROP_NOTES_PLACEHOLDER": "",
       "CROP_REQUIRED": "ആവശ്യമാണ്",
       "CROP_VARIETY": "വിള ഇനം",
       "FLOW": "വരുമാനം സൃഷ്ടിക്കൽ",
       "MANAGE_CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരങ്ങൾ നിയന്ത്രിക്കുക",
+      "MEASURED_BY": "",
+      "NOTES_PLACEHOLDER": "",
       "SALE_VALUE_ERROR": "വിൽപ്പന മൂല്യം 999,999,999-നേക്കാൾ കുറവായിരിക്കണം",
+      "SELECT_CROPS": "",
       "TABLE_HEADERS": {
         "TOTAL": "ആകെ"
       },
@@ -1927,6 +1975,10 @@
     "ANIMALS_GROUPS": "മൃഗ ഗ്രൂപ്പുകൾ",
     "ANIMALS_INVENTORY": "മൃഗങ്ങളുടെ ഇൻവെൻ്ററി",
     "ANIMALS_LOCATION": "മൃഗങ്ങളുടെ സ്ഥാനങ്ങൾ"
+  },
+  "SELECT": {
+    "NO_ANIMALS_IN_INVENTORY": "",
+    "NO_CROP_VARIETIES": ""
   },
   "SENSOR": {
     "ARRAY": "ശ്രേണി",
@@ -2180,6 +2232,10 @@
     "UPLOAD_LAB_DOCUMENT": "ലാബ് പ്രമാണം അപ്‌ലോഡ് ചെയ്യുക",
     "WILL_SAVE_ONLINE": "ഓൺലൈനായാൽ സംരക്ഷിക്കും"
   },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "",
+    "PREVIOUS_TIME_SLOT": ""
+  },
   "UNIT": {
     "TIME": {
       "DAY": "ദിവസങ്ങൾ",
@@ -2199,6 +2255,7 @@
     "CLICK_TO_UPLOAD": "അപ്‌ലോഡ് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക",
     "DRAG_DROP": "അല്ലെങ്കിൽ വലിച്ചിടുക",
     "REMOVE_IMAGE": "ചിത്രം നീക്കം ചെയ്യുക",
+    "UNSUPPORTED_FILE_TYPE": "",
     "UPLOAD_IMAGE": "ചിത്രം അപ്‌ലോഡ് ചെയ്യുക"
   },
   "WAGE": {
@@ -2208,7 +2265,11 @@
     "HOURLY_WAGE_TOOLTIP": "ഈ പ്രവൃത്തി-വിശേഷ വേതനം, നിയോഗിക്കപ്പെട്ട വ്യക്തിയുടെ ഡിഫോൾട്ട് വേതനത്തെ മറികടക്കും. സ്വതവേയുള്ള തൊഴിലാളി വേതനങ്ങൾ People ടാബിൽ നിയന്ത്രിക്കാം."
   },
   "WEATHER": {
+    "FROST_EXPECTED": "",
+    "FROST_RISK": "",
     "HUMIDITY": "ഈർപ്പം",
+    "PRECIPITATION": "",
+    "TITLE": "",
     "WIND": "കാറ്റ്"
   },
   "WELCOME_SCREEN": {

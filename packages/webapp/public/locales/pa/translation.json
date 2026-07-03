@@ -78,6 +78,7 @@
   },
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "ਕੋਈ ਹੋਰ ਉਤਪਾਦ ਸ਼ਾਮਲ ਕਰੋ",
+    "ADD_NEW_PRODUCT": "",
     "ADDITIONAL_NUTRIENTS": "ਵਾਧੂ ਪੌਸ਼ਟਿਕ ਤੱਤ",
     "AMMONIUM": "ਅਮੋਨੀਅਮ (NH₄)",
     "BORON": "ਬੋਰੋਨ (B)",
@@ -132,6 +133,7 @@
     "DO_YOU_WANT_TO_ASSIGN": "ਕੀ ਤੁਸੀਂ ਹੁਣੇ ਕੰਮ ਸੌਂਪਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
     "DUPLICATE_NAME": "ਇਸ ਨਾਮ ਵਾਲਾ ਉਤਪਾਦ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਹੋਰ ਚੁਣੋ।",
     "EDIT_CUSTOM_TASK": "ਕਸਟਮ ਕਾਰਜ ਦਾ ਸੰਪਾਦਨ ਕਰੋ",
+    "EDIT_TASK_WAGE": "",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "ਫੀਲਡ ਵਰਕ ਦੀ ਕਿਸਮ ਦਾ ਵਰਣਨ ਕਰੋ",
       "TYPE": {
@@ -148,9 +150,11 @@
       "TYPE_OF_FIELD_WORK": "ਫੀਲਡ ਵਰਕ ਦੀ ਕਿਸਮ"
     },
     "GO_TO_CATALOGUE": "ਕਰੋਪ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ",
+    "GO_TO_INVENTORY": "",
     "HARVEST_EVERYTHING": "ਹਰ ਚੀਜ਼ ਦੀ ਵਾਢੀ ਕਰੋ ਜੋ ਤਿਆਰ ਹੈ",
     "HARVESTING_INFO": "ਹਰੇਕ ਯੋਜਨਾ ਇੱਕ ਵਿਅਕਤੀਗਤ ਵਾਢੀ ਦਾ ਕੰਮ ਤਿਆਰ ਕਰੇਗੀ",
     "HOURLY_WAGE": {
+      "ASSIGNEE_CURRENT_WAGE": "",
       "ASSIGNEE_WAGE_WARNING": "{{name}} ਨੂੰ ਵਰਤਮਾਨ ਵਿੱਚ ਇੱਕ ਘੰਟੇ ਦੀ ਤਨਖਾਹ ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤੀ ਗਈ ਹੈ।",
       "DONT_ASK": "ਨਹੀਂ, ਇਸ ਕਰਮਚਾਰੀ ਲਈ ਦੁਬਾਰਾ ਨਾ ਪੁੱਛੋ",
       "FOR_THIS_TASK": "ਹਾਂ, ਸਿਰਫ਼ ਇਸ ਕੰਮ ਲਈ",
@@ -207,14 +211,23 @@
       "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਚਲਹਾਅ ਦਾ ਕਾਰਨ ਦਰਜ ਕਰੋ"
     },
     "NEED_ANIMAL_LOCATION_MOVEMENT": "ਤੁਹਾਨੂੰ ਜਾਨਵਰਾਂ ਨੂੰ ਲਿਜਾਣ ਲਈ ਇੱਕ ਸਥਾਨ ਜਾਂ ਖੇਤਰ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਨਕਸ਼ੇ 'ਤੇ ਜਾ ਕੇ ਜਾਨਵਰ ਸਥਾਨ ਬਣਾਓ।",
+    "NEED_IRRIGATION_LOCATION": "",
+    "NEED_IRRIGATION_LOCATION_WORKER": "",
     "NEED_MANAGEMENT_PLAN": "ਵਾਢੀ ਦੇ ਕੰਮ ਜਾਂ ਟ੍ਰਾਂਸਪਲਾਂਟ ਦੇ ਕੰਮ ਨੂੰ ਨਿਯਤ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਇੱਕ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲ ਯੋਜਨਾ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਹੁਣੇ ਇੱਕ ਯੋਜਨਾ ਬਣਾਉਣ ਲਈ ਫਸਲ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ।",
+    "NEED_SOIL_AMENDMENT_PRODUCTS": "",
     "NEED_SOIL_SAMPLE_LOCATION": "ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਲੈਣ ਲਈ ਤੁਹਾਨੂੰ ਇੱਕ ਖਾਸ ਸਥਾਨ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਨਕਸ਼ੇ ਤੇ ਜਾ ਕੇ ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਲਈ ਸਥਾਨ ਬਣਾਓ।",
     "NEED_SOIL_SAMPLE_LOCATION_WORKER": "ਕੋਈ ਸੌਇਲ ਸੈਂਪਲ ਕੰਮ ਬਣਾਉਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਸੌਇਲ ਸੈਂਪਲ ਟਿਕਾਣਾ ਬਣਾਉਣ ਲਈ ਪ੍ਰਬੰਧਨ ਦੀ ਲੋੜ ਪਵੇਗੀ।",
     "NO_ANIMAL_LOCATION": "ਜਾਨਵਰਾਂ ਲਈ ਕੌਈ ਯੋਗ ਸਥਾਨ ਨਹੀਂ ਹੈ",
+    "NO_IRRIGATION_LOCATIONS": "",
     "NO_MANAGEMENT_PLAN": "ਕੋਈ ਯੋਗ ਫਸਲ ਯੋਜਨਾ ਨਹੀਂ",
+    "NO_SOIL_AMENDMENT_PRODUCTS": "",
     "NO_SOIL_SAMPLE_LOCATION": "ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਲਈ ਕੋਈ ਯੋਗ ਸਥਾਨ ਨਹੀਂ ਹਨ",
     "NOTES_LABEL": "ਇਸ ਕੰਮ ਨਾਲ ਸੰਬੰਧਤ ਕੁਝ ਵਿਸ਼ੇਸ਼ ਸ਼ਾਮਲ ਕਰਨਾ ਹੈ?",
     "NOTES_PLACEHOLDER": "ਜਿੰਮੇਵਾਰ ਲਈ ਕੋਈ ਹਦਾਇਤਾਂ ਜਾਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਸ਼ਾਮਲ ਕਰੋ",
+    "OFFLINE_NOTICE": {
+      "CANNOT_ADD_NEW": "",
+      "YOURE_OFFLINE": ""
+    },
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "ਜੈਵਿਕ ਨਿਯੰਤਰਣ",
       "FLAME_WEEDING": "ਬਲਦੀ ਬੂਟੀ",
@@ -283,6 +296,12 @@
     },
     "TASK": "ਕੰਮ",
     "TASK_NOTES_CHAR_LIMIT": "ਨੋਟਸ 10,000 ਅੱਖਰਾਂ ਤੋਂ ਘੱਟ ਹੋਣੇ ਚਾਹੀਦੇ ਹਨ",
+    "TASK_SPECIFIC_HOURLY_WAGE": "",
+    "TASK_WAGE": {
+      "NO_TASK_WAGE": "",
+      "TASK_WAGE_SET": "",
+      "WANT_TO_SET_HOURLY_WAGE": ""
+    },
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "ਸਾਨੂੰ ਇਸ ਕੰਮ ਬਾਰੇ ਦੱਸੋ",
     "THIS_TASK_IS_COMPLETED": "ਇਹ ਕੰਮ ਪਹਿਲਾਂ ਹੀ ਮੁਕੰਮਲ ਕੀਤਾ ਜਾ ਚੁੱਕਾ ਹੈ",
     "THIS_TASK_IS_COMPLETED_EXPLANATION": "'ਸੇਵ' ਤੇ ਕਲਿਕ ਕਰਨ ਨਾਲ ਇਹ ਕੰਮ ਤੁਰੰਤ ਸੇਵ ਹੋ ਜਾਵੇਗਾ। ਇਸ ਤੋਂ ਬਾਅਦ ਤੁਹਾਨੂੰ ਇਸਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਕਿਹਾ ਜਾਵੇਗਾ।",
@@ -359,6 +378,8 @@
       "ANIMALS_BETA_CONTENT": "ਸਾਡੇ ਨਵੇਂ ਜਾਨਵਰ ਪ੍ਰਬੰਧਨ ਫੀਚਰ ਦੀ ਇੱਕ ਝਲਕ ਪ੍ਰਾਪਤ ਕਰੋ—ਹੁਣ ਬੀਟਾ ਵਿੱਚ। ਜਿਵੇਂ ਜਿਵੇਂ ਅਸੀਂ ਇਸ ਫੀਚਰ ਨੂੰ ਸੁਧਾਰਦੇ ਹਾਂ, ਤੁਹਾਡਾ ਫੀਡਬੈਕ ਬਹੁਤ ਮਹੱਤਵਪੂਰਨ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੀ ਬੱਗ ਜਾਂ ਸੁਝਾਅ ਸਾਂਝੇ ਕਰੋ ਜੋ ਤੁਹਾਨੂੰ ਮਿਲਦਾ ਹੈ। ਲਾਈਟਫਾਰਮ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ ਅਸੀਂ ਤੁਹਾਡਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ। ਤੁਸੀਂ ਬੀਟਾ ਬਾਰੇ ਹੋਰ ਜਾਣ ਸਕਦੇ ਹੋ <a>ਇੱਥੇ</a>",
       "ANIMALS_BETA_HEADING": "ਨਵੇਂ ਜਾਨਵਰਾਂ ਦੇ ਫੀਚਰ ਦਾ ਪਰਚੇ ਕਰਵਾਇਆ ਜਾ ਰਿਹਾ ਹੈ",
       "ANIMALS_CONTENT": "ਸਾਡੇ ਨਵੇਂ ਜਾਨਵਰ ਪ੍ਰਬੰਧਨ ਫੀਚਰ ਦੀ ਇੱਕ ਝਲਕ ਪ੍ਰਾਪਤ ਕਰੋ—ਹੁਣ ਬੀਟਾ ਵਿੱਚ। ਜਿਵੇਂ ਜਿਵੇਂ ਅਸੀਂ ਇਸ ਫੀਚਰ ਨੂੰ ਸੁਧਾਰਦੇ ਹਾਂ, ਤੁਹਾਡਾ ਫੀਡਬੈਕ ਬਹੁਤ ਮਹੱਤਵਪੂਰਨ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੀ ਬੱਗ ਜਾਂ ਸੁਝਾਅ ਸਾਂਝੇ ਕਰੋ ਜੋ ਤੁਹਾਨੂੰ ਮਿਲਦਾ ਹੈ। ਲਾਈਟਫਾਰਮ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ ਅਸੀਂ ਤੁਹਾਡਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ। ਤੁਸੀਂ ਬੀਟਾ ਬਾਰੇ ਹੋਰ ਜਾਣ ਸਕਦੇ ਹੋ <a>ਇੱਥੇ</a>",
+      "INVENTORY_BETA_CONTENT": "",
+      "INVENTORY_BETA_HEADING": "",
       "TITLE": "ਬੀਟਾ"
     }
   },
@@ -496,6 +517,7 @@
   },
   "CROP": {
     "ADD_CROP": "ਇੱਕ ਫਸਲ ਸ਼ਾਮਲ ਕਰੋ",
+    "ADD_CROP_VARIETY": "",
     "ADD_IMAGE": "ਕਸਟਮ ਚਿੱਤਰ ਸ਼ਾਮਲ ਕਰੋ",
     "ANNUAL": "ਸਾਲਾਨਾ",
     "ANNUAL_OR_PERENNIAL": "ਕੀ ਫਸਲ ਸਾਲਾਨਾ ਜਾਂ ਸਦੀਵੀ ਹੈ?",
@@ -616,6 +638,7 @@
     "BACK": "ਵਾਪਸ",
     "CLEAR_DATES": "ਤਾਰੀਖਾਂ ਸਾਫ਼ ਕਰੋ",
     "CUSTOM_RANGE": "ਇੱਕ ਕਸਟਮ ਰੇਂਜ ਚੁਣੋ",
+    "LAST_12_MONTHS": "",
     "LAST_FOURTEEN_DAYS": "ਪਿਛਲੇ 14 ਦਿਨ",
     "LAST_MONTH": "ਪਿਛਲੇ ਮਹੀਨੇ",
     "LAST_SEVEN_DAYS": "ਪਿਛਲੇ 7 ਦਿਨ",
@@ -748,6 +771,12 @@
       "TITLE": "ਖਰਚ ਦਾ ਸੰਪਾਦਨ ਕਰੋ",
       "TITLE_1": "ਖਰਚ ਦਾ ਸੰਪਾਦਨ ਕਰੋ(2 ਵਿੱਚੋਂ 1)",
       "TITLE_2": "ਖਰਚ ਦਾ ਸੰਪਾਦਨ ਕਰੋ (2 ਵਿੱਚੋਂ 2)"
+    },
+    "ENTITY_SECTION": {
+      "ENTITY_ASSOCIATION_LABEL": "",
+      "EXCEEDED_ERROR": "",
+      "SELECT_ANIMALS": "",
+      "TOTAL_TO_ALLOCATE": ""
     },
     "ITEM_NAME": "ਆਈਟਮ ਦਾ ਨਾਮ",
     "NO_EXPENSE": "ਕੋਈ ਖਰਚਾ ਨਹੀਂ ਮਿਲਿਆ",
@@ -886,6 +915,7 @@
       "RESIDENCE": "ਨਿਵਾਸ",
       "SATELLITE": "ਸੈਟੇਲਾਈਟ ਪਿਛੋਕੜ",
       "SENSOR": "ਸੈਂਸਰ",
+      "SENSOR_ARRAY": "",
       "SHOW_ALL": "ਸਭ ਦਿਖਾਓ",
       "SOIL_SAMPLE_LOCATION": "ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਦਾ ਸਥਾਨ",
       "SURFACE_WATER": "ਸਤਹ ਪਾਣੀ",
@@ -983,6 +1013,34 @@
       "WIDTH": "ਵਾਟਰਕੋਰਸ ਦੀ ਚੌੜਾਈ"
     }
   },
+  "FARM_NOTE": {
+    "ADD_A_NOTE": "",
+    "ATTACH_PHOTO": "",
+    "CANCEL": "",
+    "COLLAPSE": "",
+    "DELETE_CONFIRMATION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "DELETE_NOTE": "",
+    "EDIT_NOTE": "",
+    "EMPTY_STATE": "",
+    "EXPIRATION_WARNING": "",
+    "FARM_NOTES": "",
+    "HAS_UNREAD_NOTES": "",
+    "NEW_NOTE": "",
+    "NOTE_LABEL": "",
+    "NOTE_PLACEHOLDER": "",
+    "PRIVATE_NOTE": "",
+    "SAVE_NOTE": ""
+  },
+  "FARM_SETTINGS": {
+    "TABS": {
+      "ADDONS": "",
+      "BASIC_PROFILE": "",
+      "MARKET_DIRECTORY": ""
+    }
+  },
   "FIELDS": {
     "EDIT_FIELD": {
       "SUPPLIER": "ਸਪਲਾਇਰ",
@@ -1048,6 +1106,8 @@
       "REVENUE_TYPES": "ਆਮਦਨ ਦੀ ਕਿਸਮ ਖੋਜੋ"
     },
     "TRANSACTION": {
+      "AMOUNT_UNATTRIBUTED": "",
+      "ANIMALS": "",
       "CROPS": "ਫਸਲਾਂ",
       "DAILY_TOTAL": "ਰੋਜ਼ਾਨਾ ਕੁੱਲ",
       "LABOUR_EXPENSE": "ਮਜ਼ਦੂਰੀ ਦਾ ਖਰਚਾ",
@@ -1086,6 +1146,13 @@
     "PLUS_OTHERS_COUNT_one": "+ {{count}} ਹੋਰ",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} ਹੋਰ",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} ਹੋਰ"
+  },
+  "IMAGE_LIGHTBOX": {
+    "ESC_TO_CLOSE": ""
+  },
+  "IMAGE_UPLOAD_CAPTURE": {
+    "PHOTO_LIBRARY": "",
+    "TAKE_PHOTO": ""
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1134,12 +1201,35 @@
       "INFO": "ਤੁਹਾਡੀਆਂ ਫਸਲਾਂ ਲਈ ਮਿੱਟੀ ਦੇ ਸਿਹਤਮੰਦ ਵਾਤਾਵਰਣ ਨੂੰ ਬਣਾਈ ਰੱਖਣ ਲਈ ਮਿੱਟੀ ਦੇ ਜੈਵਿਕ ਪਦਾਰਥ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ। ਅਸੀਂ ਇਸ ਜਾਣਕਾਰੀ ਨੂੰ ਤੁਹਾਡੇ ਸਭ ਤੋਂ ਤਾਜ਼ਾ ਮਿੱਟੀ ਵਿਸ਼ਲੇਸ਼ਣ ਕਾਰਜ ਨਤੀਜਿਆਂ ਤੋਂ ਤਿਆਰ ਕਰਦੇ ਹਾਂ। ਜੇਕਰ ਤੁਹਾਡੇ ਕੋਲ ਕੋਈ ਡਾਟਾ ਨਹੀਂ ਹੈ ਤਾਂ ਅਸੀਂ ਵਿਸ਼ਵ ਪੱਧਰ 'ਤੇ ਤੁਹਾਡੇ ਸਥਾਨ ਲਈ ਸੰਭਾਵੀ ਮਿੱਟੀ ਦੇ ਜੈਵਿਕ ਪਦਾਰਥ ਦੀ ਭਵਿੱਖਬਾਣੀ ਕਰਦੇ ਹਾਂ।",
       "TITLE": "ਮਿੱਟੀ ਓ.ਐਮ."
     },
+    "TAPE": {
+      "COMPLETED": "",
+      "IN_PROGRESS": "",
+      "LOAD_ERROR": "",
+      "NOT_FILLED": "",
+      "RESULTS_LOAD_ERROR": "",
+      "RESULTS_TITLE": "",
+      "TITLE": "",
+      "UPDATE_ANSWERS": ""
+    },
     "TITLE": "ਇਨਸਾਈਟਸ",
     "UNAVAILABLE": "ਅਣਉਪਲਬਧ"
   },
   "INTRODUCE_MAP": {
     "BODY": "ਖੇਤ ਦੇ ਨਕਸ਼ੇ ਵਿੱਚ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਹਨ। ਇਹ ਹੁਣ ਮਾਈ ਫਾਰਮ ਮੀਨੂ ਦੇ ਹੇਠਾਂ ਪਾਇਆ ਗਿਆ ਹੈ।",
     "TITLE": "ਅਸੀਂ ਫਾਰਮ ਦੇ ਨਕਸ਼ੇ ਅੱਪਡੇਟ ਕੀਤੇ ਹਨ!"
+  },
+  "INVENTORY": {
+    "PRODUCT_NAME": "",
+    "PRODUCT_TYPE": "",
+    "REMOVE_CONFIRMATION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "SOIL_AMENDMENT": "",
+    "UNABLE_TO_REMOVE": {
+      "BODY": "",
+      "TITLE": ""
+    }
   },
   "INVITATION": {
     "BIRTH_YEAR": "ਜਨਮ ਸਾਲ",
@@ -1189,9 +1279,11 @@
   "IRRIGATION_PRESCRIPTION": {
     "APPLICATION_DEPTH": "ਲਾਗੂ ਕਰਨ ਦੀ ਗਹਿਰਾਈ",
     "APPROVE_AND_CREATE_TASK": "ਮੰਜ਼ੂਰੀ ਦੇਣ ਨਾਲ ਤੁਸੀਂ ਇੱਕ ਸਿੰਚਾਈ ਕਾਰਜ ਬਣਾਵੋਗੇ",
+    "AVAILABLE_SOIL_MOISTURE": "",
     "DATA_FROM": "ਡੇਟਾ ਸਰੋਤ",
     "ESTIMATED_WATER_CONSUMPTION": "ਅਨੁਮਾਨਤ ਪਾਣੀ ਦਾ ਉਪਯੋਗ",
     "ET_RATE": "ET ਦਰ",
+    "FULL_IRRIGATION_REPORT": "",
     "IRRIGATION_PRESCRIPTION_FILES": "ਸਿੰਚਾਈ ਨੁਸਖੇ ਦੀਆਂ ਫਾਈਲਾਂ",
     "IRRIGATION_PRESCRIPTIONS": "ਸਿੰਚਾਈ ਨੁਸਖੇ",
     "IRRIGATION_ZONE": "ਸਿੰਚਾਈ ਖੇਤਰ",
@@ -1422,6 +1514,58 @@
     "WHERE_TRANSPLANT_LOCATION": "ਤੁਸੀਂ ਕਿੱਥੇ ਟ੍ਰਾਂਸਪਲਾਂਟ ਕਰੋਗੇ?",
     "WILD_CROP": "ਕੀ ਤੁਸੀਂ ਇੱਕ ਜੰਗਲੀ ਫਸਲ ਦੀ ਵਾਢੀ ਕਰ ਰਹੇ ਹੋ?"
   },
+  "MARKET_DIRECTORY": {
+    "AGREE_WITH_TERMS": "",
+    "COMPLETE_PROFILE": "",
+    "CONSENT": {
+      "ALMOST_READY": "",
+      "CONSENT_TO_SHARE_INFORMATION": "",
+      "I_AGREE": "",
+      "SEE_ALL_DATA": "",
+      "TITLE": ""
+    },
+    "GET_LISTED": "",
+    "INFO_FORM": {
+      "ABOUT": "",
+      "ABOUT_PLACEHOLDER": "",
+      "AT_USERNAME": "",
+      "COUNTRY_CODE": "",
+      "EMAIL_ADDRESS": "",
+      "EMAIL_PLACEHOLDER": "",
+      "FARM_IDENTITY": "",
+      "FARM_LOGO": "",
+      "FARM_NAME": "",
+      "FARM_REPRESENTATIVE": "",
+      "FARM_STORE_CONTACT": "",
+      "FARM_STORE_LOCATION": "",
+      "INVALID_ADDRESS": "",
+      "INVALID_USERNAME_OR_URL": "",
+      "INVALID_WEBSITE": "",
+      "ONLINE_PRESENCE": "",
+      "PHONE_NUMBER": "",
+      "PRIVATE_INFO_NOTE": "",
+      "PRODUCT_CATEGORY": "",
+      "SOCIAL_INPUT_LABEL": "",
+      "WEBSITE": ""
+    },
+    "INFO_SUMMARY": {
+      "FARM_EMAIL": "",
+      "FARM_PROFILE": "",
+      "FARM_STORE_ADDRESS": "",
+      "FIRST_NAME_AND_LAST_NAME": "",
+      "ONLINE_PRESENCE_ITEM": "",
+      "PRODUCTS_AND_SERVICES": "",
+      "PRODUCTS_CATEGORIES": ""
+    },
+    "KNOW_A_MARKETPLACE": "",
+    "MARKET_DIRECTORIES": "",
+    "MARKET_DIRECTORY_INFO": "",
+    "NO_PARTNER": "",
+    "PARTNERS": {
+      "OFN_DESCRIPTION": ""
+    },
+    "WHERE_TO_BE_FEATURED": ""
+  },
   "MENU": {
     "ACTUAL_REVENUES": "ਅਸਲ ਆਮਦਨ",
     "ANIMALS": "ਜਾਨਵਰ",
@@ -1518,6 +1662,25 @@
       "BODY": "ਇਸ ਹਫ਼ਤੇ ਤੁਹਾਡੇ ਕੋਲ ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤੇ ਗਏ ਕੰਮ ਕਾਰਜ ਹਨ।",
       "TITLE": "ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤੇ ਗਏ ਕੰਮ"
     }
+  },
+  "OFFLINE": {
+    "ARE_OFFLINE": "",
+    "BADGE": {
+      "TITLE": "",
+      "TOOLTIP_CONTENT": ""
+    },
+    "CHANGES_WILL_SYNC": "",
+    "LOG_OUT_MODAL": {
+      "INFO": "",
+      "TITLE": ""
+    },
+    "NOT_READY_BADGE": {
+      "TITLE": "",
+      "TOOLTIP_CONTENT": ""
+    },
+    "NOT_READY_WARNING": "",
+    "PREPARE_TO_WORK_OFFLINE": "",
+    "REFRESH": ""
   },
   "OUTRO": {
     "ALL_DONE": "ਬਹੁਤ ਵਧੀਆ! ਤੁਸੀਂ ਪੂਰਾ ਕਰ ਲਿਆ ਹੈ। ਆਪਣੇ ਹੱਥ ਗੰਦੇ ਕਰਨ ਲਈ ਤਿਆਰ ਹੋ?",
@@ -1695,7 +1858,8 @@
       "CUSTOM_REVENUE_NAME": "ਕਸਟਮ ਆਮਦਨ ਦਾ ਨਾਮ",
       "CUSTOM_REVENUE_TYPE": "ਕਸਟਮ ਆਮਦਨ ਦੀ ਕਿਸਮ",
       "DUPLICATE_NAME": "ਇਸ ਨਾਮ ਨਾਲ ਇੱਕ ਆਮਦਨ ਕਿਸਮ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ।  ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਹੋਰ ਚੁਣੋ।",
-      "DUPLICATE_NAME_RETIRED": "ਇਸ ਨਾਮ ਨਾਲ ਇੱਕ ਸੇਵਾਮੁਕਤ ਮਾਲੀਆ ਕਿਸਮ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ।  ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਹੋਰ ਚੁਣੋ।"
+      "DUPLICATE_NAME_RETIRED": "ਇਸ ਨਾਮ ਨਾਲ ਇੱਕ ਸੇਵਾਮੁਕਤ ਮਾਲੀਆ ਕਿਸਮ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ।  ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਹੋਰ ਚੁਣੋ।",
+      "ENTITY_ASSOCIATION_LABEL": ""
     },
     "CUSTOM_REVENUE_DESCRIPTION": "ਕਸਟਮ ਆਮਦਨ ਦਾ ਵੇਰਵਾ",
     "DELETE": {
@@ -1727,11 +1891,17 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "ਕਸਟਮ ਆਮਦਨ ਦੀ ਕਿਸਮ ਸ਼ਾਮਲ ਕਰੋ",
       "ADD_REVENUE": "ਆਮਦਨ ਜੋੜੋ",
+      "ANIMAL_NOTES_PLACEHOLDER": "",
+      "COUNT_UNIT_LABEL": "",
+      "CROP_NOTES_PLACEHOLDER": "",
       "CROP_REQUIRED": "ਲੋੜੀਂਦਾ ਹੈ",
       "CROP_VARIETY": "ਫਸਲ ਦੀ ਕਿਸਮ",
       "FLOW": "ਆਮਦਨ ਦੀ ਰਚਨਾ",
       "MANAGE_CUSTOM_REVENUE_TYPE": "ਕਸਟਮ ਆਮਦਨ ਕਿਸਮਾਂ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰੋ",
+      "MEASURED_BY": "",
+      "NOTES_PLACEHOLDER": "",
       "SALE_VALUE_ERROR": "ਵਿਕਰੀ ਮੁੱਲ 999,999,999 ਤੋਂ ਘੱਟ ਇੱਕ ਸਕਾਰਾਤਮਕ ਸੰਖਿਆ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
+      "SELECT_CROPS": "",
       "TABLE_HEADERS": {
         "TOTAL": "ਕੁੱਲ"
       },
@@ -1805,6 +1975,10 @@
     "ANIMALS_GROUPS": "ਜਾਨਵਰ ਸਮੂਹ",
     "ANIMALS_INVENTORY": "ਜਾਨਵਰ ਸਟਾਕ",
     "ANIMALS_LOCATION": "ਜਾਨਵਰ ਸਥਾਨ"
+  },
+  "SELECT": {
+    "NO_ANIMALS_IN_INVENTORY": "",
+    "NO_CROP_VARIETIES": ""
   },
   "SENSOR": {
     "ARRAY": "ਕਾਲਮ",
@@ -1883,6 +2057,9 @@
     "WELCOME_BACK": "ਵਾਪਸ ਸਵਾਗਤ",
     "WRONG_BROWSER": "ਲਾਈਟਫਾਰਮ ਇਸ ਬ੍ਰਾਊਜ਼ਰ ਲਈ ਅਨੁਕੂਲਿਤ ਨਹੀਂ ਹੈ।",
     "WRONG_BROWSER_BOTTOM": "ਕਿਰਪਾ ਕਰਕੇ ਕ੍ਰੋਮ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਲੌਗਇਨ ਕਰੋ।"
+  },
+  "SIMPLE_BADGE": {
+    "PRIVATE": ""
   },
   "SLIDE_MENU": {
     "CROPS": "ਫਸਲਾਂ",
@@ -2052,7 +2229,12 @@
     "TRANSPLANT": "ਟ੍ਰਾਂਸਪਲਾਂਟ",
     "TRANSPLANT_LOCATIONS": "ਟ੍ਰਾਂਸਪਲਾਂਟ ਸਥਾਨ ਚੁਣੋ",
     "UNASSIGNED": "ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤਾ ਗਿਆ",
-    "UPLOAD_LAB_DOCUMENT": "ਲੈਬ ਦਸਤਾਵੇਜ਼ ਅੱਪਲੋਡ ਕਰੋ"
+    "UPLOAD_LAB_DOCUMENT": "ਲੈਬ ਦਸਤਾਵੇਜ਼ ਅੱਪਲੋਡ ਕਰੋ",
+    "WILL_SAVE_ONLINE": ""
+  },
+  "TIME_STRIP": {
+    "NEXT_TIME_SLOT": "",
+    "PREVIOUS_TIME_SLOT": ""
   },
   "UNIT": {
     "TIME": {
@@ -2073,16 +2255,21 @@
     "CLICK_TO_UPLOAD": "ਅੱਪਲੋਡ ਕਰਨ ਲਈ ਕਲਿਕ ਕਰੋ",
     "DRAG_DROP": "ਜਾਂ ਖਿੱਚੋ ਅਤੇ ਛੱਡੋ",
     "REMOVE_IMAGE": "ਤਸਵੀਰ ਹਟਾਓ",
+    "UNSUPPORTED_FILE_TYPE": "",
     "UPLOAD_IMAGE": "ਤਸਵੀਰ ਅੱਪਲੋਡ ਕਰੋ"
   },
   "WAGE": {
     "ERROR": "ਮਜ਼ਦੂਰੀ ਇੱਕ ਵੈਧ, ਗੈਰ-ਨੈਗੇਟਿਵ ਦਸ਼ਮਲਵ ਸੰਖਿਆ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ",
     "HOURLY_WAGE": "ਘੰਟਾਵਾਰ ਤਨਖਾਹ",
     "HOURLY_WAGE_RANGE_ERROR": "ਘੰਟਾਵਾਰ ਤਨਖਾਹ 999,999,999 ਤੋਂ ਘੱਟ ਇੱਕ ਸਕਾਰਾਤਮਕ ਸੰਖਿਆ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ",
-    "HOURLY_WAGE_TOOLTIP": "'ਮੇਰਾ ਫਾਰਮ' ਦੇ ਅਧੀਨ ਲੋਕ ਟੈਬ 'ਤੇ ਕਿਸੇ ਵਿਅਕਤੀ ਨੂੰ ਚੁਣ ਕੇ ਪ੍ਰਤੀ ਘੰਟਾ ਮਜ਼ਦੂਰੀ ਨਿਰਧਾਰਤ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ।"
+    "HOURLY_WAGE_TOOLTIP": ""
   },
   "WEATHER": {
+    "FROST_EXPECTED": "",
+    "FROST_RISK": "",
     "HUMIDITY": "ਨਮੀ",
+    "PRECIPITATION": "",
+    "TITLE": "",
     "WIND": "ਹਵਾ"
   },
   "WELCOME_SCREEN": {

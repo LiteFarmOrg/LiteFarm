@@ -215,6 +215,62 @@ describe('Get Irrigation Prescription Tests', () => {
     });
   });
 
+  describe('Paginated prescription list response', () => {
+    test('Unwraps prescriptions returned under a paginated `results` envelope', async () => {
+      const { farm, field, user } = await setupFarmEnvironment(1);
+      await connectFarmToEnsemble(farm, ESciAddonPartner);
+
+      const externalIrrigationPrescriptions = await Promise.all(
+        [1, 2].map(async (id) =>
+          mocks.buildExternalIrrigationPrescription({
+            id,
+            providedFarm: farm,
+            providedLocation: field,
+          }),
+        ),
+      );
+
+      const irrigationPrescriptions = await Promise.all(
+        externalIrrigationPrescriptions.map(async (externalIrrigationPrescription) =>
+          mocks.buildIrrigationPrescription({
+            providedExternalIrrigationPrescription: externalIrrigationPrescription,
+            providedPartner: ESciAddonPartner,
+            linkToTask: false,
+          }),
+        ),
+      );
+
+      const today = new Date();
+      const startDate = today.toISOString().split('T')[0];
+      const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
+
+      // GET prescription list — paginated envelope
+      mockedAxios.mockResolvedValueOnce({
+        data: {
+          count: externalIrrigationPrescriptions.length,
+          next: null,
+          previous: null,
+          results: externalIrrigationPrescriptions,
+        },
+      });
+
+      // GET Ensemble Organisation (org content not part of tests)
+      mockedAxios.mockResolvedValueOnce({
+        data: [],
+      });
+
+      const res = await getIrrigationPrescription({
+        farm_id: farm.farm_id,
+        user_id: user.user_id,
+        startTime: startDate,
+        endTime: endDate,
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject(removeUndefined(irrigationPrescriptions));
+    });
+  });
+
   describe('All users should be able to GET irrigation prescription details', () => {
     [1, 2, 3, 5].forEach((role) => {
       test(`User with role ${role} should request IP details`, async () => {

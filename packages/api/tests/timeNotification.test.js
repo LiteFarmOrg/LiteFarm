@@ -564,30 +564,38 @@ describe('Time Based Notification Tests', () => {
       });
 
       test('One notification record should be created for the latest irrigation prescription on each location', async () => {
-        await mockedAxios.mockResolvedValue({
+        // Organisation lookup (2nd Ensemble call) and any retry resolve to an empty array.
+        mockedAxios.mockResolvedValue({ data: [] });
+        // Prescription list (1st Ensemble call) — paginated envelope.
+        await mockedAxios.mockResolvedValueOnce({
           status: 201,
-          data: [
-            {
-              id: 122,
-              recommended_start_date: '2025-05-07',
-              location_id: field.location_id,
-            },
-            {
-              id: 123,
-              recommended_start_date: '2025-05-07',
-              location_id: secondField.location_id,
-            },
-            {
-              id: 124,
-              recommended_start_date: '2025-05-08',
-              location_id: field.location_id,
-            },
-            {
-              id: 125,
-              recommended_start_date: '2025-05-08',
-              location_id: secondField.location_id,
-            },
-          ],
+          data: {
+            count: 4,
+            next: null,
+            previous: null,
+            results: [
+              {
+                id: 122,
+                recommended_start_date: '2025-05-07',
+                location_id: field.location_id,
+              },
+              {
+                id: 123,
+                recommended_start_date: '2025-05-07',
+                location_id: secondField.location_id,
+              },
+              {
+                id: 124,
+                recommended_start_date: '2025-05-08',
+                location_id: field.location_id,
+              },
+              {
+                id: 125,
+                recommended_start_date: '2025-05-08',
+                location_id: secondField.location_id,
+              },
+            ],
+          },
         });
 
         const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
@@ -617,20 +625,28 @@ describe('Time Based Notification Tests', () => {
       });
 
       test('Selects the latest prescription per location when responses are in descending order', async () => {
-        await mockedAxios.mockResolvedValue({
+        // Organisation lookup (2nd Ensemble call) and any retry resolve to an empty array.
+        mockedAxios.mockResolvedValue({ data: [] });
+        // Prescription list (1st Ensemble call) — paginated envelope, descending order.
+        await mockedAxios.mockResolvedValueOnce({
           status: 201,
-          data: [
-            {
-              id: 402,
-              recommended_start_date: '2025-05-08',
-              location_id: field.location_id,
-            },
-            {
-              id: 401,
-              recommended_start_date: '2025-05-07',
-              location_id: field.location_id,
-            },
-          ],
+          data: {
+            count: 2,
+            next: null,
+            previous: null,
+            results: [
+              {
+                id: 402,
+                recommended_start_date: '2025-05-08',
+                location_id: field.location_id,
+              },
+              {
+                id: 401,
+                recommended_start_date: '2025-05-07',
+                location_id: field.location_id,
+              },
+            ],
+          },
         });
 
         const res = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
@@ -647,21 +663,35 @@ describe('Time Based Notification Tests', () => {
       });
 
       test('Repeat notifications are not sent for the same irrigation prescription', async () => {
-        await mockedAxios.mockResolvedValue({
+        const listResponse = {
           status: 201,
-          data: [
-            {
-              id: 223,
-              recommended_start_date: '2025-05-07',
-              location_id: field.location_id,
-            },
-            {
-              id: 224,
-              recommended_start_date: '2025-05-08',
-              location_id: field.location_id,
-            },
-          ],
-        });
+          data: {
+            count: 2,
+            next: null,
+            previous: null,
+            results: [
+              {
+                id: 223,
+                recommended_start_date: '2025-05-07',
+                location_id: field.location_id,
+              },
+              {
+                id: 224,
+                recommended_start_date: '2025-05-08',
+                location_id: field.location_id,
+              },
+            ],
+          },
+        };
+
+        // Each controller call fetches the list then the organisation; the organisation
+        // lookup (and any retry) resolves to an empty array.
+        mockedAxios
+          .mockResolvedValue({ data: [] })
+          .mockResolvedValueOnce(listResponse)
+          .mockResolvedValueOnce({ data: [] })
+          .mockResolvedValueOnce(listResponse);
+
         const res1 = await postDailyNewIrrigationPrescriptions({ farm_id: farm.farm_id });
 
         // 201 is controller response for notifications sent
@@ -681,30 +711,38 @@ describe('Time Based Notification Tests', () => {
       });
 
       test('Notifications should not be sent for irrigation prescriptions associated with deleted locations', async () => {
-        await mockedAxios.mockResolvedValue({
+        // Organisation lookup (2nd Ensemble call) and any retry resolve to an empty array.
+        mockedAxios.mockResolvedValue({ data: [] });
+        // Prescription list (1st Ensemble call) — paginated envelope.
+        await mockedAxios.mockResolvedValueOnce({
           status: 201,
-          data: [
-            {
-              id: 301,
-              recommended_start_date: '2025-05-07',
-              location_id: field.location_id,
-            },
-            {
-              id: 302,
-              recommended_start_date: '2025-05-07',
-              location_id: secondField.location_id,
-            },
-            {
-              id: 303,
-              recommended_start_date: '2025-05-08',
-              location_id: field.location_id,
-            },
-            {
-              id: 304,
-              recommended_start_date: '2025-05-08',
-              location_id: secondField.location_id,
-            },
-          ],
+          data: {
+            count: 4,
+            next: null,
+            previous: null,
+            results: [
+              {
+                id: 301,
+                recommended_start_date: '2025-05-07',
+                location_id: field.location_id,
+              },
+              {
+                id: 302,
+                recommended_start_date: '2025-05-07',
+                location_id: secondField.location_id,
+              },
+              {
+                id: 303,
+                recommended_start_date: '2025-05-08',
+                location_id: field.location_id,
+              },
+              {
+                id: 304,
+                recommended_start_date: '2025-05-08',
+                location_id: secondField.location_id,
+              },
+            ],
+          },
         });
 
         // Delete the first location

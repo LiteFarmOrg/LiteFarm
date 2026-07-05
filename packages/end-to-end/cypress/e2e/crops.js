@@ -15,12 +15,14 @@
 
 // import moment from 'moment';
 // import * as Selectors from '../support/selectorConstants.ts';
-import { createUser, loadTranslations, userAuth } from '../support/utilities.js';
+import { createUser, initApi, userAuth } from '../support/api';
+import { loadTranslations } from '../support/utilities';
 
 describe('Crops', () => {
   let ctx;
 
   beforeEach(async () => {
+    initApi(Cypress.env('apiUrl'))
     ctx = await createUser();
     ctx.auth = await userAuth(ctx.user.email, ctx.password)
     

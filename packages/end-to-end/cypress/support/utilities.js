@@ -12,10 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-const PASSWORD = 'Password123!';
-
-
 export async function loadTranslations({ additionalTranslation, user }) {
   const lang = user.language_preference;
 
@@ -33,45 +29,3 @@ export async function loadTranslations({ additionalTranslation, user }) {
   return [translation, additional];
 }
 
-export const createUser = async (overrides = {}) => {
-  const payload = {
-    first_name: 'Test',
-    last_name: 'User',
-    email: `test-${Date.now()}@example.com`,
-    password: PASSWORD,
-    language_preference: 'en',
-    ...overrides,
-  };
-
-  const response = await fetch(`${Cypress.env('apiUrl')}/user`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
-  return {password: payload.password, ...await response.json()}
-};
-
-export const userAuth = async (email, password = PASSWORD) => {
-  const payload = {
-    user: {
-      email,
-      password,
-    },
-    screenSize: {
-      screen_width: 2506,
-      screen_height: 411,
-    },
-  };
-  
-  const response = await fetch(`${Cypress.env('apiUrl')}/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
-  const { id_token } = await response.json();
-  return { token: id_token, authHeader: { Authorization: `Bearer ${ id_token }`, } };
-}

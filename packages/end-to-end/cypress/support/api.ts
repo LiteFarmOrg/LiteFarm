@@ -157,3 +157,32 @@ export const organicCertifierSurvey = async (auth, farmId, userId) => {
 
   return await response.json();
 }
+
+export const releseBadge = async(auth, farmId, userId) => {
+  await fetch(`${hostname}/release_badge`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'dgelication/json',
+      farm_id: farmId,
+      user_id: userId,
+      ...auth.authHeader,
+    },
+    body: JSON.stringify({app_version:"3.12.0"}),
+  });
+}
+export const showedSpotlight = async(auth, userId) => {
+  await fetch(`${hostname}/showed_spotlight`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'dgelication/json',
+      user_id: userId,
+      ...auth.authHeader,
+    },
+    body: JSON.stringify({
+      notification:true,
+      notification_end:"2026-07-01T08:21:04.769Z",
+      navigation:true,
+      navigation_end:"2026-07-01T08:21:04.776Z"
+    }),
+  });
+}

@@ -15,7 +15,7 @@
 
 // import moment from 'moment';
 // import * as Selectors from '../support/selectorConstants.ts';
-import { createFarm, createUser, farmConsent, initApi, onboardFarm, onboardRole, organicCertifierSurvey, ownerOperated, userAuth } from '../support/api';
+import { createFarm, createUser, farmConsent, initApi, onboardFarm, onboardRole, organicCertifierSurvey, ownerOperated, releseBadge, showedSpotlight, userAuth } from '../support/api';
 import { loadTranslations } from '../support/utilities';
 
 describe('Crops', () => {
@@ -39,8 +39,9 @@ describe('Crops', () => {
     await onboardRole(ctx.auth, ctx.farm.farm_id, ctx.user.user_id, 2);
     await ownerOperated(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
     await farmConsent(ctx.auth, ctx.farm.farm_id, ctx.user.user_id, true);
-    const r = await organicCertifierSurvey(ctx.auth, ctx.farm.farm_id, ctx.user.user_id)
-    console.log(r)
+    await organicCertifierSurvey(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
+    await releseBadge(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
+    await showedSpotlight(ctx.auth, ctx.user.user_id);
     cy.pause()
   });
 

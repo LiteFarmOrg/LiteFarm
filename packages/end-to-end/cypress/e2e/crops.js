@@ -15,7 +15,7 @@
 
 // import moment from 'moment';
 // import * as Selectors from '../support/selectorConstants.ts';
-import { createUser, initApi, userAuth } from '../support/api';
+import { createFarm, createUser, farmConsent, initApi, onboardFarm, onboardRole, organicCertifierSurvey, ownerOperated, userAuth } from '../support/api';
 import { loadTranslations } from '../support/utilities';
 
 describe('Crops', () => {
@@ -33,10 +33,20 @@ describe('Crops', () => {
 
     ctx.translation = translation;
     ctx.crops = crops;
+    ctx.farm = await createFarm(ctx.auth)
+
+    await onboardFarm(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
+    await onboardRole(ctx.auth, ctx.farm.farm_id, ctx.user.user_id, 2);
+    await ownerOperated(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
+    await farmConsent(ctx.auth, ctx.farm.farm_id, ctx.user.user_id, true);
+    const r = await organicCertifierSurvey(ctx.auth, ctx.farm.farm_id, ctx.user.user_id)
+    console.log(r)
+    cy.pause()
   });
 
+    // console.log(ctx)
+    // cy.pause()
   it('should successfully add a crop variety and crop plan', () => {
-    console.log(ctx)
     cy.injectTokenToUI(ctx.auth.token);
     cy.pause();
     // cy.get('@ctx').then(({ user, translation, crops }) => {

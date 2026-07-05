@@ -18,6 +18,7 @@
 * Try to keep dependencies at minimum, keep in mind this file
 * runs in the UI, therefore no nodejs package can be used.
 **/
+import { farm as fixtureFarm, onboarding } from '../fixtures/test.fixture'
 
 const PASSWORD = 'Password123!';
 let hostname;
@@ -65,4 +66,94 @@ export const userAuth = async (email, password = PASSWORD) => {
   });
   const { id_token } = await response.json();
   return { token: id_token, authHeader: { Authorization: `Bearer ${ id_token }`, } };
+}
+
+export const createFarm = async (auth, farm = fixtureFarm) => {
+  const response = await fetch(`${hostname}/farm`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...auth.authHeader,
+    },
+    
+    body: JSON.stringify(farm),
+  });
+
+  return await response.json();
+}
+
+export const onboardFarm = async(auth, farmId, userId) => {
+  await fetch(`${hostname}/user_farm/onboarding/farm/${farmId}/user/${userId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      farm_id: farmId,
+      ...auth.authHeader,
+    },
+    body: JSON.stringify(onboarding),
+  });
+}
+
+export const onboardRole = async(auth, farmId, userId, roleId = 2) => {
+  await fetch(`${hostname}/user_farm/role/farm/${farmId}/user/${userId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      farm_id: farmId,
+      user_id: userId,
+      ...auth.authHeader,
+    },
+    body: JSON.stringify({ role_id: roleId }),
+  });
+}
+
+export const ownerOperated = async(auth, farmId, userId) => {
+  console.log(`${hostname}/farm/owner_operated/${farmId}`)
+  const response = await fetch(`${hostname}/farm/owner_operated/${farmId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      farm_id: farmId,
+      user_id: userId,
+      ...auth.authHeader,
+    },
+    body: JSON.stringify({ owner_operated: true }),
+  });
+
+  return await response.json();
+}
+export const farmConsent = async(auth, farmId, userId, hasConsent = false) => {
+  await fetch(`${hostname}/user_farm/consent/farm/${farmId}/user/${userId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      farm_id: farmId,
+      user_id: userId,
+      ...auth.authHeader,
+    },
+    body: JSON.stringify({ has_consent: hasConsent, consent_version: '7.1' }),
+  });
+}
+
+export const organicCertifierSurvey = async (auth, farmId, userId) => {
+  const response = await fetch(`${hostname}/organic_certifier_survey`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      farm_id: farmId,
+      user_id: userId,
+      ...auth.authHeader,
+    },
+    
+    body: JSON.stringify({
+      certification_id:null,
+      certifier_id:null,
+      farm_id:farmId,
+      interested:false,
+      requested_certification:null,
+      requested_certifier:null
+    }),
+  });
+
+  return await response.json();
 }

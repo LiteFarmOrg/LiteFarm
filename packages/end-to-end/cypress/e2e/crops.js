@@ -15,33 +15,34 @@
 
 // import moment from 'moment';
 // import * as Selectors from '../support/selectorConstants.ts';
-import { loadTranslations } from '../support/utilities.js';
+import { createUser, loadTranslations, userAuth } from '../support/utilities.js';
 
 describe('Crops', () => {
-  beforeEach(() => {
-    cy.createUserAndLogin().then((auth) => {
-      return loadTranslations({
-        additionalTranslation: 'crop_group',
-        user: auth.user,
-      }).then(([translation, crops]) => {
-        cy.injectTokenToUI(auth.token);
-        cy.wrap({
-          auth,
-          user: auth.user,
-          translation,
-          crops,
-        }).as('ctx');
-      });
+  let ctx;
+
+  beforeEach(async () => {
+    ctx = await createUser();
+    ctx.auth = await userAuth(ctx.user.email, ctx.password)
+    
+    const [translation, crops] = await loadTranslations({
+      additionalTranslation: 'crop_group',
+      user: ctx.user,
     });
+
+    ctx.translation = translation;
+    ctx.crops = crops;
   });
 
   it('should successfully add a crop variety and crop plan', () => {
-    cy.get('@ctx').then(({ user, translation, crops }) => {
-      console.log(translation);
-      console.log(crops);
-      console.log(user);
-      cy.pause();
-    });
+    console.log(ctx)
+    cy.injectTokenToUI(ctx.auth.token);
+    cy.pause();
+    // cy.get('@ctx').then(({ user, translation, crops }) => {
+    //   console.log(translation);
+    //   console.log(crops);
+    //   console.log(user);
+    //   cy.pause();
+    // });
     // const uniqueSeed = Date.now().toString();
     // const uniqueId = Cypress._.uniqueId(uniqueSeed);
 

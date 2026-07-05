@@ -95,6 +95,7 @@ Cypress.Commands.add(
   },
 );
 
+
 const addFarm = (farmName, location) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/js/GeocodeService.*').as(
     'googleMapGeocodeCall',
@@ -254,45 +255,7 @@ const acceptSlideMenuSpotlights = (crop_menu_name) => {
     .click();
 };
 
-Cypress.Commands.add('createUser', (overrides = {}) => {
-  const payload = {
-    first_name: 'Test',
-    last_name: 'User',
-    email: `test-${Date.now()}@example.com`,
-    password: 'Password123!',
-    language_preference: 'en',
-    ...overrides,
-  };
 
-  return cy
-    .request({
-      method: 'POST',
-      url: `${Cypress.env('apiUrl')}/user`,
-      body: payload,
-    })
-    .its('body');
-});
-
-Cypress.Commands.add('apiLogin', (email) => {
-  const payload = {
-    user: {
-      email: email,
-      password: 'Password123!',
-    },
-    screenSize: {
-      screen_width: 2506,
-      screen_height: 411,
-    },
-  };
-
-  return cy
-    .request({
-      method: 'POST',
-      url: `${Cypress.env('apiUrl')}/login`,
-      body: payload,
-    })
-    .its('body');
-});
 
 Cypress.Commands.add('createUserAndLogin', (overrides = {}) => {
   return cy.createUser(overrides).then(({ user }) => {
@@ -314,4 +277,46 @@ Cypress.Commands.add('injectTokenToUI', (token) => {
       win.localStorage.setItem('id_token', token);
     },
   });
+});
+
+Cypress.Commands.add('onboardUserByApi', (auth) => {
+  const farmPayload = {
+    farm_name: 'test farm',
+    address: 'Tarahumara 390, Francisco Villa, 96566 Coatzacoalcos, Ver., Mexico',
+    grid_points: {
+      lat: 18.1215184,
+      lng: -94.46313719999999,
+    },
+    country: 'MX',
+  };
+
+  return cy
+    .request({
+      method: 'POST',
+      url: `${Cypress.env('apiUrl')}/farm`,
+      body: farmPayload,
+      headers: auth.authHeader,
+    })
+    .its('body')
+    .then((farm) => {
+      const onboardingPayload = {
+        step_one: true,
+        step_one_end: new Date().toISOString(),
+        step_two: true,
+        step_two_end: new Date().toISOString(),
+        step_three: true,
+        step_three_end: new Date().toISOString(),
+      };
+
+      return cy
+        .request({
+          method: 'PATCH',
+          url: `${Cypress.env('apiUrl')}/user_farm/onboarding/farm/${farm.farm_id}/user/${
+            auth.user.user_id
+          }`,
+          body: onboardingPayload,
+          headers: auth.authHeader,
+        })
+        .then(() => farm); // opcional: devolver el farm para seguir usándolo
+    });
 });

@@ -56,20 +56,14 @@ describe('Crops', () => {
     await releseBadge(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
     await showedSpotlight(ctx.auth, ctx.user.user_id);
     ctx.farmToken = await farmToken(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
+    console.log(ctx)
   });
 
-    // console.log(ctx)
-    // cy.pause()
   it('should successfully add a crop variety and crop plan', () => {
     cy.injectTokensToUI(ctx.auth.token, ctx.farmToken.farm_token);
-    // cy.visit('/crop_catalogue')
+    cy.visit('/crop_catalogue')
     cy.pause();
-    // cy.get('@ctx').then(({ user, translation, crops }) => {
-    //   console.log(translation);
-    //   console.log(crops);
-    //   console.log(user);
-    //   cy.pause();
-    // });
+
     // const uniqueSeed = Date.now().toString();
     // const uniqueId = Cypress._.uniqueId(uniqueSeed);
 

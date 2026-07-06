@@ -255,22 +255,6 @@ const acceptSlideMenuSpotlights = (crop_menu_name) => {
     .click();
 };
 
-
-
-Cypress.Commands.add('createUserAndLogin', (overrides = {}) => {
-  return cy.createUser(overrides).then(({ user }) => {
-    return cy.apiLogin(user.email).then(({ id_token }) => {
-      return {
-        token: id_token,
-        user,
-        authHeader: {
-          Authorization: `Bearer ${id_token}`,
-        },
-      };
-    });
-  });
-});
-
 Cypress.Commands.add('injectTokensToUI', (user, farm) => {
   cy.visit('/', {
     onBeforeLoad(win) {

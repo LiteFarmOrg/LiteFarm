@@ -232,6 +232,11 @@ export const taskEntitiesSelector = createSelector(
     }) => {
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
+      // Plan entities arrive from a separate fetch and can be absent while tasks are already in
+      // the store; return undefined so callers can drop the reference until the store catches up.
+      if (!managementPlanEntities[management_plan_id]) {
+        return undefined;
+      }
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
@@ -243,29 +248,38 @@ export const taskEntitiesSelector = createSelector(
     return produce(taskEntities, (taskEntities) => {
       for (const task_id in taskEntities) {
         taskEntities[task_id].managementPlans =
-          taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
-          [];
+          taskEntities[task_id].managementPlans
+            ?.map(getManagementPlanByPlantingManagementPlan)
+            .filter(Boolean) || [];
         // Drop location_ids with no cached location so tasksSelector never reads farm_id off undefined.
         taskEntities[task_id].locations =
           taskEntities[task_id].locations
             ?.map((location_id) => locationEntities[location_id])
             .filter(Boolean) || [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
+        // Every consumer dereferences taskType unconditionally; a task whose type is not in the
+        // store cannot be rendered, so drop it until the task types fetch lands.
+        if (!taskType) {
+          delete taskEntities[task_id];
+          continue;
+        }
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][getSubtaskName(task_translation_key)] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
-          // Keep the location only when its record is cached, so an unloaded location yields [] not [undefined].
-          taskEntities[task_id].locations = subtask.planting_management_plan.location_id
-            ? [locationEntities[subtask.planting_management_plan.location_id]].filter(Boolean)
+          // The subtask, its planting management plan, and the location each come from separate
+          // fetches; join only what is in the store, so the task holds [] rather than [undefined].
+          const planting_management_plan = subtask?.planting_management_plan;
+          taskEntities[task_id].locations = planting_management_plan?.location_id
+            ? [locationEntities[planting_management_plan.location_id]].filter(Boolean)
             : [];
-          taskEntities[task_id].managementPlans = [
-            getManagementPlanByPlantingManagementPlan(subtask),
-          ];
+          taskEntities[task_id].managementPlans = subtask
+            ? [getManagementPlanByPlantingManagementPlan(subtask)].filter(Boolean)
+            : [];
         }
         taskEntities[task_id].assignee =
-          userFarmEntities[userFarm.farm_id][taskEntities[task_id].assignee_user_id];
+          userFarmEntities[userFarm.farm_id]?.[taskEntities[task_id].assignee_user_id];
       }
     });
   },

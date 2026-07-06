@@ -156,7 +156,7 @@ async function tableCleanup(knex) {
     DELETE FROM "market_directory_partner_country";
     DELETE FROM "market_directory_partner_auth";
     DELETE FROM "market_directory_partner";
-    DELETE FROM "tape_survey";
+    DELETE FROM "survey_response";
     DELETE FROM "farm_notes_read";
     DELETE FROM "farm_note";
     DELETE FROM "location";

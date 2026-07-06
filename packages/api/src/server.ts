@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.12.0',
+    release: '3.12.1',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -180,7 +180,7 @@ import marketDirectoryInfoRoute from './routes/marketDirectoryInfoRoute.js';
 import marketProductCategoryRoute from './routes/marketProductCategoryRoute.js';
 import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
 import offlineEventLogRoute from './routes/offlineEventLogRoute.js';
-import tapeSurveyRoute from './routes/tapeSurveyRoute.js';
+import surveyResponseRoute from './routes/surveyResponseRoute.js';
 import farmNoteRoute from './routes/farmNoteRoute.js';
 import farmNotesReadRoute from './routes/farmNotesReadRoute.js';
 
@@ -364,7 +364,7 @@ app
   .use('/market_product_categories', marketProductCategoryRoute)
   .use('/market_directory_partners', marketDirectoryPartnerRoute)
   .use('/offline_event_log', offlineEventLogRoute)
-  .use('/tape_survey', tapeSurveyRoute)
+  .use('/survey_response', surveyResponseRoute)
   .use('/farm_notes', farmNoteRoute)
   .use('/farm_notes_read', farmNotesReadRoute);
 

@@ -158,9 +158,14 @@ describe('Get Irrigation Prescription Tests', () => {
         const startDate = today.toISOString().split('T')[0];
         const endDate = addDaysToDate(today, 1).toISOString().split('T')[0];
 
-        // GET prescription list
+        // GET prescription list — paginated envelope
         mockedAxios.mockResolvedValueOnce({
-          data: externalIrrigationPrescriptions,
+          data: {
+            count: externalIrrigationPrescriptions.length,
+            next: null,
+            previous: null,
+            results: externalIrrigationPrescriptions,
+          },
         });
 
         // GET Ensemble Organisation (org content not part of tests)
@@ -193,9 +198,14 @@ describe('Get Irrigation Prescription Tests', () => {
         expect(irrigationPrescriptionsWithTasks.length).toBe(2);
         expect(irrigationPrescriptionsWithTasks[0].task_id).toBeTruthy();
 
-        // GET prescription list
+        // GET prescription list — paginated envelope
         mockedAxios.mockResolvedValueOnce({
-          data: irrigationPrescriptionsWithTasks,
+          data: {
+            count: irrigationPrescriptionsWithTasks.length,
+            next: null,
+            previous: null,
+            results: irrigationPrescriptionsWithTasks,
+          },
         });
 
         // GET Ensemble Organisation (org content not part of tests)

@@ -15,72 +15,97 @@
 
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { useTapeSurveyPrepopulatedData } from './useTapeSurveyPrepopulatedData';
-import { saveSurveyProgress, clearSurvey, tapeSurveySelector } from './tapeSurveySlice';
+import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
+import { useSurveyTitle } from './useSurveyTitle';
+import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
+import { SURVEY_INFO, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
 import {
   usePrefetch,
-  useGetTapeSurveyJsonQuery,
-  useAddTapeSurveyMutation,
-} from '../../../store/api/tapeSurveyApi';
+  useGetSurveyJsonQuery,
+  useAddSurveyResponseMutation,
+} from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 
-interface TAPESurveyProps {
+interface SurveyProps {
   isCompactSideMenu: boolean;
-  surveyVersion: string;
 }
 
-function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
+function Survey({ isCompactSideMenu }: SurveyProps) {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { surveyId } = useParams<{ surveyId: string }>();
+  const surveyTitle = useSurveyTitle(surveyId);
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
-  const { farm_id } = useSelector(userFarmSelector);
+  const { farm_id, country_code } = useSelector(userFarmSelector);
+
+  const surveyVersion = getSurveyVersion(surveyId, country_code);
+  const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
-    useTapeSurveyPrepopulatedData();
+    useSurveyPrepopulatedData(surveyId);
 
   const {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
-  } = useGetTapeSurveyJsonQuery(surveyVersion);
+  } = useGetSurveyJsonQuery(
+    { cdnDirectory: cdnDirectory ?? '', version: surveyVersion ?? '' },
+    { skip: !cdnDirectory || !surveyVersion },
+  );
 
-  const [addTapeSurvey] = useAddTapeSurveyMutation();
-  const prefetchSurveyData = usePrefetch('getTapeSurvey');
+  const [addSurveyResponse] = useAddSurveyResponseMutation();
+  const prefetchLatestResponse = usePrefetch('getLatestSurveyResponse');
 
-  const { surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(tapeSurveySelector);
+  const { surveyData: surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(
+    surveyDraftSelector(surveyId),
+  );
   const notifications: { message: string }[] = useSelector(snackbarSelector);
 
   const initialData = { ...prepopulatedData, ...surveyDataInProgress };
 
-  const handleDataChange = useCallback((currentPageNo: number, surveyData: Record<string, any>) => {
-    dispatch(saveSurveyProgress({ currentPageNo, surveyData }));
-  }, []);
+  const handleDataChange = useCallback(
+    (currentPageNo: number, surveyData: Record<string, any>) => {
+      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData }));
+    },
+    [dispatch, surveyId],
+  );
 
   const handleComplete = useCallback(
     async (surveyData: any, options: CompleteEvent) => {
       try {
-        await addTapeSurvey({ survey_response: surveyData, farm_id }).unwrap();
-        prefetchSurveyData();
-        dispatch(clearSurvey());
-        history.push('/insights/tape/results');
+        await addSurveyResponse({
+          survey_key: surveyId,
+          survey_response: surveyData,
+          farm_id,
+        }).unwrap();
+        prefetchLatestResponse({ surveyKey: surveyId });
+        dispatch(clearSurvey({ surveyId }));
+        // Replace instead of push so the submitted survey is not left in the history stack
+        history.replace(`/insights/survey/${surveyId}/results`);
       } catch {
         // Display the default "An error occurred and we could not save the results." message.
-        // (pass translated string for multiple language support)
         options.showSaveError();
       }
     },
-    [addTapeSurvey, dispatch, history, t],
+    [addSurveyResponse, prefetchLatestResponse, dispatch, history, surveyId, farm_id],
   );
+
+  // Redirect to Insights if this survey is unknown or not available to the farm's country
+  useEffect(() => {
+    if (!surveyVersion) {
+      history.replace('/Insights');
+    }
+  }, [surveyVersion, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {
@@ -97,11 +122,9 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
 
   return (
     <div className={insightStyles.insightContainer}>
-      <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
-      <div
-        className={clsx(styles.tapeSurveyContainer, isCompactSideMenu && styles.compactSideMenu)}
-      >
-        {/* wait for prepopulated data to load */}
+      <PageTitle title={surveyTitle} backUrl="/Insights" />
+      <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
+        {/* wait for prepopulated data and survey JSON to load */}
         {!isLoading && surveyJson && (
           <SurveyComponent
             surveyJson={surveyJson}
@@ -116,4 +139,4 @@ function TAPESurvey({ isCompactSideMenu, surveyVersion }: TAPESurveyProps) {
   );
 }
 
-export default TAPESurvey;
+export default Survey;

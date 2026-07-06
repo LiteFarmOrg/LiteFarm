@@ -16,24 +16,30 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import tapeSurveyController from '../controllers/tapeSurveyController.js';
+import surveyResponseController from '../controllers/surveyResponseController.js';
 
 const router = express.Router();
 
 router.post(
   '/',
-  checkScope(['add:tape_survey']),
+  checkScope(['add:survey_response']),
   hasFarmAccess({ body: 'farm_id' }),
-  tapeSurveyController.createTapeSurvey(),
+  surveyResponseController.createSurveyResponse(),
 );
 
-router.get('/', checkScope(['get:tape_survey']), tapeSurveyController.getTapeSurvey());
+// Latest survey response of the kind given by the survey_key query param
+router.get(
+  '/',
+  checkScope(['get:survey_response']),
+  surveyResponseController.getLatestSurveyResponse(),
+);
 
+// Non-destructive update: appends a new version sharing the submission_id
 router.patch(
   '/:submission_id',
-  checkScope(['edit:tape_survey']),
+  checkScope(['edit:survey_response']),
   hasFarmAccess({ params: 'submission_id' }),
-  tapeSurveyController.updateTapeSurvey(),
+  surveyResponseController.updateSurveyResponse(),
 );
 
 export default router;

@@ -71,7 +71,7 @@ import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
-import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
+import surveyDraftReducer from '../containers/Insights/Survey/surveyDraftSlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -183,7 +183,7 @@ const entitiesReducer = combineReducers({
 
 const farmStateReducer = combineReducers({
   notificationReducer,
-  tapeSurveyReducer,
+  surveyDraftReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -231,8 +231,8 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (state && action.type === ActionTypes.SWITCH_FARMS) {
-    // selectively only reset farmStateReducer state when switching farms
+  if (state && action.type === ActionTypes.RESET_FARM_STATE) {
+    // Drop the farmStateReducer branch so combineReducers re-initialises it
     const { farmStateReducer, ...otherReducers } = state;
     state = otherReducers;
   }

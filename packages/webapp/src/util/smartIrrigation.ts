@@ -37,5 +37,5 @@ export const createESciReportLink = ({
     return;
   }
 
-  return `https://app.esci.io/${organisation_url_name}/${system_url_name}/irrigation-report`;
+  return `https://app.esci.io/${organisation_url_name}/reports/${system_url_name}`;
 };

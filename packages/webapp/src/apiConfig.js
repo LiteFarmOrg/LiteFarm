@@ -102,7 +102,7 @@ export const marketDirectoryPartnersUrl = `${URI}/market_directory_partners`;
 export const supportTicketUrl = `${URI}/support_ticket`;
 export const logUserInfoUrl = `${URI}/userLog`;
 export const offlineEventLogUrl = `${URI}/offline_event_log`;
-export const tapeSurveyUrl = `${URI}/tape_survey`;
+export const surveyResponseUrl = `${URI}/survey_response`;
 export const farmNoteUrl = `${URI}/farm_notes`;
 export const farmNotesReadUrl = `${URI}/farm_notes_read`;
 

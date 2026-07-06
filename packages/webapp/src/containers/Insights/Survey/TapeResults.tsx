@@ -31,7 +31,7 @@ import insightStyles from '../styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import { roundToOne } from '../../../util/rounding';
-import { useGetTapeSurveyQuery } from '../../../store/api/tapeSurveyApi';
+import { useGetLatestSurveyResponseQuery } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 
 const CHART_COLOR = 'rgba(85, 143, 112, 1)'; // --Colors-Secondary-Secondary-green-700
@@ -47,20 +47,26 @@ interface TAPEDimension {
   maxScore: number;
 }
 
-function TAPEResults() {
+function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { data: surveyData, error: surveyDataError } = useGetTapeSurveyQuery();
+  const {
+    data: surveyData,
+    error: surveyDataError,
+    isSuccess,
+  } = useGetLatestSurveyResponseQuery({
+    surveyKey: surveyId,
+  });
   const { survey_response } = surveyData || {};
   const notifications: { message: string }[] = useSelector(snackbarSelector);
 
   useEffect(() => {
-    // Redirect back to survey page if no saved survey data is found
-    // (e.g. if user tries to access results page directly without completing survey)
-    if (surveyDataError && 'status' in surveyDataError && surveyDataError?.status === 404) {
-      history.replace('/Insights/tape');
+    if (isSuccess && !surveyData) {
+      // No saved survey for this farm: send the user to fill it in (e.g. if they open the results
+      // page directly without completing the survey).
+      history.replace(`/insights/survey/${surveyId}`);
     } else if (surveyDataError) {
       const activeError = notifications.find(
         ({ message }) => message === t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR'),
@@ -69,7 +75,7 @@ function TAPEResults() {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR')));
       }
     }
-  }, [surveyDataError]);
+  }, [surveyDataError, isSuccess, surveyData]);
 
   const tapeData = survey_response ? analyzeTAPEData(survey_response) : [];
 

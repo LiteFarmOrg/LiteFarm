@@ -1,5 +1,6 @@
 import certificationModel from '../../models/certificationModel.js';
 
+// TODO LF-5382: Rename
 async function organicCertifierCheck(req, res, next) {
   const { body } = req;
   if (body.farm_id) {
@@ -9,8 +10,9 @@ async function organicCertifierCheck(req, res, next) {
       .where({ farm_id: body.farm_id })
       .first();
     // TODO LF-5379: temporary shim — `interested` is removed from the DB; treat missing record as not interested
-    const isFarmInterestedInOrganic = certification ?? { interested: false };
-    if (isFarmInterestedInOrganic.interested) {
+    // TODO LF-5382: Implement proper organic certification logic
+    const isFarmInterestedInOrganic = !!certification;
+    if (isFarmInterestedInOrganic) {
       if (body.organic === null) {
         return res.status(400).send({ message: "Organic can't be null" });
       }
@@ -21,7 +23,7 @@ async function organicCertifierCheck(req, res, next) {
         return res.status(400).send({ message: 'Organic should be null' });
       }
     }
-    if (!isFarmInterestedInOrganic.interested) {
+    if (!isFarmInterestedInOrganic) {
       if (body.organic !== null || body.searched !== null || body.genetically_engineered !== null) {
         return res.status(400).send({
           message: 'This farm is not interested in organic certification, data should be null',

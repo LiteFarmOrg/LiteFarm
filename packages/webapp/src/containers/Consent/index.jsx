@@ -22,6 +22,8 @@ import PunjabiOwnerConsent from './locales/pa/Owner.Consent.md';
 import PunjabiWorkerConsent from './locales/pa/Worker.Consent.md';
 import MalayalamOwnerConsent from './locales/ml/Owner.Consent.md';
 import MalayalamWorkerConsent from './locales/ml/Worker.Consent.md';
+import KhmerOwnerConsent from './locales/km/Owner.Consent.md';
+import KhmerWorkerConsent from './locales/km/Worker.Consent.md';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
 
@@ -34,6 +36,7 @@ const languageConsent = {
   hi: { worker: <HindiWorkerConsent />, owner: <HindiOwnerConsent /> },
   pa: { worker: <PunjabiWorkerConsent />, owner: <PunjabiOwnerConsent /> },
   ml: { worker: <MalayalamWorkerConsent />, owner: <MalayalamOwnerConsent /> },
+  km: { worker: <KhmerWorkerConsent />, owner: <KhmerOwnerConsent /> },
 };
 
 const getLanguageConsent = (language) => languageConsent[language] || languageConsent.en;

@@ -15,7 +15,20 @@
 
 // import moment from 'moment';
 // import * as Selectors from '../support/selectorConstants.ts';
-import { createFarm, createUser, farmConsent, initApi, onboardFarm, onboardRole, organicCertifierSurvey, ownerOperated, releseBadge, showedSpotlight, userAuth } from '../support/api';
+import {
+  createFarm,
+  createUser,
+  farmConsent,
+  farmToken,
+  initApi,
+  onboardFarm,
+  onboardRole,
+  organicCertifierSurvey,
+  ownerOperated,
+  releseBadge,
+  showedSpotlight,
+  userAuth
+} from '../support/api';
 import { loadTranslations } from '../support/utilities';
 
 describe('Crops', () => {
@@ -42,13 +55,14 @@ describe('Crops', () => {
     await organicCertifierSurvey(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
     await releseBadge(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
     await showedSpotlight(ctx.auth, ctx.user.user_id);
-    cy.pause()
+    ctx.farmToken = await farmToken(ctx.auth, ctx.farm.farm_id, ctx.user.user_id);
   });
 
     // console.log(ctx)
     // cy.pause()
   it('should successfully add a crop variety and crop plan', () => {
-    cy.injectTokenToUI(ctx.auth.token);
+    cy.injectTokensToUI(ctx.auth.token, ctx.farmToken.farm_token);
+    // cy.visit('/crop_catalogue')
     cy.pause();
     // cy.get('@ctx').then(({ user, translation, crops }) => {
     //   console.log(translation);

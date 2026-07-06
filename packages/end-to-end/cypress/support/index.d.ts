@@ -5,6 +5,6 @@ declare namespace Cypress {
     apiLogin(email: string): Chainable<any>;
 
     createUserAndLogin(overrides?: object): Chainable<any>;
-    injectTokenToUI(token: string): Chainable<any>;
+    injectTokensToUI(user: string, token: string): Chainable<any>;
   }
 }

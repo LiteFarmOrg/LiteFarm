@@ -271,10 +271,11 @@ Cypress.Commands.add('createUserAndLogin', (overrides = {}) => {
   });
 });
 
-Cypress.Commands.add('injectTokenToUI', (token) => {
+Cypress.Commands.add('injectTokensToUI', (user, farm) => {
   cy.visit('/', {
     onBeforeLoad(win) {
-      win.localStorage.setItem('id_token', token);
+      win.localStorage.setItem('id_token', user);
+      win.localStorage.setItem('farm_token', farm);
     },
   });
 });

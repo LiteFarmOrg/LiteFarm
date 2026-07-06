@@ -162,7 +162,7 @@ export const releseBadge = async(auth, farmId, userId) => {
   await fetch(`${hostname}/release_badge`, {
     method: 'PATCH',
     headers: {
-      'Content-Type': 'dgelication/json',
+      'Content-Type': 'application/json',
       farm_id: farmId,
       user_id: userId,
       ...auth.authHeader,
@@ -174,7 +174,7 @@ export const showedSpotlight = async(auth, userId) => {
   await fetch(`${hostname}/showed_spotlight`, {
     method: 'PATCH',
     headers: {
-      'Content-Type': 'dgelication/json',
+      'Content-Type': 'application/json',
       user_id: userId,
       ...auth.authHeader,
     },
@@ -185,4 +185,19 @@ export const showedSpotlight = async(auth, userId) => {
       navigation_end:"2026-07-01T08:21:04.776Z"
     }),
   });
+}
+
+export const farmToken = async(auth, farmId, userId) => {
+  console.log(`${hostname}/farm_token/farm/${farmId}`)
+  const response = await fetch(`${hostname}/farm_token/farm/${farmId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      user_id: userId,
+      farm_id: farmId,
+      ...auth.authHeader,
+    }
+  });
+
+  return await response.json();
 }

@@ -2100,7 +2100,7 @@ async function supportTicketFactory(
     .returning('*');
 }
 
-function fakeOrganicCertifierSurvey(farm_id, defaultData = {}) {
+function fakeCertification(farm_id, defaultData = {}) {
   const certificationIDS = [1, 2];
   const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 13, 15, 16, 17, 18];
   const past = faker.date.past();
@@ -2124,15 +2124,15 @@ function baseProperties(user_id) {
   };
 }
 
-async function organicCertifierSurveyFactory(
+async function certificationFactory(
   { promisedUserFarm = userFarmFactory() } = {},
-  organicCertifierSurvey = fakeOrganicCertifierSurvey(),
+  certification = fakeCertification(),
 ) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ farm_id, user_id }] = userFarm;
   return knex('certification')
     .insert({
-      ...organicCertifierSurvey,
+      ...certification,
       farm_id,
       created_by_user_id: user_id,
       updated_by_user_id: user_id,
@@ -3100,8 +3100,8 @@ export default {
   fakeFarmDataSchedule,
   farmDataScheduleFactory,
   fakePriceInsightForTests,
-  fakeOrganicCertifierSurvey,
-  organicCertifierSurveyFactory,
+  fakeCertification,
+  certificationFactory,
   fakeSupportTicket,
   supportTicketFactory,
   fakePoint,

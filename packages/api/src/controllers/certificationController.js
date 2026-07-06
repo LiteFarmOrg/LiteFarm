@@ -32,8 +32,8 @@ const redisConf = {
   },
 };
 
-const organicCertifierSurveyController = {
-  getCertificationSurveyByFarmId() {
+const certificationController = {
+  getCertificationByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -56,7 +56,7 @@ const organicCertifierSurveyController = {
     };
   },
 
-  getAllSupportedCertifications() {
+  getAllSupportedCertificationSystemTypes() {
     return async (_req, res) => {
       try {
         const result = await CertificationSystemTypeModel.query().select('*');
@@ -113,7 +113,7 @@ const organicCertifierSurveyController = {
     };
   },
 
-  addOrganicCertifierSurvey() {
+  addCertification() {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
@@ -137,7 +137,7 @@ const organicCertifierSurveyController = {
     };
   },
 
-  putOrganicCertifierSurvey() {
+  putCertification() {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
@@ -742,7 +742,7 @@ const organicCertifierSurveyController = {
     );
   },
 
-  delOrganicCertifierSurvey() {
+  delCertification() {
     return async (req, res) => {
       const id = req.params.id;
       try {
@@ -759,4 +759,4 @@ const organicCertifierSurveyController = {
   },
 };
 
-export default organicCertifierSurveyController;
+export default certificationController;

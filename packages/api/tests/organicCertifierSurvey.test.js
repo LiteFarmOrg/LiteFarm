@@ -30,8 +30,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
     next();
   }),
 );
-import organicCertifierSurveyController from '../src/controllers/organicCertifierSurveyController.js';
-const { recordAQuery, getActiveManagementPlans } = organicCertifierSurveyController;
+import CertificationController from '../src/controllers/certificationController.js';
+const { recordAQuery, getActiveManagementPlans } = CertificationController;
 import mocks from './mock.factories.js';
 import * as emailTemplate from '../src/templates/sendEmailTemplate';
 jest.mock('../src/templates/sendEmailTemplate.js', () => ({
@@ -41,7 +41,7 @@ jest.mock('../src/templates/sendEmailTemplate.js', () => ({
 
 import certificationModel from '../src/models/certificationModel.js';
 
-describe('organic certification Tests', () => {
+describe('certification Tests', () => {
   let owner;
   let farm;
   let ownerFarm;
@@ -126,13 +126,13 @@ describe('organic certification Tests', () => {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  function getFakeOrganicCertifierSurvey(farm_id = farm.farm_id, interested = true) {
-    const organicCertifierSurvey = mocks.fakeOrganicCertifierSurvey();
+  function getFakeCertification(farm_id = farm.farm_id, interested = true) {
+    const certification = mocks.fakeCertification();
     return {
-      ...organicCertifierSurvey,
+      ...certification,
       interested,
-      certifier_id: organicCertifierSurvey.certifier_id,
-      certification_id: organicCertifierSurvey.system_type_id,
+      certifier_id: certification.certifier_id,
+      certification_id: certification.system_type_id,
       farm_id,
     };
   }
@@ -142,7 +142,7 @@ describe('organic certification Tests', () => {
     await knex.destroy();
   });
 
-  describe('organicCertifierSurvey Tests', () => {
+  describe('certification Tests', () => {
     beforeEach(async () => {
       [owner] = await mocks.usersFactory();
       [farm] = await mocks.farmFactory();
@@ -153,9 +153,9 @@ describe('organic certification Tests', () => {
     });
 
     describe('Get supported certifier and certification', function () {
-      let _organicCertifierSurvey;
+      let _certification;
       beforeEach(async () => {
-        [_organicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({
+        [_certification] = await mocks.certificationFactory({
           promisedUserFarm: [ownerFarm],
         });
       });
@@ -202,12 +202,12 @@ describe('organic certification Tests', () => {
     });
 
     // describe('Get organic certifier survey', () => {
-    //   let organicCertifierSurvey;
+    //   let certification;
     //   beforeEach(async () => {
-    //     [organicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [ownerFarm] });
+    //     [certification] = await mocks.certificationFactory({ promisedUserFarm: [ownerFarm] });
     //   })
 
-    //   describe('Get organicCertifierSurvey authorization tests', () => {
+    //   describe('Get certification authorization tests', () => {
     //     let worker;
     //     let manager;
     //     let extensionOfficer;
@@ -242,7 +242,7 @@ describe('organic certification Tests', () => {
     //     test('Owner should get all supported certifications', async () => {
     //       await getAllSupportedCertificationsRequest({ }, (_err, res) => {
     //         expect(res.status).toBe(200);
-    //         expect(res.body.survey_id).toBe(organicCertifierSurvey.survey_id);
+    //         expect(res.body.survey_id).toBe(certification.survey_id);
     //
     //       });
     //     })
@@ -250,7 +250,7 @@ describe('organic certification Tests', () => {
     //     test('Manager should get organic certifier survey  by farm id', async () => {
     //       await getAllSupportedCertifiersRequest({ user_id: manager.user_id }, (_err, res) => {
     //         expect(res.status).toBe(200);
-    //         expect(res.body.survey_id).toBe(organicCertifierSurvey.survey_id);
+    //         expect(res.body.survey_id).toBe(certification.survey_id);
     //
     //       });
     //     })
@@ -258,7 +258,7 @@ describe('organic certification Tests', () => {
     //     // test('Extension officer should get organic certifier survey  by farm id', async () => {
     //     //   getRequest({ user_id: extensionOfficer.user_id }, (_err, res) => {
     //     //     expect(res.status).toBe(200);
-    //     //     expect(res.body.survey_id).toBe(organicCertifierSurvey.survey_id);
+    //     //     expect(res.body.survey_id).toBe(certification.survey_id);
     //     //
     //     //   });
     //     // })
@@ -282,9 +282,9 @@ describe('organic certification Tests', () => {
     // })
 
     describe('Delete certifier survey', function () {
-      let organicCertifierSurvey;
+      let certification;
       beforeEach(async () => {
-        [organicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({
+        [certification] = await mocks.certificationFactory({
           promisedUserFarm: [ownerFarm],
         });
       });
@@ -334,12 +334,12 @@ describe('organic certification Tests', () => {
         });
 
         test('Owner should delete a certifier survey', async () => {
-          await deleteRequest({ id: organicCertifierSurvey.id }, async (_err, res) => {
+          await deleteRequest({ id: certification.id }, async (_err, res) => {
             expect(res.status).toBe(200);
             const SurveyRes = await certificationModel
               .query()
               .context({ showHidden: true })
-              .where({ id: organicCertifierSurvey.id });
+              .where({ id: certification.id });
             expect(SurveyRes.length).toBe(1);
             expect(SurveyRes[0].deleted).toBe(true);
           });
@@ -347,13 +347,13 @@ describe('organic certification Tests', () => {
 
         test('Manager should delete a certifier survey', async () => {
           await deleteRequest(
-            { user_id: manager.user_id, id: organicCertifierSurvey.id },
+            { user_id: manager.user_id, id: certification.id },
             async (_err, res) => {
               expect(res.status).toBe(200);
               const SurveyRes = await certificationModel
                 .query()
                 .context({ showHidden: true })
-                .where({ id: organicCertifierSurvey.id });
+                .where({ id: certification.id });
               expect(SurveyRes.length).toBe(1);
               expect(SurveyRes[0].deleted).toBe(true);
             },
@@ -364,7 +364,7 @@ describe('organic certification Tests', () => {
           await deleteRequest(
             {
               user_id: unAuthorizedUser.user_id,
-              id: organicCertifierSurvey.id,
+              id: certification.id,
             },
             async (_err, res) => {
               expect(res.status).toBe(403);
@@ -374,7 +374,7 @@ describe('organic certification Tests', () => {
 
         test('should return 403 if a worker tries to delete a certifier survey', async () => {
           await deleteRequest(
-            { user_id: worker.user_id, id: organicCertifierSurvey.id },
+            { user_id: worker.user_id, id: certification.id },
             async (_err, res) => {
               expect(res.status).toBe(403);
             },
@@ -386,7 +386,7 @@ describe('organic certification Tests', () => {
             {
               user_id: unAuthorizedUser.user_id,
               farm_id: farmunAuthorizedUser.farm_id,
-              id: organicCertifierSurvey.id,
+              id: certification.id,
             },
             async (_err, res) => {
               expect(res.status).toBe(403);
@@ -397,52 +397,52 @@ describe('organic certification Tests', () => {
     });
 
     describe('Post organic certifier survey', () => {
-      let fakeOrganicCertifierSurvey;
+      let fakeCertification;
 
       beforeEach(async () => {
-        fakeOrganicCertifierSurvey = getFakeOrganicCertifierSurvey();
+        fakeCertification = getFakeCertification();
       });
 
       test('should return 403 status if headers.farm_id is set to null', async () => {
-        fakeOrganicCertifierSurvey.farm_id = null;
-        await postRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+        fakeCertification.farm_id = null;
+        await postRequest(fakeCertification, {}, (_err, res) => {
           expect(res.status).toBe(403);
         });
       });
 
       test('should return 400 if certification_id and requested_certification are null', async () => {
-        delete fakeOrganicCertifierSurvey.certification_id;
-        delete fakeOrganicCertifierSurvey.requested_certification;
-        await postRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+        delete fakeCertification.certification_id;
+        delete fakeCertification.requested_certification;
+        await postRequest(fakeCertification, {}, (_err, res) => {
           expect(res.status).toBe(400);
         });
       });
 
       test('should return 400 if certification_id and requested_certification are not null', async () => {
-        fakeOrganicCertifierSurvey.certification_id = 1;
-        fakeOrganicCertifierSurvey.requested_certification = 'requested';
-        await postRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+        fakeCertification.certification_id = 1;
+        fakeCertification.requested_certification = 'requested';
+        await postRequest(fakeCertification, {}, (_err, res) => {
           expect(res.status).toBe(400);
         });
       });
 
       test('should return 400 if certifier_id and requested_certifier are null', async () => {
-        delete fakeOrganicCertifierSurvey.certifier_id;
-        delete fakeOrganicCertifierSurvey.requested_certifier;
-        await postRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+        delete fakeCertification.certifier_id;
+        delete fakeCertification.requested_certifier;
+        await postRequest(fakeCertification, {}, (_err, res) => {
           expect(res.status).toBe(400);
         });
       });
 
       test('should return 400 if certifier_id and requested_certifier are not null', async () => {
-        fakeOrganicCertifierSurvey.certifier_id = 1;
-        fakeOrganicCertifierSurvey.requested_certifier = 'requested';
-        await postRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+        fakeCertification.certifier_id = 1;
+        fakeCertification.requested_certifier = 'requested';
+        await postRequest(fakeCertification, {}, (_err, res) => {
           expect(res.status).toBe(400);
         });
       });
 
-      describe('Post organicCertifierSurvey authorization tests', () => {
+      describe('Post certification authorization tests', () => {
         let worker;
         let manager;
         let extensionOfficer;
@@ -487,7 +487,7 @@ describe('organic certification Tests', () => {
         });
 
         test('Owner post certifiers', async () => {
-          await postRequest(fakeOrganicCertifierSurvey, {}, async (_err, res) => {
+          await postRequest(fakeCertification, {}, async (_err, res) => {
             expect(res.status).toBe(201);
             const certificationRecords = await certificationModel
               .query()
@@ -499,24 +499,20 @@ describe('organic certification Tests', () => {
         });
 
         test('Manager post certifiers', async () => {
-          await postRequest(
-            fakeOrganicCertifierSurvey,
-            { user_id: manager.user_id },
-            async (_err, res) => {
-              expect(res.status).toBe(201);
-              const certificationRecords = await certificationModel
-                .query()
-                .context({ showHidden: true })
-                .where('farm_id', farm.farm_id);
-              expect(certificationRecords.length).toBe(1);
-              expect(certificationRecords[0].created_by_user_id).toBe(manager.user_id);
-            },
-          );
+          await postRequest(fakeCertification, { user_id: manager.user_id }, async (_err, res) => {
+            expect(res.status).toBe(201);
+            const certificationRecords = await certificationModel
+              .query()
+              .context({ showHidden: true })
+              .where('farm_id', farm.farm_id);
+            expect(certificationRecords.length).toBe(1);
+            expect(certificationRecords[0].created_by_user_id).toBe(manager.user_id);
+          });
         });
 
         test('Extension officer post certifiers', async () => {
           await postRequest(
-            fakeOrganicCertifierSurvey,
+            fakeCertification,
             { user_id: extensionOfficer.user_id },
             async (_err, res) => {
               expect(res.status).toBe(201);
@@ -530,22 +526,18 @@ describe('organic certification Tests', () => {
           );
         });
 
-        test('should return 403 status if organicCertifierSurvey is posted by worker', async () => {
-          await postRequest(
-            fakeOrganicCertifierSurvey,
-            { user_id: worker.user_id },
-            async (_err, res) => {
-              expect(res.status).toBe(403);
-              expect(res.error.text).toBe(
-                'User does not have the following permission(s): add:certification',
-              );
-            },
-          );
+        test('should return 403 status if certification is posted by worker', async () => {
+          await postRequest(fakeCertification, { user_id: worker.user_id }, async (_err, res) => {
+            expect(res.status).toBe(403);
+            expect(res.error.text).toBe(
+              'User does not have the following permission(s): add:certification',
+            );
+          });
         });
 
-        test('should return 403 status if organicCertifierSurvey is posted by unauthorized user', async () => {
+        test('should return 403 status if certification is posted by unauthorized user', async () => {
           await postRequest(
-            fakeOrganicCertifierSurvey,
+            fakeCertification,
             { user_id: unAuthorizedUser.user_id },
             async (_err, res) => {
               expect(res.status).toBe(403);
@@ -558,7 +550,7 @@ describe('organic certification Tests', () => {
 
         test('Circumvent authorization by modify farm_id', async () => {
           await postRequest(
-            fakeOrganicCertifierSurvey,
+            fakeCertification,
             {
               user_id: unAuthorizedUser.user_id,
               farm_id: farmunAuthorizedUser.farm_id,
@@ -570,61 +562,61 @@ describe('organic certification Tests', () => {
         });
       });
       describe('Put organic certifier survey', () => {
-        let fakeOrganicCertifierSurvey;
+        let fakeCertification;
 
         beforeEach(async () => {
-          [fakeOrganicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({
+          [fakeCertification] = await mocks.certificationFactory({
             promisedUserFarm: [ownerFarm],
           });
-          fakeOrganicCertifierSurvey = {
-            ...fakeOrganicCertifierSurvey,
+          fakeCertification = {
+            ...fakeCertification,
             // TODO LF-5379: temporary shim — frontend sends `survey_id`; remove once field names are updated
-            survey_id: fakeOrganicCertifierSurvey.id,
-            ...getFakeOrganicCertifierSurvey(),
+            survey_id: fakeCertification.id,
+            ...getFakeCertification(),
             farm_id: farm.farm_id,
           };
         });
 
         test('should return 403 status if headers.farm_id is set to null', async () => {
-          fakeOrganicCertifierSurvey.farm_id = null;
-          await putRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+          fakeCertification.farm_id = null;
+          await putRequest(fakeCertification, {}, (_err, res) => {
             expect(res.status).toBe(403);
           });
         });
 
         test('should return 400 if certification_id and requested_certification are null', async () => {
-          delete fakeOrganicCertifierSurvey.certification_id;
-          delete fakeOrganicCertifierSurvey.requested_certification;
-          await putRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+          delete fakeCertification.certification_id;
+          delete fakeCertification.requested_certification;
+          await putRequest(fakeCertification, {}, (_err, res) => {
             expect(res.status).toBe(400);
           });
         });
 
         test('should return 400 if certification_id and requested_certification are not null', async () => {
-          fakeOrganicCertifierSurvey.certification_id = 1;
-          fakeOrganicCertifierSurvey.requested_certification = 'requested';
-          await putRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+          fakeCertification.certification_id = 1;
+          fakeCertification.requested_certification = 'requested';
+          await putRequest(fakeCertification, {}, (_err, res) => {
             expect(res.status).toBe(400);
           });
         });
 
         test('should return 400 if certifier_id and requested_certifier are null', async () => {
-          delete fakeOrganicCertifierSurvey.certifier_id;
-          delete fakeOrganicCertifierSurvey.requested_certifier;
-          await putRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+          delete fakeCertification.certifier_id;
+          delete fakeCertification.requested_certifier;
+          await putRequest(fakeCertification, {}, (_err, res) => {
             expect(res.status).toBe(400);
           });
         });
 
         test('should return 400 if certifier_id and requested_certifier are not null', async () => {
-          fakeOrganicCertifierSurvey.certifier_id = 1;
-          fakeOrganicCertifierSurvey.requested_certifier = 'requested';
-          await putRequest(fakeOrganicCertifierSurvey, {}, (_err, res) => {
+          fakeCertification.certifier_id = 1;
+          fakeCertification.requested_certifier = 'requested';
+          await putRequest(fakeCertification, {}, (_err, res) => {
             expect(res.status).toBe(400);
           });
         });
 
-        describe('Put organicCertifierSurvey authorization tests', () => {
+        describe('Put certification authorization tests', () => {
           let worker;
           let manager;
           let extensionOfficer;
@@ -669,7 +661,7 @@ describe('organic certification Tests', () => {
           });
 
           test('Owner put certifiers', async () => {
-            await putRequest(fakeOrganicCertifierSurvey, {}, async (_err, res) => {
+            await putRequest(fakeCertification, {}, async (_err, res) => {
               expect(res.status).toBe(200);
               const certificationRecords = await certificationModel
                 .query()
@@ -681,23 +673,19 @@ describe('organic certification Tests', () => {
           });
 
           test('Manager put certifiers', async () => {
-            await putRequest(
-              fakeOrganicCertifierSurvey,
-              { user_id: manager.user_id },
-              async (_err, res) => {
-                expect(res.status).toBe(200);
-                const certificationRecords = await certificationModel
-                  .query()
-                  .context({ showHidden: true })
-                  .where('farm_id', farm.farm_id);
-                expect(certificationRecords.length).toBe(1);
-              },
-            );
+            await putRequest(fakeCertification, { user_id: manager.user_id }, async (_err, res) => {
+              expect(res.status).toBe(200);
+              const certificationRecords = await certificationModel
+                .query()
+                .context({ showHidden: true })
+                .where('farm_id', farm.farm_id);
+              expect(certificationRecords.length).toBe(1);
+            });
           });
 
           test('Extension officer put certifiers', async () => {
             await putRequest(
-              fakeOrganicCertifierSurvey,
+              fakeCertification,
               { user_id: extensionOfficer.user_id },
               async (_err, res) => {
                 expect(res.status).toBe(200);
@@ -710,22 +698,18 @@ describe('organic certification Tests', () => {
             );
           });
 
-          test('should return 403 status if organicCertifierSurvey is puted by worker', async () => {
-            await putRequest(
-              fakeOrganicCertifierSurvey,
-              { user_id: worker.user_id },
-              async (_err, res) => {
-                expect(res.status).toBe(403);
-                expect(res.error.text).toBe(
-                  'User does not have the following permission(s): edit:certification',
-                );
-              },
-            );
+          test('should return 403 status if certification is puted by worker', async () => {
+            await putRequest(fakeCertification, { user_id: worker.user_id }, async (_err, res) => {
+              expect(res.status).toBe(403);
+              expect(res.error.text).toBe(
+                'User does not have the following permission(s): edit:certification',
+              );
+            });
           });
 
-          test('should return 403 status if organicCertifierSurvey is puted by unauthorized user', async () => {
+          test('should return 403 status if certification is puted by unauthorized user', async () => {
             await putRequest(
-              fakeOrganicCertifierSurvey,
+              fakeCertification,
               { user_id: unAuthorizedUser.user_id },
               async (_err, res) => {
                 expect(res.status).toBe(403);
@@ -738,7 +722,7 @@ describe('organic certification Tests', () => {
 
           test('Circumvent authorization by modify farm_id', async () => {
             await putRequest(
-              fakeOrganicCertifierSurvey,
+              fakeCertification,
               {
                 user_id: unAuthorizedUser.user_id,
                 farm_id: farmunAuthorizedUser.farm_id,
@@ -787,9 +771,9 @@ describe('organic certification Tests', () => {
 
         [location] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
 
-        await mocks.organicCertifierSurveyFactory(
+        await mocks.certificationFactory(
           { promisedUserFarm: [{ farm_id, user_id }] },
-          mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }),
+          mocks.fakeCertification(farm_id, { certifier_id: 1 }),
         );
         [{ crop_id }] = await mocks.cropFactory(
           { promisedFarm: [{ farm_id }], createdUser: [{ user_id }] },

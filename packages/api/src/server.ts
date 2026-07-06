@@ -155,7 +155,7 @@ import locationRoute from './routes/locationRoute.js';
 import userFarmDataRoute from './routes/userFarmDataRoute.js';
 import userFarmRoute from './routes/userFarmRoute.js';
 import rolesRoutes from './routes/rolesRoute.js';
-import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.js';
+import certificationRoutes from './routes/certificationRoute.js';
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 import releaseBadgeRoutes from './routes/releaseBadgeRoute.js';
@@ -344,7 +344,10 @@ app
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
-  .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
+  // For compatibility, the following routes are available
+  // under both /organic_certifier_survey and /certification.
+  .use('/organic_certifier_survey', certificationRoutes)
+  .use('/certification', certificationRoutes)
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)

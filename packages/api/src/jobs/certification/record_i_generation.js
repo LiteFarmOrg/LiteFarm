@@ -1,5 +1,6 @@
 import XlsxPopulate from 'xlsx-populate';
 import { i18n, t, tCrop } from '../locales/i18nt.js';
+import { sanitizeFileName } from './fileUtils.js';
 const dataToCellMapping = {
   name: 'A',
   supplier: 'B',
@@ -230,9 +231,9 @@ export default (data, exportId, from_date, to_date, farm_name, measurement, isIn
         });
     });
     return workbook.toFileAsync(
-      `${process.env.EXPORT_WD}/temp/${exportId}/${t(
-        'RECORD_I.EXPORT_DOCUMENT_NAME',
-      )} - ${title}.xlsx`,
+      `${process.env.EXPORT_WD}/temp/${exportId}/${sanitizeFileName(
+        `${t('RECORD_I.EXPORT_DOCUMENT_NAME')} - ${title}`,
+      )}.xlsx`,
     );
   });
 };

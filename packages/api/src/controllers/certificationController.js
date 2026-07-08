@@ -143,7 +143,6 @@ const certificationController = {
         const user_id = req.auth.user_id;
         // TODO LF-5379: temporary shim — soft-delete on `interested: false` and map `survey_id` from frontend
         const { farm_id, interested, ...rest } = req.body;
-
         if (interested === false) {
           await CertificationModel.query()
             .context({ user_id })
@@ -157,7 +156,7 @@ const certificationController = {
         if (surveyId !== undefined) {
           result = await CertificationModel.query()
             .context({ user_id })
-            .patchAndFetchById(surveyId, patchData);
+            .patchAndFetchById(surveyId, { ...patchData, deleted: false });
         } else {
           // TODO LF-5379: temporary shim — no survey_id means the farm had no prior record (GET returned
           // `{ interested: false }`); insert instead of patch so the first submission creates a row

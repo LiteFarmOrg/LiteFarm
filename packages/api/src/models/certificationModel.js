@@ -42,7 +42,6 @@ class Certification extends BaseModel {
         certification_type: { type: ['string', 'null'] },
         certificate_number: { type: ['string', 'null'] },
         certificate_member_id: { type: ['string', 'null'] },
-        scope: { type: ['array', 'null'] },
         issue_date: { type: ['string', 'null'] },
         valid_until: { type: ['string', 'null'] },
         certificate_document_url: { type: ['string', 'null'] },

@@ -17,7 +17,8 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import {
   Connector,
-  Enterprise,
+  Organization,
+  SKOSConcept,
   SocialMedia,
   Address,
   PhoneNumber,
@@ -107,6 +108,10 @@ export const formatFarmDataToDfcStandard = async (
     ? `http://publications.europa.eu/resource/authority/country/${countryIso3}`
     : parsedAddress.country; // fallback to country name if ISO conversion fails
 
+  const countryConceptUri = dfcCountryUri
+    ? new SKOSConcept({ connector, semanticId: dfcCountryUri, doNotStore: true })
+    : undefined;
+
   const address = new Address({
     connector,
     semanticId: `${enterpriseUrl}#address`,
@@ -114,7 +119,7 @@ export const formatFarmDataToDfcStandard = async (
     city: parsedAddress.city,
     region: parsedAddress.region,
     postalCode: parsedAddress.postalCode,
-    country: dfcCountryUri,
+    country: countryConceptUri,
   });
 
   const mainContact = connector.createPerson({
@@ -123,7 +128,7 @@ export const formatFarmDataToDfcStandard = async (
     lastName: contact_last_name ?? undefined,
   });
 
-  /* @ts-expect-error incorrect interface type */
+  /* @ts-expect-error addEmailAddress is on Agent but not exposed on IPerson interface */
   mainContact.addEmailAddress(contact_email);
 
   const products = (market_product_categories ?? [])
@@ -140,7 +145,7 @@ export const formatFarmDataToDfcStandard = async (
     })
     .filter((product): product is NonNullable<typeof product> => product !== null);
 
-  const farm = new Enterprise({
+  const farm = new Organization({
     connector,
     semanticId: enterpriseUrl,
     name: farm_name,
@@ -203,8 +208,7 @@ export const formatFarmDataToDfcStandard = async (
       connector,
       semanticId: `${enterpriseUrl}#socialMedia-x`,
       name: 'X',
-      // TODO: Restore to x.com when OFN updates their API
-      url: `https://twitter.com/${x}/`,
+      url: `https://x.com/${x}/`,
     });
     farm.addSocialMedia(xInstance);
     socialMediaInstances.push(xInstance);

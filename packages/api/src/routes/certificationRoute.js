@@ -34,10 +34,7 @@ router.get(
 );
 router.get(
   '/:farm_id/supported_certifiers',
-  hasFarmAccess({
-    params: 'farm_id',
-    body: 'system_type_id',
-  }),
+  hasFarmAccess({ params: 'farm_id' }),
   CertificationController.getAllSupportedCertifiers(),
 );
 router.post(

@@ -73,7 +73,6 @@ export const up = async function (knex) {
       .nullable();
     table.string('certificate_number').nullable();
     table.string('certificate_member_id').nullable();
-    table.jsonb('scope').nullable();
     table.date('issue_date').nullable();
     table.date('valid_until').nullable();
     table.text('certificate_document_url').nullable();
@@ -85,15 +84,6 @@ export const up = async function (knex) {
   await knex.schema.alterTable('certification', (table) => {
     table.foreign('system_type_id').references('id').inTable('certification_system_type');
   });
-
-  await knex.raw(`
-    ALTER TABLE certification
-    ADD CONSTRAINT certification_scope_values_check
-    CHECK (
-      scope IS NULL OR
-      '["CROPS","ANIMALS","PROCESSED/VALUE_ADDED"]'::jsonb @> scope
-    )
-  `);
 
   // Step 4: Rename permissions
   await knex('permissions')
@@ -131,11 +121,6 @@ export const down = async function (knex) {
     description: 'delete organic_certifier_survey',
   });
 
-  // Drop CHECK constraint
-  await knex.raw(
-    'ALTER TABLE certification DROP CONSTRAINT IF EXISTS certification_scope_values_check',
-  );
-
   // Drop system_type_id FK before renaming columns and table
   await knex.schema.alterTable('certification', (table) => {
     table.dropForeign('system_type_id');
@@ -145,7 +130,6 @@ export const down = async function (knex) {
     table.dropColumn('certificate_document_url');
     table.dropColumn('valid_until');
     table.dropColumn('issue_date');
-    table.dropColumn('scope');
     table.dropColumn('certificate_member_id');
     table.dropColumn('certificate_number');
     table.dropColumn('certification_type');

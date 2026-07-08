@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { MarketProductCategory } from '../../src/models/types.js';
+import { MarketDirectoryCertification, MarketProductCategory } from '../../src/models/types.js';
 
 export interface DfcEntity {
   '@type': string;
@@ -76,6 +76,24 @@ export const mockMarketProductCategoryMap = (): Map<number, MarketProductCategor
   const enums = [{ id: 1, key: 'BAKERY' }];
   const map = new Map(enums.map((e) => [e.id, e]));
   return map;
+};
+
+export const mockCertification: MarketDirectoryCertification = {
+  survey_id: 'mock-cert-uuid-001',
+  certification_id: 1,
+  certifier_id: 1,
+  certificate_member_id: 'UK-ORG-05-1234',
+  farm_id: 'mock-farm-id',
+  certificationSystemType: {
+    certification_id: 1,
+    certification_type: 'Organic',
+    certification_translation_key: 'ORGANIC',
+  },
+  certifier: {
+    certifier_id: 1,
+    certifier_name: 'Soil Association',
+    certifier_acronym: 'SA',
+  },
 };
 
 export const getOrganizationCount = (res: { body: { '@graph': DfcEntity[] } }) => {

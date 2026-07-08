@@ -48,7 +48,10 @@ const dataFoodConsortiumController = {
           .findById(id)
           .withGraphFetched({
             market_product_categories: true,
-          });
+            certifications: { certificationSystemType: true, certifier: true },
+          })
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          .modifyGraph('certifications', (builder: any) => builder.whereNotDeleted());
 
         const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(
@@ -94,7 +97,10 @@ const dataFoodConsortiumController = {
           )
           .withGraphFetched({
             market_product_categories: true,
-          });
+            certifications: { certificationSystemType: true, certifier: true },
+          })
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          .modifyGraph('certifications', (builder: any) => builder.whereNotDeleted());
 
         let data = {};
 

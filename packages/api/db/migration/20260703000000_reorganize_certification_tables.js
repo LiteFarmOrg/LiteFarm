@@ -126,7 +126,9 @@ export const down = async function (knex) {
     table.dropForeign('system_type_id');
   });
 
-  await knex.schema.alterTable('certification', (table) => {
+  await knex.schema.renameTable('certification', 'organicCertifierSurvey');
+
+  await knex.schema.alterTable('organicCertifierSurvey', (table) => {
     table.dropColumn('certificate_document_url');
     table.dropColumn('valid_until');
     table.dropColumn('issue_date');
@@ -142,7 +144,6 @@ export const down = async function (knex) {
     table.renameColumn('system_type_id', 'certification_id');
     table.renameColumn('id', 'survey_id');
   });
-  await knex.schema.renameTable('certification', 'organicCertifierSurvey');
 
   // Drop certifiers FK and rename column before renaming certification_system_type back
   await knex.schema.alterTable('certifiers', (table) => {

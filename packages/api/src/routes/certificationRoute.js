@@ -16,57 +16,54 @@
 import express from 'express';
 
 const router = express.Router();
-import organicCertifierSurveyController from '../controllers/organicCertifierSurveyController.js';
+import certificationController from '../controllers/certificationController.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
-import validateOrganicSurvey from '../middleware/validation/addAndPutOrganicSurvey.js';
+import validateCertification from '../middleware/validation/addAndPutCertification.js';
 
 router.get(
   '/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:organic_certifier_survey']),
-  organicCertifierSurveyController.getCertificationSurveyByFarmId(),
+  checkScope(['get:certification']),
+  certificationController.getCertificationByFarmId(),
 );
 router.get(
   '/:farm_id/supported_certifications',
   hasFarmAccess({ params: 'farm_id' }),
-  organicCertifierSurveyController.getAllSupportedCertifications(),
+  certificationController.getAllSupportedCertificationSystemTypes(),
 );
 router.get(
   '/:farm_id/supported_certifiers',
-  hasFarmAccess({
-    params: 'farm_id',
-    body: 'certification_id',
-  }),
-  organicCertifierSurveyController.getAllSupportedCertifiers(),
+  hasFarmAccess({ params: 'farm_id' }),
+  certificationController.getAllSupportedCertifiers(),
 );
 router.post(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:organic_certifier_survey']),
-  validateOrganicSurvey,
-  organicCertifierSurveyController.addOrganicCertifierSurvey(),
+  checkScope(['add:certification']),
+  validateCertification,
+  certificationController.addCertification(),
 );
 router.put(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['edit:organic_certifier_survey']),
-  validateOrganicSurvey,
-  organicCertifierSurveyController.putOrganicCertifierSurvey(),
+  checkScope(['edit:certification']),
+  validateCertification,
+  certificationController.putCertification(),
 );
 
 router.delete(
-  '/:survey_id',
-  hasFarmAccess({ params: 'survey_id' }),
-  checkScope(['delete:organic_certifier_survey']),
-  organicCertifierSurveyController.delOrganicCertifierSurvey(),
+  '/:id',
+  hasFarmAccess({ tableName: 'certification' }),
+  checkScope(['delete:certification']),
+  certificationController.delCertification(),
 );
 
 router.post(
   '/request_export',
   hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:organic_certifier_survey']),
-  organicCertifierSurveyController.triggerExport(),
+  checkScope(['add:certification']),
+  certificationController.triggerExport(),
 );
 
 export default router;

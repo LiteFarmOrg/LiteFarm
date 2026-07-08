@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-async function validateOrganicSurvey(req, res, next) {
+async function validateCertification(req, res, next) {
   const {
     certification_id,
     certifier_id,
@@ -45,4 +45,4 @@ async function validateOrganicSurvey(req, res, next) {
   return next();
 }
 
-export default validateOrganicSurvey;
+export default validateCertification;

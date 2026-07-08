@@ -43,7 +43,7 @@ const certificationController = {
           .first();
         // TODO LF-5379: temporary shim — return legacy `interested: false` shape when no record exists
         if (!result) {
-          return res.status(200).json({ interested: false });
+          return res.status(200).json({ farm_id, interested: false });
         }
         return res.status(200).send(result);
       } catch (error) {
@@ -118,15 +118,15 @@ const certificationController = {
       try {
         const user_id = req.auth.user_id;
         // TODO LF-5379: temporary shim — ignore `interested: false` from frontend instead of creating a record
-        const { interested, ...rest } = req.body;
+        const { interested, farm_id, ...rest } = req.body;
 
         if (interested === false) {
-          return res.status(200).json({ interested: false });
+          return res.status(200).json({ farm_id, interested: false });
         }
 
         const result = await CertificationModel.query()
           .context({ user_id })
-          .insert(rest)
+          .insert({ farm_id, ...rest })
           .returning('*');
         res.status(201).send(result);
       } catch (error) {
@@ -149,13 +149,24 @@ const certificationController = {
             .context({ user_id })
             .where({ farm_id })
             .patch({ deleted: true });
-          return res.status(200).json({ interested: false });
+          return res.status(200).json({ farm_id, interested: false });
         }
 
         const { survey_id: surveyId, id: _id, ...patchData } = rest;
-        const result = await CertificationModel.query()
-          .context({ user_id })
-          .patchAndFetchById(surveyId, patchData);
+        let result;
+        if (surveyId !== undefined) {
+          result = await CertificationModel.query()
+            .context({ user_id })
+            .patchAndFetchById(surveyId, patchData);
+        } else {
+          // TODO LF-5379: temporary shim — no survey_id means the farm had no prior record (GET returned
+          // `{ interested: false }`); insert instead of patch so the first submission creates a row
+          result = await CertificationModel.query()
+            .context({ user_id })
+            .insert({ farm_id, ...patchData })
+            .returning('*');
+          result = result[0];
+        }
         return res.status(200).send(result);
       } catch (error) {
         console.log(error);

@@ -344,10 +344,7 @@ app
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
-  // For compatibility, the following routes are available
-  // under both /organic_certifier_survey and /certification.
   .use('/organic_certifier_survey', certificationRoutes)
-  .use('/certification', certificationRoutes)
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)

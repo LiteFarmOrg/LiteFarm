@@ -18,7 +18,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { faker } from '@faker-js/faker';
 chai.use(chaiHttp);
-import server from './../src/server.js';
+import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 jest.mock('jsdom');
@@ -33,7 +33,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import CertificationController from '../src/controllers/certificationController.js';
 const { recordAQuery, getActiveManagementPlans } = CertificationController;
 import mocks from './mock.factories.js';
-import * as emailTemplate from '../src/templates/sendEmailTemplate';
+import * as emailTemplate from '../src/templates/sendEmailTemplate.js';
 jest.mock('../src/templates/sendEmailTemplate.js', () => ({
   sendEmail: jest.fn(),
   emails: { INVITATION: { path: 'invitation_to_farm_email' } },

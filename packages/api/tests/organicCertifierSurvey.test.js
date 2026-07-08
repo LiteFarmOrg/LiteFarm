@@ -190,12 +190,12 @@ describe('certification Tests', () => {
         test('User should get all supported certifications', async () => {
           await getAllSupportedCertificationsRequest({}, (_err, res) => {
             const thirdPartyOrganic = res.body.find(
-              (cert) => cert.translation_key === 'THIRD_PARTY_ORGANIC',
+              (cert) => cert.certification_translation_key === 'THIRD_PARTY_ORGANIC',
             );
-            const pgs = res.body.find((cert) => cert.translation_key === 'PGS');
+            const pgs = res.body.find((cert) => cert.certification_translation_key === 'PGS');
             expect(res.status).toBe(200);
-            expect(thirdPartyOrganic.name).toBe('Third-party Organic');
-            expect(pgs.name).toBe('Participatory Guarantee System');
+            expect(thirdPartyOrganic.certification_type).toBe('Third-party Organic');
+            expect(pgs.certification_type).toBe('Participatory Guarantee System');
           });
         });
       });

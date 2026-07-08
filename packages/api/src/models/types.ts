@@ -662,8 +662,32 @@ export type MarketDirectoryInfoMarketProductCategory = {
   market_product_category_id: MarketProductCategory['id'];
 };
 
+// TODO LF-5379: field names use the $formatJson shim names — update when shim is removed
+export type MarketDirectoryCertificationSystemType = {
+  certification_id: number;
+  certification_type: string;
+  certification_translation_key: string;
+};
+
+export type MarketDirectoryCertifier = {
+  certifier_id: number;
+  certifier_name: string;
+  certifier_acronym: string | null;
+};
+
+export type MarketDirectoryCertification = {
+  survey_id: string;
+  certification_id: number | null;
+  certifier_id: number | null;
+  certificate_member_id: string | null;
+  farm_id: string;
+  certificationSystemType?: MarketDirectoryCertificationSystemType | null;
+  certifier?: MarketDirectoryCertifier | null;
+};
+
 export interface MarketDirectoryInfoWithRelations extends MarketDirectoryInfo {
   market_product_categories?: MarketDirectoryInfoMarketProductCategory[] | null;
+  certifications?: MarketDirectoryCertification[] | null;
 }
 export interface MarketDirectoryPartner {
   id: number;

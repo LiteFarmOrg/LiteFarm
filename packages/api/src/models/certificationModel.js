@@ -17,6 +17,8 @@ import Model from './baseFormatModel.js';
 import BaseModel from './baseModel.js';
 import userFarmModel from './userFarmModel.js';
 import farmModel from './farmModel.js';
+import certificationSystemTypeModel from './certificationSystemTypeModel.js';
+import certifierModel from './certifierModel.js';
 
 class Certification extends BaseModel {
   static get tableName() {
@@ -67,6 +69,22 @@ class Certification extends BaseModel {
         join: {
           from: 'certification.farm_id',
           to: 'farm.farm_id',
+        },
+      },
+      certificationSystemType: {
+        modelClass: certificationSystemTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'certification.system_type_id',
+          to: 'certification_system_type.id',
+        },
+      },
+      certifier: {
+        modelClass: certifierModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'certification.certifier_id',
+          to: 'certifiers.certifier_id',
         },
       },
     };

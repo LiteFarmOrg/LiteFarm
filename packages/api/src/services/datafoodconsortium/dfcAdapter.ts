@@ -18,6 +18,7 @@ import path from 'path';
 import {
   Connector,
   Organization,
+  Certification,
   SKOSConcept,
   SocialMedia,
   Address,
@@ -97,6 +98,7 @@ export const formatFarmDataToDfcStandard = async (
     facebook,
     x,
     market_product_categories,
+    certifications,
   } = marketDirectoryInfo;
 
   const parsedAddress = await parseGoogleGeocodedAddress(addressString);
@@ -155,6 +157,24 @@ export const formatFarmDataToDfcStandard = async (
     localizations: [address],
     suppliedProducts: products,
   });
+
+  // TODO: confirm which certifications should be included in DFC output —
+  // e.g., should certifications without a certificationSystemType or certifier be excluded?
+  const certificationInstances = (certifications ?? []).map(
+    (cert) =>
+      new Certification({
+        connector,
+        semanticId: `${enterpriseUrl}#certification-${cert.survey_id}`,
+        name: cert.certificationSystemType?.certification_type ?? undefined,
+        description: undefined,
+        certificationReferences: cert.certifier
+          ? [cert.certifier.certifier_acronym ?? cert.certifier.certifier_name]
+          : [],
+        operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
+        certificationScores: [],
+      }),
+  );
+  certificationInstances.forEach((c) => farm.addCertification(c));
 
   let phoneNumber;
   if (phone_number) {
@@ -221,6 +241,7 @@ export const formatFarmDataToDfcStandard = async (
     ...(phoneNumber ? [phoneNumber] : []),
     ...socialMediaInstances,
     ...products,
+    ...certificationInstances,
   ]);
 
   return JSON.parse(exportFormattedData);

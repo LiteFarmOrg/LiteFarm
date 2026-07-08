@@ -16,7 +16,7 @@
 import express from 'express';
 
 const router = express.Router();
-import CertificationController from '../controllers/certificationController.js';
+import certificationController from '../controllers/certificationController.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import validateCertification from '../middleware/validation/addAndPutCertification.js';
@@ -25,45 +25,45 @@ router.get(
   '/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:certification']),
-  CertificationController.getCertificationByFarmId(),
+  certificationController.getCertificationByFarmId(),
 );
 router.get(
   '/:farm_id/supported_certifications',
   hasFarmAccess({ params: 'farm_id' }),
-  CertificationController.getAllSupportedCertificationSystemTypes(),
+  certificationController.getAllSupportedCertificationSystemTypes(),
 );
 router.get(
   '/:farm_id/supported_certifiers',
   hasFarmAccess({ params: 'farm_id' }),
-  CertificationController.getAllSupportedCertifiers(),
+  certificationController.getAllSupportedCertifiers(),
 );
 router.post(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:certification']),
   validateCertification,
-  CertificationController.addCertification(),
+  certificationController.addCertification(),
 );
 router.put(
   '/',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['edit:certification']),
   validateCertification,
-  CertificationController.putCertification(),
+  certificationController.putCertification(),
 );
 
 router.delete(
   '/:id',
   hasFarmAccess({ tableName: 'certification' }),
   checkScope(['delete:certification']),
-  CertificationController.delCertification(),
+  certificationController.delCertification(),
 );
 
 router.post(
   '/request_export',
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:certification']),
-  CertificationController.triggerExport(),
+  certificationController.triggerExport(),
 );
 
 export default router;

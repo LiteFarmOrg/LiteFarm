@@ -30,8 +30,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
     next();
   }),
 );
-import CertificationController from '../src/controllers/certificationController.js';
-const { recordAQuery, getActiveManagementPlans } = CertificationController;
+import certificationController from '../src/controllers/certificationController.js';
+const { recordAQuery, getActiveManagementPlans } = certificationController;
 import mocks from './mock.factories.js';
 import * as emailTemplate from '../src/templates/sendEmailTemplate.js';
 jest.mock('../src/templates/sendEmailTemplate.js', () => ({

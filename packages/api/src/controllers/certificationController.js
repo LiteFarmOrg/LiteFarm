@@ -165,7 +165,6 @@ const certificationController = {
             .context({ user_id })
             .insert({ farm_id, ...patchData })
             .returning('*');
-          result = result[0];
         }
         return res.status(200).send(result);
       } catch (error) {

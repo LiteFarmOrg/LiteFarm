@@ -145,6 +145,11 @@ export const down = async function (knex) {
     table.renameColumn('id', 'survey_id');
   });
 
+  // Recreate organicCertifierSurvey FK (dropped in up() before the table was renamed)
+  await knex.schema.alterTable('organicCertifierSurvey', (table) => {
+    table.foreign('certification_id').references('certification_id').inTable('certifications');
+  });
+
   // Drop certifiers FK and rename column before renaming certification_system_type back
   await knex.schema.alterTable('certifiers', (table) => {
     table.dropForeign('system_type_id');

@@ -484,6 +484,10 @@
       "YOUR_CERTIFICATION": "Your certification"
     }
   },
+  "DELETE_CONFIRMATION": {
+    "TITLE": "Delete",
+    "BODY": "Are you sure you want to delete {{subject}}? This cannot be undone."
+  },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
     "EXPORT": "Export",

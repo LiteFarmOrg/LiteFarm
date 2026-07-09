@@ -405,11 +405,20 @@
     "TITLE": "Are you sure you want to cancel?"
   },
   "CERTIFICATION": {
+    "BANNER": "Certifications added here appear automatically in your Market Directory profile, so buyers can see your credentials in your listing.",
     "STATUS": {
       "ACTIVE": "Active",
       "EXPIRING_SOON": "Expiring soon",
       "EXPIRED": "Expired",
       "PURSUING": "Pursuing"
+    },
+    "EMPTY_STATE": {
+      "HEADING": "Do you have any active certifications or pursuing some?",
+      "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one."
+    },
+    "LIST": {
+      "ACTIVE_SECTION": "Active certifications",
+      "PURSUING_SECTION": "Pursuing certifications"
     },
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",

@@ -19,7 +19,7 @@ import { ReactComponent as AwardIcon } from '../../assets/images/award-01.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit-05.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/trash-03.svg';
 import type { CertificationStatus } from './types';
-import styles from './CertificationCard.module.scss';
+import styles from './index.module.scss';
 
 interface CertificationCardProps {
   certificationSystemType: string;
@@ -52,24 +52,26 @@ export default function CertificationCard({
 
   return (
     <div className={styles.card}>
-      <AwardIcon className={styles.awardIcon} aria-hidden />
+      <AwardIcon className={styles.cardAwardIcon} aria-hidden />
 
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <span className={styles.certName}>{certificationSystemType}</span>
-          <span className={clsx(styles.statusBadge, styles[status])}>{t(STATUS_KEYS[status])}</span>
+      <div className={styles.cardContent}>
+        <div className={styles.cardHeader}>
+          <span className={styles.cardCertName}>{certificationSystemType}</span>
+          <span className={clsx(styles.cardStatusBadge, styles[status])}>
+            {t(STATUS_KEYS[status])}
+          </span>
         </div>
 
-        <span className={styles.certifier}>{certifierName}</span>
+        <span className={styles.cardCertifier}>{certifierName}</span>
 
         {!isPursuing && certificationIdentifier && (
-          <span className={styles.identifier}>{certificationIdentifier}</span>
+          <span className={styles.cardIdentifier}>{certificationIdentifier}</span>
         )}
 
-        {!isPursuing && expiryDate && <span className={styles.expiry}>{expiryDate}</span>}
+        {!isPursuing && expiryDate && <span className={styles.cardExpiry}>{expiryDate}</span>}
       </div>
 
-      <div className={styles.actions}>
+      <div className={styles.cardActions}>
         <button
           type="button"
           className={styles.iconBtn}

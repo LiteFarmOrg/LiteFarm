@@ -13,6 +13,35 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/* ── CertificationBanner ──────────────────────── */
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--Colors-Primary-Primary-teal-50);
+  border-radius: 8px;
+}
+
+.bannerIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--Colors-Primary-Primary-teal-700);
+  margin-top: 2px;
+}
+
+.bannerText {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--Colors-Primary-Primary-teal-700);
+}
+
+/* ── CertificationCard ────────────────────────── */
+
 .card {
   display: flex;
   align-items: flex-start;
@@ -23,14 +52,14 @@
   border-radius: 8px;
 }
 
-.awardIcon {
+.cardAwardIcon {
   flex-shrink: 0;
   width: 32px;
   height: 32px;
   color: var(--Colors-Primary-Primary-teal-700);
 }
 
-.content {
+.cardContent {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -38,21 +67,21 @@
   min-width: 0;
 }
 
-.header {
+.cardHeader {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.certName {
+.cardCertName {
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
   color: var(--Colors-Neutral-Neutral-900);
 }
 
-.statusBadge {
+.cardStatusBadge {
   display: inline-block;
   padding: 2px 8px;
   border-radius: 12px;
@@ -82,22 +111,22 @@
   }
 }
 
-.certifier {
+.cardCertifier {
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
   color: var(--Colors-Neutral-Neutral-700);
 }
 
-.identifier,
-.expiry {
+.cardIdentifier,
+.cardExpiry {
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
   color: var(--Colors-Neutral-Neutral-500);
 }
 
-.actions {
+.cardActions {
   display: flex;
   gap: 4px;
   flex-shrink: 0;
@@ -124,4 +153,80 @@
     width: 16px;
     height: 16px;
   }
+}
+
+/* ── CertificationsEmptyState ─────────────────── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.emptyIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--Colors-Primary-Primary-teal-300);
+}
+
+.emptyHeading {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  color: var(--Colors-Neutral-Neutral-900);
+}
+
+.emptyBody {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--Colors-Neutral-Neutral-600);
+}
+
+/* ── CertificationsList ───────────────────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.listSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.listSectionTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--Colors-Neutral-Neutral-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.listCards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── CertificationsPage ───────────────────────── */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.pageAddBtn {
+  align-self: flex-start;
 }

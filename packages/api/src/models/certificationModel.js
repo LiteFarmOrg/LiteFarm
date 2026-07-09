@@ -37,7 +37,7 @@ class Certification extends BaseModel {
         system_type_id: { type: ['integer', 'null'] },
         certifier_id: { type: ['integer', 'null'] },
         requested_system_type: { type: ['string', 'null'] },
-        requested_certifier: { type: ['string', 'null'] },
+        other_certifier: { type: ['string', 'null'] },
         is_active: { type: 'boolean' },
         certification_type: { type: ['string', 'null'] },
         certificate_number: { type: ['string', 'null'] },
@@ -78,6 +78,7 @@ class Certification extends BaseModel {
     json.survey_id = json.id;
     json.certification_id = json.system_type_id;
     json.requested_certification = json.requested_system_type;
+    json.requested_certifier = json.other_certifier;
     json.interested = true;
     delete json.id;
     delete json.system_type_id;
@@ -99,6 +100,10 @@ class Certification extends BaseModel {
     if (json.requested_certification !== undefined) {
       json.requested_system_type = json.requested_certification;
       delete json.requested_certification;
+    }
+    if (json.requested_certifier !== undefined) {
+      json.other_certifier = json.requested_certifier;
+      delete json.requested_certifier;
     }
     return json;
   }

@@ -1,0 +1,80 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import { useTranslation } from 'react-i18next';
+import CertificationCard from './CertificationCard';
+import type { CertificationItem } from './types';
+import styles from './index.module.scss';
+
+interface CertificationsListProps {
+  certifications: CertificationItem[];
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+const ACTIVE_STATUSES = new Set(['active', 'expiring_soon', 'expired'] as const);
+
+export default function CertificationsList({
+  certifications,
+  onEdit,
+  onDelete,
+}: CertificationsListProps) {
+  const { t } = useTranslation('translation');
+
+  const activeCerts = certifications.filter((c) => ACTIVE_STATUSES.has(c.status as any));
+  const pursuingCerts = certifications.filter((c) => c.status === 'pursuing');
+
+  return (
+    <div className={styles.list}>
+      {activeCerts.length > 0 && (
+        <div className={styles.listSection}>
+          <p className={styles.listSectionTitle}>{t('CERTIFICATION.LIST.ACTIVE_SECTION')}</p>
+          <div className={styles.listCards}>
+            {activeCerts.map((cert) => (
+              <CertificationCard
+                key={cert.id}
+                certificationSystemType={cert.certificationSystemType}
+                certifierName={cert.certifierName}
+                certificationIdentifier={cert.certificationIdentifier}
+                status={cert.status}
+                expiryDate={cert.expiryDate}
+                onEdit={() => onEdit(cert.id)}
+                onDelete={() => onDelete(cert.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {pursuingCerts.length > 0 && (
+        <div className={styles.listSection}>
+          <p className={styles.listSectionTitle}>{t('CERTIFICATION.LIST.PURSUING_SECTION')}</p>
+          <div className={styles.listCards}>
+            {pursuingCerts.map((cert) => (
+              <CertificationCard
+                key={cert.id}
+                certificationSystemType={cert.certificationSystemType}
+                certifierName={cert.certifierName}
+                status={cert.status}
+                onEdit={() => onEdit(cert.id)}
+                onDelete={() => onDelete(cert.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

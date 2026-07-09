@@ -158,23 +158,27 @@ export const formatFarmDataToDfcStandard = async (
     suppliedProducts: products,
   });
 
-  // TODO: confirm which certifications should be included in DFC output —
-  // e.g., should certifications without a certificationSystemType or certifier be excluded?
-  const certificationInstances = (certifications ?? []).map(
-    (cert) =>
-      new Certification({
-        connector,
-        semanticId: `${enterpriseUrl}#certification-${cert.survey_id}`,
-        name: cert.certificationSystemType?.certification_type ?? undefined,
-        description: undefined,
-        certificationReferences: cert.certifier
-          ? [cert.certifier.certifier_acronym ?? cert.certifier.certifier_name]
-          : [],
-        operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
-        certificationScores: [],
-      }),
-  );
-  certificationInstances.forEach((c) => farm.addCertification(c));
+  const certificationInstances = (certifications ?? [])
+    .filter((cert) => {
+      // TODO: confirm which certifications should be included in DFC output —
+      // e.g., should certifications without a certificationSystemType or certifier be excluded?
+      return cert.is_active && cert.certification_type;
+    })
+    .map(
+      (cert) =>
+        new Certification({
+          connector,
+          semanticId: `${enterpriseUrl}#certification-${cert.survey_id}`,
+          name: cert.certification_type!,
+          description: undefined,
+          certificationReferences: cert.certifier?.certifier_name
+            ? [cert.certifier.certifier_name]
+            : [],
+          operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
+          certificationScores: [],
+        }),
+    );
+  certificationInstances.forEach((cert) => farm.addCertification(cert));
 
   let phoneNumber;
   if (phone_number) {

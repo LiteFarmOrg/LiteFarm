@@ -632,6 +632,37 @@ export interface DocumentWithFiles extends Document {
   files?: File[];
 }
 
+// TODO LF-5379: field names use the $formatJson shim names — update when shim is removed
+export type CertificationSystemType = {
+  certification_id: number;
+  certification_type: string;
+  certification_translation_key: string;
+};
+
+export type Certifier = {
+  certifier_id: number;
+  certification_id?: CertificationSystemType['certification_id'];
+  certifier_name: string;
+  certifier_acronym: string | null;
+  survey_id?: string;
+};
+
+export type Certification = {
+  survey_id: string;
+  certification_id: number | null;
+  certifier_id: number | null;
+  certificate_member_id: string | null;
+  farm_id: string;
+  certificationSystemType?: CertificationSystemType | null;
+  certifier?: Certifier | null;
+  is_active: boolean;
+  certification_type?: string | null;
+  certification_identifier?: string | null;
+  start_date?: string | null;
+  expiry_date?: string | null;
+  document_file_url?: string | null;
+};
+
 export type MarketDirectoryInfo = {
   id: string;
   farm_id: Farm['farm_id'];
@@ -662,32 +693,9 @@ export type MarketDirectoryInfoMarketProductCategory = {
   market_product_category_id: MarketProductCategory['id'];
 };
 
-// TODO LF-5379: field names use the $formatJson shim names — update when shim is removed
-export type MarketDirectoryCertificationSystemType = {
-  certification_id: number;
-  certification_type: string;
-  certification_translation_key: string;
-};
-
-export type MarketDirectoryCertifier = {
-  certifier_id: number;
-  certifier_name: string;
-  certifier_acronym: string | null;
-};
-
-export type MarketDirectoryCertification = {
-  survey_id: string;
-  certification_id: number | null;
-  certifier_id: number | null;
-  certificate_member_id: string | null;
-  farm_id: string;
-  certificationSystemType?: MarketDirectoryCertificationSystemType | null;
-  certifier?: MarketDirectoryCertifier | null;
-};
-
 export interface MarketDirectoryInfoWithRelations extends MarketDirectoryInfo {
   market_product_categories?: MarketDirectoryInfoMarketProductCategory[] | null;
-  certifications?: MarketDirectoryCertification[] | null;
+  certifications?: Certification[] | null;
 }
 export interface MarketDirectoryPartner {
   id: number;

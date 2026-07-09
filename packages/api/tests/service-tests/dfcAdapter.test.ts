@@ -328,7 +328,7 @@ describe('dfcAdapter', () => {
     expect(certNode).toMatchObject({
       '@id': `https://api.beta.litefarm.org/dfc/enterprises/${fakeId}#certification-mock-cert-uuid-001`,
       'dfc-b:name': 'Organic',
-      'dfc-b:certiferReference': 'SA',
+      'dfc-b:certiferReference': 'Soil Association',
       'dfc-b:operatorId': 'UK-ORG-05-1234',
     });
 

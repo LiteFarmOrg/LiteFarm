@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { MarketDirectoryCertification, MarketProductCategory } from '../../src/models/types.js';
+import { Certification, MarketProductCategory } from '../../src/models/types.js';
 
 export interface DfcEntity {
   '@type': string;
@@ -78,7 +78,7 @@ export const mockMarketProductCategoryMap = (): Map<number, MarketProductCategor
   return map;
 };
 
-export const mockCertification: MarketDirectoryCertification = {
+export const mockCertification: Certification = {
   survey_id: 'mock-cert-uuid-001',
   certification_id: 1,
   certifier_id: 1,
@@ -86,14 +86,16 @@ export const mockCertification: MarketDirectoryCertification = {
   farm_id: 'mock-farm-id',
   certificationSystemType: {
     certification_id: 1,
-    certification_type: 'Organic',
-    certification_translation_key: 'ORGANIC',
+    certification_type: 'Third-party Organic',
+    certification_translation_key: 'THIRD_PARTY_ORGANIC',
   },
   certifier: {
     certifier_id: 1,
     certifier_name: 'Soil Association',
     certifier_acronym: 'SA',
   },
+  certification_type: 'Organic',
+  is_active: true,
 };
 
 export const getOrganizationCount = (res: { body: { '@graph': DfcEntity[] } }) => {

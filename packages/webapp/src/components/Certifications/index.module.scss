@@ -218,6 +218,34 @@
   gap: 8px;
 }
 
+/* ── CertificationForm ────────────────────────── */
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+}
+
+.formFileArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px dashed var(--Colors-Neutral-Neutral-300);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--Colors-Neutral-Neutral-600);
+  width: 100%;
+
+  &:hover {
+    border-color: var(--Colors-Primary-Primary-teal-400);
+    color: var(--Colors-Primary-Primary-teal-700);
+  }
+}
+
 /* ── CertificationsPage ───────────────────────── */
 
 .page {

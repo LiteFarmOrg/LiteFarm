@@ -420,6 +420,19 @@
       "ACTIVE_SECTION": "Active certifications",
       "PURSUING_SECTION": "Pursuing certifications"
     },
+    "FORM": {
+      "THIRD_PARTY": "Third-party certification",
+      "PGS": "Participatory Guarantee System (PGS)",
+      "IS_ACTIVE": "Is this certification active?",
+      "CERTIFICATION_TYPE": "Certification type",
+      "CERTIFYING_BODY": "Certifying body",
+      "CERTIFYING_GROUP": "Certifying group",
+      "CERTIFICATE_NUMBER": "Certificate number",
+      "PGS_GROUP_NAME": "PGS group name",
+      "START_DATE": "Start date",
+      "EXPIRY_DATE": "Expiry date",
+      "UPLOAD_DOCUMENT": "Upload certificate document"
+    },
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",
       "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",

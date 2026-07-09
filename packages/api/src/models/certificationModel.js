@@ -20,6 +20,19 @@ import farmModel from './farmModel.js';
 import certificationSystemTypeModel from './certificationSystemTypeModel.js';
 import certifierModel from './certifierModel.js';
 
+export const CERTIFICATION_TYPES = [
+  'ORGANIC',
+  'BIODYNAMIC',
+  'REGENERATIVE',
+  'CERTIFIED_HUMANE',
+  'FAIR_TRADE',
+  'GRASSFED/PASTURE',
+  'SUSTAINABILITY',
+  'ANIMAL_WELFARE',
+  'NON-GMO',
+  'CARBON/CLIMATE',
+];
+
 class Certification extends BaseModel {
   static get tableName() {
     return 'certification';
@@ -41,7 +54,7 @@ class Certification extends BaseModel {
         requested_system_type: { type: ['string', 'null'] },
         other_certifier: { type: ['string', 'null'] },
         is_active: { type: 'boolean' },
-        certification_type: { type: ['string', 'null'] },
+        certification_type: { type: ['string', 'null'], enum: [...CERTIFICATION_TYPES, null] },
         certificate_number: { type: ['string', 'null'] },
         certificate_member_id: { type: ['string', 'null'] },
         issue_date: { type: ['string', 'null'] },

@@ -24,6 +24,14 @@ const certificationTypeOptions = [
   { value: 4, label: 'Fair Trade' },
 ];
 
+const certifierOptions = [
+  { value: 1, label: 'Soil Association', key: 'SOIL_ASSOCIATION' },
+  { value: 2, label: 'Ecocert', key: 'ECOCERT' },
+  { value: 3, label: 'CCOF', key: 'CCOF' },
+];
+
+const soilAssociationCertifier = certifierOptions[0];
+
 const meta: Meta<typeof CertificationForm> = {
   title: 'Components/Certifications/CertificationForm',
   component: CertificationForm,
@@ -38,6 +46,7 @@ const meta: Meta<typeof CertificationForm> = {
   ],
   args: {
     certificationTypeOptions,
+    certifierOptions,
     onSubmit: (data) => console.log('submit', data),
     onBack: () => {},
   },
@@ -61,7 +70,7 @@ export const EditExisting: Story = {
       systemType: 'third_party',
       isActive: true,
       certificationTypeId: 1,
-      certifierName: 'Soil Association',
+      certifier: soilAssociationCertifier,
       certificationIdentifier: 'UK-ORG-05-1234',
       startDate: '2024-01-01',
       expiryDate: '2026-12-31',

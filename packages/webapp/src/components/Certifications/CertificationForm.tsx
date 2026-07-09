@@ -26,11 +26,14 @@ import styles from './index.module.scss';
 
 export type CertificationTypeOption = { value: number; label: string };
 
+export type CertifierOption = { value: number | null; label: string; key?: string };
+
 export type CertificationFormValues = {
   systemType: 'third_party' | 'pgs';
   isActive: boolean;
   certificationTypeId: number | null;
-  certifierName: string;
+  certifier: CertifierOption | null;
+  otherCertifier: string;
   certificationIdentifier: string;
   startDate: string | null;
   expiryDate: string | null;
@@ -39,6 +42,7 @@ export type CertificationFormValues = {
 
 type CertificationFormProps = {
   certificationTypeOptions: CertificationTypeOption[];
+  certifierOptions: CertifierOption[];
   defaultValues?: Partial<CertificationFormValues>;
   onSubmit: (data: CertificationFormValues) => void;
   onBack: () => void;
@@ -48,7 +52,8 @@ const DEFAULT_VALUES: CertificationFormValues = {
   systemType: 'third_party',
   isActive: true,
   certificationTypeId: null,
-  certifierName: '',
+  certifier: null,
+  otherCertifier: '',
   certificationIdentifier: '',
   startDate: null,
   expiryDate: null,
@@ -57,6 +62,7 @@ const DEFAULT_VALUES: CertificationFormValues = {
 
 export default function CertificationForm({
   certificationTypeOptions,
+  certifierOptions,
   defaultValues,
   onSubmit,
   onBack,
@@ -68,6 +74,8 @@ export default function CertificationForm({
 
   const systemType = watch('systemType');
   const isActive = watch('isActive');
+  const watchedCertifier = watch('certifier');
+  const showOtherCertifierInput = watchedCertifier?.key === 'OTHER';
 
   const certifierLabel =
     systemType === 'pgs'
@@ -78,6 +86,11 @@ export default function CertificationForm({
     systemType === 'pgs'
       ? t('CERTIFICATION.FORM.PGS_GROUP_NAME')
       : t('CERTIFICATION.FORM.CERTIFICATE_NUMBER');
+
+  const allCertifierOptions: CertifierOption[] = [
+    ...certifierOptions,
+    { value: null, label: t('common:OTHER'), key: 'OTHER' },
+  ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer} noValidate>
@@ -124,7 +137,26 @@ export default function CertificationForm({
         )}
       />
 
-      <Input label={certifierLabel} hookFormRegister={register('certifierName')} />
+      <Controller
+        name="certifier"
+        control={control}
+        render={({ field }) => (
+          <Select
+            label={certifierLabel}
+            options={allCertifierOptions}
+            value={field.value}
+            onChange={field.onChange}
+          />
+        )}
+      />
+
+      {showOtherCertifierInput && (
+        <Input
+          hookFormRegister={register('otherCertifier', { shouldUnregister: true })}
+          placeholder={t('CERTIFICATION.FORM.OTHER_CERTIFIER_PLACEHOLDER')}
+          optional
+        />
+      )}
 
       {isActive && (
         <>

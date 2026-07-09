@@ -432,7 +432,8 @@
       "PGS_GROUP_NAME": "PGS group name",
       "START_DATE": "Start date",
       "EXPIRY_DATE": "Expiry date",
-      "UPLOAD_DOCUMENT": "Upload certificate document"
+      "UPLOAD_DOCUMENT": "Upload certificate document",
+      "OTHER_CERTIFIER_PLACEHOLDER": "Enter certifier name"
     },
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",

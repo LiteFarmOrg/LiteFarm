@@ -405,6 +405,12 @@
     "TITLE": "Are you sure you want to cancel?"
   },
   "CERTIFICATION": {
+    "STATUS": {
+      "ACTIVE": "Active",
+      "EXPIRING_SOON": "Expiring soon",
+      "EXPIRED": "Expired",
+      "PURSUING": "Pursuing"
+    },
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",
       "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",

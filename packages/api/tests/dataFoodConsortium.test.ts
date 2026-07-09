@@ -52,6 +52,7 @@ const mockedParseAddress = parseGoogleGeocodedAddress as jest.MockedFunction<
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
 import {
+  DfcEntity,
   expectedBaseDfcStructure,
   getOrganizationCount,
   mockCompleteMarketDirectoryInfo,
@@ -79,8 +80,11 @@ describe('Data Food Consortium Tests', () => {
 
   let marketDirectoryPartner: MarketDirectoryPartner;
 
-  async function createMarketDirectoryInfoForTest(partner?: MarketDirectoryPartner) {
-    const userFarmIds = await createUserFarmIds(1);
+  async function createMarketDirectoryInfoForTest(
+    partner?: MarketDirectoryPartner,
+    existingUserFarmIds?: Awaited<ReturnType<typeof createUserFarmIds>>,
+  ) {
+    const userFarmIds = existingUserFarmIds ?? (await createUserFarmIds(1));
     const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
       promisedUserFarm: Promise.resolve([userFarmIds]),
       marketDirectoryInfo: mockCompleteMarketDirectoryInfo,
@@ -273,6 +277,82 @@ describe('Data Food Consortium Tests', () => {
 
       expect(res.status).toBe(200);
       expect(getOrganizationCount(res)).toBe(1);
+    });
+  });
+
+  describe('Certifications in DFC output', () => {
+    test('Should include active certifications in the DFC output', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      const certifier1 = await knex('certifiers').where({ system_type_id: 2 }).first();
+      const certifier2 = await knex('certifiers').where({ system_type_id: 1 }).first();
+
+      const [certification1] = await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          certifier_id: certifier1.certifier_id,
+          certification_type: 'BIODYNAMIC',
+          certificate_member_id: 'Ecocert',
+        }),
+      );
+
+      const [_certification2] = await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          certification_type: 'ORGANIC',
+          certifier_id: certifier2.certifier_id,
+        }),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certifications = res.body['@graph'].filter(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certifications.length).toBe(2);
+
+      const certNode = certifications.find(
+        (entity: DfcEntity) =>
+          entity['@id'] ===
+          `https://api.beta.litefarm.org/dfc/enterprises/${marketDirectoryInfo.id}#certification-${certification1.id}`,
+      );
+      expect(certNode).toMatchObject({
+        '@id': expect.stringContaining(`#certification-${certification1.id}`),
+        'dfc-b:name': 'Biodynamic',
+        'dfc-b:certiferReference': certifier1.certifier_name,
+        'dfc-b:operatorId': 'Ecocert',
+      });
+
+      const orgNode = res.body['@graph'].find(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Organization',
+      );
+      expect(orgNode).toHaveProperty('dfc-b:isCertifiedBy');
+    });
+
+    test('Should not include soft-deleted certifications in the DFC output', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          is_active: true,
+          certification_type: 'ORGANIC',
+          deleted: true,
+        }),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certNode = res.body['@graph'].find(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certNode).toBeUndefined();
     });
   });
 

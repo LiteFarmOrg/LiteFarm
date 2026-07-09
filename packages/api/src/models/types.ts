@@ -652,14 +652,14 @@ export type Certification = {
   certifier_id: number | null;
   certificate_member_id: string | null;
   farm_id: string;
-  certificationSystemType?: CertificationSystemType | null;
-  certifier?: Certifier | null;
   is_active: boolean;
   certification_type?: string | null;
   certificate_number?: string | null;
   issue_date?: string | null;
   valid_until?: string | null;
   certificate_document_url?: string | null;
+  certificationSystemType?: CertificationSystemType | null;
+  certifier?: Certifier | null;
 };
 
 export type MarketDirectoryInfo = {

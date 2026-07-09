@@ -2117,6 +2117,7 @@ function fakeCertification(farm_id, defaultData = /** @type {T} */ ({})) {
     created_at: past,
     updated_at: faker.date.between(past, now),
     farm_id,
+    is_active: true,
     ...defaultData,
   };
 }

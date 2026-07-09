@@ -14,6 +14,7 @@
  */
 
 import { Certification, MarketProductCategory } from '../../src/models/types.js';
+import mocks from '../mock.factories.js';
 
 export interface DfcEntity {
   '@type': string;
@@ -79,23 +80,24 @@ export const mockMarketProductCategoryMap = (): Map<number, MarketProductCategor
 };
 
 export const mockCertification: Certification = {
-  id: 'mock-cert-uuid-001',
-  system_type_id: 1,
-  certifier_id: 1,
-  certificate_member_id: 'UK-ORG-05-1234',
-  farm_id: 'mock-farm-id',
+  ...mocks.fakeCertification('mock-farm-id', {
+    id: 'mock-cert-uuid-001',
+    system_type_id: 1,
+    certifier_id: 1,
+    certificate_member_id: 'UK-ORG-05-1234',
+    certification_type: 'Organic',
+    is_active: true,
+  }),
   certificationSystemType: {
     id: 1,
-    name: 'Third-party Organic',
-    translation_key: 'THIRD_PARTY_ORGANIC',
+    name: 'Organic',
+    translation_key: 'ORGANIC',
   },
   certifier: {
     certifier_id: 1,
     certifier_name: 'Soil Association',
     certifier_acronym: 'SA',
   },
-  certification_type: 'Organic',
-  is_active: true,
 };
 
 export const getOrganizationCount = (res: { body: { '@graph': DfcEntity[] } }) => {

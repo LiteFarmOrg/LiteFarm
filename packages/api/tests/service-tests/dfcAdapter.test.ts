@@ -365,8 +365,8 @@ describe('dfcAdapter', () => {
       certificate_member_id: 'FR-BIO-01-9999',
       certificationSystemType: {
         id: 2,
-        name: 'Biodynamic',
-        translation_key: 'BIODYNAMIC',
+        name: 'Participatory Guarantee System',
+        translation_key: 'PGS',
       },
       certifier: {
         certifier_id: 2,

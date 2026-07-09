@@ -2100,14 +2100,20 @@ async function supportTicketFactory(
     .returning('*');
 }
 
-function fakeCertification(farm_id, defaultData = {}) {
-  const certificationIDS = [1, 2];
+/**
+ * @template {object} T
+ * @param {string} [farm_id]
+ * @param {T} [defaultData]
+ * @returns {{ certifier_id: number, system_type_id: number, created_at: Date, updated_at: Date, farm_id: string } & T}
+ */
+function fakeCertification(farm_id, defaultData = /** @type {T} */ ({})) {
+  const systemTypeIds = [1, 2];
   const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 13, 15, 16, 17, 18];
   const past = faker.date.past();
   const now = new Date();
   return {
     certifier_id: faker.helpers.arrayElement(certifierIDS),
-    system_type_id: faker.helpers.arrayElement(certificationIDS),
+    system_type_id: faker.helpers.arrayElement(systemTypeIds),
     created_at: past,
     updated_at: faker.date.between(past, now),
     farm_id,

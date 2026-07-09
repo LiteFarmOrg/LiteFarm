@@ -32,6 +32,7 @@ import type {
   MarketDirectoryInfoWithRelations,
   MarketProductCategory,
 } from '../../models/types.js';
+import { CERTIFICATION_TYPES } from '../../models/certificationModel.js';
 import { liteFarmToDFCTaxonomy, getNestedValue } from './litefarmToDFCTaxonomy.js';
 
 let sharedProductTypesConnector: Connector;
@@ -42,8 +43,10 @@ export const createEnterpriseUrl = (market_directory_info_id: string): string =>
   return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
 };
 
+type CertificationType = (typeof CERTIFICATION_TYPES)[number];
+
 // certification_type enum values → official display names for DFC partners
-const CERTIFICATION_TYPE_NAMES: Record<string, string> = {
+const CERTIFICATION_TYPE_NAMES: Record<CertificationType, string> = {
   ORGANIC: 'Organic',
   BIODYNAMIC: 'Biodynamic',
   REGENERATIVE: 'Regenerative',
@@ -184,7 +187,9 @@ export const formatFarmDataToDfcStandard = async (
           connector,
           semanticId: `${enterpriseUrl}#certification-${cert.id}`,
           // Fall back to the raw enum value if a new type is missing from the map
-          name: CERTIFICATION_TYPE_NAMES[cert.certification_type!] ?? cert.certification_type!,
+          name:
+            CERTIFICATION_TYPE_NAMES[cert.certification_type as CertificationType] ??
+            cert.certification_type!,
           description: undefined,
           certificationReferences: cert.certifier?.certifier_name
             ? [cert.certifier.certifier_name]

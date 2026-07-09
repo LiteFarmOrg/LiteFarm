@@ -420,6 +420,7 @@
       "ACTIVE_SECTION": "Active certifications",
       "PURSUING_SECTION": "Pursuing certifications"
     },
+    "DELETE_SUBJECT": "this certification",
     "FORM": {
       "THIRD_PARTY": "Third-party certification",
       "PGS": "Participatory Guarantee System (PGS)",

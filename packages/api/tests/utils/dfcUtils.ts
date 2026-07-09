@@ -79,15 +79,15 @@ export const mockMarketProductCategoryMap = (): Map<number, MarketProductCategor
 };
 
 export const mockCertification: Certification = {
-  survey_id: 'mock-cert-uuid-001',
-  certification_id: 1,
+  id: 'mock-cert-uuid-001',
+  system_type_id: 1,
   certifier_id: 1,
   certificate_member_id: 'UK-ORG-05-1234',
   farm_id: 'mock-farm-id',
   certificationSystemType: {
-    certification_id: 1,
-    certification_type: 'Third-party Organic',
-    certification_translation_key: 'THIRD_PARTY_ORGANIC',
+    id: 1,
+    name: 'Third-party Organic',
+    translation_key: 'THIRD_PARTY_ORGANIC',
   },
   certifier: {
     certifier_id: 1,

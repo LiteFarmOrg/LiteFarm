@@ -361,12 +361,12 @@ describe('dfcAdapter', () => {
   test('should include multiple certification nodes when multiple certifications are present', async () => {
     const secondCertification = {
       ...mockCertification,
-      survey_id: 'mock-cert-uuid-002',
+      id: 'mock-cert-uuid-002',
       certificate_member_id: 'FR-BIO-01-9999',
       certificationSystemType: {
-        certification_id: 2,
-        certification_type: 'Biodynamic',
-        certification_translation_key: 'BIODYNAMIC',
+        id: 2,
+        name: 'Biodynamic',
+        translation_key: 'BIODYNAMIC',
       },
       certifier: {
         certifier_id: 2,

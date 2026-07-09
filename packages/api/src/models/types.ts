@@ -632,24 +632,23 @@ export interface DocumentWithFiles extends Document {
   files?: File[];
 }
 
-// TODO LF-5379: field names use the $formatJson shim names — update when shim is removed
 export type CertificationSystemType = {
-  certification_id: number;
-  certification_type: string;
-  certification_translation_key: string;
+  id: number;
+  name: string;
+  translation_key: string;
 };
 
 export type Certifier = {
   certifier_id: number;
-  certification_id?: CertificationSystemType['certification_id'];
+  system_type_id?: CertificationSystemType['id'];
   certifier_name: string;
   certifier_acronym: string | null;
   survey_id?: string;
 };
 
 export type Certification = {
-  survey_id: string;
-  certification_id: number | null;
+  id: string;
+  system_type_id: number | null;
   certifier_id: number | null;
   certificate_member_id: string | null;
   farm_id: string;
@@ -657,10 +656,10 @@ export type Certification = {
   certifier?: Certifier | null;
   is_active: boolean;
   certification_type?: string | null;
-  certification_identifier?: string | null;
-  start_date?: string | null;
-  expiry_date?: string | null;
-  document_file_url?: string | null;
+  certificate_number?: string | null;
+  issue_date?: string | null;
+  valid_until?: string | null;
+  certificate_document_url?: string | null;
 };
 
 export type MarketDirectoryInfo = {

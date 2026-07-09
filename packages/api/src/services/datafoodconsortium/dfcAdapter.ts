@@ -168,7 +168,7 @@ export const formatFarmDataToDfcStandard = async (
       (cert) =>
         new Certification({
           connector,
-          semanticId: `${enterpriseUrl}#certification-${cert.survey_id}`,
+          semanticId: `${enterpriseUrl}#certification-${cert.id}`,
           name: cert.certification_type!,
           description: undefined,
           certificationReferences: cert.certifier?.certifier_name

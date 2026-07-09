@@ -85,7 +85,7 @@ export const mockCertification: Certification = {
     system_type_id: 1,
     certifier_id: 1,
     certificate_member_id: 'UK-ORG-05-1234',
-    certification_type: 'Organic',
+    certification_type: 'ORGANIC',
     is_active: true,
   }),
   certificationSystemType: {

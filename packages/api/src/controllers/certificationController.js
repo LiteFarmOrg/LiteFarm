@@ -32,6 +32,45 @@ const redisConf = {
   },
 };
 
+// TODO LF-5379: remove with legacy /organic_certifier_survey endpoints — maps old API field names to DB column names
+function mapLegacyCertificationBody(body) {
+  const mapped = { ...body };
+  if (mapped.survey_id !== undefined) {
+    mapped.id = mapped.survey_id;
+    delete mapped.survey_id;
+  }
+  if (mapped.certification_id !== undefined) {
+    mapped.system_type_id = mapped.certification_id;
+    delete mapped.certification_id;
+  }
+  if (mapped.requested_certification !== undefined) {
+    mapped.requested_system_type = mapped.requested_certification;
+    delete mapped.requested_certification;
+  }
+  if (mapped.requested_certifier !== undefined) {
+    mapped.other_certifier = mapped.requested_certifier;
+    delete mapped.requested_certifier;
+  }
+  return mapped;
+}
+
+// TODO LF-5379: remove with legacy /organic_certifier_survey endpoints — maps DB column names to old API field names
+function formatCertificationAsLegacy(certification) {
+  // toJSON() runs BaseModel.$formatJson, which hides audit fields as before
+  const json =
+    typeof certification.toJSON === 'function' ? certification.toJSON() : { ...certification };
+  json.survey_id = json.id;
+  json.certification_id = json.system_type_id;
+  json.requested_certification = json.requested_system_type;
+  json.requested_certifier = json.other_certifier;
+  json.interested = true;
+  delete json.id;
+  delete json.system_type_id;
+  delete json.requested_system_type;
+  delete json.other_certifier;
+  return json;
+}
+
 const certificationController = {
   getCertificationByFarmId() {
     return async (req, res) => {
@@ -45,7 +84,7 @@ const certificationController = {
         if (!result) {
           return res.status(200).json({ farm_id, interested: false });
         }
-        return res.status(200).send(result);
+        return res.status(200).send(formatCertificationAsLegacy(result));
       } catch (error) {
         //handle more exceptions
         console.error(error);
@@ -124,11 +163,12 @@ const certificationController = {
           return res.status(200).json({ farm_id, interested: false });
         }
 
+        const { id: _id, ...insertData } = mapLegacyCertificationBody(rest);
         const result = await CertificationModel.query()
           .context({ user_id })
-          .insert({ farm_id, ...rest })
+          .insert({ farm_id, ...insertData })
           .returning('*');
-        res.status(201).send(result);
+        res.status(201).send(formatCertificationAsLegacy(result));
       } catch (error) {
         res.status(400).json({
           error,
@@ -151,7 +191,8 @@ const certificationController = {
           return res.status(200).json({ farm_id, interested: false });
         }
 
-        const { survey_id: surveyId, id: _id, ...patchData } = rest;
+        const { survey_id: surveyId, id: _id, ...rawPatchData } = rest;
+        const patchData = mapLegacyCertificationBody(rawPatchData);
         let result;
         if (surveyId !== undefined) {
           result = await CertificationModel.query()
@@ -165,7 +206,7 @@ const certificationController = {
             .insert({ farm_id, ...patchData })
             .returning('*');
         }
-        return res.status(200).send(result);
+        return res.status(200).send(formatCertificationAsLegacy(result));
       } catch (error) {
         console.log(error);
         return res.status(400).json({

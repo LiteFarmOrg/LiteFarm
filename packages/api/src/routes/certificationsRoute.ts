@@ -18,6 +18,7 @@ import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import { checkCertification } from '../middleware/validation/checkCertification.js';
 import controller from '../controllers/certificationsController.js';
+import certificationController from '../controllers/certificationController.js';
 
 const router = express.Router();
 
@@ -43,6 +44,12 @@ router.delete(
   checkScope(['delete:certification']),
   hasFarmAccess({ tableName: 'certification' }),
   controller.deleteCertification(),
+);
+
+router.post(
+  '/request_export',
+  checkScope(['add:certification']),
+  certificationController.triggerExport(),
 );
 
 export default router;

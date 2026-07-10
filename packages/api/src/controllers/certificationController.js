@@ -219,7 +219,9 @@ const certificationController = {
   triggerExport() {
     return async (req, res) => {
       // TODO: getting email from request body is commented out for now
-      const { farm_id, from_date, to_date, submission_id } = req.body;
+      const { certifier_id, other_certifier, from_date, to_date, submission_id } = req.body;
+      // The legacy route requires body farm_id to match the header via hasFarmAccess, so the header works for both routes
+      const farm_id = req.headers.farm_id;
       const invalid = [farm_id, from_date, to_date].some((property) => !property);
       if (invalid) {
         return res.status(400).json({
@@ -228,6 +230,14 @@ const certificationController = {
       }
       const certificationRecord = await knex('certification')
         .where({ farm_id, deleted: false })
+        .modify((queryBuilder) => {
+          if (certifier_id) {
+            queryBuilder.where({ certifier_id });
+          }
+          if (other_certifier) {
+            queryBuilder.where({ other_certifier });
+          }
+        })
         .first();
 
       // Skip the whole flow in case this Farm is not pursuing any cert.

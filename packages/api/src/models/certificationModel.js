@@ -57,8 +57,8 @@ class Certification extends BaseModel {
         certification_type: { type: ['string', 'null'], enum: [...CERTIFICATION_TYPES, null] },
         certificate_number: { type: ['string', 'null'] },
         certificate_member_id: { type: ['string', 'null'] },
-        issue_date: { type: ['string', 'null'] },
-        valid_until: { type: ['string', 'null'] },
+        issue_date: { type: ['string', 'null'], format: 'date' },
+        valid_until: { type: ['string', 'null'], format: 'date' },
         certificate_document_url: { type: ['string', 'null'] },
         ...super.baseProperties,
       },
@@ -101,6 +101,24 @@ class Certification extends BaseModel {
         },
       },
     };
+  }
+
+  $trimStringFields() {
+    for (const [key, value] of Object.entries(this)) {
+      if (typeof value === 'string') {
+        this[key] = value.trim();
+      }
+    }
+  }
+
+  async $beforeInsert(context) {
+    await super.$beforeInsert(context);
+    this.$trimStringFields();
+  }
+
+  async $beforeUpdate(opt, context) {
+    await super.$beforeUpdate(opt, context);
+    this.$trimStringFields();
   }
 }
 

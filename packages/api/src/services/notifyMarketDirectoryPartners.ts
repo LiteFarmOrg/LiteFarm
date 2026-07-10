@@ -15,11 +15,33 @@
 
 import MarketDirectoryPartnerAuth from '../models/marketDirectoryPartnerAuthModel.js';
 import MarketDirectoryPartnerPermissionsModel from '../models/marketDirectoryPartnerPermissions.js';
+import MarketDirectoryInfoModel from '../models/marketDirectoryInfoModel.js';
 import { notifyPartnerRefresh } from './datafoodconsortium/dfcWebhook.js';
 import type {
   MarketDirectoryPartnerAuth as MarketDirectoryPartnerAuthType,
+  MarketDirectoryInfo,
   MarketDirectoryPartnerPermissions,
 } from '../models/types.js';
+
+async function notifyPartnersByIds(partnerIds: number[]) {
+  if (partnerIds.length === 0) {
+    return;
+  }
+
+  const partnerAuths = (await MarketDirectoryPartnerAuth.query().whereIn(
+    'market_directory_partner_id',
+    partnerIds,
+  )) as unknown as MarketDirectoryPartnerAuthType[];
+
+  // Send webhooks to each partner with a webhook URL
+  for (const auth of partnerAuths) {
+    if (!auth.webhook_endpoint) {
+      continue;
+    }
+
+    await notifyPartnerRefresh(auth.webhook_endpoint);
+  }
+}
 
 /**
  * Non-blocking post-response side effects; do not send HTTP responses here
@@ -62,23 +84,41 @@ export async function notifyMarketDirectoryPartners(
       partnerIdsToNotify = currentPartnerIds;
     }
 
-    if (partnerIdsToNotify.length === 0) {
+    await notifyPartnersByIds(partnerIdsToNotify);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/**
+ * Non-blocking post-response side effect; do not send HTTP responses here
+ *
+ * Notifies all partners currently permitted to see the farm's market directory
+ * listing. Skips silently when the farm is not listed in the market directory.
+ *
+ * @param farm_id - ID of the farm whose data changed
+ */
+export async function notifyFarmMarketDirectoryPartners(farm_id: string) {
+  try {
+    const marketDirectoryInfo: MarketDirectoryInfo | undefined = await MarketDirectoryInfoModel
+      // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+      .query()
+      .where({ farm_id })
+      .whereNotDeleted()
+      .first();
+
+    if (!marketDirectoryInfo) {
       return;
     }
 
-    const partnerAuths = (await MarketDirectoryPartnerAuth.query().whereIn(
-      'market_directory_partner_id',
-      partnerIdsToNotify,
-    )) as unknown as MarketDirectoryPartnerAuthType[];
+    const permissions: MarketDirectoryPartnerPermissions[] =
+      await MarketDirectoryPartnerPermissionsModel
+        // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
+        .query()
+        .where({ market_directory_info_id: marketDirectoryInfo.id })
+        .whereNotDeleted();
 
-    // Send webhooks to each partner with a webhook URL
-    for (const auth of partnerAuths) {
-      if (!auth.webhook_endpoint) {
-        continue;
-      }
-
-      await notifyPartnerRefresh(auth.webhook_endpoint);
-    }
+    await notifyPartnersByIds(permissions.map((p) => p.market_directory_partner_id));
   } catch (error) {
     console.error(error);
   }

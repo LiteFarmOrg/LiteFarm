@@ -23,6 +23,7 @@ import {
   CertificationParams,
 } from '../middleware/validation/checkCertification.js';
 import { handleObjectionError } from '../util/errorCodes.js';
+import { notifyFarmMarketDirectoryPartners } from '../services/notifyMarketDirectoryPartners.js';
 import {
   s3,
   imaginaryPost,
@@ -94,7 +95,10 @@ const certificationsController = {
           .returning('*');
 
         await trx.commit();
-        return res.status(201).json(certification);
+        res.status(201).json(certification);
+        // Fire-and-forget after the response — partners see certifications in DFC output
+        notifyFarmMarketDirectoryPartners(farm_id!);
+        return;
       } catch (error: unknown) {
         return await handleObjectionError(error as Error, res, trx);
       }
@@ -129,7 +133,9 @@ const certificationsController = {
           .patchAndFetchById(id, fullData);
 
         await trx.commit();
-        return res.status(200).json(updated);
+        res.status(200).json(updated);
+        notifyFarmMarketDirectoryPartners(req.headers.farm_id!);
+        return;
       } catch (error: unknown) {
         return await handleObjectionError(error as Error, res, trx);
       }
@@ -157,7 +163,9 @@ const certificationsController = {
         await CertificationModel.query(trx).context({ user_id }).deleteById(id);
 
         await trx.commit();
-        return res.sendStatus(204);
+        res.sendStatus(204);
+        notifyFarmMarketDirectoryPartners(req.headers.farm_id!);
+        return;
       } catch (error: unknown) {
         return await handleObjectionError(error as Error, res, trx);
       }

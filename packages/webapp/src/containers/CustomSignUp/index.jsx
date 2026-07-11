@@ -33,6 +33,8 @@ const PureCustomSignUpStyle = {
   },
 };
 
+const showGoogleOAuth = !!import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
+
 function CustomSignUp() {
   const history = useHistory();
   const location = useLocation();
@@ -170,7 +172,9 @@ function CustomSignUp() {
           classes={PureCustomSignUpStyle}
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
-          GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
+          GoogleLoginButton={
+            showGoogleOAuth && <GoogleLoginButton className={'google-login-button'} />
+          }
           isChrome={isChrome()}
           errorMessage={errorMessage}
           inputs={[

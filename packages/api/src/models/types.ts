@@ -653,6 +653,7 @@ export type Certification = {
   certificate_member_id: string | null;
   farm_id: string;
   is_active: boolean;
+  other_certifier?: string | null;
   certification_type?: string | null;
   certificate_number?: string | null;
   issue_date?: string | null;

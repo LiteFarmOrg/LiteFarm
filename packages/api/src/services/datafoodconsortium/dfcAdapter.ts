@@ -193,7 +193,7 @@ export const formatFarmDataToDfcStandard = async (
           description: undefined,
           certificationReferences: cert.certifier?.certifier_name
             ? [cert.certifier.certifier_name]
-            : [],
+            : [cert.other_certifier!],
           operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
           certificationScores: [],
         }),

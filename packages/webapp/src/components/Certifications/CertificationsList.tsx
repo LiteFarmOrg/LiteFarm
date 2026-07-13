@@ -24,8 +24,6 @@ interface CertificationsListProps {
   onDelete: (id: string) => void;
 }
 
-const ACTIVE_STATUSES = new Set(['active', 'expiring_soon', 'expired'] as const);
-
 export default function CertificationsList({
   certifications,
   onEdit,
@@ -33,8 +31,8 @@ export default function CertificationsList({
 }: CertificationsListProps) {
   const { t } = useTranslation('translation');
 
-  const activeCerts = certifications.filter((c) => ACTIVE_STATUSES.has(c.status as any));
-  const pursuingCerts = certifications.filter((c) => c.status === 'pursuing');
+  const activeCerts = certifications.filter((cert) => cert.isActive);
+  const pursuingCerts = certifications.filter((cert) => !cert.isActive);
 
   return (
     <div className={styles.list}>
@@ -49,7 +47,7 @@ export default function CertificationsList({
                 systemType={cert.systemType}
                 certifierName={cert.certifierName}
                 certificationIdentifier={cert.certificationIdentifier}
-                status={cert.status}
+                isActive={cert.isActive}
                 expiryDate={cert.expiryDate}
                 documentFileName={cert.documentFileName}
                 onEdit={() => onEdit(cert.id)}
@@ -70,7 +68,7 @@ export default function CertificationsList({
                 certificationSystemType={cert.certificationSystemType}
                 systemType={cert.systemType}
                 certifierName={cert.certifierName}
-                status={cert.status}
+                isActive={cert.isActive}
                 onEdit={() => onEdit(cert.id)}
                 onDelete={() => onDelete(cert.id)}
               />

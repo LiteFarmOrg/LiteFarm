@@ -23,7 +23,7 @@ export type CertificationItem = {
   systemType: SystemType;
   certifierName: string;
   certificationIdentifier?: string | null;
-  status: CertificationStatus;
+  isActive: boolean;
   expiryDate?: string | null;
   documentFileName?: string | null;
 };

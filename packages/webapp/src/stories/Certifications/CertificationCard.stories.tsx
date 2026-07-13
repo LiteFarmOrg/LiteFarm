@@ -17,7 +17,13 @@ import { Meta, StoryObj } from '@storybook/react';
 import { Suspense } from 'react';
 import CertificationCard from '../../components/Certifications/CertificationCard';
 
-const IN_45_DAYS = new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+const daysFromNow = (days: number) =>
+  new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+// Status is derived: isActive false → pursuing; then past expiry → expired, ≤30 days → expiring soon
+const ACTIVE_EXPIRY = daysFromNow(365);
+const EXPIRING_SOON_EXPIRY = daysFromNow(20);
+const EXPIRED_EXPIRY = daysFromNow(-30);
 
 const meta: Meta<typeof CertificationCard> = {
   title: 'Components/Certifications/CertificationCard',
@@ -36,7 +42,8 @@ const meta: Meta<typeof CertificationCard> = {
     systemType: 'third_party',
     certifierName: 'BCARA',
     certificationIdentifier: 'CAN-ORG-2024-01567',
-    expiryDate: '2026-02-28',
+    isActive: true,
+    expiryDate: ACTIVE_EXPIRY,
     onEdit: () => {},
     onDelete: () => {},
   },
@@ -48,44 +55,40 @@ type Story = StoryObj<typeof CertificationCard>;
 
 export const Active: Story = {
   args: {
-    status: 'active',
     documentFileName: 'Organic-BC.pdf',
   },
 };
 
 export const ExpiringSoon: Story = {
   args: {
-    status: 'expiring_soon',
     certificationSystemType: 'Participatory guarantee system',
     systemType: 'pgs',
     certifierName: 'FVOPA',
-    expiryDate: IN_45_DAYS,
+    expiryDate: EXPIRING_SOON_EXPIRY,
   },
 };
 
 export const Expired: Story = {
   args: {
-    status: 'expired',
     certificationSystemType: 'Participatory guarantee system',
     systemType: 'pgs',
     certifierName: 'FVOPA',
-    expiryDate: '2025-07-31',
+    expiryDate: EXPIRED_EXPIRY,
   },
 };
 
 export const Pursuing: Story = {
   args: {
-    status: 'pursuing',
     certificationSystemType: 'third-party organic',
     certifierName: 'CCOF — California Certified Organic Farmers',
     certificationIdentifier: null,
+    isActive: false,
     expiryDate: null,
   },
 };
 
 export const Mobile: Story = {
   args: {
-    status: 'active',
     documentFileName: 'Organic-BC.pdf',
   },
   decorators: [

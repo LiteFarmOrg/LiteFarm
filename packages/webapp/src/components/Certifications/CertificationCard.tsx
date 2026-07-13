@@ -28,7 +28,7 @@ interface CertificationCardProps {
   systemType: SystemType;
   certifierName: string;
   certificationIdentifier?: string | null;
-  status: CertificationStatus;
+  isActive: boolean;
   expiryDate?: string | null;
   documentFileName?: string | null;
   onEdit: () => void;
@@ -42,9 +42,30 @@ const STATUS_KEYS: Record<Exclude<CertificationStatus, 'pursuing'>, string> = {
 };
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const EXPIRING_SOON_WINDOW_DAYS = 30;
 
 function getDaysLeft(isoDate: string): number {
   return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
+}
+
+export function getCertificationStatus(
+  isActive: boolean,
+  expiryDate?: string | null,
+): CertificationStatus {
+  if (!isActive) {
+    return 'pursuing';
+  }
+  if (!expiryDate) {
+    return 'active';
+  }
+  const daysLeft = getDaysLeft(expiryDate);
+  if (daysLeft <= 0) {
+    return 'expired';
+  }
+  if (daysLeft <= EXPIRING_SOON_WINDOW_DAYS) {
+    return 'expiring_soon';
+  }
+  return 'active';
 }
 
 export default function CertificationCard({
@@ -52,13 +73,14 @@ export default function CertificationCard({
   systemType,
   certifierName,
   certificationIdentifier,
-  status,
+  isActive,
   expiryDate,
   documentFileName,
   onEdit,
   onDelete,
 }: CertificationCardProps) {
   const { t } = useTranslation(['translation', 'common']);
+  const status = getCertificationStatus(isActive, expiryDate);
   const isPursuing = status === 'pursuing';
 
   const title = isPursuing
@@ -76,10 +98,7 @@ export default function CertificationCard({
         : t('CERTIFICATION.CARD.EXPIRES', options),
     );
     if (status === 'expiring_soon') {
-      const daysLeft = getDaysLeft(expiryDate);
-      if (daysLeft > 0) {
-        subtitleParts.push(t('CERTIFICATION.CARD.DAYS_LEFT', { count: daysLeft }));
-      }
+      subtitleParts.push(t('CERTIFICATION.CARD.DAYS_LEFT', { count: getDaysLeft(expiryDate) }));
     }
   }
 

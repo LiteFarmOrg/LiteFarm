@@ -18,14 +18,17 @@ import { Suspense } from 'react';
 import CertificationsList from '../../components/Certifications/CertificationsList';
 import type { CertificationItem } from '../../components/Certifications/types';
 
+const daysFromNow = (days: number) =>
+  new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
 const activeCert: CertificationItem = {
   id: '1',
   certificationSystemType: 'Third-party organic',
   systemType: 'third_party',
   certifierName: 'BCARA',
   certificationIdentifier: 'CAN-ORG-2024-01567',
-  status: 'active',
-  expiryDate: '2026-02-28',
+  isActive: true,
+  expiryDate: daysFromNow(365),
   documentFileName: 'Organic-BC.pdf',
 };
 
@@ -35,8 +38,8 @@ const expiringSoonCert: CertificationItem = {
   systemType: 'pgs',
   certifierName: 'FVOPA',
   certificationIdentifier: 'CAN-ORG-2024-01567',
-  status: 'expiring_soon',
-  expiryDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+  isActive: true,
+  expiryDate: daysFromNow(20),
 };
 
 const pursuingCert: CertificationItem = {
@@ -44,7 +47,7 @@ const pursuingCert: CertificationItem = {
   certificationSystemType: 'third-party organic',
   systemType: 'third_party',
   certifierName: 'CCOF — California Certified Organic Farmers',
-  status: 'pursuing',
+  isActive: false,
 };
 
 const meta: Meta<typeof CertificationsList> = {

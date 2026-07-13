@@ -22,10 +22,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
-import {
-  THIRD_PARTY_SYSTEM_TYPE_ID,
-  PGS_SYSTEM_TYPE_ID,
-} from '../src/middleware/validation/checkCertification.js';
+import { PGS_TRANSLATION_KEY } from '../src/middleware/validation/checkCertification.js';
 
 jest.mock('jsdom');
 jest.mock('bull');
@@ -125,10 +122,12 @@ async function uploadRequest(fileName: string, { user_id, farm_id }: UserFarmIds
 
 describe('Certifications CRUD tests', () => {
   let thirdPartyCertifier: Certifier;
+  let thirdPartySystemTypeId: number;
+  let pgsSystemTypeId: number;
 
   function validCertificationBody(overrides: object = {}) {
     return {
-      system_type_id: THIRD_PARTY_SYSTEM_TYPE_ID,
+      system_type_id: thirdPartySystemTypeId,
       certifier_id: thirdPartyCertifier.certifier_id,
       is_active: true,
       certification_type: 'ORGANIC',
@@ -143,7 +142,7 @@ describe('Certifications CRUD tests', () => {
     const [certification] = await mocks.certificationFactory(
       { promisedUserFarm: Promise.resolve([userFarmIds]) },
       mocks.fakeCertification(userFarmIds.farm_id, {
-        system_type_id: THIRD_PARTY_SYSTEM_TYPE_ID,
+        system_type_id: thirdPartySystemTypeId,
         certifier_id: thirdPartyCertifier.certifier_id,
         certification_type: 'ORGANIC',
         certificate_number: 'CAN-ORG-2024-01567',
@@ -156,8 +155,19 @@ describe('Certifications CRUD tests', () => {
   }
 
   beforeAll(async () => {
+    const pgsSystemType = await knex('certification_system_type')
+      .where({ translation_key: PGS_TRANSLATION_KEY })
+      .first();
+    pgsSystemTypeId = pgsSystemType.id;
+
+    const thirdPartySystemType = await knex('certification_system_type')
+      .whereNot({ translation_key: PGS_TRANSLATION_KEY })
+      .orderBy('id')
+      .first();
+    thirdPartySystemTypeId = thirdPartySystemType.id;
+
     thirdPartyCertifier = await knex('certifiers')
-      .where({ system_type_id: THIRD_PARTY_SYSTEM_TYPE_ID })
+      .where({ system_type_id: thirdPartySystemTypeId })
       .orderBy('certifier_id')
       .first();
   });
@@ -188,7 +198,7 @@ describe('Certifications CRUD tests', () => {
         expect(res.body).toHaveLength(1);
         const [returned] = res.body;
         expect(returned.id).toBe(certification.id);
-        expect(returned.system_type_id).toBe(THIRD_PARTY_SYSTEM_TYPE_ID);
+        expect(returned.system_type_id).toBe(thirdPartySystemTypeId);
         expect(returned.certificate_number).toBe('CAN-ORG-2024-01567');
         // Legacy shim names must not appear
         expect(returned.survey_id).toBeUndefined();
@@ -269,7 +279,7 @@ describe('Certifications CRUD tests', () => {
         });
 
         expect(res.status).toBe(201);
-        expect(res.body.system_type_id).toBe(THIRD_PARTY_SYSTEM_TYPE_ID);
+        expect(res.body.system_type_id).toBe(thirdPartySystemTypeId);
 
         const persisted = await knex('certification').where({ id: res.body.id }).first();
         expect(persisted.farm_id).toBe(userFarmIds.farm_id);
@@ -386,7 +396,7 @@ describe('Certifications CRUD tests', () => {
       test('Rejects a certifier_id that does not match system_type_id', async () => {
         const res = await postRequest(
           validCertificationBody({
-            system_type_id: PGS_SYSTEM_TYPE_ID,
+            system_type_id: pgsSystemTypeId,
             certificate_number: undefined,
             certificate_member_id: 'MEMBER-1',
           }),
@@ -414,7 +424,7 @@ describe('Certifications CRUD tests', () => {
       test('Rejects certificate_number for an active PGS certification', async () => {
         const res = await postRequest(
           validCertificationBody({
-            system_type_id: PGS_SYSTEM_TYPE_ID,
+            system_type_id: pgsSystemTypeId,
             certifier_id: undefined,
             other_certifier: 'PGS Group',
             certificate_member_id: 'MEMBER-1',
@@ -427,7 +437,7 @@ describe('Certifications CRUD tests', () => {
       test('Rejects a missing certificate_member_id for an active PGS certification', async () => {
         const res = await postRequest(
           validCertificationBody({
-            system_type_id: PGS_SYSTEM_TYPE_ID,
+            system_type_id: pgsSystemTypeId,
             certifier_id: undefined,
             other_certifier: 'PGS Group',
             certificate_number: undefined,
@@ -448,7 +458,7 @@ describe('Certifications CRUD tests', () => {
       test('Accepts an active PGS certification with other_certifier and member id', async () => {
         const res = await postRequest(
           validCertificationBody({
-            system_type_id: PGS_SYSTEM_TYPE_ID,
+            system_type_id: pgsSystemTypeId,
             certifier_id: undefined,
             other_certifier: 'PGS Group',
             certificate_number: undefined,

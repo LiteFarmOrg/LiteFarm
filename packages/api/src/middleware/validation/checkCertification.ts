@@ -17,9 +17,7 @@ import { NextFunction, Response } from 'express';
 import knex from '../../util/knex.js';
 import { HttpError, LiteFarmRequest } from '../../types.js';
 
-// Seeded certification_system_type ids
-export const THIRD_PARTY_SYSTEM_TYPE_ID = 1;
-export const PGS_SYSTEM_TYPE_ID = 2;
+export const PGS_TRANSLATION_KEY = 'PGS';
 
 export interface CertificationBody {
   system_type_id?: number | null;
@@ -58,7 +56,11 @@ export function checkCertification() {
         valid_until,
       } = req.body;
 
-      if (![THIRD_PARTY_SYSTEM_TYPE_ID, PGS_SYSTEM_TYPE_ID].includes(system_type_id as number)) {
+      const systemType =
+        system_type_id != null
+          ? await knex('certification_system_type').where({ id: system_type_id }).first()
+          : undefined;
+      if (!systemType) {
         return res.status(400).json({ error: 'A valid system_type_id is required' });
       }
       if (typeof is_active !== 'boolean') {
@@ -86,19 +88,8 @@ export function checkCertification() {
       }
 
       if (is_active) {
-        if (system_type_id === THIRD_PARTY_SYSTEM_TYPE_ID) {
-          if (!certificate_number) {
-            return res
-              .status(400)
-              .json({ error: 'certificate_number is required for an active certification' });
-          }
-          if (certificate_member_id) {
-            return res
-              .status(400)
-              .json({ error: 'certificate_member_id is not accepted for this system type' });
-          }
-        }
-        if (system_type_id === PGS_SYSTEM_TYPE_ID) {
+        const isPgs = systemType.translation_key === PGS_TRANSLATION_KEY;
+        if (isPgs) {
           if (!certificate_member_id) {
             return res
               .status(400)
@@ -108,6 +99,17 @@ export function checkCertification() {
             return res
               .status(400)
               .json({ error: 'certificate_number is not accepted for this system type' });
+          }
+        } else {
+          if (!certificate_number) {
+            return res
+              .status(400)
+              .json({ error: 'certificate_number is required for an active certification' });
+          }
+          if (certificate_member_id) {
+            return res
+              .status(400)
+              .json({ error: 'certificate_member_id is not accepted for this system type' });
           }
         }
         if (!issue_date || !valid_until) {

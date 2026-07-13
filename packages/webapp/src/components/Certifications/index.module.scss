@@ -29,10 +29,6 @@
 
   font-size: 16px;
   line-height: normal;
-
-  span {
-    padding-right: 16px;
-  }
 }
 
 .bannerIcon {
@@ -48,6 +44,10 @@
   }
 
   @include svgColorFill(var(--Colors-Neutral-Neutral-600));
+
+  @mixin sm-breakpoint {
+    flex: 1;
+  }
 }
 
 /* ── CertificationCard ────────────────────────── */

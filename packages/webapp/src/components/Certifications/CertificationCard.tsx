@@ -15,10 +15,10 @@
 
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as AwardIcon } from '../../assets/images/award-01.svg';
-import { ReactComponent as EditIcon } from '../../assets/images/edit-05.svg';
-import { ReactComponent as TrashIcon } from '../../assets/images/trash-03.svg';
-import { ReactComponent as DocumentIcon } from '../../assets/images/file-02.svg';
+import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
+import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
+import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
+import { ReactComponent as DocumentIcon } from '../../assets/images/document.svg';
 import type { CertificationStatus, SystemType } from './types';
 import styles from './index.module.scss';
 

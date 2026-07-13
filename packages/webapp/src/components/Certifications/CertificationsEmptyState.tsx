@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as AwardIcon } from '../../assets/images/award-01.svg';
+import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
 import Button from '../Form/Button';
 import styles from './index.module.scss';
 

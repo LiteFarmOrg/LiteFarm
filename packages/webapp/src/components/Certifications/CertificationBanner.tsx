@@ -15,7 +15,7 @@
 
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as InfoCircleIcon } from '../../assets/images/info-circle.svg';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import styles from './index.module.scss';
 
 interface CertificationBannerProps {
@@ -27,7 +27,7 @@ export default function CertificationBanner({ className }: CertificationBannerPr
 
   return (
     <div className={clsx(styles.banner, className)}>
-      <InfoCircleIcon className={styles.bannerIcon} aria-hidden />
+      <AiOutlineInfoCircle className={styles.bannerIcon} aria-hidden />
       <p className={styles.bannerText}>{t('CERTIFICATION.BANNER')}</p>
     </div>
   );

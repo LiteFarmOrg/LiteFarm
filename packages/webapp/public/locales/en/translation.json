@@ -405,7 +405,9 @@
     "TITLE": "Are you sure you want to cancel?"
   },
   "CERTIFICATION": {
-    "BANNER": "Certifications added here appear automatically in your Market Directory profile, so buyers can see your credentials in your listing.",
+    "BANNER": "Certifications added here appear automatically in your <strong>Market Directory profile</strong>, so buyers can see your credentials in your listing.",
+    "BANNER_SAVED": "Certification saved and added to your <strong>Market Directory profile</strong>.",
+    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile",
     "STATUS": {
       "ACTIVE": "Active",
       "EXPIRING_SOON": "Expiring soon",

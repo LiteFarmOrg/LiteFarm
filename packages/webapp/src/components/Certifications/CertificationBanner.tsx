@@ -14,21 +14,44 @@
  */
 
 import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import { ReactComponent as ExportIcon } from '../../assets/images/finance/Report-icn.svg';
+
 import styles from './index.module.scss';
 
 interface CertificationBannerProps {
+  variant?: 'info' | 'success';
+  marketDirectoryProfileLink?: string;
   className?: string;
 }
 
-export default function CertificationBanner({ className }: CertificationBannerProps) {
+export default function CertificationBanner({
+  variant = 'info',
+  marketDirectoryProfileLink,
+  className,
+}: CertificationBannerProps) {
   const { t } = useTranslation('translation');
+  const isSuccess = variant === 'success';
 
   return (
     <div className={clsx(styles.banner, className)}>
       <AiOutlineInfoCircle className={styles.bannerIcon} aria-hidden />
-      <p className={styles.bannerText}>{t('CERTIFICATION.BANNER')}</p>
+      <p className={styles.bannerText}>
+        <span>
+          <Trans i18nKey={isSuccess ? 'CERTIFICATION.BANNER_SAVED' : 'CERTIFICATION.BANNER'} />
+        </span>
+        {isSuccess && marketDirectoryProfileLink && (
+          <Link
+            to={marketDirectoryProfileLink}
+            className={styles.bannerLinkIcon}
+            aria-label={t('CERTIFICATION.VIEW_MARKET_DIRECTORY_PROFILE')}
+          >
+            <ExportIcon />
+          </Link>
+        )}
+      </p>
     </div>
   );
 }

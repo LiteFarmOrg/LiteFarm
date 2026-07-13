@@ -38,8 +38,7 @@ const meta: Meta<typeof CertificationCard> = {
     ),
   ],
   args: {
-    certificationSystemType: 'Third-party organic',
-    systemType: 'third_party',
+    systemTypeTranslationKey: 'THIRD_PARTY_ORGANIC',
     certifierName: 'BCARA',
     certificationIdentifier: 'CAN-ORG-2024-01567',
     isActive: true,
@@ -61,8 +60,7 @@ export const Active: Story = {
 
 export const ExpiringSoon: Story = {
   args: {
-    certificationSystemType: 'Participatory guarantee system',
-    systemType: 'pgs',
+    systemTypeTranslationKey: 'PGS',
     certifierName: 'FVOPA',
     expiryDate: EXPIRING_SOON_EXPIRY,
   },
@@ -70,8 +68,7 @@ export const ExpiringSoon: Story = {
 
 export const Expired: Story = {
   args: {
-    certificationSystemType: 'Participatory guarantee system',
-    systemType: 'pgs',
+    systemTypeTranslationKey: 'PGS',
     certifierName: 'FVOPA',
     expiryDate: EXPIRED_EXPIRY,
   },
@@ -79,7 +76,6 @@ export const Expired: Story = {
 
 export const Pursuing: Story = {
   args: {
-    certificationSystemType: 'third-party organic',
     certifierName: 'CCOF — California Certified Organic Farmers',
     certificationIdentifier: null,
     isActive: false,

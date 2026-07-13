@@ -20,12 +20,11 @@ import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as DocumentIcon } from '../../assets/images/document.svg';
 import { getLocalizedDateString } from '../../util/moment';
-import type { CertificationStatus, SystemType } from './types';
+import type { CertificationStatus } from './types';
 import styles from './index.module.scss';
 
 interface CertificationCardProps {
-  certificationSystemType: string;
-  systemType: SystemType;
+  systemTypeTranslationKey: string;
   certifierName: string;
   certificationIdentifier?: string | null;
   isActive: boolean;
@@ -34,6 +33,8 @@ interface CertificationCardProps {
   onEdit: () => void;
   onDelete: () => void;
 }
+
+const PGS_TRANSLATION_KEY = 'PGS';
 
 const STATUS_KEYS: Record<Exclude<CertificationStatus, 'pursuing'>, string> = {
   active: 'CERTIFICATION.STATUS.ACTIVE',
@@ -69,8 +70,7 @@ export function getCertificationStatus(
 }
 
 export default function CertificationCard({
-  certificationSystemType,
-  systemType,
+  systemTypeTranslationKey,
   certifierName,
   certificationIdentifier,
   isActive,
@@ -79,13 +79,14 @@ export default function CertificationCard({
   onEdit,
   onDelete,
 }: CertificationCardProps) {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'certifications']);
   const status = getCertificationStatus(isActive, expiryDate);
   const isPursuing = status === 'pursuing';
 
+  const systemTypeName = t(`certifications:${systemTypeTranslationKey}`);
   const title = isPursuing
-    ? t('CERTIFICATION.CARD.PURSUING_TITLE', { name: certificationSystemType })
-    : certificationSystemType;
+    ? t('CERTIFICATION.CARD.PURSUING_TITLE', { name: systemTypeName })
+    : systemTypeName;
 
   const subtitleParts = [certifierName];
   if (!isPursuing && expiryDate) {
@@ -103,7 +104,7 @@ export default function CertificationCard({
   }
 
   const identifierLabel =
-    systemType === 'pgs'
+    systemTypeTranslationKey === PGS_TRANSLATION_KEY
       ? t('CERTIFICATION.CARD.MEMBER_ID')
       : t('CERTIFICATION.CARD.CERTIFICATION_ID');
 

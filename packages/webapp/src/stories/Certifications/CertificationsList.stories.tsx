@@ -23,8 +23,7 @@ const daysFromNow = (days: number) =>
 
 const activeCert: CertificationItem = {
   id: '1',
-  certificationSystemType: 'Third-party organic',
-  systemType: 'third_party',
+  systemTypeTranslationKey: 'THIRD_PARTY_ORGANIC',
   certifierName: 'BCARA',
   certificationIdentifier: 'CAN-ORG-2024-01567',
   isActive: true,
@@ -34,8 +33,7 @@ const activeCert: CertificationItem = {
 
 const expiringSoonCert: CertificationItem = {
   id: '2',
-  certificationSystemType: 'Participatory guarantee system',
-  systemType: 'pgs',
+  systemTypeTranslationKey: 'PGS',
   certifierName: 'FVOPA',
   certificationIdentifier: 'CAN-ORG-2024-01567',
   isActive: true,
@@ -44,8 +42,7 @@ const expiringSoonCert: CertificationItem = {
 
 const pursuingCert: CertificationItem = {
   id: '3',
-  certificationSystemType: 'third-party organic',
-  systemType: 'third_party',
+  systemTypeTranslationKey: 'THIRD_PARTY_ORGANIC',
   certifierName: 'CCOF — California Certified Organic Farmers',
   isActive: false,
 };

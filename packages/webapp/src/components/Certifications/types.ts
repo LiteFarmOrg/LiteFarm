@@ -15,12 +15,9 @@
 
 export type CertificationStatus = 'active' | 'expiring_soon' | 'expired' | 'pursuing';
 
-export type SystemType = 'third_party' | 'pgs';
-
 export type CertificationItem = {
   id: string;
-  certificationSystemType: string;
-  systemType: SystemType;
+  systemTypeTranslationKey: string;
   certifierName: string;
   certificationIdentifier?: string | null;
   isActive: boolean;

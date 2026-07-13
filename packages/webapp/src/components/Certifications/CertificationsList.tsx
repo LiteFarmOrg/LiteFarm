@@ -43,12 +43,7 @@ export default function CertificationsList({
             {activeCerts.map((cert) => (
               <CertificationCard
                 key={cert.id}
-                systemTypeTranslationKey={cert.systemTypeTranslationKey}
-                certifierName={cert.certifierName}
-                certificationIdentifier={cert.certificationIdentifier}
-                isActive={cert.isActive}
-                expiryDate={cert.expiryDate}
-                documentFileName={cert.documentFileName}
+                {...cert}
                 onEdit={() => onEdit(cert.id)}
                 onDelete={() => onDelete(cert.id)}
               />
@@ -64,9 +59,7 @@ export default function CertificationsList({
             {pursuingCerts.map((cert) => (
               <CertificationCard
                 key={cert.id}
-                systemTypeTranslationKey={cert.systemTypeTranslationKey}
-                certifierName={cert.certifierName}
-                isActive={cert.isActive}
+                {...cert}
                 onEdit={() => onEdit(cert.id)}
                 onDelete={() => onDelete(cert.id)}
               />

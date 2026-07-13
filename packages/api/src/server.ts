@@ -156,6 +156,7 @@ import userFarmDataRoute from './routes/userFarmDataRoute.js';
 import userFarmRoute from './routes/userFarmRoute.js';
 import rolesRoutes from './routes/rolesRoute.js';
 import certificationRoutes from './routes/certificationRoute.js';
+import certificationsRoutes from './routes/certificationsRoute.js';
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 import releaseBadgeRoutes from './routes/releaseBadgeRoute.js';
@@ -345,6 +346,7 @@ app
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
   .use('/organic_certifier_survey', certificationRoutes)
+  .use('/certifications', certificationsRoutes)
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)

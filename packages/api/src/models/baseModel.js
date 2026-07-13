@@ -24,6 +24,7 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
       'effective_date',
       'germination_date',
       'harvest_date',
+      'issue_date',
       'plant_date',
       'seed_date',
       'start_date',

@@ -57,8 +57,8 @@ class Certification extends BaseModel {
         certification_type: { type: ['string', 'null'], enum: [...CERTIFICATION_TYPES, null] },
         certificate_number: { type: ['string', 'null'] },
         certificate_member_id: { type: ['string', 'null'] },
-        issue_date: { type: ['string', 'null'] },
-        valid_until: { type: ['string', 'null'] },
+        issue_date: { type: ['string', 'null'], format: 'date' },
+        valid_until: { type: ['string', 'null'], format: 'date' },
         certificate_document_url: { type: ['string', 'null'] },
         ...super.baseProperties,
       },
@@ -103,40 +103,22 @@ class Certification extends BaseModel {
     };
   }
 
-  // TODO LF-5379: temporary shim — maps new DB column names back to old API field names for frontend compatibility
-  $formatJson(json) {
-    json = super.$formatJson(json);
-    json.survey_id = json.id;
-    json.certification_id = json.system_type_id;
-    json.requested_certification = json.requested_system_type;
-    json.requested_certifier = json.other_certifier;
-    json.interested = true;
-    delete json.id;
-    delete json.system_type_id;
-    delete json.requested_system_type;
-    return json;
+  $trimStringFields() {
+    for (const [key, value] of Object.entries(this)) {
+      if (typeof value === 'string') {
+        this[key] = value.trim();
+      }
+    }
   }
 
-  // TODO LF-5379: temporary shim — maps old API field names back to new DB column names
-  $parseJson(json) {
-    json = super.$parseJson(json);
-    if (json.survey_id !== undefined) {
-      json.id = json.survey_id;
-      delete json.survey_id;
-    }
-    if (json.certification_id !== undefined) {
-      json.system_type_id = json.certification_id;
-      delete json.certification_id;
-    }
-    if (json.requested_certification !== undefined) {
-      json.requested_system_type = json.requested_certification;
-      delete json.requested_certification;
-    }
-    if (json.requested_certifier !== undefined) {
-      json.other_certifier = json.requested_certifier;
-      delete json.requested_certifier;
-    }
-    return json;
+  async $beforeInsert(context) {
+    await super.$beforeInsert(context);
+    this.$trimStringFields();
+  }
+
+  async $beforeUpdate(opt, context) {
+    await super.$beforeUpdate(opt, context);
+    this.$trimStringFields();
   }
 }
 

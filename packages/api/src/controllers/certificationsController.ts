@@ -87,11 +87,13 @@ const certificationsController = {
       try {
         const { farm_id } = req.headers;
         const { user_id } = req.auth!;
+        // BaseModel hooks overwrite the audit fields; id and deleted are the ones to guard here
+        const { id: _id, deleted: _deleted, ...data } = req.body as Record<string, unknown>;
 
         /* @ts-expect-error known issue with models */
         const certification = await CertificationModel.query(trx)
           .context({ user_id })
-          .insert({ ...req.body, farm_id })
+          .insert({ ...data, farm_id })
           .returning('*');
 
         await trx.commit();

@@ -39,16 +39,6 @@ export interface CertificationParams {
   id: string;
 }
 
-const SERVER_MANAGED_FIELDS = [
-  'id',
-  'farm_id',
-  'deleted',
-  'created_at',
-  'updated_at',
-  'created_by_user_id',
-  'updated_by_user_id',
-];
-
 export function checkCertification() {
   return async (
     req: LiteFarmRequest<unknown, CertificationParams, unknown, CertificationBody>,
@@ -56,11 +46,6 @@ export function checkCertification() {
     next: NextFunction,
   ) => {
     try {
-      const body = req.body as Record<string, unknown>;
-      for (const field of SERVER_MANAGED_FIELDS) {
-        delete body[field];
-      }
-
       const {
         system_type_id,
         certifier_id,

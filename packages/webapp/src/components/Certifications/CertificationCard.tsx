@@ -19,6 +19,7 @@ import { ReactComponent as AwardIcon } from '../../assets/images/nav/certificati
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as DocumentIcon } from '../../assets/images/document.svg';
+import { getLocalizedDateString } from '../../util/moment';
 import type { CertificationStatus, SystemType } from './types';
 import styles from './index.module.scss';
 
@@ -41,12 +42,6 @@ const STATUS_KEYS: Record<Exclude<CertificationStatus, 'pursuing'>, string> = {
 };
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-// '2026-02-28' → '02.2026'
-function formatMonthYear(isoDate: string): string {
-  const [year, month] = isoDate.split('-');
-  return `${month}.${year}`;
-}
 
 function getDaysLeft(isoDate: string): number {
   return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
@@ -72,11 +67,13 @@ export default function CertificationCard({
 
   const subtitleParts = [certifierName];
   if (!isPursuing && expiryDate) {
-    const date = formatMonthYear(expiryDate);
+    const date = getLocalizedDateString(expiryDate, { month: '2-digit', year: 'numeric' });
+    // The localized date can contain '/', which i18next would HTML-escape by default
+    const options = { date, interpolation: { escapeValue: false } };
     subtitleParts.push(
       status === 'expired'
-        ? t('CERTIFICATION.CARD.EXPIRED_ON', { date })
-        : t('CERTIFICATION.CARD.EXPIRES', { date }),
+        ? t('CERTIFICATION.CARD.EXPIRED_ON', options)
+        : t('CERTIFICATION.CARD.EXPIRES', options),
     );
     if (status === 'expiring_soon') {
       const daysLeft = getDaysLeft(expiryDate);

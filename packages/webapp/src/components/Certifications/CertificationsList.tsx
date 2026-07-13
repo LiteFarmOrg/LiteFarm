@@ -46,10 +46,12 @@ export default function CertificationsList({
               <CertificationCard
                 key={cert.id}
                 certificationSystemType={cert.certificationSystemType}
+                systemType={cert.systemType}
                 certifierName={cert.certifierName}
                 certificationIdentifier={cert.certificationIdentifier}
                 status={cert.status}
                 expiryDate={cert.expiryDate}
+                documentFileName={cert.documentFileName}
                 onEdit={() => onEdit(cert.id)}
                 onDelete={() => onDelete(cert.id)}
               />
@@ -66,6 +68,7 @@ export default function CertificationsList({
               <CertificationCard
                 key={cert.id}
                 certificationSystemType={cert.certificationSystemType}
+                systemType={cert.systemType}
                 certifierName={cert.certifierName}
                 status={cert.status}
                 onEdit={() => onEdit(cert.id)}

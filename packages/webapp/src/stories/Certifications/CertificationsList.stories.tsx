@@ -20,26 +20,30 @@ import type { CertificationItem } from '../../components/Certifications/types';
 
 const activeCert: CertificationItem = {
   id: '1',
-  certificationSystemType: 'Organic',
-  certifierName: 'Soil Association',
-  certificationIdentifier: 'UK-ORG-05-1234',
+  certificationSystemType: 'Third-party organic',
+  systemType: 'third_party',
+  certifierName: 'BCARA',
+  certificationIdentifier: 'CAN-ORG-2024-01567',
   status: 'active',
-  expiryDate: '2026-12-31',
+  expiryDate: '2026-02-28',
+  documentFileName: 'Organic-BC.pdf',
 };
 
 const expiringSoonCert: CertificationItem = {
   id: '2',
-  certificationSystemType: 'Biodynamic',
-  certifierName: 'Demeter',
-  certificationIdentifier: 'DEM-2024-0042',
+  certificationSystemType: 'Participatory guarantee system',
+  systemType: 'pgs',
+  certifierName: 'FVOPA',
+  certificationIdentifier: 'CAN-ORG-2024-01567',
   status: 'expiring_soon',
-  expiryDate: '2025-09-30',
+  expiryDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
 };
 
 const pursuingCert: CertificationItem = {
   id: '3',
-  certificationSystemType: 'Regenerative',
-  certifierName: 'Regeneration Canada',
+  certificationSystemType: 'third-party organic',
+  systemType: 'third_party',
+  certifierName: 'CCOF — California Certified Organic Farmers',
   status: 'pursuing',
 };
 

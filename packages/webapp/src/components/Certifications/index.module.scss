@@ -43,13 +43,47 @@
 /* ── CertificationCard ────────────────────────── */
 
 .card {
+  --card-border: var(--Colors-Neutral-Neutral-50);
+
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  flex-direction: column;
+  width: 100%;
+
+  &.active {
+    --card-border: var(--Colors-Secondary-Secondary-green-100);
+  }
+
+  &.expiring_soon {
+    --card-border: var(--Colors-Accent-Accent-yellow-100);
+  }
+
+  &.expired {
+    --card-border: var(--Colors-Accent---singles-Red-light);
+  }
+}
+
+.cardMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 16px;
   background: var(--White);
-  border: 1px solid var(--Colors-Neutral-Neutral-100);
+  border: 1px solid var(--card-border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+
+.cardMainOnly {
+  border-bottom: 1px solid var(--card-border);
   border-radius: 8px;
+}
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
 .cardAwardIcon {
@@ -59,76 +93,69 @@
   color: var(--Colors-Primary-Primary-teal-700);
 }
 
-.cardContent {
-  flex: 1;
+.cardTitles {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  flex: 1;
   min-width: 0;
 }
 
-.cardHeader {
+.cardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--Colors-Neutral-Neutral-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardSubtitle {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--Colors-Neutral-Neutral-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardMeta {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
-}
-
-.cardCertName {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  color: var(--Colors-Neutral-Neutral-900);
+  flex-shrink: 0;
 }
 
 .cardStatusBadge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  height: 18px;
+  padding: 4px;
+  border-radius: 2px;
   font-size: 12px;
-  font-weight: 600;
-  line-height: 18px;
+  font-weight: 700;
+  color: var(--White);
   white-space: nowrap;
 
   &.active {
-    background: var(--Colors-Secondary-Secondary-green-100);
-    color: var(--Colors-Secondary-Secondary-green-700);
+    background: var(--Colors-Secondary-Secondary-green-700);
   }
 
   &.expiring_soon {
-    background: var(--Colors-Accent---singles-Yellow-light);
-    color: var(--Colors-Accent---singles-Yellow-dark);
+    background: var(--Colors-Accent---singles-Brown-full);
   }
 
   &.expired {
-    background: var(--Colors-Neutral-Neutral-100);
-    color: var(--Colors-Neutral-Neutral-600);
+    background: var(--Colors-Accent---singles-Red-full);
   }
-
-  &.pursuing {
-    background: var(--Colors-Primary-Primary-teal-50);
-    color: var(--Colors-Primary-Primary-teal-700);
-  }
-}
-
-.cardCertifier {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  color: var(--Colors-Neutral-Neutral-700);
-}
-
-.cardIdentifier,
-.cardExpiry {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  color: var(--Colors-Neutral-Neutral-500);
 }
 
 .cardActions {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
   flex-shrink: 0;
 }
 
@@ -136,22 +163,93 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  padding: 0;
   border: none;
   background: transparent;
-  border-radius: 4px;
   cursor: pointer;
   color: var(--Colors-Neutral-Neutral-500);
 
   &:hover {
-    background: var(--Colors-Neutral-Neutral-50);
     color: var(--Colors-Neutral-Neutral-700);
   }
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.cardDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 16px 16px 24px;
+  background: var(--White);
+  border: 1px solid var(--card-border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.cardDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cardDetailLabel {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  color: var(--Colors-Neutral-Neutral-600);
+}
+
+.cardDetailValue {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--Colors-Neutral-Neutral-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardDocument {
+  align-items: flex-end;
+}
+
+.cardDocumentName {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--Colors-Neutral-Neutral-900);
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .cardMain {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardMeta {
+    order: -1;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .card.pursuing .cardMeta {
+    justify-content: flex-end;
+  }
+
+  .cardDocument {
+    display: none;
   }
 }
 

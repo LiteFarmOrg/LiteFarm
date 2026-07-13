@@ -18,77 +18,140 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as AwardIcon } from '../../assets/images/award-01.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit-05.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/trash-03.svg';
-import type { CertificationStatus } from './types';
+import { ReactComponent as DocumentIcon } from '../../assets/images/file-02.svg';
+import type { CertificationStatus, SystemType } from './types';
 import styles from './index.module.scss';
 
 interface CertificationCardProps {
   certificationSystemType: string;
+  systemType: SystemType;
   certifierName: string;
   certificationIdentifier?: string | null;
   status: CertificationStatus;
   expiryDate?: string | null;
+  documentFileName?: string | null;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-const STATUS_KEYS: Record<CertificationStatus, string> = {
-  active: 'CERTIFICATIONS.STATUS.ACTIVE',
-  expiring_soon: 'CERTIFICATIONS.STATUS.EXPIRING_SOON',
-  expired: 'CERTIFICATIONS.STATUS.EXPIRED',
-  pursuing: 'CERTIFICATIONS.STATUS.PURSUING',
+const STATUS_KEYS: Record<Exclude<CertificationStatus, 'pursuing'>, string> = {
+  active: 'CERTIFICATION.STATUS.ACTIVE',
+  expiring_soon: 'CERTIFICATION.STATUS.EXPIRING_SOON',
+  expired: 'CERTIFICATION.STATUS.EXPIRED',
 };
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+// '2026-02-28' → '02.2026'
+function formatMonthYear(isoDate: string): string {
+  const [year, month] = isoDate.split('-');
+  return `${month}.${year}`;
+}
+
+function getDaysLeft(isoDate: string): number {
+  return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
+}
 
 export default function CertificationCard({
   certificationSystemType,
+  systemType,
   certifierName,
   certificationIdentifier,
   status,
   expiryDate,
+  documentFileName,
   onEdit,
   onDelete,
 }: CertificationCardProps) {
   const { t } = useTranslation(['translation', 'common']);
   const isPursuing = status === 'pursuing';
 
-  return (
-    <div className={styles.card}>
-      <AwardIcon className={styles.cardAwardIcon} aria-hidden />
+  const title = isPursuing
+    ? t('CERTIFICATION.CARD.PURSUING_TITLE', { name: certificationSystemType })
+    : certificationSystemType;
 
-      <div className={styles.cardContent}>
-        <div className={styles.cardHeader}>
-          <span className={styles.cardCertName}>{certificationSystemType}</span>
-          <span className={clsx(styles.cardStatusBadge, styles[status])}>
-            {t(STATUS_KEYS[status])}
-          </span>
+  const subtitleParts = [certifierName];
+  if (!isPursuing && expiryDate) {
+    const date = formatMonthYear(expiryDate);
+    subtitleParts.push(
+      status === 'expired'
+        ? t('CERTIFICATION.CARD.EXPIRED_ON', { date })
+        : t('CERTIFICATION.CARD.EXPIRES', { date }),
+    );
+    if (status === 'expiring_soon') {
+      const daysLeft = getDaysLeft(expiryDate);
+      if (daysLeft > 0) {
+        subtitleParts.push(t('CERTIFICATION.CARD.DAYS_LEFT', { count: daysLeft }));
+      }
+    }
+  }
+
+  const identifierLabel =
+    systemType === 'pgs'
+      ? t('CERTIFICATION.CARD.MEMBER_ID')
+      : t('CERTIFICATION.CARD.CERTIFICATION_ID');
+
+  const hasDetails = !isPursuing && !!(certificationIdentifier || documentFileName);
+
+  return (
+    <div className={clsx(styles.card, styles[status])}>
+      <div className={clsx(styles.cardMain, !hasDetails && styles.cardMainOnly)}>
+        <div className={styles.cardBody}>
+          <AwardIcon className={styles.cardAwardIcon} aria-hidden />
+          <div className={styles.cardTitles}>
+            <span className={styles.cardTitle}>{title}</span>
+            <span className={styles.cardSubtitle}>{subtitleParts.join(' · ')}</span>
+          </div>
         </div>
 
-        <span className={styles.cardCertifier}>{certifierName}</span>
-
-        {!isPursuing && certificationIdentifier && (
-          <span className={styles.cardIdentifier}>{certificationIdentifier}</span>
-        )}
-
-        {!isPursuing && expiryDate && <span className={styles.cardExpiry}>{expiryDate}</span>}
+        <div className={styles.cardMeta}>
+          {!isPursuing && (
+            <span className={clsx(styles.cardStatusBadge, styles[status])}>
+              {t(STATUS_KEYS[status])}
+            </span>
+          )}
+          <div className={styles.cardActions}>
+            <button
+              type="button"
+              className={styles.iconBtn}
+              onClick={onEdit}
+              aria-label={t('common:EDIT')}
+            >
+              <EditIcon />
+            </button>
+            <button
+              type="button"
+              className={styles.iconBtn}
+              onClick={onDelete}
+              aria-label={t('common:DELETE')}
+            >
+              <TrashIcon />
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className={styles.cardActions}>
-        <button
-          type="button"
-          className={styles.iconBtn}
-          onClick={onEdit}
-          aria-label={t('common:EDIT')}
-        >
-          <EditIcon />
-        </button>
-        <button
-          type="button"
-          className={styles.iconBtn}
-          onClick={onDelete}
-          aria-label={t('common:DELETE')}
-        >
-          <TrashIcon />
-        </button>
-      </div>
+      {hasDetails && (
+        <div className={styles.cardDetails}>
+          {certificationIdentifier && (
+            <div className={styles.cardDetail}>
+              <span className={styles.cardDetailLabel}>{identifierLabel}</span>
+              <span className={styles.cardDetailValue}>{certificationIdentifier}</span>
+            </div>
+          )}
+          {documentFileName && (
+            <div className={clsx(styles.cardDetail, styles.cardDocument)}>
+              <span className={styles.cardDetailLabel}>
+                {t('CERTIFICATION.CARD.CERTIFICATE_DOCUMENT')}
+              </span>
+              <span className={clsx(styles.cardDetailValue, styles.cardDocumentName)}>
+                <DocumentIcon aria-hidden />
+                {documentFileName}
+              </span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

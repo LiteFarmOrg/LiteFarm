@@ -420,6 +420,16 @@
       "ACTIVE_SECTION": "Active certifications",
       "PURSUING_SECTION": "Pursuing certifications"
     },
+    "CARD": {
+      "PURSUING_TITLE": "Pursuing {{name}}",
+      "EXPIRES": "Expires {{date}}",
+      "EXPIRED_ON": "Expired {{date}}",
+      "DAYS_LEFT_one": "{{count}} day left",
+      "DAYS_LEFT_other": "{{count}} days left",
+      "CERTIFICATION_ID": "Certification ID",
+      "MEMBER_ID": "Member ID",
+      "CERTIFICATE_DOCUMENT": "Certificate document"
+    },
     "DELETE_SUBJECT": "this certification",
     "FORM": {
       "THIRD_PARTY": "Third-party certification",

@@ -176,11 +176,7 @@ export const formatFarmDataToDfcStandard = async (
   });
 
   const certificationInstances = (certifications ?? [])
-    .filter((cert) => {
-      // TODO: confirm which certifications should be included in DFC output —
-      // e.g., should certifications without a certificationSystemType or certifier be excluded?
-      return cert.is_active && cert.certification_type;
-    })
+    .filter((cert) => cert.is_active && cert.certification_type)
     .map(
       (cert) =>
         new Certification({

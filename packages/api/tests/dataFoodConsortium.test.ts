@@ -339,7 +339,6 @@ describe('Data Food Consortium Tests', () => {
       await mocks.certificationFactory(
         { promisedUserFarm: Promise.resolve([userFarmIds]) },
         mocks.fakeCertification(userFarmIds.farm_id, {
-          is_active: true,
           certification_type: 'ORGANIC',
           deleted: true,
         }),
@@ -353,6 +352,60 @@ describe('Data Food Consortium Tests', () => {
         (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
       );
       expect(certNode).toBeUndefined();
+    });
+
+    test('Should not include inactive certifications in the DFC output', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          is_active: false,
+          certification_type: 'ORGANIC',
+        }),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certNode = res.body['@graph'].find(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certNode).toBeUndefined();
+    });
+
+    test('Should only include certifications that expire after today', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      const createCertificationWithValidUntil = async (validUntil: unknown) => {
+        const [certification] = await mocks.certificationFactory(
+          { promisedUserFarm: Promise.resolve([userFarmIds]) },
+          mocks.fakeCertification(userFarmIds.farm_id, {
+            certification_type: 'ORGANIC',
+            valid_until: validUntil,
+          }),
+        );
+        return certification;
+      };
+
+      await createCertificationWithValidUntil('2020-01-01'); // expired
+      await createCertificationWithValidUntil(knex.raw('CURRENT_DATE')); // expires today — excluded
+      const validCertification = await createCertificationWithValidUntil(
+        knex.raw('CURRENT_DATE + 1'),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certNodes = res.body['@graph'].filter(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certNodes).toHaveLength(1);
+      expect(certNodes[0]['@id']).toContain(`#certification-${validCertification.id}`);
     });
   });
 

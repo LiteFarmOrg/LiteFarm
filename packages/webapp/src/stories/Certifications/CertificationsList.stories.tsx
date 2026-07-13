@@ -25,7 +25,7 @@ const activeCert: CertificationItem = {
   id: '1',
   systemTypeTranslationKey: 'THIRD_PARTY_ORGANIC',
   certifierName: 'BCARA',
-  certificationIdentifier: 'CAN-ORG-2024-01567',
+  certificateNumber: 'CAN-ORG-2024-01567',
   isActive: true,
   expiryDate: daysFromNow(365),
   documentFileName: 'Organic-BC.pdf',
@@ -35,7 +35,7 @@ const expiringSoonCert: CertificationItem = {
   id: '2',
   systemTypeTranslationKey: 'PGS',
   certifierName: 'FVOPA',
-  certificationIdentifier: 'CAN-ORG-2024-01567',
+  certificateMemberId: 'Ecocert',
   isActive: true,
   expiryDate: daysFromNow(20),
 };

@@ -26,7 +26,8 @@ import styles from './index.module.scss';
 interface CertificationCardProps {
   systemTypeTranslationKey: string;
   certifierName: string;
-  certificationIdentifier?: string | null;
+  certificateNumber?: string | null;
+  certificateMemberId?: string | null;
   isActive: boolean;
   expiryDate?: string | null;
   documentFileName?: string | null;
@@ -72,7 +73,8 @@ export function getCertificationStatus(
 export default function CertificationCard({
   systemTypeTranslationKey,
   certifierName,
-  certificationIdentifier,
+  certificateNumber,
+  certificateMemberId,
   isActive,
   expiryDate,
   documentFileName,
@@ -103,10 +105,11 @@ export default function CertificationCard({
     }
   }
 
-  const identifierLabel =
-    systemTypeTranslationKey === PGS_TRANSLATION_KEY
-      ? t('CERTIFICATION.CARD.MEMBER_ID')
-      : t('CERTIFICATION.CARD.CERTIFICATION_ID');
+  const isPgs = systemTypeTranslationKey === PGS_TRANSLATION_KEY;
+  const identifierLabel = isPgs
+    ? t('CERTIFICATION.CARD.MEMBER_ID')
+    : t('CERTIFICATION.CARD.CERTIFICATION_ID');
+  const certificationIdentifier = isPgs ? certificateMemberId : certificateNumber;
 
   const hasDetails = !isPursuing && !!(certificationIdentifier || documentFileName);
 

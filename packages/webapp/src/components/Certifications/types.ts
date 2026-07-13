@@ -19,7 +19,8 @@ export type CertificationItem = {
   id: string;
   systemTypeTranslationKey: string;
   certifierName: string;
-  certificationIdentifier?: string | null;
+  certificateNumber?: string | null;
+  certificateMemberId?: string | null;
   isActive: boolean;
   expiryDate?: string | null;
   documentFileName?: string | null;

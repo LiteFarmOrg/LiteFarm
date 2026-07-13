@@ -18,6 +18,7 @@ import path from 'path';
 import {
   Connector,
   Organization,
+  Certification,
   SKOSConcept,
   SocialMedia,
   Address,
@@ -31,6 +32,7 @@ import type {
   MarketDirectoryInfoWithRelations,
   MarketProductCategory,
 } from '../../models/types.js';
+import { CERTIFICATION_TYPES } from '../../models/certificationModel.js';
 import { liteFarmToDFCTaxonomy, getNestedValue } from './litefarmToDFCTaxonomy.js';
 
 let sharedProductTypesConnector: Connector;
@@ -39,6 +41,22 @@ const __dirname = import.meta.dirname;
 
 export const createEnterpriseUrl = (market_directory_info_id: string): string => {
   return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
+};
+
+type CertificationType = (typeof CERTIFICATION_TYPES)[number];
+
+// certification_type enum values → official display names for DFC partners
+const CERTIFICATION_TYPE_NAMES: Record<CertificationType, string> = {
+  ORGANIC: 'Organic',
+  BIODYNAMIC: 'Biodynamic',
+  REGENERATIVE: 'Regenerative',
+  CERTIFIED_HUMANE: 'Certified Humane',
+  FAIR_TRADE: 'Fair Trade',
+  'GRASSFED/PASTURE': 'Grassfed/Pasture',
+  SUSTAINABILITY: 'Sustainability',
+  ANIMAL_WELFARE: 'Animal Welfare',
+  'NON-GMO': 'Non-GMO',
+  'CARBON/CLIMATE': 'Carbon/Climate',
 };
 
 // Build and populate a lookup map: LiteFarm key → actual DFC product type object
@@ -97,6 +115,7 @@ export const formatFarmDataToDfcStandard = async (
     facebook,
     x,
     market_product_categories,
+    certifications,
   } = marketDirectoryInfo;
 
   const parsedAddress = await parseGoogleGeocodedAddress(addressString);
@@ -155,6 +174,27 @@ export const formatFarmDataToDfcStandard = async (
     localizations: [address],
     suppliedProducts: products,
   });
+
+  const certificationInstances = (certifications ?? [])
+    .filter((cert) => cert.is_active && cert.certification_type)
+    .map(
+      (cert) =>
+        new Certification({
+          connector,
+          semanticId: `${enterpriseUrl}#certification-${cert.id}`,
+          // Fall back to the raw enum value if a new type is missing from the map
+          name:
+            CERTIFICATION_TYPE_NAMES[cert.certification_type as CertificationType] ??
+            cert.certification_type!,
+          description: undefined,
+          certificationReferences: cert.certifier?.certifier_name
+            ? [cert.certifier.certifier_name]
+            : [cert.other_certifier!],
+          operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
+          certificationScores: [],
+        }),
+    );
+  certificationInstances.forEach((cert) => farm.addCertification(cert));
 
   let phoneNumber;
   if (phone_number) {
@@ -221,6 +261,7 @@ export const formatFarmDataToDfcStandard = async (
     ...(phoneNumber ? [phoneNumber] : []),
     ...socialMediaInstances,
     ...products,
+    ...certificationInstances,
   ]);
 
   return JSON.parse(exportFormattedData);

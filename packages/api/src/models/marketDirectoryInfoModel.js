@@ -18,6 +18,7 @@ import { checkAndTrimString } from '../util/util.js';
 import Model from './baseFormatModel.js';
 import MarketDirectoryInfoMarketProductCategoryModel from './marketDirectoryInfoMarketProductCategoryModel.js';
 import MarketDirectoryPartnerPermissions from './marketDirectoryPartnerPermissions.js';
+import certificationModel from './certificationModel.js';
 
 class MarketDirectoryInfo extends baseModel {
   static get tableName() {
@@ -119,6 +120,14 @@ class MarketDirectoryInfo extends baseModel {
         join: {
           from: 'market_directory_info.id',
           to: 'market_directory_partner_permissions.market_directory_info_id',
+        },
+      },
+      certifications: {
+        relation: Model.HasManyRelation,
+        modelClass: certificationModel,
+        join: {
+          from: 'market_directory_info.farm_id',
+          to: 'certification.farm_id',
         },
       },
     };

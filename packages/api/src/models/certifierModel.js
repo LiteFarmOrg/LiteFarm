@@ -33,7 +33,6 @@ class Certifier extends Model {
         system_type_id: { type: 'integer' },
         certifier_name: { type: 'string' },
         certifier_acronym: { type: 'string' },
-        supported: { type: 'boolean' },
         survey_id: { type: 'string' },
       },
       additionalProperties: false,

@@ -17,6 +17,21 @@ import Model from './baseFormatModel.js';
 import BaseModel from './baseModel.js';
 import userFarmModel from './userFarmModel.js';
 import farmModel from './farmModel.js';
+import certificationSystemTypeModel from './certificationSystemTypeModel.js';
+import certifierModel from './certifierModel.js';
+
+export const CERTIFICATION_TYPES = [
+  'ORGANIC',
+  'BIODYNAMIC',
+  'REGENERATIVE',
+  'CERTIFIED_HUMANE',
+  'FAIR_TRADE',
+  'GRASSFED/PASTURE',
+  'SUSTAINABILITY',
+  'ANIMAL_WELFARE',
+  'NON-GMO',
+  'CARBON/CLIMATE',
+];
 
 class Certification extends BaseModel {
   static get tableName() {
@@ -39,7 +54,7 @@ class Certification extends BaseModel {
         requested_system_type: { type: ['string', 'null'] },
         other_certifier: { type: ['string', 'null'] },
         is_active: { type: 'boolean' },
-        certification_type: { type: ['string', 'null'] },
+        certification_type: { type: ['string', 'null'], enum: [...CERTIFICATION_TYPES, null] },
         certificate_number: { type: ['string', 'null'] },
         certificate_member_id: { type: ['string', 'null'] },
         issue_date: { type: ['string', 'null'] },
@@ -67,6 +82,22 @@ class Certification extends BaseModel {
         join: {
           from: 'certification.farm_id',
           to: 'farm.farm_id',
+        },
+      },
+      certificationSystemType: {
+        modelClass: certificationSystemTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'certification.system_type_id',
+          to: 'certification_system_type.id',
+        },
+      },
+      certifier: {
+        modelClass: certifierModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'certification.certifier_id',
+          to: 'certifiers.certifier_id',
         },
       },
     };

@@ -48,7 +48,19 @@ const dataFoodConsortiumController = {
           .findById(id)
           .withGraphFetched({
             market_product_categories: true,
-          });
+            certifications: { certificationSystemType: true, certifier: true },
+          })
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          .modifyGraph('certifications', (builder: any) =>
+            builder
+              .whereNotDeleted()
+              // Exclude certifications from their expiry date (UTC) onward, guaranteeing an
+              // expired cert is never shown regardless of the farm's timezone
+              /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+              .where((qb: any) =>
+                qb.whereNull('valid_until').orWhereRaw('valid_until > CURRENT_DATE'),
+              ),
+          );
 
         const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(
@@ -94,7 +106,19 @@ const dataFoodConsortiumController = {
           )
           .withGraphFetched({
             market_product_categories: true,
-          });
+            certifications: { certificationSystemType: true, certifier: true },
+          })
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          .modifyGraph('certifications', (builder: any) =>
+            builder
+              .whereNotDeleted()
+              // Exclude certifications from their expiry date (UTC) onward, guaranteeing an
+              // expired cert is never shown regardless of the farm's timezone
+              /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+              .where((qb: any) =>
+                qb.whereNull('valid_until').orWhereRaw('valid_until > CURRENT_DATE'),
+              ),
+          );
 
         let data = {};
 

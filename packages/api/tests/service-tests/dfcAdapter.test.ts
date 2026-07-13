@@ -18,6 +18,7 @@ import { formatFarmDataToDfcStandard } from '../../src/services/datafoodconsorti
 import {
   DfcEntity,
   expectedBaseDfcStructure,
+  mockCertification,
   mockCompleteMarketDirectoryInfo,
   mockMarketProductCategoryMap,
   mockParsedAddress,
@@ -305,5 +306,95 @@ describe('dfcAdapter', () => {
     expect(addressEntity).toMatchObject({
       'dfc-b:hasCountry': 'Unknown Country',
     });
+  });
+
+  test('should include a certification node when certifications are present', async () => {
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
+      farm_id: faker.datatype.uuid(),
+      certifications: [mockCertification],
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
+    const graph: DfcEntity[] = result['@graph'];
+
+    const certNode = graph.find((e) => e['@type'] === 'dfc-b:Certfication');
+    expect(certNode).toBeDefined();
+    expect(certNode).toMatchObject({
+      '@id': `https://api.beta.litefarm.org/dfc/enterprises/${fakeId}#certification-mock-cert-uuid-001`,
+      'dfc-b:name': 'Organic',
+      'dfc-b:certiferReference': 'Soil Association',
+      'dfc-b:operatorId': 'UK-ORG-05-1234',
+    });
+
+    const orgNode = graph.find((e) => e['@type'] === 'dfc-b:Organization');
+    expect(orgNode).toHaveProperty('dfc-b:isCertifiedBy');
+  });
+
+  test('should not include a certification node when certifications is empty', async () => {
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
+      farm_id: faker.datatype.uuid(),
+      certifications: [],
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
+    const graph: DfcEntity[] = result['@graph'];
+
+    const certNode = graph.find((e) => e['@type'] === 'dfc-b:Certfication');
+    expect(certNode).toBeUndefined();
+
+    const orgNode = graph.find((e) => e['@type'] === 'dfc-b:Organization');
+    expect(orgNode).not.toHaveProperty('dfc-b:isCertifiedBy');
+  });
+
+  test('should include multiple certification nodes when multiple certifications are present', async () => {
+    const secondCertification = {
+      ...mockCertification,
+      id: 'mock-cert-uuid-002',
+      certificate_member_id: 'FR-BIO-01-9999',
+      certificationSystemType: {
+        id: 2,
+        name: 'Participatory Guarantee System',
+        translation_key: 'PGS',
+      },
+      certifier: {
+        certifier_id: 2,
+        certifier_name: 'Demeter',
+        certifier_acronym: null,
+      },
+    };
+
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
+      farm_id: faker.datatype.uuid(),
+      certifications: [mockCertification, secondCertification],
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
+    const graph: DfcEntity[] = result['@graph'];
+
+    const certNodes = graph.filter((e) => e['@type'] === 'dfc-b:Certfication');
+    expect(certNodes).toHaveLength(2);
+
+    const orgNode = graph.find((e) => e['@type'] === 'dfc-b:Organization');
+    const isCertifiedBy = orgNode?.['dfc-b:isCertifiedBy'];
+    expect(Array.isArray(isCertifiedBy)).toBe(true);
+    expect(isCertifiedBy).toHaveLength(2);
   });
 });

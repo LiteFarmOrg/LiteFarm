@@ -632,6 +632,37 @@ export interface DocumentWithFiles extends Document {
   files?: File[];
 }
 
+export type CertificationSystemType = {
+  id: number;
+  name: string;
+  translation_key: string;
+};
+
+export type Certifier = {
+  certifier_id: number;
+  system_type_id?: CertificationSystemType['id'];
+  certifier_name: string;
+  certifier_acronym: string | null;
+  survey_id?: string;
+};
+
+export type Certification = {
+  id: string;
+  system_type_id: number | null;
+  certifier_id: number | null;
+  certificate_member_id: string | null;
+  farm_id: string;
+  is_active: boolean;
+  other_certifier?: string | null;
+  certification_type?: string | null;
+  certificate_number?: string | null;
+  issue_date?: string | null;
+  valid_until?: string | null;
+  certificate_document_url?: string | null;
+  certificationSystemType?: CertificationSystemType | null;
+  certifier?: Certifier | null;
+};
+
 export type MarketDirectoryInfo = {
   id: string;
   farm_id: Farm['farm_id'];
@@ -664,6 +695,7 @@ export type MarketDirectoryInfoMarketProductCategory = {
 
 export interface MarketDirectoryInfoWithRelations extends MarketDirectoryInfo {
   market_product_categories?: MarketDirectoryInfoMarketProductCategory[] | null;
+  certifications?: Certification[] | null;
 }
 export interface MarketDirectoryPartner {
   id: number;

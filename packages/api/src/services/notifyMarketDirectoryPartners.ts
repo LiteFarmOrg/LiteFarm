@@ -96,14 +96,14 @@ export async function notifyMarketDirectoryPartners(
  * Notifies all partners currently permitted to see the farm's market directory
  * listing. Skips silently when the farm is not listed in the market directory.
  *
- * @param farm_id - ID of the farm whose data changed
+ * @param farmId - ID of the farm whose data changed
  */
-export async function notifyFarmMarketDirectoryPartners(farm_id: string) {
+export async function notifyFarmMarketDirectoryPartners(farmId: string) {
   try {
     const marketDirectoryInfo: MarketDirectoryInfo | undefined = await MarketDirectoryInfoModel
       // @ts-expect-error: TS doesn't see query() through softDelete HOC; safe at runtime
       .query()
-      .where({ farm_id })
+      .where({ farm_id: farmId })
       .whereNotDeleted()
       .first();
 

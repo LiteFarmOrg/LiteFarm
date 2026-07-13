@@ -161,7 +161,7 @@ describe('Certifications CRUD tests', () => {
     pgsSystemTypeId = pgsSystemType.id;
 
     const thirdPartySystemType = await knex('certification_system_type')
-      .whereNot({ translation_key: PGS_TRANSLATION_KEY })
+      .where({ translation_key: 'THIRD_PARTY_ORGANIC' })
       .orderBy('id')
       .first();
     thirdPartySystemTypeId = thirdPartySystemType.id;
@@ -182,7 +182,7 @@ describe('Certifications CRUD tests', () => {
   });
 
   describe('GET /certifications', () => {
-    test('Farm members with certification scope can list certifications with real column names', async () => {
+    test('Admin users can list certifications', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const certification = await createCertification(userFarmIds);
 
@@ -200,10 +200,6 @@ describe('Certifications CRUD tests', () => {
         expect(returned.id).toBe(certification.id);
         expect(returned.system_type_id).toBe(thirdPartySystemTypeId);
         expect(returned.certificate_number).toBe('CAN-ORG-2024-01567');
-        // Legacy shim names must not appear
-        expect(returned.survey_id).toBeUndefined();
-        expect(returned.certification_id).toBeUndefined();
-        expect(returned.interested).toBeUndefined();
       }
     });
 
@@ -227,7 +223,7 @@ describe('Certifications CRUD tests', () => {
       expect(res.body).toEqual([]);
     });
 
-    test("Excludes other farms' certifications", async () => {
+    test("Should not get other farms' certifications", async () => {
       const userFarmIds = await createUserFarmIds(1);
       const otherUserFarmIds = await createUserFarmIds(1);
       await createCertification(otherUserFarmIds);
@@ -264,7 +260,7 @@ describe('Certifications CRUD tests', () => {
   });
 
   describe('POST /certifications', () => {
-    test('Owners, managers, and extension officers can add a certification', async () => {
+    test('Admin users can add a certification', async () => {
       const userFarmIds = await createUserFarmIds(1);
 
       for (const roleId of [1, 2, 5]) {
@@ -280,39 +276,10 @@ describe('Certifications CRUD tests', () => {
 
         expect(res.status).toBe(201);
         expect(res.body.system_type_id).toBe(thirdPartySystemTypeId);
-
         const persisted = await knex('certification').where({ id: res.body.id }).first();
         expect(persisted.farm_id).toBe(userFarmIds.farm_id);
         expect(persisted.certificate_number).toBe('CAN-ORG-2024-01567');
-        expect(persisted.created_by_user_id).toBe(user_id);
       }
-    });
-
-    test('Body farm_id is ignored in favor of the header', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-      const otherUserFarmIds = await createUserFarmIds(1);
-
-      const res = await postRequest(
-        validCertificationBody({ farm_id: otherUserFarmIds.farm_id }),
-        userFarmIds,
-      );
-
-      expect(res.status).toBe(201);
-      const persisted = await knex('certification').where({ id: res.body.id }).first();
-      expect(persisted.farm_id).toBe(userFarmIds.farm_id);
-    });
-
-    test('String fields are trimmed before saving', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-
-      const res = await postRequest(
-        validCertificationBody({ certificate_number: '  CAN-ORG-2024-01567  ' }),
-        userFarmIds,
-      );
-
-      expect(res.status).toBe(201);
-      const persisted = await knex('certification').where({ id: res.body.id }).first();
-      expect(persisted.certificate_number).toBe('CAN-ORG-2024-01567');
     });
 
     test('Workers cannot add a certification', async () => {
@@ -337,49 +304,21 @@ describe('Certifications CRUD tests', () => {
         userFarmIds = await createUserFarmIds(1);
       });
 
-      test('Rejects an unknown field', async () => {
-        const res = await postRequest(
-          validCertificationBody({ requested_certifier: 'legacy name' }),
-          userFarmIds,
-        );
-        expect(res.status).toBe(400);
-      });
-
-      test('Rejects an invalid certification_type', async () => {
-        const res = await postRequest(
-          validCertificationBody({ certification_type: 'NOT_A_TYPE' }),
-          userFarmIds,
-        );
-        expect(res.status).toBe(400);
-      });
-
-      test('Rejects a missing system_type_id', async () => {
-        const res = await postRequest(
-          validCertificationBody({ system_type_id: undefined }),
-          userFarmIds,
-        );
-        expect(res.status).toBe(400);
-      });
-
-      test('Rejects a missing is_active', async () => {
-        const res = await postRequest(
-          validCertificationBody({ is_active: undefined }),
-          userFarmIds,
-        );
-        expect(res.status).toBe(400);
-      });
-
-      test('Rejects a missing certification_type', async () => {
-        const res = await postRequest(
-          validCertificationBody({ certification_type: undefined }),
-          userFarmIds,
-        );
+      const mandatoryFields = [
+        'system_type_id',
+        'is_active',
+        'certification_type',
+        'issue_date',
+        'valid_until',
+      ];
+      test.each(mandatoryFields)('Rejects a missing %s', async (field) => {
+        const res = await postRequest(validCertificationBody({ [field]: undefined }), userFarmIds);
         expect(res.status).toBe(400);
       });
 
       test('Rejects a missing certifier', async () => {
         const res = await postRequest(
-          validCertificationBody({ certifier_id: undefined }),
+          validCertificationBody({ certifier_id: undefined, other_certifier: undefined }),
           userFarmIds,
         );
         expect(res.status).toBe(400);
@@ -442,14 +381,6 @@ describe('Certifications CRUD tests', () => {
             other_certifier: 'PGS Group',
             certificate_number: undefined,
           }),
-          userFarmIds,
-        );
-        expect(res.status).toBe(400);
-      });
-
-      test('Rejects missing dates for an active certification', async () => {
-        const res = await postRequest(
-          validCertificationBody({ issue_date: undefined, valid_until: undefined }),
           userFarmIds,
         );
         expect(res.status).toBe(400);

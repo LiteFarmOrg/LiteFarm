@@ -84,13 +84,9 @@ const getSubtitle = (
     const date = getLocalizedDateString(expiryDate, { month: '2-digit', year: 'numeric' });
     // The localized date can contain '/', which i18next would HTML-escape by default
     const options = { date, interpolation: { escapeValue: false } };
-    subtitleParts.push(
-      status === 'expired'
-        ? t('CERTIFICATION.CARD.EXPIRED_ON', options)
-        : t('CERTIFICATION.CARD.EXPIRES', options),
-    );
+    subtitleParts.push(t(status === 'expired' ? 'common:EXPIRED_ON' : 'common:EXPIRES', options));
     if (status === 'expiring_soon') {
-      subtitleParts.push(t('CERTIFICATION.CARD.DAYS_LEFT', { count: getDaysLeft(expiryDate) }));
+      subtitleParts.push(t('common:DAYS_LEFT', { count: getDaysLeft(expiryDate) }));
     }
     return subtitleParts.filter(Boolean).join(' · ');
   }
@@ -117,7 +113,7 @@ export default function CertificationCard({
   // t('certifications:PGS')
   const systemTypeName = t(`certifications:${systemTypeTranslationKey}`);
   const title = isPursuing
-    ? t('CERTIFICATION.CARD.PURSUING_TITLE', { name: systemTypeName })
+    ? t('CERTIFICATION.PURSUING_ITEM', { item: systemTypeName })
     : systemTypeName;
 
   const subtitle = getSubtitle(
@@ -131,16 +127,16 @@ export default function CertificationCard({
 
   const isPgs = systemTypeTranslationKey === PGS_TRANSLATION_KEY;
   const identifierLabel = isPgs
-    ? t('CERTIFICATION.CARD.MEMBER_ID')
-    : t('CERTIFICATION.CARD.CERTIFICATION_ID');
+    ? t('CERTIFICATION.MEMBER_ID')
+    : t('CERTIFICATION.CERTIFICATION_ID');
   const certificationIdentifier = isPgs ? certificateMemberId : certificateNumber;
 
   const hasDetails = !isPursuing && !!(certificationIdentifier || documentFileName);
 
   const statusTranslation = {
-    active: t('CERTIFICATION.STATUS.ACTIVE'),
-    expiring_soon: t('CERTIFICATION.STATUS.EXPIRING_SOON'),
-    expired: t('CERTIFICATION.STATUS.EXPIRED'),
+    active: t('common:ACTIVE'),
+    expiring_soon: t('common:EXPIRING_SOON'),
+    expired: t('common:EXPIRED'),
   };
 
   return (
@@ -194,7 +190,7 @@ export default function CertificationCard({
           {documentFileName && (
             <div className={clsx(styles.cardDetail, styles.cardDocument)}>
               <div className={styles.cardDetailLabel}>
-                {t('CERTIFICATION.CARD.CERTIFICATE_DOCUMENT')}
+                {t('CERTIFICATION.CERTIFICATE_DOCUMENT')}
               </div>
               <div className={clsx(styles.cardDetailValue, styles.cardDocumentName)}>
                 <DocumentIcon aria-hidden />

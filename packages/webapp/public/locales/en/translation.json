@@ -407,16 +407,7 @@
   "CERTIFICATION": {
     "BANNER": "Certifications added here appear automatically in your <strong>Market Directory profile</strong>, so buyers can see your credentials in your listing.",
     "BANNER_SAVED": "Certification saved and added to your <strong>Market Directory profile</strong>.",
-    "CARD": {
-      "CERTIFICATE_DOCUMENT": "Certificate document",
-      "CERTIFICATION_ID": "Certification ID",
-      "DAYS_LEFT_one": "MISSING",
-      "DAYS_LEFT_other": "MISSING",
-      "EXPIRED_ON": "MISSING",
-      "EXPIRES": "MISSING",
-      "MEMBER_ID": "Member ID",
-      "PURSUING_TITLE": "Pursuing {{name}}"
-    },
+    "CERTIFICATE_DOCUMENT": "Certificate document",
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",
       "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",
@@ -431,6 +422,7 @@
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from",
       "UPDATE_SUCCESS": "Certification preferences saved"
     },
+    "CERTIFICATION_ID": "Certification ID",
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "SUBTITLE_ONE": "Here's a list of",
@@ -450,7 +442,6 @@
       "HEADING": "Do you have any active certifications or pursuing some?"
     },
     "FORM": {
-      "CERTIFICATE_DOCUMENT": "Certificate document",
       "CERTIFICATE_NUMBER": "Certificate number",
       "CERTIFICATE_NUMBER_PLACEHOLDER": "e.g. CAN-ORG-2024-01567",
       "CERTIFICATION_STATUS": "Certification status",
@@ -468,8 +459,7 @@
       "PGS_GROUP_NAME": "PGS group name",
       "PGS_GROUP_NAME_PLACEHOLDER": "MISSING",
       "SYSTEM_TYPE": "System type",
-      "TITLE": "Add a certification",
-      "VALID_UNTIL": "MISSING"
+      "TITLE": "Add a certification"
     },
     "INPUT_PLACEHOLDER": "Type to search",
     "INTERESTED_IN_CERTIFICATION": {
@@ -481,6 +471,8 @@
       "ACTIVE_SECTION": "Active certifications",
       "PURSUING_SECTION": "Pursuing certifications"
     },
+    "MEMBER_ID": "Member ID",
+    "PURSUING_ITEM": "Pursuing {{item}}",
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
       "REQUEST": "What certifier would you like to request?",
@@ -488,11 +480,6 @@
       "SORRY_THREE": "certifiers in your country. Would you like to request one?",
       "SORRY_TWO": "certifiers. Would you like to request one?",
       "TITLE": "Request a certifier"
-    },
-    "STATUS": {
-      "ACTIVE": "MISSING",
-      "EXPIRED": "MISSING",
-      "EXPIRING_SOON": "MISSING"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",

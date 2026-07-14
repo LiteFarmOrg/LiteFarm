@@ -298,7 +298,7 @@ export default function CertificationForm({
               control={control}
               render={({ field }) => (
                 <ImagePicker
-                  label={t('CERTIFICATION.FORM.CERTIFICATE_DOCUMENT')}
+                  label={t('CERTIFICATION.CERTIFICATE_DOCUMENT')}
                   onSelectImage={(file) => field.onChange(file)}
                   onRemoveImage={() => field.onChange(null)}
                 />

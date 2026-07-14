@@ -242,6 +242,10 @@
   padding: 36px 16px;
   text-align: center;
 
+  border-radius: 6px;
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
   .emptyIcon {
     width: 48px;
     height: 48px;

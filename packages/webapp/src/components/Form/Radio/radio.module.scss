@@ -95,3 +95,39 @@
   @include fontFamily();
   margin: 0;
 }
+
+.description {
+  font-size: 14px;
+  line-height: normal;
+  color: var(--Colors-Neutral-Neutral-500);
+  @include fontFamily();
+}
+
+/* Card variant: full-width bordered box with title and description */
+.card {
+  width: 100%;
+  flex-flow: column;
+  align-items: flex-start;
+  row-gap: 2px;
+  margin-bottom: 8px;
+  padding: 16px 16px 16px 48px;
+  background: var(--White);
+  border: 1px solid var(--Colors-Neutral-Neutral-100);
+  border-radius: 8px;
+
+  .checkmark {
+    left: 16px;
+  }
+
+  .label {
+    line-height: normal;
+  }
+
+  &.checked {
+    border-color: var(--Colors-Primary-Primary-teal-700);
+
+    .label {
+      font-weight: 700;
+    }
+  }
+}

@@ -407,45 +407,15 @@
   "CERTIFICATION": {
     "BANNER": "Certifications added here appear automatically in your <strong>Market Directory profile</strong>, so buyers can see your credentials in your listing.",
     "BANNER_SAVED": "Certification saved and added to your <strong>Market Directory profile</strong>.",
-    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile",
-    "STATUS": {
-      "ACTIVE": "Active",
-      "EXPIRING_SOON": "Expiring soon",
-      "EXPIRED": "Expired",
-      "PURSUING": "Pursuing"
-    },
-    "EMPTY_STATE": {
-      "HEADING": "Do you have any active certifications or pursuing some?",
-      "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one."
-    },
-    "LIST": {
-      "ACTIVE_SECTION": "Active certifications",
-      "PURSUING_SECTION": "Pursuing certifications"
-    },
     "CARD": {
-      "PURSUING_TITLE": "Pursuing {{name}}",
-      "EXPIRES": "Expires {{date}}",
-      "EXPIRED_ON": "Expired {{date}}",
-      "DAYS_LEFT_one": "{{count}} day left",
-      "DAYS_LEFT_other": "{{count}} days left",
+      "CERTIFICATE_DOCUMENT": "Certificate document",
       "CERTIFICATION_ID": "Certification ID",
+      "DAYS_LEFT_one": "MISSING",
+      "DAYS_LEFT_other": "MISSING",
+      "EXPIRED_ON": "MISSING",
+      "EXPIRES": "MISSING",
       "MEMBER_ID": "Member ID",
-      "CERTIFICATE_DOCUMENT": "Certificate document"
-    },
-    "DELETE_SUBJECT": "this certification",
-    "FORM": {
-      "THIRD_PARTY": "Third-party certification",
-      "PGS": "Participatory Guarantee System (PGS)",
-      "IS_ACTIVE": "Is this certification active?",
-      "CERTIFICATION_TYPE": "Certification type",
-      "CERTIFYING_BODY": "Certifying body",
-      "CERTIFYING_GROUP": "Certifying group",
-      "CERTIFICATE_NUMBER": "Certificate number",
-      "PGS_GROUP_NAME": "PGS group name",
-      "START_DATE": "Start date",
-      "EXPIRY_DATE": "Expiry date",
-      "UPLOAD_DOCUMENT": "Upload certificate document",
-      "OTHER_CERTIFIER_PLACEHOLDER": "Enter certifier name"
+      "PURSUING_TITLE": "Pursuing {{name}}"
     },
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",
@@ -474,11 +444,42 @@
       "REQUEST_CERTIFIER": "Request a certifier",
       "TITLE": "Who is your certifier?"
     },
+    "DELETE_SUBJECT": "this certification",
+    "EMPTY_STATE": {
+      "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one.",
+      "HEADING": "Do you have any active certifications or pursuing some?"
+    },
+    "FORM": {
+      "CERTIFICATE_DOCUMENT": "Certificate document",
+      "CERTIFICATE_NUMBER": "Certificate number",
+      "CERTIFICATE_NUMBER_PLACEHOLDER": "e.g. CAN-ORG-2024-01567",
+      "CERTIFICATION_STATUS": "Certification status",
+      "CERTIFICATION_TYPE": "Certification type",
+      "CERTIFICATION_TYPE_PLACEHOLDER": "Select a certification type",
+      "CERTIFYING_BODY": "Certifying body",
+      "CERTIFYING_BODY_INFO": "Name of the certifying organisation",
+      "CERTIFYING_BODY_PLACEHOLDER": "Select a certifying body",
+      "CERTIFYING_GROUP": "Certifying group",
+      "CERTIFYING_GROUP_INFO": "Name of your local PGDS group or network",
+      "CERTIFYING_GROUP_PLACEHOLDER": "Select a certifying group",
+      "IS_ACTIVE": "Is this certification active?",
+      "OTHER_CERTIFIER": "Other certifier",
+      "OTHER_CERTIFIER_PLACEHOLDER": "Enter certifier name",
+      "PGS_GROUP_NAME": "PGS group name",
+      "PGS_GROUP_NAME_PLACEHOLDER": "MISSING",
+      "SYSTEM_TYPE": "System type",
+      "TITLE": "Add a certification",
+      "VALID_UNTIL": "MISSING"
+    },
     "INPUT_PLACEHOLDER": "Type to search",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
       "TITLE": "Interested in certifications?",
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
+    },
+    "LIST": {
+      "ACTIVE_SECTION": "Active certifications",
+      "PURSUING_SECTION": "Pursuing certifications"
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
@@ -488,6 +489,11 @@
       "SORRY_TWO": "certifiers. Would you like to request one?",
       "TITLE": "Request a certifier"
     },
+    "STATUS": {
+      "ACTIVE": "MISSING",
+      "EXPIRED": "MISSING",
+      "EXPIRING_SOON": "MISSING"
+    },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",
       "BAD_NEWS_INFO": "However, we can create generic forms that are useful for most certifiers. We'll indicate this information throughout the app with a leaf icon.",
@@ -496,11 +502,14 @@
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
-    }
-  },
-  "DELETE_CONFIRMATION": {
-    "TITLE": "Delete",
-    "BODY": "Are you sure you want to delete {{subject}}? This cannot be undone."
+    },
+    "SYSTEM_TYPE": {
+      "PGS": "Participatory guarantee system (PGS)",
+      "PGS_DESCRIPTION": "Peer-reviewed, community-based certification",
+      "THIRD_PARTY_ORGANIC": "Third-party certification",
+      "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certified by an accredited body"
+    },
+    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
@@ -702,6 +711,10 @@
     "THURSDAY": "T",
     "TUESDAY": "T",
     "WEDNESDAY": "W"
+  },
+  "DELETE_CONFIRMATION": {
+    "BODY": "Are you sure you want to delete {{subject}}? This cannot be undone.",
+    "TITLE": "Delete"
   },
   "DIRECTION": {
     "E": "E",

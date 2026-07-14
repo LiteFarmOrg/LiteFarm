@@ -1,4 +1,16 @@
 {
+  "PGS": "Participatory guarantee system",
   "THIRD_PARTY_ORGANIC": "Third-party organic",
-  "PGS": "Participatory guarantee system"
+  "TYPES": {
+    "ANIMAL_WELFARE": "Animal Welfare",
+    "BIODYNAMIC": "Biodynamic",
+    "CARBON/CLIMATE": "Carbon/Climate",
+    "CERTIFIED_HUMANE": "Certified Humane",
+    "FAIR_TRADE": "Fair Trade",
+    "GRASSFED/PASTURE": "Grassfed/Pasture",
+    "NON-GMO": "Non-GMO",
+    "ORGANIC": "Organic",
+    "REGENERATIVE": "Regenerative",
+    "SUSTAINABILITY": "Sustainability"
+  }
 }

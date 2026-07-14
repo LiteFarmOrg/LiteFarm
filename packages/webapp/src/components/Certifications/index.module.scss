@@ -300,27 +300,52 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 24px;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 120px;
 }
 
-.formFileArea {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 16px;
-  border: 1px dashed var(--Colors-Neutral-Neutral-300);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  color: var(--Colors-Neutral-Neutral-600);
+.formBody {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  gap: 32px;
 
-  &:hover {
-    border-color: var(--Colors-Primary-Primary-teal-400);
-    color: var(--Colors-Primary-Primary-teal-700);
+  border-radius: 4px;
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  .formTitle {
+    color: var(--Colors-Neutral-Neutral-900);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: normal;
   }
+}
+
+.formStatusBox {
+  padding: 16px;
+  background: var(--Box-bg);
+  border-radius: 8px;
+}
+
+.formDateRow {
+  display: flex;
+  gap: 8px;
+
+  > * {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.formHelpText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--Colors-Neutral-Neutral-300);
 }
 
 /* ── CertificationsPage ───────────────────────── */

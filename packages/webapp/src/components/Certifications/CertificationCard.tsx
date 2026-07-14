@@ -14,6 +14,7 @@
  */
 
 import clsx from 'clsx';
+import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
@@ -25,27 +26,23 @@ import styles from './index.module.scss';
 
 interface CertificationCardProps {
   systemTypeTranslationKey: string;
+  requestedSystemType?: string;
   certifierName: string;
+  certifierAcronym?: string;
   certificateNumber?: string | null;
   certificateMemberId?: string | null;
   isActive: boolean;
   expiryDate?: string | null;
   documentFileName?: string | null;
   onEdit: () => void;
-  onDelete: () => void;
+  onDelete?: () => void;
 }
 
 const PGS_TRANSLATION_KEY = 'PGS';
-
-const STATUS_KEYS: Record<Exclude<CertificationStatus, 'pursuing'>, string> = {
-  active: 'CERTIFICATION.STATUS.ACTIVE',
-  expiring_soon: 'CERTIFICATION.STATUS.EXPIRING_SOON',
-  expired: 'CERTIFICATION.STATUS.EXPIRED',
-};
-
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const EXPIRING_SOON_WINDOW_DAYS = 30;
 
+// TODO: verify
 function getDaysLeft(isoDate: string): number {
   return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
 }
@@ -54,11 +51,8 @@ export function getCertificationStatus(
   isActive: boolean,
   expiryDate?: string | null,
 ): CertificationStatus {
-  if (!isActive) {
+  if (!isActive || !expiryDate) {
     return 'pursuing';
-  }
-  if (!expiryDate) {
-    return 'active';
   }
   const daysLeft = getDaysLeft(expiryDate);
   if (daysLeft <= 0) {
@@ -70,9 +64,43 @@ export function getCertificationStatus(
   return 'active';
 }
 
+const getSubtitle = (
+  t: TFunction,
+  status: CertificationStatus,
+  certifierName: string,
+  certifierAcronym?: string,
+  requestedSystemType?: string,
+  expiryDate?: string | null,
+) => {
+  if (status === 'pursuing') {
+    if (certifierAcronym) {
+      return `${certifierAcronym} — ${certifierName}`;
+    }
+    return [certifierName, requestedSystemType].filter(Boolean).join('/');
+  }
+
+  if (expiryDate) {
+    const subtitleParts = [certifierAcronym];
+    const date = getLocalizedDateString(expiryDate, { month: '2-digit', year: 'numeric' });
+    // The localized date can contain '/', which i18next would HTML-escape by default
+    const options = { date, interpolation: { escapeValue: false } };
+    subtitleParts.push(
+      status === 'expired'
+        ? t('CERTIFICATION.CARD.EXPIRED_ON', options)
+        : t('CERTIFICATION.CARD.EXPIRES', options),
+    );
+    if (status === 'expiring_soon') {
+      subtitleParts.push(t('CERTIFICATION.CARD.DAYS_LEFT', { count: getDaysLeft(expiryDate) }));
+    }
+    return subtitleParts.filter(Boolean).join(' · ');
+  }
+};
+
 export default function CertificationCard({
   systemTypeTranslationKey,
+  requestedSystemType,
   certifierName,
+  certifierAcronym,
   certificateNumber,
   certificateMemberId,
   isActive,
@@ -85,25 +113,21 @@ export default function CertificationCard({
   const status = getCertificationStatus(isActive, expiryDate);
   const isPursuing = status === 'pursuing';
 
+  // t('certifications:THIRD_PARTY_ORGANIC')
+  // t('certifications:PGS')
   const systemTypeName = t(`certifications:${systemTypeTranslationKey}`);
   const title = isPursuing
     ? t('CERTIFICATION.CARD.PURSUING_TITLE', { name: systemTypeName })
     : systemTypeName;
 
-  const subtitleParts = [certifierName];
-  if (!isPursuing && expiryDate) {
-    const date = getLocalizedDateString(expiryDate, { month: '2-digit', year: 'numeric' });
-    // The localized date can contain '/', which i18next would HTML-escape by default
-    const options = { date, interpolation: { escapeValue: false } };
-    subtitleParts.push(
-      status === 'expired'
-        ? t('CERTIFICATION.CARD.EXPIRED_ON', options)
-        : t('CERTIFICATION.CARD.EXPIRES', options),
-    );
-    if (status === 'expiring_soon') {
-      subtitleParts.push(t('CERTIFICATION.CARD.DAYS_LEFT', { count: getDaysLeft(expiryDate) }));
-    }
-  }
+  const subtitle = getSubtitle(
+    t,
+    status,
+    certifierName,
+    certifierAcronym,
+    requestedSystemType,
+    expiryDate,
+  );
 
   const isPgs = systemTypeTranslationKey === PGS_TRANSLATION_KEY;
   const identifierLabel = isPgs
@@ -113,21 +137,27 @@ export default function CertificationCard({
 
   const hasDetails = !isPursuing && !!(certificationIdentifier || documentFileName);
 
+  const statusTranslation = {
+    active: t('CERTIFICATION.STATUS.ACTIVE'),
+    expiring_soon: t('CERTIFICATION.STATUS.EXPIRING_SOON'),
+    expired: t('CERTIFICATION.STATUS.EXPIRED'),
+  };
+
   return (
     <div className={clsx(styles.card, styles[status])}>
-      <div className={clsx(styles.cardMain, !hasDetails && styles.cardMainOnly)}>
+      <div className={clsx(styles.cardMain)}>
         <div className={styles.cardBody}>
           <AwardIcon className={styles.cardAwardIcon} aria-hidden />
           <div className={styles.cardTitles}>
-            <span className={styles.cardTitle}>{title}</span>
-            <span className={styles.cardSubtitle}>{subtitleParts.join(' · ')}</span>
+            <div className={styles.cardTitle}>{title}</div>
+            <div className={styles.cardSubtitle}>{subtitle}</div>
           </div>
         </div>
 
         <div className={styles.cardMeta}>
           {!isPursuing && (
             <span className={clsx(styles.cardStatusBadge, styles[status])}>
-              {t(STATUS_KEYS[status])}
+              {statusTranslation[status]}
             </span>
           )}
           <div className={styles.cardActions}>
@@ -139,14 +169,16 @@ export default function CertificationCard({
             >
               <EditIcon />
             </button>
-            <button
-              type="button"
-              className={styles.iconBtn}
-              onClick={onDelete}
-              aria-label={t('common:DELETE')}
-            >
-              <TrashIcon />
-            </button>
+            {onDelete && (
+              <button
+                type="button"
+                className={styles.iconBtn}
+                onClick={onDelete}
+                aria-label={t('common:DELETE')}
+              >
+                <TrashIcon />
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -155,19 +187,19 @@ export default function CertificationCard({
         <div className={styles.cardDetails}>
           {certificationIdentifier && (
             <div className={styles.cardDetail}>
-              <span className={styles.cardDetailLabel}>{identifierLabel}</span>
-              <span className={styles.cardDetailValue}>{certificationIdentifier}</span>
+              <div className={styles.cardDetailLabel}>{identifierLabel}</div>
+              <div className={styles.cardDetailValue}>{certificationIdentifier}</div>
             </div>
           )}
           {documentFileName && (
             <div className={clsx(styles.cardDetail, styles.cardDocument)}>
-              <span className={styles.cardDetailLabel}>
+              <div className={styles.cardDetailLabel}>
                 {t('CERTIFICATION.CARD.CERTIFICATE_DOCUMENT')}
-              </span>
-              <span className={clsx(styles.cardDetailValue, styles.cardDocumentName)}>
+              </div>
+              <div className={clsx(styles.cardDetailValue, styles.cardDocumentName)}>
                 <DocumentIcon aria-hidden />
                 {documentFileName}
-              </span>
+              </div>
             </div>
           )}
         </div>

@@ -39,7 +39,8 @@ const meta: Meta<typeof CertificationCard> = {
   ],
   args: {
     systemTypeTranslationKey: 'THIRD_PARTY_ORGANIC',
-    certifierName: 'BCARA',
+    certifierAcronym: 'BCARA',
+    certifierName: 'British Columbia Association for Regenerative Agriculture',
     certificateNumber: 'CAN-ORG-2024-01567',
     isActive: true,
     expiryDate: ACTIVE_EXPIRY,
@@ -61,7 +62,8 @@ export const Active: Story = {
 export const ExpiringSoon: Story = {
   args: {
     systemTypeTranslationKey: 'PGS',
-    certifierName: 'FVOPA',
+    certifierName: 'Fraser Valley Organic Producers',
+    certifierAcronym: 'FVOPA',
     certificateMemberId: 'Ecocert',
     expiryDate: EXPIRING_SOON_EXPIRY,
   },
@@ -70,7 +72,8 @@ export const ExpiringSoon: Story = {
 export const Expired: Story = {
   args: {
     systemTypeTranslationKey: 'PGS',
-    certifierName: 'FVOPA',
+    certifierName: 'Fraser Valley Organic Producers',
+    certifierAcronym: 'FVOPA',
     certificateMemberId: 'Ecocert',
     expiryDate: EXPIRED_EXPIRY,
   },
@@ -78,10 +81,17 @@ export const Expired: Story = {
 
 export const Pursuing: Story = {
   args: {
-    certifierName: 'CCOF — California Certified Organic Farmers',
+    certifierName: 'California Certified Organic Farmers',
+    certifierAcronym: 'CCOF',
     certificateNumber: null,
     isActive: false,
     expiryDate: null,
+  },
+};
+
+export const WithoutDeleteButton: Story = {
+  args: {
+    onDelete: undefined,
   },
 };
 

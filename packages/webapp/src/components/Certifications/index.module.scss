@@ -57,7 +57,13 @@
 
   display: flex;
   flex-direction: column;
+  gap: 32px;
   width: 100%;
+  padding: 16px;
+  background: var(--White);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  line-height: normal;
 
   &.active {
     --card-border: var(--Colors-Secondary-Secondary-green-100);
@@ -75,164 +81,125 @@
 .cardMain {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px;
-  background: var(--White);
-  border: 1px solid var(--card-border);
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
-}
-
-.cardMainOnly {
-  border-bottom: 1px solid var(--card-border);
-  border-radius: 8px;
-}
-
-.cardBody {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
-}
-
-.cardAwardIcon {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  color: var(--Colors-Primary-Primary-teal-700);
-}
-
-.cardTitles {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
-
-.cardTitle {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: normal;
-  color: var(--Colors-Neutral-Neutral-900);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.cardSubtitle {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: normal;
-  color: var(--Colors-Neutral-Neutral-500);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.cardMeta {
-  display: flex;
-  align-items: center;
   gap: 12px;
-  flex-shrink: 0;
-}
 
-.cardStatusBadge {
-  display: flex;
-  align-items: center;
-  height: 18px;
-  padding: 4px;
-  border-radius: 2px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--White);
-  white-space: nowrap;
+  .cardBody {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
 
-  &.active {
-    background: var(--Colors-Secondary-Secondary-green-700);
+    .cardAwardIcon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      color: var(--Colors-Primary-Primary-teal-700);
+    }
+
+    .cardTitles {
+      min-width: 0;
+
+      .cardTitle {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--Colors-Neutral-Neutral-900);
+
+        @include truncateText();
+      }
+
+      .cardSubtitle {
+        font-size: 14px;
+        color: var(--Colors-Neutral-Neutral-500);
+
+        @include truncateText();
+      }
+    }
   }
 
-  &.expiring_soon {
-    background: var(--Colors-Accent---singles-Brown-full);
+  .cardMeta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+
+    .cardStatusBadge {
+      display: flex;
+      align-items: center;
+      height: 18px;
+      padding: 4px;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--White);
+      white-space: nowrap;
+
+      &.active {
+        background: var(--Colors-Secondary-Secondary-green-700);
+      }
+
+      &.expiring_soon {
+        background: var(--Colors-Accent---singles-Brown-full);
+      }
+
+      &.expired {
+        background: var(--Colors-Accent---singles-Red-full);
+      }
+    }
+
+    .cardActions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .iconBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      @include svgColorFill(var(--Colors-Neutral-Neutral-500));
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
   }
-
-  &.expired {
-    background: var(--Colors-Accent---singles-Red-full);
-  }
-}
-
-.cardActions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.iconBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: var(--Colors-Neutral-Neutral-500);
-
-  &:hover {
-    color: var(--Colors-Neutral-Neutral-700);
-  }
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  @include svgColorFill(var(--Colors-Neutral-Neutral-500));
 }
 
 .cardDetails {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 16px 16px 16px 24px;
-  background: var(--White);
-  border: 1px solid var(--card-border);
-  border-top: none;
-  border-radius: 0 0 8px 8px;
+  gap: 12px;
+  padding: 0 8px;
 }
 
 .cardDetail {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
   min-width: 0;
 }
 
 .cardDetailLabel {
   font-size: 14px;
   font-weight: 700;
-  line-height: normal;
   color: var(--Colors-Neutral-Neutral-600);
 }
 
 .cardDetailValue {
   font-size: 14px;
-  font-weight: 400;
-  line-height: normal;
   color: var(--Colors-Neutral-Neutral-500);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
-.cardDocument {
-  align-items: flex-end;
+  @include truncateText();
 }
 
 .cardDocumentName {
   display: flex;
+  justify-self: flex-end;
   align-items: center;
   gap: 2px;
   color: var(--Colors-Neutral-Neutral-900);
@@ -244,7 +211,7 @@
   }
 }
 
-@media only screen and (max-width: 767px) {
+@include md-breakpoint {
   .cardMain {
     flex-direction: column;
     align-items: stretch;

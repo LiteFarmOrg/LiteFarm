@@ -275,29 +275,39 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .listSection {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
+  gap: 24px;
+  padding: 16px;
 
-.listSectionTitle {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  color: var(--Colors-Neutral-Neutral-600);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  border-radius: 4px;
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  h3 {
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.4px;
+  }
 }
 
 .listCards {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
+  &.active {
+    gap: 24px;
+  }
+
+  &.pursuing {
+    gap: 16px;
+  }
 }
 
 /* ── CertificationForm ────────────────────────── */

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import CertificationCard from './CertificationCard';
 import type { CertificationItem } from './types';
@@ -31,15 +32,17 @@ export default function CertificationsList({
 }: CertificationsListProps) {
   const { t } = useTranslation('translation');
 
-  const activeCerts = certifications.filter((cert) => cert.isActive);
+  const activeCerts = certifications
+    .filter((cert) => cert.isActive)
+    .sort((a, b) => b.expiryDate!.localeCompare(a.expiryDate!));
   const pursuingCerts = certifications.filter((cert) => !cert.isActive);
 
   return (
     <div className={styles.list}>
       {activeCerts.length > 0 && (
         <div className={styles.listSection}>
-          <p className={styles.listSectionTitle}>{t('CERTIFICATION.LIST.ACTIVE_SECTION')}</p>
-          <div className={styles.listCards}>
+          <h3>{t('CERTIFICATION.LIST.ACTIVE_SECTION')}</h3>
+          <div className={clsx(styles.listCards, styles.active)}>
             {activeCerts.map((cert) => (
               <CertificationCard
                 key={cert.id}
@@ -54,8 +57,8 @@ export default function CertificationsList({
 
       {pursuingCerts.length > 0 && (
         <div className={styles.listSection}>
-          <p className={styles.listSectionTitle}>{t('CERTIFICATION.LIST.PURSUING_SECTION')}</p>
-          <div className={styles.listCards}>
+          <h3>{t('CERTIFICATION.LIST.PURSUING_SECTION')}</h3>
+          <div className={clsx(styles.listCards, styles.pursuing)}>
             {pursuingCerts.map((cert) => (
               <CertificationCard
                 key={cert.id}

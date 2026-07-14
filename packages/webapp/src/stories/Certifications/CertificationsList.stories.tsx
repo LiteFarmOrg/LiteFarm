@@ -14,9 +14,9 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import { Suspense } from 'react';
 import CertificationsList from '../../components/Certifications/CertificationsList';
 import type { CertificationItem } from '../../components/Certifications/types';
+import { componentDecorators } from '../Pages/config/Decorators';
 
 const daysFromNow = (days: number) =>
   new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -50,15 +50,7 @@ const pursuingCert: CertificationItem = {
 const meta: Meta<typeof CertificationsList> = {
   title: 'Components/Certifications/CertificationsList',
   component: CertificationsList,
-  decorators: [
-    (Story) => (
-      <Suspense fallback="loading">
-        <div style={{ maxWidth: 640, padding: 16 }}>
-          <Story />
-        </div>
-      </Suspense>
-    ),
-  ],
+  decorators: componentDecorators,
   args: {
     onEdit: () => {},
     onDelete: () => {},

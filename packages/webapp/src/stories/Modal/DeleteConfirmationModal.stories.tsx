@@ -39,7 +39,7 @@ function Wrapper({ isLoading }: { isLoading?: boolean }) {
 }
 
 const meta: Meta<typeof Wrapper> = {
-  title: 'Components/Certifications/DeleteConfirmationModal',
+  title: 'Components/Modals/DeleteConfirmationModal',
   component: Wrapper,
 };
 
@@ -48,6 +48,19 @@ export default meta;
 type Story = StoryObj<typeof Wrapper>;
 
 export const Default: Story = {};
+
+export const WithTitle: Story = {
+  render: () => (
+    <Suspense fallback="loading">
+      <DeleteConfirmationModal
+        itemName="note"
+        subject="this note"
+        onClose={() => {}}
+        onConfirm={() => {}}
+      />
+    </Suspense>
+  ),
+};
 
 export const Loading: Story = {
   args: { isLoading: true },

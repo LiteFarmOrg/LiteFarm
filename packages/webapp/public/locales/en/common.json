@@ -38,6 +38,7 @@
   "DAYS_LEFT_one": "{{count}} day left",
   "DAYS_LEFT_other": "{{count}} days left",
   "DELETE": "Delete",
+  "DELETE_ITEM": "Delete {{item}}",
   "DO_NOT_KNOW": "I don't know",
   "DO_NOT_SHOW": "Don’t show this message again.",
   "DONE": "Done",

@@ -18,13 +18,15 @@ import ModalComponent from '../ModalComponent/v3';
 import Button from '../../Form/Button';
 
 interface DeleteConfirmationModalProps {
-  subject: string;
+  itemName?: string; // short label for title, e.g. "note" — "Delete note"
+  subject: string; // full description of what's being deleted, e.g. "this note"
   onClose: () => void;
   onConfirm: () => void;
   isLoading?: boolean;
 }
 
 export default function DeleteConfirmationModal({
+  itemName,
   subject,
   onClose,
   onConfirm,
@@ -34,7 +36,7 @@ export default function DeleteConfirmationModal({
 
   return (
     <ModalComponent
-      title={t('DELETE_CONFIRMATION.TITLE')}
+      title={itemName ? t('common:DELETE_ITEM', { item: itemName }) : <></>}
       dismissModal={onClose}
       buttonGroup={
         <>

@@ -700,8 +700,7 @@
     "WEDNESDAY": "W"
   },
   "DELETE_CONFIRMATION": {
-    "BODY": "Are you sure you want to delete {{subject}}? This cannot be undone.",
-    "TITLE": "Delete"
+    "BODY": "Are you sure you want to delete {{subject}}? This cannot be undone."
   },
   "DIRECTION": {
     "E": "E",

@@ -14,8 +14,8 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import { Suspense } from 'react';
 import CertificationForm from '../../components/Certifications/CertificationForm';
+import { componentDecorators } from '../Pages/config/Decorators';
 
 const certifierOptions = [
   { value: 1, label: 'Soil Association', key: 'SOIL_ASSOCIATION' },
@@ -84,15 +84,7 @@ const soilAssociationCertifier = certifierOptions[0];
 const meta: Meta<typeof CertificationForm> = {
   title: 'Components/Certifications/CertificationForm',
   component: CertificationForm,
-  decorators: [
-    (Story) => (
-      <Suspense fallback="loading">
-        <div style={{ maxWidth: 1120 }}>
-          <Story />
-        </div>
-      </Suspense>
-    ),
-  ],
+  decorators: componentDecorators,
   args: {
     systemTypes,
     certifiers,

@@ -14,19 +14,13 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import { Suspense } from 'react';
 import CertificationsEmptyState from '../../components/Certifications/CertificationsEmptyState';
+import { componentDecorators } from '../Pages/config/Decorators';
 
 const meta: Meta<typeof CertificationsEmptyState> = {
   title: 'Components/Certifications/CertificationsEmptyState',
   component: CertificationsEmptyState,
-  decorators: [
-    (Story) => (
-      <Suspense fallback="loading">
-        <Story />
-      </Suspense>
-    ),
-  ],
+  decorators: componentDecorators,
 };
 
 export default meta;

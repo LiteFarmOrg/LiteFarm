@@ -14,8 +14,8 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import { Suspense } from 'react';
 import CertificationCard from '../../components/Certifications/CertificationCard';
+import { componentDecorators } from '../Pages/config/Decorators';
 
 const daysFromNow = (days: number) =>
   new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -28,15 +28,7 @@ const EXPIRED_EXPIRY = daysFromNow(-30);
 const meta: Meta<typeof CertificationCard> = {
   title: 'Components/Certifications/CertificationCard',
   component: CertificationCard,
-  decorators: [
-    (Story) => (
-      <Suspense fallback="loading">
-        <div style={{ maxWidth: 786, padding: 16 }}>
-          <Story />
-        </div>
-      </Suspense>
-    ),
-  ],
+  decorators: componentDecorators,
   args: {
     systemTypeTranslationKey: 'THIRD_PARTY_ORGANIC',
     certifierAcronym: 'BCARA',

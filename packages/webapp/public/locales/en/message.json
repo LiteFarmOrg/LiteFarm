@@ -32,6 +32,13 @@
       "UPDATE": "Successfully updated document"
     }
   },
+  "CERTIFICATION": {
+    "ERROR": {
+      "ADD": "Failed to add certification",
+      "DELETE": "Failed to delete certification",
+      "EDIT": "Failed to update certification"
+    }
+  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: failed to add varietal to database",
@@ -154,9 +161,9 @@
     }
   },
   "MAP": {
+    "FAIL_DELETE": "Failed to retire",
     "FAIL_PATCH": "Failed to update",
     "FAIL_POST": "Failed to add new",
-    "FAIL_DELETE": "Failed to retire",
     "SUCCESS_DELETE": "Successfully retired",
     "SUCCESS_PATCH": "Successfully updated",
     "SUCCESS_POST": "Successfully saved"

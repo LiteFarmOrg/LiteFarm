@@ -15,10 +15,11 @@
 
 import { useEffect, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertifications from '../../components/Certifications';
 import { loginSelector } from '../userFarmSlice';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import {
   useGetCertificationsQuery,
   useDeleteCertificationMutation,
@@ -36,6 +37,7 @@ interface CertificationsProps {
 
 export default function Certifications({ isCompactSideMenu }: CertificationsProps) {
   const { t } = useTranslation(['translation', 'common', 'certifications']);
+  const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const { farm_id } = useSelector(loginSelector);
@@ -64,6 +66,14 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
     history.push('/certification/report_period');
   };
 
+  const onDeleteCertification = async (id: string) => {
+    try {
+      await deleteCertification(id).unwrap();
+    } catch {
+      dispatch(enqueueErrorSnackbar(t('message:CERTIFICATION.ERROR.DELETE')));
+    }
+  };
+
   return (
     <Layout footer={false}>
       <PureCertifications
@@ -74,7 +84,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
         onExport={onExport}
         onAddCertification={() => history.push('/certifications/add_certification')}
         onEditCertification={(id) => history.push(`/certifications/${id}/edit_certification`)}
-        onDeleteCertification={deleteCertification}
+        onDeleteCertification={onDeleteCertification}
       />
     </Layout>
   );

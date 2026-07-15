@@ -14,12 +14,13 @@
  */
 
 import { useHistory, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertificationForm, {
   CertificationFormValues,
 } from '../../../components/Certifications/CertificationForm';
 import { loginSelector } from '../../userFarmSlice';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 import {
   useGetCertificationsQuery,
   useAddCertificationMutation,
@@ -39,6 +40,7 @@ import Layout from '../../../components/Layout';
 
 export default function CertificationForm() {
   const { t } = useTranslation(['translation', 'common']);
+  const dispatch = useDispatch();
   const history = useHistory();
   const { certification_id } = useParams<{ certification_id?: string }>();
   const { farm_id } = useSelector(loginSelector);
@@ -63,12 +65,19 @@ export default function CertificationForm() {
 
   const onSubmit = async (data: CertificationFormValues) => {
     const body = toCertificationRequestBody(data, systemTypes);
-    if (certification_id) {
-      await editCertification({ id: certification_id, body });
-    } else {
-      await addCertification(body);
+    try {
+      if (certification_id) {
+        await editCertification({ id: certification_id, body }).unwrap();
+      } else {
+        await addCertification(body).unwrap();
+      }
+      history.push('/certifications', { certificationSaved: true });
+    } catch {
+      const message = certification_id
+        ? t('message:CERTIFICATION.ERROR.EDIT')
+        : t('message:CERTIFICATION.ERROR.ADD');
+      dispatch(enqueueErrorSnackbar(message));
     }
-    history.push('/certifications', { certificationSaved: true });
   };
 
   return (

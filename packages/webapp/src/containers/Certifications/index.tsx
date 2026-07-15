@@ -27,6 +27,7 @@ import {
   useGetSupportedCertificationSystemTypesQuery,
 } from '../../store/api/certifiersApi';
 import { toCertificationItems } from './utils';
+import Layout from '../../components/Layout';
 
 interface CertificationsProps {
   isCompactSideMenu: boolean;
@@ -50,15 +51,17 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   };
 
   return (
-    <PureCertifications
-      certifications={certifications}
-      bannerVariant={certificationSaved ? 'success' : 'info'}
-      marketDirectoryProfileLink="/farm_settings/market_directory"
-      isCompactSideMenu={isCompactSideMenu}
-      onExport={onExport}
-      onAddCertification={() => history.push('/certifications/add_certification')}
-      onEditCertification={(id) => history.push(`/certifications/${id}/edit_certification`)}
-      onDeleteCertification={deleteCertification}
-    />
+    <Layout footer={false}>
+      <PureCertifications
+        certifications={certifications}
+        bannerVariant={certificationSaved ? 'success' : 'info'}
+        marketDirectoryProfileLink="/farm_settings/market_directory"
+        isCompactSideMenu={isCompactSideMenu}
+        onExport={onExport}
+        onAddCertification={() => history.push('/certifications/add_certification')}
+        onEditCertification={(id) => history.push(`/certifications/${id}/edit_certification`)}
+        onDeleteCertification={deleteCertification}
+      />
+    </Layout>
   );
 }

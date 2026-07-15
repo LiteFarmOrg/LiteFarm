@@ -35,6 +35,7 @@ import {
   toCertificationFormValues,
   toCertificationRequestBody,
 } from '../utils';
+import Layout from '../../../components/Layout';
 
 export default function CertificationForm() {
   const { t } = useTranslation(['translation', 'common']);
@@ -71,12 +72,14 @@ export default function CertificationForm() {
   };
 
   return (
-    <PureCertificationForm
-      systemTypes={toFormSystemTypes(systemTypes)}
-      certifiers={toFormCertifiers(certifiers)}
-      defaultValues={defaultValues}
-      onSubmit={onSubmit}
-      onBack={onBack}
-    />
+    <Layout>
+      <PureCertificationForm
+        systemTypes={toFormSystemTypes(systemTypes)}
+        certifiers={toFormCertifiers(certifiers)}
+        defaultValues={defaultValues}
+        onSubmit={onSubmit}
+        onBack={onBack}
+      />
+    </Layout>
   );
 }

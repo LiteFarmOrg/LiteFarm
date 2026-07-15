@@ -21,6 +21,7 @@ import {
   getAllSupportedCertifiers,
 } from '../OrganicCertifierSurvey/saga';
 import PureCertifications from '../../components/Certifications';
+import { useGetCertificationsQuery } from '../../store/api/certificationsApi';
 
 interface CertificationsProps {
   isCompactSideMenu: boolean;
@@ -30,6 +31,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const { data: certifications = [] } = useGetCertificationsQuery();
   const certificationSaved = (location?.state as any)?.certificationSaved; // TODO LF-5379
 
   useEffect(() => {
@@ -43,12 +45,12 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
 
   return (
     <PureCertifications
-      certifications={[]} // TODO LF-5379
+      certifications={certifications as any[]} // TODO LF-5379
       bannerVariant={certificationSaved ? 'success' : 'info'}
       marketDirectoryProfileLink="/farm_settings/market_directory"
       isCompactSideMenu={isCompactSideMenu}
       onExport={onExport}
-      onAddCertification={() => ({})} // TODO LF-5379
+      onAddCertification={() => history.push('/certification/interested_in_organic')} // TODO LF-5379
       onEditCertification={() => ({})} // TODO LF-5379
       onDeleteCertification={() => ({})} // TODO LF-5379
     />

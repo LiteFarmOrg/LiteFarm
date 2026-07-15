@@ -449,7 +449,7 @@ export interface FarmNotesRead {
 }
 
 export interface Certification {
-  id: number;
+  id: string;
   farm_id: string;
   system_type_id: number | null;
   certifier_id: number | null;

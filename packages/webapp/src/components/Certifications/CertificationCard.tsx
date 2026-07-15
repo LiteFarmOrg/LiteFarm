@@ -42,7 +42,12 @@ const PGS_TRANSLATION_KEY = 'PGS';
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const EXPIRING_SOON_WINDOW_DAYS = 30;
 
-// TODO: verify
+const ACTIVE = 'active';
+const EXPIRING_SOON = 'expiring_soon';
+const PURSUING = 'pursuing';
+const EXPIRED = 'expired';
+
+// TODO: LF-5388 verify
 function getDaysLeft(isoDate: string): number {
   return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
 }
@@ -52,16 +57,16 @@ export function getCertificationStatus(
   expiryDate?: string | null,
 ): CertificationStatus {
   if (!isActive || !expiryDate) {
-    return 'pursuing';
+    return PURSUING;
   }
   const daysLeft = getDaysLeft(expiryDate);
   if (daysLeft <= 0) {
-    return 'expired';
+    return EXPIRED;
   }
   if (daysLeft <= EXPIRING_SOON_WINDOW_DAYS) {
-    return 'expiring_soon';
+    return EXPIRING_SOON;
   }
-  return 'active';
+  return ACTIVE;
 }
 
 const getSubtitle = (
@@ -72,7 +77,7 @@ const getSubtitle = (
   requestedSystemType?: string,
   expiryDate?: string | null,
 ) => {
-  if (status === 'pursuing') {
+  if (status === PURSUING) {
     if (certifierAcronym) {
       return `${certifierAcronym} — ${certifierName}`;
     }
@@ -84,8 +89,8 @@ const getSubtitle = (
     const date = getLocalizedDateString(expiryDate, { month: '2-digit', year: 'numeric' });
     // The localized date can contain '/', which i18next would HTML-escape by default
     const options = { date, interpolation: { escapeValue: false } };
-    subtitleParts.push(t(status === 'expired' ? 'common:EXPIRED_ON' : 'common:EXPIRES', options));
-    if (status === 'expiring_soon') {
+    subtitleParts.push(t(status === EXPIRED ? 'common:EXPIRED_ON' : 'common:EXPIRES', options));
+    if (status === EXPIRING_SOON) {
       subtitleParts.push(t('common:DAYS_LEFT', { count: getDaysLeft(expiryDate) }));
     }
     return subtitleParts.filter(Boolean).join(' · ');
@@ -107,7 +112,7 @@ export default function CertificationCard({
 }: CertificationCardProps) {
   const { t } = useTranslation(['translation', 'common', 'certifications']);
   const status = getCertificationStatus(isActive, expiryDate);
-  const isPursuing = status === 'pursuing';
+  const isPursuing = status === PURSUING;
 
   // t('certifications:THIRD_PARTY_ORGANIC')
   // t('certifications:PGS')
@@ -134,9 +139,9 @@ export default function CertificationCard({
   const hasDetails = !isPursuing && !!(certificationIdentifier || documentFileName);
 
   const statusTranslation = {
-    active: t('common:ACTIVE'),
-    expiring_soon: t('common:EXPIRING_SOON'),
-    expired: t('common:EXPIRED'),
+    [ACTIVE]: t('common:ACTIVE'),
+    [EXPIRING_SOON]: t('common:EXPIRING_SOON'),
+    [EXPIRED]: t('common:EXPIRED'),
   };
 
   return (

@@ -155,7 +155,8 @@ export default function CertificationForm({
 
   const identifierPlaceholder = isThirdPartySystemType
     ? t('CERTIFICATION.FORM.CERTIFICATE_NUMBER_PLACEHOLDER')
-    : t('CERTIFICATION.FORM.PGS_GROUP_NAME_PLACEHOLDER');
+    : // : t('CERTIFICATION.FORM.PGS_GROUP_NAME_PLACEHOLDER'); TODO: LF-5388 Confirm placeholder
+      t('CERTIFICATION.FORM.CERTIFICATE_NUMBER_PLACEHOLDER');
 
   const certifierPlaceHolder = isThirdPartySystemType
     ? t('CERTIFICATION.FORM.CERTIFYING_BODY_PLACEHOLDER')

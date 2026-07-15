@@ -464,6 +464,24 @@ export interface Certification {
   certificate_document_url: string | null;
 }
 
+// Served by the legacy /organic_certifier_survey routes, which still apply the
+// pre-LF-5379 shim: response field names below (certification_id etc.) are the
+// shimmed names, not the underlying DB column names (system_type_id, name...).
+export interface SupportedCertifier {
+  certifier_id: number;
+  certification_id: number;
+  certifier_name: string;
+  certifier_acronym: string;
+  certifier_country_id: number;
+  country_id: number;
+}
+
+export interface SupportedCertificationSystemType {
+  certification_id: number;
+  certification_type: string;
+  certification_translation_key: string;
+}
+
 export enum InternalMapLocationType {
   BARN = 'barn',
   BUFFER_ZONE = 'buffer_zone',

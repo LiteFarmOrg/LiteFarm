@@ -106,6 +106,7 @@ export const surveyResponseUrl = `${URI}/survey_response`;
 export const farmNoteUrl = `${URI}/farm_notes`;
 export const farmNotesReadUrl = `${URI}/farm_notes_read`;
 export const certificationsUrl = `${URI}/certifications`;
+export const organicCertifierSurveyUrl = `${URI}/organic_certifier_survey`;
 
 export const url = URI;
 
@@ -176,5 +177,6 @@ export default {
   farmNoteUrl,
   farmNotesReadUrl,
   certificationsUrl,
+  organicCertifierSurveyUrl,
   url,
 };

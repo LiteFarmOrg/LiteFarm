@@ -33,6 +33,7 @@ export const LibraryTags = [
   'SoilAmendmentMethods',
   'SoilAmendmentPurposes',
   'SoilAmendmentFertiliserTypes',
+  'CertificationSystemTypes', // the legacy route still requires a farm_id path param
 ] as const;
 
 /**
@@ -59,6 +60,7 @@ export const FarmTags = [
   'FarmNote',
   'FarmNotesRead',
   'Certifications',
+  'SupportedCertifiers',
 ] as const;
 
 /**

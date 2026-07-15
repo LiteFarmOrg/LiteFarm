@@ -29,12 +29,3 @@ Primary.args = {
 Primary.parameters = {
   ...chromaticSmallScreen,
 };
-
-export const NoCertifiers = Template.bind({});
-NoCertifiers.args = {
-  ...Primary.args,
-  certifierOptions: [],
-};
-NoCertifiers.parameters = {
-  ...chromaticSmallScreen,
-};

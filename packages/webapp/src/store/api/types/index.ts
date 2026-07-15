@@ -448,6 +448,22 @@ export interface FarmNotesRead {
   read_up_to: string | null;
 }
 
+export interface Certification {
+  id: number;
+  farm_id: string;
+  system_type_id: number | null;
+  certifier_id: number | null;
+  requested_system_type: string | null;
+  other_certifier: string | null;
+  is_active: boolean;
+  certification_type: string | null;
+  certificate_number: string | null;
+  certificate_member_id: string | null;
+  issue_date: string | null;
+  valid_until: string | null;
+  certificate_document_url: string | null;
+}
+
 export enum InternalMapLocationType {
   BARN = 'barn',
   BUFFER_ZONE = 'buffer_zone',

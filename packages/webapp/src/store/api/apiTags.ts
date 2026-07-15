@@ -58,6 +58,7 @@ export const FarmTags = [
   'SurveyResponse',
   'FarmNote',
   'FarmNotesRead',
+  'Certifications',
 ] as const;
 
 /**

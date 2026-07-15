@@ -21,7 +21,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Checkbox from '../../Form/Checkbox';
-import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import MenuItem from '../../MenuItem';
 import styles from './styles.module.scss';
 import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 
@@ -116,7 +116,7 @@ function MainDocumentView({
                 fileUrls: [url],
                 mediaType: mediaEnum.DOCUMENT,
               })}
-              <CertifierSelectionMenuItem certifierName={file_name} />
+              <MenuItem label={file_name} />
             </div>
           ),
         )}

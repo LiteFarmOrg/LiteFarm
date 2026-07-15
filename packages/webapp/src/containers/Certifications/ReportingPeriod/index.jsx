@@ -11,6 +11,7 @@ import {
   useGetSupportedCertificationSystemTypesQuery,
   useGetSupportedCertifiersQuery,
 } from '../../../store/api/certifiersApi';
+import { getCertifierKey } from '../utils';
 
 function CertificationReportingPeriod() {
   const history = useHistory();
@@ -57,14 +58,6 @@ function CertificationReportingPeriod() {
 
     return systemTypeName ? `${certifierName} - ${systemTypeName}` : certifierName;
   };
-
-  // Same key is used for dedup grouping, the option's value, and (in the Survey
-  // container's onExport) parsed back into certifier_id/other_certifier for the
-  // export request body.
-  const getCertifierKey = (certification) =>
-    certification.certifier_id != null
-      ? `ID:${certification.certifier_id}`
-      : `OTHER:${certification.other_certifier}`;
 
   const certifierByUniqueKey = {};
   for (const certification of certifications) {

@@ -460,7 +460,8 @@
       "PGS_GROUP_NAME": "PGS group name",
       "PGS_GROUP_NAME_PLACEHOLDER": "MISSING",
       "SYSTEM_TYPE": "System type",
-      "TITLE": "Add a certification"
+      "TITLE": "Add a certification",
+      "VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE": "'Valid until' date must come after the 'Issue date'"
     },
     "INPUT_PLACEHOLDER": "Type to search",
     "INTERESTED_IN_CERTIFICATION": {
@@ -2043,8 +2044,8 @@
       "DEVICE_TYPE": "Device type"
     },
     "DEVICE_TYPES": {
-      "DRIPDRAIN_SENSOR": "DripDrain sensor",
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "DRIPDRAIN_SENSOR": "DripDrain sensor",
       "ET_SENSOR": "ET sensor",
       "HUMIDITY_SENSOR": "Humidity sensor",
       "IR_TEMPERATURE_SENSOR": "IR temperature sensor",

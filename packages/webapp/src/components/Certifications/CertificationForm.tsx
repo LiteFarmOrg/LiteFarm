@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
+import type { Control } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import RadioGroup from '../Form/RadioGroup';
@@ -22,6 +23,7 @@ import ReactSelect from '../Form/ReactSelect';
 import ImagePicker from '../ImagePicker';
 import FormNavigationButtons from '../Form/FormNavigationButtons';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
+import { Error } from '../Typography';
 import CertificationBanner from './CertificationBanner';
 import styles from './index.module.scss';
 
@@ -81,6 +83,21 @@ const DEFAULT_VALUES: CertificationFormValues = {
   issue_date: null,
   valid_until: null,
   certificate_document_url: null,
+};
+
+const DateError = ({
+  control,
+  errorMessage,
+}: {
+  control: Control<CertificationFormValues>;
+  errorMessage: string;
+}) => {
+  const issueDate = useWatch({ control, name: ISSUE_DATE });
+  const validUntil = useWatch({ control, name: VALID_UNTIL });
+  const areDatesProperlySet =
+    (issueDate && validUntil && issueDate < validUntil) || !issueDate || !validUntil;
+
+  return <>{!areDatesProperlySet && <Error>{errorMessage}</Error>}</>;
 };
 
 const certificationTypes = [
@@ -281,16 +298,34 @@ export default function CertificationForm({
                 setValueAs: (value) => value.trim(),
               })}
             />
-            <div className={styles.formDateRow}>
-              <Input
-                label={t('common:ISSUE_DATE')}
-                type="date"
-                hookFormRegister={register(ISSUE_DATE, { required: true, shouldUnregister: true })}
-              />
-              <Input
-                label={t('common:VALID_UNTIL')}
-                type="date"
-                hookFormRegister={register(VALID_UNTIL, { required: true, shouldUnregister: true })}
+            <div>
+              <div className={styles.formDateRow}>
+                <Input
+                  label={t('common:ISSUE_DATE')}
+                  type="date"
+                  hookFormRegister={register(ISSUE_DATE, {
+                    required: true,
+                    shouldUnregister: true,
+                    validate: {
+                      beforeValidUntil: (v) => !!v && v < (getValues(VALID_UNTIL) ?? ''),
+                    },
+                  })}
+                />
+                <Input
+                  label={t('common:VALID_UNTIL')}
+                  type="date"
+                  hookFormRegister={register(VALID_UNTIL, {
+                    required: true,
+                    shouldUnregister: true,
+                    validate: {
+                      afterIssueDate: (v) => !!v && v > (getValues(ISSUE_DATE) ?? ''),
+                    },
+                  })}
+                />
+              </div>
+              <DateError
+                control={control}
+                errorMessage={t('CERTIFICATION.FORM.VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE')}
               />
             </div>
             <Controller

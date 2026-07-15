@@ -14,6 +14,7 @@
  */
 
 import { TFunction } from 'i18next';
+import { getDateInputFormat } from '../../util/moment';
 import {
   Certification,
   SupportedCertifier,
@@ -202,8 +203,11 @@ export const toCertificationFormValues = (
     other_certifier: certification.other_certifier ?? '',
     certificationIdentifier:
       (isPgs ? certification.certificate_member_id : certification.certificate_number) ?? '',
-    issue_date: certification.issue_date,
-    valid_until: certification.valid_until,
+    // The API returns date-typed fields as 'YYYY-MM-DDT00:00:00.000'[Z] (see server.ts's
+    // custom json replacer), which a native <input type="date"> silently rejects — it
+    // requires exactly 'YYYY-MM-DD'.
+    issue_date: certification.issue_date ? getDateInputFormat(certification.issue_date) : null,
+    valid_until: certification.valid_until ? getDateInputFormat(certification.valid_until) : null,
     certificate_document_url: certification.certificate_document_url,
   };
 };

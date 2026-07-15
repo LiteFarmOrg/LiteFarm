@@ -1,0 +1,407 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+/* ── CertificationBanner ──────────────────────── */
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  color: var(--Colors-Accent-Accent-yellow-900);
+  background: var(--White);
+  border-radius: 8px;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  font-size: 16px;
+  line-height: normal;
+}
+
+.bannerIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.bannerLinkIcon {
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @include svgColorFill(var(--Colors-Neutral-Neutral-600));
+
+  @mixin sm-breakpoint {
+    flex: 1;
+  }
+}
+
+/* ── CertificationCard ────────────────────────── */
+
+.card {
+  --card-border: var(--Colors-Neutral-Neutral-50);
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  padding: 16px;
+  background: var(--White);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  line-height: normal;
+
+  &.active {
+    --card-border: var(--Colors-Secondary-Secondary-green-100);
+  }
+
+  &.expiring_soon {
+    --card-border: var(--Colors-Accent-Accent-yellow-100);
+  }
+
+  &.expired {
+    --card-border: var(--Colors-Accent---singles-Red-light);
+  }
+}
+
+.cardMain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .cardBody {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+
+    .cardAwardIcon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      color: var(--Colors-Primary-Primary-teal-700);
+    }
+
+    .cardTitles {
+      min-width: 0;
+
+      .cardTitle {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--Colors-Neutral-Neutral-900);
+
+        @include truncateText();
+      }
+
+      .cardSubtitle {
+        font-size: 14px;
+        color: var(--Colors-Neutral-Neutral-500);
+
+        @include truncateText();
+      }
+    }
+  }
+
+  .cardMeta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+
+    .cardStatusBadge {
+      display: flex;
+      align-items: center;
+      height: 18px;
+      padding: 4px;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--White);
+      white-space: nowrap;
+
+      &.active {
+        background: var(--Colors-Secondary-Secondary-green-700);
+      }
+
+      &.expiring_soon {
+        background: var(--Colors-Accent---singles-Brown-full);
+      }
+
+      &.expired {
+        background: var(--Colors-Accent---singles-Red-full);
+      }
+    }
+
+    .cardActions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .iconBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      @include svgColorFill(var(--Colors-Neutral-Neutral-500));
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+.cardDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 8px;
+}
+
+.cardDetail {
+  min-width: 0;
+}
+
+.cardDetailLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--Colors-Neutral-Neutral-600);
+}
+
+.cardDetailValue {
+  font-size: 14px;
+  color: var(--Colors-Neutral-Neutral-500);
+
+  @include truncateText();
+}
+
+.cardDocumentName {
+  display: flex;
+  justify-self: flex-end;
+  align-items: center;
+  gap: 2px;
+  color: var(--Colors-Neutral-Neutral-900);
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+}
+
+@include md-breakpoint {
+  .cardMain {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardMeta {
+    order: -1;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .card.pursuing .cardMeta {
+    justify-content: flex-end;
+  }
+
+  .cardDocument {
+    display: none;
+  }
+}
+
+/* ── CertificationsEmptyState ─────────────────── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 36px 16px;
+  text-align: center;
+
+  border-radius: 6px;
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  .emptyIcon {
+    width: 48px;
+    height: 48px;
+
+    path {
+      stroke: var(--Colors-Neutral-Neutral-200);
+    }
+  }
+
+  .plusIcon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.emptyHeading {
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.emptyBody {
+  color: var(--Colors-Neutral-Neutral-600);
+  font-size: 12px;
+  line-height: normal;
+}
+
+/* ── CertificationsList ───────────────────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.listSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+
+  border-radius: 4px;
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  h3 {
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.4px;
+  }
+}
+
+.listCards {
+  display: flex;
+  flex-direction: column;
+
+  &.active {
+    gap: 24px;
+  }
+
+  &.pursuing {
+    gap: 16px;
+  }
+}
+
+/* ── CertificationForm ────────────────────────── */
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 120px;
+}
+
+.formBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  gap: 32px;
+
+  border-radius: 4px;
+  background: var(--White);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  .formTitle {
+    color: var(--Colors-Neutral-Neutral-900);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+.formStatusBox {
+  padding: 16px;
+  background: var(--Box-bg);
+  border-radius: 8px;
+}
+
+.formDateRow {
+  display: flex;
+  gap: 8px;
+
+  > * {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.formHelpText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--Colors-Neutral-Neutral-300);
+}
+
+/* ── CertificationsPage ───────────────────────── */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.pageActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 30px;
+  background: var(--White);
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgba(43, 48, 58, 0.1);
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  > button {
+    white-space: nowrap;
+  }
+}
+
+.pageExportBtn {
+  @include svgColorFill(var(--Colors-Neutral-Neutral-500));
+}
+
+.pageFabWrapper {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+}

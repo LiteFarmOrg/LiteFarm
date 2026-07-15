@@ -56,7 +56,7 @@ export const addDaysToDate = (date, days, { toUTC = true } = {}) => {
 /**
  *
  * @param {string|Date} date - The date to format, either as a string or a Date object.
- * @param {Object} the Intl.DateTimeFormat options object.
+ * @param {Intl.DateTimeFormatOptions} [options] - The Intl.DateTimeFormat options object.
  * @return {string} The formatted date string, or 'Invalid date' if the input date is invalid
  Default format: September 14, 2024 or as appropriate to language */
 export const getLocalizedDateString = (date, options = { dateStyle: 'long' }) => {

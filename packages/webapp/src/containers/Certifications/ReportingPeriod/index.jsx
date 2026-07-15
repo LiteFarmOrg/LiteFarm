@@ -58,17 +58,25 @@ function CertificationReportingPeriod() {
     return systemTypeName ? `${certifierName} - ${systemTypeName}` : certifierName;
   };
 
+  // Same key is used for dedup grouping, the option's value, and (in the Survey
+  // container's onExport) parsed back into certifier_id/other_certifier for the
+  // export request body.
+  const getCertifierKey = (certification) =>
+    certification.certifier_id != null
+      ? `ID:${certification.certifier_id}`
+      : `OTHER:${certification.other_certifier}`;
+
   const certifierByUniqueKey = {};
   for (const certification of certifications) {
-    const key = certification.certifier_id ?? `other:${certification.other_certifier}`;
+    const key = getCertifierKey(certification);
     if (!(key in certifierByUniqueKey)) {
       certifierByUniqueKey[key] = certification;
     }
   }
 
-  const certifierOptions = Array.from(Object.values(certifierByUniqueKey))
-    .map((certification) => ({
-      value: certification.id,
+  const certifierOptions = Object.entries(certifierByUniqueKey)
+    .map(([key, certification]) => ({
+      value: key,
       label: formatCertifierLabel(certification),
     }))
     .sort((a, b) => a.label.localeCompare(b.label));

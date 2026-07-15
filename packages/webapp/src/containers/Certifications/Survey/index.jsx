@@ -12,7 +12,17 @@ function CertificationSurveyPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const onExport = (exportData) => {
-    dispatch(exportCertificationData(exportData));
+    const { certifier, ...rest } = exportData;
+    const separatorIndex = certifier.indexOf(':');
+    const type = certifier.slice(0, separatorIndex);
+    const value = certifier.slice(separatorIndex + 1);
+
+    dispatch(
+      exportCertificationData({
+        ...rest,
+        ...(type === 'ID' ? { certifier_id: Number(value) } : { other_certifier: value }),
+      }),
+    );
   };
 
   const onSurveyComplete = (submissionId) => {

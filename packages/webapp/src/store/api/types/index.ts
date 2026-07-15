@@ -474,6 +474,7 @@ export interface SupportedCertifier {
   certifier_acronym: string;
   certifier_country_id: number;
   country_id: number;
+  survey_id: string | null;
 }
 
 export interface SupportedCertificationSystemType {

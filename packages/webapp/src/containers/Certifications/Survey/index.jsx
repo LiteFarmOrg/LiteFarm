@@ -1,21 +1,26 @@
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCertificationSurveyPage from '../../../components/CertificationSurvey';
-import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import { certifierSelector } from '../../OrganicCertifierSurvey/certifierSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import {
+  hookFormPersistSelector,
+  setSubmissionIdCertificationFormData,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { exportCertificationData } from '../saga';
-import { setSubmissionIdCertificationFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
+import { useGetSupportedCertifiersQuery } from '../../../store/api/certifiersApi';
+import { parseCertifierKey } from '../utils';
 
 function CertificationSurveyPage() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { email, farm_id } = useSelector(userFarmSelector);
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id);
+
   const onExport = (exportData) => {
     const { certifier, ...rest } = exportData;
-    const separatorIndex = certifier.indexOf(':');
-    const type = certifier.slice(0, separatorIndex);
-    const value = certifier.slice(separatorIndex + 1);
+    const { type, value } = parseCertifierKey(certifier);
 
     dispatch(
       exportCertificationData({
@@ -29,11 +34,19 @@ function CertificationSurveyPage() {
     dispatch(setSubmissionIdCertificationFormData(submissionId));
   };
 
-  const certifierSurvey = useSelector(certifierSurveySelector);
-  const certifier = useSelector(certifierSelector);
-  const { interested, requested_certifier } = certifierSurvey;
-
-  const { email } = useSelector(userFarmSelector);
+  // Determine which survey variant to show based on the certifier
+  // selected in the reporting-period step.
+  let certifier = {};
+  let requested_certifier;
+  if (persistedFormData?.certifier) {
+    const { type, value } = parseCertifierKey(persistedFormData.certifier);
+    if (type === 'ID') {
+      const found = certifiers.find((c) => c.certifier_id === Number(value));
+      certifier = { certifier_acronym: found?.certifier_acronym, survey_id: found?.survey_id };
+    } else {
+      requested_certifier = value;
+    }
+  }
 
   return (
     <HookFormPersistProvider>
@@ -41,8 +54,6 @@ function CertificationSurveyPage() {
         onExport={onExport}
         handleGoBack={() => history.back()}
         handleCancel={() => history.push('/certification')}
-        certifierSurvey={certifierSurvey}
-        interested={interested}
         certifier={certifier}
         requested_certifier={requested_certifier}
         onSurveyComplete={onSurveyComplete}

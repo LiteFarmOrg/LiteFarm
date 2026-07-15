@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -42,7 +43,20 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id!);
   const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery(farm_id!);
   const [deleteCertification] = useDeleteCertificationMutation();
-  const certificationSaved = (location?.state as any)?.certificationSaved;
+
+  // Captured once on mount so the banner stays visible for this page visit even after
+  // the underlying history state is cleared below.
+  const showSavedBannerRef = useRef(Boolean((location.state as any)?.certificationSaved));
+
+  // Consume certificationSaved once: it's attached to this history entry's state, so
+  // without clearing it, navigating to edit and back later would resurface the banner
+  // even though nothing was just saved.
+  useEffect(() => {
+    if ((location.state as any)?.certificationSaved) {
+      history.replace(location.pathname);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const certifications = toCertificationItems(rawCertifications, systemTypes, certifiers, t);
 
@@ -54,7 +68,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
     <Layout footer={false}>
       <PureCertifications
         certifications={certifications}
-        bannerVariant={certificationSaved ? 'success' : 'info'}
+        bannerVariant={showSavedBannerRef.current ? 'success' : 'info'}
         marketDirectoryProfileLink="/farm_settings/market_directory"
         isCompactSideMenu={isCompactSideMenu}
         onExport={onExport}

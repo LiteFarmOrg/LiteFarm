@@ -109,14 +109,10 @@ PureCertificationReportingPeriod.propTypes = {
   defaultEmail: PropTypes.string,
   certifierOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.number,
+      value: PropTypes.string,
       label: PropTypes.string.isRequired,
     }),
   ),
-};
-
-PureCertificationReportingPeriod.defaultProps = {
-  certifierOptions: [],
 };
 
 export default PureCertificationReportingPeriod;

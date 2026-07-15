@@ -12,9 +12,9 @@ export default {
 const Template = (args) => <PureCertificationReportingPeriod {...args} />;
 
 const certifierOptions = [
-  { value: 1, label: 'Islands Organic Producers Association' },
-  { value: 2, label: 'Kootenay Organic Growers Society' },
-  { value: 3, label: 'Living Earth Organic Growers' },
+  { value: '1', label: 'Islands Organic Producers Association' },
+  { value: '2', label: 'Kootenay Organic Growers Society' },
+  { value: '3', label: 'Living Earth Organic Growers' },
 ];
 
 export const Primary = Template.bind({});

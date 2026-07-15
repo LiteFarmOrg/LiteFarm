@@ -437,7 +437,6 @@
       "REQUEST_CERTIFIER": "Request a certifier",
       "TITLE": "Who is your certifier?"
     },
-    "DELETE_SUBJECT": "this certification",
     "EMPTY_STATE": {
       "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one.",
       "HEADING": "Do you have any active certifications or pursuing some?"
@@ -498,6 +497,7 @@
       "THIRD_PARTY_ORGANIC": "Third-party certification",
       "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certified by an accredited body"
     },
+    "THIS_CERTIFICATION": "this certification",
     "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile"
   },
   "CERTIFICATIONS": {

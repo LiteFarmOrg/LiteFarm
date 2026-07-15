@@ -105,7 +105,7 @@ export default function Certifications({
 
       {deletingId !== null && (
         <DeleteConfirmationModal
-          subject={t('CERTIFICATION.DELETE_SUBJECT')}
+          subject={t('CERTIFICATION.THIS_CERTIFICATION')}
           onClose={() => setDeletingId(null)}
           onConfirm={handleDeleteConfirm}
         />

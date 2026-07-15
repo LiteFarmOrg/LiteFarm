@@ -16,14 +16,17 @@
 import { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getAllSupportedCertifications, getAllSupportedCertifiers } from './saga';
+import {
+  getAllSupportedCertifications,
+  getAllSupportedCertifiers,
+} from '../OrganicCertifierSurvey/saga';
 import PureCertifications from '../../components/Certifications';
 
-interface CertificationProps {
+interface CertificationsProps {
   isCompactSideMenu: boolean;
 }
 
-export default function Certification({ isCompactSideMenu }: CertificationProps) {
+export default function Certifications({ isCompactSideMenu }: CertificationsProps) {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();

@@ -376,6 +376,32 @@
   padding: 24px;
 }
 
-.pageAddBtn {
-  align-self: flex-start;
+.pageActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 30px;
+  background: var(--White);
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgba(43, 48, 58, 0.1);
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  > button {
+    white-space: nowrap;
+  }
+}
+
+.pageExportBtn {
+  @include svgColorFill(var(--Colors-Neutral-Neutral-500));
+}
+
+.pageFabWrapper {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
 }

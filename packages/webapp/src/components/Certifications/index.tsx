@@ -15,29 +15,44 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '../Form/Button';
+import FloatingActionButton from '../Button/FloatingActionButton';
+import FloatingContainer from '../FloatingContainer';
 import CertificationBanner from './CertificationBanner';
 import CertificationsEmptyState from './CertificationsEmptyState';
 import CertificationsList from './CertificationsList';
 import DeleteConfirmationModal from '../Modals/DeleteConfirmationModal';
+import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
+import { ReactComponent as ExportIcon } from '../../assets/images/finance/Report-icn.svg';
 import type { CertificationItem } from './types';
 import styles from './index.module.scss';
 
-interface CertificationsPageProps {
+interface CertificationsProps {
   certifications: CertificationItem[];
+  bannerVariant: 'info' | 'success';
+  marketDirectoryProfileLink: string;
+  isCompactSideMenu: boolean;
   onAddCertification: () => void;
+  onExport: () => void;
   onEditCertification: (id: string) => void;
   onDeleteCertification: (id: string) => void;
 }
 
-export default function CertificationsPage({
+export default function Certifications({
   certifications,
+  bannerVariant,
+  marketDirectoryProfileLink,
+  isCompactSideMenu,
   onAddCertification,
+  onExport,
   onEditCertification,
   onDeleteCertification,
-}: CertificationsPageProps) {
+}: CertificationsProps) {
   const { t } = useTranslation('translation');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   function handleDeleteConfirm() {
     if (deletingId !== null) {
@@ -48,7 +63,10 @@ export default function CertificationsPage({
 
   return (
     <div className={styles.page}>
-      <CertificationBanner />
+      <CertificationBanner
+        variant={bannerVariant}
+        marketDirectoryProfileLink={marketDirectoryProfileLink}
+      />
 
       {certifications.length === 0 ? (
         <CertificationsEmptyState onAddCertification={onAddCertification} />
@@ -59,9 +77,29 @@ export default function CertificationsPage({
             onEdit={onEditCertification}
             onDelete={setDeletingId}
           />
-          <Button className={styles.pageAddBtn} color="secondary" onClick={onAddCertification} sm>
-            {t('CERTIFICATION.CERTIFICATION_EXPORT.ADD')}
-          </Button>
+          {isMobile ? (
+            <div className={styles.pageFabWrapper}>
+              <FloatingActionButton
+                // @ts-expect-error known issue with the JS component's props
+                type="add"
+                onClick={onAddCertification}
+                aria-label={t('CERTIFICATION.ADD_CERTIFICATIONS')}
+              />
+            </div>
+          ) : (
+            <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+              <div className={styles.pageActions}>
+                <Button color="primary" md onClick={onAddCertification}>
+                  <PlusCircleIcon />
+                  {t('CERTIFICATION.ADD_CERTIFICATIONS')}
+                </Button>
+                <Button color="secondary" md onClick={onExport} className={styles.pageExportBtn}>
+                  <ExportIcon />
+                  {t('CERTIFICATIONS.EXPORT')}
+                </Button>
+              </div>
+            </FloatingContainer>
+          )}
         </>
       )}
 

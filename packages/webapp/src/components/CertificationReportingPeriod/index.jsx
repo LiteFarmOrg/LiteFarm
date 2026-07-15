@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
@@ -28,6 +29,7 @@ const PureCertificationReportingPeriod = ({
     register,
     handleSubmit,
     getValues,
+    setValue,
     control,
     formState: { isValid },
   } = useForm({
@@ -39,6 +41,12 @@ const PureCertificationReportingPeriod = ({
   });
 
   const { historyCancel } = useHookFormPersist(getValues, persistedPath);
+
+  useEffect(() => {
+    if (certifierOptions.length === 1 && !getValues(CERTIFIER)) {
+      setValue(CERTIFIER, certifierOptions[0].value, { shouldValidate: true });
+    }
+  }, [certifierOptions, getValues, setValue]);
 
   return (
     <>

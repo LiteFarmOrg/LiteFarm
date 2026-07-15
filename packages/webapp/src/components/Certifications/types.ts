@@ -18,7 +18,9 @@ export type CertificationStatus = 'active' | 'expiring_soon' | 'expired' | 'purs
 export type CertificationItem = {
   id: string;
   systemTypeTranslationKey: string;
+  requestedSystemType?: string;
   certifierName: string;
+  certifierAcronym?: string;
   certificateNumber?: string | null;
   certificateMemberId?: string | null;
   isActive: boolean;

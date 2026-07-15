@@ -19,6 +19,33 @@ import {
   SupportedCertifier,
   SupportedCertificationSystemType,
 } from '../../store/api/types';
+import type { CertificationItem } from '../../components/Certifications/types';
+import type {
+  CertificationFormValues,
+  Certifier as FormCertifier,
+  SystemType as FormSystemType,
+} from '../../components/Certifications/CertificationForm';
+
+const PGS_TRANSLATION_KEY = 'PGS';
+
+// TODO LF-5379: SupportedCertificationSystemType's certification_id/certification_type/
+// certification_translation_key and SupportedCertifier's certification_id are shimmed
+// names from the pre-LF-5379 legacy shim in certificationSystemTypeModel.js/certifierModel.js
+// (real columns: id/name/translation_key and system_type_id, respectively). Every read of
+// those fields in this file — buildSystemTypesMap, formatCertifierLabel, toCertificationItems,
+// toFormSystemTypes, toFormCertifiers, toCertificationFormValues, toCertificationRequestBody —
+// needs updating to the real column names once that shim is removed.
+const buildSystemTypesMap = (systemTypes: SupportedCertificationSystemType[]) =>
+  systemTypes.reduce<Record<number, SupportedCertificationSystemType>>((map, systemType) => {
+    map[systemType.certification_id] = systemType;
+    return map;
+  }, {});
+
+const buildCertifiersMap = (certifiers: SupportedCertifier[]) =>
+  certifiers.reduce<Record<number, SupportedCertifier>>((map, certifier) => {
+    map[certifier.certifier_id] = certifier;
+    return map;
+  }, {});
 
 // Unified certifier identity key: used for dedup grouping, the certifier Select's
 // value (ReportingPeriod), and parsed back into certifier_id/other_certifier for
@@ -45,17 +72,8 @@ export const getCertifierOptions = (
   certifiers: SupportedCertifier[],
   t: TFunction,
 ) => {
-  const systemTypesMap = systemTypes.reduce<Record<number, SupportedCertificationSystemType>>(
-    (map, systemType) => {
-      map[systemType.certification_id] = systemType;
-      return map;
-    },
-    {},
-  );
-  const certifiersMap = certifiers.reduce<Record<number, SupportedCertifier>>((map, certifier) => {
-    map[certifier.certifier_id] = certifier;
-    return map;
-  }, {});
+  const systemTypesMap = buildSystemTypesMap(systemTypes);
+  const certifiersMap = buildCertifiersMap(certifiers);
 
   const certifierByUniqueKey: Record<string, Certification> = {};
   for (const certification of certifications) {
@@ -94,4 +112,121 @@ const formatCertifierLabel = (
   }
 
   return systemTypeName ? `${certifierName} - ${systemTypeName}` : certifierName ?? '';
+};
+
+// The backend only ever persists a randomized `${uuid}.${ext}` storage key (see
+// getRandomFileName in digitalOceanSpaces.js) — the user's original filename is never
+// stored. Show a generic label instead of the UUID until a backend field exists for it.
+const toDocumentFileName = (documentUrl: string | null, t: TFunction): string | null => {
+  if (!documentUrl) {
+    return null;
+  }
+  const extension = documentUrl.split('.').pop();
+  return extension ? `${t('common:DOCUMENT')}.${extension}` : t('common:DOCUMENT');
+};
+
+export const toCertificationItems = (
+  certifications: Certification[],
+  systemTypes: SupportedCertificationSystemType[],
+  certifiers: SupportedCertifier[],
+  t: TFunction,
+): CertificationItem[] => {
+  const systemTypesMap = buildSystemTypesMap(systemTypes);
+  const certifiersMap = buildCertifiersMap(certifiers);
+
+  return certifications.map((certification) => {
+    const systemType = certification.system_type_id
+      ? systemTypesMap[certification.system_type_id]
+      : undefined;
+    const certifier = certification.certifier_id
+      ? certifiersMap[certification.certifier_id]
+      : undefined;
+
+    return {
+      id: certification.id,
+      systemTypeTranslationKey: systemType?.certification_translation_key ?? '',
+      requestedSystemType: certification.requested_system_type ?? undefined,
+      certifierName: certifier?.certifier_name ?? certification.other_certifier ?? '',
+      certifierAcronym: certifier?.certifier_acronym,
+      certificateNumber: certification.certificate_number,
+      certificateMemberId: certification.certificate_member_id,
+      isActive: certification.is_active,
+      expiryDate: certification.valid_until,
+      documentFileName: toDocumentFileName(certification.certificate_document_url, t),
+    };
+  });
+};
+
+export const toFormSystemTypes = (
+  systemTypes: SupportedCertificationSystemType[],
+): FormSystemType[] =>
+  systemTypes.map((systemType) => ({
+    id: systemType.certification_id,
+    name: systemType.certification_type,
+    translation_key: systemType.certification_translation_key,
+  }));
+
+export const toFormCertifiers = (certifiers: SupportedCertifier[]): FormCertifier[] =>
+  certifiers.map((certifier) => ({
+    certifier_id: certifier.certifier_id,
+    system_type_id: certifier.certification_id,
+    certifier_name: certifier.certifier_name,
+  }));
+
+export const toCertificationFormValues = (
+  certification: Certification,
+  systemTypes: SupportedCertificationSystemType[],
+  certifiers: SupportedCertifier[],
+  t: TFunction,
+): Partial<CertificationFormValues> => {
+  const systemTypesMap = buildSystemTypesMap(systemTypes);
+  const certifiersMap = buildCertifiersMap(certifiers);
+
+  const systemType = certification.system_type_id
+    ? systemTypesMap[certification.system_type_id]
+    : undefined;
+  const isPgs = systemType?.certification_translation_key === PGS_TRANSLATION_KEY;
+
+  const certifier = certification.certifier_id
+    ? {
+        value: certification.certifier_id,
+        label: certifiersMap[certification.certifier_id]?.certifier_name ?? '',
+      }
+    : { value: 0, label: t('common:OTHER') };
+
+  return {
+    system_type_id: certification.system_type_id,
+    is_active: certification.is_active,
+    certification_type: certification.certification_type,
+    certifier,
+    other_certifier: certification.other_certifier ?? '',
+    certificationIdentifier:
+      (isPgs ? certification.certificate_member_id : certification.certificate_number) ?? '',
+    issue_date: certification.issue_date,
+    valid_until: certification.valid_until,
+    certificate_document_url: certification.certificate_document_url,
+  };
+};
+
+export const toCertificationRequestBody = (
+  data: CertificationFormValues,
+  systemTypes: SupportedCertificationSystemType[],
+): Partial<Certification> => {
+  const systemTypesMap = buildSystemTypesMap(systemTypes);
+  const systemType = data.system_type_id ? systemTypesMap[data.system_type_id] : undefined;
+  const isPgs = systemType?.certification_translation_key === PGS_TRANSLATION_KEY;
+  const isOtherCertifier = data.certifier?.value === 0;
+
+  return {
+    system_type_id: data.system_type_id,
+    certifier_id: isOtherCertifier ? null : data.certifier?.value ?? null,
+    other_certifier: isOtherCertifier ? data.other_certifier.trim() : null,
+    is_active: data.is_active,
+    certification_type: data.certification_type,
+    certificate_number: data.is_active && !isPgs ? data.certificationIdentifier.trim() : null,
+    certificate_member_id: data.is_active && isPgs ? data.certificationIdentifier.trim() : null,
+    issue_date: data.is_active ? data.issue_date : null,
+    valid_until: data.is_active ? data.valid_until : null,
+    certificate_document_url: data.certificate_document_url,
+  };
 };

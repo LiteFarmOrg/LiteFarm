@@ -69,8 +69,8 @@ const LocationDetailsRoutes = React.lazy(() => import('./LocationDetailsRoutes')
 // Import config separately to access allLocationTypes at render time
 import { allLocationTypes } from './locationRouteConfig';
 
-const PostLocationDetailForm = React.lazy(
-  () => import('../containers/LocationDetails/PostLocationDetailForm'),
+const PostLocationDetailForm = React.lazy(() =>
+  import('../containers/LocationDetails/PostLocationDetailForm'),
 );
 
 const CropManagement = React.lazy(() => import('../containers/Crop/CropManagement'));
@@ -84,34 +84,34 @@ const AddCropVariety = React.lazy(() => import('../containers/AddCropVariety/Add
 const EditCropVariety = React.lazy(() => import('../containers/EditCropVariety'));
 const ComplianceInfo = React.lazy(() => import('../containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('../containers/AddNewCrop'));
-const PlantingLocation = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantingLocation'),
+const PlantingLocation = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantingLocation'),
 );
 const Transplant = React.lazy(() => import('../containers/Crop/AddManagementPlan/Transplant'));
 const PlantingDate = React.lazy(() => import('../containers/Crop/AddManagementPlan/PlantingDate'));
-const PlantingMethod = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantingMethod'),
+const PlantingMethod = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantingMethod'),
 );
-const PlantInContainer = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantInContainer'),
+const PlantInContainer = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantInContainer'),
 );
-const PlantBroadcast = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/BroadcastPlan'),
+const PlantBroadcast = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/BroadcastPlan'),
 );
 const BedPlan = React.lazy(() => import('../containers/Crop/AddManagementPlan/BedPlan/BedPlan'));
-const BedPlanGuidance = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/BedPlan/BedPlanGuidance'),
+const BedPlanGuidance = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/BedPlan/BedPlanGuidance'),
 );
-const ManagementPlanName = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/ManagementPlanName'),
+const ManagementPlanName = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
 const RowMethod = React.lazy(() => import('../containers/Crop/AddManagementPlan/RowMethod'));
-const RowMethodGuidance = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/RowMethod/RowGuidance'),
+const RowMethodGuidance = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/RowMethod/RowGuidance'),
 );
 
-const PlantedAlready = React.lazy(
-  () => import('../containers/Crop/AddManagementPlan/PlantedAlready'),
+const PlantedAlready = React.lazy(() =>
+  import('../containers/Crop/AddManagementPlan/PlantedAlready'),
 );
 
 const Documents = React.lazy(() => import('../containers/Documents'));
@@ -120,63 +120,64 @@ const EditDocument = React.lazy(() => import('../containers/Documents/Edit'));
 
 const AddDocument = React.lazy(() => import('../containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('../containers/Documents/Main'));
-const CertificationReportingPeriod = React.lazy(
-  () => import('../containers/Certifications/ReportingPeriod'),
+const CertificationReportingPeriod = React.lazy(() =>
+  import('../containers/Certifications/ReportingPeriod'),
 );
 const CertificationSurvey = React.lazy(() => import('../containers/Certifications/Survey'));
 
-const InterestedOrganic = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
+const InterestedOrganic = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'
-    ),
-);
-
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'
-    ),
+const CertificationSelection = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'
+  ),
 );
 
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
-    ),
+const CertifierSelectionMenu = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'
+  ),
 );
 
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    '../containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
+  ),
 );
-const ViewCertification = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
+
+const RequestCertifier = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
+);
+const ViewCertification = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
+);
+const Certifications = React.lazy(() => import('../containers/Certifications'));
+const CertificationForm = React.lazy(() =>
+  import('../containers/Certifications/CertificationForm'),
 );
 
 const RenderSurvey = React.lazy(() => import('../containers/RenderSurvey/RenderSurvey'));
 const ExportDownload = React.lazy(() => import('../containers/ExportDownload'));
 
-const ManagementTasks = React.lazy(
-  () => import('../containers/Crop/ManagementDetail/ManagementTasks'),
+const ManagementTasks = React.lazy(() =>
+  import('../containers/Crop/ManagementDetail/ManagementTasks'),
 );
-const ManagementDetails = React.lazy(
-  () => import('../containers/Crop/ManagementDetail/ManagementDetails'),
+const ManagementDetails = React.lazy(() =>
+  import('../containers/Crop/ManagementDetail/ManagementDetails'),
 );
-const EditManagementDetails = React.lazy(
-  () => import('../containers/Crop/ManagementDetail/EditManagementDetails'),
+const EditManagementDetails = React.lazy(() =>
+  import('../containers/Crop/ManagementDetail/EditManagementDetails'),
 );
-const CompleteManagementPlan = React.lazy(
-  () => import('../containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
+const CompleteManagementPlan = React.lazy(() =>
+  import('../containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
 );
-const AbandonManagementPlan = React.lazy(
-  () => import('../containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
+const AbandonManagementPlan = React.lazy(() =>
+  import('../containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
 );
 const RepeatCropPlan = React.lazy(() => import('../containers/Crop/RepeatCropPlan'));
-const RepeatCropPlanConfirmation = React.lazy(
-  () => import('../containers/Crop/RepeatCropPlan/Confirmation'),
+const RepeatCropPlanConfirmation = React.lazy(() =>
+  import('../containers/Crop/RepeatCropPlan/Confirmation'),
 );
 
 const TaskAssignment = React.lazy(() => import('../containers/Task/TaskAssignment'));
@@ -190,44 +191,44 @@ const Tasks = React.lazy(() => import('../containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('../containers/Task/ManageCustomTasks'));
 const AddCustomTask = React.lazy(() => import('../containers/Task/AddCustomTask'));
 const TaskComplete = React.lazy(() => import('../containers/Task/TaskComplete'));
-const HarvestCompleteQuantity = React.lazy(
-  () => import('../containers/Task/TaskComplete/HarvestComplete/Quantity'),
+const HarvestCompleteQuantity = React.lazy(() =>
+  import('../containers/Task/TaskComplete/HarvestComplete/Quantity'),
 );
-const HarvestUses = React.lazy(
-  () => import('../containers/Task/TaskComplete/HarvestComplete/HarvestUses'),
+const HarvestUses = React.lazy(() =>
+  import('../containers/Task/TaskComplete/HarvestComplete/HarvestUses'),
 );
 const TaskCompleteStepOne = React.lazy(() => import('../containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('../containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('../containers/Task/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('../containers/Task/TaskAbandon'));
 // const EditCustomTaskUpdate = React.lazy(() => import('../containers/Task/EditCustomTaskUpdate'));
-const TaskTransplantMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
+const TaskTransplantMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
 );
-const TaskBedMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskBedMethod'),
+const TaskBedMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskBedMethod'),
 );
-const TaskBedGuidance = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskBedGuidance'),
+const TaskBedGuidance = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskBedGuidance'),
 );
-const TaskRowMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskRowMethod'),
+const TaskRowMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskRowMethod'),
 );
-const TaskRowGuidance = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskRowGuidance'),
+const TaskRowGuidance = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskRowGuidance'),
 );
-const TaskContainerMethod = React.lazy(
-  () => import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
+const TaskContainerMethod = React.lazy(() =>
+  import('../containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
 const SensorList = React.lazy(() => import('../containers/SensorList'));
 const SensorReadings = React.lazy(() => import('../containers/SensorReadings/v2'));
 const IrrigationPrescription = React.lazy(() => import('../containers/IrrigationPrescription'));
 const Notification = React.lazy(() => import('../containers/Notification'));
-const NotificationReadOnly = React.lazy(
-  () => import('../containers/Notification/NotificationReadOnly'),
+const NotificationReadOnly = React.lazy(() =>
+  import('../containers/Notification/NotificationReadOnly'),
 );
-const UnknownRecord = React.lazy(
-  () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
+const UnknownRecord = React.lazy(() =>
+  import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
 const Routes = ({ isCompactSideMenu }) => {
@@ -533,6 +534,19 @@ const Routes = ({ isCompactSideMenu }) => {
                       children={<CertificationReportingPeriod />}
                     />
                     <Route path="/certification/survey" exact children={<CertificationSurvey />} />
+                    <Route path="/certifications" exact>
+                      <Certifications isCompactSideMenu={isCompactSideMenu} />
+                    </Route>
+                    <Route
+                      path="/certifications/add_certification"
+                      exact
+                      children={<CertificationForm />}
+                    />
+                    <Route
+                      path="/certifications/:certification_id/edit_certification"
+                      exact
+                      children={<CertificationForm />}
+                    />
                     <Route
                       path="/certification/interested_in_organic"
                       exact
@@ -864,6 +878,19 @@ const Routes = ({ isCompactSideMenu }) => {
                       children={<CertificationReportingPeriod />}
                     />
                     <Route path="/certification/survey" exact children={<CertificationSurvey />} />
+                    <Route path="/certifications" exact>
+                      <Certifications isCompactSideMenu={isCompactSideMenu} />
+                    </Route>
+                    <Route
+                      path="/certifications/add_certification"
+                      exact
+                      children={<CertificationForm />}
+                    />
+                    <Route
+                      path="/certifications/:certification_id/edit_certification"
+                      exact
+                      children={<CertificationForm />}
+                    />
                     <Route
                       path="/certification/interested_in_organic"
                       exact

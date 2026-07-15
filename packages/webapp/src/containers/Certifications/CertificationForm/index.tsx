@@ -16,7 +16,7 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import CertificationForm, {
+import PureCertificationForm, {
   CertificationFormValues,
 } from '../../../components/Certifications/CertificationForm';
 import { loginSelector } from '../../userFarmSlice';
@@ -36,7 +36,7 @@ import {
   toCertificationRequestBody,
 } from '../utils';
 
-export default function AddEditCertification() {
+export default function CertificationForm() {
   const { t } = useTranslation(['translation', 'common']);
   const history = useHistory();
   const { certification_id } = useParams<{ certification_id?: string }>();
@@ -71,7 +71,7 @@ export default function AddEditCertification() {
   };
 
   return (
-    <CertificationForm
+    <PureCertificationForm
       systemTypes={toFormSystemTypes(systemTypes)}
       certifiers={toFormCertifiers(certifiers)}
       defaultValues={defaultValues}

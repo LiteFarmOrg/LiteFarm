@@ -48,23 +48,30 @@ const buildCertifiersMap = (certifiers: SupportedCertifier[]) =>
     return map;
   }, {});
 
-// Unified certifier identity key: used for dedup grouping, the certifier Select's
-// value (ReportingPeriod), and parsed back into certifier_id/other_certifier for
-// the export request body (Survey). indexOf/slice (not split) so a free-text
-// other_certifier value containing ':' still parses correctly.
+// Unified certifier identity key (dedup grouping, Select value, parsed back for export).
+// System type is included so the same certifier/name under a different system type
+// isn't treated as the same identity. Free-text parts are encodeURIComponent-escaped
+// so a stray ':' inside them can't be confused with our own separators.
 export function getCertifierKey({
   certifier_id,
   other_certifier,
+  system_type_id,
+  requested_system_type,
 }: {
   certifier_id?: number | null;
   other_certifier?: string | null;
+  system_type_id?: number | null;
+  requested_system_type?: string | null;
 }): string {
-  return certifier_id ? `ID:${certifier_id}` : `OTHER:${other_certifier}`;
+  const systemType = encodeURIComponent(system_type_id || requested_system_type || '');
+  return certifier_id
+    ? `ID:${certifier_id}:${systemType}`
+    : `OTHER:${encodeURIComponent(other_certifier ?? '')}:${systemType}`;
 }
 
 export function parseCertifierKey(key: string): { type: string; value: string } {
-  const separatorIndex = key.indexOf(':');
-  return { type: key.slice(0, separatorIndex), value: key.slice(separatorIndex + 1) };
+  const [type, encodedValue] = key.split(':');
+  return { type, value: decodeURIComponent(encodedValue) };
 }
 
 export const getCertifierOptions = (

@@ -73,6 +73,7 @@ type CertificationFormProps = {
   defaultValues?: Partial<CertificationFormValues>;
   onSubmit: (data: CertificationFormValues) => void;
   onBack: () => void;
+  isSaving: boolean;
 };
 
 const DEFAULT_VALUES: CertificationFormValues = {
@@ -121,6 +122,7 @@ export default function CertificationForm({
   defaultValues,
   onSubmit,
   onBack,
+  isSaving,
 }: CertificationFormProps) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -358,7 +360,7 @@ export default function CertificationForm({
       </div>
 
       <FormNavigationButtons
-        isDisabled={!isValid}
+        isDisabled={!isValid || isSaving}
         onCancel={onBack}
         onContinue={handleSubmit(onSubmit)}
         isFinalStep

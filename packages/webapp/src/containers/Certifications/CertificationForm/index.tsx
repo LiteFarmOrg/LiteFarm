@@ -20,7 +20,7 @@ import PureCertificationForm, {
   CertificationFormValues,
 } from '../../../components/Certifications/CertificationForm';
 import { loginSelector } from '../../userFarmSlice';
-import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import {
   useGetCertificationsQuery,
   useAddCertificationMutation,
@@ -44,11 +44,11 @@ export default function CertificationForm() {
   const history = useHistory();
   const { certification_id } = useParams<{ certification_id?: string }>();
   const { farm_id } = useSelector(loginSelector);
-  const { data: certifications = [] } = useGetCertificationsQuery();
+  const { data: certifications = [], refetch: refetchCertifications } = useGetCertificationsQuery();
   const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id!);
   const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery(farm_id!);
-  const [addCertification] = useAddCertificationMutation();
-  const [editCertification] = useEditCertificationMutation();
+  const [addCertification, { isLoading: isAdding }] = useAddCertificationMutation();
+  const [editCertification, { isLoading: isEditing }] = useEditCertificationMutation();
 
   const certification = certification_id
     ? certifications.find((c) => c.id === certification_id)
@@ -71,6 +71,12 @@ export default function CertificationForm() {
       } else {
         await addCertification(body).unwrap();
       }
+
+      const message = certification_id
+        ? t('message:CERTIFICATION.SUCCESS.EDIT')
+        : t('message:CERTIFICATION.SUCCESS.ADD');
+      dispatch(enqueueSuccessSnackbar(message));
+
       history.push('/certifications', { certificationSaved: true });
     } catch {
       const message = certification_id
@@ -88,6 +94,7 @@ export default function CertificationForm() {
         defaultValues={defaultValues}
         onSubmit={onSubmit}
         onBack={onBack}
+        isSaving={isAdding || isEditing}
       />
     </Layout>
   );

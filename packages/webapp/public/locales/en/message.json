@@ -37,6 +37,11 @@
       "ADD": "Failed to add certification",
       "DELETE": "Failed to delete certification",
       "EDIT": "Failed to update certification"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully saved certification",
+      "DELETE": "Successfully deleted certification",
+      "EDIT": "Successfully updated certification"
     }
   },
   "CROP_VARIETY": {

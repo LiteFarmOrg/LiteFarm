@@ -15,6 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import clsx from 'clsx';
@@ -29,24 +30,35 @@ import { ReactComponent as CheckComplete } from '../../../../assets/images/check
 import { ReactComponent as CheckIncomplete } from '../../../../assets/images/check-incomplete.svg';
 import MarketDirectoryInfoForm from './InfoForm';
 import MarketDirectoryConsent from './Consent';
+import MarketDirectoryCertifications from './Certifications';
+import { loginSelector } from '../../../userFarmSlice';
 import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
 import { useGetMarketProductCategoriesQuery } from '../../../../store/api/marketProductCategoryApi';
+import { useGetCertificationsQuery } from '../../../../store/api/certificationsApi';
+import {
+  useGetSupportedCertifiersQuery,
+  useGetSupportedCertificationSystemTypesQuery,
+} from '../../../../store/api/certifiersApi';
 
 // When adding/removing forms, update farmCardsLength below to match the number of enum values
 enum FormCards {
   INFO,
+  CERTIFICATIONS,
 }
 
-const farmCardsLength = 1;
+const farmCardsLength = 2;
 
 const MarketDirectory = () => {
   const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
   const { t } = useTranslation();
+  const { farm_id } = useSelector(loginSelector);
 
   const { expandedIds, toggleExpanded, unExpand } = useExpandable({ isSingleExpandable: true });
 
-  const [completionStatus, setCompletionStatus] = useState<Partial<Record<FormCards, boolean>>>({});
+  const [completionStatus, setCompletionStatus] = useState<Partial<Record<FormCards, boolean>>>({
+    [FormCards.CERTIFICATIONS]: true,
+  });
 
   const updateCompletionStatus = (formKey: FormCards, isComplete: boolean) => {
     setCompletionStatus((prev) => ({
@@ -68,11 +80,22 @@ const MarketDirectory = () => {
   const { data: marketProductCategories = [], isLoading: isMarketProductCategoriesLoading } =
     useGetMarketProductCategoriesQuery();
 
+  const { data: certifications = [], isLoading: isCertificationsLoading } =
+    useGetCertificationsQuery();
+  const { data: certifiers = [], isLoading: isCertifiersLoading } = useGetSupportedCertifiersQuery(
+    farm_id!,
+  );
+  const { data: systemTypes = [], isLoading: isSystemTypesLoading } =
+    useGetSupportedCertificationSystemTypesQuery(farm_id!);
+
   const isMarketDirectoryDataLoading = [
     isMarketDirectoryInfoLoading,
     isMarketProductCategoriesLoading,
     !marketProductCategories.length,
   ].some(Boolean);
+
+  const isCertificationDataLoading =
+    isCertificationsLoading || isCertifiersLoading || isSystemTypesLoading;
 
   useEffect(() => {
     if (!isMarketDirectoryInfoLoading) {
@@ -89,6 +112,17 @@ const MarketDirectory = () => {
           marketDirectoryInfo={marketDirectoryInfo}
           close={() => unExpand(FormCards.INFO)}
           marketProductCategories={marketProductCategories}
+        />
+      ),
+    },
+    {
+      key: FormCards.CERTIFICATIONS,
+      title: t('MENU.CERTIFICATIONS'),
+      content: !isCertificationDataLoading && (
+        <MarketDirectoryCertifications
+          certifications={certifications}
+          systemTypes={systemTypes}
+          certifiers={certifiers}
         />
       ),
     },

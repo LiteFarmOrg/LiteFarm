@@ -22,7 +22,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "lint-staged": "^13.2.3",
     "moment": "^2.29.4",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "eslint-plugin-cypress": "^2.13.3"

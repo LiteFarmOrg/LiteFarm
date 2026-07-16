@@ -95,6 +95,7 @@ Cypress.Commands.add(
   },
 );
 
+
 const addFarm = (farmName, location) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/js/GeocodeService.*').as(
     'googleMapGeocodeCall',
@@ -253,3 +254,13 @@ const acceptSlideMenuSpotlights = (crop_menu_name) => {
     .and('not.be.disabled')
     .click();
 };
+
+Cypress.Commands.add('injectTokensToUI', (user, farm) => {
+  cy.visit('/', {
+    onBeforeLoad(win) {
+      win.localStorage.setItem('id_token', user);
+      win.localStorage.setItem('farm_token', farm);
+    },
+  });
+});
+

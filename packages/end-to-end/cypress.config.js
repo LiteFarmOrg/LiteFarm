@@ -1,5 +1,9 @@
 const { defineConfig } = require('cypress');
 
+const apiUrl = 'http://localhost:5001' // TODO: add default value or throw error if not configured.
+
+process.env.API_URL= apiUrl
+
 module.exports = defineConfig({
   projectId: 'wzcbom',
   defaultCommandTimeout: 15 * 1000,
@@ -12,6 +16,9 @@ module.exports = defineConfig({
   },
   e2e: {
     baseUrl: 'http://localhost:3000',
+    env: {
+      apiUrl,
+    },
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
       require('@cypress/code-coverage/task')(on, config);

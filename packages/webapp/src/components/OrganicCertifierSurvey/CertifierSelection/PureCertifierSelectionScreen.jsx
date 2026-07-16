@@ -3,7 +3,7 @@ import Button from '../../Form/Button';
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AddLink, Semibold, Text } from '../../Typography';
-import CertifierSelectionMenuItem from './CertifierSelectionMenu/CertiferSelectionMenuItem';
+import MenuItem from '../../MenuItem';
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import Infoi from '../../Tooltip/Infoi';
@@ -35,7 +35,9 @@ export function PureCertifierSelectionScreen({
             certifier.certifier_acronym.toLowerCase().includes(filter?.toLowerCase()),
         )
       : certifiers;
-    return results.sort((firstEl, secondEl) => firstEl.certifier_name.localeCompare(secondEl.certifier_name));
+    return results.sort((firstEl, secondEl) =>
+      firstEl.certifier_name.localeCompare(secondEl.certifier_name),
+    );
   }, [filter, certifiers]);
 
   return (
@@ -44,7 +46,12 @@ export function PureCertifierSelectionScreen({
       classes={{ footer: { position: 'fixed', maxWidth: '1024px' } }}
       buttonGroup={
         <>
-          <Button data-cy='certifierSelection-proceed' onClick={onSubmit} fullLength disabled={disabled}>
+          <Button
+            data-cy="certifierSelection-proceed"
+            onClick={onSubmit}
+            fullLength
+            disabled={disabled}
+          >
             {t('common:PROCEED')}
           </Button>
         </>
@@ -72,11 +79,11 @@ export function PureCertifierSelectionScreen({
       )}
       {filteredCertifiers.map((certifier) => {
         return (
-          <CertifierSelectionMenuItem
-            data-cy='certifierSelection-item'
+          <MenuItem
+            data-cy="certifierSelection-item"
             key={certifier.certifier_id}
             style={{ marginBottom: '16px' }}
-            certifierName={`${certifier.certifier_name} (${certifier.certifier_acronym})`}
+            label={`${certifier.certifier_name} (${certifier.certifier_acronym})`}
             color={certifier_id === certifier.certifier_id ? 'active' : 'secondary'}
             onClick={() => onSelectCertifier(certifier.certifier_id)}
           />

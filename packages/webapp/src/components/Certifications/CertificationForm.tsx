@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +22,7 @@ import RadioGroup from '../Form/RadioGroup';
 import Switch from '../Form/Switch';
 import ReactSelect from '../Form/ReactSelect';
 import ImagePicker from '../ImagePicker';
+import useImagePickerUpload from '../ImagePicker/useImagePickerUpload';
 import FormNavigationButtons from '../Form/FormNavigationButtons';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import { Error } from '../Typography';
@@ -41,13 +43,13 @@ export type CertificationTypeOption = { value: string; label: string };
 
 export type CertifierOption = { value: number; label: string };
 
-interface SystemType {
+export interface SystemType {
   id: number;
   name: string;
   translation_key: string;
 }
 
-interface Certifier {
+export interface Certifier {
   certifier_id: number;
   system_type_id: number;
   certifier_name: string;
@@ -62,7 +64,7 @@ export type CertificationFormValues = {
   certificationIdentifier: string;
   issue_date: string | null;
   valid_until: string | null;
-  certificate_document_url: File | null;
+  certificate_document_url: string | null;
 };
 
 type CertificationFormProps = {
@@ -132,6 +134,7 @@ export default function CertificationForm({
   } = useForm<CertificationFormValues>({
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
+  const { getOnFileUpload } = useImagePickerUpload();
 
   const systemTypeId = watch(SYSTEM_TYPE_ID);
   const isActive = watch(IS_ACTIVE);
@@ -173,6 +176,15 @@ export default function CertificationForm({
       label: certifier.certifier_name,
     }))
     .concat([{ value: 0, label: t('common:OTHER') }]);
+
+  // Once a system type is picked, if "Other" is the only certifier available, select it
+  // automatically instead of making the user open the dropdown to pick the sole option.
+  useEffect(() => {
+    if (systemTypeId && certifierOptions.length === 1 && !watchedCertifier) {
+      setValue(CERTIFIER, certifierOptions[0], { shouldValidate: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [systemTypeId, certifierOptions.length, watchedCertifier]);
 
   // t('certifications:TYPES.ORGANIC')
   // t('certifications:TYPES.BIODYNAMIC')
@@ -335,7 +347,8 @@ export default function CertificationForm({
               render={({ field }) => (
                 <ImagePicker
                   label={t('CERTIFICATION.CERTIFICATE_DOCUMENT')}
-                  onSelectImage={(file) => field.onChange(file)}
+                  defaultUrl={field.value ?? ''}
+                  onFileUpload={getOnFileUpload('certification', (url) => field.onChange(url))}
                   onRemoveImage={() => field.onChange(null)}
                 />
               )}

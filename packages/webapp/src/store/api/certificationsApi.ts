@@ -26,7 +26,35 @@ export const certificationsApi = api.injectEndpoints({
       }),
       providesTags: ['Certifications'],
     }),
+    addCertification: build.mutation<Certification, Partial<Certification>>({
+      query: (body) => ({
+        url: certificationsUrl,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Certifications'],
+    }),
+    editCertification: build.mutation<Certification, { id: string; body: Partial<Certification> }>({
+      query: ({ id, body }) => ({
+        url: `${certificationsUrl}/${id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Certifications'],
+    }),
+    deleteCertification: build.mutation<void, string>({
+      query: (id) => ({
+        url: `${certificationsUrl}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Certifications'],
+    }),
   }),
 });
 
-export const { useGetCertificationsQuery } = certificationsApi;
+export const {
+  useGetCertificationsQuery,
+  useAddCertificationMutation,
+  useEditCertificationMutation,
+  useDeleteCertificationMutation,
+} = certificationsApi;

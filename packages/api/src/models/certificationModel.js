@@ -47,7 +47,7 @@ class Certification extends BaseModel {
       type: 'object',
       required: ['farm_id'],
       properties: {
-        id: { type: 'integer' },
+        id: { type: 'string' },
         farm_id: { type: 'string' },
         system_type_id: { type: ['integer', 'null'] },
         certifier_id: { type: ['integer', 'null'] },

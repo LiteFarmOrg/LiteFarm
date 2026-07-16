@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import PureCertificationReportingPeriod from '../../../components/CertificationReportingPeriod';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useGetCertificationsQuery } from '../../../store/api/certificationsApi';
 import {
   useGetSupportedCertificationSystemTypesQuery,
@@ -17,7 +16,6 @@ function CertificationReportingPeriod() {
   const history = useHistory();
   const { t } = useTranslation(['translation', 'certifications']);
   const { email, farm_id } = useSelector(userFarmSelector);
-  const { interested } = useSelector(certifierSurveySelector);
   const { data: certifications = [] } = useGetCertificationsQuery();
   const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id);
   const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery(farm_id);
@@ -30,8 +28,10 @@ function CertificationReportingPeriod() {
   };
 
   useEffect(() => {
-    if (!interested) history.push('/certification');
-  }, []); //TODO: create check in routes file?
+    if (certifications.length === 0) {
+      history.push('/certifications');
+    }
+  }, [certifications]);
 
   const certifierOptions = getCertifierOptions(certifications, systemTypes, certifiers, t);
 

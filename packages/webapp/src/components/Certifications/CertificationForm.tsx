@@ -22,7 +22,8 @@ import RadioGroup from '../Form/RadioGroup';
 import Switch from '../Form/Switch';
 import ReactSelect from '../Form/ReactSelect';
 import ImagePicker from '../ImagePicker';
-import useImagePickerUpload from '../ImagePicker/useImagePickerUpload';
+import useImagePickerUpload, { GetOnFileUpload } from '../ImagePicker/useImagePickerUpload';
+import useMediaWithAuthentication from '../../containers/hooks/useMediaWithAuthentication';
 import FormNavigationButtons from '../Form/FormNavigationButtons';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import { Error } from '../Typography';
@@ -73,6 +74,7 @@ type CertificationFormProps = {
   defaultValues?: Partial<CertificationFormValues>;
   onSubmit: (data: CertificationFormValues) => void;
   onBack: () => void;
+  isSaving: boolean;
 };
 
 const DEFAULT_VALUES: CertificationFormValues = {
@@ -102,6 +104,38 @@ const DateError = ({
   return <>{!areDatesProperlySet && <Error>{errorMessage}</Error>}</>;
 };
 
+const CertificateDocumentPicker = ({
+  label,
+  value,
+  onChange,
+  onRemove,
+  getOnFileUpload,
+}: {
+  label: string;
+  value: string | null;
+  onChange: (url: string | null) => void;
+  onRemove: () => void;
+  getOnFileUpload: GetOnFileUpload;
+}) => {
+  const { mediaUrl, isLoading } = useMediaWithAuthentication({ fileUrls: value ? [value] : [] });
+
+  // ImagePicker only reads defaultUrl once, at mount (useState(defaultUrl), no sync effect) —
+  // so it must not mount until the authenticated fetch for an existing document has resolved,
+  // otherwise it'd permanently capture an empty preview and never pick up mediaUrl once ready.
+  if (value && isLoading) {
+    return null;
+  }
+
+  return (
+    <ImagePicker
+      label={label}
+      defaultUrl={mediaUrl ?? ''}
+      onFileUpload={getOnFileUpload('certification', onChange)}
+      onRemoveImage={onRemove}
+    />
+  );
+};
+
 const certificationTypes = [
   'ORGANIC',
   'BIODYNAMIC',
@@ -121,6 +155,7 @@ export default function CertificationForm({
   defaultValues,
   onSubmit,
   onBack,
+  isSaving,
 }: CertificationFormProps) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -345,11 +380,12 @@ export default function CertificationForm({
               name={DOCUMENT_URL}
               control={control}
               render={({ field }) => (
-                <ImagePicker
+                <CertificateDocumentPicker
                   label={t('CERTIFICATION.CERTIFICATE_DOCUMENT')}
-                  defaultUrl={field.value ?? ''}
-                  onFileUpload={getOnFileUpload('certification', (url) => field.onChange(url))}
-                  onRemoveImage={() => field.onChange(null)}
+                  value={field.value}
+                  onChange={field.onChange}
+                  onRemove={() => field.onChange(null)}
+                  getOnFileUpload={getOnFileUpload}
                 />
               )}
             />
@@ -358,7 +394,7 @@ export default function CertificationForm({
       </div>
 
       <FormNavigationButtons
-        isDisabled={!isValid}
+        isDisabled={!isValid || isSaving}
         onCancel={onBack}
         onContinue={handleSubmit(onSubmit)}
         isFinalStep

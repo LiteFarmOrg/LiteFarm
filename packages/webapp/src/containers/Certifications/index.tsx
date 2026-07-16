@@ -18,8 +18,10 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertifications from '../../components/Certifications';
+import Layout from '../../components/Layout';
+import Loading from '../../components/Form/ContextForm/Loading';
 import { loginSelector } from '../userFarmSlice';
-import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
   useGetCertificationsQuery,
   useDeleteCertificationMutation,
@@ -29,7 +31,6 @@ import {
   useGetSupportedCertificationSystemTypesQuery,
 } from '../../store/api/certifiersApi';
 import { toCertificationItems } from './utils';
-import Layout from '../../components/Layout';
 
 interface CertificationsProps {
   isCompactSideMenu: boolean;
@@ -41,10 +42,16 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const location = useLocation();
   const history = useHistory();
   const { farm_id } = useSelector(loginSelector);
-  const { data: rawCertifications = [] } = useGetCertificationsQuery();
-  const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id!);
-  const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery(farm_id!);
-  const [deleteCertification] = useDeleteCertificationMutation();
+  const { data: rawCertifications = [], isLoading: isCertificationsLoading } =
+    useGetCertificationsQuery();
+  const { data: certifiers = [], isLoading: isCertifiersLoading } = useGetSupportedCertifiersQuery(
+    farm_id!,
+  );
+  const { data: systemTypes = [], isLoading: isSystemTypesLoading } =
+    useGetSupportedCertificationSystemTypesQuery(farm_id!);
+  const [deleteCertification, { isLoading: isDeleting }] = useDeleteCertificationMutation();
+
+  const isLoading = isCertificationsLoading || isCertifiersLoading || isSystemTypesLoading;
 
   // Captured once on mount so the banner stays visible for this page visit even after
   // the underlying history state is cleared below.
@@ -69,10 +76,21 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const onDeleteCertification = async (id: string) => {
     try {
       await deleteCertification(id).unwrap();
-    } catch {
+      dispatch(enqueueSuccessSnackbar(t('message:CERTIFICATION.SUCCESS.DELETE')));
+    } catch (e) {
+      console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:CERTIFICATION.ERROR.DELETE')));
     }
   };
+
+  if (isLoading) {
+    return (
+      <Loading
+        dataName={t('MENU.CERTIFICATIONS').toLowerCase()}
+        isCompactSideMenu={isCompactSideMenu}
+      />
+    );
+  }
 
   return (
     <Layout footer={false}>
@@ -85,6 +103,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
         onAddCertification={() => history.push('/certifications/add_certification')}
         onEditCertification={(id) => history.push(`/certifications/${id}/edit_certification`)}
         onDeleteCertification={onDeleteCertification}
+        isSaving={isDeleting}
       />
     </Layout>
   );

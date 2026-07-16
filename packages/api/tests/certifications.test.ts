@@ -50,6 +50,9 @@ jest.mock('../src/util/digitalOceanSpaces.js', () => ({
   getPrivateS3BucketName: jest.fn().mockReturnValue('test-bucket'),
   getPrivateS3Url: jest.fn().mockReturnValue('http://localhost:9000/test-bucket'),
   getRandomFileName: jest.fn().mockImplementation((file) => `random-uuid-${file.originalname}`),
+  getFileNameWithOriginalName: jest
+    .fn()
+    .mockImplementation((file) => `random-uuid-${file.originalname}`),
   imaginaryPost: jest.fn().mockResolvedValue({ data: Buffer.from('fake-image') }),
 }));
 

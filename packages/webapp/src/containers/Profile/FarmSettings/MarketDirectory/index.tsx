@@ -135,29 +135,31 @@ const MarketDirectory = () => {
       <div className={styles.container}>
         <DirectoryCallout t={t} />
 
-        {formCards.map(({ key, title, content }) => {
-          const isExpanded = expandedIds.includes(key);
+        <div className={styles.formCards}>
+          {formCards.map(({ key, title, content }) => {
+            const isExpanded = expandedIds.includes(key);
 
-          return (
-            <div key={key} className={clsx(styles.formCard, isExpanded && styles.expanded)}>
-              <ExpandableItem
-                itemKey={key}
-                isExpanded={isExpanded}
-                onClick={() => toggleExpanded(key)}
-                mainContent={
-                  <ExpandableHeader
-                    title={title}
-                    isExpanded={isExpanded}
-                    isComplete={completionStatus[key] || false}
-                  />
-                }
-                expandedContent={content}
-                leftCollapseIcon
-                iconClickOnly={false}
-              />
-            </div>
-          );
-        })}
+            return (
+              <div key={key} className={clsx(styles.formCard, isExpanded && styles.expanded)}>
+                <ExpandableItem
+                  itemKey={key}
+                  isExpanded={isExpanded}
+                  onClick={() => toggleExpanded(key)}
+                  mainContent={
+                    <ExpandableHeader
+                      title={title}
+                      isExpanded={isExpanded}
+                      isComplete={completionStatus[key] || false}
+                    />
+                  }
+                  expandedContent={content}
+                  leftCollapseIcon
+                  iconClickOnly={false}
+                />
+              </div>
+            );
+          })}
+        </div>
 
         {areAllFormsComplete !== undefined && (
           <MarketDirectoryConsent

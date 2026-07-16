@@ -14,6 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import Button from '../Form/Button';
@@ -21,15 +22,17 @@ import styles from './index.module.scss';
 
 interface CertificationsEmptyStateProps {
   onAddCertification: () => void;
+  className?: string;
 }
 
 export default function CertificationsEmptyState({
   onAddCertification,
+  className,
 }: CertificationsEmptyStateProps) {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
-    <div className={styles.emptyState}>
+    <div className={clsx(styles.emptyState, className)}>
       <AwardIcon className={styles.emptyIcon} aria-hidden />
       <p className={styles.emptyHeading}>{t('CERTIFICATION.EMPTY_STATE.HEADING')}</p>
       <p className={styles.emptyBody}>{t('CERTIFICATION.EMPTY_STATE.BODY')}</p>

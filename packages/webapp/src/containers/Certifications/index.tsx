@@ -21,7 +21,7 @@ import PureCertifications from '../../components/Certifications';
 import Layout from '../../components/Layout';
 import Loading from '../../components/Form/ContextForm/Loading';
 import { loginSelector } from '../userFarmSlice';
-import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
   useGetCertificationsQuery,
   useDeleteCertificationMutation,
@@ -49,7 +49,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   );
   const { data: systemTypes = [], isLoading: isSystemTypesLoading } =
     useGetSupportedCertificationSystemTypesQuery(farm_id!);
-  const [deleteCertification] = useDeleteCertificationMutation();
+  const [deleteCertification, { isLoading: isDeleting }] = useDeleteCertificationMutation();
 
   const isLoading = isCertificationsLoading || isCertifiersLoading || isSystemTypesLoading;
 
@@ -76,7 +76,9 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const onDeleteCertification = async (id: string) => {
     try {
       await deleteCertification(id).unwrap();
-    } catch {
+      dispatch(enqueueSuccessSnackbar(t('message:CERTIFICATION.SUCCESS.DELETE')));
+    } catch (e) {
+      console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:CERTIFICATION.ERROR.DELETE')));
     }
   };
@@ -101,6 +103,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
         onAddCertification={() => history.push('/certifications/add_certification')}
         onEditCertification={(id) => history.push(`/certifications/${id}/edit_certification`)}
         onDeleteCertification={onDeleteCertification}
+        isSaving={isDeleting}
       />
     </Layout>
   );

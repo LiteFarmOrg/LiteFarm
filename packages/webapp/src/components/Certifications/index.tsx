@@ -36,7 +36,8 @@ interface CertificationsProps {
   onAddCertification: () => void;
   onExport: () => void;
   onEditCertification: (id: string) => void;
-  onDeleteCertification: (id: string) => void;
+  onDeleteCertification: (id: string) => Promise<void>;
+  isSaving: boolean;
 }
 
 export default function Certifications({
@@ -48,15 +49,16 @@ export default function Certifications({
   onExport,
   onEditCertification,
   onDeleteCertification,
+  isSaving,
 }: CertificationsProps) {
   const { t } = useTranslation('translation');
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  function handleDeleteConfirm() {
-    if (deletingId !== null) {
-      onDeleteCertification(deletingId);
+  async function handleDeleteConfirm() {
+    if (deletingId) {
+      await onDeleteCertification(deletingId);
     }
     setDeletingId(null);
   }
@@ -108,6 +110,7 @@ export default function Certifications({
           subject={t('CERTIFICATION.THIS_CERTIFICATION')}
           onClose={() => setDeletingId(null)}
           onConfirm={handleDeleteConfirm}
+          isLoading={isSaving}
         />
       )}
     </div>

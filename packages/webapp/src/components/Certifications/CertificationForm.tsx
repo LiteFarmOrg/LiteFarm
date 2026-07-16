@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -175,6 +176,15 @@ export default function CertificationForm({
       label: certifier.certifier_name,
     }))
     .concat([{ value: 0, label: t('common:OTHER') }]);
+
+  // Once a system type is picked, if "Other" is the only certifier available, select it
+  // automatically instead of making the user open the dropdown to pick the sole option.
+  useEffect(() => {
+    if (systemTypeId && certifierOptions.length === 1 && !watchedCertifier) {
+      setValue(CERTIFIER, certifierOptions[0], { shouldValidate: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [systemTypeId, certifierOptions.length, watchedCertifier]);
 
   // t('certifications:TYPES.ORGANIC')
   // t('certifications:TYPES.BIODYNAMIC')

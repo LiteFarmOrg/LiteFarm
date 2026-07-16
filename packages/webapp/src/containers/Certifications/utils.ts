@@ -122,14 +122,23 @@ const formatCertifierLabel = (
   return systemTypeName ? `${certifierName} - ${systemTypeName}` : certifierName ?? '';
 };
 
-// The backend only ever persists a randomized `${uuid}.${ext}` storage key (see
-// getRandomFileName in digitalOceanSpaces.js) — the user's original filename is never
-// stored. Show a generic label instead of the UUID until a backend field exists for it.
+// getFileNameWithOriginalName (digitalOceanSpaces.js) stores keys as `${uuid}-${name}.${ext}`,
+// so the original filename can be recovered from the URL. Certifications uploaded before that
+// change only have a bare `${uuid}.${ext}` key (see getRandomFileName) with no name to recover —
+// those fall back to a generic label instead.
+const UUID_NAME_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-(.+)$/i;
+
 const toDocumentFileName = (documentUrl: string | null, t: TFunction): string | null => {
   if (!documentUrl) {
     return null;
   }
-  const extension = documentUrl.split('.').pop();
+  const fullFileName = documentUrl.split('/').pop() ?? '';
+  const match = fullFileName.match(UUID_NAME_PATTERN);
+  if (match) {
+    return decodeURIComponent(match[1]);
+  }
+
+  const extension = fullFileName.split('.').pop();
   return extension ? `${t('common:DOCUMENT')}.${extension}` : t('common:DOCUMENT');
 };
 

@@ -29,7 +29,7 @@ import {
   imaginaryPost,
   getPrivateS3BucketName,
   getPrivateS3Url,
-  getRandomFileName,
+  getFileNameWithOriginalName,
 } from '../util/digitalOceanSpaces.js';
 import { HttpError, LiteFarmRequest } from '../types.js';
 
@@ -179,7 +179,7 @@ const certificationsController = {
       const { farm_id } = req.params;
       try {
         const s3BucketName = getPrivateS3BucketName();
-        const fileName = `${farm_id}/certification/${getRandomFileName(req.file)}`;
+        const fileName = `${farm_id}/certification/${getFileNameWithOriginalName(req.file)}`;
 
         const uploadOriginalDocument = () =>
           s3.send(

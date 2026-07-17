@@ -63,7 +63,7 @@
     "@sentry/node": "^7.119.2",
     "@turf/area": "^7.2.0",
     "@turf/centroid": "^7.2.0",
-    "adm-zip": "^0.4.16",
+    "adm-zip": "^0.6.0",
     "ajv-formats": "^2.1.1",
     "async-file": "^2.0.2",
     "axios": "^1.13.5",

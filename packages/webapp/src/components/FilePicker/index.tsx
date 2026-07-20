@@ -34,6 +34,13 @@ type FilePickerProps = {
   showLoading: boolean;
 } & FilePickerFunctions;
 
+/**
+ * A picker for multiple files per field (a record with several attachments) — list-oriented,
+ * always uploads on select.
+ *
+ * If you need a single file per field instead, see the sibling `SingleFilePicker` component —
+ * it's standalone with no Redux coupling, usable anywhere.
+ */
 const FilePicker = ({
   uploadedFiles,
   deleteImage,

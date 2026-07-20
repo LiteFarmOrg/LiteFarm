@@ -32,7 +32,7 @@ export function* uploadImageSaga({
     const formData = new FormData();
     formData.append('_file_', file);
     const result = yield call(axios.post, `${imageRoute}/upload/farm/${farm_id}`, formData, header);
-    onUploadSuccess?.(result.data.url);
+    onUploadSuccess?.(result.data.url, result.data.thumbnail_url);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     console.log(e);

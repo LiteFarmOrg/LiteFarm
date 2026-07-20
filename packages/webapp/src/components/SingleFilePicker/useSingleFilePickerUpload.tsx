@@ -52,8 +52,13 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
 
   const getOnUploadSuccess =
     (setPreviewUrl: (url: string) => void, onSelectImage: (imageUrl: string) => void) =>
-    (url: string, onLoading?: (loading: boolean) => void) => {
-      setPreviewUrl(url);
+    (url: string, thumbnailUrl?: string, onLoading?: (loading: boolean) => void) => {
+      // Prefer the thumbnail for the preview when the backend generated one (real images, and
+      // PDFs — both get a rendered .webp thumbnail; genuinely non-visual formats like docx/xlsx
+      // don't) — SingleFilePicker's own isImageUrl check on this value decides <img> vs fallback,
+      // so this alone is enough to match Documents' behavior with no changes needed there. The
+      // saved value (onSelectImage) is always the real file's URL, never the thumbnail.
+      setPreviewUrl(thumbnailUrl ?? url);
       onSelectImage(url);
       onLoading?.(false);
     };

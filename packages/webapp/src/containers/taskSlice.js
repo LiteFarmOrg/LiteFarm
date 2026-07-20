@@ -232,8 +232,8 @@ export const taskEntitiesSelector = createSelector(
     }) => {
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
-      // Plan entities arrive from a separate fetch and can be absent while tasks are already in
-      // the store; return undefined so callers can drop the reference until the store catches up.
+      // Returns undefined when the planting or management plan is not in the store; both call
+      // sites below (`managementPlans.map` and the plant/transplant branch) `.filter(Boolean)` it out.
       if (!managementPlanEntities[management_plan_id]) {
         return undefined;
       }
@@ -257,8 +257,7 @@ export const taskEntitiesSelector = createSelector(
             ?.map((location_id) => locationEntities[location_id])
             .filter(Boolean) || [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
-        // Every consumer dereferences taskType unconditionally; a task whose type is not in the
-        // store cannot be rendered, so drop it until the task types fetch lands.
+        // Task type may not be loaded yet; a task with no type cannot render.
         if (!taskType) {
           delete taskEntities[task_id];
           continue;
@@ -268,8 +267,6 @@ export const taskEntitiesSelector = createSelector(
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][getSubtaskName(task_translation_key)] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
-          // The subtask, its planting management plan, and the location each come from separate
-          // fetches; join only what is in the store, so the task holds [] rather than [undefined].
           const planting_management_plan = subtask?.planting_management_plan;
           taskEntities[task_id].locations = planting_management_plan?.location_id
             ? [locationEntities[planting_management_plan.location_id]].filter(Boolean)

@@ -95,8 +95,7 @@ export const transplantTasksByManagementPlanIdEntitiesSelector = createSelector(
   (transplantTaskEntities) => {
     return Object.values(transplantTaskEntities).reduce(
       (transplantTasksByManagementPlanIdEntities, transplantTask) => {
-        // Plan entities arrive from a separate fetch; skip transplant tasks whose plan is not in
-        // the store yet.
+        // Plan may not be fetched yet.
         const management_plan_id = transplantTask.planting_management_plan?.management_plan_id;
         if (management_plan_id === undefined) {
           return transplantTasksByManagementPlanIdEntities;

@@ -54,6 +54,10 @@ type CommonProps = {
   // Display name for a non-image defaultUrl (edit mode) — e.g. from toDocumentFileName(value, t).
   // Not needed for a freshly-selected file this session, since that name is captured directly.
   fileName?: string;
+  // Override for whether defaultUrl is an image, when the caller already knows and defaultUrl
+  // itself can't be checked by extension — e.g. a blob: URL from useMediaWithAuthentication,
+  // resolved from a private-bucket file whose real (extension-bearing) URL isn't what's rendered.
+  isDefaultUrlImage?: boolean;
 };
 
 /**
@@ -97,12 +101,15 @@ export default function SingleFilePicker({
   shouldReset,
   accept = 'image/*',
   fileName,
+  isDefaultUrlImage,
 }: SingleFilePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   // Tracks whether previewUrl is a real image (render <img>) or not (render a filename fallback).
   // Kept alongside previewUrl rather than derived from it on every render, since a freshly-picked
   // local blob: URL (onSelectImage path) has no extension to check — only the originating File does.
-  const [isPreviewImage, setIsPreviewImage] = useState(() => isImageUrl(defaultUrl));
+  const [isPreviewImage, setIsPreviewImage] = useState(
+    () => isDefaultUrlImage ?? isImageUrl(defaultUrl),
+  );
   // Only set for a file picked this session via onSelectImage — the fileName prop covers the rest.
   const [previewFileName, setPreviewFileName] = useState<string>();
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);

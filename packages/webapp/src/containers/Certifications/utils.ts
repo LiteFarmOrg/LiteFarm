@@ -128,7 +128,7 @@ const formatCertifierLabel = (
 // those fall back to a generic label instead.
 const UUID_NAME_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-(.+)$/i;
 
-const toDocumentFileName = (documentUrl: string | null, t: TFunction): string | null => {
+export const toDocumentFileName = (documentUrl: string | null, t: TFunction): string | null => {
   if (!documentUrl) {
     return null;
   }

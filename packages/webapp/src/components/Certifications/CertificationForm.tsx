@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +26,8 @@ import useSingleFilePickerUpload, {
   GetOnFileUpload,
 } from '../SingleFilePicker/useSingleFilePickerUpload';
 import useMediaWithAuthentication from '../../containers/hooks/useMediaWithAuthentication';
+import { toDocumentFileName } from '../../containers/Certifications/utils';
+import { isImageUrl } from '../../util/validation';
 import FormNavigationButtons from '../Form/FormNavigationButtons';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import { Error } from '../Typography';
@@ -41,6 +43,7 @@ const CERTIFICATE_IDENTIFIER = 'certificationIdentifier';
 const ISSUE_DATE = 'issue_date';
 const VALID_UNTIL = 'valid_until';
 const DOCUMENT_URL = 'certificate_document_url';
+const CERTIFICATE_DOCUMENT_ACCEPT = 'image/*,application/pdf';
 
 export type CertificationTypeOption = { value: string; label: string };
 
@@ -119,12 +122,22 @@ const CertificateDocumentPicker = ({
   onRemove: () => void;
   getOnFileUpload: GetOnFileUpload;
 }) => {
-  const { mediaUrl, isLoading } = useMediaWithAuthentication({ fileUrls: value ? [value] : [] });
+  const { t } = useTranslation(['translation', 'common']);
+  const { mediaUrl } = useMediaWithAuthentication({ fileUrls: value ? [value] : [] });
 
   // SingleFilePicker only reads defaultUrl once, at mount (useState(defaultUrl), no sync effect) —
-  // so it must not mount until the authenticated fetch for an existing document has resolved,
-  // otherwise it'd permanently capture an empty preview and never pick up mediaUrl once ready.
-  if (value && isLoading) {
+  // so it must not mount until mediaUrl actually reflects the current value, whether that's the
+  // initial load of an existing document or a URL that just changed after a new upload (which
+  // otherwise briefly shows SingleFilePicker's own unauthenticated raw-URL preview, set directly
+  // by useSingleFilePickerUpload's onUploadSuccess). Tracked against `value` itself (not
+  // useMediaWithAuthentication's own isLoading, which never resets after its first resolve) so
+  // the check is synchronous with the value change, not lagging an effect behind it.
+  const [resolvedValue, setResolvedValue] = useState<string | null>(null);
+  useEffect(() => {
+    setResolvedValue(value);
+  }, [mediaUrl]);
+
+  if (value && value !== resolvedValue) {
     return null;
   }
 
@@ -132,7 +145,12 @@ const CertificateDocumentPicker = ({
     <SingleFilePicker
       label={label}
       defaultUrl={mediaUrl ?? ''}
-      onFileUpload={getOnFileUpload('certification', onChange)}
+      // mediaUrl is always an extension-less blob: URL (see useMediaWithAuthentication) — check
+      // the real URL's extension instead so an existing image certificate isn't misidentified.
+      isDefaultUrlImage={value ? isImageUrl(value) : undefined}
+      accept={CERTIFICATE_DOCUMENT_ACCEPT}
+      fileName={toDocumentFileName(value, t) ?? undefined}
+      onFileUpload={getOnFileUpload('certification', onChange, CERTIFICATE_DOCUMENT_ACCEPT)}
       onRemoveImage={onRemove}
     />
   );

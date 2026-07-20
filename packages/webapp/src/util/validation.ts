@@ -62,6 +62,39 @@ const isValidDomainNameFormat = (domain: string): boolean => {
 
 // Restrict to formats supported by h2non/imaginary
 export const isImageFile = (file: File) => {
-  if (file.type) return /^image\/.*/.test(file.type);
+  if (file.type) {
+    return /^image\/.*/.test(file.type);
+  }
   return /\.(png|jpe?g|gif|webp|svg|tiff?)$/i.test(file.name);
+};
+
+const IMAGE_EXTENSION_REGEX = /\.(png|jpe?g|gif|webp|svg|tiff?)$/i;
+
+// Extension-based check for an already-resolved URL string (no File object available,
+// e.g. an existing uploaded value) — mirrors isImageFile's own filename-regex fallback.
+export const isImageUrl = (url: string): boolean => {
+  return IMAGE_EXTENSION_REGEX.test(url);
+};
+
+// Validates a selected File against an HTML `accept`-attribute-style string (comma-separated
+// `image/*` wildcards, exact mime types like `application/pdf`, or extensions like `.pdf`).
+export const isFileTypeAllowed = (file: File, accept: string): boolean => {
+  const entries = accept.split(',').map((entry) => entry.trim().toLowerCase());
+  const fileType = file.type.toLowerCase();
+  const fileName = file.name.toLowerCase();
+
+  return entries.some((entry) => {
+    if (entry.endsWith('/*')) {
+      const category = entry.slice(0, -2);
+      // Some browsers/drag-and-drop sources don't report a MIME type — fall back to extension.
+      if (!fileType) {
+        return category === 'image' && isImageFile(file);
+      }
+      return fileType.startsWith(`${category}/`);
+    }
+    if (entry.startsWith('.')) {
+      return fileName.endsWith(entry);
+    }
+    return fileType === entry;
+  });
 };

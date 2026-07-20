@@ -17,7 +17,9 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import {
   Connector,
-  Enterprise,
+  Organization,
+  Certification,
+  SKOSConcept,
   SocialMedia,
   Address,
   PhoneNumber,
@@ -30,6 +32,7 @@ import type {
   MarketDirectoryInfoWithRelations,
   MarketProductCategory,
 } from '../../models/types.js';
+import { CERTIFICATION_TYPES } from '../../models/certificationModel.js';
 import { liteFarmToDFCTaxonomy, getNestedValue } from './litefarmToDFCTaxonomy.js';
 
 let sharedProductTypesConnector: Connector;
@@ -38,6 +41,22 @@ const __dirname = import.meta.dirname;
 
 export const createEnterpriseUrl = (market_directory_info_id: string): string => {
   return `${apiUrl()}/dfc/enterprises/${market_directory_info_id}`;
+};
+
+type CertificationType = (typeof CERTIFICATION_TYPES)[number];
+
+// certification_type enum values → official display names for DFC partners
+const CERTIFICATION_TYPE_NAMES: Record<CertificationType, string> = {
+  ORGANIC: 'Organic',
+  BIODYNAMIC: 'Biodynamic',
+  REGENERATIVE: 'Regenerative',
+  CERTIFIED_HUMANE: 'Certified Humane',
+  FAIR_TRADE: 'Fair Trade',
+  'GRASSFED/PASTURE': 'Grassfed/Pasture',
+  SUSTAINABILITY: 'Sustainability',
+  ANIMAL_WELFARE: 'Animal Welfare',
+  'NON-GMO': 'Non-GMO',
+  'CARBON/CLIMATE': 'Carbon/Climate',
 };
 
 // Build and populate a lookup map: LiteFarm key → actual DFC product type object
@@ -96,6 +115,7 @@ export const formatFarmDataToDfcStandard = async (
     facebook,
     x,
     market_product_categories,
+    certifications,
   } = marketDirectoryInfo;
 
   const parsedAddress = await parseGoogleGeocodedAddress(addressString);
@@ -107,6 +127,10 @@ export const formatFarmDataToDfcStandard = async (
     ? `http://publications.europa.eu/resource/authority/country/${countryIso3}`
     : parsedAddress.country; // fallback to country name if ISO conversion fails
 
+  const countryConceptUri = dfcCountryUri
+    ? new SKOSConcept({ connector, semanticId: dfcCountryUri, doNotStore: true })
+    : undefined;
+
   const address = new Address({
     connector,
     semanticId: `${enterpriseUrl}#address`,
@@ -114,7 +138,7 @@ export const formatFarmDataToDfcStandard = async (
     city: parsedAddress.city,
     region: parsedAddress.region,
     postalCode: parsedAddress.postalCode,
-    country: dfcCountryUri,
+    country: countryConceptUri,
   });
 
   const mainContact = connector.createPerson({
@@ -123,7 +147,7 @@ export const formatFarmDataToDfcStandard = async (
     lastName: contact_last_name ?? undefined,
   });
 
-  /* @ts-expect-error incorrect interface type */
+  /* @ts-expect-error addEmailAddress is on Agent but not exposed on IPerson interface */
   mainContact.addEmailAddress(contact_email);
 
   const products = (market_product_categories ?? [])
@@ -140,7 +164,7 @@ export const formatFarmDataToDfcStandard = async (
     })
     .filter((product): product is NonNullable<typeof product> => product !== null);
 
-  const farm = new Enterprise({
+  const farm = new Organization({
     connector,
     semanticId: enterpriseUrl,
     name: farm_name,
@@ -150,6 +174,27 @@ export const formatFarmDataToDfcStandard = async (
     localizations: [address],
     suppliedProducts: products,
   });
+
+  const certificationInstances = (certifications ?? [])
+    .filter((cert) => cert.is_active && cert.certification_type)
+    .map(
+      (cert) =>
+        new Certification({
+          connector,
+          semanticId: `${enterpriseUrl}#certification-${cert.id}`,
+          // Fall back to the raw enum value if a new type is missing from the map
+          name:
+            CERTIFICATION_TYPE_NAMES[cert.certification_type as CertificationType] ??
+            cert.certification_type!,
+          description: undefined,
+          certificationReferences: cert.certifier?.certifier_name
+            ? [cert.certifier.certifier_name]
+            : [cert.other_certifier!],
+          operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
+          certificationScores: [],
+        }),
+    );
+  certificationInstances.forEach((cert) => farm.addCertification(cert));
 
   let phoneNumber;
   if (phone_number) {
@@ -203,8 +248,7 @@ export const formatFarmDataToDfcStandard = async (
       connector,
       semanticId: `${enterpriseUrl}#socialMedia-x`,
       name: 'X',
-      // TODO: Restore to x.com when OFN updates their API
-      url: `https://twitter.com/${x}/`,
+      url: `https://x.com/${x}/`,
     });
     farm.addSocialMedia(xInstance);
     socialMediaInstances.push(xInstance);
@@ -217,6 +261,7 @@ export const formatFarmDataToDfcStandard = async (
     ...(phoneNumber ? [phoneNumber] : []),
     ...socialMediaInstances,
     ...products,
+    ...certificationInstances,
   ]);
 
   return JSON.parse(exportFormattedData);

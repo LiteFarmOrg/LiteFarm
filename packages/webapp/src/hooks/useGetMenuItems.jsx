@@ -175,7 +175,7 @@ export const useGetMenuItems = () => {
             {
               label: t('MENU.CERTIFICATIONS'),
               icon: <CertificationsIcon />,
-              path: '/certification',
+              path: '/certifications',
               key: MENU_KEYS.CERTIFICATION,
             },
           ]

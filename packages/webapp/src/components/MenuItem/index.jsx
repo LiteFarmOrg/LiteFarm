@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '../../../../Card';
-import { Semibold } from '../../../../Typography';
-import { colors } from '../../../../../assets/theme';
+import Card from '../Card';
+import { Semibold } from '../Typography';
+import { colors } from '../../assets/theme';
 
-const CertifierSelectionMenuItem = ({
+const MenuItem = ({
   color = 'secondary',
-  certifierName = 'Certifier name',
+  label = 'Label',
   style = {},
   onClick = () => {},
   ...props
@@ -33,18 +33,18 @@ const CertifierSelectionMenuItem = ({
           color: color === 'active' ? colors.teal900 : colors.grey900,
         }}
       >
-        {certifierName}
+        {label}
       </Semibold>
     </Card>
   );
 };
 
-CertifierSelectionMenuItem.propTypes = {
+MenuItem.propTypes = {
   color: PropTypes.oneOf(['secondary', 'active']),
   onClick: PropTypes.func,
 
-  certifierName: PropTypes.string,
+  label: PropTypes.string,
   style: PropTypes.object,
 };
 
-export default CertifierSelectionMenuItem;
+export default MenuItem;

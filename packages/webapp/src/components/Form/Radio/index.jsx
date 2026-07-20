@@ -18,13 +18,20 @@ const Radio = ({
   toolTipContent,
   pill,
   checked,
+  description,
+  variant = 'default',
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
 
   return (
     <label
-      className={clsx(styles.container, disabled && styles.disabled)}
+      className={clsx(
+        styles.container,
+        variant === 'card' && styles.card,
+        checked && styles.checked,
+        disabled && styles.disabled,
+      )}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
       <input
@@ -48,6 +55,7 @@ const Radio = ({
         {label}
         {pill && <Pill body={pill} spaceBefore={!!label} active={checked}></Pill>}
       </span>
+      {description && <span className={styles.description}>{description}</span>}
       {toolTipContent && <Infoi content={toolTipContent} />}
 
       <span className={clsx(styles.checkmark)} style={classes.checkbox}>
@@ -80,6 +88,8 @@ Radio.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   pill: PropTypes.string,
+  description: PropTypes.node,
+  variant: PropTypes.oneOf(['default', 'card']),
 };
 
 export default Radio;

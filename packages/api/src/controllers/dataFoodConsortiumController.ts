@@ -23,6 +23,18 @@ import type {
   MarketDirectoryInfo as MarketDirectoryInfoType,
 } from '../models/types.js';
 import MarketProductCategoryModel from '../models/marketProductCategoryModel.js';
+import { apiUrl } from '../util/environment.js';
+
+interface DfcGraphEntity {
+  '@type': string;
+  '@id': string;
+  [key: string]: unknown;
+}
+
+interface DfcDocument {
+  '@context': string;
+  '@graph': DfcGraphEntity[];
+}
 
 const dataFoodConsortiumController = {
   getDfcEnterprise() {
@@ -36,7 +48,19 @@ const dataFoodConsortiumController = {
           .findById(id)
           .withGraphFetched({
             market_product_categories: true,
-          });
+            certifications: { certificationSystemType: true, certifier: true },
+          })
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          .modifyGraph('certifications', (builder: any) =>
+            builder
+              .whereNotDeleted()
+              // Exclude certifications from their expiry date (UTC) onward, guaranteeing an
+              // expired cert is never shown regardless of the farm's timezone
+              /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+              .where((qb: any) =>
+                qb.whereNull('valid_until').orWhereRaw('valid_until > CURRENT_DATE'),
+              ),
+          );
 
         const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
         const dfcFormattedListingData = await formatFarmDataToDfcStandard(
@@ -44,7 +68,10 @@ const dataFoodConsortiumController = {
           marketProductCategoryMap,
         );
 
-        return res.status(200).json(dfcFormattedListingData);
+        return res
+          .status(200)
+          .set('Content-Type', 'application/ld+json; profile="dfc-v2"')
+          .send(JSON.stringify(dfcFormattedListingData));
       } catch (error: unknown) {
         console.error(error);
 
@@ -79,19 +106,59 @@ const dataFoodConsortiumController = {
           )
           .withGraphFetched({
             market_product_categories: true,
-          });
-        const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
-
-        const dfcFormattedListingData = [];
-        for (const marketDirectoryInfo of authorizedFarmsDirectoryInfo) {
-          const formatted = await formatFarmDataToDfcStandard(
-            marketDirectoryInfo,
-            marketProductCategoryMap,
+            certifications: { certificationSystemType: true, certifier: true },
+          })
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          .modifyGraph('certifications', (builder: any) =>
+            builder
+              .whereNotDeleted()
+              // Exclude certifications from their expiry date (UTC) onward, guaranteeing an
+              // expired cert is never shown regardless of the farm's timezone
+              /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+              .where((qb: any) =>
+                qb.whereNull('valid_until').orWhereRaw('valid_until > CURRENT_DATE'),
+              ),
           );
-          dfcFormattedListingData.push(formatted);
+
+        let data = {};
+
+        if (authorizedFarmsDirectoryInfo.length) {
+          const enterpriseUrls = [];
+          const marketProductCategoryMap = await MarketProductCategoryModel.getLookupMap();
+
+          const dfcFormattedListingData = [];
+          for (const marketDirectoryInfo of authorizedFarmsDirectoryInfo) {
+            const formatted: DfcDocument = await formatFarmDataToDfcStandard(
+              marketDirectoryInfo,
+              marketProductCategoryMap,
+            );
+            enterpriseUrls.push(
+              formatted['@graph'].find((entity) => entity['@type'] === 'dfc-b:Organization')?.[
+                '@id'
+              ],
+            );
+            dfcFormattedListingData.push(formatted);
+          }
+
+          const mergedGraph = [
+            {
+              '@id': `${apiUrl()}/dfc/enterprises`,
+              '@type': 'ldp:Container',
+              'ldp:contains': enterpriseUrls,
+            },
+            ...dfcFormattedListingData.flatMap((doc) => doc['@graph']),
+          ];
+
+          data = {
+            '@context': dfcFormattedListingData[0]?.['@context'],
+            '@graph': mergedGraph,
+          };
         }
 
-        return res.status(200).send(dfcFormattedListingData);
+        return res
+          .status(200)
+          .set('Content-Type', 'application/ld+json; profile="dfc-v2"')
+          .send(JSON.stringify(data));
       } catch (error: unknown) {
         console.error(error);
 

@@ -448,6 +448,41 @@ export interface FarmNotesRead {
   read_up_to: string | null;
 }
 
+export interface Certification {
+  id: string;
+  farm_id: string;
+  system_type_id: number | null;
+  certifier_id: number | null;
+  requested_system_type: string | null;
+  other_certifier: string | null;
+  is_active: boolean;
+  certification_type: string | null;
+  certificate_number: string | null;
+  certificate_member_id: string | null;
+  issue_date: string | null;
+  valid_until: string | null;
+  certificate_document_url: string | null;
+}
+
+// Served by the legacy /organic_certifier_survey routes, which still apply the
+// pre-LF-5379 shim: response field names below (certification_id etc.) are the
+// shimmed names, not the underlying DB column names (system_type_id, name...).
+export interface SupportedCertifier {
+  certifier_id: number;
+  certification_id: number;
+  certifier_name: string;
+  certifier_acronym: string;
+  certifier_country_id: number;
+  country_id: number;
+  survey_id: string | null;
+}
+
+export interface SupportedCertificationSystemType {
+  certification_id: number;
+  certification_type: string;
+  certification_translation_key: string;
+}
+
 export enum InternalMapLocationType {
   BARN = 'barn',
   BUFFER_ZONE = 'buffer_zone',

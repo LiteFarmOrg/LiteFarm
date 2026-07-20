@@ -11,6 +11,12 @@ export default {
 
 const Template = (args) => <PureCertificationReportingPeriod {...args} />;
 
+const certifierOptions = [
+  { value: '1', label: 'Islands Organic Producers Association' },
+  { value: '2', label: 'Kootenay Organic Growers Society' },
+  { value: '3', label: 'Living Earth Organic Growers' },
+];
+
 export const Primary = Template.bind({});
 Primary.args = {
   onSubmit: () => console.log('onSubmit called'),
@@ -18,6 +24,7 @@ Primary.args = {
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
   useHookFormPersist: () => ({}),
+  certifierOptions,
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

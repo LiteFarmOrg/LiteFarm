@@ -54,10 +54,25 @@ import { createUserFarmIds } from './utils/testDataSetup.js';
 import {
   DfcEntity,
   expectedBaseDfcStructure,
+  getOrganizationCount,
   mockCompleteMarketDirectoryInfo,
   mockParsedAddress,
 } from './utils/dfcUtils.js';
-import type { MarketDirectoryPartner } from '../src/models/types.js';
+import type {
+  MarketDirectoryInfo,
+  MarketDirectoryPartner,
+  MarketProductCategory,
+} from '../src/models/types.js';
+
+const associateProductWithMarketDirectory = async (
+  marketDirectory: MarketDirectoryInfo,
+  marketProductCategory: MarketProductCategory,
+) => {
+  await mocks.market_directory_info_market_product_categoryFactory({
+    promisedMarketDirectoryInfo: Promise.resolve([marketDirectory]),
+    promisedMarketProductCategory: Promise.resolve([marketProductCategory]),
+  });
+};
 
 describe('Data Food Consortium Tests', () => {
   const testClientId = 'test-client-id';
@@ -65,8 +80,11 @@ describe('Data Food Consortium Tests', () => {
 
   let marketDirectoryPartner: MarketDirectoryPartner;
 
-  async function createMarketDirectoryInfoForTest(partner?: MarketDirectoryPartner) {
-    const userFarmIds = await createUserFarmIds(1);
+  async function createMarketDirectoryInfoForTest(
+    partner?: MarketDirectoryPartner,
+    existingUserFarmIds?: Awaited<ReturnType<typeof createUserFarmIds>>,
+  ) {
+    const userFarmIds = existingUserFarmIds ?? (await createUserFarmIds(1));
     const [marketDirectoryInfo] = await mocks.market_directory_infoFactory({
       promisedUserFarm: Promise.resolve([userFarmIds]),
       marketDirectoryInfo: mockCompleteMarketDirectoryInfo,
@@ -153,43 +171,57 @@ describe('Data Food Consortium Tests', () => {
       expect(res.status).toBe(200);
 
       expect(res.body).toMatchObject(expectedBaseDfcStructure);
+
+      expect(res.headers['content-type']).toContain('application/ld+json');
+      expect(res.headers['content-type']).toContain('profile=dfc-v2');
     });
 
     test('Should return 404 when market directory info record does not exist', async () => {
       const nonExistentId = '00000000-0000-0000-0000-000000000000';
 
       const res = await getDfcEnterpriseRequest(nonExistentId);
-
       expect(res.status).toBe(404);
       expect(res.text).toBe('Enterprise not found');
     });
   });
 
   describe("GET all of a directory partner's DFC-formatted market directory data", () => {
-    test('Should return 200 with an array of DFC-formatted data', async () => {
+    test('Should return 200 with an object of DFC-formatted data', async () => {
       // Create a new partner to ensure clean test data
       const { partner, token } = await createPartnerWithAuth();
 
-      await Promise.all([
+      const marketDirectories = await Promise.all([
         createMarketDirectoryInfoForTest(partner),
         createMarketDirectoryInfoForTest(partner),
         createMarketDirectoryInfoForTest(partner),
       ]);
 
+      const [marketProductCategory1] = await mocks.market_product_categoryFactory('BAKERY');
+      const [marketProductCategory2] = await mocks.market_product_categoryFactory('DAIRY_PRODUCT');
+
+      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory1);
+      await associateProductWithMarketDirectory(marketDirectories[0], marketProductCategory2);
+      await associateProductWithMarketDirectory(marketDirectories[1], marketProductCategory1);
+
       const res = await getAllClientEnterprisesRequest(token);
-
       expect(res.status).toBe(200);
+      expect(res.body).toMatchObject(expectedBaseDfcStructure);
+      expect(res.body['@graph']).toMatchObject(
+        expect.arrayContaining([
+          {
+            '@type': 'ldp:Container',
+            '@id': expect.stringContaining('/dfc/enterprises'),
+            'ldp:contains': expect.arrayContaining([expect.any(String)]),
+          },
+        ]),
+      );
+      expect(getOrganizationCount(res)).toBe(3);
 
-      expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(3);
-
-      // Verify each item matches DFC structure
-      res.body.forEach((enterprise: DfcEntity) => {
-        expect(enterprise).toMatchObject(expectedBaseDfcStructure);
-      });
+      expect(res.headers['content-type']).toContain('application/ld+json');
+      expect(res.headers['content-type']).toContain('profile=dfc-v2');
     });
 
-    test('Should return empty array when partner has no authorized farms', async () => {
+    test('Should return an empty object when partner has no authorized farms', async () => {
       const { token } = await createPartnerWithAuth();
 
       await Promise.all([
@@ -201,9 +233,7 @@ describe('Data Food Consortium Tests', () => {
       const res = await getAllClientEnterprisesRequest(token);
 
       expect(res.status).toBe(200);
-
-      expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toHaveLength(0);
+      expect(res.body).toEqual({});
     });
 
     test('Should only return farms authorized for the requesting partner', async () => {
@@ -218,7 +248,7 @@ describe('Data Food Consortium Tests', () => {
       const res = await getAllClientEnterprisesRequest(token);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveLength(2);
+      expect(getOrganizationCount(res)).toBe(2);
     });
 
     test('Should not return farms with sharing permissions revoked)', async () => {
@@ -233,7 +263,7 @@ describe('Data Food Consortium Tests', () => {
       const origRes = await getAllClientEnterprisesRequest(token);
 
       expect(origRes.status).toBe(200);
-      expect(origRes.body).toHaveLength(2);
+      expect(getOrganizationCount(origRes)).toBe(2);
 
       // Soft delete the farm-market directory partner record (revoke sharing)
       await knex('market_directory_partner_permissions')
@@ -246,7 +276,136 @@ describe('Data Food Consortium Tests', () => {
       const res = await getAllClientEnterprisesRequest(token);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveLength(1);
+      expect(getOrganizationCount(res)).toBe(1);
+    });
+  });
+
+  describe('Certifications in DFC output', () => {
+    test('Should include active certifications in the DFC output', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      const certifier1 = await knex('certifiers').where({ system_type_id: 2 }).first();
+      const certifier2 = await knex('certifiers').where({ system_type_id: 1 }).first();
+
+      const [certification1] = await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          certifier_id: certifier1.certifier_id,
+          certification_type: 'BIODYNAMIC',
+          certificate_member_id: 'Ecocert',
+        }),
+      );
+
+      const [_certification2] = await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          certification_type: 'ORGANIC',
+          certifier_id: certifier2.certifier_id,
+        }),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certifications = res.body['@graph'].filter(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certifications.length).toBe(2);
+
+      const certNode = certifications.find(
+        (entity: DfcEntity) =>
+          entity['@id'] ===
+          `https://api.beta.litefarm.org/dfc/enterprises/${marketDirectoryInfo.id}#certification-${certification1.id}`,
+      );
+      expect(certNode).toMatchObject({
+        '@id': expect.stringContaining(`#certification-${certification1.id}`),
+        'dfc-b:name': 'Biodynamic',
+        'dfc-b:certiferReference': certifier1.certifier_name,
+        'dfc-b:operatorId': 'Ecocert',
+      });
+
+      const orgNode = res.body['@graph'].find(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Organization',
+      );
+      expect(orgNode).toHaveProperty('dfc-b:isCertifiedBy');
+    });
+
+    test('Should not include soft-deleted certifications in the DFC output', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          certification_type: 'ORGANIC',
+          deleted: true,
+        }),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certNode = res.body['@graph'].find(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certNode).toBeUndefined();
+    });
+
+    test('Should not include inactive certifications in the DFC output', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      await mocks.certificationFactory(
+        { promisedUserFarm: Promise.resolve([userFarmIds]) },
+        mocks.fakeCertification(userFarmIds.farm_id, {
+          is_active: false,
+          certification_type: 'ORGANIC',
+        }),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certNode = res.body['@graph'].find(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certNode).toBeUndefined();
+    });
+
+    test('Should only include certifications that expire after today', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
+
+      const createCertificationWithValidUntil = async (validUntil: unknown) => {
+        const [certification] = await mocks.certificationFactory(
+          { promisedUserFarm: Promise.resolve([userFarmIds]) },
+          mocks.fakeCertification(userFarmIds.farm_id, {
+            certification_type: 'ORGANIC',
+            valid_until: validUntil,
+          }),
+        );
+        return certification;
+      };
+
+      await createCertificationWithValidUntil('2020-01-01'); // expired
+      await createCertificationWithValidUntil(knex.raw('CURRENT_DATE')); // expires today — excluded
+      const validCertification = await createCertificationWithValidUntil(
+        knex.raw('CURRENT_DATE + 1'),
+      );
+
+      const res = await getDfcEnterpriseRequest(marketDirectoryInfo.id);
+
+      expect(res.status).toBe(200);
+
+      const certNodes = res.body['@graph'].filter(
+        (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
+      );
+      expect(certNodes).toHaveLength(1);
+      expect(certNodes[0]['@id']).toContain(`#certification-${validCertification.id}`);
     });
   });
 

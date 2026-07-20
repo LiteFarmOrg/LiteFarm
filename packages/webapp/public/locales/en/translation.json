@@ -405,6 +405,10 @@
     "TITLE": "Are you sure you want to cancel?"
   },
   "CERTIFICATION": {
+    "ADD_CERTIFICATIONS": "Add certifications",
+    "BANNER": "Certifications added here appear automatically in your <strong>Market Directory profile</strong>, so buyers can see your credentials in your listing.",
+    "BANNER_SAVED": "Certification saved and added to your <strong>Market Directory profile</strong>.",
+    "CERTIFICATE_DOCUMENT": "Certificate document",
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",
       "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",
@@ -419,6 +423,7 @@
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from",
       "UPDATE_SUCCESS": "Certification preferences saved"
     },
+    "CERTIFICATION_ID": "Certification ID",
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "SUBTITLE_ONE": "Here's a list of",
@@ -432,12 +437,43 @@
       "REQUEST_CERTIFIER": "Request a certifier",
       "TITLE": "Who is your certifier?"
     },
+    "EMPTY_STATE": {
+      "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one.",
+      "HEADING": "Do you have any active certifications or pursuing some?"
+    },
+    "FORM": {
+      "CERTIFICATE_NUMBER": "Certificate number",
+      "CERTIFICATE_NUMBER_PLACEHOLDER": "e.g. CAN-ORG-2024-01567",
+      "CERTIFICATION_STATUS": "Certification status",
+      "CERTIFICATION_TYPE": "Certification type",
+      "CERTIFICATION_TYPE_PLACEHOLDER": "Select a certification type",
+      "CERTIFYING_BODY": "Certifying body",
+      "CERTIFYING_BODY_INFO": "Name of the certifying organisation",
+      "CERTIFYING_BODY_PLACEHOLDER": "Select a certifying body",
+      "CERTIFYING_GROUP": "Certifying group",
+      "CERTIFYING_GROUP_INFO": "Name of your local PGDS group or network",
+      "CERTIFYING_GROUP_PLACEHOLDER": "Select a certifying group",
+      "IS_ACTIVE": "Is this certification active?",
+      "OTHER_CERTIFIER": "Other certifier",
+      "OTHER_CERTIFIER_PLACEHOLDER": "Enter certifier name",
+      "PGS_GROUP_NAME": "PGS group name",
+      "PGS_GROUP_NAME_PLACEHOLDER": "MISSING",
+      "SYSTEM_TYPE": "System type",
+      "TITLE": "Add a certification",
+      "VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE": "'Valid until' date must come after the 'Issue date'"
+    },
     "INPUT_PLACEHOLDER": "Type to search",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
       "TITLE": "Interested in certifications?",
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
     },
+    "LIST": {
+      "ACTIVE_SECTION": "Active certifications",
+      "PURSUING_SECTION": "Pursuing certifications"
+    },
+    "MEMBER_ID": "Member ID",
+    "PURSUING_ITEM": "Pursuing {{item}}",
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
       "REQUEST": "What certifier would you like to request?",
@@ -454,7 +490,15 @@
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
-    }
+    },
+    "SYSTEM_TYPE": {
+      "PGS": "Participatory guarantee system (PGS)",
+      "PGS_DESCRIPTION": "Peer-reviewed, community-based certification",
+      "THIRD_PARTY_ORGANIC": "Third-party certification",
+      "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certified by an accredited body"
+    },
+    "THIS_CERTIFICATION": "this certification",
+    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
@@ -468,6 +512,9 @@
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
+    "SELECT_CERTIFICATION": "Select certification you want to export",
+    "SELECT_CERTIFIER": "Select the certifier",
+    "SELECT_CERTIFIER_PLACEHOLDER": "Select from your certifiers",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "UH_OH": "Uh oh!",
     "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
@@ -656,6 +703,9 @@
     "THURSDAY": "T",
     "TUESDAY": "T",
     "WEDNESDAY": "W"
+  },
+  "DELETE_CONFIRMATION": {
+    "BODY": "Are you sure you want to delete {{subject}}? This cannot be undone."
   },
   "DIRECTION": {
     "E": "E",
@@ -1997,8 +2047,8 @@
       "DEVICE_TYPE": "Device type"
     },
     "DEVICE_TYPES": {
-      "DRIPDRAIN_SENSOR": "DripDrain sensor",
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "DRIPDRAIN_SENSOR": "DripDrain sensor",
       "ET_SENSOR": "ET sensor",
       "HUMIDITY_SENSOR": "Humidity sensor",
       "IR_TEMPERATURE_SENSOR": "IR temperature sensor",

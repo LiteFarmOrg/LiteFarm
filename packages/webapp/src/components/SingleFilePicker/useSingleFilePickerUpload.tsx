@@ -18,12 +18,13 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import { uploadImage } from '../../containers/ImagePickerWrapper/saga';
-import { isImageFile } from '../../util/validation';
+import { isFileTypeAllowed } from '../../util/validation';
 import { FileEvent, OnFileUpload } from '.';
 
 export type GetOnFileUpload = (
   targetRoute: string,
   onSelectImage: (imageUrl: string) => void,
+  accept?: string,
   onLoading?: (loading: boolean) => void,
 ) => OnFileUpload;
 
@@ -63,7 +64,7 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
   };
 
   const getOnFileUpload: GetOnFileUpload =
-    (targetRoute, onSelectImage, onLoading) =>
+    (targetRoute, onSelectImage, accept = 'image/*', onLoading) =>
     async (event, setPreviewUrl, setFileSizeExceeded, eventType) => {
       onLoading?.(true);
 
@@ -76,9 +77,9 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
         const onUploadFail = getOnUploadFail(onLoading);
         const onUploadSuccess = getOnUploadSuccess(setPreviewUrl, onSelectImage);
 
-        if (!isImageFile(blob)) {
+        if (!isFileTypeAllowed(blob, accept)) {
           dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
-          onUploadFail('Not an image file');
+          onUploadFail('Not an allowed file type');
         } else {
           if (blob.size > 5e6) {
             setFileSizeExceeded(true);

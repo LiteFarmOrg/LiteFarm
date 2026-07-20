@@ -53,7 +53,7 @@ type CommonProps = {
 /**
  * CustomFileUpload pattern: For immediate upload of images
  *
- * This pattern is used with the useImagePickerUpload hook to:
+ * This pattern is used with the useSingleFilePickerUpload hook to:
  * 1. Upload the image immediately when selected
  * 2. Store the resulting URL in your form (not the File)
  */
@@ -78,9 +78,9 @@ type DirectImageUpload = CommonProps & {
   shouldReset?: boolean;
 };
 
-export type ImagePickerProps = CustomFileUpload | DirectImageUpload;
+export type SingleFilePickerProps = CustomFileUpload | DirectImageUpload;
 
-export default function ImagePicker({
+export default function SingleFilePicker({
   onRemoveImage,
   onSelectImage,
   defaultUrl = '',
@@ -89,7 +89,7 @@ export default function ImagePicker({
   onFileUpload,
   isDisabled = false,
   shouldReset,
-}: ImagePickerProps) {
+}: SingleFilePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);

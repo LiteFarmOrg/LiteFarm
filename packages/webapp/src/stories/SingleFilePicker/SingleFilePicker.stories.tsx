@@ -15,12 +15,12 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import ImagePicker, { type ImagePickerProps } from '../../components/ImagePicker';
+import SingleFilePicker, { type SingleFilePickerProps } from '../../components/SingleFilePicker';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<ImagePickerProps> = {
-  title: 'Components/ImagePicker',
-  component: ImagePicker,
+const meta: Meta<SingleFilePickerProps> = {
+  title: 'Components/SingleFilePicker',
+  component: SingleFilePicker,
   decorators: componentDecorators,
   args: {
     label: 'Image',
@@ -30,7 +30,7 @@ const meta: Meta<ImagePickerProps> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof ImagePicker>;
+type Story = StoryObj<typeof SingleFilePicker>;
 
 export const Default: Story = {};
 

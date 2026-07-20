@@ -22,7 +22,7 @@ import Button from '../../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../../ProfileLayout';
 import { Label } from '../../../Typography';
-import ImagePicker from '../../../ImagePicker';
+import SingleFilePicker from '../../../SingleFilePicker';
 import useMediaWithAuthentication from '../../../../containers/hooks/useMediaWithAuthentication';
 
 export default function PureBasicProfile({ userFarm, onSubmit, history, isAdmin }) {
@@ -134,7 +134,7 @@ export default function PureBasicProfile({ userFarm, onSubmit, history, isAdmin 
         <input type="checkbox" style={{ display: 'none' }} {...register(SHOULD_REMOVE_IMAGE)} />
         <Label>{t('PROFILE.FARM.FARM_IMAGE')}</Label>
         {!isLoading && (
-          <ImagePicker
+          <SingleFilePicker
             defaultUrl={authenticatedImageUrl}
             onSelectImage={handleSelectImage}
             onRemoveImage={handleRemoveImage}

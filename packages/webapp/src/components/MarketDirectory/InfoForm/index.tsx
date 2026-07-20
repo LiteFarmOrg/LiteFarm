@@ -37,12 +37,12 @@ import {
   hookFormMaxValidation,
   hookFormMinValidation,
 } from '../../Form/hookformValidationUtils';
-import ImagePicker from '../../ImagePicker';
+import SingleFilePicker from '../../SingleFilePicker';
 import { ReactComponent as InstagramIcon } from '../../../assets/images/socials/instagram.svg';
 import { ReactComponent as FacebookIcon } from '../../../assets/images/socials/facebook.svg';
 import { ReactComponent as XIcon } from '../../../assets/images/socials/x.svg';
 import PrivateBadge from '../../SimpleBadges/PrivateBadge';
-import type { GetOnFileUpload } from '../../ImagePicker/useImagePickerUpload';
+import type { GetOnFileUpload } from '../../SingleFilePicker/useSingleFilePickerUpload';
 import {
   DIRECTORY_INFO_FIELDS,
   MarketDirectoryInfoFormFields,
@@ -122,7 +122,7 @@ const PureMarketDirectoryInfoForm = ({
           disabled={readonly}
           placeholder={t('MARKET_DIRECTORY.INFO_FORM.ABOUT_PLACEHOLDER')}
         />
-        <ImagePicker
+        <SingleFilePicker
           label={t('MARKET_DIRECTORY.INFO_FORM.FARM_LOGO')}
           onFileUpload={onFileUpload}
           onRemoveImage={handleRemoveImage}

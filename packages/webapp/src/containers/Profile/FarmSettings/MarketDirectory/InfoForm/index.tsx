@@ -21,7 +21,7 @@ import { useGoogleMapsLoader } from '../../../../../hooks/useGoogleMapsLoader';
 import PureMarketDirectoryInfoForm from '../../../../../components/MarketDirectory/InfoForm';
 import useDefaultMarketDirectoryData from './useDefaultMarketDirectoryData';
 import { DIRECTORY_INFO_FIELDS, MarketDirectoryInfoFormFields } from './types';
-import useImagePickerUpload from '../../../../../components/ImagePicker/useImagePickerUpload';
+import useSingleFilePickerUpload from '../../../../../components/SingleFilePicker/useSingleFilePickerUpload';
 import {
   useAddMarketDirectoryInfoMutation,
   useUpdateMarketDirectoryInfoMutation,
@@ -51,7 +51,7 @@ const MarketDirectoryInfoForm = ({
 }: MarketDirectoryInfoFormProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { getOnFileUpload } = useImagePickerUpload();
+  const { getOnFileUpload } = useSingleFilePickerUpload();
 
   useGoogleMapsLoader(['places']);
 

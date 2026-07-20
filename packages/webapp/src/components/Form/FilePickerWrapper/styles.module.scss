@@ -16,7 +16,7 @@
 .inputContainer {
   position: relative;
   cursor: pointer;
-  display: inline-flex; // Prevents this container from stretching to fill its parent in non-flex layouts (e.g. mobile button of ImagePicker). Safe to override with display: flex when the calling component needs full-width layout
+  display: inline-flex; // Prevents this container from stretching to fill its parent in non-flex layouts (e.g. mobile button of SingleFilePicker). Safe to override with display: flex when the calling component needs full-width layout
 }
 
 .input {

@@ -18,8 +18,8 @@ import { Controller, useController, useFormContext } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import ImagePicker from '../../ImagePicker';
-import { GetOnFileUpload } from '../../ImagePicker/useImagePickerUpload';
+import SingleFilePicker from '../../SingleFilePicker';
+import { GetOnFileUpload } from '../../SingleFilePicker/useSingleFilePickerUpload';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
 import {
@@ -113,7 +113,7 @@ const OtherDetails = ({
         disabled={mode === 'readonly'}
       />
       {(!!field.value || mode !== 'readonly') && (
-        <ImagePicker
+        <SingleFilePicker
           label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
           onFileUpload={onFileUpload}
           onRemoveImage={handleRemoveImage}

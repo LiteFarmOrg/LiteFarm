@@ -11,7 +11,7 @@ import TextArea from '../Form/TextArea';
 import Input from '../Form/Input';
 import Radio from '../Form/Radio';
 import { Label } from '../Typography/index';
-import ImagePicker from '../ImagePicker';
+import SingleFilePicker from '../SingleFilePicker';
 import { VALID_EMAIL_REGEX } from '../../util/validation';
 
 export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNumber, isLoading }) {
@@ -125,7 +125,7 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
         {errors[MESSAGE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
       </div>
       <div>
-        <ImagePicker
+        <SingleFilePicker
           label={t('HELP.ATTACHMENT_LABEL')}
           onSelectImage={(imageFile) => {
             setFile(imageFile);

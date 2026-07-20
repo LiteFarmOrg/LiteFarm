@@ -21,8 +21,10 @@ import Input from '../Form/Input';
 import RadioGroup from '../Form/RadioGroup';
 import Switch from '../Form/Switch';
 import ReactSelect from '../Form/ReactSelect';
-import ImagePicker from '../ImagePicker';
-import useImagePickerUpload, { GetOnFileUpload } from '../ImagePicker/useImagePickerUpload';
+import SingleFilePicker from '../SingleFilePicker';
+import useSingleFilePickerUpload, {
+  GetOnFileUpload,
+} from '../SingleFilePicker/useSingleFilePickerUpload';
 import useMediaWithAuthentication from '../../containers/hooks/useMediaWithAuthentication';
 import FormNavigationButtons from '../Form/FormNavigationButtons';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
@@ -119,7 +121,7 @@ const CertificateDocumentPicker = ({
 }) => {
   const { mediaUrl, isLoading } = useMediaWithAuthentication({ fileUrls: value ? [value] : [] });
 
-  // ImagePicker only reads defaultUrl once, at mount (useState(defaultUrl), no sync effect) —
+  // SingleFilePicker only reads defaultUrl once, at mount (useState(defaultUrl), no sync effect) —
   // so it must not mount until the authenticated fetch for an existing document has resolved,
   // otherwise it'd permanently capture an empty preview and never pick up mediaUrl once ready.
   if (value && isLoading) {
@@ -127,7 +129,7 @@ const CertificateDocumentPicker = ({
   }
 
   return (
-    <ImagePicker
+    <SingleFilePicker
       label={label}
       defaultUrl={mediaUrl ?? ''}
       onFileUpload={getOnFileUpload('certification', onChange)}
@@ -169,7 +171,7 @@ export default function CertificationForm({
   } = useForm<CertificationFormValues>({
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
-  const { getOnFileUpload } = useImagePickerUpload();
+  const { getOnFileUpload } = useSingleFilePickerUpload();
 
   const systemTypeId = watch(SYSTEM_TYPE_ID);
   const isActive = watch(IS_ACTIVE);

@@ -19,8 +19,8 @@ import {
   AnimalDetailsFormFields,
   ReactSelectOption,
 } from '../../../containers/Animals/AddAnimals/types';
-import { FileEvent } from '../../../components/ImagePicker';
-import { GetOnFileUpload } from '../../../components/ImagePicker/useImagePickerUpload';
+import { FileEvent } from '../../../components/SingleFilePicker';
+import { GetOnFileUpload } from '../../../components/SingleFilePicker/useSingleFilePickerUpload';
 import { OrganicStatus } from '../../../types';
 
 export const typeOptions = [

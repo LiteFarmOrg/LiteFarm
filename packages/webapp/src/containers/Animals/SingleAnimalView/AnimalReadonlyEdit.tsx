@@ -16,14 +16,14 @@
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import AnimalBatchBasicInfo from '../../../components/Animals/AnimalBatchBasicInfo';
-import useImagePickerUpload from '../../../components/ImagePicker/useImagePickerUpload';
+import useSingleFilePickerUpload from '../../../components/SingleFilePicker/useSingleFilePickerUpload';
 import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { CommonDetailsProps } from '../AddAnimals/types';
 import { AnimalOrBatchKeys } from '../types';
 
 const AnimalReadonlyEdit = ({ isEditing = false }) => {
-  const { getOnFileUpload } = useImagePickerUpload();
+  const { getOnFileUpload } = useSingleFilePickerUpload();
   const { t } = useTranslation(['translation', 'common', 'animal']);
 
   const {

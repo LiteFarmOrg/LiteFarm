@@ -25,7 +25,8 @@ import { ReactComponent as CameraIcon } from '../../assets/images/farm-profile/c
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edit.svg';
 import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
-import { isImageFile } from '../../util/validation';
+import { isFileTypeAllowed, isImageFile, isImageUrl } from '../../util/validation';
+import MenuItem from '../MenuItem';
 import styles from './styles.module.scss';
 import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
 
@@ -48,6 +49,11 @@ type CommonProps = {
   defaultUrl?: string;
   isDisabled?: boolean;
   shouldReset?: boolean;
+  // HTML accept-attribute-style string, e.g. "image/*,application/pdf". Defaults to images only.
+  accept?: string;
+  // Display name for a non-image defaultUrl (edit mode) — e.g. from toDocumentFileName(value, t).
+  // Not needed for a freshly-selected file this session, since that name is captured directly.
+  fileName?: string;
 };
 
 /**
@@ -89,8 +95,16 @@ export default function SingleFilePicker({
   onFileUpload,
   isDisabled = false,
   shouldReset,
+  accept = 'image/*',
+  fileName,
 }: SingleFilePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
+  // Tracks whether previewUrl is a real image (render <img>) or not (render a filename fallback).
+  // Kept alongside previewUrl rather than derived from it on every render, since a freshly-picked
+  // local blob: URL (onSelectImage path) has no extension to check — only the originating File does.
+  const [isPreviewImage, setIsPreviewImage] = useState(() => isImageUrl(defaultUrl));
+  // Only set for a file picked this session via onSelectImage — the fileName prop covers the rest.
+  const [previewFileName, setPreviewFileName] = useState<string>();
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
@@ -107,8 +121,17 @@ export default function SingleFilePicker({
     setPreviewUrl('');
   };
 
+  // Wraps ImagePicker's own setPreviewUrl (passed into the external onFileUpload callback) so
+  // isPreviewImage stays correct once the upload resolves to a real remote URL — that URL has a
+  // real extension, unlike a local blob: URL, so isImageUrl is safe to check directly here.
+  const setUploadedPreviewUrl = (url: string) => {
+    setPreviewUrl(url);
+    setIsPreviewImage(isImageUrl(url));
+    setPreviewFileName(undefined);
+  };
+
   const showImage = (file: File) => {
-    if (!isImageFile(file)) {
+    if (!isFileTypeAllowed(file, accept)) {
       dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));
       return;
     }
@@ -119,12 +142,14 @@ export default function SingleFilePicker({
     }
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
+    setIsPreviewImage(isImageFile(file));
+    setPreviewFileName(file.name);
     onSelectImage?.(file);
   };
 
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onFileUpload) {
-      onFileUpload(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.CHANGE);
+      onFileUpload(e, setUploadedPreviewUrl, setShowFileSizeExceedsModal, FileEvent.CHANGE);
       return;
     }
 
@@ -142,7 +167,7 @@ export default function SingleFilePicker({
       dropContainerRef.current?.classList.toggle(styles.dropContainerActive);
     } else if (e.type === 'drop') {
       if (onFileUpload) {
-        onFileUpload(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.DRAG);
+        onFileUpload(e, setUploadedPreviewUrl, setShowFileSizeExceedsModal, FileEvent.DRAG);
         return;
       }
 
@@ -155,6 +180,10 @@ export default function SingleFilePicker({
     return () => URL.revokeObjectURL(previewUrl);
   }, [previewUrl]);
 
+  // Only relevant when isPreviewImage is false — previewFileName (picked this session) wins,
+  // then the caller-supplied fileName (existing value), then the URL's own last path segment.
+  const fallbackFileName = previewFileName ?? fileName ?? previewUrl.split('/').pop() ?? '';
+
   return (
     <>
       {showFileSizeExceedsModal && (
@@ -164,11 +193,15 @@ export default function SingleFilePicker({
         {label && <InputBaseLabel label={label} optional={optional} />}
         {previewUrl ? (
           <div className={clsx(styles.imageContainer, isDisabled && styles.disabled)}>
-            <img src={previewUrl} alt="image preview" />
+            {isPreviewImage ? (
+              <img src={previewUrl} alt="image preview" />
+            ) : (
+              <MenuItem label={fallbackFileName} />
+            )}
             <div className={styles.imageActions}>
               <PureFilePickerWrapper
                 onChange={handleFileInputChange}
-                accept="image/*"
+                accept={accept}
                 disabled={isDisabled}
               >
                 <TextButton type="button" className={styles.editButton}>
@@ -185,7 +218,7 @@ export default function SingleFilePicker({
         ) : (
           <>
             <PureFilePickerWrapper
-              accept="image/*"
+              accept={accept}
               className={clsx(styles.filePickerWrapper, isDisabled && styles.disabled)}
               onChange={handleFileInputChange}
               disabled={isDisabled}
@@ -204,7 +237,7 @@ export default function SingleFilePicker({
             >
               <CameraIcon className={styles.cameraIcon} />
               <div className={styles.flexWrapper}>
-                <PureFilePickerWrapper accept="image/*" onChange={handleFileInputChange}>
+                <PureFilePickerWrapper accept={accept} onChange={handleFileInputChange}>
                   <AddLink> {t('UPLOADER.CLICK_TO_UPLOAD')}</AddLink>
                 </PureFilePickerWrapper>
                 <span> {t('UPLOADER.DRAG_DROP')}</span>

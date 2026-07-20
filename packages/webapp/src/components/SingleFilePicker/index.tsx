@@ -86,6 +86,14 @@ type DirectImageUpload = CommonProps & {
 
 export type SingleFilePickerProps = CustomFileUpload | DirectImageUpload;
 
+/**
+ * A standalone picker for a single file per field — no Redux coupling, usable anywhere. Choose
+ * upload timing via the two prop patterns above: `onFileUpload` (upload immediately, store the
+ * resulting URL) or `onSelectImage` (hold the File, send it with the form's own Submit request).
+ *
+ * If you need multiple files per field instead (e.g. a record with several attachments), see the
+ * sibling `FilePicker` component — it's list-oriented and always uploads on select.
+ */
 export default function SingleFilePicker({
   onRemoveImage,
   onSelectImage,

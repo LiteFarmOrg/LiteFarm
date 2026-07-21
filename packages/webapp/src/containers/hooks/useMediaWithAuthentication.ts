@@ -31,6 +31,26 @@ interface UseMediaWithAuthenticationResult {
   isLoading: boolean;
 }
 
+const getConfig = (): RequestInit => ({
+  headers: { Authorization: 'Bearer ' + (localStorage.getItem('farm_token') ?? '') },
+  method: 'GET',
+});
+
+// Fetches a single private-bucket file with the auth header and returns a local blob: URL for
+// display. Exported as a plain function (not just inlined in the hook below) so it can also be
+// called from outside a component's render — e.g. a callback that already has a fresh upload's
+// URL and wants to resolve it once, immediately, without going through a hook.
+export async function resolveAuthenticatedMediaUrl(fileUrl: string): Promise<string> {
+  const url = new URL(fileUrl);
+  if (import.meta.env.VITE_ENV !== 'development') {
+    url.hostname = 'images.litefarm.workers.dev';
+  }
+
+  const response = await fetch(url.toString(), getConfig());
+  const blob = await response.blob();
+  return URL.createObjectURL(blob);
+}
+
 export default function useMediaWithAuthentication({
   fileUrls = [],
   title = '',
@@ -43,13 +63,6 @@ export default function useMediaWithAuthentication({
   const fileUrlsKey = fileUrls.join(',');
 
   useEffect(() => {
-    const config: RequestInit = {
-      headers: {
-        Authorization: 'Bearer ' + (localStorage.getItem('farm_token') ?? ''),
-      },
-      method: 'GET',
-    };
-
     let subscribed = true;
     let blobUrl: string | undefined;
 
@@ -71,7 +84,7 @@ export default function useMediaWithAuthentication({
                 url.hostname = 'images.litefarm.workers.dev';
               }
 
-              const response = await fetch(url.toString(), config);
+              const response = await fetch(url.toString(), getConfig());
               const blobFilePromise = response.blob();
               folder.file(url.href.substring(url.href.lastIndexOf('/')), blobFilePromise);
             }),
@@ -89,14 +102,7 @@ export default function useMediaWithAuthentication({
             return;
           }
 
-          const url = new URL(fileUrl);
-          if (import.meta.env.VITE_ENV !== 'development') {
-            url.hostname = 'images.litefarm.workers.dev';
-          }
-
-          const response = await fetch(url.toString(), config);
-          const blobFile = await response.blob();
-          const nextBlobUrl = URL.createObjectURL(blobFile);
+          const nextBlobUrl = await resolveAuthenticatedMediaUrl(fileUrl);
 
           if (!subscribed) {
             URL.revokeObjectURL(nextBlobUrl);

@@ -26,6 +26,10 @@ export type GetOnFileUpload = (
   onSelectImage: (imageUrl: string) => void,
   accept?: string,
   onLoading?: (loading: boolean) => void,
+  // For private-bucket callers only — fetches a fresh upload's raw file URL with authentication
+  // and returns a blob: URL that can actually be shown as the preview. Omit for public-bucket
+  // callers, where the raw URL returned by the upload is already directly viewable.
+  resolvePreviewUrl?: (url: string) => Promise<string>,
 ) => OnFileUpload;
 
 /**
@@ -51,9 +55,13 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
   const dispatch = useDispatch();
 
   const getOnUploadSuccess =
-    (setPreviewUrl: (url: string) => void, onSelectImage: (imageUrl: string) => void) =>
-    (url: string, onLoading?: (loading: boolean) => void) => {
-      setPreviewUrl(url);
+    (
+      setPreviewUrl: (url: string) => void,
+      onSelectImage: (imageUrl: string) => void,
+      resolvePreviewUrl?: (url: string) => Promise<string>,
+    ) =>
+    async (url: string, onLoading?: (loading: boolean) => void) => {
+      setPreviewUrl(resolvePreviewUrl ? await resolvePreviewUrl(url) : url);
       onSelectImage(url);
       onLoading?.(false);
     };
@@ -64,7 +72,7 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
   };
 
   const getOnFileUpload: GetOnFileUpload =
-    (targetRoute, onSelectImage, accept = 'image/*', onLoading) =>
+    (targetRoute, onSelectImage, accept = 'image/*', onLoading, resolvePreviewUrl) =>
     async (event, setPreviewUrl, setFileSizeExceeded, eventType) => {
       onLoading?.(true);
 
@@ -75,7 +83,7 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
 
       if (blob) {
         const onUploadFail = getOnUploadFail(onLoading);
-        const onUploadSuccess = getOnUploadSuccess(setPreviewUrl, onSelectImage);
+        const onUploadSuccess = getOnUploadSuccess(setPreviewUrl, onSelectImage, resolvePreviewUrl);
 
         if (!isFileTypeAllowed(blob, accept)) {
           dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));

@@ -136,6 +136,7 @@ export default function PureBasicProfile({ userFarm, onSubmit, history, isAdmin 
         {!isLoading && (
           <SingleFilePicker
             defaultUrl={authenticatedImageUrl}
+            isDefaultUrlImage
             onSelectImage={handleSelectImage}
             onRemoveImage={handleRemoveImage}
           />

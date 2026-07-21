@@ -41,7 +41,7 @@ const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
 const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const { locations: cropEnabledLocations } = useCropLocations();
+  const { locations: cropEnabledLocations = [] } = useCropLocations();
   const cropVarietyFilter = useSelector(cropVarietyFilterSelector(cropId));
   const suppliers = useSelector(suppliersByCropIdSelector(cropId));
   const dispatch = useDispatch();

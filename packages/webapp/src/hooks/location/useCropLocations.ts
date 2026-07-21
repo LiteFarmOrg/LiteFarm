@@ -25,7 +25,7 @@ import useLocations from './useLocations';
 
 type CropLocations = FlattenedField | FlattenedGarden | FlattenedGreenhouse | FlattenedBufferZone;
 
-function useCropLocations(): UseLocationsReturn<CropLocations[] | undefined> {
+function useCropLocations(): UseLocationsReturn<CropLocations[]> {
   const { locations, isLoading, isFetching } = useLocations({
     filterBy: [
       InternalMapLocationType.FIELD,
@@ -36,7 +36,7 @@ function useCropLocations(): UseLocationsReturn<CropLocations[] | undefined> {
   });
 
   return {
-    locations,
+    locations: locations ?? [],
     isLoading,
     isFetching,
   };

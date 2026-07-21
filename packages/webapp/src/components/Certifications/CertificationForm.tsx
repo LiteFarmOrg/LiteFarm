@@ -21,10 +21,12 @@ import Input from '../Form/Input';
 import RadioGroup from '../Form/RadioGroup';
 import Switch from '../Form/Switch';
 import ReactSelect from '../Form/ReactSelect';
-import AuthenticatedSingleFilePicker from '../../containers/SingleFilePicker/AuthenticatedSingleFilePicker';
+import SingleFilePicker from '../SingleFilePicker';
 import useSingleFilePickerUpload, {
   GetOnFileUpload,
 } from '../SingleFilePicker/useSingleFilePickerUpload';
+import { resolveAuthenticatedMediaUrl } from '../../containers/hooks/useMediaWithAuthentication';
+import { isImageUrl } from '../../util/validation';
 import { toDocumentFileName } from '../../containers/Certifications/utils';
 import FormNavigationButtons from '../Form/FormNavigationButtons';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
@@ -75,6 +77,10 @@ type CertificationFormProps = {
   systemTypes: SystemType[];
   certifiers: Certifier[];
   defaultValues?: Partial<CertificationFormValues>;
+  // Resolved, directly-viewable preview of the existing document (private-bucket URL already
+  // fetched with authentication) — resolved once by the container, not by this component.
+  documentPreviewUrl?: string;
+  isDocumentPreviewLoading: boolean;
   onSubmit: (data: CertificationFormValues) => void;
   onBack: () => void;
   isSaving: boolean;
@@ -113,22 +119,37 @@ const CertificateDocumentPicker = ({
   onChange,
   onRemove,
   getOnFileUpload,
+  documentPreviewUrl,
+  isDocumentPreviewLoading,
 }: {
   label: string;
   value: string | null;
   onChange: (url: string | null) => void;
   onRemove: () => void;
   getOnFileUpload: GetOnFileUpload;
+  documentPreviewUrl?: string;
+  isDocumentPreviewLoading: boolean;
 }) => {
   const { t } = useTranslation(['translation', 'common']);
 
+  if (isDocumentPreviewLoading) {
+    return null;
+  }
+
   return (
-    <AuthenticatedSingleFilePicker
+    <SingleFilePicker
       label={label}
-      value={value}
+      defaultUrl={documentPreviewUrl ?? ''}
+      isDefaultUrlImage={value ? isImageUrl(value) : undefined}
       accept={CERTIFICATE_DOCUMENT_ACCEPT}
       fileName={toDocumentFileName(value, t) ?? undefined}
-      onFileUpload={getOnFileUpload('certification', onChange, CERTIFICATE_DOCUMENT_ACCEPT)}
+      onFileUpload={getOnFileUpload(
+        'certification',
+        onChange,
+        CERTIFICATE_DOCUMENT_ACCEPT,
+        undefined,
+        resolveAuthenticatedMediaUrl,
+      )}
       onRemoveImage={onRemove}
     />
   );
@@ -151,6 +172,8 @@ export default function CertificationForm({
   systemTypes,
   certifiers,
   defaultValues,
+  documentPreviewUrl,
+  isDocumentPreviewLoading,
   onSubmit,
   onBack,
   isSaving,
@@ -384,6 +407,8 @@ export default function CertificationForm({
                   onChange={field.onChange}
                   onRemove={() => field.onChange(null)}
                   getOnFileUpload={getOnFileUpload}
+                  documentPreviewUrl={documentPreviewUrl}
+                  isDocumentPreviewLoading={isDocumentPreviewLoading}
                 />
               )}
             />

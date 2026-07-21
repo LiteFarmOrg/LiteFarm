@@ -21,6 +21,7 @@ import PureCertificationForm, {
 } from '../../../components/Certifications/CertificationForm';
 import { loginSelector } from '../../userFarmSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
+import useMediaWithAuthentication from '../../hooks/useMediaWithAuthentication';
 import {
   useGetCertificationsQuery,
   useAddCertificationMutation,
@@ -58,6 +59,10 @@ export default function CertificationForm() {
     ? toCertificationFormValues(certification, systemTypes, certifiers, t)
     : undefined;
 
+  const documentUrl = certification?.certificate_document_url ?? null;
+  const { mediaUrl: documentPreviewUrl, isLoading: isDocumentPreviewLoading } =
+    useMediaWithAuthentication({ fileUrls: documentUrl ? [documentUrl] : [] });
+
   const onBack = () => {
     // @ts-expect-error: temporary shim, will remove when upgrading to history@5
     history.back();
@@ -92,6 +97,8 @@ export default function CertificationForm() {
         systemTypes={toFormSystemTypes(systemTypes)}
         certifiers={toFormCertifiers(certifiers)}
         defaultValues={defaultValues}
+        documentPreviewUrl={documentPreviewUrl}
+        isDocumentPreviewLoading={isDocumentPreviewLoading}
         onSubmit={onSubmit}
         onBack={onBack}
         isSaving={isAdding || isEditing}

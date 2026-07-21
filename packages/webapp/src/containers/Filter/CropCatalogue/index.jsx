@@ -37,7 +37,7 @@ const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
 const CropCatalogueFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const { locations: cropEnabledLocations } = useCropLocations();
+  const { locations: cropEnabledLocations = [] } = useCropLocations();
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const suppliers = useSelector(suppliersSelector);
   const dispatch = useDispatch();

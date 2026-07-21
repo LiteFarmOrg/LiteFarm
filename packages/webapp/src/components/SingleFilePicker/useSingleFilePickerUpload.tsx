@@ -26,6 +26,12 @@ export type GetOnFileUpload = (
   onSelectImage: (imageUrl: string) => void,
   accept?: string,
   onLoading?: (loading: boolean) => void,
+  // For private-bucket callers only (e.g. certifications) — fetches a fresh upload's raw
+  // thumbnail/file URL with authentication and returns a blob: URL that can actually be shown
+  // as the preview. Omit for public-bucket callers (crop, animal, market directory logo), where
+  // the raw URL returned by the upload is already directly viewable and this extra fetch isn't
+  // needed. See resolveAuthenticatedMediaUrl in containers/hooks/useMediaWithAuthentication.ts.
+  resolvePreviewUrl?: (url: string) => Promise<string>,
 ) => OnFileUpload;
 
 /**
@@ -51,14 +57,18 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
   const dispatch = useDispatch();
 
   const getOnUploadSuccess =
-    (setPreviewUrl: (url: string) => void, onSelectImage: (imageUrl: string) => void) =>
-    (url: string, thumbnailUrl?: string, onLoading?: (loading: boolean) => void) => {
-      // Prefer the thumbnail for the preview when the backend generated one (real images, and
-      // PDFs — both get a rendered .webp thumbnail; genuinely non-visual formats like docx/xlsx
-      // don't) — SingleFilePicker's own isImageUrl check on this value decides <img> vs fallback,
-      // so this alone is enough to match Documents' behavior with no changes needed there. The
-      // saved value (onSelectImage) is always the real file's URL, never the thumbnail.
-      setPreviewUrl(thumbnailUrl ?? url);
+    (
+      setPreviewUrl: (url: string) => void,
+      onSelectImage: (imageUrl: string) => void,
+      resolvePreviewUrl?: (url: string) => Promise<string>,
+    ) =>
+    async (url: string, thumbnailUrl?: string, onLoading?: (loading: boolean) => void) => {
+      // Prefer the thumbnail when the backend generated one (images and PDFs get one; docx/xlsx
+      // don't). Private-bucket callers must also pass resolvePreviewUrl, or this raw URL 403s.
+      // onSelectImage always gets the real file's URL, never the thumbnail.
+      const rawPreviewUrl = thumbnailUrl ?? url;
+      const previewUrl = resolvePreviewUrl ? await resolvePreviewUrl(rawPreviewUrl) : rawPreviewUrl;
+      setPreviewUrl(previewUrl);
       onSelectImage(url);
       onLoading?.(false);
     };
@@ -69,7 +79,7 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
   };
 
   const getOnFileUpload: GetOnFileUpload =
-    (targetRoute, onSelectImage, accept = 'image/*', onLoading) =>
+    (targetRoute, onSelectImage, accept = 'image/*', onLoading, resolvePreviewUrl) =>
     async (event, setPreviewUrl, setFileSizeExceeded, eventType) => {
       onLoading?.(true);
 
@@ -80,7 +90,7 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
 
       if (blob) {
         const onUploadFail = getOnUploadFail(onLoading);
-        const onUploadSuccess = getOnUploadSuccess(setPreviewUrl, onSelectImage);
+        const onUploadSuccess = getOnUploadSuccess(setPreviewUrl, onSelectImage, resolvePreviewUrl);
 
         if (!isFileTypeAllowed(blob, accept)) {
           dispatch(enqueueErrorSnackbar(t('UPLOADER.UNSUPPORTED_FILE_TYPE')));

@@ -197,7 +197,9 @@ export default function SingleFilePicker({
 
   // Only relevant when isPreviewImage is false — previewFileName (picked this session) wins,
   // then the caller-supplied fileName (existing value), then the URL's own last path segment.
-  const fallbackFileName = previewFileName ?? fileName ?? previewUrl.split('/').pop() ?? '';
+  // previewUrl can be null at runtime despite its string type (e.g. a form field whose empty
+  // value is null, not undefined, bypassing the defaultUrl='' default parameter).
+  const fallbackFileName = previewFileName ?? fileName ?? previewUrl?.split('/').pop() ?? '';
 
   return (
     <>

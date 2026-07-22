@@ -136,12 +136,13 @@ export default function SingleFilePicker({
     setPreviewUrl('');
   };
 
-  // Wraps ImagePicker's own setPreviewUrl (passed into the external onFileUpload callback) so
-  // isPreviewImage stays correct once the upload resolves to a real remote URL — that URL has a
-  // real extension, unlike a local blob: URL, so isImageUrl is safe to check directly here.
+  // Wraps the setPreviewUrl passed into the external onFileUpload callback. isPreviewImage is
+  // set to true unconditionally rather than re-derived from url, since useSingleFilePickerUpload
+  // only ever calls this with a confirmed-real image — including a resolved blob: url for a
+  // private-bucket caller, which isImageUrl can't check by extension.
   const setUploadedPreviewUrl = (url: string) => {
     setPreviewUrl(url);
-    setIsPreviewImage(isImageUrl(url));
+    setIsPreviewImage(true);
     setPreviewFileName(undefined);
   };
 

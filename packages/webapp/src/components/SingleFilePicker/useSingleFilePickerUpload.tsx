@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import { uploadImage } from '../../containers/ImagePickerWrapper/saga';
-import { isFileTypeAllowed } from '../../util/validation';
+import { isFileTypeAllowed, isImageUrl } from '../../util/validation';
 import { FileEvent, OnFileUpload } from '.';
 
 export type GetOnFileUpload = (
@@ -63,12 +63,17 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
       resolvePreviewUrl?: (url: string) => Promise<string>,
     ) =>
     async (url: string, thumbnailUrl?: string, onLoading?: (loading: boolean) => void) => {
-      // Prefer the thumbnail when the backend generated one (images and PDFs get one; docx/xlsx
-      // don't). Private-bucket callers must also pass resolvePreviewUrl, or this raw URL 403s.
-      // onSelectImage always gets the real file's URL, never the thumbnail.
-      const rawPreviewUrl = thumbnailUrl ?? url;
-      const previewUrl = resolvePreviewUrl ? await resolvePreviewUrl(rawPreviewUrl) : rawPreviewUrl;
-      setPreviewUrl(previewUrl);
+      // thumbnailUrl, when set, is always a real image — the backend only ever includes it for
+      // visual formats. Otherwise, isImageUrl(url) confirms url itself is one (checked by
+      // extension before any resolving happens). If neither holds, this hook has no way to
+      // preview it — not yet needed by any caller, so fail loudly rather than render it wrong.
+      const rawPreviewUrl = thumbnailUrl ?? (isImageUrl(url) ? url : undefined);
+      if (!rawPreviewUrl) {
+        throw new Error(
+          'useSingleFilePickerUpload: non-image upload with no thumbnail — preview not implemented for this caller.',
+        );
+      }
+      setPreviewUrl(resolvePreviewUrl ? await resolvePreviewUrl(rawPreviewUrl) : rawPreviewUrl);
       onSelectImage(url);
       onLoading?.(false);
     };

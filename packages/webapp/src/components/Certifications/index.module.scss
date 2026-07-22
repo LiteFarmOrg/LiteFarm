@@ -215,6 +215,19 @@
   .cardMain {
     flex-direction: column;
     align-items: stretch;
+
+    .cardSubtitle {
+      display: flex;
+      flex-direction: column;
+
+      > span {
+        @include truncateText();
+      }
+
+      .connector {
+        display: none;
+      }
+    }
   }
 
   .cardMeta {

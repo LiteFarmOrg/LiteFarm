@@ -497,7 +497,8 @@
       "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certified by an accredited body"
     },
     "THIS_CERTIFICATION": "this certification",
-    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile"
+    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile",
+    "WILL_STILL_APPEAR_IN_MARKET_LISTING": "Will still appear in your market listing"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",

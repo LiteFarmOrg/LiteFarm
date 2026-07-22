@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import { uploadImage } from '../../containers/ImagePickerWrapper/saga';
-import { isFileTypeAllowed } from '../../util/validation';
+import { isFileTypeAllowed, isImageUrl } from '../../util/validation';
 import { FileEvent, OnFileUpload } from '.';
 
 export type GetOnFileUpload = (
@@ -61,6 +61,15 @@ export default function useSingleFilePickerUpload(): { getOnFileUpload: GetOnFil
       resolvePreviewUrl?: (url: string) => Promise<string>,
     ) =>
     async (url: string, onLoading?: (loading: boolean) => void) => {
+      // isImageUrl(url) confirms url is a real image (checked by extension before any
+      // resolving happens). If it isn't, this hook has no way to preview it — not yet needed
+      // by any caller, since every current accept list is images-only — so fail loudly rather
+      // than render it wrong.
+      if (!isImageUrl(url)) {
+        throw new Error(
+          'useSingleFilePickerUpload: non-image upload — preview not implemented for this caller.',
+        );
+      }
       setPreviewUrl(resolvePreviewUrl ? await resolvePreviewUrl(url) : url);
       onSelectImage(url);
       onLoading?.(false);

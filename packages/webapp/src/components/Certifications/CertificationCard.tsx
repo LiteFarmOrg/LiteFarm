@@ -19,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
-import { ReactComponent as DocumentIcon } from '../../assets/images/document.svg';
 import { getLocalizedDateString } from '../../util/moment';
 import type { CertificationStatus } from './types';
 import styles from './index.module.scss';
@@ -33,7 +32,6 @@ interface CertificationCardProps {
   certificateMemberId?: string | null;
   isActive: boolean;
   expiryDate?: string | null;
-  documentFileName?: string | null;
   onEdit: () => void;
   onDelete?: () => void;
 }
@@ -106,7 +104,6 @@ export default function CertificationCard({
   certificateMemberId,
   isActive,
   expiryDate,
-  documentFileName,
   onEdit,
   onDelete,
 }: CertificationCardProps) {
@@ -136,7 +133,7 @@ export default function CertificationCard({
     : t('CERTIFICATION.CERTIFICATION_ID');
   const certificationIdentifier = isPgs ? certificateMemberId : certificateNumber;
 
-  const hasDetails = !isPursuing && !!(certificationIdentifier || documentFileName);
+  const hasDetails = !isPursuing && !!certificationIdentifier;
 
   const statusTranslation = {
     [ACTIVE]: t('common:ACTIVE'),
@@ -190,17 +187,6 @@ export default function CertificationCard({
             <div className={styles.cardDetail}>
               <div className={styles.cardDetailLabel}>{identifierLabel}</div>
               <div className={styles.cardDetailValue}>{certificationIdentifier}</div>
-            </div>
-          )}
-          {documentFileName && (
-            <div className={clsx(styles.cardDetail, styles.cardDocument)}>
-              <div className={styles.cardDetailLabel}>
-                {t('CERTIFICATION.CERTIFICATE_DOCUMENT')}
-              </div>
-              <div className={clsx(styles.cardDetailValue, styles.cardDocumentName)}>
-                <DocumentIcon aria-hidden />
-                {documentFileName}
-              </div>
             </div>
           )}
         </div>

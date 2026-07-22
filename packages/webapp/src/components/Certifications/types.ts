@@ -25,5 +25,4 @@ export type CertificationItem = {
   certificateMemberId?: string | null;
   isActive: boolean;
   expiryDate?: string | null;
-  documentFileName?: string | null;
 };

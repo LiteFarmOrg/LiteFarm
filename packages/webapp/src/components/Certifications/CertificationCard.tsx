@@ -47,7 +47,6 @@ const EXPIRING_SOON = 'expiring_soon';
 const PURSUING = 'pursuing';
 const EXPIRED = 'expired';
 
-// TODO: LF-5388 verify
 function getDaysLeft(isoDate: string): number {
   return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
 }
@@ -60,7 +59,7 @@ export function getCertificationStatus(
     return PURSUING;
   }
   const daysLeft = getDaysLeft(expiryDate);
-  if (daysLeft <= 0) {
+  if (daysLeft < 0) {
     return EXPIRED;
   }
   if (daysLeft <= EXPIRING_SOON_WINDOW_DAYS) {

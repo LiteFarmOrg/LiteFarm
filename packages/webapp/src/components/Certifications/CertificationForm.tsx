@@ -330,7 +330,6 @@ export default function CertificationForm({
               setValueAs: (value) => value.trim(),
             })}
             placeholder={t('CERTIFICATION.FORM.OTHER_CERTIFIER_PLACEHOLDER')}
-            optional
           />
         )}
 

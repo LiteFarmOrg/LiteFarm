@@ -16,9 +16,7 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import multerDiskUpload from '../util/fileUpload.js';
 import { checkCertification } from '../middleware/validation/checkCertification.js';
-import validateFileExtension from '../middleware/validation/uploadDocument.js';
 import controller from '../controllers/certificationsController.js';
 import certificationController from '../controllers/certificationController.js';
 
@@ -52,15 +50,6 @@ router.post(
   '/request_export',
   checkScope(['add:certification']),
   certificationController.triggerExport(),
-);
-
-router.post(
-  '/upload/farm/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['add:certification']),
-  multerDiskUpload,
-  validateFileExtension,
-  controller.uploadCertificationDocument(),
 );
 
 export default router;

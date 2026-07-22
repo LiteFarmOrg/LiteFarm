@@ -59,7 +59,6 @@ class Certification extends BaseModel {
         certificate_member_id: { type: ['string', 'null'] },
         issue_date: { type: ['string', 'null'], format: 'date' },
         valid_until: { type: ['string', 'null'], format: 'date' },
-        certificate_document_url: { type: ['string', 'null'] },
         ...super.baseProperties,
       },
       additionalProperties: false,

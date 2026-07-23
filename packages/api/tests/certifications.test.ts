@@ -319,6 +319,20 @@ describe('Certifications CRUD tests', () => {
         expect(res.status).toBe(400);
       });
 
+      test.each([
+        ['2026-07-01', '2026-07-01'],
+        ['2026-07-02', '2026-07-01'],
+      ])(
+        'Rejects when issue_date %s is not before valid_until %s',
+        async (issue_date, valid_until) => {
+          const res = await postRequest(
+            validCertificationBody({ issue_date, valid_until }),
+            userFarmIds,
+          );
+          expect(res.status).toBe(400);
+        },
+      );
+
       test('Rejects a missing certifier', async () => {
         const res = await postRequest(
           validCertificationBody({ certifier_id: undefined, other_certifier: undefined }),

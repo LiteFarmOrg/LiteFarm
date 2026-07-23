@@ -90,3 +90,15 @@
     }
   }
 }
+
+.certificationListItem {
+  span:first-of-type {
+    padding-right: 8px;
+  }
+
+  .certificationBadge {
+    display: inline-flex;
+    margin-top: 2px;
+    vertical-align: top;
+  }
+}

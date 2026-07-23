@@ -123,30 +123,6 @@
     gap: 12px;
     flex-shrink: 0;
 
-    .cardStatusBadge {
-      display: flex;
-      align-items: center;
-      height: 18px;
-      padding: 4px;
-      border-radius: 2px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--White);
-      white-space: nowrap;
-
-      &.active {
-        background: var(--Colors-Secondary-Secondary-green-700);
-      }
-
-      &.expiring_soon {
-        background: var(--Colors-Accent---singles-Brown-full);
-      }
-
-      &.expired {
-        background: var(--Colors-Accent---singles-Red-full);
-      }
-    }
-
     .cardActions {
       display: flex;
       align-items: center;
@@ -169,6 +145,30 @@
         height: 24px;
       }
     }
+  }
+}
+
+.cardStatusBadge {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  padding: 4px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--White);
+  white-space: nowrap;
+
+  &.active {
+    background: var(--Colors-Secondary-Secondary-green-700);
+  }
+
+  &.expiring_soon {
+    background: var(--Colors-Accent---singles-Brown-full);
+  }
+
+  &.expired {
+    background: var(--Colors-Accent---singles-Red-full);
   }
 }
 
@@ -215,6 +215,19 @@
   .cardMain {
     flex-direction: column;
     align-items: stretch;
+
+    .cardSubtitle {
+      display: flex;
+      flex-direction: column;
+
+      > span {
+        @include truncateText();
+      }
+
+      .connector {
+        display: none;
+      }
+    }
   }
 
   .cardMeta {

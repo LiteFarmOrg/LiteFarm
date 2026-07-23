@@ -22,6 +22,15 @@ import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/tr
 import { ReactComponent as DocumentIcon } from '../../assets/images/document.svg';
 import { getLocalizedDateString } from '../../util/moment';
 import type { CertificationStatus } from './types';
+import {
+  getDaysLeft,
+  getCertificationStatus,
+  PGS_TRANSLATION_KEY,
+  ACTIVE,
+  EXPIRING_SOON,
+  PURSUING,
+  EXPIRED,
+} from '../../containers/Certifications/utils';
 import styles from './index.module.scss';
 
 interface CertificationCardProps {
@@ -38,37 +47,6 @@ interface CertificationCardProps {
   onDelete?: () => void;
 }
 
-const PGS_TRANSLATION_KEY = 'PGS';
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-const EXPIRING_SOON_WINDOW_DAYS = 30;
-
-const ACTIVE = 'active';
-const EXPIRING_SOON = 'expiring_soon';
-const PURSUING = 'pursuing';
-const EXPIRED = 'expired';
-
-// TODO: LF-5388 verify
-function getDaysLeft(isoDate: string): number {
-  return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
-}
-
-export function getCertificationStatus(
-  isActive: boolean,
-  expiryDate?: string | null,
-): CertificationStatus {
-  if (!isActive || !expiryDate) {
-    return PURSUING;
-  }
-  const daysLeft = getDaysLeft(expiryDate);
-  if (daysLeft <= 0) {
-    return EXPIRED;
-  }
-  if (daysLeft <= EXPIRING_SOON_WINDOW_DAYS) {
-    return EXPIRING_SOON;
-  }
-  return ACTIVE;
-}
-
 const getSubtitle = (
   t: TFunction,
   status: CertificationStatus,
@@ -83,9 +61,8 @@ const getSubtitle = (
     }
     return [certifierName, requestedSystemType].filter(Boolean).join('/');
   }
-
   if (expiryDate) {
-    const subtitleParts = [certifierAcronym];
+    const subtitleParts = [certifierAcronym || certifierName];
     const date = getLocalizedDateString(expiryDate, { month: '2-digit', year: 'numeric' });
     // The localized date can contain '/', which i18next would HTML-escape by default
     const options = { date, interpolation: { escapeValue: false } };
@@ -93,7 +70,16 @@ const getSubtitle = (
     if (status === EXPIRING_SOON) {
       subtitleParts.push(t('common:DAYS_LEFT', { count: getDaysLeft(expiryDate) }));
     }
-    return subtitleParts.filter(Boolean).join(' · ');
+    if (status !== EXPIRED) {
+      return subtitleParts.filter(Boolean).join(' · ');
+    }
+    return (
+      <>
+        <span>{subtitleParts.filter(Boolean).join(' · ')}</span>
+        <span className={styles.connector}> - </span>
+        <span>{t('CERTIFICATION.WILL_STILL_APPEAR_IN_MARKET_LISTING')}</span>
+      </>
+    );
   }
 };
 

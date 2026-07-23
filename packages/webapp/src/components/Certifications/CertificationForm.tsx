@@ -185,16 +185,15 @@ export default function CertificationForm({
 
   const certifierLabel = isThirdPartySystemType
     ? t('CERTIFICATION.FORM.CERTIFYING_BODY')
-    : t('CERTIFICATION.FORM.CERTIFYING_GROUP');
+    : t('CERTIFICATION.FORM.PGS_GROUP_NAME');
 
   const identifierLabel = isThirdPartySystemType
     ? t('CERTIFICATION.FORM.CERTIFICATE_NUMBER')
-    : t('CERTIFICATION.FORM.PGS_GROUP_NAME');
+    : t('CERTIFICATION.MEMBER_ID');
 
   const identifierPlaceholder = isThirdPartySystemType
     ? t('CERTIFICATION.FORM.CERTIFICATE_NUMBER_PLACEHOLDER')
-    : // : t('CERTIFICATION.FORM.PGS_GROUP_NAME_PLACEHOLDER'); TODO: LF-5388 Confirm placeholder
-      t('CERTIFICATION.FORM.CERTIFICATE_NUMBER_PLACEHOLDER');
+    : t('CERTIFICATION.FORM.MEMBER_ID_PLACEHOLDER');
 
   const certifierPlaceHolder = isThirdPartySystemType
     ? t('CERTIFICATION.FORM.CERTIFYING_BODY_PLACEHOLDER')
@@ -331,7 +330,6 @@ export default function CertificationForm({
               setValueAs: (value) => value.trim(),
             })}
             placeholder={t('CERTIFICATION.FORM.OTHER_CERTIFIER_PLACEHOLDER')}
-            optional
           />
         )}
 

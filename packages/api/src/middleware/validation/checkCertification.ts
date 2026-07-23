@@ -117,6 +117,9 @@ export function checkCertification() {
             .status(400)
             .json({ error: 'issue_date and valid_until are required for an active certification' });
         }
+        if (valid_until <= issue_date) {
+          return res.status(400).json({ error: 'valid_until must be after issue_date' });
+        }
       }
 
       next();

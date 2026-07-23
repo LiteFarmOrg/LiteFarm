@@ -20,14 +20,43 @@ import {
   SupportedCertifier,
   SupportedCertificationSystemType,
 } from '../../store/api/types';
-import type { CertificationItem } from '../../components/Certifications/types';
+import type { CertificationItem, CertificationStatus } from '../../components/Certifications/types';
 import type {
   CertificationFormValues,
   Certifier as FormCertifier,
   SystemType as FormSystemType,
 } from '../../components/Certifications/CertificationForm';
 
-const PGS_TRANSLATION_KEY = 'PGS';
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+export const PGS_TRANSLATION_KEY = 'PGS';
+
+const EXPIRING_SOON_WINDOW_DAYS = 30;
+
+export const ACTIVE = 'active';
+export const EXPIRING_SOON = 'expiring_soon';
+export const PURSUING = 'pursuing';
+export const EXPIRED = 'expired';
+
+export function getDaysLeft(isoDate: string): number {
+  return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
+}
+
+export function getCertificationStatus(
+  isActive: boolean,
+  expiryDate?: string | null,
+): CertificationStatus {
+  if (!isActive || !expiryDate) {
+    return PURSUING;
+  }
+  const daysLeft = getDaysLeft(expiryDate);
+  if (daysLeft < 0) {
+    return EXPIRED;
+  }
+  if (daysLeft <= EXPIRING_SOON_WINDOW_DAYS) {
+    return EXPIRING_SOON;
+  }
+  return ACTIVE;
+}
 
 // TODO LF-5379: SupportedCertificationSystemType's certification_id/certification_type/
 // certification_translation_key and SupportedCertifier's certification_id are shimmed

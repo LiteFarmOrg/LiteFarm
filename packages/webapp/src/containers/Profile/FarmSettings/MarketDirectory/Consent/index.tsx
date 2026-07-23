@@ -33,13 +33,22 @@ import DataSummary from '../DataSummary';
 import { PARTNERS_INFO } from './partners';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../../Snackbar/snackbarSlice';
 import { areSetsEqual } from '../../../../../util/comparisons';
-import { MarketDirectoryInfo, MarketDirectoryPartner } from '../../../../../store/api/types';
+import {
+  Certification,
+  MarketDirectoryInfo,
+  MarketDirectoryPartner,
+  SupportedCertifier,
+  SupportedCertificationSystemType,
+} from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 import { useDrawerState } from '../../../../../contexts/appContext';
 
 interface MarketDirectoryConsentProps {
   canConsent: boolean;
   marketDirectoryInfo?: MarketDirectoryInfo;
+  certifications: Certification[];
+  systemTypes: SupportedCertificationSystemType[];
+  certifiers: SupportedCertifier[];
 }
 
 const CONSENTED_TO_SHARE = 'consented_to_share';
@@ -48,6 +57,9 @@ const PARTNER_PERMISSION_IDS = 'partnerPermissionIds';
 const MarketDirectoryConsent = ({
   canConsent,
   marketDirectoryInfo,
+  certifications,
+  systemTypes,
+  certifiers,
 }: MarketDirectoryConsentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -136,7 +148,12 @@ const MarketDirectoryConsent = ({
       <div className={styles.consent}>
         <h3 className={styles.sectionTitle}>{t('MARKET_DIRECTORY.CONSENT.TITLE')}</h3>
         {!canConsent && <WarningBanner t={t} />}
-        <DataSummary marketDirectoryInfo={marketDirectoryInfo} />
+        <DataSummary
+          marketDirectoryInfo={marketDirectoryInfo}
+          certifications={certifications}
+          systemTypes={systemTypes}
+          certifiers={certifiers}
+        />
         <div className={clsx(styles.consentMain, isConsentFormDisabled && styles.disabled)}>
           <p>
             <Trans

@@ -15,6 +15,7 @@
 
 import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
 import TextButton from '../../../../../components/Form/Button/TextButton';
@@ -37,7 +38,6 @@ import {
 } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 import certificationsStyles from '../../../../../components/Certifications/index.module.scss';
-import clsx from 'clsx';
 
 const ID = 'summary';
 

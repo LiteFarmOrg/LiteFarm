@@ -61,9 +61,8 @@ const getSubtitle = (
     }
     return [certifierName, requestedSystemType].filter(Boolean).join('/');
   }
-
   if (expiryDate) {
-    const subtitleParts = [certifierAcronym];
+    const subtitleParts = [certifierAcronym || certifierName];
     const date = getLocalizedDateString(expiryDate, { month: '2-digit', year: 'numeric' });
     // The localized date can contain '/', which i18next would HTML-escape by default
     const options = { date, interpolation: { escapeValue: false } };
@@ -76,9 +75,9 @@ const getSubtitle = (
     }
     return (
       <>
-        <span>{subtitleParts.filter(Boolean).join(' · ')}</span>,
-        <span className={styles.connector}> - </span>,
-        <span>{t('CERTIFICATION.WILL_STILL_APPEAR_IN_MARKET_LISTING')}</span>,
+        <span>{subtitleParts.filter(Boolean).join(' · ')}</span>
+        <span className={styles.connector}> - </span>
+        <span>{t('CERTIFICATION.WILL_STILL_APPEAR_IN_MARKET_LISTING')}</span>
       </>
     );
   }

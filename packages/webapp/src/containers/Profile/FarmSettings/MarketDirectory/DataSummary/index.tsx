@@ -103,9 +103,7 @@ const DataSummaryList = ({
     market_product_categories,
   } = marketDirectoryInfo || {};
 
-  // Pursuing certifications are never published, so they don't belong in a summary of what's actually being shared.
-  const activeCertifications = certifications.filter((cert) => cert.is_active);
-  const certificationItems = toCertificationItems(activeCertifications, systemTypes, certifiers, t);
+  const certificationItems = toCertificationItems(certifications, systemTypes, certifiers, t);
 
   return (
     <ul className={styles.dataSummaryList}>

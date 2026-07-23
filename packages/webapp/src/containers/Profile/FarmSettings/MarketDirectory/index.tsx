@@ -80,8 +80,13 @@ const MarketDirectory = () => {
   const { data: marketProductCategories = [], isLoading: isMarketProductCategoriesLoading } =
     useGetMarketProductCategoriesQuery();
 
-  const { data: certifications = [], isLoading: isCertificationsLoading } =
-    useGetCertificationsQuery();
+  const { data: activeCertifications = [], isLoading: isCertificationsLoading } =
+    useGetCertificationsQuery(undefined, {
+      selectFromResult: ({ data, isLoading }) => ({
+        data: data?.filter((cert) => cert.is_active),
+        isLoading,
+      }),
+    });
   const { data: certifiers = [], isLoading: isCertifiersLoading } = useGetSupportedCertifiersQuery(
     farm_id!,
   );
@@ -120,7 +125,7 @@ const MarketDirectory = () => {
       title: t('MENU.CERTIFICATIONS'),
       content: !isCertificationDataLoading && (
         <MarketDirectoryCertifications
-          certifications={certifications}
+          certifications={activeCertifications}
           systemTypes={systemTypes}
           certifiers={certifiers}
         />
@@ -165,7 +170,7 @@ const MarketDirectory = () => {
           <MarketDirectoryConsent
             canConsent={areAllFormsComplete}
             marketDirectoryInfo={marketDirectoryInfo}
-            certifications={certifications}
+            certifications={activeCertifications}
             systemTypes={systemTypes}
             certifiers={certifiers}
           />

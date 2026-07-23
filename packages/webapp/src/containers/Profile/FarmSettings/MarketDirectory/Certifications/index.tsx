@@ -16,7 +16,7 @@
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getCertificationStatus, toCertificationItems } from '../../../../Certifications/utils';
+import { toCertificationItems } from '../../../../Certifications/utils';
 import CertificationsEmptyState from '../../../../../components/Certifications/CertificationsEmptyState';
 import CertificationCard from '../../../../../components/Certifications/CertificationCard';
 import {
@@ -42,20 +42,14 @@ export default function MarketDirectoryCertifications({
 
   const certificationItems = toCertificationItems(certifications, systemTypes, certifiers, t);
 
-  // Only certifications that are actually publishable (active and not expired) belong on this read-only summary
-  const publishableCertifications = certificationItems.filter(
-    (cert) =>
-      !['expired', 'pursuing'].includes(getCertificationStatus(cert.isActive, cert.expiryDate)),
-  );
-
-  return publishableCertifications.length === 0 ? (
+  return certificationItems.length === 0 ? (
     <CertificationsEmptyState
       className={styles.emptyState}
       onAddCertification={() => history.push('/certifications/add_certification')}
     />
   ) : (
     <div className={clsx(certificationStyles.listCards, certificationStyles.active, styles.list)}>
-      {publishableCertifications.map((cert) => (
+      {certificationItems.map((cert) => (
         <CertificationCard
           key={cert.id}
           {...cert}

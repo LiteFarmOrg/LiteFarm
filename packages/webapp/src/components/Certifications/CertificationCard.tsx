@@ -74,11 +74,13 @@ const getSubtitle = (
     if (status !== EXPIRED) {
       return subtitleParts.filter(Boolean).join(' · ');
     }
-    return [
-      <span>{subtitleParts.filter(Boolean).join(' · ')}</span>,
-      <span className={styles.connector}> - </span>,
-      <span>{t('CERTIFICATION.WILL_STILL_APPEAR_IN_MARKET_LISTING')}</span>,
-    ];
+    return (
+      <>
+        <span>{subtitleParts.filter(Boolean).join(' · ')}</span>,
+        <span className={styles.connector}> - </span>,
+        <span>{t('CERTIFICATION.WILL_STILL_APPEAR_IN_MARKET_LISTING')}</span>,
+      </>
+    );
   }
 };
 

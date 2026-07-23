@@ -78,7 +78,7 @@ function TaskCrops({
   const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
   const activeAndCurrentManagementPlansByLocationIds =
     useActiveAndCurrentManagementPlanTilesByLocationIds(
-      locations || persistedFormData.locations,
+      locations?.length ? locations : persistedFormData.locations,
       showWildCrops,
     );
 

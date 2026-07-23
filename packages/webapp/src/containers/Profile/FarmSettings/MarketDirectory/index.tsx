@@ -165,6 +165,9 @@ const MarketDirectory = () => {
           <MarketDirectoryConsent
             canConsent={areAllFormsComplete}
             marketDirectoryInfo={marketDirectoryInfo}
+            certifications={certifications}
+            systemTypes={systemTypes}
+            certifiers={certifiers}
           />
         )}
       </div>

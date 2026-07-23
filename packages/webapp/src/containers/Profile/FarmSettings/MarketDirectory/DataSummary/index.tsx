@@ -13,15 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
 import TextButton from '../../../../../components/Form/Button/TextButton';
 import PrivateBadge from '../../../../../components/SimpleBadges/PrivateBadge';
+import type { CertificationItem } from '../../../../../components/Certifications/types';
+import {
+  EXPIRED,
+  getCertificationStatus,
+  PGS_TRANSLATION_KEY,
+  toCertificationItems,
+} from '../../../../Certifications/utils';
+import { getLocalizedDateString } from '../../../../../util/moment';
 import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
 import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
-import { MarketDirectoryInfo } from '../../../../../store/api/types';
+import {
+  Certification,
+  MarketDirectoryInfo,
+  SupportedCertifier,
+  SupportedCertificationSystemType,
+} from '../../../../../store/api/types';
 import styles from './styles.module.scss';
+import certificationsStyles from '../../../../../components/Certifications/index.module.scss';
+import clsx from 'clsx';
 
 const ID = 'summary';
 
@@ -29,9 +45,17 @@ type MarketDirectoryInfoValue = MarketDirectoryInfo[keyof MarketDirectoryInfo];
 
 interface ComponentProps {
   marketDirectoryInfo?: MarketDirectoryInfo;
+  certifications: Certification[];
+  systemTypes: SupportedCertificationSystemType[];
+  certifiers: SupportedCertifier[];
 }
 
-const DataSummary = ({ marketDirectoryInfo }: ComponentProps) => {
+const DataSummary = ({
+  marketDirectoryInfo,
+  certifications,
+  systemTypes,
+  certifiers,
+}: ComponentProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const isSummaryExpanded = expandedIds.includes(ID);
@@ -44,15 +68,25 @@ const DataSummary = ({ marketDirectoryInfo }: ComponentProps) => {
       </TextButton>
       <Collapse id={ID} in={isSummaryExpanded} timeout="auto" unmountOnExit>
         <div className={styles.content}>
-          <DataSummaryList marketDirectoryInfo={marketDirectoryInfo} />
+          <DataSummaryList
+            marketDirectoryInfo={marketDirectoryInfo}
+            certifications={certifications}
+            systemTypes={systemTypes}
+            certifiers={certifiers}
+          />
         </div>
       </Collapse>
     </div>
   );
 };
 
-const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
-  const { t } = useTranslation(['translation', 'common']);
+const DataSummaryList = ({
+  marketDirectoryInfo,
+  certifications,
+  systemTypes,
+  certifiers,
+}: ComponentProps) => {
+  const { t } = useTranslation(['translation', 'common', 'certifications']);
   const {
     farm_name,
     about,
@@ -68,6 +102,10 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
     x,
     market_product_categories,
   } = marketDirectoryInfo || {};
+
+  // Pursuing certifications are never published, so they don't belong in a summary of what's actually being shared.
+  const activeCertifications = certifications.filter((cert) => cert.is_active);
+  const certificationItems = toCertificationItems(activeCertifications, systemTypes, certifiers, t);
 
   return (
     <ul className={styles.dataSummaryList}>
@@ -116,6 +154,15 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
           />
         </ul>
       </li>
+
+      <li>
+        {t('MENU.CERTIFICATIONS')}
+        <ul>
+          {certificationItems.map((cert) => (
+            <CertificationListItem key={cert.id} certification={cert} t={t} />
+          ))}
+        </ul>
+      </li>
     </ul>
   );
 };
@@ -123,6 +170,57 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
 const ListItem = ({ label, values }: { label: string; values: MarketDirectoryInfoValue[] }) => {
   const hasData = values.some((value) => (Array.isArray(value) ? value.length > 0 : !!value));
   return <li className={hasData ? styles.hasData : undefined}>{label}</li>;
+};
+
+const CertificationListItem = ({
+  certification,
+  t,
+}: {
+  certification: CertificationItem;
+  t: TFunction;
+}) => {
+  const isExpired =
+    getCertificationStatus(certification.isActive, certification.expiryDate) === EXPIRED;
+  const isPgs = certification.systemTypeTranslationKey === PGS_TRANSLATION_KEY;
+  const identifier = isPgs ? certification.certificateMemberId : certification.certificateNumber;
+  const identifierLabel = isPgs
+    ? t('CERTIFICATION.MEMBER_ID')
+    : t('CERTIFICATION.CERTIFICATION_ID');
+
+  // e.g. "Third-party organic · IOPA · Certification ID: CAN-ORG-2024-01567 · Expires 07/23/2026"
+  const certificationSummary = [
+    t(`certifications:${certification.systemTypeTranslationKey}`),
+    certification.certifierAcronym ?? certification.certifierName,
+    identifier && `${identifierLabel}: ${identifier}`,
+    certification.expiryDate &&
+      t(isExpired ? 'common:EXPIRED_ON' : 'common:EXPIRES', {
+        date: getLocalizedDateString(certification.expiryDate, {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric',
+        }),
+        interpolation: { escapeValue: false },
+      }),
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
+  return (
+    <li className={clsx(styles.hasData, styles.certificationListItem)}>
+      <span>{certificationSummary}</span>
+      {isExpired && (
+        <span
+          className={clsx(
+            styles.certificationBadge,
+            certificationsStyles.cardStatusBadge,
+            certificationsStyles.expired,
+          )}
+        >
+          {t('common:EXPIRED')}
+        </span>
+      )}
+    </li>
+  );
 };
 
 export default DataSummary;

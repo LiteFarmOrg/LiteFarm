@@ -41,7 +41,7 @@ type AnimalLocations =
   | FlattenedBufferZone
   | FlattenedWatercourse;
 
-function useAnimalLocations(): UseLocationsReturn<AnimalLocations[] | undefined> {
+function useAnimalLocations(): UseLocationsReturn<AnimalLocations[]> {
   const { locations, isLoading, isFetching } = useLocations({
     filterBy: [
       InternalMapLocationType.BARN,
@@ -58,7 +58,7 @@ function useAnimalLocations(): UseLocationsReturn<AnimalLocations[] | undefined>
   });
 
   return {
-    locations,
+    locations: locations ?? [],
     isLoading,
     isFetching,
   };

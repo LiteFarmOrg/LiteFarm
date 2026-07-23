@@ -22,6 +22,15 @@ import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/tr
 import { ReactComponent as DocumentIcon } from '../../assets/images/document.svg';
 import { getLocalizedDateString } from '../../util/moment';
 import type { CertificationStatus } from './types';
+import {
+  getDaysLeft,
+  getCertificationStatus,
+  PGS_TRANSLATION_KEY,
+  ACTIVE,
+  EXPIRING_SOON,
+  PURSUING,
+  EXPIRED,
+} from '../../containers/Certifications/utils';
 import styles from './index.module.scss';
 
 interface CertificationCardProps {
@@ -36,36 +45,6 @@ interface CertificationCardProps {
   documentFileName?: string | null;
   onEdit: () => void;
   onDelete?: () => void;
-}
-
-const PGS_TRANSLATION_KEY = 'PGS';
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-const EXPIRING_SOON_WINDOW_DAYS = 30;
-
-const ACTIVE = 'active';
-const EXPIRING_SOON = 'expiring_soon';
-const PURSUING = 'pursuing';
-const EXPIRED = 'expired';
-
-function getDaysLeft(isoDate: string): number {
-  return Math.ceil((new Date(isoDate).getTime() - Date.now()) / MS_PER_DAY);
-}
-
-export function getCertificationStatus(
-  isActive: boolean,
-  expiryDate?: string | null,
-): CertificationStatus {
-  if (!isActive || !expiryDate) {
-    return PURSUING;
-  }
-  const daysLeft = getDaysLeft(expiryDate);
-  if (daysLeft < 0) {
-    return EXPIRED;
-  }
-  if (daysLeft <= EXPIRING_SOON_WINDOW_DAYS) {
-    return EXPIRING_SOON;
-  }
-  return ACTIVE;
 }
 
 const getSubtitle = (

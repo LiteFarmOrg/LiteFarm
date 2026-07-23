@@ -86,7 +86,7 @@ export const plantTasksByManagementPlanIdEntitiesSelector = createSelector(
   (plantTaskEntities) => {
     return Object.values(plantTaskEntities).reduce(
       (plantTasksByManagementPlanIdEntities, plantTask) => {
-        // Plan may not be fetched yet.
+        // The planting management plan may not be in the store yet.
         const management_plan_id = plantTask.planting_management_plan?.management_plan_id;
         if (management_plan_id !== undefined) {
           plantTasksByManagementPlanIdEntities[management_plan_id] = plantTask;

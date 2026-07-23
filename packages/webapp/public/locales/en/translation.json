@@ -406,8 +406,8 @@
   },
   "CERTIFICATION": {
     "ADD_CERTIFICATIONS": "Add certifications",
-    "BANNER": "Certifications added here appear automatically in your <strong>Market Directory profile</strong>, so buyers can see your credentials in your listing.",
-    "BANNER_SAVED": "Certification saved and added to your <strong>Market Directory profile</strong>.",
+    "BANNER": "Active certifications added here appear automatically in your <strong>Market Directory profile</strong>, so buyers can see your credentials in your listing.",
+    "BANNER_SAVED": "Active and expired certifications saved and added to your <strong>Market Directory profile</strong>.",
     "CERTIFICATE_DOCUMENT": "Certificate document",
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",
@@ -468,7 +468,6 @@
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
     },
     "LIST": {
-      "ACTIVE_SECTION": "Active certifications",
       "PURSUING_SECTION": "Pursuing certifications"
     },
     "MEMBER_ID": "Member ID",

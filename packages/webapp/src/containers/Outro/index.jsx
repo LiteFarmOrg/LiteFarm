@@ -10,7 +10,7 @@ function Outro() {
   const { navigation } = useSelector(showedSpotlightSelector);
   const toShowSpotlight = !navigation;
   const onGoBack = () => {
-    history.push('/certification/interested_in_organic');
+    history.push('/consent');
   };
   const onContinue = () => {
     dispatch(patchOutroStep());

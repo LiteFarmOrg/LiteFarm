@@ -1,20 +1,16 @@
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureOutroSplash from '../../components/Outro';
-import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { patchOutroStep } from './saga';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 function Outro() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const survey = useSelector(certifierSurveySelector);
   const { navigation } = useSelector(showedSpotlightSelector);
   const toShowSpotlight = !navigation;
   const onGoBack = () => {
-    history.push(
-      !survey.interested ? '/certification/interested_in_organic' : 'certification/summary',
-    );
+    history.push('/certification/interested_in_organic');
   };
   const onContinue = () => {
     dispatch(patchOutroStep());

@@ -53,7 +53,23 @@ export function checkCertification() {
         certificate_member_id,
         issue_date,
         valid_until,
+        requested_system_type,
       } = req.body;
+
+      // Onboarding captures only whether the farm intends to pursue a certification.
+      // That "pursuing" record is inactive and carries no certifier, system type, or
+      // certification type yet; the Certifications tool fills those in later. Accept it
+      // without the detail-field requirements below.
+      const isPursuingRecord =
+        is_active === false &&
+        system_type_id == null &&
+        certifier_id == null &&
+        !certification_type &&
+        !requested_system_type &&
+        !other_certifier?.trim();
+      if (isPursuingRecord) {
+        return next();
+      }
 
       const systemType =
         system_type_id != null

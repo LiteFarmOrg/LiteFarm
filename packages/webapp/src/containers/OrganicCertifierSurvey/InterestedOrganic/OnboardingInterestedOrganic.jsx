@@ -1,71 +1,53 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { PureInterestedOrganic } from '../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
-import { useDispatch, useSelector } from 'react-redux';
-import { certifierSurveySelector } from '../slice';
-import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { getOrganicSurveyReqBody } from '../SetCertificationSummary/utils/getOrganicSurveyReqBody';
+import Spinner from '../../../components/Loading/LoadingV2/Spinner';
 import {
-  getAllSupportedCertifications,
-  getAllSupportedCertifiers,
-  getCertificationSurveys,
-  postOrganicCertifierSurvey,
-  putOrganicCertifierSurvey,
-} from '../saga';
-import { setInterested } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+  useGetCertificationsQuery,
+  useAddCertificationMutation,
+  useDeleteCertificationMutation,
+} from '../../../store/api/certificationsApi';
+import { patchStepFour } from '../saga';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
 export default function OnboardingInterestedOrganic() {
   const history = useHistory();
-  const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
-  const consentPath = '/consent';
+  const { data: certifications = [], isLoading } = useGetCertificationsQuery();
+  const [addCertification] = useAddCertificationMutation();
+  const [deleteCertification] = useDeleteCertificationMutation();
+
   const onGoBack = () => {
-    history.push(consentPath);
+    history.push('/consent');
   };
-  const certificationSelectionPath = '/certification/selection';
-  const outroPath = '/outro';
-  useEffect(() => {
-    dispatch(getCertificationSurveys());
-    dispatch(getAllSupportedCertifications());
-    dispatch(getAllSupportedCertifiers());
-  }, []);
 
-  const onSubmit = (data) => {
-    if (data.interested) {
-      dispatch(setInterested(data.interested));
-      history.push(certificationSelectionPath);
-    } else {
-      const callback = () => history.push(outroPath);
-      if (survey.survey_id) {
-        dispatch(
-          putOrganicCertifierSurvey({
-            survey: getOrganicSurveyReqBody({
-              interested: false,
-              survey_id: survey.survey_id,
-            }),
-            callback,
-          }),
-        );
-      } else {
-        dispatch(
-          postOrganicCertifierSurvey({
-            survey: getOrganicSurveyReqBody({ interested: false }),
-            callback,
-          }),
+  const onSubmit = async (data) => {
+    try {
+      if (data.interested) {
+        if (!certifications.length) {
+          await addCertification({ is_active: false }).unwrap();
+        }
+      } else if (certifications.length) {
+        await Promise.all(
+          certifications.map((certification) => deleteCertification(certification.id).unwrap()),
         );
       }
+      dispatch(patchStepFour());
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:ORGANIC_CERTIFIER_SURVEY.ERROR.CREATE')));
     }
   };
 
-  return (
-    <HookFormPersistProvider>
-      <PureInterestedOrganic
-        onSubmit={onSubmit}
-        onGoBack={onGoBack}
-        persistedPathNames={[certificationSelectionPath, outroPath, consentPath]}
-        survey={survey}
-      />
-    </HookFormPersistProvider>
-  );
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  const survey = certifications.length ? { interested: true } : {};
+
+  return <PureInterestedOrganic onSubmit={onSubmit} onGoBack={onGoBack} survey={survey} />;
 }

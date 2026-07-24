@@ -18,7 +18,6 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../containers/userFarmSlice';
-import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -30,38 +29,9 @@ const InterestedOrganic = React.lazy(
   () =>
     import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-    ),
-);
-
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-    ),
-);
-
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
-    ),
-);
-
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
-);
 
 function OnboardingFlow(props) {
   const { step_one, step_two, step_three, step_four, step_five, has_consent } = props;
-
-  const { interested } = useSelector(
-    hookFormPersistSelector,
-    (pre, next) => pre.interested === next.interested,
-  );
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
   const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
@@ -108,42 +78,6 @@ function OnboardingFlow(props) {
         children={
           <RequireCondition condition={step_three} {...requireConditionProps}>
             <InterestedOrganic />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/selection"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <CertificationSelection />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/certifier/selection"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <CertifierSelectionMenu />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/certifier/request"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <RequestCertifier />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/summary"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <SetCertificationSummary />
           </RequireCondition>
         }
       />

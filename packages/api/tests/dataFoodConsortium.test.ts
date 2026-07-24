@@ -376,7 +376,7 @@ describe('Data Food Consortium Tests', () => {
       expect(certNode).toBeUndefined();
     });
 
-    test('Should only include certifications that expire after today', async () => {
+    test('Should include certifications regardless of expiry date', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const marketDirectoryInfo = await createMarketDirectoryInfoForTest(undefined, userFarmIds);
 
@@ -391,8 +391,10 @@ describe('Data Food Consortium Tests', () => {
         return certification;
       };
 
-      await createCertificationWithValidUntil('2020-01-01'); // expired
-      await createCertificationWithValidUntil(knex.raw('CURRENT_DATE')); // expires today — excluded
+      const expiredCertification = await createCertificationWithValidUntil('2020-01-01'); // expired
+      const expiringTodayCertification = await createCertificationWithValidUntil(
+        knex.raw('CURRENT_DATE'),
+      ); // expires today
       const validCertification = await createCertificationWithValidUntil(
         knex.raw('CURRENT_DATE + 1'),
       );
@@ -404,8 +406,14 @@ describe('Data Food Consortium Tests', () => {
       const certNodes = res.body['@graph'].filter(
         (entity: DfcEntity) => entity['@type'] === 'dfc-b:Certfication',
       );
-      expect(certNodes).toHaveLength(1);
-      expect(certNodes[0]['@id']).toContain(`#certification-${validCertification.id}`);
+      expect(certNodes).toHaveLength(3);
+      expect(certNodes.map((node: DfcEntity) => node['@id'])).toEqual(
+        expect.arrayContaining(
+          [expiredCertification, expiringTodayCertification, validCertification].map((cert) =>
+            expect.stringContaining(`#certification-${cert.id}`),
+          ),
+        ),
+      );
     });
   });
 

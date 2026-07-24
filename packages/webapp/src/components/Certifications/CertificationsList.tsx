@@ -41,7 +41,7 @@ export default function CertificationsList({
     <div className={styles.list}>
       {activeCerts.length > 0 && (
         <div className={styles.listSection}>
-          <h3>{t('CERTIFICATION.LIST.ACTIVE_SECTION')}</h3>
+          <h3>{t('MENU.CERTIFICATIONS')}</h3>
           <div className={clsx(styles.listCards, styles.active)}>
             {activeCerts.map((cert) => (
               <CertificationCard

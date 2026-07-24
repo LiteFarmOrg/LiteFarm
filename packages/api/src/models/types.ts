@@ -658,7 +658,6 @@ export type Certification = {
   certificate_number?: string | null;
   issue_date?: string | null;
   valid_until?: string | null;
-  certificate_document_url?: string | null;
   certificationSystemType?: CertificationSystemType | null;
   certifier?: Certifier | null;
 };

@@ -28,7 +28,6 @@ const activeCert: CertificationItem = {
   certificateNumber: 'CAN-ORG-2024-01567',
   isActive: true,
   expiryDate: daysFromNow(365),
-  documentFileName: 'Organic-BC.pdf',
 };
 
 const expiringSoonCert: CertificationItem = {

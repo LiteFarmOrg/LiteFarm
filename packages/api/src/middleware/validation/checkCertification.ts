@@ -30,7 +30,6 @@ export interface CertificationBody {
   certificate_member_id?: string | null;
   issue_date?: string | null;
   valid_until?: string | null;
-  certificate_document_url?: string | null;
 }
 
 export interface CertificationParams {

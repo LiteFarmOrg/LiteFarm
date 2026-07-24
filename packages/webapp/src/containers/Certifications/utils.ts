@@ -148,34 +148,13 @@ const formatCertifierLabel = (
     certifierName = certification.other_certifier;
   }
 
-  return systemTypeName ? `${certifierName} - ${systemTypeName}` : certifierName ?? '';
-};
-
-// getFileNameWithOriginalName (digitalOceanSpaces.js) stores keys as `${uuid}-${name}.${ext}`,
-// so the original filename can be recovered from the URL. Certifications uploaded before that
-// change only have a bare `${uuid}.${ext}` key (see getRandomFileName) with no name to recover —
-// those fall back to a generic label instead.
-const UUID_NAME_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}-(.+)$/i;
-
-const toDocumentFileName = (documentUrl: string | null, t: TFunction): string | null => {
-  if (!documentUrl) {
-    return null;
-  }
-  const fullFileName = documentUrl.split('/').pop() ?? '';
-  const match = fullFileName.match(UUID_NAME_PATTERN);
-  if (match) {
-    return decodeURIComponent(match[1]);
-  }
-
-  const extension = fullFileName.split('.').pop();
-  return extension ? `${t('common:DOCUMENT')}.${extension}` : t('common:DOCUMENT');
+  return systemTypeName ? `${certifierName} - ${systemTypeName}` : (certifierName ?? '');
 };
 
 export const toCertificationItems = (
   certifications: Certification[],
   systemTypes: SupportedCertificationSystemType[],
   certifiers: SupportedCertifier[],
-  t: TFunction,
 ): CertificationItem[] => {
   const systemTypesMap = buildSystemTypesMap(systemTypes);
   const certifiersMap = buildCertifiersMap(certifiers);
@@ -198,7 +177,6 @@ export const toCertificationItems = (
       certificateMemberId: certification.certificate_member_id,
       isActive: certification.is_active,
       expiryDate: certification.valid_until,
-      documentFileName: toDocumentFileName(certification.certificate_document_url, t),
     };
   });
 };
@@ -253,7 +231,6 @@ export const toCertificationFormValues = (
     // requires exactly 'YYYY-MM-DD'.
     issue_date: certification.issue_date ? getDateInputFormat(certification.issue_date) : null,
     valid_until: certification.valid_until ? getDateInputFormat(certification.valid_until) : null,
-    certificate_document_url: certification.certificate_document_url,
   };
 };
 
@@ -268,7 +245,7 @@ export const toCertificationRequestBody = (
 
   return {
     system_type_id: data.system_type_id,
-    certifier_id: isOtherCertifier ? null : data.certifier?.value ?? null,
+    certifier_id: isOtherCertifier ? null : (data.certifier?.value ?? null),
     other_certifier: isOtherCertifier ? data.other_certifier.trim() : null,
     is_active: data.is_active,
     certification_type: data.certification_type,
@@ -276,6 +253,5 @@ export const toCertificationRequestBody = (
     certificate_member_id: data.is_active && isPgs ? data.certificationIdentifier.trim() : null,
     issue_date: data.is_active ? data.issue_date : null,
     valid_until: data.is_active ? data.valid_until : null,
-    certificate_document_url: data.certificate_document_url,
   };
 };

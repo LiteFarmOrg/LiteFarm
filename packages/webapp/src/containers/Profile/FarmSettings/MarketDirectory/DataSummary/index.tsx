@@ -103,7 +103,7 @@ const DataSummaryList = ({
     market_product_categories,
   } = marketDirectoryInfo || {};
 
-  const certificationItems = toCertificationItems(certifications, systemTypes, certifiers, t);
+  const certificationItems = toCertificationItems(certifications, systemTypes, certifiers);
 
   return (
     <ul className={styles.dataSummaryList}>

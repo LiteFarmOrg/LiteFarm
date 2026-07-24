@@ -114,15 +114,6 @@ async function exportRequest(data: object, { user_id, farm_id }: UserFarmIds) {
     .send(data);
 }
 
-async function uploadRequest(fileName: string, { user_id, farm_id }: UserFarmIds) {
-  return chai
-    .request(server)
-    .post(`/certifications/upload/farm/${farm_id}`)
-    .set('user_id', user_id)
-    .set('farm_id', farm_id)
-    .attach('_file_', Buffer.from('fake-file-content'), fileName);
-}
-
 describe('Certifications CRUD tests', () => {
   let thirdPartyCertifier: Certifier;
   let thirdPartySystemTypeId: number;
@@ -422,10 +413,11 @@ describe('Certifications CRUD tests', () => {
     test('Updates and replaces all mutable fields', async () => {
       const userFarmIds = await createUserFarmIds(1);
       const certification = await createCertification(userFarmIds, {
-        certificate_document_url: 'https://example.com/old-doc.pdf',
+        certifier_id: null,
+        other_certifier: 'Some Old Certifier',
       });
 
-      // Body omits certificate_document_url — full-replace semantics clear it
+      // Body omits other_certifier (uses certifier_id instead) — full-replace semantics clear it
       const res = await putRequest(
         certification.id,
         validCertificationBody({ certificate_number: 'NEW-NUMBER-99' }),
@@ -437,7 +429,7 @@ describe('Certifications CRUD tests', () => {
 
       const persisted = await knex('certification').where({ id: certification.id }).first();
       expect(persisted.certificate_number).toBe('NEW-NUMBER-99');
-      expect(persisted.certificate_document_url).toBeNull();
+      expect(persisted.other_certifier).toBeNull();
       expect(persisted.updated_by_user_id).toBe(userFarmIds.user_id);
     });
 
@@ -593,50 +585,6 @@ describe('Certifications CRUD tests', () => {
         },
         { user_id, farm_id: userFarmIds.farm_id },
       );
-
-      expect(res.status).toBe(403);
-    });
-  });
-
-  describe('POST /certifications/upload/farm/:farm_id', () => {
-    test('Uploads a PDF and returns urls', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-
-      const res = await uploadRequest('certificate.pdf', userFarmIds);
-
-      expect(res.status).toBe(201);
-      expect(res.body.url).toContain(`${userFarmIds.farm_id}/certification/`);
-      expect(res.body.thumbnail_url).toBeDefined();
-    });
-
-    test('Uploads an image and returns urls', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-
-      const res = await uploadRequest('certificate.png', userFarmIds);
-
-      expect(res.status).toBe(201);
-      expect(res.body.url).toContain(`${userFarmIds.farm_id}/certification/`);
-    });
-
-    test('Rejects an unsupported file type', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-
-      const res = await uploadRequest('certificate.exe', userFarmIds);
-
-      expect(res.status).toBe(400);
-    });
-
-    test('Workers cannot upload a document', async () => {
-      const userFarmIds = await createUserFarmIds(1);
-      const [{ user_id }] = await mocks.userFarmFactory({
-        promisedFarm: Promise.resolve([{ farm_id: userFarmIds.farm_id }]),
-        roleId: 3,
-      });
-
-      const res = await uploadRequest('certificate.pdf', {
-        user_id,
-        farm_id: userFarmIds.farm_id,
-      });
 
       expect(res.status).toBe(403);
     });

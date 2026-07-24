@@ -15,7 +15,6 @@
 
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { toCertificationItems } from '../../../../Certifications/utils';
 import CertificationsEmptyState from '../../../../../components/Certifications/CertificationsEmptyState';
 import CertificationCard, {
@@ -39,10 +38,9 @@ export default function MarketDirectoryCertifications({
   systemTypes,
   certifiers,
 }: MarketDirectoryCertificationsProps) {
-  const { t } = useTranslation('common');
   const history = useHistory();
 
-  const certificationItems = toCertificationItems(certifications, systemTypes, certifiers, t);
+  const certificationItems = toCertificationItems(certifications, systemTypes, certifiers);
 
   // Only certifications that are actually publishable (active and not expired) belong on this read-only summary
   const publishableCertifications = certificationItems.filter(

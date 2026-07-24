@@ -197,20 +197,6 @@
   @include truncateText();
 }
 
-.cardDocumentName {
-  display: flex;
-  justify-self: flex-end;
-  align-items: center;
-  gap: 2px;
-  color: var(--Colors-Neutral-Neutral-900);
-
-  svg {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-}
-
 @include md-breakpoint {
   .cardMain {
     flex-direction: column;
@@ -225,10 +211,6 @@
 
   .card.pursuing .cardMeta {
     justify-content: flex-end;
-  }
-
-  .cardDocument {
-    display: none;
   }
 }
 

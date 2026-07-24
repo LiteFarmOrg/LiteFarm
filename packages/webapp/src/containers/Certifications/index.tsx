@@ -67,7 +67,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const certifications = toCertificationItems(rawCertifications, systemTypes, certifiers, t);
+  const certifications = toCertificationItems(rawCertifications, systemTypes, certifiers);
 
   const onExport = () => {
     history.push('/certification/report_period');

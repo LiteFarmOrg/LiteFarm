@@ -21,9 +21,6 @@ import Input from '../Form/Input';
 import RadioGroup from '../Form/RadioGroup';
 import Switch from '../Form/Switch';
 import ReactSelect from '../Form/ReactSelect';
-import ImagePicker from '../ImagePicker';
-import useImagePickerUpload, { GetOnFileUpload } from '../ImagePicker/useImagePickerUpload';
-import useMediaWithAuthentication from '../../containers/hooks/useMediaWithAuthentication';
 import FormNavigationButtons from '../Form/FormNavigationButtons';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import { Error } from '../Typography';
@@ -38,7 +35,6 @@ const OTHER_CERTIFIER = 'other_certifier';
 const CERTIFICATE_IDENTIFIER = 'certificationIdentifier';
 const ISSUE_DATE = 'issue_date';
 const VALID_UNTIL = 'valid_until';
-const DOCUMENT_URL = 'certificate_document_url';
 
 export type CertificationTypeOption = { value: string; label: string };
 
@@ -65,7 +61,6 @@ export type CertificationFormValues = {
   certificationIdentifier: string;
   issue_date: string | null;
   valid_until: string | null;
-  certificate_document_url: string | null;
 };
 
 type CertificationFormProps = {
@@ -86,7 +81,6 @@ const DEFAULT_VALUES: CertificationFormValues = {
   certificationIdentifier: '',
   issue_date: null,
   valid_until: null,
-  certificate_document_url: null,
 };
 
 const DateError = ({
@@ -102,38 +96,6 @@ const DateError = ({
     (issueDate && validUntil && issueDate < validUntil) || !issueDate || !validUntil;
 
   return <>{!areDatesProperlySet && <Error>{errorMessage}</Error>}</>;
-};
-
-const CertificateDocumentPicker = ({
-  label,
-  value,
-  onChange,
-  onRemove,
-  getOnFileUpload,
-}: {
-  label: string;
-  value: string | null;
-  onChange: (url: string | null) => void;
-  onRemove: () => void;
-  getOnFileUpload: GetOnFileUpload;
-}) => {
-  const { mediaUrl, isLoading } = useMediaWithAuthentication({ fileUrls: value ? [value] : [] });
-
-  // ImagePicker only reads defaultUrl once, at mount (useState(defaultUrl), no sync effect) —
-  // so it must not mount until the authenticated fetch for an existing document has resolved,
-  // otherwise it'd permanently capture an empty preview and never pick up mediaUrl once ready.
-  if (value && isLoading) {
-    return null;
-  }
-
-  return (
-    <ImagePicker
-      label={label}
-      defaultUrl={mediaUrl ?? ''}
-      onFileUpload={getOnFileUpload('certification', onChange)}
-      onRemoveImage={onRemove}
-    />
-  );
 };
 
 const certificationTypes = [
@@ -169,7 +131,6 @@ export default function CertificationForm({
   } = useForm<CertificationFormValues>({
     defaultValues: { ...DEFAULT_VALUES, ...defaultValues },
   });
-  const { getOnFileUpload } = useImagePickerUpload();
 
   const systemTypeId = watch(SYSTEM_TYPE_ID);
   const isActive = watch(IS_ACTIVE);
@@ -376,19 +337,6 @@ export default function CertificationForm({
                 errorMessage={t('CERTIFICATION.FORM.VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE')}
               />
             </div>
-            <Controller
-              name={DOCUMENT_URL}
-              control={control}
-              render={({ field }) => (
-                <CertificateDocumentPicker
-                  label={t('CERTIFICATION.CERTIFICATE_DOCUMENT')}
-                  value={field.value}
-                  onChange={field.onChange}
-                  onRemove={() => field.onChange(null)}
-                  getOnFileUpload={getOnFileUpload}
-                />
-              )}
-            />
           </>
         )}
       </div>

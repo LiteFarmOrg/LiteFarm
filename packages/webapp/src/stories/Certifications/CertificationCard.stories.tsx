@@ -45,11 +45,7 @@ export default meta;
 
 type Story = StoryObj<typeof CertificationCard>;
 
-export const Active: Story = {
-  args: {
-    documentFileName: 'Organic-BC.pdf',
-  },
-};
+export const Active: Story = {};
 
 export const ExpiringSoon: Story = {
   args: {
@@ -88,9 +84,6 @@ export const WithoutDeleteButton: Story = {
 };
 
 export const Mobile: Story = {
-  args: {
-    documentFileName: 'Organic-BC.pdf',
-  },
   decorators: [
     (Story) => (
       <div style={{ maxWidth: 301 }}>

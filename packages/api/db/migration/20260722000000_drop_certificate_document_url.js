@@ -13,16 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export type CertificationStatus = 'active' | 'expiring_soon' | 'expired' | 'pursuing';
+/**
+ * Certificate document upload is being removed from certifications entirely.
+ *
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const up = async function (knex) {
+  await knex.schema.alterTable('certification', (table) => {
+    table.dropColumn('certificate_document_url');
+  });
+};
 
-export type CertificationItem = {
-  id: string;
-  systemTypeTranslationKey: string;
-  requestedSystemType?: string;
-  certifierName: string;
-  certifierAcronym?: string;
-  certificateNumber?: string | null;
-  certificateMemberId?: string | null;
-  isActive: boolean;
-  expiryDate?: string | null;
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const down = async function (knex) {
+  await knex.schema.alterTable('certification', (table) => {
+    table.text('certificate_document_url').nullable();
+  });
 };

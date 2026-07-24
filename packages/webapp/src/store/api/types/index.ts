@@ -461,7 +461,6 @@ export interface Certification {
   certificate_member_id: string | null;
   issue_date: string | null;
   valid_until: string | null;
-  certificate_document_url: string | null;
 }
 
 // Served by the legacy /organic_certifier_survey routes, which still apply the

@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import React, { useMemo } from 'react';
-import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
+import { useHasCertifications } from '../../hooks/useHasCertifications';
 import { TourProviderWrapper } from '../../components/TourProviderWrapper/TourProviderWrapper';
 
 export default function DocumentsSpotlight() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { documents, compliance_docs_and_certification } = useSelector(showedSpotlightSelector);
-  const { interested } = useSelector(certifierSurveySelector);
+  const hasCertifications = useHasCertifications();
 
   const steps = useMemo(() => {
     let steps = [];
@@ -27,7 +27,7 @@ export default function DocumentsSpotlight() {
         flag: 'documents',
         onNext: () => dispatch(setSpotlightToShown('documents')),
       });
-    if (!compliance_docs_and_certification && interested)
+    if (!compliance_docs_and_certification && hasCertifications)
       steps.push({
         title: t('DOCUMENTS.COMPLIANCE_DOCUMENTS_AND_CERTIFICATION'),
         contents: [t('DOCUMENTS.SPOTLIGHT.CDC')],
@@ -38,18 +38,25 @@ export default function DocumentsSpotlight() {
     return steps;
   }, []);
 
-
   const showSpotlight = !documents || !compliance_docs_and_certification;
 
-  return <>{showSpotlight && <TourProviderWrapper
-    open={showSpotlight}
-    onClickMask={({ setCurrentStep, currentStep, setIsOpen }) => {
-      if (currentStep === steps.length - 1) {
-        setIsOpen(false);
-      }
-      setCurrentStep(s => (s === steps.length - 1 ? 0 : s + 1));
-      dispatch(setSpotlightToShown(steps[currentStep].flag));
-    }}
-    steps={steps}><></>
-  </TourProviderWrapper>}</>;
+  return (
+    <>
+      {showSpotlight && (
+        <TourProviderWrapper
+          open={showSpotlight}
+          onClickMask={({ setCurrentStep, currentStep, setIsOpen }) => {
+            if (currentStep === steps.length - 1) {
+              setIsOpen(false);
+            }
+            setCurrentStep((s) => (s === steps.length - 1 ? 0 : s + 1));
+            dispatch(setSpotlightToShown(steps[currentStep].flag));
+          }}
+          steps={steps}
+        >
+          <></>
+        </TourProviderWrapper>
+      )}
+    </>
+  );
 }

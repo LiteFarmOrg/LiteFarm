@@ -14,12 +14,11 @@
  */
 
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertificationForm, {
   CertificationFormValues,
 } from '../../../components/Certifications/CertificationForm';
-import { loginSelector } from '../../userFarmSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import {
   useGetCertificationsQuery,
@@ -30,12 +29,7 @@ import {
   useGetSupportedCertifiersQuery,
   useGetSupportedCertificationSystemTypesQuery,
 } from '../../../store/api/certifiersApi';
-import {
-  toFormSystemTypes,
-  toFormCertifiers,
-  toCertificationFormValues,
-  toCertificationRequestBody,
-} from '../utils';
+import { toFormCertifiers, toCertificationFormValues, toCertificationRequestBody } from '../utils';
 import Layout from '../../../components/Layout';
 
 export default function CertificationForm() {
@@ -43,10 +37,9 @@ export default function CertificationForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { certification_id } = useParams<{ certification_id?: string }>();
-  const { farm_id } = useSelector(loginSelector);
   const { data: certifications = [], refetch: refetchCertifications } = useGetCertificationsQuery();
-  const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id!);
-  const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery(farm_id!);
+  const { data: certifiers = [] } = useGetSupportedCertifiersQuery();
+  const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery();
   const [addCertification, { isLoading: isAdding }] = useAddCertificationMutation();
   const [editCertification, { isLoading: isEditing }] = useEditCertificationMutation();
 
@@ -89,7 +82,7 @@ export default function CertificationForm() {
   return (
     <Layout>
       <PureCertificationForm
-        systemTypes={toFormSystemTypes(systemTypes)}
+        systemTypes={systemTypes}
         certifiers={toFormCertifiers(certifiers)}
         defaultValues={defaultValues}
         onSubmit={onSubmit}

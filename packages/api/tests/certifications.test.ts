@@ -71,10 +71,32 @@ interface Certifier {
   certifier_name: string;
 }
 
+interface SystemType {
+  id: number;
+  name: string;
+  translation_key: string;
+}
+
 async function getRequest({ user_id, farm_id }: UserFarmIds) {
   return chai
     .request(server)
     .get('/certifications')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
+async function getSupportedCertifiersRequest({ user_id, farm_id }: UserFarmIds) {
+  return chai
+    .request(server)
+    .get('/certifications/supported_certifiers')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
+async function getSupportedSystemTypesRequest({ user_id, farm_id }: UserFarmIds) {
+  return chai
+    .request(server)
+    .get('/certifications/supported_system_types')
     .set('user_id', user_id)
     .set('farm_id', farm_id);
 }
@@ -118,6 +140,8 @@ describe('Certifications CRUD tests', () => {
   let thirdPartyCertifier: Certifier;
   let thirdPartySystemTypeId: number;
   let pgsSystemTypeId: number;
+  let countryWithCertifiersId: number;
+  let countryWithoutCertifiersId: number;
 
   function validCertificationBody(overrides: object = {}) {
     return {
@@ -164,6 +188,19 @@ describe('Certifications CRUD tests', () => {
       .where({ system_type_id: thirdPartySystemTypeId })
       .orderBy('certifier_id')
       .first();
+
+    // certifier_country covers only a handful of countries, so the supported_certifiers
+    // response depends on which country the farm is in
+    const certifierCountry = await knex('certifier_country')
+      .where({ certifier_id: thirdPartyCertifier.certifier_id })
+      .first();
+    countryWithCertifiersId = certifierCountry.country_id;
+
+    const countryWithoutCertifiers = await knex('countries')
+      .whereNotIn('id', knex('certifier_country').select('country_id'))
+      .orderBy('id')
+      .first();
+    countryWithoutCertifiersId = countryWithoutCertifiers.id;
   });
 
   beforeEach(() => {
@@ -248,6 +285,94 @@ describe('Certifications CRUD tests', () => {
         user_id: otherUserFarmIds.user_id,
         farm_id: userFarmIds.farm_id,
       });
+
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('GET /certifications/supported_system_types', () => {
+    test('Returns system types under their real column names', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+
+      const res = await getSupportedSystemTypesRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      const thirdPartyOrganic = res.body.find(
+        (systemType: SystemType) => systemType.translation_key === 'THIRD_PARTY_ORGANIC',
+      );
+      const pgs = res.body.find(
+        (systemType: SystemType) => systemType.translation_key === PGS_TRANSLATION_KEY,
+      );
+      expect(thirdPartyOrganic.id).toBe(thirdPartySystemTypeId);
+      expect(thirdPartyOrganic.name).toBe('Third-party Organic');
+      expect(pgs.id).toBe(pgsSystemTypeId);
+      expect(pgs.name).toBe('Participatory Guarantee System');
+      // The legacy /organic_certifier_survey route still serves these shimmed names
+      expect(thirdPartyOrganic).not.toHaveProperty('certification_id');
+      expect(thirdPartyOrganic).not.toHaveProperty('certification_translation_key');
+    });
+
+    test('Workers cannot list supported system types', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id: userFarmIds.farm_id }]),
+        roleId: 3,
+      });
+
+      const res = await getSupportedSystemTypesRequest({
+        user_id,
+        farm_id: userFarmIds.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('GET /certifications/supported_certifiers', () => {
+    async function createUserFarmInCountry(country_id: number): Promise<UserFarmIds> {
+      const [farm] = await mocks.farmFactory(mocks.fakeFarm({ country_id }));
+      const [user] = await mocks.usersFactory();
+      await mocks.userFarmFactory({
+        promisedUser: Promise.resolve([user]),
+        promisedFarm: Promise.resolve([farm]),
+        roleId: 1,
+      });
+      return { user_id: user.user_id, farm_id: farm.farm_id };
+    }
+
+    test("Returns the certifiers for the farm's country under their real column names", async () => {
+      const userFarmIds = await createUserFarmInCountry(countryWithCertifiersId);
+
+      const res = await getSupportedCertifiersRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      expect(res.body.length).toBeGreaterThan(0);
+      const returned = res.body.find(
+        (certifier: Certifier) => certifier.certifier_id === thirdPartyCertifier.certifier_id,
+      );
+      expect(returned.system_type_id).toBe(thirdPartySystemTypeId);
+      expect(returned.certifier_name).toBe(thirdPartyCertifier.certifier_name);
+      // The legacy /organic_certifier_survey route still serves this shimmed name
+      expect(returned).not.toHaveProperty('certification_id');
+    });
+
+    test('Returns an empty list for a farm whose country has no certifiers', async () => {
+      const userFarmIds = await createUserFarmInCountry(countryWithoutCertifiersId);
+
+      const res = await getSupportedCertifiersRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual([]);
+    });
+
+    test('Workers cannot list supported certifiers', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id: userFarmIds.farm_id }]),
+        roleId: 3,
+      });
+
+      const res = await getSupportedCertifiersRequest({ user_id, farm_id: userFarmIds.farm_id });
 
       expect(res.status).toBe(403);
     });

@@ -24,6 +24,20 @@ const router = express.Router();
 
 router.get('/', checkScope(['get:certification']), controller.getCertifications());
 
+// Reference lookups. Both are scoped to the farm_id header: checkScope resolves the
+// caller's role through userFarm for that farm, so it doubles as a membership check.
+router.get(
+  '/supported_certifiers',
+  checkScope(['get:certification']),
+  controller.getSupportedCertifiers(),
+);
+
+router.get(
+  '/supported_system_types',
+  checkScope(['get:certification']),
+  controller.getSupportedSystemTypes(),
+);
+
 router.post(
   '/',
   checkScope(['add:certification']),

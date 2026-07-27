@@ -66,6 +66,7 @@ expressOasGenerator.handleResponses(app, {
   specOutputPath: process.env.UPDATE_OAS_FILES ? './oas.json' : undefined,
   specOutputFileBehavior: expressOasGenerator.SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
   tags: [
+    'certifications',
     'contact',
     'crop',
     'disease',

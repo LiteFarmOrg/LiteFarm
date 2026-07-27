@@ -13,6 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+/*
+ * Legacy /organic_certifier_survey routes. The current frontend uses /certifications
+ * exclusively, but cached service-worker frontends keep calling these for weeks after a
+ * release and cannot complete onboarding without them. Delete once those builds are out
+ * of circulation — see LF-5410.
+ */
+
 import express from 'express';
 
 const router = express.Router();

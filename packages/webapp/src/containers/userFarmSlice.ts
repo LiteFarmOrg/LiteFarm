@@ -158,12 +158,6 @@ const userFarmSlice = createSlice({
         status,
       });
     },
-    patchStepFourSuccess: (state, { payload: { step_four, step_four_end, farm_id, user_id } }) => {
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
-        step_four,
-        step_four_end,
-      });
-    },
     patchStepFiveSuccess: (state, { payload: { step_five, step_five_end, farm_id, user_id } }) => {
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_five,
@@ -212,7 +206,6 @@ export const {
   postFarmSuccess,
   patchRoleStepTwoSuccess,
   patchConsentStepThreeSuccess,
-  patchStepFourSuccess,
   patchStepFiveSuccess,
   putUserSuccess,
   postUserSuccess,

@@ -129,42 +129,6 @@ const onboardCompleteQuestions = (role) => {
   cy.get(Selectors.CHECKBOX).should('exist').click();
   cy.get(Selectors.CONSENT_CONTINUE).should('not.be.disabled').click();
 
-  // Interested in Organic
-  cy.log('Interested in Organic');
-
-  cy.url().should('include', '/certification/interested_in_organic');
-  cy.get(Selectors.INTERESTED_IN_ORGANIC_CONTINUE, { timeout: 180 * 1000 })
-    .should('exist')
-    .and('be.disabled');
-  cy.get(Selectors.INTERESTED_IN_ORGANIC_SELECT).should('exist');
-  cy.get(Selectors.RADIO).first().check();
-  cy.get(Selectors.INTERESTED_IN_ORGANIC_CONTINUE).should('not.be.disabled').click();
-
-  cy.url().should('include', '/certification/selection');
-  cy.get(Selectors.CERTIFICATION_SELECTION_CONTINUE).should('exist').and('be.disabled');
-  cy.get(Selectors.THIRD_PARTY_ORGANIC).should('exist');
-  cy.get(Selectors.THIRD_PARTY_ORGANIC).check();
-  cy.get(Selectors.CERTIFICATION_SELECTION_CONTINUE).should('not.be.disabled').click();
-
-  // Select certifier
-  cy.get(Selectors.CERTIFIER_SELECTION_PROCEED).should('exist').and('be.disabled');
-  cy.get(Selectors.CERTIFICATION_SELECTION_ITEM).should('exist').eq(1).click();
-  let certifier;
-  cy.get(Selectors.CERTIFICATION_SELECTION_ITEM)
-    .eq(1)
-    .then(function ($elem) {
-      certifier = $elem.text();
-      let end = certifier.indexOf('(');
-      let result = certifier.substring(1, end);
-      //click the proceed button and ensure test is on the certification summary view and the certification selected is displayed
-      cy.get(Selectors.CERTIFIER_SELECTION_PROCEED).should('not.be.disabled').click();
-      cy.url().should('include', '/certification/summary');
-      cy.contains(result).should('exist');
-    });
-
-  //certification summary
-  cy.get(Selectors.CERTIFICATION_SUMMARY_CONTINUE).should('exist').and('not.be.disabled').click();
-
   // Outro
   cy.url().should('include', '/outro');
   cy.get(Selectors.OUTRO_FINISH).should('exist').and('not.be.disabled').click();

@@ -41,10 +41,7 @@ const languageConsent = {
 
 const getLanguageConsent = (language) => languageConsent[language] || languageConsent.en;
 
-function ConsentForm({
-  goBackTo = '/role_selection',
-  goForwardTo = '/certification/interested_in_organic',
-}) {
+function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
   const history = useHistory();
   const { t, i18n } = useTranslation();
   const language = getLanguageFromLocalStorage();

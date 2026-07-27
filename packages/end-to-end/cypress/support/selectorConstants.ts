@@ -39,17 +39,9 @@ export const ADD_FARM_LOCATION = '[data-cy=addFarm-location]';
 export const ROLE_SELECTION_CONTINUE = '[data-cy=roleSelection-continue]';
 export const ROLE_SELECTION_ROLE = '[data-cy=roleSelection-role]';
 
-export const CERTIFICATION_SELECTION_CONTINUE = '[data-cy=certificationSelection-continue]';
-export const THIRD_PARTY_ORGANIC = '[data-cy=certification_type-THIRD_PARTY_ORGANIC]';
-export const CERTIFICATION_SUMMARY_CONTINUE = '[data-cy=certificationSummary-continue]';
-export const CERTIFICATION_SELECTION_ITEM = '[data-cy=certifierSelection-item]';
-export const CERTIFIER_SELECTION_PROCEED = '[data-cy=certifierSelection-proceed]';
-
 export const CONSENT_CONTINUE = '[data-cy=consent-continue]';
 export const CONSENT_CONTENT = '[data-cy=consentPage-content]';
 
-export const INTERESTED_IN_ORGANIC_CONTINUE = '[data-cy=interestedInOrganic-continue]';
-export const INTERESTED_IN_ORGANIC_SELECT = '[data-cy=interestedInOrganic-select]';
 export const MAP_ADD_FEATURE = '[data-cy=map-addFeature]';
 export const MAP_DRAW_COMPLETE_CONTINUE = '[data-cy=map-drawCompleteContinue]';
 export const MAP_CONTAINER = '[data-cy=map-mapContainer]';

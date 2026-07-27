@@ -18,10 +18,10 @@ const PrimaryTemplate = (args) => {
         'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
     },
     certifier: { certifier_name: 'certifier_name' },
-    certification: { certification_translation_key: 'ORGANIC' },
+    certification: { translation_key: 'ORGANIC' },
     organicCertifierSurvey: {
-      requested_certification: 'requested_certification',
-      requested_certifier: 'requested_certifier',
+      requested_system_type: 'requested_system_type',
+      other_certifier: 'other_certifier',
     },
   };
   return <RenderSurvey {...args} />;
@@ -43,8 +43,8 @@ const SecondaryTemplate = (args) => {
         'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
     },
     organicCertifierSurvey: {
-      requested_certification: 'requested_certification',
-      requested_certifier: 'requested_certifier',
+      requested_system_type: 'requested_system_type',
+      other_certifier: 'other_certifier',
     },
   };
   return <RenderSurvey {...args} />;

@@ -65,7 +65,7 @@
     "@turf/centroid": "^7.2.0",
     "ajv-formats": "^2.1.1",
     "async-file": "^2.0.2",
-    "axios": "^1.13.5",
+    "axios": "^1.18.1",
     "bcryptjs": "^2.4.3",
     "bull": "^3.22.9",
     "chai": "^4.2.0",

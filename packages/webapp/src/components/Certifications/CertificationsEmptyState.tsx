@@ -47,7 +47,7 @@ export default function CertificationsEmptyState({
         <p className={styles.leafInfo}>
           <Trans
             i18nKey="CERTIFICATION.EMPTY_STATE.LOOK_FOR_LEAF_ICON"
-            components={{ leafIcon: <Leaf /> }}
+            components={{ leafIcon: <Leaf className={styles.leafIcon} /> }}
           />
         </p>
       )}

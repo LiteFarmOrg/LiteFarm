@@ -32,3 +32,10 @@ export const Default: Story = {
     onAddCertification: () => {},
   },
 };
+
+export const WithLeafInfo: Story = {
+  args: {
+    onAddCertification: () => {},
+    shouldIncludeLeafInfo: true,
+  },
+};

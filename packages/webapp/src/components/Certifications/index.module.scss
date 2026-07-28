@@ -256,13 +256,16 @@
   }
 
   .leafInfo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
     color: #000;
     font-size: 16px;
     line-height: 20px;
+  }
+
+  .leafIcon {
+    width: 16px;
+    height: 16px;
+    margin: 0 4px;
+    vertical-align: middle;
   }
 }
 

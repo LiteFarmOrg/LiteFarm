@@ -500,6 +500,7 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
+    "EMAIL_YOUR_EXPORT": "We'll email your export to: <strong>{{email}}</strong>. It includes your records and documents from LiteFarm. Your certifier may request additional information.",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "EXPORT_DOWNLOADING_MESSAGE": "Downloading your organic certification files ...",

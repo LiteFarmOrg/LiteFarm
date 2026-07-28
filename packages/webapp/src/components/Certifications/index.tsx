@@ -71,7 +71,7 @@ export default function Certifications({
       />
 
       {certifications.length === 0 ? (
-        <CertificationsEmptyState onAddCertification={onAddCertification} />
+        <CertificationsEmptyState onAddCertification={onAddCertification} shouldIncludeLeafInfo />
       ) : (
         <>
           <CertificationsList

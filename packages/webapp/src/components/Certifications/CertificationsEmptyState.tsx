@@ -13,20 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
+import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
 import Button from '../Form/Button';
 import styles from './index.module.scss';
 
 interface CertificationsEmptyStateProps {
   onAddCertification: () => void;
+  shouldIncludeLeafInfo?: boolean;
   className?: string;
 }
 
 export default function CertificationsEmptyState({
   onAddCertification,
+  shouldIncludeLeafInfo = false,
   className,
 }: CertificationsEmptyStateProps) {
   const { t } = useTranslation(['translation', 'common']);
@@ -40,6 +43,14 @@ export default function CertificationsEmptyState({
         <PlusCircleIcon className={styles.plusIcon} />
         {t('common:START_HERE')}
       </Button>
+      {shouldIncludeLeafInfo && (
+        <p className={styles.leafInfo}>
+          <Trans
+            i18nKey="CERTIFICATION.EMPTY_STATE.LOOK_FOR_LEAF_ICON"
+            components={{ leafIcon: <Leaf /> }}
+          />
+        </p>
+      )}
     </div>
   );
 }

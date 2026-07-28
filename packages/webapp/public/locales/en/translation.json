@@ -438,7 +438,8 @@
     },
     "EMPTY_STATE": {
       "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one.",
-      "HEADING": "Do you have any active certifications or pursuing some?"
+      "HEADING": "Do you have any active certifications or pursuing some?",
+      "LOOK_FOR_LEAF_ICON": "Look for the leaf icon: <leafIcon /> it marks the information your certifier requires"
     },
     "FORM": {
       "CERTIFICATE_NUMBER": "Certificate number",

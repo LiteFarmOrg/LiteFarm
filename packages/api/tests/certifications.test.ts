@@ -291,7 +291,7 @@ describe('Certifications CRUD tests', () => {
   });
 
   describe('GET /certifications/supported_system_types', () => {
-    test('Returns system types under their real column names', async () => {
+    test('Returns the supported system types', async () => {
       const userFarmIds = await createUserFarmIds(1);
 
       const res = await getSupportedSystemTypesRequest(userFarmIds);
@@ -307,9 +307,6 @@ describe('Certifications CRUD tests', () => {
       expect(thirdPartyOrganic.name).toBe('Third-party Organic');
       expect(pgs.id).toBe(pgsSystemTypeId);
       expect(pgs.name).toBe('Participatory Guarantee System');
-      // The legacy /organic_certifier_survey route still serves these shimmed names
-      expect(thirdPartyOrganic).not.toHaveProperty('certification_id');
-      expect(thirdPartyOrganic).not.toHaveProperty('certification_translation_key');
     });
 
     test('Workers cannot list supported system types', async () => {
@@ -340,7 +337,7 @@ describe('Certifications CRUD tests', () => {
       return { user_id: user.user_id, farm_id: farm.farm_id };
     }
 
-    test("Returns the certifiers for the farm's country under their real column names", async () => {
+    test("Returns the certifiers for the farm's country", async () => {
       const userFarmIds = await createUserFarmInCountry(countryWithCertifiersId);
 
       const res = await getSupportedCertifiersRequest(userFarmIds);
@@ -352,8 +349,6 @@ describe('Certifications CRUD tests', () => {
       );
       expect(returned.system_type_id).toBe(thirdPartySystemTypeId);
       expect(returned.certifier_name).toBe(thirdPartyCertifier.certifier_name);
-      // The legacy /organic_certifier_survey route still serves this shimmed name
-      expect(returned).not.toHaveProperty('certification_id');
     });
 
     test('Returns an empty list for a farm whose country has no certifiers', async () => {

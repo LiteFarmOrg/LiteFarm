@@ -30,7 +30,7 @@ export const certificationsApi = api.injectEndpoints({
       query: () => ({
         url: certificationsUrl,
         method: 'GET',
-        params: { metaOnly: true },
+        params: { meta_only: true },
       }),
       transformResponse: (response: { count: number }) => response.count > 0,
       providesTags: ['Certifications'],

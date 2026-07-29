@@ -134,10 +134,10 @@ export function checkCertification() {
 }
 
 export const checkGetCertificationScope = async (
-  req: LiteFarmRequest<{ metaOnly?: string }, CertificationParams, unknown, CertificationBody>,
+  req: LiteFarmRequest<{ meta_only?: string }, CertificationParams, unknown, CertificationBody>,
   res: Response,
   next: NextFunction,
 ) => {
-  const scope = req.query.metaOnly === 'true' ? 'get:certification_meta' : 'get:certification';
+  const scope = req.query.meta_only === 'true' ? 'get:certification_meta' : 'get:certification';
   await checkScope([scope])(req, res, next);
 };

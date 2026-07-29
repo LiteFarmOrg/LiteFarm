@@ -300,7 +300,7 @@ describe('Certifications CRUD tests', () => {
           roleId,
         });
 
-        const res = await getRequest({ user_id, farm_id: userFarmIds.farm_id }, '?metaOnly=true');
+        const res = await getRequest({ user_id, farm_id: userFarmIds.farm_id }, '?meta_only=true');
         expect(res.status).toBe(200);
         expect(res.body.count).toBe(2);
       }
@@ -313,7 +313,7 @@ describe('Certifications CRUD tests', () => {
 
       const res = await getRequest(
         { user_id: otherUserFarmIds.user_id, farm_id: userFarmIds.farm_id },
-        '?metaOnly=true',
+        '?meta_only=true',
       );
 
       expect(res.status).toBe(403);

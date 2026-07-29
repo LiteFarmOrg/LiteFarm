@@ -305,6 +305,19 @@ describe('Certifications CRUD tests', () => {
         expect(res.body.count).toBe(2);
       }
     });
+
+    test('Members of another farm cannot get certifications meta data', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const otherUserFarmIds = await createUserFarmIds(1);
+      await createCertification(userFarmIds);
+
+      const res = await getRequest(
+        { user_id: otherUserFarmIds.user_id, farm_id: userFarmIds.farm_id },
+        '?metaOnly=true',
+      );
+
+      expect(res.status).toBe(403);
+    });
   });
 
   describe('GET /certifications/supported_system_types', () => {

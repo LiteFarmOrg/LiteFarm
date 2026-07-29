@@ -138,8 +138,6 @@ export const checkGetCertificationScope = async (
   res: Response,
   next: NextFunction,
 ) => {
-  if (req.query.metaOnly === 'true') {
-    return next();
-  }
-  await checkScope(['get:certification'])(req, res, next);
+  const scope = req.query.metaOnly === 'true' ? 'get:certification_meta' : 'get:certification';
+  await checkScope([scope])(req, res, next);
 };

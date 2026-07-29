@@ -84,7 +84,7 @@ const allRows: EntityProfitRow[] = [
     expense: 150,
     netProfit: 1050,
   },
-  // Custom animal type: the table renders t('TABLE.TYPE_TOTAL', { type: 'Cattle' }).
+  // Custom animal type: the table renders t('profitability:TABLE.TYPE_TOTAL', { type: 'Cattle' }).
   {
     id: 'custom_type_1',
     kind: 'animal',

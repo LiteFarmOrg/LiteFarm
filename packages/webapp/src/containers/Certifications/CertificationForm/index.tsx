@@ -29,7 +29,7 @@ import {
   useGetSupportedCertifiersQuery,
   useGetSupportedCertificationSystemTypesQuery,
 } from '../../../store/api/certifiersApi';
-import { toFormCertifiers, toCertificationFormValues, toCertificationRequestBody } from '../utils';
+import { toCertificationFormValues, toCertificationRequestBody } from '../utils';
 import Layout from '../../../components/Layout';
 
 export default function CertificationForm() {
@@ -83,7 +83,7 @@ export default function CertificationForm() {
     <Layout>
       <PureCertificationForm
         systemTypes={systemTypes}
-        certifiers={toFormCertifiers(certifiers)}
+        certifiers={certifiers}
         defaultValues={defaultValues}
         onSubmit={onSubmit}
         onBack={onBack}

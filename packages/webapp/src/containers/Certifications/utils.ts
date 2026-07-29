@@ -21,10 +21,7 @@ import {
   SupportedCertificationSystemType,
 } from '../../store/api/types';
 import type { CertificationItem, CertificationStatus } from '../../components/Certifications/types';
-import type {
-  CertificationFormValues,
-  Certifier as FormCertifier,
-} from '../../components/Certifications/CertificationForm';
+import type { CertificationFormValues } from '../../components/Certifications/CertificationForm';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 export const PGS_TRANSLATION_KEY = 'PGS';
@@ -172,13 +169,6 @@ export const toCertificationItems = (
     };
   });
 };
-
-export const toFormCertifiers = (certifiers: SupportedCertifier[]): FormCertifier[] =>
-  certifiers.map((certifier) => ({
-    certifier_id: certifier.certifier_id,
-    system_type_id: certifier.system_type_id,
-    certifier_name: certifier.certifier_name,
-  }));
 
 export const toCertificationFormValues = (
   certification: Certification,

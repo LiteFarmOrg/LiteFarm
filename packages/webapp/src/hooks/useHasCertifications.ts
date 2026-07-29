@@ -13,21 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector } from 'react-redux';
-import { isAdminSelector } from '../containers/userFarmSlice';
 import { useGetCertificationsQuery } from '../store/api/certificationsApi';
 
 /**
- * Whether the farm holds any certification record, which is how the API decides a farm is
- * pursuing certification (see `organicCertifierCheck` on `PATCH /crop_variety/:id`). It
- * switches on the organic-compliance fields of the product forms.
- *
- * Only the admin roles hold `get:certification`, so the query is skipped for every other
- * role and returns false for them. LF-5411 tracks giving those roles an answer.
+ * Whether the farm holds any certification record.
  */
 export function useHasCertifications(): boolean {
-  const isAdmin = useSelector(isAdminSelector);
-  const { data: certifications = [] } = useGetCertificationsQuery(undefined, { skip: !isAdmin });
+  const { data: certifications = [] } = useGetCertificationsQuery();
 
   return certifications.length > 0;
 }

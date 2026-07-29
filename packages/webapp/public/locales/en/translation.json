@@ -438,8 +438,7 @@
     },
     "EMPTY_STATE": {
       "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one.",
-      "HEADING": "Do you have any active certifications or pursuing some?",
-      "LOOK_FOR_LEAF_ICON": "Look for the leaf icon: <leafIcon /> it marks the information your certifier requires"
+      "HEADING": "Do you have any active certifications or pursuing some?"
     },
     "FORM": {
       "CERTIFICATE_NUMBER": "Certificate number",
@@ -470,6 +469,7 @@
     "LIST": {
       "PURSUING_SECTION": "Pursuing certifications"
     },
+    "LOOK_FOR_LEAF_ICON": "Look for the leaf icon: <leafIcon /> it marks the information your certifier may require",
     "MEMBER_ID": "Member ID",
     "PURSUING_ITEM": "Pursuing {{item}}",
     "REQUEST_CERTIFIER": {

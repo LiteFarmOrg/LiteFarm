@@ -241,19 +241,6 @@
     width: 20px;
     height: 20px;
   }
-
-  .leafInfo {
-    color: #000;
-    font-size: 16px;
-    line-height: 20px;
-  }
-
-  .leafIcon {
-    width: 16px;
-    height: 16px;
-    margin: 0 4px;
-    vertical-align: middle;
-  }
 }
 
 .emptyHeading {
@@ -363,10 +350,23 @@
 
 /* ── CertificationsPage ───────────────────────── */
 
-.page {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.info {
+  margin-bottom: 16px;
+}
+
+.leafInfo {
+  color: #000;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.leafIcon {
+  width: 16px;
+  height: 16px;
+  margin: 0 4px;
+  vertical-align: middle;
 }
 
 .pageActions {

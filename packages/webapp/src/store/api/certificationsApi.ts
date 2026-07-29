@@ -26,6 +26,15 @@ export const certificationsApi = api.injectEndpoints({
       }),
       providesTags: ['Certifications'],
     }),
+    getHasCertifications: build.query<boolean, void>({
+      query: () => ({
+        url: certificationsUrl,
+        method: 'GET',
+        params: { metaOnly: true },
+      }),
+      transformResponse: (response: { count: number }) => response.count > 0,
+      providesTags: ['Certifications'],
+    }),
     addCertification: build.mutation<Certification, Partial<Certification>>({
       query: (body) => ({
         url: certificationsUrl,

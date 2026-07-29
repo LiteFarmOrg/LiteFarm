@@ -24,5 +24,6 @@ export type CertificationItem = {
   certificateNumber?: string | null;
   certificateMemberId?: string | null;
   isActive: boolean;
+  issueDate?: string | null;
   expiryDate?: string | null;
 };

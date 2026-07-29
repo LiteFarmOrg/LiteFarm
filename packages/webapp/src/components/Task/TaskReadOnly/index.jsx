@@ -56,7 +56,6 @@ import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import { roundToTwo } from '../../../util/rounding';
-import { useHasCertifications } from '../../../hooks/useHasCertifications';
 import {
   formatTaskAnimalsAsInventoryIds,
   formatTaskReadOnlyDefaultValues,
@@ -85,6 +84,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   externalIrrigationPrescription,
+  hasCertifications,
   files = [],
   harvestUseTypes,
   maxZoomRef,
@@ -174,7 +174,6 @@ export default function PureTaskReadOnly({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { country_id, farm_id } = useSelector(userFarmSelector);
-  const hasCertifications = useHasCertifications();
 
   const currencySymbol = useCurrencySymbol();
 

@@ -106,7 +106,6 @@ const certificationController = {
           .whereNotDeleted()
           .where({ farm_id })
           .first();
-        // No record means the farm has never expressed interest
         if (!result) {
           return res.status(200).json({ farm_id, interested: false });
         }
@@ -182,7 +181,6 @@ const certificationController = {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
-        // `interested: false` carries nothing worth storing, so acknowledge it without a record
         const { interested, farm_id, ...rest } = req.body;
 
         if (interested === false) {
@@ -207,7 +205,7 @@ const certificationController = {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
-        // `interested: false` means the farm withdrew, so soft-delete its records
+        // soft-delete on `interested: false`
         const { farm_id, interested, ...rest } = req.body;
         if (interested === false) {
           await CertificationModel.query()
@@ -225,8 +223,7 @@ const certificationController = {
             .context({ user_id })
             .patchAndFetchById(surveyId, { ...patchData, deleted: false });
         } else {
-          // No survey_id means the farm had no prior record (GET returned `{ interested: false }`),
-          // so insert instead of patch to let the first submission create a row
+          // No survey_id: insert instead of patch
           result = await CertificationModel.query()
             .context({ user_id })
             .insert({ farm_id, ...patchData })

@@ -16,13 +16,16 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
-import { checkCertification } from '../middleware/validation/checkCertification.js';
+import {
+  checkCertification,
+  checkGetCertificationScope,
+} from '../middleware/validation/checkCertification.js';
 import controller from '../controllers/certificationsController.js';
 import certificationController from '../controllers/certificationController.js';
 
 const router = express.Router();
 
-router.get('/', checkScope(['get:certification']), controller.getCertifications());
+router.get('/', checkGetCertificationScope, controller.getCertifications());
 
 router.get(
   '/supported_certifiers',

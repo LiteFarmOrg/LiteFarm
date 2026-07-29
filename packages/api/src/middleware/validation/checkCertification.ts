@@ -15,6 +15,7 @@
 
 import { NextFunction, Response } from 'express';
 import knex from '../../util/knex.js';
+import checkScope from '../acl/checkScope.js';
 import { HttpError, LiteFarmRequest } from '../../types.js';
 
 export const PGS_TRANSLATION_KEY = 'PGS';
@@ -131,3 +132,14 @@ export function checkCertification() {
     }
   };
 }
+
+export const checkGetCertificationScope = async (
+  req: LiteFarmRequest<{ metaOnly?: string }, CertificationParams, unknown, CertificationBody>,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (req.query.metaOnly === 'true') {
+    return next();
+  }
+  await checkScope(['get:certification'])(req, res, next);
+};

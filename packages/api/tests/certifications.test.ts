@@ -77,10 +77,10 @@ interface SystemType {
   translation_key: string;
 }
 
-async function getRequest({ user_id, farm_id }: UserFarmIds) {
+async function getRequest({ user_id, farm_id }: UserFarmIds, query = '') {
   return chai
     .request(server)
-    .get('/certifications')
+    .get(`/certifications${query}`)
     .set('user_id', user_id)
     .set('farm_id', farm_id);
 }
@@ -287,6 +287,23 @@ describe('Certifications CRUD tests', () => {
       });
 
       expect(res.status).toBe(403);
+    });
+
+    test('All users can get certifications meta data', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      await createCertification(userFarmIds);
+      await createCertification(userFarmIds);
+
+      for (const roleId of [1, 2, 3, 5]) {
+        const [{ user_id }] = await mocks.userFarmFactory({
+          promisedFarm: Promise.resolve([{ farm_id: userFarmIds.farm_id }]),
+          roleId,
+        });
+
+        const res = await getRequest({ user_id, farm_id: userFarmIds.farm_id }, '?metaOnly=true');
+        expect(res.status).toBe(200);
+        expect(res.body.count).toBe(2);
+      }
     });
   });
 

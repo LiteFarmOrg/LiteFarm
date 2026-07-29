@@ -41,7 +41,7 @@ const MUTABLE_FIELDS = [
 
 const certificationsController = {
   getCertifications() {
-    return async (req: LiteFarmRequest, res: Response) => {
+    return async (req: LiteFarmRequest<{ metaOnly?: string }>, res: Response) => {
       try {
         const { farm_id } = req.headers;
 
@@ -50,6 +50,10 @@ const certificationsController = {
           .whereNotDeleted()
           .where({ farm_id })
           .orderBy('created_at');
+
+        if (req.query.metaOnly === 'true') {
+          return res.status(200).json({ count: certifications.length });
+        }
 
         return res.status(200).json(certifications);
       } catch (error: unknown) {

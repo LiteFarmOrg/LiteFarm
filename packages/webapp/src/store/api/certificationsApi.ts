@@ -63,6 +63,7 @@ export const certificationsApi = api.injectEndpoints({
 
 export const {
   useGetCertificationsQuery,
+  useGetHasCertificationsQuery,
   useAddCertificationMutation,
   useEditCertificationMutation,
   useDeleteCertificationMutation,

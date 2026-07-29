@@ -15,18 +15,12 @@
 
 import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
 import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
 import TextButton from '../../../../../components/Form/Button/TextButton';
 import PrivateBadge from '../../../../../components/SimpleBadges/PrivateBadge';
 import type { CertificationItem } from '../../../../../components/Certifications/types';
-import {
-  EXPIRED,
-  getCertificationStatus,
-  PGS_TRANSLATION_KEY,
-  toCertificationItems,
-} from '../../../../Certifications/utils';
+import { PGS_TRANSLATION_KEY, toCertificationItems } from '../../../../Certifications/utils';
 import { getLocalizedDateString } from '../../../../../util/moment';
 import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
 import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
@@ -37,7 +31,6 @@ import {
   SupportedCertificationSystemType,
 } from '../../../../../store/api/types';
 import styles from './styles.module.scss';
-import certificationsStyles from '../../../../../components/Certifications/index.module.scss';
 
 const ID = 'summary';
 
@@ -177,48 +170,30 @@ const CertificationListItem = ({
   certification: CertificationItem;
   t: TFunction;
 }) => {
-  const isExpired =
-    getCertificationStatus(certification.isActive, certification.expiryDate) === EXPIRED;
   const isPgs = certification.systemTypeTranslationKey === PGS_TRANSLATION_KEY;
   const identifier = isPgs ? certification.certificateMemberId : certification.certificateNumber;
   const identifierLabel = isPgs
     ? t('CERTIFICATION.MEMBER_ID')
     : t('CERTIFICATION.CERTIFICATION_ID');
+  const issueDate =
+    certification.issueDate &&
+    getLocalizedDateString(certification.issueDate, {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    });
 
-  // e.g. "Third-party organic · IOPA · Certification ID: CAN-ORG-2024-01567 · Expires 07/23/2026"
+  // e.g. "Third-party organic · IOPA · Certification ID: CAN-ORG-2024-01567 · Issue date: 07/23/2026"
   const certificationSummary = [
     t(`certifications:${certification.systemTypeTranslationKey}`),
     certification.certifierAcronym ?? certification.certifierName,
     identifier && `${identifierLabel}: ${identifier}`,
-    certification.expiryDate &&
-      t(isExpired ? 'common:EXPIRED_ON' : 'common:EXPIRES', {
-        date: getLocalizedDateString(certification.expiryDate, {
-          month: '2-digit',
-          day: '2-digit',
-          year: 'numeric',
-        }),
-        interpolation: { escapeValue: false },
-      }),
+    issueDate && `${t('common:ISSUE_DATE')}: ${issueDate}`,
   ]
     .filter(Boolean)
     .join(' · ');
 
-  return (
-    <li className={clsx(styles.hasData, styles.certificationListItem)}>
-      <span>{certificationSummary}</span>
-      {isExpired && (
-        <span
-          className={clsx(
-            styles.certificationBadge,
-            certificationsStyles.cardStatusBadge,
-            certificationsStyles.expired,
-          )}
-        >
-          {t('common:EXPIRED')}
-        </span>
-      )}
-    </li>
-  );
+  return <li className={styles.hasData}>{certificationSummary}</li>;
 };
 
 export default DataSummary;

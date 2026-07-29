@@ -176,6 +176,7 @@ export const toCertificationItems = (
       certificateNumber: certification.certificate_number,
       certificateMemberId: certification.certificate_member_id,
       isActive: certification.is_active,
+      issueDate: certification.issue_date,
       expiryDate: certification.valid_until,
     };
   });

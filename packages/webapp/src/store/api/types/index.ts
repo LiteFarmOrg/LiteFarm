@@ -463,14 +463,12 @@ export interface Certification {
   valid_until: string | null;
 }
 
-// Reference data from the certifiers table, filtered to the farm's country.
+// Reference data from the certifiers table. Every farm receives the same list.
 export interface SupportedCertifier {
   certifier_id: number;
   system_type_id: number;
   certifier_name: string;
   certifier_acronym: string;
-  certifier_country_id: number;
-  country_id: number;
   survey_id: string | null;
 }
 

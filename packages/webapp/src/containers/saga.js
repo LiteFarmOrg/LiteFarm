@@ -497,17 +497,13 @@ function releaseFarmScopedQuerySubscriptions() {
 }
 
 export function* fetchAllSaga() {
-  const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
+  const { has_consent, user_id } = yield select(userFarmSelector);
   if (!has_consent) return history.push('/consent');
 
   yield call(openFarmScopedQuery, api.endpoints.getSensors.initiate());
+  yield call(openFarmScopedQuery, certificationsApi.endpoints.getHasCertifications.initiate());
 
-  const isAdmin = yield select(isAdminSelector);
-  // Only admin roles hold get:certification
-  const adminTasks = [
-    call(openFarmScopedQuery, certificationsApi.endpoints.getCertifications.initiate()),
-  ];
-  const tasks = [
+  yield all([
     put(getRoles()),
     put(getManagementPlansAndTasks()),
     call(getAllUserFarmsByFarmIDSaga),
@@ -519,9 +515,7 @@ export function* fetchAllSaga() {
     put(api.endpoints.getAnimalMovementPurposes.initiate()),
     //Todo: LF-4672 Remove once refactor to rtk is complete
     call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
-  ];
-
-  yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
+  ]);
 
   yield put(fetchAllFinanceData());
 

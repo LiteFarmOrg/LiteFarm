@@ -69,6 +69,7 @@ interface Certifier {
   certifier_id: number;
   system_type_id: number;
   certifier_name: string;
+  certifier_acronym: string | null;
 }
 
 interface SystemType {
@@ -404,6 +405,18 @@ describe('Certifications CRUD tests', () => {
         'survey_id',
         'system_type_id',
       ]);
+    });
+
+    test('Returns certifiers that have no acronym', async () => {
+      const userFarmIds = await createUserFarmInCountry(countryWithCertifiersId);
+
+      const res = await getSupportedCertifiersRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      const withoutAcronym = res.body.filter(
+        (certifier: Certifier) => certifier.certifier_acronym === null,
+      );
+      expect(withoutAcronym.length).toBeGreaterThan(0);
     });
 
     test('Workers cannot list supported certifiers', async () => {

@@ -468,7 +468,7 @@ export interface SupportedCertifier {
   certifier_id: number;
   system_type_id: number;
   certifier_name: string;
-  certifier_acronym: string;
+  certifier_acronym: string | null;
   survey_id: string | null;
 }
 

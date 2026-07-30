@@ -87,7 +87,6 @@ import {
 } from './rowMethodSlice';
 import { resetTasks } from './taskSlice';
 import {
-  isAdminSelector,
   loginSelector,
   patchFarmSuccess,
   putUserSuccess,

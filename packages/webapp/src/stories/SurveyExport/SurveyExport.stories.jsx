@@ -17,11 +17,11 @@ const PrimaryTemplate = (args) => {
       '2sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag':
         'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
     },
-    certifier: { certifier_name: 'certifier_name' },
-    certification: { certification_translation_key: 'ORGANIC' },
+    certifier: { certifier_name: 'Islands Organic Producers Association' },
+    certification: { translation_key: 'THIRD_PARTY_ORGANIC' },
     organicCertifierSurvey: {
-      requested_certification: 'requested_certification',
-      requested_certifier: 'requested_certifier',
+      requested_system_type: 'Group',
+      other_certifier: 'Local Growers Co-op',
     },
   };
   return <RenderSurvey {...args} />;
@@ -43,8 +43,8 @@ const SecondaryTemplate = (args) => {
         'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
     },
     organicCertifierSurvey: {
-      requested_certification: 'requested_certification',
-      requested_certifier: 'requested_certifier',
+      requested_system_type: 'Group',
+      other_certifier: 'Local Growers Co-op',
     },
   };
   return <RenderSurvey {...args} />;

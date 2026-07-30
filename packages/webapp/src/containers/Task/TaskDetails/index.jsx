@@ -2,13 +2,13 @@ import PureTaskDetails from '../../../components/Task/PureTaskDetails';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productsForTaskTypeSelector } from '../../productSlice';
 import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
-import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { useHasCertifications } from '../../../hooks/useHasCertifications';
 import {
   useManagementPlanTilesByLocationIds,
   useWildManagementPlanTiles,
@@ -23,9 +23,10 @@ function TaskDetails() {
   const dispatch = useDispatch();
   const {
     country_id,
+    farm_id,
     units: { measurement: system },
   } = useSelector(userFarmSelector);
-  const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
+  const hasCertifications = useHasCertifications();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const products = useSelector((state) => productsForTaskTypeSelector(state, selectedTaskType));
@@ -65,7 +66,7 @@ function TaskDetails() {
         selectedTaskType={selectedTaskType}
         system={system}
         products={products}
-        farm={{ farm_id, country_id, interested }}
+        farm={{ farm_id, country_id, interested: hasCertifications }}
         managementPlanByLocations={managementPlanByLocations}
         wildManagementPlanTiles={showWildCrops && wildManagementPlanTiles}
         locations={persistedFormData.locations}

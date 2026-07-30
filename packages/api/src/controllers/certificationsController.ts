@@ -16,6 +16,8 @@
 import { Response } from 'express';
 import { transaction, Model } from 'objection';
 import CertificationModel from '../models/certificationModel.js';
+import CertificationSystemTypeModel from '../models/certificationSystemTypeModel.js';
+import CertifierModel from '../models/certifierModel.js';
 import {
   CertificationBody,
   CertificationParams,
@@ -50,6 +52,57 @@ const certificationsController = {
           .orderBy('created_at');
 
         return res.status(200).json(certifications);
+      } catch (error: unknown) {
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
+      }
+    };
+  },
+
+  getSupportedCertifiers() {
+    return async (req: LiteFarmRequest, res: Response) => {
+      try {
+        const { farm_id } = req.headers;
+
+        // Joining through certifier_country to farm restricts the list to certifiers
+        // operating in the requesting farm's country.
+        const certifiers = await CertifierModel.query()
+          .select(
+            'certifiers.certifier_id',
+            'certifiers.system_type_id',
+            'certifiers.certifier_name',
+            'certifiers.certifier_acronym',
+            'certifiers.survey_id',
+            'certifier_country.country_id',
+            'certifier_country.certifier_country_id',
+          )
+          .join(
+            'certifier_country',
+            'certifiers.certifier_id',
+            '=',
+            'certifier_country.certifier_id',
+          )
+          .join('farm', 'farm.country_id', '=', 'certifier_country.country_id')
+          .where('farm.farm_id', farm_id!);
+
+        return res.status(200).json(certifiers);
+      } catch (error: unknown) {
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
+      }
+    };
+  },
+
+  getSupportedSystemTypes() {
+    return async (_req: LiteFarmRequest, res: Response) => {
+      try {
+        const systemTypes = await CertificationSystemTypeModel.query().orderBy('id');
+
+        return res.status(200).json(systemTypes);
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

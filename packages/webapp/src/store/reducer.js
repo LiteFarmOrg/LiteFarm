@@ -20,7 +20,6 @@ import { PURGE } from 'redux-persist';
 import { api } from './api/apiSlice';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
-import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
@@ -62,8 +61,6 @@ import bedMethodReducer from '../containers/bedMethodSlice';
 import rowMethodReducer from '../containers/rowMethodSlice';
 import broadcastMethodReducer from '../containers/broadcastMethodSlice';
 import documentReducer from '../containers/documentSlice';
-import certificationReducer from '../containers/OrganicCertifierSurvey/certificationSlice';
-import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
 import customSignUpReducer from '../containers/customSignUpSlice';
@@ -145,7 +142,6 @@ const signUpUserInfo = {
 const entitiesReducer = combineReducers({
   userFarmReducer,
   // userReducer,
-  certifierSurveyReducer,
   rolesReducer,
   cropReducer,
   cropVarietyReducer,
@@ -159,8 +155,6 @@ const entitiesReducer = combineReducers({
   rowMethodReducer,
   broadcastMethodReducer,
   documentReducer,
-  certifierReducer,
-  certificationReducer,
   taskReducer,
   cleaningTaskReducer,
   fieldWorkTaskReducer,

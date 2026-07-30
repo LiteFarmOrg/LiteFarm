@@ -24,6 +24,18 @@ const router = express.Router();
 
 router.get('/', checkScope(['get:certification']), controller.getCertifications());
 
+router.get(
+  '/supported_certifiers',
+  checkScope(['get:certification']),
+  controller.getSupportedCertifiers(),
+);
+
+router.get(
+  '/supported_system_types',
+  checkScope(['get:certification']),
+  controller.getSupportedSystemTypes(),
+);
+
 router.post(
   '/',
   checkScope(['add:certification']),

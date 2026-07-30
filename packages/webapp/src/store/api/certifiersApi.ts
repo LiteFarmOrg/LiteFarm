@@ -14,24 +14,21 @@
  */
 
 import { api } from './apiSlice';
-import { organicCertifierSurveyUrl } from '../../apiConfig';
+import { certificationsUrl } from '../../apiConfig';
 import { SupportedCertificationSystemType, SupportedCertifier } from './types';
 
-// Both endpoints below are served by the legacy /organic_certifier_survey routes.
-// They still require farm_id as a URL path param (rather than the farm_id header the
-// newer /certifications API relies on), so it's passed explicitly as the hook argument.
 export const certifiersApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getSupportedCertifiers: build.query<SupportedCertifier[], string>({
-      query: (farm_id) => ({
-        url: `${organicCertifierSurveyUrl}/${farm_id}/supported_certifiers`,
+    getSupportedCertifiers: build.query<SupportedCertifier[], void>({
+      query: () => ({
+        url: `${certificationsUrl}/supported_certifiers`,
         method: 'GET',
       }),
       providesTags: ['SupportedCertifiers'],
     }),
-    getSupportedCertificationSystemTypes: build.query<SupportedCertificationSystemType[], string>({
-      query: (farm_id) => ({
-        url: `${organicCertifierSurveyUrl}/${farm_id}/supported_certifications`,
+    getSupportedCertificationSystemTypes: build.query<SupportedCertificationSystemType[], void>({
+      query: () => ({
+        url: `${certificationsUrl}/supported_system_types`,
         method: 'GET',
       }),
       providesTags: ['CertificationSystemTypes'],

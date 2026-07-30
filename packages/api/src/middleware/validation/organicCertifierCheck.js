@@ -9,7 +9,7 @@ async function organicCertifierCheck(req, res, next) {
       .whereNotDeleted()
       .where({ farm_id: body.farm_id })
       .first();
-    // TODO LF-5379: temporary shim — `interested` is removed from the DB; treat missing record as not interested
+    // A farm counts as interested in organic certification once it holds any certification record
     // TODO LF-5382: Implement proper organic certification logic
     const isFarmInterestedInOrganic = !!certification;
     if (isFarmInterestedInOrganic) {

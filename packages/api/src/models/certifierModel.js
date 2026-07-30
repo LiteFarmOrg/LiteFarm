@@ -52,24 +52,6 @@ class Certifier extends Model {
       },
     };
   }
-
-  // TODO LF-5379: temporary shim — maps new DB column name back to old API field name for frontend compatibility
-  $formatJson(json) {
-    json = super.$formatJson(json);
-    json.certification_id = json.system_type_id;
-    delete json.system_type_id;
-    return json;
-  }
-
-  // TODO LF-5379: temporary shim — maps old API field name back to new DB column name
-  $parseJson(json) {
-    json = super.$parseJson(json);
-    if (json.certification_id !== undefined) {
-      json.system_type_id = json.certification_id;
-      delete json.certification_id;
-    }
-    return json;
-  }
 }
 
 export default Certifier;

@@ -21,11 +21,7 @@ import {
   SupportedCertificationSystemType,
 } from '../../store/api/types';
 import type { CertificationItem, CertificationStatus } from '../../components/Certifications/types';
-import type {
-  CertificationFormValues,
-  Certifier as FormCertifier,
-  SystemType as FormSystemType,
-} from '../../components/Certifications/CertificationForm';
+import type { CertificationFormValues } from '../../components/Certifications/CertificationForm';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 export const PGS_TRANSLATION_KEY = 'PGS';
@@ -58,16 +54,9 @@ export function getCertificationStatus(
   return ACTIVE;
 }
 
-// TODO LF-5379: SupportedCertificationSystemType's certification_id/certification_type/
-// certification_translation_key and SupportedCertifier's certification_id are shimmed
-// names from the pre-LF-5379 legacy shim in certificationSystemTypeModel.js/certifierModel.js
-// (real columns: id/name/translation_key and system_type_id, respectively). Every read of
-// those fields in this file — buildSystemTypesMap, formatCertifierLabel, toCertificationItems,
-// toFormSystemTypes, toFormCertifiers, toCertificationFormValues, toCertificationRequestBody —
-// needs updating to the real column names once that shim is removed.
 const buildSystemTypesMap = (systemTypes: SupportedCertificationSystemType[]) =>
   systemTypes.reduce<Record<number, SupportedCertificationSystemType>>((map, systemType) => {
-    map[systemType.certification_id] = systemType;
+    map[systemType.id] = systemType;
     return map;
   }, {});
 
@@ -137,7 +126,7 @@ const formatCertifierLabel = (
 ) => {
   const systemType = certification?.system_type_id && systemTypesMap[certification.system_type_id];
   const systemTypeName = systemType
-    ? t(`certifications:${systemType.certification_translation_key}`)
+    ? t(`certifications:${systemType.translation_key}`)
     : certification.requested_system_type;
 
   let certifierName;
@@ -169,7 +158,7 @@ export const toCertificationItems = (
 
     return {
       id: certification.id,
-      systemTypeTranslationKey: systemType?.certification_translation_key ?? '',
+      systemTypeTranslationKey: systemType?.translation_key ?? '',
       requestedSystemType: certification.requested_system_type ?? undefined,
       certifierName: certifier?.certifier_name ?? certification.other_certifier ?? '',
       certifierAcronym: certifier?.certifier_acronym,
@@ -181,22 +170,6 @@ export const toCertificationItems = (
     };
   });
 };
-
-export const toFormSystemTypes = (
-  systemTypes: SupportedCertificationSystemType[],
-): FormSystemType[] =>
-  systemTypes.map((systemType) => ({
-    id: systemType.certification_id,
-    name: systemType.certification_type,
-    translation_key: systemType.certification_translation_key,
-  }));
-
-export const toFormCertifiers = (certifiers: SupportedCertifier[]): FormCertifier[] =>
-  certifiers.map((certifier) => ({
-    certifier_id: certifier.certifier_id,
-    system_type_id: certifier.certification_id,
-    certifier_name: certifier.certifier_name,
-  }));
 
 export const toCertificationFormValues = (
   certification: Certification,
@@ -210,7 +183,7 @@ export const toCertificationFormValues = (
   const systemType = certification.system_type_id
     ? systemTypesMap[certification.system_type_id]
     : undefined;
-  const isPgs = systemType?.certification_translation_key === PGS_TRANSLATION_KEY;
+  const isPgs = systemType?.translation_key === PGS_TRANSLATION_KEY;
 
   const certifier = certification.certifier_id
     ? {
@@ -241,7 +214,7 @@ export const toCertificationRequestBody = (
 ): Partial<Certification> => {
   const systemTypesMap = buildSystemTypesMap(systemTypes);
   const systemType = data.system_type_id ? systemTypesMap[data.system_type_id] : undefined;
-  const isPgs = systemType?.certification_translation_key === PGS_TRANSLATION_KEY;
+  const isPgs = systemType?.translation_key === PGS_TRANSLATION_KEY;
   const isOtherCertifier = data.certifier?.value === 0;
 
   return {

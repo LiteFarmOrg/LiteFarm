@@ -15,12 +15,11 @@
 
 import { useEffect, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertifications from '../../components/Certifications';
 import Layout from '../../components/Layout';
 import Loading from '../../components/Form/ContextForm/Loading';
-import { loginSelector } from '../userFarmSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
   useGetCertificationsQuery,
@@ -41,14 +40,12 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { farm_id } = useSelector(loginSelector);
   const { data: rawCertifications = [], isLoading: isCertificationsLoading } =
     useGetCertificationsQuery();
-  const { data: certifiers = [], isLoading: isCertifiersLoading } = useGetSupportedCertifiersQuery(
-    farm_id!,
-  );
+  const { data: certifiers = [], isLoading: isCertifiersLoading } =
+    useGetSupportedCertifiersQuery();
   const { data: systemTypes = [], isLoading: isSystemTypesLoading } =
-    useGetSupportedCertificationSystemTypesQuery(farm_id!);
+    useGetSupportedCertificationSystemTypesQuery();
   const [deleteCertification, { isLoading: isDeleting }] = useDeleteCertificationMutation();
 
   const isLoading = isCertificationsLoading || isCertifiersLoading || isSystemTypesLoading;

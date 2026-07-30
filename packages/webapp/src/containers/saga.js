@@ -26,11 +26,6 @@ import { logout } from '../util/jwt';
 import { handle403 } from './ErrorHandler/saga.js';
 import { getRoles } from './InviteUser/saga';
 import notificationSaga, { getNotification } from './Notification/saga';
-import {
-  getAllSupportedCertifications,
-  getAllSupportedCertifiers,
-  getCertificationSurveys,
-} from './OrganicCertifierSurvey/saga';
 import { getAllUserFarmsByFarmIDSaga } from './Profile/People/saga';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 import {
@@ -104,6 +99,7 @@ import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
 import { resetFarmStateReducer } from '../store/actionTypes';
 import { api, invalidateTags } from '../store/api/apiSlice';
 import { locationApi } from '../store/api/locationApi';
+import { certificationsApi } from '../store/api/certificationsApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
 import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
@@ -507,10 +503,9 @@ export function* fetchAllSaga() {
   yield call(openFarmScopedQuery, api.endpoints.getSensors.initiate());
 
   const isAdmin = yield select(isAdminSelector);
+  // Only admin roles hold get:certification
   const adminTasks = [
-    put(getCertificationSurveys()),
-    put(getAllSupportedCertifications()),
-    put(getAllSupportedCertifiers()),
+    call(openFarmScopedQuery, certificationsApi.endpoints.getCertifications.initiate()),
   ];
   const tasks = [
     put(getRoles()),

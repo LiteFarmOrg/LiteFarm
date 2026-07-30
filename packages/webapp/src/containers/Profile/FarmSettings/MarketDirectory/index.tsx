@@ -15,7 +15,6 @@
 
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import clsx from 'clsx';
@@ -31,7 +30,6 @@ import { ReactComponent as CheckIncomplete } from '../../../../assets/images/che
 import MarketDirectoryInfoForm from './InfoForm';
 import MarketDirectoryConsent from './Consent';
 import MarketDirectoryCertifications from './Certifications';
-import { loginSelector } from '../../../userFarmSlice';
 import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
 import { useGetMarketProductCategoriesQuery } from '../../../../store/api/marketProductCategoryApi';
 import { useGetCertificationsQuery } from '../../../../store/api/certificationsApi';
@@ -52,8 +50,6 @@ const MarketDirectory = () => {
   const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
   const { t } = useTranslation();
-  const { farm_id } = useSelector(loginSelector);
-
   const { expandedIds, toggleExpanded, unExpand } = useExpandable({ isSingleExpandable: true });
 
   const [completionStatus, setCompletionStatus] = useState<Partial<Record<FormCards, boolean>>>({
@@ -87,11 +83,10 @@ const MarketDirectory = () => {
         isLoading,
       }),
     });
-  const { data: certifiers = [], isLoading: isCertifiersLoading } = useGetSupportedCertifiersQuery(
-    farm_id!,
-  );
+  const { data: certifiers = [], isLoading: isCertifiersLoading } =
+    useGetSupportedCertifiersQuery();
   const { data: systemTypes = [], isLoading: isSystemTypesLoading } =
-    useGetSupportedCertificationSystemTypesQuery(farm_id!);
+    useGetSupportedCertificationSystemTypesQuery();
 
   const isMarketDirectoryDataLoading = [
     isMarketDirectoryInfoLoading,

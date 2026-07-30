@@ -19,6 +19,11 @@ const PGS_KEY = 'PGS';
 const OLD_FVOPA_NAME = 'Fraser Valley Organic Producers';
 const NEW_FVOPA_NAME = 'Fraser Valley Organic Producers Association';
 
+// TAPE's `certifiers` row exists only on beta and production.
+const TAPE_CERTIFIER_NAME = 'Tool for Agroecology Performance Evaluation';
+
+const MIGRATION_NAME = 'expand_certifier_list';
+
 // `certifier_acronym` is null where the certifier has no acronym in genuine public
 // use, and where an acronym would exactly duplicate `certifier_name` — the
 // certification card renders `${acronym} — ${name}`, which would read "SGS — SGS".
@@ -73,8 +78,6 @@ const insertedNames = [...thirdPartyOrganicCertifiers, ...pgsGroups].map(
 );
 
 /**
- * Resolves system type ids by translation key rather than assuming literal ids, which
- * is how the webapp identifies them too (see `CertificationForm.tsx`).
  * @param { import("knex").Knex } knex
  */
 const getSystemTypeIds = async function (knex) {
@@ -93,6 +96,67 @@ const getSystemTypeIds = async function (knex) {
 };
 
 /**
+ * Removes TAPE, keeping its name as free text on the certifications that referenced it. Its rows
+ * are logged because `certifier_id` differs between beta and production and `down` needs the
+ * original.
+ * @param { import("knex").Knex } knex
+ */
+const removeTapeCertifier = async function (knex) {
+  const tape = await knex('certifiers').where({ certifier_name: TAPE_CERTIFIER_NAME }).first();
+
+  if (!tape) {
+    return;
+  }
+
+  await knex('certification')
+    .where({ certifier_id: tape.certifier_id })
+    .update({ certifier_id: null, other_certifier: TAPE_CERTIFIER_NAME });
+
+  const tapeCountries = await knex('certifier_country').where({ certifier_id: tape.certifier_id });
+
+  await knex('certifier_country').where({ certifier_id: tape.certifier_id }).delete();
+  await knex('certifiers').where({ certifier_id: tape.certifier_id }).delete();
+
+  await knex('migration_deletion_logs').insert([
+    ...tapeCountries.map((row) => ({
+      migration_name: MIGRATION_NAME,
+      table_name: 'certifier_country',
+      data: row,
+    })),
+    { migration_name: MIGRATION_NAME, table_name: 'certifiers', data: tape },
+  ]);
+};
+
+/**
+ * Restores whatever `removeTapeCertifier` logged and repoints the certifications back.
+ * @param { import("knex").Knex } knex
+ */
+const restoreTapeCertifier = async function (knex) {
+  const loggedRows = await knex('migration_deletion_logs')
+    .where({ migration_name: MIGRATION_NAME })
+    .orderBy('id', 'desc');
+
+  for (const { table_name, data } of loggedRows) {
+    try {
+      await knex(table_name).insert(data);
+    } catch (err) {
+      console.error(`Failed to restore row in ${table_name}:`, err);
+      throw err;
+    }
+  }
+
+  await knex('migration_deletion_logs').where({ migration_name: MIGRATION_NAME }).delete();
+
+  const tape = await knex('certifiers').where({ certifier_name: TAPE_CERTIFIER_NAME }).first();
+
+  if (tape) {
+    await knex('certification')
+      .where({ other_certifier: TAPE_CERTIFIER_NAME })
+      .update({ certifier_id: tape.certifier_id, other_certifier: null });
+  }
+};
+
+/**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
@@ -105,10 +169,11 @@ export const up = async function (knex) {
     .where({ certifier_name: OLD_FVOPA_NAME })
     .update({ certifier_name: NEW_FVOPA_NAME });
 
-  // `20210621152008_certifier_list_update.js` inserted certifier_id 19 explicitly, and
-  // Postgres does not advance a serial's sequence when the value is supplied, so the
-  // sequence trails the table's max id and the next insert would collide on the primary
-  // key. Realigning is a no-op where the sequence is already correct.
+  await removeTapeCertifier(knex);
+
+  // `20210621152008_certifier_list_update.js` inserted certifier_id 19 explicitly, which leaves
+  // the sequence at 18 on any database built from migrations alone. Beta and production were
+  // realigned by hand, where this is a no-op.
   await knex.raw(
     `SELECT setval(pg_get_serial_sequence('certifiers', 'certifier_id'),
                    (SELECT max(certifier_id) FROM certifiers))`,
@@ -116,8 +181,6 @@ export const up = async function (knex) {
 
   const idByKey = await getSystemTypeIds(knex);
 
-  // `survey_id` is left at its null default: none of these certifiers has a
-  // certifier-specific export survey, so the export falls back to the generic form.
   await knex.batchInsert('certifiers', [
     ...thirdPartyOrganicCertifiers.map((certifier) => ({
       ...certifier,
@@ -136,6 +199,8 @@ export const down = async function (knex) {
   await knex('certifiers')
     .where({ certifier_name: NEW_FVOPA_NAME })
     .update({ certifier_name: OLD_FVOPA_NAME });
+
+  await restoreTapeCertifier(knex);
 
   await knex.schema.alterTable('certifiers', (table) => {
     table.string('certifier_acronym').notNullable().alter();

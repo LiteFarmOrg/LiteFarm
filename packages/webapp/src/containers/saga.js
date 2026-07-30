@@ -513,7 +513,6 @@ export function* fetchAllSaga() {
     put(api.endpoints.getSoilAmendmentPurposes.initiate()),
     put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
     put(api.endpoints.getAnimalMovementPurposes.initiate()),
-    //Todo: LF-4672 Remove once refactor to rtk is complete
     call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
   ]);
 

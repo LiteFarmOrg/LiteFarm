@@ -66,30 +66,17 @@ const certificationsController = {
   },
 
   getSupportedCertifiers() {
-    return async (req: LiteFarmRequest, res: Response) => {
+    return async (_req: LiteFarmRequest, res: Response) => {
       try {
-        const { farm_id } = req.headers;
-
-        // Joining through certifier_country to farm restricts the list to certifiers
-        // operating in the requesting farm's country.
-        const certifiers = await CertifierModel.query()
-          .select(
-            'certifiers.certifier_id',
-            'certifiers.system_type_id',
-            'certifiers.certifier_name',
-            'certifiers.certifier_acronym',
-            'certifiers.survey_id',
-            'certifier_country.country_id',
-            'certifier_country.certifier_country_id',
-          )
-          .join(
-            'certifier_country',
-            'certifiers.certifier_id',
-            '=',
-            'certifier_country.certifier_id',
-          )
-          .join('farm', 'farm.country_id', '=', 'certifier_country.country_id')
-          .where('farm.farm_id', farm_id!);
+        // Every farm sees the same certifier list, so this returns one row per
+        // certifier and does not read the farm's country.
+        const certifiers = await CertifierModel.query().select(
+          'certifier_id',
+          'system_type_id',
+          'certifier_name',
+          'certifier_acronym',
+          'survey_id',
+        );
 
         return res.status(200).json(certifiers);
       } catch (error: unknown) {

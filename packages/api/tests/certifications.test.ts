@@ -69,6 +69,7 @@ interface Certifier {
   certifier_id: number;
   system_type_id: number;
   certifier_name: string;
+  certifier_acronym: string | null;
 }
 
 interface SystemType {
@@ -189,8 +190,8 @@ describe('Certifications CRUD tests', () => {
       .orderBy('certifier_id')
       .first();
 
-    // certifier_country covers only a handful of countries, so the supported_certifiers
-    // response depends on which country the farm is in
+    // Two contrasting countries, one covered by certifier_country and one not, so the
+    // supported_certifiers tests can show the response is the same either way.
     const certifierCountry = await knex('certifier_country')
       .where({ certifier_id: thirdPartyCertifier.certifier_id })
       .first();
@@ -367,27 +368,55 @@ describe('Certifications CRUD tests', () => {
       return { user_id: user.user_id, farm_id: farm.farm_id };
     }
 
-    test("Returns the certifiers for the farm's country", async () => {
+    const sortedIds = (certifiers: Certifier[]) =>
+      certifiers.map(({ certifier_id }) => certifier_id).sort((a, b) => a - b);
+
+    test("Returns every certifier, regardless of the farm's country", async () => {
+      const inCoveredCountry = await createUserFarmInCountry(countryWithCertifiersId);
+      const inUncoveredCountry = await createUserFarmInCountry(countryWithoutCertifiersId);
+
+      const coveredRes = await getSupportedCertifiersRequest(inCoveredCountry);
+      const uncoveredRes = await getSupportedCertifiersRequest(inUncoveredCountry);
+
+      expect(coveredRes.status).toBe(200);
+      expect(uncoveredRes.status).toBe(200);
+
+      const allCertifiers = await knex('certifiers').select('certifier_id');
+      expect(sortedIds(coveredRes.body)).toEqual(sortedIds(allCertifiers));
+      expect(sortedIds(uncoveredRes.body)).toEqual(sortedIds(coveredRes.body));
+    });
+
+    test('Returns one row per certifier, with no country columns', async () => {
       const userFarmIds = await createUserFarmInCountry(countryWithCertifiersId);
 
       const res = await getSupportedCertifiersRequest(userFarmIds);
 
       expect(res.status).toBe(200);
-      expect(res.body.length).toBeGreaterThan(0);
-      const returned = res.body.find(
+      const returned = res.body.filter(
         (certifier: Certifier) => certifier.certifier_id === thirdPartyCertifier.certifier_id,
       );
-      expect(returned.system_type_id).toBe(thirdPartySystemTypeId);
-      expect(returned.certifier_name).toBe(thirdPartyCertifier.certifier_name);
+      expect(returned).toHaveLength(1);
+      expect(returned[0].system_type_id).toBe(thirdPartySystemTypeId);
+      expect(returned[0].certifier_name).toBe(thirdPartyCertifier.certifier_name);
+      expect(Object.keys(returned[0]).sort()).toEqual([
+        'certifier_acronym',
+        'certifier_id',
+        'certifier_name',
+        'survey_id',
+        'system_type_id',
+      ]);
     });
 
-    test('Returns an empty list for a farm whose country has no certifiers', async () => {
-      const userFarmIds = await createUserFarmInCountry(countryWithoutCertifiersId);
+    test('Returns certifiers that have no acronym', async () => {
+      const userFarmIds = await createUserFarmInCountry(countryWithCertifiersId);
 
       const res = await getSupportedCertifiersRequest(userFarmIds);
 
       expect(res.status).toBe(200);
-      expect(res.body).toEqual([]);
+      const withoutAcronym = res.body.filter(
+        (certifier: Certifier) => certifier.certifier_acronym === null,
+      );
+      expect(withoutAcronym.length).toBeGreaterThan(0);
     });
 
     test('Workers cannot list supported certifiers', async () => {

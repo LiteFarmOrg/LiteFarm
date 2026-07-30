@@ -132,7 +132,8 @@ const formatCertifierLabel = (
   let certifierName;
   if (certification.certifier_id) {
     const certifier = certifiersMap[certification.certifier_id];
-    certifierName = certifier?.certifier_acronym;
+    // Certifiers with no acronym in public use store null, so fall back to the name.
+    certifierName = certifier?.certifier_acronym || certifier?.certifier_name;
   } else {
     certifierName = certification.other_certifier;
   }
@@ -161,7 +162,7 @@ export const toCertificationItems = (
       systemTypeTranslationKey: systemType?.translation_key ?? '',
       requestedSystemType: certification.requested_system_type ?? undefined,
       certifierName: certifier?.certifier_name ?? certification.other_certifier ?? '',
-      certifierAcronym: certifier?.certifier_acronym,
+      certifierAcronym: certifier?.certifier_acronym ?? undefined,
       certificateNumber: certification.certificate_number,
       certificateMemberId: certification.certificate_member_id,
       isActive: certification.is_active,

@@ -170,6 +170,7 @@ export default function CertificationForm({
       value: certifier.certifier_id,
       label: certifier.certifier_name,
     }))
+    .sort((a, b) => a.label.localeCompare(b.label))
     .concat([{ value: 0, label: t('common:OTHER') }]);
 
   // Once a system type is picked, if "Other" is the only certifier available, select it

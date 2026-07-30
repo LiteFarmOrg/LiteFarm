@@ -35,6 +35,7 @@ import { useMaxZoom } from '../../Map/useMaxZoom';
 import { assignTask, assignTasksOnDate, changeTaskDate, changeTaskWage, deleteTask } from '../saga';
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../../store/api/apiSlice';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import { useHasCertifications } from '../../../hooks/useHasCertifications';
 
 function TaskReadOnly() {
   const location = useLocation();
@@ -71,6 +72,7 @@ function TaskReadOnly() {
   const isAdmin = useSelector(isAdminSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
   const language = getLanguageFromLocalStorage();
+  const hasCertifications = useHasCertifications();
 
   const [isTaskTypeCustom, setIsTaskTypeCustom] = useState(false);
   const [isHarvest, setIsHarvest] = useState(undefined);
@@ -152,6 +154,7 @@ function TaskReadOnly() {
           system={system}
           products={products}
           externalIrrigationPrescription={externalIrrigationPrescription}
+          hasCertifications={hasCertifications}
           files={files}
           harvestUseTypes={harvestUseTypes}
           isTaskTypeCustom={isTaskTypeCustom}

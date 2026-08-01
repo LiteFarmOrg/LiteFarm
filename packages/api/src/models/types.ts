@@ -656,8 +656,9 @@ export type Certification = {
   other_certifier?: string | null;
   certification_type?: string | null;
   certificate_number?: string | null;
-  issue_date?: string | null;
-  valid_until?: string | null;
+  // node-pg returns Postgres `date` columns as Date objects; format them with formatDateOnly
+  issue_date?: string | Date | null;
+  valid_until?: string | Date | null;
   certificationSystemType?: CertificationSystemType | null;
   certifier?: Certifier | null;
 };

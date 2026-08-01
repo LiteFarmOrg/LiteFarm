@@ -26,6 +26,7 @@ import {
   ISKOSConcept,
 } from '@datafoodconsortium/connector';
 import { apiUrl } from '../../util/environment.js';
+import { formatDateOnly } from '../../util/date.js';
 import { parseGoogleGeocodedAddress } from '../../util/googleMaps.js';
 import { convertCountryIso2ToIso3 } from '../../util/isoUtils.js';
 import type {
@@ -194,7 +195,7 @@ export const formatFarmDataToDfcStandard = async (
       });
 
       if (cert.issue_date) {
-        certification.setSemanticPropertyLiteral('dfc-b:date', cert.issue_date);
+        certification.setSemanticPropertyLiteral('dfc-b:date', formatDateOnly(cert.issue_date));
       }
 
       return certification;

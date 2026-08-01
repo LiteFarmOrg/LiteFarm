@@ -14,6 +14,25 @@
  */
 
 /**
+ * Formats a date-only value as YYYY-MM-DD.
+ *
+ * node-pg returns Postgres `date` columns as Date objects set to *local* midnight, so the
+ * calendar day is read from the local components. toISOString() would report the previous
+ * day whenever the server runs east of UTC.
+ *
+ * @param value - A Date from a Postgres `date` column, or a string beginning with YYYY-MM-DD.
+ * @returns - The calendar day as YYYY-MM-DD.
+ */
+export function formatDateOnly(value: Date | string): string {
+  if (typeof value === 'string') {
+    return value.split('T')[0];
+  }
+  const month = `${value.getMonth() + 1}`.padStart(2, '0');
+  const day = `${value.getDate()}`.padStart(2, '0');
+  return `${value.getFullYear()}-${month}-${day}`;
+}
+
+/**
  * Adds a specified number of days to a given date.
  *
  * @param date - The initial date to which days should be added. ex. new Date(2023, 10, 1)

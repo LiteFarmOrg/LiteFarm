@@ -69,12 +69,35 @@ interface Certifier {
   certifier_id: number;
   system_type_id: number;
   certifier_name: string;
+  certifier_acronym: string | null;
 }
 
-async function getRequest({ user_id, farm_id }: UserFarmIds) {
+interface SystemType {
+  id: number;
+  name: string;
+  translation_key: string;
+}
+
+async function getRequest({ user_id, farm_id }: UserFarmIds, query = '') {
   return chai
     .request(server)
-    .get('/certifications')
+    .get(`/certifications${query}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
+async function getSupportedCertifiersRequest({ user_id, farm_id }: UserFarmIds) {
+  return chai
+    .request(server)
+    .get('/certifications/supported_certifiers')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
+async function getSupportedSystemTypesRequest({ user_id, farm_id }: UserFarmIds) {
+  return chai
+    .request(server)
+    .get('/certifications/supported_system_types')
     .set('user_id', user_id)
     .set('farm_id', farm_id);
 }
@@ -118,6 +141,8 @@ describe('Certifications CRUD tests', () => {
   let thirdPartyCertifier: Certifier;
   let thirdPartySystemTypeId: number;
   let pgsSystemTypeId: number;
+  let countryWithCertifiersId: number;
+  let countryWithoutCertifiersId: number;
 
   function validCertificationBody(overrides: object = {}) {
     return {
@@ -164,6 +189,19 @@ describe('Certifications CRUD tests', () => {
       .where({ system_type_id: thirdPartySystemTypeId })
       .orderBy('certifier_id')
       .first();
+
+    // Two contrasting countries, one covered by certifier_country and one not, so the
+    // supported_certifiers tests can show the response is the same either way.
+    const certifierCountry = await knex('certifier_country')
+      .where({ certifier_id: thirdPartyCertifier.certifier_id })
+      .first();
+    countryWithCertifiersId = certifierCountry.country_id;
+
+    const countryWithoutCertifiers = await knex('countries')
+      .whereNotIn('id', knex('certifier_country').select('country_id'))
+      .orderBy('id')
+      .first();
+    countryWithoutCertifiersId = countryWithoutCertifiers.id;
   });
 
   beforeEach(() => {
@@ -260,6 +298,147 @@ describe('Certifications CRUD tests', () => {
         user_id: otherUserFarmIds.user_id,
         farm_id: userFarmIds.farm_id,
       });
+
+      expect(res.status).toBe(403);
+    });
+
+    test('All users can get certifications meta data', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      await createCertification(userFarmIds);
+      await createCertification(userFarmIds);
+
+      for (const roleId of [1, 2, 3, 5]) {
+        const [{ user_id }] = await mocks.userFarmFactory({
+          promisedFarm: Promise.resolve([{ farm_id: userFarmIds.farm_id }]),
+          roleId,
+        });
+
+        const res = await getRequest({ user_id, farm_id: userFarmIds.farm_id }, '?meta_only=true');
+        expect(res.status).toBe(200);
+        expect(res.body.count).toBe(2);
+      }
+    });
+
+    test('Members of another farm cannot get certifications meta data', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const otherUserFarmIds = await createUserFarmIds(1);
+      await createCertification(userFarmIds);
+
+      const res = await getRequest(
+        { user_id: otherUserFarmIds.user_id, farm_id: userFarmIds.farm_id },
+        '?meta_only=true',
+      );
+
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('GET /certifications/supported_system_types', () => {
+    test('Returns the supported system types', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+
+      const res = await getSupportedSystemTypesRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      const thirdPartyOrganic = res.body.find(
+        (systemType: SystemType) => systemType.translation_key === 'THIRD_PARTY_ORGANIC',
+      );
+      const pgs = res.body.find(
+        (systemType: SystemType) => systemType.translation_key === PGS_TRANSLATION_KEY,
+      );
+      expect(thirdPartyOrganic.id).toBe(thirdPartySystemTypeId);
+      expect(thirdPartyOrganic.name).toBe('Third-party Organic');
+      expect(pgs.id).toBe(pgsSystemTypeId);
+      expect(pgs.name).toBe('Participatory Guarantee System');
+    });
+
+    test('Workers cannot list supported system types', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id: userFarmIds.farm_id }]),
+        roleId: 3,
+      });
+
+      const res = await getSupportedSystemTypesRequest({
+        user_id,
+        farm_id: userFarmIds.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('GET /certifications/supported_certifiers', () => {
+    async function createUserFarmInCountry(country_id: number): Promise<UserFarmIds> {
+      const [farm] = await mocks.farmFactory(mocks.fakeFarm({ country_id }));
+      const [user] = await mocks.usersFactory();
+      await mocks.userFarmFactory({
+        promisedUser: Promise.resolve([user]),
+        promisedFarm: Promise.resolve([farm]),
+        roleId: 1,
+      });
+      return { user_id: user.user_id, farm_id: farm.farm_id };
+    }
+
+    const sortedIds = (certifiers: Certifier[]) =>
+      certifiers.map(({ certifier_id }) => certifier_id).sort((a, b) => a - b);
+
+    test("Returns every certifier, regardless of the farm's country", async () => {
+      const inCoveredCountry = await createUserFarmInCountry(countryWithCertifiersId);
+      const inUncoveredCountry = await createUserFarmInCountry(countryWithoutCertifiersId);
+
+      const coveredRes = await getSupportedCertifiersRequest(inCoveredCountry);
+      const uncoveredRes = await getSupportedCertifiersRequest(inUncoveredCountry);
+
+      expect(coveredRes.status).toBe(200);
+      expect(uncoveredRes.status).toBe(200);
+
+      const allCertifiers = await knex('certifiers').select('certifier_id');
+      expect(sortedIds(coveredRes.body)).toEqual(sortedIds(allCertifiers));
+      expect(sortedIds(uncoveredRes.body)).toEqual(sortedIds(coveredRes.body));
+    });
+
+    test('Returns one row per certifier, with no country columns', async () => {
+      const userFarmIds = await createUserFarmInCountry(countryWithCertifiersId);
+
+      const res = await getSupportedCertifiersRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      const returned = res.body.filter(
+        (certifier: Certifier) => certifier.certifier_id === thirdPartyCertifier.certifier_id,
+      );
+      expect(returned).toHaveLength(1);
+      expect(returned[0].system_type_id).toBe(thirdPartySystemTypeId);
+      expect(returned[0].certifier_name).toBe(thirdPartyCertifier.certifier_name);
+      expect(Object.keys(returned[0]).sort()).toEqual([
+        'certifier_acronym',
+        'certifier_id',
+        'certifier_name',
+        'survey_id',
+        'system_type_id',
+      ]);
+    });
+
+    test('Returns certifiers that have no acronym', async () => {
+      const userFarmIds = await createUserFarmInCountry(countryWithCertifiersId);
+
+      const res = await getSupportedCertifiersRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      const withoutAcronym = res.body.filter(
+        (certifier: Certifier) => certifier.certifier_acronym === null,
+      );
+      expect(withoutAcronym.length).toBeGreaterThan(0);
+    });
+
+    test('Workers cannot list supported certifiers', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      const [{ user_id }] = await mocks.userFarmFactory({
+        promisedFarm: Promise.resolve([{ farm_id: userFarmIds.farm_id }]),
+        roleId: 3,
+      });
+
+      const res = await getSupportedCertifiersRequest({ user_id, farm_id: userFarmIds.farm_id });
 
       expect(res.status).toBe(403);
     });

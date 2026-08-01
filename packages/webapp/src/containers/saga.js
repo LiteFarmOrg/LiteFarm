@@ -26,11 +26,6 @@ import { logout } from '../util/jwt';
 import { handle403 } from './ErrorHandler/saga.js';
 import { getRoles } from './InviteUser/saga';
 import notificationSaga, { getNotification } from './Notification/saga';
-import {
-  getAllSupportedCertifications,
-  getAllSupportedCertifiers,
-  getCertificationSurveys,
-} from './OrganicCertifierSurvey/saga';
 import { getAllUserFarmsByFarmIDSaga } from './Profile/People/saga';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 import {
@@ -92,7 +87,6 @@ import {
 } from './rowMethodSlice';
 import { resetTasks } from './taskSlice';
 import {
-  isAdminSelector,
   loginSelector,
   patchFarmSuccess,
   putUserSuccess,
@@ -104,6 +98,7 @@ import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
 import { resetFarmStateReducer } from '../store/actionTypes';
 import { api, invalidateTags } from '../store/api/apiSlice';
 import { locationApi } from '../store/api/locationApi';
+import { certificationsApi } from '../store/api/certificationsApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
 import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
@@ -501,18 +496,13 @@ function releaseFarmScopedQuerySubscriptions() {
 }
 
 export function* fetchAllSaga() {
-  const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
+  const { has_consent, user_id } = yield select(userFarmSelector);
   if (!has_consent) return history.push('/consent');
 
   yield call(openFarmScopedQuery, api.endpoints.getSensors.initiate());
+  yield call(openFarmScopedQuery, certificationsApi.endpoints.getHasCertifications.initiate());
 
-  const isAdmin = yield select(isAdminSelector);
-  const adminTasks = [
-    put(getCertificationSurveys()),
-    put(getAllSupportedCertifications()),
-    put(getAllSupportedCertifiers()),
-  ];
-  const tasks = [
+  yield all([
     put(getRoles()),
     put(getManagementPlansAndTasks()),
     call(getAllUserFarmsByFarmIDSaga),
@@ -522,11 +512,8 @@ export function* fetchAllSaga() {
     put(api.endpoints.getSoilAmendmentPurposes.initiate()),
     put(api.endpoints.getSoilAmendmentFertiliserTypes.initiate()),
     put(api.endpoints.getAnimalMovementPurposes.initiate()),
-    //Todo: LF-4672 Remove once refactor to rtk is complete
     call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
-  ];
-
-  yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
+  ]);
 
   yield put(fetchAllFinanceData());
 

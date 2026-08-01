@@ -14,7 +14,7 @@
  */
 
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '../Form/Button';
 import FloatingActionButton from '../Button/FloatingActionButton';
@@ -25,6 +25,7 @@ import CertificationsList from './CertificationsList';
 import DeleteConfirmationModal from '../Modals/DeleteConfirmationModal';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as ExportIcon } from '../../assets/images/finance/Report-icn.svg';
+import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
 import type { CertificationItem } from './types';
 import styles from './index.module.scss';
 
@@ -64,11 +65,19 @@ export default function Certifications({
   }
 
   return (
-    <div className={styles.page}>
-      <CertificationBanner
-        variant={bannerVariant}
-        marketDirectoryProfileLink={marketDirectoryProfileLink}
-      />
+    <div>
+      <div className={styles.info}>
+        <CertificationBanner
+          variant={bannerVariant}
+          marketDirectoryProfileLink={marketDirectoryProfileLink}
+        />
+        <p className={styles.leafInfo}>
+          <Trans
+            i18nKey="CERTIFICATION.LOOK_FOR_LEAF_ICON"
+            components={{ leafIcon: <Leaf className={styles.leafIcon} /> }}
+          />
+        </p>
+      </div>
 
       {certifications.length === 0 ? (
         <CertificationsEmptyState onAddCertification={onAddCertification} />

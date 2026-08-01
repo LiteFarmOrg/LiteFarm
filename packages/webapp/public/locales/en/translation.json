@@ -449,7 +449,7 @@
       "CERTIFYING_BODY": "Certifying body",
       "CERTIFYING_BODY_INFO": "Name of the certifying organisation",
       "CERTIFYING_BODY_PLACEHOLDER": "Select a certifying body",
-      "CERTIFYING_GROUP_INFO": "Name of your local PGDS group or network",
+      "CERTIFYING_GROUP_INFO": "Name of your local PGS group or network",
       "CERTIFYING_GROUP_PLACEHOLDER": "Select a certifying group",
       "IS_ACTIVE": "Is this certification active?",
       "MEMBER_ID_PLACEHOLDER": "Enter your member ID",
@@ -469,6 +469,7 @@
     "LIST": {
       "PURSUING_SECTION": "Pursuing certifications"
     },
+    "LOOK_FOR_LEAF_ICON": "Look for the leaf icon: <leafIcon /> it marks the information your certifier may require",
     "MEMBER_ID": "Member ID",
     "PURSUING_ITEM": "Pursuing {{item}}",
     "REQUEST_CERTIFIER": {
@@ -495,11 +496,11 @@
       "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certified by an accredited body"
     },
     "THIS_CERTIFICATION": "this certification",
-    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile",
-    "WILL_STILL_APPEAR_IN_MARKET_LISTING": "Will still appear in your market listing"
+    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
+    "EMAIL_YOUR_EXPORT": "We'll email your export to: <strong>{{email}}</strong>. It includes your records and documents from LiteFarm. Your certifier may request additional information.",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "EXPORT_DOWNLOADING_MESSAGE": "Downloading your organic certification files ...",
@@ -1342,6 +1343,7 @@
     "IRRIGATION_PRESCRIPTION_FILES": "Irrigation prescription files",
     "IRRIGATION_PRESCRIPTIONS": "Irrigation prescriptions",
     "IRRIGATION_ZONE": "Irrigation zone",
+    "PLANT_AVAILABLE_WATER": "Plant available water",
     "PRESCRIPTION_DATE": "Prescription Date",
     "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
     "START_DATE": "Start date",
@@ -1617,6 +1619,7 @@
     "MARKET_DIRECTORY_INFO": "Market directory info",
     "NO_PARTNER": "We have no partner in your location for now.",
     "PARTNERS": {
+      "GROWNBY_DESCRIPTION": "Create a free account and get published on GrownBy",
       "OFN_DESCRIPTION": "Create a free account and get published on this OFN directory"
     },
     "WHERE_TO_BE_FEATURED": "Where would you like to be featured?"

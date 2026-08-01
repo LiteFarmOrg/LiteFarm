@@ -1,7 +1,6 @@
 import certificationModel from '../../models/certificationModel.js';
 
-// TODO LF-5382: Rename
-async function organicCertifierCheck(req, res, next) {
+async function cropVarietyComplianceCheck(req, res, next) {
   const { body } = req;
   if (body.farm_id) {
     const certification = await certificationModel
@@ -9,10 +8,9 @@ async function organicCertifierCheck(req, res, next) {
       .whereNotDeleted()
       .where({ farm_id: body.farm_id })
       .first();
-    // TODO LF-5379: temporary shim — `interested` is removed from the DB; treat missing record as not interested
-    // TODO LF-5382: Implement proper organic certification logic
-    const isFarmInterestedInOrganic = !!certification;
-    if (isFarmInterestedInOrganic) {
+    // A farm must provide the crop-variety compliance fields once it holds any certification record.
+    const hasCertifications = !!certification;
+    if (hasCertifications) {
       if (body.organic === null) {
         return res.status(400).send({ message: "Organic can't be null" });
       }
@@ -23,10 +21,10 @@ async function organicCertifierCheck(req, res, next) {
         return res.status(400).send({ message: 'Organic should be null' });
       }
     }
-    if (!isFarmInterestedInOrganic) {
+    if (!hasCertifications) {
       if (body.organic !== null || body.searched !== null || body.genetically_engineered !== null) {
         return res.status(400).send({
-          message: 'This farm is not interested in organic certification, data should be null',
+          message: 'This farm does not hold a certification, data should be null',
         });
       }
     }
@@ -36,4 +34,4 @@ async function organicCertifierCheck(req, res, next) {
   return next();
 }
 
-export default organicCertifierCheck;
+export default cropVarietyComplianceCheck;

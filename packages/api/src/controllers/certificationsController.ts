@@ -16,6 +16,8 @@
 import { Response } from 'express';
 import { transaction, Model } from 'objection';
 import CertificationModel from '../models/certificationModel.js';
+import CertificationSystemTypeModel from '../models/certificationSystemTypeModel.js';
+import CertifierModel from '../models/certifierModel.js';
 import {
   CertificationBody,
   CertificationParams,
@@ -39,7 +41,7 @@ const MUTABLE_FIELDS = [
 
 const certificationsController = {
   getCertifications() {
-    return async (req: LiteFarmRequest, res: Response) => {
+    return async (req: LiteFarmRequest<{ meta_only?: string }>, res: Response) => {
       try {
         const { farm_id } = req.headers;
 
@@ -49,7 +51,49 @@ const certificationsController = {
           .where({ farm_id })
           .orderBy('created_at');
 
+        if (req.query.meta_only === 'true') {
+          return res.status(200).json({ count: certifications.length });
+        }
+
         return res.status(200).json(certifications);
+      } catch (error: unknown) {
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
+      }
+    };
+  },
+
+  getSupportedCertifiers() {
+    return async (_req: LiteFarmRequest, res: Response) => {
+      try {
+        // Every farm sees the same certifier list, so this returns one row per
+        // certifier and does not read the farm's country.
+        const certifiers = await CertifierModel.query().select(
+          'certifier_id',
+          'system_type_id',
+          'certifier_name',
+          'certifier_acronym',
+          'survey_id',
+        );
+
+        return res.status(200).json(certifiers);
+      } catch (error: unknown) {
+        console.error(error);
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
+      }
+    };
+  },
+
+  getSupportedSystemTypes() {
+    return async (_req: LiteFarmRequest, res: Response) => {
+      try {
+        const systemTypes = await CertificationSystemTypeModel.query().orderBy('id');
+
+        return res.status(200).json(systemTypes);
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;

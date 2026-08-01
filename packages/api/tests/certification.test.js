@@ -570,7 +570,7 @@ describe('certification Tests', () => {
           });
           fakeCertification = {
             ...fakeCertification,
-            // TODO LF-5379: temporary shim — frontend sends `survey_id`; remove once field names are updated
+            // The legacy route names the primary key `survey_id`
             survey_id: fakeCertification.id,
             ...getFakeCertification(),
             farm_id: farm.farm_id,

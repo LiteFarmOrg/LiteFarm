@@ -13,17 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export type CertificationStatus = 'active' | 'expiring_soon' | 'expired' | 'pursuing';
+import { useGetHasCertificationsQuery } from '../store/api/certificationsApi';
 
-export type CertificationItem = {
-  id: string;
-  systemTypeTranslationKey: string;
-  requestedSystemType?: string;
-  certifierName: string;
-  certifierAcronym?: string;
-  certificateNumber?: string | null;
-  certificateMemberId?: string | null;
-  isActive: boolean;
-  issueDate?: string | null;
-  expiryDate?: string | null;
-};
+/**
+ * Whether the farm holds any certification record.
+ */
+export function useHasCertifications(): boolean {
+  const { data: hasCertifications = false } = useGetHasCertificationsQuery();
+
+  return hasCertifications;
+}

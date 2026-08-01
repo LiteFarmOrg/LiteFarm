@@ -463,23 +463,20 @@ export interface Certification {
   valid_until: string | null;
 }
 
-// Served by the legacy /organic_certifier_survey routes, which still apply the
-// pre-LF-5379 shim: response field names below (certification_id etc.) are the
-// shimmed names, not the underlying DB column names (system_type_id, name...).
+// Reference data from the certifiers table. Every farm receives the same list.
 export interface SupportedCertifier {
   certifier_id: number;
-  certification_id: number;
+  system_type_id: number;
   certifier_name: string;
-  certifier_acronym: string;
-  certifier_country_id: number;
-  country_id: number;
+  certifier_acronym: string | null;
   survey_id: string | null;
 }
 
+// Reference data from the certification_system_type table.
 export interface SupportedCertificationSystemType {
-  certification_id: number;
-  certification_type: string;
-  certification_translation_key: string;
+  id: number;
+  name: string;
+  translation_key: string;
 }
 
 export enum InternalMapLocationType {

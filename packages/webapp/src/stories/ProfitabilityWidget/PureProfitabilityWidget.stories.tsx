@@ -110,7 +110,7 @@ const animalRows: EntityProfitRow[] = [
     netProfit: 1050,
   },
   // Custom animal type: no typeTranslationKey, so the table renders
-  // t('TABLE.TYPE_TOTAL', { type: 'Cattle' }) -> "Cattle total".
+  // t('profitability:TABLE.TYPE_TOTAL', { type: 'Cattle' }) -> "Cattle total".
   {
     id: 'custom_type_5',
     kind: 'animal',
@@ -146,8 +146,8 @@ const Wrapper = ({
   const ctaVariant: CtaVariant = isEmpty
     ? 'noTransactions'
     : hasAttributions
-      ? 'default'
-      : 'noAttributions';
+    ? 'default'
+    : 'noAttributions';
 
   return (
     <PureProfitabilityWidget

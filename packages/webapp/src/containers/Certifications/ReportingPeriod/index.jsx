@@ -15,10 +15,10 @@ import { getCertifierOptions } from '../utils';
 function CertificationReportingPeriod() {
   const history = useHistory();
   const { t } = useTranslation(['translation', 'certifications']);
-  const { email, farm_id } = useSelector(userFarmSelector);
+  const { email } = useSelector(userFarmSelector);
   const { data: certifications = [] } = useGetCertificationsQuery();
-  const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id);
-  const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery(farm_id);
+  const { data: certifiers = [] } = useGetSupportedCertifiersQuery();
+  const { data: systemTypes = [] } = useGetSupportedCertificationSystemTypesQuery();
 
   const onError = (error) => {
     console.log(error);

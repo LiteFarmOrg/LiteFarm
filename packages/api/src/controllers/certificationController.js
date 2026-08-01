@@ -32,7 +32,15 @@ const redisConf = {
   },
 };
 
-// TODO LF-5379: remove with legacy /organic_certifier_survey endpoints — maps old API field names to DB column names
+/*
+ * Handlers for the legacy /organic_certifier_survey routes. Cached service-worker
+ * frontends still call them for weeks after a release, so they serve the field names
+ * that predate the certification table restructure. The mapping helpers below are the
+ * only place those names are produced; the models and the /certifications API use the
+ * real column names. Delete this file with the routes — see LF-5410.
+ */
+
+// Maps old API field names to DB column names
 function mapLegacyCertificationBody(body) {
   const mapped = { ...body };
   if (mapped.survey_id !== undefined) {
@@ -54,7 +62,7 @@ function mapLegacyCertificationBody(body) {
   return mapped;
 }
 
-// TODO LF-5379: remove with legacy /organic_certifier_survey endpoints — maps DB column names to old API field names
+// Maps DB column names to old API field names
 function formatCertificationAsLegacy(certification) {
   // toJSON() runs BaseModel.$formatJson, which hides audit fields as before
   const json =
@@ -71,6 +79,24 @@ function formatCertificationAsLegacy(certification) {
   return json;
 }
 
+// certifiers.system_type_id was named certification_id before the restructure
+function formatCertifierAsLegacy(certifier) {
+  const { system_type_id, ...rest } = certifier.toJSON();
+  return { ...rest, certification_id: system_type_id };
+}
+
+// certification_system_type's id/name/translation_key were named
+// certification_id/certification_type/certification_translation_key
+function formatSystemTypeAsLegacy(systemType) {
+  const { id, name, translation_key, ...rest } = systemType.toJSON();
+  return {
+    ...rest,
+    certification_id: id,
+    certification_type: name,
+    certification_translation_key: translation_key,
+  };
+}
+
 const certificationController = {
   getCertificationByFarmId() {
     return async (req, res) => {
@@ -80,7 +106,6 @@ const certificationController = {
           .whereNotDeleted()
           .where({ farm_id })
           .first();
-        // TODO LF-5379: temporary shim — return legacy `interested: false` shape when no record exists
         if (!result) {
           return res.status(200).json({ farm_id, interested: false });
         }
@@ -102,7 +127,7 @@ const certificationController = {
         if (!result) {
           res.sendStatus(404);
         } else {
-          res.status(200).send(result);
+          res.status(200).send(result.map(formatSystemTypeAsLegacy));
         }
       } catch (error) {
         //handle more exceptions
@@ -140,7 +165,7 @@ const certificationController = {
         if (!result) {
           res.sendStatus(404);
         } else {
-          res.status(200).send(result);
+          res.status(200).send(result.map(formatCertifierAsLegacy));
         }
       } catch (error) {
         //handle more exceptions
@@ -156,7 +181,6 @@ const certificationController = {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
-        // TODO LF-5379: temporary shim — ignore `interested: false` from frontend instead of creating a record
         const { interested, farm_id, ...rest } = req.body;
 
         if (interested === false) {
@@ -181,7 +205,7 @@ const certificationController = {
     return async (req, res) => {
       try {
         const user_id = req.auth.user_id;
-        // TODO LF-5379: temporary shim — soft-delete on `interested: false` and map `survey_id` from frontend
+        // soft-delete on `interested: false`
         const { farm_id, interested, ...rest } = req.body;
         if (interested === false) {
           await CertificationModel.query()
@@ -199,8 +223,7 @@ const certificationController = {
             .context({ user_id })
             .patchAndFetchById(surveyId, { ...patchData, deleted: false });
         } else {
-          // TODO LF-5379: temporary shim — no survey_id means the farm had no prior record (GET returned
-          // `{ interested: false }`); insert instead of patch so the first submission creates a row
+          // No survey_id: insert instead of patch
           result = await CertificationModel.query()
             .context({ user_id })
             .insert({ farm_id, ...patchData })

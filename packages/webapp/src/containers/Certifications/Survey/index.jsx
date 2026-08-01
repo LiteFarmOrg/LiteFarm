@@ -14,9 +14,9 @@ import { parseCertifierKey } from '../utils';
 function CertificationSurveyPage() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { email, farm_id } = useSelector(userFarmSelector);
+  const { email } = useSelector(userFarmSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const { data: certifiers = [] } = useGetSupportedCertifiersQuery(farm_id);
+  const { data: certifiers = [] } = useGetSupportedCertifiersQuery();
 
   const onExport = (exportData) => {
     const { certifier, ...rest } = exportData;

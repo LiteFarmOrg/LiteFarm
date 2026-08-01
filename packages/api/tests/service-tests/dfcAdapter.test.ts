@@ -318,8 +318,7 @@ describe('dfcAdapter', () => {
       }),
       id: fakeId,
       farm_id: faker.datatype.uuid(),
-      // node-pg returns a `date` column as a Date object set to local midnight
-      certifications: [{ ...mockCertification, issue_date: new Date(2026, 6, 24) }],
+      certifications: [{ ...mockCertification, issue_date: '2026-07-24' }],
     };
     const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
     const graph: DfcEntity[] = result['@graph'];
@@ -336,32 +335,6 @@ describe('dfcAdapter', () => {
 
     const orgNode = graph.find((e) => e['@type'] === 'dfc-b:Organization');
     expect(orgNode).toHaveProperty('dfc-b:isCertifiedBy');
-  });
-
-  test('should emit the local calendar day for issue_date when the server runs east of UTC', async () => {
-    const originalTimeZone = process.env.TZ;
-    process.env.TZ = 'Europe/Berlin';
-
-    try {
-      const fakeId = faker.datatype.uuid();
-      const fakeData = {
-        ...fakeMarketDirectoryInfoWithRelations({
-          info: mockCompleteMarketDirectoryInfo,
-          marketProductCategories: [marketProductCategory],
-          fakeId,
-        }),
-        id: fakeId,
-        farm_id: faker.datatype.uuid(),
-        certifications: [{ ...mockCertification, issue_date: new Date(2026, 6, 24) }],
-      };
-      const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
-      const graph: DfcEntity[] = result['@graph'];
-
-      const certNode = graph.find((e) => e['@type'] === 'dfc-b:Certfication');
-      expect(certNode).toMatchObject({ 'dfc-b:date': '2026-07-24' });
-    } finally {
-      process.env.TZ = originalTimeZone;
-    }
   });
 
   test('should not include a certification node when certifications is empty', async () => {

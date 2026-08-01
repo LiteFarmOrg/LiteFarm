@@ -19,7 +19,7 @@ import express from 'express';
 const router = express.Router();
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
-import organicCertifierCheck from '../middleware/validation/organicCertifierCheck.js';
+import cropVarietyComplianceCheck from '../middleware/validation/cropVarietyComplianceCheck.js';
 import activeManagementPlanCheck from '../middleware/validation/activeManagementPlanCheck.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
@@ -59,7 +59,7 @@ router.patch(
   '/:crop_variety_id',
   hasFarmAccess({ params: 'crop_variety_id' }),
   checkScope(['edit:crop_variety']),
-  organicCertifierCheck,
+  cropVarietyComplianceCheck,
   cropVarietyController.updateCropVariety(),
 );
 router.post(

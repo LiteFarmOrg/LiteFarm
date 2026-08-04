@@ -17,7 +17,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
-import { QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
+import { MEASURED_BY, QUANTITY, QUANTITY_UNIT, SALE_VALUE } from './constants';
 import { CheckboxMultiSelect } from '../../Form/ReactSelect/CheckboxMultiSelect';
 import type {
   CheckboxMultiSelectProps,
@@ -79,6 +79,7 @@ export default function EntitySalePicker({
     removedOptions.forEach((o) => {
       unregister([
         `${fieldPrefix}.${o.value}.${entityIdFieldKey}`,
+        `${fieldPrefix}.${o.value}.${MEASURED_BY}`,
         `${fieldPrefix}.${o.value}.${QUANTITY}`,
         `${fieldPrefix}.${o.value}.${QUANTITY_UNIT}`,
         `${fieldPrefix}.${o.value}.${SALE_VALUE}`,

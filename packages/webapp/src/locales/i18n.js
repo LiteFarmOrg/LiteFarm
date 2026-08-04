@@ -16,8 +16,8 @@ i18n
     defaultNS: 'translation',
     nsSeparator: ':',
     fallbackLng: 'en',
-    supportedLngs: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'], // i18n allow list
-    locales: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'],
+    supportedLngs: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml', 'km'], // i18n allow list
+    locales: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml', 'km'],
     debug: false,
     detection: {
       order: ['localStorage', 'navigator', 'querystring'],
@@ -26,7 +26,7 @@ i18n
     react: {
       useSuspense: true,
     },
-    ns: ['crop', 'expense', 'task', 'market_directory_info', 'profitability'],
+    ns: ['animal', 'crop', 'expense', 'revenue', 'task', 'market_directory_info', 'profitability'],
     backend: {
       queryStringParams: { v: APP_VERSION },
       backends: [

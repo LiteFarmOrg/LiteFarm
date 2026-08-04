@@ -16,7 +16,7 @@
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
 import { useMemo, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
@@ -56,7 +56,6 @@ import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import { roundToTwo } from '../../../util/rounding';
-import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
 import {
   formatTaskAnimalsAsInventoryIds,
   formatTaskReadOnlyDefaultValues,
@@ -85,6 +84,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   externalIrrigationPrescription,
+  hasCertifications,
   files = [],
   harvestUseTypes,
   maxZoomRef,
@@ -173,8 +173,7 @@ export default function PureTaskReadOnly({
   const [showTaskWageModal, setShowTaskWageModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const { country_id } = useSelector(userFarmSelector);
-  const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
+  const { country_id, farm_id } = useSelector(userFarmSelector);
 
   const currencySymbol = useCurrencySymbol();
 
@@ -531,7 +530,7 @@ export default function PureTaskReadOnly({
           formState: { errors, isValid },
           errors,
           disabled: true,
-          farm: { farm_id, country_id, interested },
+          farm: { farm_id, country_id, interested: hasCertifications },
           system,
           products,
           task,

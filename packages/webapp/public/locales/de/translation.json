@@ -572,7 +572,8 @@
       "UNABLE_TO_RETIRE": "Sie können nur Pflanzen aufgeben, die keine aktiven oder zukünftigen Anbaupläne haben. Sie müssen diese Pläne abschließen oder einstellen, um diese Pflanze aufzugeben",
       "UNABLE_TO_RETIRE_TITLE": "Nicht möglich, aufzugeben"
     },
-    "SUPPLIER": "Lieferant"
+    "SUPPLIER": "Lieferant",
+    "TITLE": "{{crop_name}}-Sorten"
   },
   "DATE_RANGE": {
     "INVALID_RANGE_MESSAGE": "Das Enddatum muss nach dem Startdatum liegen, um Ergebnisse zu liefern."
@@ -902,7 +903,6 @@
         "TITLE": "Zeichnen Sie eine Linie"
       }
     },
-    "TUTORIALS": "Kartenanleitungen",
     "UNABLE_TO_RETIRE": {
       "BODY": "Sie können nur Standorte zurückziehen, die keine aktiven oder geplanten Pflanzen, Tiere oder Aufgaben haben.",
       "TITLE": "Nicht möglich, zurückzuziehen"

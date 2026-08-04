@@ -33,6 +33,7 @@ export const LibraryTags = [
   'SoilAmendmentMethods',
   'SoilAmendmentPurposes',
   'SoilAmendmentFertiliserTypes',
+  'CertificationSystemTypes',
 ] as const;
 
 /**
@@ -55,9 +56,11 @@ export const FarmTags = [
   'SensorReadings',
   'Weather',
   'MarketDirectoryInfo',
-  'TapeSurvey',
+  'SurveyResponse',
   'FarmNote',
   'FarmNotesRead',
+  'Certifications',
+  'SupportedCertifiers',
 ] as const;
 
 /**

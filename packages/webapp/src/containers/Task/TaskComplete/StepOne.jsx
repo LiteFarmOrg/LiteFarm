@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskWithProductSelector } from '../../taskSlice';
 import { productsForTaskTypeSelector } from '../../productSlice';
-import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { useHasCertifications } from '../../../hooks/useHasCertifications';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpload';
@@ -17,8 +17,9 @@ function TaskCompleteStepOne() {
   const {
     units: { measurement: system },
     country_id,
+    farm_id,
   } = useSelector(userFarmSelector);
-  const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
+  const hasCertifications = useHasCertifications();
   const { task_id } = useParams();
   const task = useSelector(taskWithProductSelector(task_id));
   const selectedTaskType = task?.taskType;
@@ -48,7 +49,7 @@ function TaskCompleteStepOne() {
         onContinue={onContinue}
         onGoBack={onGoBack}
         system={system}
-        farm={{ farm_id, country_id, interested }}
+        farm={{ farm_id, country_id, interested: hasCertifications }}
         selectedTaskType={selectedTaskType}
         products={products}
         persistedPaths={persistedPaths}

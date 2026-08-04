@@ -1,7 +1,7 @@
 import Layout from './index';
 import { Title } from '../Typography';
 import React from 'react';
-import BackArrow from '../../assets/images/miscs/arrow.svg';
+import BackArrow from '../../assets/images/miscs/arrow.svg?react';
 import { useTranslation } from 'react-i18next';
 
 function TitleLayout({ buttonGroup, title, onGoBack = null, children, onCancel }) {

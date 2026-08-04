@@ -24,7 +24,7 @@ import { cropVarietiesSelector } from '../cropVarietySlice';
 import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import { tasksSelector } from '../taskSlice';
 import { taskTypesSelector } from '../taskTypeSlice';
-import { userFarmsByFarmSelector } from '../userFarmSlice';
+import { measurementSelector, userFarmsByFarmSelector } from '../userFarmSlice';
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../store/api/apiSlice';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { allExpenseTypeSelector, expenseSelector, salesSelector } from './selectors';
@@ -132,7 +132,7 @@ const buildExpenseTransactions = ({
         (expenseType) => expenseType?.expense_type_id === expense.expense_type_id,
       );
       return {
-        icon: expenseType?.farm_id ? 'OTHER' : expenseType?.expense_translation_key ?? 'OTHER',
+        icon: expenseType?.farm_id ? 'OTHER' : (expenseType?.expense_translation_key ?? 'OTHER'),
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
         typeLabel: getExpenseTypeLabel(expenseType),
@@ -162,6 +162,7 @@ const buildRevenueTransactions = ({
   animalBatches,
   dateFilter,
   revenueTypeFilter,
+  system,
 }) => {
   const filteredSales = sales.filter(
     (sale) =>
@@ -176,6 +177,7 @@ const buildRevenueTransactions = ({
     cropVarieties,
     animals,
     animalBatches,
+    system,
   );
 
   return revenueItems.map((item) => {
@@ -183,7 +185,7 @@ const buildRevenueTransactions = ({
       (revenueType) => revenueType?.revenue_type_id == item.sale.revenue_type_id,
     );
     return {
-      icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key ?? 'CUSTOM',
+      icon: revenueType?.farm_id ? 'CUSTOM' : (revenueType?.revenue_translation_key ?? 'CUSTOM'),
       date: item.sale.sale_date,
       transactionType: getRevenueTransactionType(revenueType),
       typeLabel: getRevenueTypeLabel(revenueType),
@@ -209,6 +211,7 @@ export const buildTransactions = ({
   dateFilter,
   expenseTypeFilter,
   revenueTypeFilter,
+  system,
 }) => {
   const transactions = [
     ...buildLabourTransactionsFromTasks({
@@ -235,6 +238,7 @@ export const buildTransactions = ({
       animalBatches,
       dateFilter,
       revenueTypeFilter,
+      system,
     }),
   ];
 
@@ -252,6 +256,7 @@ const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) =
   const taskTypes = useSelector(taskTypesSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
   const users = useSelector(userFarmsByFarmSelector);
+  const system = useSelector(measurementSelector);
   const { data: animals } = useGetAnimalsQuery();
   const { data: animalBatches } = useGetAnimalBatchesQuery();
 
@@ -274,6 +279,7 @@ const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) =
       dateFilter,
       expenseTypeFilter,
       revenueTypeFilter,
+      system,
     });
   }, [
     sales,

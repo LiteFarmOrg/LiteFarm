@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
@@ -20,7 +21,15 @@ import TextButton from '../../../../../components/Form/Button/TextButton';
 import PrivateBadge from '../../../../../components/SimpleBadges/PrivateBadge';
 import PlusSquareIcon from '../../../../../assets/images/plus-square.svg?react';
 import MinusSquareIcon from '../../../../../assets/images/minus-square.svg?react';
-import { MarketDirectoryInfo } from '../../../../../store/api/types';
+import type { CertificationItem } from '../../../../../components/Certifications/types';
+import { PGS_TRANSLATION_KEY, toCertificationItems } from '../../../../Certifications/utils';
+import { getLocalizedDateString } from '../../../../../util/moment';
+import {
+  Certification,
+  MarketDirectoryInfo,
+  SupportedCertifier,
+  SupportedCertificationSystemType,
+} from '../../../../../store/api/types';
 import styles from './styles.module.scss';
 
 const ID = 'summary';
@@ -29,9 +38,17 @@ type MarketDirectoryInfoValue = MarketDirectoryInfo[keyof MarketDirectoryInfo];
 
 interface ComponentProps {
   marketDirectoryInfo?: MarketDirectoryInfo;
+  certifications: Certification[];
+  systemTypes: SupportedCertificationSystemType[];
+  certifiers: SupportedCertifier[];
 }
 
-const DataSummary = ({ marketDirectoryInfo }: ComponentProps) => {
+const DataSummary = ({
+  marketDirectoryInfo,
+  certifications,
+  systemTypes,
+  certifiers,
+}: ComponentProps) => {
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const isSummaryExpanded = expandedIds.includes(ID);
@@ -44,15 +61,25 @@ const DataSummary = ({ marketDirectoryInfo }: ComponentProps) => {
       </TextButton>
       <Collapse id={ID} in={isSummaryExpanded} timeout="auto" unmountOnExit>
         <div className={styles.content}>
-          <DataSummaryList marketDirectoryInfo={marketDirectoryInfo} />
+          <DataSummaryList
+            marketDirectoryInfo={marketDirectoryInfo}
+            certifications={certifications}
+            systemTypes={systemTypes}
+            certifiers={certifiers}
+          />
         </div>
       </Collapse>
     </div>
   );
 };
 
-const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
-  const { t } = useTranslation(['translation', 'common']);
+const DataSummaryList = ({
+  marketDirectoryInfo,
+  certifications,
+  systemTypes,
+  certifiers,
+}: ComponentProps) => {
+  const { t } = useTranslation(['translation', 'common', 'certifications']);
   const {
     farm_name,
     about,
@@ -68,6 +95,8 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
     x,
     market_product_categories,
   } = marketDirectoryInfo || {};
+
+  const certificationItems = toCertificationItems(certifications, systemTypes, certifiers);
 
   return (
     <ul className={styles.dataSummaryList}>
@@ -116,6 +145,15 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
           />
         </ul>
       </li>
+
+      <li>
+        {t('MENU.CERTIFICATIONS')}
+        <ul>
+          {certificationItems.map((cert) => (
+            <CertificationListItem key={cert.id} certification={cert} t={t} />
+          ))}
+        </ul>
+      </li>
     </ul>
   );
 };
@@ -123,6 +161,39 @@ const DataSummaryList = ({ marketDirectoryInfo }: ComponentProps) => {
 const ListItem = ({ label, values }: { label: string; values: MarketDirectoryInfoValue[] }) => {
   const hasData = values.some((value) => (Array.isArray(value) ? value.length > 0 : !!value));
   return <li className={hasData ? styles.hasData : undefined}>{label}</li>;
+};
+
+const CertificationListItem = ({
+  certification,
+  t,
+}: {
+  certification: CertificationItem;
+  t: TFunction;
+}) => {
+  const isPgs = certification.systemTypeTranslationKey === PGS_TRANSLATION_KEY;
+  const identifier = isPgs ? certification.certificateMemberId : certification.certificateNumber;
+  const identifierLabel = isPgs
+    ? t('CERTIFICATION.MEMBER_ID')
+    : t('CERTIFICATION.CERTIFICATION_ID');
+  const issueDate =
+    certification.issueDate &&
+    getLocalizedDateString(certification.issueDate, {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    });
+
+  // e.g. "Third-party organic · IOPA · Certification ID: CAN-ORG-2024-01567 · Issue date: 07/23/2026"
+  const certificationSummary = [
+    t(`certifications:${certification.systemTypeTranslationKey}`),
+    certification.certifierAcronym ?? certification.certifierName,
+    identifier && `${identifierLabel}: ${identifier}`,
+    issueDate && `${t('common:ISSUE_DATE')}: ${issueDate}`,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
+  return <li className={styles.hasData}>{certificationSummary}</li>;
 };
 
 export default DataSummary;

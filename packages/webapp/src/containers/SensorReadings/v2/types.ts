@@ -25,6 +25,9 @@ export type ChartSupportedReadingTypes = Extract<
   | 'soil_water_content'
   | 'water_pressure'
   | 'wind_speed'
+  | 'moisture'
+  | 'electrical_conductivity'
+  | 'evapotranspiration'
 >;
 
 export type WeatherStationKPIParams = Extract<
@@ -37,6 +40,8 @@ export type WeatherStationKPIParams = Extract<
   | 'barometric_pressure'
   | 'solar_radiation'
   | 'rainfall_rate'
+  | 'vapor_pressure_deficit'
+  | 'wet_bulb_temperature'
 >;
 
 export interface FormattedSensorDatapoint {

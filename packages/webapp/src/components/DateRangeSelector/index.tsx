@@ -62,6 +62,12 @@ interface DateRangeSelectorProps {
    * `startDate` / `endDate` into the date-range state.
    */
   dynamicOptions?: DynamicDateRangeOption[];
+
+  /**
+   * When true, the trigger renders react-select's disabled state: the menu
+   * cannot open and no range can be selected. The current value stays visible.
+   */
+  disabled?: boolean;
 }
 
 const isDateValid = (date: string | Moment | undefined): boolean => {
@@ -77,6 +83,7 @@ const DateRangeSelector = ({
   weekStartDate = SUNDAY,
   allowedOptions,
   dynamicOptions,
+  disabled,
 }: DateRangeSelectorProps) => {
   const { option, customRange = {} } = dateRange;
   const initialOption = option || defaultValue;
@@ -128,6 +135,7 @@ const DateRangeSelector = ({
         onValidityChange={onValidityChange}
         allowedOptions={allowedOptions}
         dynamicOptions={dynamicOptions}
+        disabled={disabled}
       />
     </div>
   );

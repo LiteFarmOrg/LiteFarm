@@ -1,5 +1,6 @@
 import XlsxPopulate from 'xlsx-populate';
 import rp from 'request-promise';
+import { sanitizeFileName } from './fileUtils.js';
 const surveyStackURL = 'https://app.surveystack.io/api/';
 
 export default async (emailQueue, submission, exportId, organicCertifierSurvey, certifier) => {
@@ -374,6 +375,8 @@ export default async (emailQueue, submission, exportId, organicCertifierSurvey, 
     }
 
     // Write to file.
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/${surveyName}.xlsx`);
+    return workbook.toFileAsync(
+      `${process.env.EXPORT_WD}/temp/${exportId}/${sanitizeFileName(surveyName)}.xlsx`,
+    );
   });
 };

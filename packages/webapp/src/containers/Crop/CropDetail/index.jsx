@@ -3,7 +3,7 @@ import PureCropDetail from '../../../components/Crop/Detail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
 import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
-import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { useHasCertifications } from '../../../hooks/useHasCertifications';
 import {
   currentAndPlannedManagementPlansByCropVarietySelector,
   currentManagementPlanByCropVarietyIdSelector,
@@ -26,7 +26,7 @@ function CropDetail() {
   const { crop_id } = selectedVariety;
   const [showWarningBox, setShowWarningBox] = useState(false);
   const [showErrorBox, setShowErrorBox] = useState(false);
-  const { interested } = useSelector(certifierSurveySelector);
+  const hasCertifications = useHasCertifications();
   const [showEditModal, setShowEditModal] = useState(false);
   const activeOrPlannedManagementPlansOnVariety = useSelector(
     currentAndPlannedManagementPlansByCropVarietySelector(variety_id),
@@ -67,7 +67,7 @@ function CropDetail() {
         history={history}
         match={match}
         variety={selectedVariety}
-        isInterestedInOrganic={interested}
+        isInterestedInOrganic={hasCertifications}
         onBack={goBack}
         onRetire={() => warningModal()}
         onEdit={handleEdit}

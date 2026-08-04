@@ -51,7 +51,7 @@ export type LatestReadingsProps = { sensors: Sensor[] } & (
 function isWeatherKPIData(
   kpiData: TileData[] | SensorKPIprops[] | SensorReadingKPIprops[],
 ): kpiData is TileData[] {
-  return 'label' in kpiData[0];
+  return kpiData.length > 0 && 'label' in kpiData[0];
 }
 
 const LatestReadings = (props: LatestReadingsProps) => {

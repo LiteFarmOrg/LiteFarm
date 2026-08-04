@@ -14,7 +14,7 @@
  */
 
 import Model from './baseFormatModel.js';
-import certificationModel from './certificationModel.js';
+import certificationSystemTypeModel from './certificationSystemTypeModel.js';
 
 class Certifier extends Model {
   static get tableName() {
@@ -28,13 +28,11 @@ class Certifier extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id'],
       properties: {
         certifier_id: { type: 'integer' },
-        certification_id: { type: 'integer' },
+        system_type_id: { type: 'integer' },
         certifier_name: { type: 'string' },
-        certifier_acronym: { type: 'string' },
-        supported: { type: 'boolean' },
+        certifier_acronym: { type: ['string', 'null'] },
         survey_id: { type: 'string' },
       },
       additionalProperties: false,
@@ -44,12 +42,12 @@ class Certifier extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      certifications: {
-        modelClass: certificationModel,
+      certificationSystemType: {
+        modelClass: certificationSystemTypeModel,
         relation: Model.BelongsToOneRelation,
         join: {
-          from: 'certifierModel.certification_id',
-          to: 'certificationModel.certification_id',
+          from: 'certifiers.system_type_id',
+          to: 'certification_system_type.id',
         },
       },
     };

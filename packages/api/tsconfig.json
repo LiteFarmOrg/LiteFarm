@@ -4,7 +4,8 @@
     "allowJs": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["node", "jest"]
   },
   "include": ["src", "tests"]
 }

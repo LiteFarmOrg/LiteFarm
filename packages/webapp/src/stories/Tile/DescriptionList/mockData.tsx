@@ -19,7 +19,7 @@ import WindIcon from '../../../assets/images/weather/wind.svg?react';
 import RainfallIcon from '../../../assets/images/weather/droplets.svg?react';
 import ThemometerWarmIcon from '../../../assets/images/weather/thermometer-warm.svg?react';
 import WeatherIcon from '../../../components/WeatherBoard/WeatherIcon';
-import PivotIcon from '../../../assets/images/irrigation/pivot-icon.svg';
+import PivotIcon from '../../../assets/images/irrigation/pivot-icon.svg?react';
 import ClockIcon from '../../../assets/images/clock-stopwatch.svg';
 import styles from './styles.module.scss';
 import ipKPIStyle from '../../../components/IrrigationPrescriptionKPI/styles.module.scss';

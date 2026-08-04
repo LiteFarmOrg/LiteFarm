@@ -42,7 +42,7 @@ async function tableCleanup(knex) {
     DELETE FROM "notification_user";
     DELETE FROM "notification";
     DELETE FROM "supportTicket";
-    DELETE FROM "organicCertifierSurvey";
+    DELETE FROM "certification";
     DELETE FROM "password";
     DELETE FROM "showedSpotlight";
     DELETE FROM "userLog";
@@ -156,7 +156,7 @@ async function tableCleanup(knex) {
     DELETE FROM "market_directory_partner_country";
     DELETE FROM "market_directory_partner_auth";
     DELETE FROM "market_directory_partner";
-    DELETE FROM "tape_survey";
+    DELETE FROM "survey_response";
     DELETE FROM "farm_notes_read";
     DELETE FROM "farm_note";
     DELETE FROM "location";

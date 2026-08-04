@@ -17,6 +17,8 @@ import RevenueForm from '../../components/Forms/RevenueForm';
 import { getEntityTypeDefaultValues } from '../../containers/Finances/EntitySaleInputs';
 import { componentDecorators } from '../Pages/config/Decorators';
 
+const system = 'metric';
+
 const cropSale = {
   sale_id: 17,
   customer_name: 'Name',
@@ -207,7 +209,7 @@ CropSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  entitySaleDefaultValues: getEntityTypeDefaultValues(cropSale, 'crop'),
+  entitySaleDefaultValues: getEntityTypeDefaultValues(cropSale, 'crop', system),
 };
 
 export const AnimalSaleDetail = Template.bind({});
@@ -218,5 +220,5 @@ AnimalSaleDetail.args = {
   revenueTypeOptions,
   onRetire: () => {},
   revenueTypes,
-  entitySaleDefaultValues: getEntityTypeDefaultValues(animalSale, 'animal'),
+  entitySaleDefaultValues: getEntityTypeDefaultValues(animalSale, 'animal', system),
 };

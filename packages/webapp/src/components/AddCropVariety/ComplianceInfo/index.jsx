@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../../Typography';
 import Form from '../../Form';
-import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
+import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg?react';
 import RadioGroup from '../../Form/RadioGroup';
 import Infoi from '../../Tooltip/Infoi';
 import { useForm } from 'react-hook-form';
@@ -19,6 +19,7 @@ export default function ComplianceInfo({
   useHookFormPersist,
   match,
   crop,
+  isNewCrop,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const CERTIFIED_ORGANIC = 'organic';
@@ -64,7 +65,7 @@ export default function ComplianceInfo({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={historyCancel}
-        title={t('CROP.ADD_CROP')}
+        title={isNewCrop ? t('CROP.ADD_CROP') : t('CROP.ADD_CROP_VARIETY')}
         value={progress}
         style={{
           marginBottom: '23px',

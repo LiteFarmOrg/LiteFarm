@@ -20,7 +20,32 @@ import weatherService from '../services/weatherService.js';
 import { HttpError } from '../types.js';
 
 const weatherController = {
+  // GET /weather — backward-compatible superset. Served to the cached legacy
+  // WeatherBoard bundle and the released WeatherForecast bundle, which both
+  // request this URL. New bundles use getWeatherForecast below.
   async getWeather(req: Request, res: Response) {
+    try {
+      const farm_id = req.headers['farm_id'];
+      const [row] = await baseController.getIndividual(FarmModel, farm_id);
+
+      if (!row) {
+        return res.sendStatus(404);
+      }
+
+      const weather = await weatherService.fetchLegacyForecast({
+        lat: row.grid_points.lat,
+        lon: row.grid_points.lng,
+        units: row.units.measurement,
+      });
+
+      res.status(200).send(weather);
+    } catch (error: unknown) {
+      console.error(error);
+      res.status((error as HttpError).status || 500).json({ error });
+    }
+  },
+
+  async getWeatherForecast(req: Request, res: Response) {
     try {
       const farm_id = req.headers['farm_id'];
       const [row] = await baseController.getIndividual(FarmModel, farm_id);

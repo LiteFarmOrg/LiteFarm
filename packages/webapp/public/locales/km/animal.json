@@ -1,0 +1,69 @@
+{
+  "BREED": {
+    "ANGUS": "ពូជគោសាច់ស្កុតឡែន អែងហ្គឹស",
+    "CHAROLAIS": "ពូជគោសាច់បារាំង​​​ ឆារ៉ូឡែស",
+    "COBB_500": "ពូជមាន់សាច់ កូប 500",
+    "CORNISH_CROSS": "ពូជមាន់សាច់ ខនិសក្រោះ",
+    "DUROC": "ពូជជ្រូក ឌុរុក",
+    "HEREFORD": "ពូជគោសាច់អង់គ្លេស ហៀហ្វដ",
+    "LANDRACE": "ពូជជ្រូក ឡេនដ្រាស",
+    "LEGHORN": "ពូជមាន់ ឡេហន់",
+    "PLYMOUTH_ROCK": "ពូជមាន់ ផ្លីមុតរ៉ក",
+    "RHODE_ISLAND_RED": "ពូជមាន់ រ៉ុតអាយឡេនរ៉េត",
+    "ROSS_308": "ពូជមាន់សាច់ រ៉ស់ 308",
+    "YORKSHIRE_LARGE_WHITE": "ពូជជ្រូកសាច់យ៉កសៀធំស"
+  },
+  "ORIGIN": {
+    "BORN_AT_FARM": "កើតនៅកសិដ្ឋាន",
+    "BROUGHT_IN": "យកមកពីខាងក្រៅ"
+  },
+  "PURPOSE": {
+    "GRAZING": "ការស៊ីស្មៅ",
+    "MILKING": "ការច្របាច់ទឹកដោះ",
+    "MANURE_MANAGEMENT": "ការគ្រប់គ្រងលាមកសត្វ",
+    "PEST_OR_DISEASE_CONTROL": "ការគ្រប់គ្រងសត្វល្អិត ឬជំងឺ",
+    "BREEDING": "ការបង្កាត់ពូជ",
+    "FEEDING": "ឲចំណី",
+    "VETERINARY_CARE": "ការថែទាំសុខភាពសត្វ",
+    "BIRTHING": "ការបង្កើតកូន",
+    "WEANING": "ការផ្តាច់ដោះ",
+    "TRANSPORTATION": "ការដឹកជញ្ជូន",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "ការគ្រប់គ្រងអាកប្បកិរិយា និងសង្គម",
+    "EXERCISE": "លំហាត់",
+    "QUARANTINE": "ការដាក់ឲ្យនៅដាច់ដោយឡែក",
+    "OTHER": "ផ្សេងទៀត"
+  },
+  "SEX": {
+    "MALE": "ប្រុស",
+    "FEMALE": "ស្រី"
+  },
+  "TAG_COLOR": {
+    "BLUE": "ខៀវ",
+    "GREEN": "បៃតង",
+    "ORANGE": "ទឹកក្រូច",
+    "RED": "ក្រហម",
+    "WHITE": "ស",
+    "YELLOW": "លឿង"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "ប័ណ្ណសម្គាល់នៅត្រចៀកសត្វ",
+    "LEG_BAND": "ស្លាកពាក់ជើងសត្វ"
+  },
+  "TYPE": {
+    "CATTLE": "គោក្របី",
+    "CHICKEN": "មាន់",
+    "PIGS": "ជ្រូក"
+  },
+  "USE": {
+    "MILK": "ទឹកដោះគោ",
+    "EGGS": "ស៊ុត",
+    "FAT": "ខ្លាញ់",
+    "MEAT": "សាច់",
+    "ANIMAL_FIBERS_AND_SKINS": "សរសៃ និងស្បែកសត្វ",
+    "LABOUR_AND_DRAFT": "កម្លាំងពលកម្ម និងការទាញ/ដឹក",
+    "BREEDING": "ការបង្កាត់ពូជ",
+    "RECREATIONAL_OR_CULTURAL_USE": "ការប្រើប្រាស់សម្រាប់កម្សាន្ត ឬវប្បធម៌",
+    "COMPANIONSHIP": "ភាពជាដៃគូ",
+    "OTHER": "ផ្សេងទៀត"
+  }
+}

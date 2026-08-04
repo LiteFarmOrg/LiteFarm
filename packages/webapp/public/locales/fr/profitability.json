@@ -1,0 +1,30 @@
+{
+  "CTA_BANNER": {
+    "CTA": "Ajouter des transactions",
+    "DEFAULT": "Ajoutez vos dernières transactions pour des informations précises",
+    "NO_ATTRIBUTIONS": "Attribuez vos transactions aux cultures et aux groupes d'animaux pour débloquer la répartition par variété",
+    "NO_TRANSACTIONS": "Commencez à enregistrer vos revenus et dépenses pour suivre la rentabilité de vos récoltes et de vos animaux"
+  },
+  "KPI": {
+    "MARGIN": "Marge",
+    "NO_TREND_TOOLTIP": "Ajoutez plus de données de l'année précédente pour calculer une tendance",
+    "YOY_TOOLTIP": "Comparé à la même plage de dates de l'année précédente.",
+    "YOY_TREND": "vs année précédente",
+    "YOY_TREND_SHORT": "a/a"
+  },
+  "LESS_DATA": "Moins de données",
+  "MORE_DATA": "Plus de données",
+  "NET_PROFIT": "Profit net",
+  "TABLE": {
+    "ANIMAL": "Animaux",
+    "EXPENSE": "Dépenses",
+    "FOOTNOTE": "Une répartition de la rentabilité de vos récoltes et de vos animaux pour la période sélectionnée.",
+    "NO_ANIMALS": "Vous n'avez pas d'animaux dans votre inventaire",
+    "NO_CROP_VARIETIES": "Vous n'avez pas de variétés de cultures dans votre ferme",
+    "TYPE_TOTAL": "Total {{type}}",
+    "VARIETY": "Variété"
+  },
+  "TOP_EXPENSE_CATEGORIES": "Catégories de dépenses",
+  "TOP_REVENUE_CATEGORIES": "Catégories de revenus",
+  "WIDGET_TITLE": "Profit"
+}

@@ -86,6 +86,20 @@ class Sale extends baseModel {
       },
     };
   }
+
+  static async getSalesWithAnimalIds(animalIds, trx) {
+    return Sale.query(trx)
+      .joinRelated('animal_sale')
+      .whereIn('animal_sale.animal_id', animalIds)
+      .whereNotDeleted();
+  }
+
+  static async getSalesWithBatchIds(batchIds, trx) {
+    return Sale.query(trx)
+      .joinRelated('animal_sale')
+      .whereIn('animal_sale.animal_batch_id', batchIds)
+      .whereNotDeleted();
+  }
 }
 
 export default Sale;

@@ -21,7 +21,6 @@ const entitiesGetters = {
   crop_management_plan: fromCropManagement,
   //TODO remove
   field_id: fromLocation,
-  survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
   document_id: fromDocument,
   default_initial_location_id: fromLocation,
@@ -30,8 +29,7 @@ const entitiesGetters = {
   nomination_id: fromNomination,
   transplant_task: fromTransPlantTask,
   product_id: fromProductFarm,
-  tape_survey_id: fromTapeSurvey,
-  submission_id: fromTapeSurvey,
+  submission_id: fromSurveyResponse,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
@@ -277,16 +275,12 @@ function fromSale(sale_id) {
   return knex('sale').where({ sale_id }).first();
 }
 
-function fromOrganicCertifierSurvey(survey_id) {
-  return knex('organicCertifierSurvey').where({ survey_id }).first();
-}
-
 function fromProductFarm(product_id, _next, farm_id) {
   return knex('product_farm').where({ product_id, farm_id }).first();
 }
 
-function fromTapeSurvey(submission_id) {
-  return knex('tape_survey').where({ submission_id }).first();
+function fromSurveyResponse(submission_id) {
+  return knex('survey_response').where({ submission_id }).first();
 }
 
 function sameFarm(object, farm) {

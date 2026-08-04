@@ -1,4 +1,8 @@
 {
+  "ANIMAL_SALE": {
+    "REVENUE_NAME": "Venta animal",
+    "CUSTOM_DESCRIPTION": "Ingresos generados a partir de la venta de productos animales."
+  },
   "CROP_SALE": {
     "REVENUE_NAME": "Venta de cultivos",
     "CUSTOM_DESCRIPTION": "Ingresos asociados a la venta de cultivos cosechados en esta granja."

@@ -20,7 +20,6 @@ import { PURGE } from 'redux-persist';
 import { api } from './api/apiSlice';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
-import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
@@ -28,22 +27,6 @@ import alertReducer from '../containers/Navigation/Alert/alertSlice';
 import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import offlineReadinessReducer from '../hooks/useOfflineReadiness/offlineReadinessSlice';
-
-import barnReducer from '../containers/barnSlice';
-import ceremonialReducer from '../containers/ceremonialSlice';
-import farmSiteBoundaryReducer from '../containers/farmSiteBoundarySlice';
-import fieldReducer from '../containers/fieldSlice';
-import gardenReducer from '../containers/gardenSlice';
-import greenhouseReducer from '../containers/greenhouseSlice';
-import surfaceWaterReducer from '../containers/surfaceWaterSlice';
-import naturalAreaReducer from '../containers/naturalAreaSlice';
-import residenceReducer from '../containers/residenceSlice';
-import bufferZoneReducer from '../containers/bufferZoneSlice';
-import watercourseReducer from '../containers/watercourseSlice';
-import fenceReducer from '../containers/fenceSlice';
-import gateReducer from '../containers/gateSlice';
-import waterValveReducer from '../containers/waterValveSlice';
-import soilSampleLocationReducer from '../containers/soilSampleLocationSlice';
 
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
@@ -78,8 +61,6 @@ import bedMethodReducer from '../containers/bedMethodSlice';
 import rowMethodReducer from '../containers/rowMethodSlice';
 import broadcastMethodReducer from '../containers/broadcastMethodSlice';
 import documentReducer from '../containers/documentSlice';
-import certificationReducer from '../containers/OrganicCertifierSurvey/certificationSlice';
-import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
 import customSignUpReducer from '../containers/customSignUpSlice';
@@ -87,7 +68,7 @@ import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
-import tapeSurveyReducer from '../containers/Insights/TapeSurvey/tapeSurveySlice';
+import surveyDraftReducer from '../containers/Insights/Survey/surveyDraftSlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -161,26 +142,10 @@ const signUpUserInfo = {
 const entitiesReducer = combineReducers({
   userFarmReducer,
   // userReducer,
-  certifierSurveyReducer,
   rolesReducer,
   cropReducer,
   cropVarietyReducer,
   alertReducer,
-  barnReducer,
-  ceremonialReducer,
-  farmSiteBoundaryReducer,
-  fieldReducer,
-  gardenReducer,
-  greenhouseReducer,
-  surfaceWaterReducer,
-  naturalAreaReducer,
-  residenceReducer,
-  bufferZoneReducer,
-  watercourseReducer,
-  fenceReducer,
-  gateReducer,
-  waterValveReducer,
-  soilSampleLocationReducer,
   showedSpotlightReducer,
   managementPlanReducer,
   cropManagementPlanReducer,
@@ -190,8 +155,6 @@ const entitiesReducer = combineReducers({
   rowMethodReducer,
   broadcastMethodReducer,
   documentReducer,
-  certifierReducer,
-  certificationReducer,
   taskReducer,
   cleaningTaskReducer,
   fieldWorkTaskReducer,
@@ -214,7 +177,7 @@ const entitiesReducer = combineReducers({
 
 const farmStateReducer = combineReducers({
   notificationReducer,
-  tapeSurveyReducer,
+  surveyDraftReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -262,8 +225,8 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (state && action.type === ActionTypes.SWITCH_FARMS) {
-    // selectively only reset farmStateReducer state when switching farms
+  if (state && action.type === ActionTypes.RESET_FARM_STATE) {
+    // Drop the farmStateReducer branch so combineReducers re-initialises it
     const { farmStateReducer, ...otherReducers } = state;
     state = otherReducers;
   }

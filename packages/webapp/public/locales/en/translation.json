@@ -405,6 +405,9 @@
     "TITLE": "Are you sure you want to cancel?"
   },
   "CERTIFICATION": {
+    "ADD_CERTIFICATIONS": "Add certifications",
+    "BANNER": "Active certifications added here appear automatically in your <strong>Market Directory profile</strong>, so buyers can see your credentials in your listing.",
+    "BANNER_SAVED": "Active and expired certifications saved and added to your <strong>Market Directory profile</strong>.",
     "CERTIFICATION_EXPORT": {
       "ADD": "Add a certification",
       "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",
@@ -419,6 +422,7 @@
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from",
       "UPDATE_SUCCESS": "Certification preferences saved"
     },
+    "CERTIFICATION_ID": "Certification ID",
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "SUBTITLE_ONE": "Here's a list of",
@@ -432,12 +436,42 @@
       "REQUEST_CERTIFIER": "Request a certifier",
       "TITLE": "Who is your certifier?"
     },
+    "EMPTY_STATE": {
+      "BODY": "Add an active certification to strengthen your market profile, or let us know you're working toward one.",
+      "HEADING": "Do you have any active certifications or pursuing some?"
+    },
+    "FORM": {
+      "CERTIFICATE_NUMBER": "Certificate number",
+      "CERTIFICATE_NUMBER_PLACEHOLDER": "e.g. CAN-ORG-2024-01567",
+      "CERTIFICATION_STATUS": "Certification status",
+      "CERTIFICATION_TYPE": "Certification type",
+      "CERTIFICATION_TYPE_PLACEHOLDER": "Select a certification type",
+      "CERTIFYING_BODY": "Certifying body",
+      "CERTIFYING_BODY_INFO": "Name of the certifying organisation",
+      "CERTIFYING_BODY_PLACEHOLDER": "Select a certifying body",
+      "CERTIFYING_GROUP_INFO": "Name of your local PGS group or network",
+      "CERTIFYING_GROUP_PLACEHOLDER": "Select a certifying group",
+      "IS_ACTIVE": "Is this certification active?",
+      "MEMBER_ID_PLACEHOLDER": "Enter your member ID",
+      "OTHER_CERTIFIER": "Other certifier",
+      "OTHER_CERTIFIER_PLACEHOLDER": "Enter certifier name",
+      "PGS_GROUP_NAME": "PGS group name",
+      "SYSTEM_TYPE": "System type",
+      "TITLE": "Add a certification",
+      "VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE": "'Valid until' date must come after the 'Issue date'"
+    },
     "INPUT_PLACEHOLDER": "Type to search",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
       "TITLE": "Interested in certifications?",
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
     },
+    "LIST": {
+      "PURSUING_SECTION": "Pursuing certifications"
+    },
+    "LOOK_FOR_LEAF_ICON": "Look for the leaf icon: <leafIcon /> it marks the information your certifier may require",
+    "MEMBER_ID": "Member ID",
+    "PURSUING_ITEM": "Pursuing {{item}}",
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
       "REQUEST": "What certifier would you like to request?",
@@ -454,10 +488,19 @@
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
-    }
+    },
+    "SYSTEM_TYPE": {
+      "PGS": "Participatory guarantee system (PGS)",
+      "PGS_DESCRIPTION": "Peer-reviewed, community-based certification",
+      "THIRD_PARTY_ORGANIC": "Third-party certification",
+      "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certified by an accredited body"
+    },
+    "THIS_CERTIFICATION": "this certification",
+    "VIEW_MARKET_DIRECTORY_PROFILE": "View your Market Directory profile"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
+    "EMAIL_YOUR_EXPORT": "We'll email your export to: <strong>{{email}}</strong>. It includes your records and documents from LiteFarm. Your certifier may request additional information.",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "EXPORT_DOWNLOADING_MESSAGE": "Downloading your organic certification files ...",
@@ -468,6 +511,9 @@
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
+    "SELECT_CERTIFICATION": "Select certification you want to export",
+    "SELECT_CERTIFIER": "Select the certifier",
+    "SELECT_CERTIFIER_PLACEHOLDER": "Select from your certifiers",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "UH_OH": "Uh oh!",
     "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
@@ -517,6 +563,7 @@
   },
   "CROP": {
     "ADD_CROP": "Add a crop",
+    "ADD_CROP_VARIETY": "Add a crop variety",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
@@ -620,7 +667,8 @@
       "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future crop plans. You'll need to complete or abandon those plans to retire this crop",
       "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
     },
-    "SUPPLIER": "Supplier"
+    "SUPPLIER": "Supplier",
+    "TITLE": "{{crop_name}} varieties"
   },
   "DATE_RANGE": {
     "INVALID_RANGE_MESSAGE": "End date must be after start date to return results"
@@ -654,6 +702,9 @@
     "THURSDAY": "T",
     "TUESDAY": "T",
     "WEDNESDAY": "W"
+  },
+  "DELETE_CONFIRMATION": {
+    "BODY": "Are you sure you want to delete {{subject}}? This cannot be undone."
   },
   "DIRECTION": {
     "E": "E",
@@ -1173,6 +1224,9 @@
       "SPECIES_COUNT_other": "{{count}} species",
       "TITLE": "Biodiversity"
     },
+    "CATHI_GAO": {
+      "TITLE": "Cathi-Gao Research Project"
+    },
     "CLICK_TO_CALCULATE": "Click to calculate",
     "CURRENT": "Current",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
@@ -1198,6 +1252,10 @@
       "HEADER": "Soil Organic Matter",
       "INFO": "Soil organic matter is needed to maintain a healthy soil environment for your crops. We populate this insight from your most recent soil analysis task results. If you do not have any data we predict the potential soil organic matter for your location globally.",
       "TITLE": "Soil OM"
+    },
+    "SURVEY": {
+      "THANK_YOU": "Thank you. Your responses have been recorded.",
+      "TITLE": "Survey"
     },
     "TAPE": {
       "COMPLETED": "Completed - See your results",
@@ -1285,6 +1343,7 @@
     "IRRIGATION_PRESCRIPTION_FILES": "Irrigation prescription files",
     "IRRIGATION_PRESCRIPTIONS": "Irrigation prescriptions",
     "IRRIGATION_ZONE": "Irrigation zone",
+    "PLANT_AVAILABLE_WATER": "Plant available water",
     "PRESCRIPTION_DATE": "Prescription Date",
     "SOIL_MOISTURE_DEFICIT": "Soil moisture deficit",
     "START_DATE": "Start date",
@@ -1560,6 +1619,7 @@
     "MARKET_DIRECTORY_INFO": "Market directory info",
     "NO_PARTNER": "We have no partner in your location for now.",
     "PARTNERS": {
+      "GROWNBY_DESCRIPTION": "Create a free account and get published on GrownBy",
       "OFN_DESCRIPTION": "Create a free account and get published on this OFN directory"
     },
     "WHERE_TO_BE_FEATURED": "Where would you like to be featured?"
@@ -1890,11 +1950,13 @@
       "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
       "ANIMAL_NOTES_PLACEHOLDER": "Animal sale description",
+      "COUNT_UNIT_LABEL": "unit(s)",
       "CROP_NOTES_PLACEHOLDER": "Crop sale description",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
       "FLOW": "revenue creation",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
+      "MEASURED_BY": "Measured by",
       "NOTES_PLACEHOLDER": "Sale description",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "SELECT_CROPS": "Select crops",
@@ -1987,9 +2049,17 @@
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "Drip line pressure sensor",
+      "DRIPDRAIN_SENSOR": "DripDrain sensor",
+      "ET_SENSOR": "ET sensor",
+      "HUMIDITY_SENSOR": "Humidity sensor",
       "IR_TEMPERATURE_SENSOR": "IR temperature sensor",
+      "SDI-12_WEATHER_STATION": "SDI-12 weather station",
+      "SOIL_WATER_CONTENT_SENSOR": "Soil water content sensor",
       "SOIL_WATER_POTENTIAL_SENSOR": "Soil water potential sensor",
+      "TIPPING_BUCKET_RAIN_GAUGE": "Tipping bucket rain gauge",
+      "TURBINE_FLOW_METER": "Turbine flow meter",
       "WEATHER_STATION": "Weather station",
+      "WIND_SENSOR_VOLTAGE": "Wind sensor voltage",
       "WIND_SPEED_SENSOR": "Wind speed sensor"
     },
     "ESCI": {
@@ -2016,7 +2086,12 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "Barometric pressure",
       "CUMULATIVE_RAINFALL": "Cumulative rainfall",
+      "ELECTRICAL_CONDUCTIVITY": "Electrical conductivity",
+      "EVAPOTRANSPIRATION": "Evapotranspiration",
+      "HEAT_FLUX": "Heat flux",
+      "LATENT_ENERGY_FLUX": "Latent energy flux",
       "LATEST_READING": "Latest reading:",
+      "MOISTURE": "Moisture",
       "RAINFALL_RATE": "Rainfall rate",
       "RELATIVE_HUMIDITY": "Relative humidity",
       "SOIL_WATER_CONTENT": "Soil water content",
@@ -2026,7 +2101,10 @@
       "TYPES": "Reading types",
       "UNKNOWN": "Unknown",
       "UPDATE_READINGS": "Update readings",
+      "VAPOR_PRESSURE_DEFICIT": "Vapor pressure deficit",
+      "VOLUME": "Volume",
       "WATER_PRESSURE": "Water pressure",
+      "WET_BULB_TEMPERATURE": "Wet bulb temperature",
       "WIND_DIRECTION": "Wind direction",
       "WIND_SPEED": "Wind speed",
       "WIND_SPEED_AND_DIRECTION": "Wind speed & direction"

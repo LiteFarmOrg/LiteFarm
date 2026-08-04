@@ -135,7 +135,10 @@ const timeNotificationController = {
       );
 
       for (const locationId in prescriptionsByLocation) {
-        const latestPrescription = prescriptionsByLocation[locationId].at(-1);
+        // Select the latest prescription explicitly rather than relying on the order Ensemble returns.
+        const latestPrescription = prescriptionsByLocation[locationId].reduce((latest, current) =>
+          current.id > latest.id ? current : latest,
+        );
         const { id: irrigation_prescription_id, recommended_start_date } = latestPrescription;
 
         const previousNotification = await NotificationModel.query()

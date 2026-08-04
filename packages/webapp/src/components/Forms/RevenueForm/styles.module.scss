@@ -44,3 +44,18 @@
   min-width: 200px;
   flex-grow: 1;
 }
+
+.measuredByRow {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.measuredByField {
+  flex: 0 0 132px;
+}
+
+.quantityField {
+  flex: 1 1 auto;
+  min-width: 0;
+}

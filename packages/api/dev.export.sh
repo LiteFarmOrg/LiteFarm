@@ -11,6 +11,7 @@ cp ../webapp/public/locales/de/crop.json src/jobs/locales/de
 cp ../webapp/public/locales/hi/crop.json src/jobs/locales/hi
 cp ../webapp/public/locales/pa/crop.json src/jobs/locales/pa
 cp ../webapp/public/locales/ml/crop.json src/jobs/locales/ml
+cp ../webapp/public/locales/km/crop.json src/jobs/locales/km
 
 # Give nodemon time to restart the API
 sleep 10

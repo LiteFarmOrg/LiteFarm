@@ -24,6 +24,10 @@ export const locationApi = api.injectEndpoints({
       queryFn: async (_arg, { getState }, _extraOptions, baseQuery) => {
         const state = getState() as RootState;
         const farm_id = state.entitiesReducer.userFarmReducer.farm_id;
+        if (!farm_id) {
+          // Skip the request rather than calling /location/farm/undefined, which the backend rejects with a 403.
+          return { error: { status: 'CUSTOM_ERROR', error: 'No farm selected' } };
+        }
         const result = await baseQuery({
           url: `${getLocationsByFarmIdUrl(farm_id)}`,
           method: 'GET',
@@ -66,11 +70,13 @@ export const locationApi = api.injectEndpoints({
         type: InternalMapLocationType;
       }>
     >({
-      query: ({ data, type, location_id }) => ({
-        url: `${locationURL}/${type}/${location_id}`,
-        method: 'PUT',
-        body: data,
-      }),
+      query: ({ data, type, location_id }) => {
+        return {
+          url: `${locationURL}/${type}/${location_id}`,
+          method: 'PUT',
+          body: data,
+        };
+      },
       invalidatesTags: ['Locations'],
     }),
   }),

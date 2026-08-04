@@ -1,0 +1,30 @@
+{
+  "CTA_BANNER": {
+    "CTA": "Adicionar transações",
+    "DEFAULT": "Adicione suas transações mais recentes para informações precisas",
+    "NO_ATTRIBUTIONS": "Atribua suas transações para plantações e grupos de animais para desbloquear o resumo por variedade",
+    "NO_TRANSACTIONS": "Comece a gravar suas receitas e despesas para acompanhar a rentabilidade em suas culturas e animais"
+  },
+  "KPI": {
+    "MARGIN": "Margem",
+    "NO_TREND_TOOLTIP": "Adicione mais dados do ano anterior para calcular a tendência",
+    "YOY_TOOLTIP": "Comparado ao mesmo intervalo de datas no ano anterior.",
+    "YOY_TREND": "vs ano anterior",
+    "YOY_TREND_SHORT": "a/a"
+  },
+  "LESS_DATA": "Menos dados",
+  "MORE_DATA": "Mais dados",
+  "NET_PROFIT": "Lucro líquido",
+  "TABLE": {
+    "ANIMAL": "Animal",
+    "EXPENSE": "Despesa",
+    "FOOTNOTE": "Um resumo de rentabilidade nas colheitas e animais durante o período selecionado.",
+    "NO_ANIMALS": "Você não tem nenhum animal em seu inventário",
+    "NO_CROP_VARIETIES": "Você não tem variedades de cultivos na sua fazenda",
+    "TYPE_TOTAL": "{{type}} total",
+    "VARIETY": "Variedade"
+  },
+  "TOP_EXPENSE_CATEGORIES": "Categorias de maiores despesas",
+  "TOP_REVENUE_CATEGORIES": "Categorias de receita maiores",
+  "WIDGET_TITLE": "Rentabilidade"
+}

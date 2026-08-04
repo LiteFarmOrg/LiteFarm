@@ -44,6 +44,7 @@ const RevenueForm = ({
   currency,
   sale,
   persistedFormData,
+  useHookFormPersist = () => ({}),
   view,
   handleGoBack,
   onClick,
@@ -82,7 +83,11 @@ const RevenueForm = ({
     watch,
     control,
     setValue,
+    getValues,
   } = reactHookFormFunctions;
+
+  // Mirrors PureAddExpense; on unmount, rewinds the multi-step flow's pages out of history
+  useHookFormPersist(getValues);
 
   const selectedTypeOption = watch(REVENUE_TYPE_OPTION);
   const selectedRevenueType = revenueTypes?.find(
@@ -93,8 +98,8 @@ const RevenueForm = ({
   const notesPlaceholder = isCropSale(selectedRevenueType)
     ? t('SALE.ADD_SALE.CROP_NOTES_PLACEHOLDER')
     : isAnimalSale(selectedRevenueType)
-    ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
-    : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
+      ? t('SALE.ADD_SALE.ANIMAL_NOTES_PLACEHOLDER')
+      : t('SALE.ADD_SALE.NOTES_PLACEHOLDER');
 
   useEffect(() => {
     if (revenueTypeOptions?.length && !selectedTypeOption) {
@@ -220,7 +225,7 @@ const RevenueForm = ({
             disabled={disabledInput}
           />
         )}
-        <div style={{ marginTop: 'auto' }}>
+        <div style={{ marginTop: 'auto', paddingTop: '32px' }}>
           {readonly && !isDeleting && (
             <IconLink
               style={{ color: 'var(--grey600)' }}

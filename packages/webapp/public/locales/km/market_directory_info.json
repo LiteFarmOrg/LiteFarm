@@ -1,0 +1,14 @@
+{
+  "MARKET_PRODUCT_CATEGORY": {
+    "ALCOHOLIC_BEVERAGE": "ភេសជ្ជៈមានជាតិអាល់កុល",
+    "BAKERY": "ផលិតផលនំដុត",
+    "DAIRY_PRODUCT": "ផលិតផលទឹកដោះ",
+    "EGG": "ស៊ុត",
+    "FLOWER": "ផ្កា",
+    "FROZEN": "អាហារបង្កក",
+    "FRUIT": "ផ្លែឈើ",
+    "MEAT_PRODUCT": "ផលិតផលសាច់",
+    "PLANT": "សំណាប និងរុក្ខជាតិដាំក្នុងផើង",
+    "VEGETABLE": "បន្លែ"
+  }
+}

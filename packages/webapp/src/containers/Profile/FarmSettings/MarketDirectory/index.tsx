@@ -29,24 +29,32 @@ import CheckComplete from '../../../../assets/images/check-complete.svg?react';
 import CheckIncomplete from '../../../../assets/images/check-incomplete.svg?react';
 import MarketDirectoryInfoForm from './InfoForm';
 import MarketDirectoryConsent from './Consent';
+import MarketDirectoryCertifications from './Certifications';
 import { useGetMarketDirectoryInfoQuery } from '../../../../store/api/marketDirectoryInfoApi';
 import { useGetMarketProductCategoriesQuery } from '../../../../store/api/marketProductCategoryApi';
+import { useGetCertificationsQuery } from '../../../../store/api/certificationsApi';
+import {
+  useGetSupportedCertifiersQuery,
+  useGetSupportedCertificationSystemTypesQuery,
+} from '../../../../store/api/certifiersApi';
 
 // When adding/removing forms, update farmCardsLength below to match the number of enum values
 enum FormCards {
   INFO,
+  CERTIFICATIONS,
 }
 
-const farmCardsLength = 1;
+const farmCardsLength = 2;
 
 const MarketDirectory = () => {
   const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
   const { t } = useTranslation();
-
   const { expandedIds, toggleExpanded, unExpand } = useExpandable({ isSingleExpandable: true });
 
-  const [completionStatus, setCompletionStatus] = useState<Partial<Record<FormCards, boolean>>>({});
+  const [completionStatus, setCompletionStatus] = useState<Partial<Record<FormCards, boolean>>>({
+    [FormCards.CERTIFICATIONS]: true,
+  });
 
   const updateCompletionStatus = (formKey: FormCards, isComplete: boolean) => {
     setCompletionStatus((prev) => ({
@@ -68,11 +76,26 @@ const MarketDirectory = () => {
   const { data: marketProductCategories = [], isLoading: isMarketProductCategoriesLoading } =
     useGetMarketProductCategoriesQuery();
 
+  const { data: activeCertifications = [], isLoading: isCertificationsLoading } =
+    useGetCertificationsQuery(undefined, {
+      selectFromResult: ({ data, isLoading }) => ({
+        data: data?.filter((cert) => cert.is_active),
+        isLoading,
+      }),
+    });
+  const { data: certifiers = [], isLoading: isCertifiersLoading } =
+    useGetSupportedCertifiersQuery();
+  const { data: systemTypes = [], isLoading: isSystemTypesLoading } =
+    useGetSupportedCertificationSystemTypesQuery();
+
   const isMarketDirectoryDataLoading = [
     isMarketDirectoryInfoLoading,
     isMarketProductCategoriesLoading,
     !marketProductCategories.length,
   ].some(Boolean);
+
+  const isCertificationDataLoading =
+    isCertificationsLoading || isCertifiersLoading || isSystemTypesLoading;
 
   useEffect(() => {
     if (!isMarketDirectoryInfoLoading) {
@@ -92,6 +115,17 @@ const MarketDirectory = () => {
         />
       ),
     },
+    {
+      key: FormCards.CERTIFICATIONS,
+      title: t('MENU.CERTIFICATIONS'),
+      content: !isCertificationDataLoading && (
+        <MarketDirectoryCertifications
+          certifications={activeCertifications}
+          systemTypes={systemTypes}
+          certifiers={certifiers}
+        />
+      ),
+    },
   ];
 
   return (
@@ -101,34 +135,39 @@ const MarketDirectory = () => {
       <div className={styles.container}>
         <DirectoryCallout t={t} />
 
-        {formCards.map(({ key, title, content }) => {
-          const isExpanded = expandedIds.includes(key);
+        <div className={styles.formCards}>
+          {formCards.map(({ key, title, content }) => {
+            const isExpanded = expandedIds.includes(key);
 
-          return (
-            <div key={key} className={clsx(styles.formCard, isExpanded && styles.expanded)}>
-              <ExpandableItem
-                itemKey={key}
-                isExpanded={isExpanded}
-                onClick={() => toggleExpanded(key)}
-                mainContent={
-                  <ExpandableHeader
-                    title={title}
-                    isExpanded={isExpanded}
-                    isComplete={completionStatus[key] || false}
-                  />
-                }
-                expandedContent={content}
-                leftCollapseIcon
-                iconClickOnly={false}
-              />
-            </div>
-          );
-        })}
+            return (
+              <div key={key} className={clsx(styles.formCard, isExpanded && styles.expanded)}>
+                <ExpandableItem
+                  itemKey={key}
+                  isExpanded={isExpanded}
+                  onClick={() => toggleExpanded(key)}
+                  mainContent={
+                    <ExpandableHeader
+                      title={title}
+                      isExpanded={isExpanded}
+                      isComplete={completionStatus[key] || false}
+                    />
+                  }
+                  expandedContent={content}
+                  leftCollapseIcon
+                  iconClickOnly={false}
+                />
+              </div>
+            );
+          })}
+        </div>
 
         {areAllFormsComplete !== undefined && (
           <MarketDirectoryConsent
             canConsent={areAllFormsComplete}
             marketDirectoryInfo={marketDirectoryInfo}
+            certifications={activeCertifications}
+            systemTypes={systemTypes}
+            certifiers={certifiers}
           />
         )}
       </div>

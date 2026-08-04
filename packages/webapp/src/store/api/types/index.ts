@@ -65,7 +65,6 @@ export interface Animal {
   removal_explanation: string | null;
   removal_date: string | null;
   location_id: string | null;
-  tasks: { task_id: number }[];
   type_name?: string; // request only
   breed_name?: string; // request only
 }
@@ -105,7 +104,6 @@ export interface AnimalBatch {
   removal_explanation: string | null;
   removal_date: string | null;
   location_id: string | null;
-  tasks: { task_id: number }[];
   type_name?: string; // request only
   breed_name?: string; // request only
 }
@@ -214,18 +212,36 @@ export type SoilAmendmentProduct = Product & {
 };
 
 // As specified by Ensemble
-export type SensorTypes =
-  | 'Weather station'
-  | 'Soil Water Potential Sensor'
-  | 'IR Temperature Sensor'
-  | 'Wind speed sensor'
-  | 'Drip line pressure sensor';
+// Single source of truth for the sensor types LiteFarm models. The SensorTypes
+// union is derived from it, and getSensors filters out any name not listed here.
+export const SUPPORTED_SENSOR_NAMES = [
+  'Weather station',
+  'SDI-12 weather station',
+  'Soil Water Potential Sensor',
+  'IR Temperature Sensor',
+  'Wind speed sensor',
+  'Wind sensor voltage',
+  'Drip line pressure sensor',
+  'Turbine Flow Meter',
+  'Tipping Bucket Rain Gauge',
+  'ET sensor',
+  'Soil Water Content Sensor',
+  'Humidity Sensor',
+  'DripDrain Sensor',
+] as const;
+
+export type SensorTypes = (typeof SUPPORTED_SENSOR_NAMES)[number];
 
 export type SensorReadingTypes =
   | 'barometric_pressure'
   | 'cumulative_rainfall'
   | 'current'
+  | 'electrical_conductivity'
   | 'energy'
+  | 'evapotranspiration'
+  | 'heat_flux'
+  | 'latent_energy_flux'
+  | 'moisture'
   | 'rainfall_rate'
   | 'relative_humidity'
   | 'soc'
@@ -234,8 +250,11 @@ export type SensorReadingTypes =
   | 'solar_radiation'
   | 'solenoid_control'
   | 'temperature'
+  | 'vapor_pressure_deficit'
   | 'voltage'
+  | 'volume'
   | 'water_pressure'
+  | 'wet_bulb_temperature'
   | 'wind_direction'
   | 'wind_speed'
   | 'wind_speed_metadata'; // irrigation prescription metadata
@@ -427,6 +446,37 @@ export interface FarmNote {
 
 export interface FarmNotesRead {
   read_up_to: string | null;
+}
+
+export interface Certification {
+  id: string;
+  farm_id: string;
+  system_type_id: number | null;
+  certifier_id: number | null;
+  requested_system_type: string | null;
+  other_certifier: string | null;
+  is_active: boolean;
+  certification_type: string | null;
+  certificate_number: string | null;
+  certificate_member_id: string | null;
+  issue_date: string | null;
+  valid_until: string | null;
+}
+
+// Reference data from the certifiers table. Every farm receives the same list.
+export interface SupportedCertifier {
+  certifier_id: number;
+  system_type_id: number;
+  certifier_name: string;
+  certifier_acronym: string | null;
+  survey_id: string | null;
+}
+
+// Reference data from the certification_system_type table.
+export interface SupportedCertificationSystemType {
+  id: number;
+  name: string;
+  translation_key: string;
 }
 
 export enum InternalMapLocationType {
@@ -816,7 +866,7 @@ export interface SurfaceWater extends LocationWithFigure<AreaFigure> {
   [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-enum BufferWidthUnit {
+export enum BufferWidthUnit {
   CM = 'cm',
   M = 'm',
   KM = 'km',
@@ -848,14 +898,14 @@ export interface Watercourse extends LocationWithFigure<LineFigure> {
   [InternalMapLocationType.WATER_VALVE]: null;
 }
 
-enum WaterSource {
+export enum WaterSource {
   MUNICIPAL_WATER = 'Municipal water',
   SURFACE_WATER = 'Surface water',
   GROUNDWATER = 'Groundwater',
   RAIN_WATER = 'Rain water',
 }
 
-enum FlowRateUnit {
+export enum FlowRateUnit {
   L_PER_MIN = 'l/min',
   L_PER_H = 'l/h',
   GAL_PER_MIN = 'gal/min',

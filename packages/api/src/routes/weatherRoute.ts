@@ -20,5 +20,6 @@ import authFarmId from '../middleware/acl/authFarmId.js';
 const router = express.Router();
 
 router.get('/', authFarmId, weatherController.getWeather);
+router.get('/forecast', authFarmId, weatherController.getWeatherForecast);
 
 export default router;

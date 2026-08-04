@@ -16,6 +16,7 @@
 import CropSaleInputs, { CropSale, getCropSaleDefaultValues } from './CropSaleInputs';
 import AnimalSaleInputs, { AnimalSale, getAnimalSaleDefaultValues } from './AnimalSaleInputs';
 import type { EntityType } from '../types';
+import { System } from '../../../types';
 
 type EntitySale = CropSale | AnimalSale;
 
@@ -28,12 +29,13 @@ interface EntitySaleInputsProps {
 export const getEntityTypeDefaultValues = (
   sale: EntitySaleInputsProps['sale'],
   entityType: EntityType,
+  system: System,
 ) => {
   if (entityType === 'crop') {
-    return getCropSaleDefaultValues(sale as CropSale);
+    return getCropSaleDefaultValues(sale as CropSale, system);
   }
   if (entityType === 'animal') {
-    return getAnimalSaleDefaultValues(sale as AnimalSale);
+    return getAnimalSaleDefaultValues(sale as AnimalSale, system);
   }
   return undefined;
 };

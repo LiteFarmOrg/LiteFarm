@@ -1,4 +1,16 @@
 {
+  "PGS": "Sistema participativo de garantía",
   "THIRD_PARTY_ORGANIC": "Orgánica por auditoría",
-  "PGS": "Sistema participativo de garantía"
+  "TYPES": {
+    "ANIMAL_WELFARE": "Bienestar Animal",
+    "BIODYNAMIC": "Biodinámico",
+    "CARBON/CLIMATE": "Carbon/Clima",
+    "CERTIFIED_HUMANE": "Certificado de Bienestar Animal",
+    "FAIR_TRADE": "Fair Trade",
+    "GRASSFED/PASTURE": "Hierba / Pastura",
+    "NON-GMO": "No-OGM",
+    "ORGANIC": "Orgánico",
+    "REGENERATIVE": "Regenerativo",
+    "SUSTAINABILITY": "Sostenibilidad"
+  }
 }

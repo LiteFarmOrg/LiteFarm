@@ -405,6 +405,9 @@
     "TITLE": "¿Seguro que quieres cancelarlo?"
   },
   "CERTIFICATION": {
+    "ADD_CERTIFICATIONS": "Agregar una certificación",
+    "BANNER": "Las certificaciones activas añadidas aquí aparecen automáticamente en tu perfil <strong>Directorio de Mercado</strong>, para que los compradores puedan ver tus credenciales en tu publicación.",
+    "BANNER_SAVED": "Certificaciones activas y caducadas guardadas y añadidas a tu perfil de <strong>Directorio de Mercado</strong>.",
     "CERTIFICATION_EXPORT": {
       "ADD": "Agregar una certificación",
       "CHANGE_CERTIFICATION_PREFERENCE": "cambiar sus preferencias de certificación",
@@ -419,6 +422,7 @@
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certificación de",
       "UPDATE_SUCCESS": "Preferencias de certificación guardadas."
     },
+    "CERTIFICATION_ID": "Identificación de Certificación",
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Requerir otro tipo de certificación",
       "SUBTITLE_ONE": "Esta es una lista de certificadores de",
@@ -432,12 +436,42 @@
       "REQUEST_CERTIFIER": "Solicita un certificador",
       "TITLE": "Quien es su certificador?"
     },
+    "EMPTY_STATE": {
+      "BODY": "Añade una certificación activa para fortalecer tu perfil de mercado, o háznos saber que estás trabajando hacia una.",
+      "HEADING": "¿Tiene alguna certificación activa o buscas conseguir alguna?"
+    },
+    "FORM": {
+      "CERTIFICATE_NUMBER": "Número de certificado",
+      "CERTIFICATE_NUMBER_PLACEHOLDER": "ej. CAN-ORG-2024-01567",
+      "CERTIFICATION_STATUS": "Estado de la certificación",
+      "CERTIFICATION_TYPE": "Tipo de Certificación",
+      "CERTIFICATION_TYPE_PLACEHOLDER": "Seleccione un tipo de certificación",
+      "CERTIFYING_BODY": "Cuerpo certificador",
+      "CERTIFYING_BODY_INFO": "Nombre de la organización certificadora",
+      "CERTIFYING_BODY_PLACEHOLDER": "Seleccione un cuerpo de certificación",
+      "CERTIFYING_GROUP_INFO": "Nombre de su grupo o red local GPS (Garantía de Participacion Social)",
+      "CERTIFYING_GROUP_PLACEHOLDER": "Seleccione un grupo de certificación",
+      "IS_ACTIVE": "¿Está activa esta certificación?",
+      "MEMBER_ID_PLACEHOLDER": "Ingresa tu numero de identificación de miembro",
+      "OTHER_CERTIFIER": "Otro certificador",
+      "OTHER_CERTIFIER_PLACEHOLDER": "Introducir nombre del certificador",
+      "PGS_GROUP_NAME": "Nombre del grupo SPG",
+      "SYSTEM_TYPE": "Tipo de sistema",
+      "TITLE": "Agregar una certificación",
+      "VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE": "La fecha 'Valido hasta' debe venir después de la 'Fecha de emisión'"
+    },
     "INPUT_PLACEHOLDER": "Tipo de busqueda",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Planea conseguir o renovar su certificación orgánica durante esta temporada?",
       "TITLE": "Está interesado(a) en certificaciones?",
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
+    "LIST": {
+      "PURSUING_SECTION": "Consiguiendo certificaciones"
+    },
+    "LOOK_FOR_LEAF_ICON": "Busca el icono de la hoja: <leafIcon /> marca la información que tu certificado puede requerir",
+    "MEMBER_ID": "ID de miembro",
+    "PURSUING_ITEM": "Buscando {{item}}",
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
       "REQUEST": "Que certificador le gustaria solicitar?",
@@ -454,10 +488,19 @@
       "INFORMATION": "Indicaremos esta información a traves de la aplicacion con el icono de la hoja.",
       "TITLE": "Está interesado(a) en aplicar para:",
       "YOUR_CERTIFICATION": "Su certificación"
-    }
+    },
+    "SYSTEM_TYPE": {
+      "PGS": "Sistema participativo de garantía (SPG)",
+      "PGS_DESCRIPTION": "Certificación revisada por pares, basada en la comunidad",
+      "THIRD_PARTY_ORGANIC": "Certificación de terceras partes",
+      "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certificado por un organismo acreditado"
+    },
+    "THIS_CERTIFICATION": "esta certificación",
+    "VIEW_MARKET_DIRECTORY_PROFILE": "Ver tu perfil de Directorio de Mercado"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Parece que LiteFarm no exporta actualmente en el formato de su certificador. Aún puede exportar sus documentos, pero su certificador puede requerir información adicional. Se los enviaremos a:",
+    "EMAIL_YOUR_EXPORT": "Te enviaremos un correo electrónico a tu exportación a: <strong>{{email}}</strong>. Incluye tus registros y documentos de LiteFarm. Tu certificador puede solicitar información adicional.",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos de certificación",
     "EXPORT_DOWNLOADING_MESSAGE": "Descargando sus archivos de certificación orgánica...",
@@ -468,6 +511,9 @@
     "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
     "NOTE_CANNOT_RESUBMIT": "Nota: Una vez que envíe la encuesta, no podrá editar sus respuestas. Para cambiarlos después del envío, comience una nueva exportación.",
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
+    "SELECT_CERTIFICATION": "Seleccione la certificación que desea exportar",
+    "SELECT_CERTIFIER": "Seleccione el certificador",
+    "SELECT_CERTIFIER_PLACEHOLDER": "Seleccionar entre sus certificadores",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
     "UH_OH": "¡Oh, no!",
     "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
@@ -656,6 +702,9 @@
     "THURSDAY": "J",
     "TUESDAY": "M",
     "WEDNESDAY": "X"
+  },
+  "DELETE_CONFIRMATION": {
+    "BODY": "¿Está seguro que desea eliminar {{subject}}? Esta acción no se puede deshacer."
   },
   "DIRECTION": {
     "E": "E",
@@ -1175,6 +1224,9 @@
       "SPECIES_COUNT_other": "{{count}} especies",
       "TITLE": "Biodiversidad"
     },
+    "CATHI_GAO": {
+      "TITLE": "Proyecto de Investigación Cathi-Gao"
+    },
     "CLICK_TO_CALCULATE": "Haga clic para calcular",
     "CURRENT": "Actual",
     "INFO": "Los reportes son estadísticas de datos de lo que está pasando en su granja. Mientras más datos proveas en la aplicación más reportes pueden ser generadas. Mira los reportes individuales para más información.",
@@ -1200,6 +1252,10 @@
       "HEADER": "Materia Organica del Suelo",
       "INFO": "La materia orgánica en el suelo es necesaria para mantener un ambiente saludable para su cultivo. Generamos estos datos con los registros de suelo más recientes. Si no posee registros, predecimos la materia orgánica con las ubicación global.",
       "TITLE": "MO del Suelo"
+    },
+    "SURVEY": {
+      "THANK_YOU": "Gracias. Sus respuestas han sido registradas.",
+      "TITLE": "Encuesta"
     },
     "TAPE": {
       "COMPLETED": "Completado - Ver tus resultados",
@@ -1287,6 +1343,7 @@
     "IRRIGATION_PRESCRIPTION_FILES": "Expedientes de prescripción de riego",
     "IRRIGATION_PRESCRIPTIONS": "Prescripciones de riego",
     "IRRIGATION_ZONE": "Zona de riego",
+    "PLANT_AVAILABLE_WATER": "Agua disponible para la planta",
     "PRESCRIPTION_DATE": "Fecha de prescripción",
     "SOIL_MOISTURE_DEFICIT": "Déficit de humedad del suelo",
     "START_DATE": "Fecha de inicio",
@@ -1562,6 +1619,7 @@
     "MARKET_DIRECTORY_INFO": "Informacion del directorio de mercado",
     "NO_PARTNER": "Por el momento no tenemos ningún socio en su ubicación.",
     "PARTNERS": {
+      "GROWNBY_DESCRIPTION": "Crea una cuenta gratis y publica tu perfil en este directorio de GrownBy",
       "OFN_DESCRIPTION": "Crea una cuenta gratis y publica tu perfil en este directorio de OFN"
     },
     "WHERE_TO_BE_FEATURED": "¿Donde te gustaría aparecer?"
@@ -1991,9 +2049,17 @@
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "Sensor de presión de la línea de goteo",
+      "DRIPDRAIN_SENSOR": "Sensor de DripDrain",
+      "ET_SENSOR": "Sensor de ET",
+      "HUMIDITY_SENSOR": "Sensor de Humedad",
       "IR_TEMPERATURE_SENSOR": "Sensor de temperatura IR",
+      "SDI-12_WEATHER_STATION": "Estación meteorológica SDI-12",
+      "SOIL_WATER_CONTENT_SENSOR": "Sensor de contenido hídrico del suelo",
       "SOIL_WATER_POTENTIAL_SENSOR": "Sensor del potencial hídrico del suelo",
+      "TIPPING_BUCKET_RAIN_GAUGE": "Pluviómetro de cubeta basculante",
+      "TURBINE_FLOW_METER": "Caudalímetro de turbina",
       "WEATHER_STATION": "Estación meteorológica",
+      "WIND_SENSOR_VOLTAGE": "Voltaje del sensor de viento",
       "WIND_SPEED_SENSOR": "Sensor de velocidad del viento"
     },
     "ESCI": {
@@ -2020,7 +2086,12 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "Presión barométrica",
       "CUMULATIVE_RAINFALL": "Lluvia acumulada",
+      "ELECTRICAL_CONDUCTIVITY": "Conductividad eléctrica",
+      "EVAPOTRANSPIRATION": "Evapotranspiración",
+      "HEAT_FLUX": "Fllujo de calor",
+      "LATENT_ENERGY_FLUX": "Flujo de energía latente",
       "LATEST_READING": "Última lectura:",
+      "MOISTURE": "Humedad",
       "RAINFALL_RATE": "Índice de pluviosidad",
       "RELATIVE_HUMIDITY": "Humedad relativa",
       "SOIL_WATER_CONTENT": "Contenido hídrico del suelo",
@@ -2030,7 +2101,10 @@
       "TYPES": "Tipos de lectura",
       "UNKNOWN": "Desconocido",
       "UPDATE_READINGS": "Actualizar lecturas",
+      "VAPOR_PRESSURE_DEFICIT": "Déficit de presión de vapor",
+      "VOLUME": "Volumen",
       "WATER_PRESSURE": "Presión del agua",
+      "WET_BULB_TEMPERATURE": "Temperatura de bulbo humedo",
       "WIND_DIRECTION": "Dirección del viento",
       "WIND_SPEED": "Velocidad del viento",
       "WIND_SPEED_AND_DIRECTION": "Velocidad y dirección del viento"

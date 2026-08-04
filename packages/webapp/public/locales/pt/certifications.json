@@ -1,4 +1,16 @@
 {
+  "PGS": "Sistema Participativo de Garantia (SPG)",
   "THIRD_PARTY_ORGANIC": "Orgânica por auditoria",
-  "PGS": "Sistema Participativo de Garantia (SPG)"
+  "TYPES": {
+    "ANIMAL_WELFARE": "",
+    "BIODYNAMIC": "",
+    "CARBON/CLIMATE": "",
+    "CERTIFIED_HUMANE": "",
+    "FAIR_TRADE": "",
+    "GRASSFED/PASTURE": "",
+    "NON-GMO": "",
+    "ORGANIC": "",
+    "REGENERATIVE": "",
+    "SUSTAINABILITY": ""
+  }
 }

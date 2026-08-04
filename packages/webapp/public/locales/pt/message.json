@@ -32,6 +32,18 @@
       "UPDATE": "Documento atualizado com sucesso"
     }
   },
+  "CERTIFICATION": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    }
+  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
@@ -154,9 +166,9 @@
     }
   },
   "MAP": {
+    "FAIL_DELETE": "Falha ao retirar",
     "FAIL_PATCH": "Falha ao atualizar",
     "FAIL_POST": "Falha ao adicionar novo/a",
-    "FAIL_DELETE": "Falha ao retirar",
     "SUCCESS_DELETE": " retirado/a com sucesso",
     "SUCCESS_PATCH": " atualizado/a com sucesso",
     "SUCCESS_POST": " salvo/a com sucesso"

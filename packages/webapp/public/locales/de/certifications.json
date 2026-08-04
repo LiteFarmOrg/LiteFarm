@@ -1,4 +1,16 @@
 {
+  "PGS": "Partizipatives Garantiesystem",
   "THIRD_PARTY_ORGANIC": "Drittparteizertifiziertes Bio",
-  "PGS": "Partizipatives Garantiesystem"
+  "TYPES": {
+    "ANIMAL_WELFARE": "",
+    "BIODYNAMIC": "",
+    "CARBON/CLIMATE": "",
+    "CERTIFIED_HUMANE": "",
+    "FAIR_TRADE": "",
+    "GRASSFED/PASTURE": "",
+    "NON-GMO": "",
+    "ORGANIC": "",
+    "REGENERATIVE": "",
+    "SUSTAINABILITY": ""
+  }
 }

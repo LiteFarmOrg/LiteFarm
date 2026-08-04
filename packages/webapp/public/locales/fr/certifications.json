@@ -1,4 +1,16 @@
 {
+  "PGS": "Système de participation garantie",
   "THIRD_PARTY_ORGANIC": "Biologique par audit",
-  "PGS": "Système de participation garantie"
+  "TYPES": {
+    "ANIMAL_WELFARE": "Bien-être animal",
+    "BIODYNAMIC": "Bio-dynamique",
+    "CARBON/CLIMATE": "Carbone/Climat",
+    "CERTIFIED_HUMANE": "Certifié sans cruauté",
+    "FAIR_TRADE": "Commerce équitable",
+    "GRASSFED/PASTURE": "Nourri à l'herbe",
+    "NON-GMO": "Pas d'OGM",
+    "ORGANIC": "Bio",
+    "REGENERATIVE": "Régénérative",
+    "SUSTAINABILITY": "Durabilité"
+  }
 }

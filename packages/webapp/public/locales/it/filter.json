@@ -1,0 +1,50 @@
+{
+  "CROP_CATALOGUE": {
+    "ABANDONED": "",
+    "ACTIVE": "",
+    "COMPLETE": "",
+    "LOCATION": "",
+    "NEEDS_PLAN": "",
+    "PLANNED": "",
+    "STATUS": "",
+    "SUPPLIERS": ""
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "",
+    "CROP_COMPLIANCE": "",
+    "FERTILIZING_PRODUCT": "",
+    "INVOICES": "",
+    "OTHER": "",
+    "PEST_CONTROL_PRODUCT": "",
+    "RECEIPTS": "",
+    "SOIL_AMENDMENT": "",
+    "SOIL_SAMPLE_RESULTS": "",
+    "UNCATEGORIZED": "",
+    "WATER_SAMPLE_RESULTS": ""
+  },
+  "FILTER": {
+    "FROM_DATE": "",
+    "TO_DATE": "",
+    "VALID_ON": ""
+  },
+  "INVENTORY": {
+    "CUSTOM": "",
+    "CUSTOM_OR_LITEFARM_LIBRARY": "",
+    "DRY": "",
+    "FERTILISER_TYPE": "",
+    "LIQUID": "",
+    "LITEFARM_LIBRARY": "",
+    "TITLE": ""
+  },
+  "TASKS": {
+    "ABANDONED": "",
+    "ACTIVE": "",
+    "COMPLETED": "",
+    "FOR_REVIEW": "",
+    "LATE": "",
+    "LOCATION": "",
+    "PLANNED": "",
+    "STATUS": "",
+    "SUPPLIERS": ""
+  }
+}

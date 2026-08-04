@@ -177,23 +177,32 @@ export const formatFarmDataToDfcStandard = async (
 
   const certificationInstances = (certifications ?? [])
     .filter((cert) => cert.is_active && cert.certification_type)
-    .map(
-      (cert) =>
-        new Certification({
-          connector,
-          semanticId: `${enterpriseUrl}#certification-${cert.id}`,
-          // Fall back to the raw enum value if a new type is missing from the map
-          name:
-            CERTIFICATION_TYPE_NAMES[cert.certification_type as CertificationType] ??
-            cert.certification_type!,
-          description: undefined,
-          certificationReferences: cert.certifier?.certifier_name
-            ? [cert.certifier.certifier_name]
-            : [cert.other_certifier!],
-          operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
-          certificationScores: [],
-        }),
-    );
+    .map((cert) => {
+      const certification = new Certification({
+        connector,
+        semanticId: `${enterpriseUrl}#certification-${cert.id}`,
+        // Fall back to the raw enum value if a new type is missing from the map
+        name:
+          CERTIFICATION_TYPE_NAMES[cert.certification_type as CertificationType] ??
+          cert.certification_type!,
+        description: undefined,
+        certificationReferences: cert.certifier?.certifier_name
+          ? [cert.certifier.certifier_name]
+          : [cert.other_certifier!],
+        operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
+        certificationScores: [],
+      });
+
+      if (cert.issue_date) {
+        // the pg driver returns a Date here, despite the string type
+        certification.setSemanticPropertyLiteral(
+          'dfc-b:date',
+          new Date(cert.issue_date).toISOString().split('T')[0],
+        );
+      }
+
+      return certification;
+    });
   certificationInstances.forEach((cert) => farm.addCertification(cert));
 
   let phoneNumber;

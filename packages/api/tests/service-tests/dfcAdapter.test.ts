@@ -318,7 +318,7 @@ describe('dfcAdapter', () => {
       }),
       id: fakeId,
       farm_id: faker.datatype.uuid(),
-      certifications: [mockCertification],
+      certifications: [{ ...mockCertification, issue_date: '2026-07-24' }],
     };
     const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
     const graph: DfcEntity[] = result['@graph'];
@@ -330,6 +330,7 @@ describe('dfcAdapter', () => {
       'dfc-b:name': 'Organic',
       'dfc-b:certiferReference': 'Soil Association',
       'dfc-b:operatorId': 'UK-ORG-05-1234',
+      'dfc-b:date': '2026-07-24',
     });
 
     const orgNode = graph.find((e) => e['@type'] === 'dfc-b:Organization');

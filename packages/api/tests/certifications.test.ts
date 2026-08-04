@@ -235,6 +235,18 @@ describe('Certifications CRUD tests', () => {
       }
     });
 
+    test('Returns date-only columns as midnight without a timezone indicator', async () => {
+      const userFarmIds = await createUserFarmIds(1);
+      await createCertification(userFarmIds);
+
+      const res = await getRequest(userFarmIds);
+
+      expect(res.status).toBe(200);
+      // A trailing Z makes clients west of UTC read the previous day
+      expect(res.body[0].issue_date).toBe('2024-01-01T00:00:00.000');
+      expect(res.body[0].valid_until).toBe('2026-12-31T00:00:00.000');
+    });
+
     test('Returns an empty array when the farm has no certifications', async () => {
       const userFarmIds = await createUserFarmIds(1);
 

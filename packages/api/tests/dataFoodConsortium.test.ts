@@ -294,6 +294,7 @@ describe('Data Food Consortium Tests', () => {
           certifier_id: certifier1.certifier_id,
           certification_type: 'BIODYNAMIC',
           certificate_member_id: 'Ecocert',
+          issue_date: '2026-07-24',
         }),
       );
 
@@ -324,6 +325,7 @@ describe('Data Food Consortium Tests', () => {
         'dfc-b:name': 'Biodynamic',
         'dfc-b:certiferReference': certifier1.certifier_name,
         'dfc-b:operatorId': 'Ecocert',
+        'dfc-b:date': '2026-07-24',
       });
 
       const orgNode = res.body['@graph'].find(

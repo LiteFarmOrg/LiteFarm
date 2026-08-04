@@ -1,16 +1,4 @@
 {
   "PGS": "ਭਾਗੀਦਾਰੀ ਗਾਰੰਟੀ ਸਿਸਟਮ",
-  "THIRD_PARTY_ORGANIC": "ਤੀਜੀ-ਧਿਰ ਜੈਵਿਕ",
-  "TYPES": {
-    "ANIMAL_WELFARE": "",
-    "BIODYNAMIC": "",
-    "CARBON/CLIMATE": "",
-    "CERTIFIED_HUMANE": "",
-    "FAIR_TRADE": "",
-    "GRASSFED/PASTURE": "",
-    "NON-GMO": "",
-    "ORGANIC": "",
-    "REGENERATIVE": "",
-    "SUSTAINABILITY": ""
-  }
+  "THIRD_PARTY_ORGANIC": "ਤੀਜੀ-ਧਿਰ ਜੈਵਿਕ"
 }

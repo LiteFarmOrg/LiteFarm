@@ -337,6 +337,33 @@ describe('dfcAdapter', () => {
     expect(orgNode).toHaveProperty('dfc-b:isCertifiedBy');
   });
 
+  test('should send the certificate number as the operator id when there is no member id', async () => {
+    const thirdPartyCertification = {
+      ...mockCertification,
+      certificate_member_id: null,
+      certificate_number: 'FR-BIO-01.250-0087918.2024.004',
+    };
+
+    const fakeId = faker.datatype.uuid();
+    const fakeData = {
+      ...fakeMarketDirectoryInfoWithRelations({
+        info: mockCompleteMarketDirectoryInfo,
+        marketProductCategories: [marketProductCategory],
+        fakeId,
+      }),
+      id: fakeId,
+      farm_id: faker.datatype.uuid(),
+      certifications: [thirdPartyCertification],
+    };
+    const result = await formatFarmDataToDfcStandard(fakeData, marketProductCategoryMap);
+    const graph: DfcEntity[] = result['@graph'];
+
+    const certNode = graph.find((e) => e['@type'] === 'dfc-b:Certfication');
+    expect(certNode).toMatchObject({
+      'dfc-b:operatorId': 'FR-BIO-01.250-0087918.2024.004',
+    });
+  });
+
   test('should not include a certification node when certifications is empty', async () => {
     const fakeId = faker.datatype.uuid();
     const fakeData = {

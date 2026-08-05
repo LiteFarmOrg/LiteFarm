@@ -66,7 +66,7 @@ const PureCertificationReportingPeriod = ({
           value={progress}
         />
 
-        <Main className={styles.mainText}>{t('CERTIFICATIONS.SELECT_CERTIFICATION')}</Main>
+        <Main className={styles.mainText}>{t('CERTIFICATIONS.SELECT_EXPORT_CERTIFIER')}</Main>
 
         <Controller
           name={CERTIFIER}

@@ -511,7 +511,7 @@
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
-    "SELECT_CERTIFICATION": "Select certification you want to export",
+    "SELECT_EXPORT_CERTIFIER": "For which certifier do you want to export your LiteFarm data?",
     "SELECT_CERTIFIER": "Select the certifier",
     "SELECT_CERTIFIER_PLACEHOLDER": "Select from your certifiers",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",

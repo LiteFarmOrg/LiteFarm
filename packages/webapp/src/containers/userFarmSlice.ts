@@ -272,11 +272,12 @@ export const userFarmStatusSelector = createSelector(
     loaded,
   }),
 );
+// Derive from userFarmsByUserSelector so that this selector
+// (Welcome, Onboarding Routes) cannot disagree with
+// ChooseFarm's farms.length === 0
 export const userFarmLengthSelector = createSelector(
-  userFarmReducerSelector,
-  ({ farmIdUserIdTuple }) => {
-    return farmIdUserIdTuple.length;
-  },
+  userFarmsByUserSelector,
+  (userFarms) => userFarms.length,
 );
 export const userFarmEntitiesSelector = createSelector(
   userFarmReducerSelector,

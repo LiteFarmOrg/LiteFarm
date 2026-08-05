@@ -511,7 +511,7 @@
     "NEXT_WE_WILL_CHECK": "Nous vérifierons ensuite si votre certificateur a besoin d'informations supplémentaires pour traiter votre soumission de certification.",
     "NOTE_CANNOT_RESUBMIT": "Remarque : Une fois l'enquête envoyée, vous ne pourrez plus modifier vos réponses. Pour les modifier après l'envoi, commencez une nouvelle exportation.",
     "ORGANIC_CERTIFICATION_FROM": "Certification biologique de",
-    "SELECT_CERTIFICATION": "Sélectionnez la certification que vous souhaitez exporter",
+    "SELECT_EXPORT_CERTIFIER": "Pour quel certificat souhaitez-vous exporter vos données LiteFarm ?",
     "SELECT_CERTIFIER": "Sélectionnez le certificateur",
     "SELECT_CERTIFIER_PLACEHOLDER": "Sélectionnez parmi vos certificateurs",
     "SELECT_REPORTING_PERIOD": "Sélectionnez votre période de rapport",

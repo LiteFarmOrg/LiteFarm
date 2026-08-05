@@ -32,6 +32,7 @@ jobs:
       JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
       JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
       JWT_SECRET: ${{secrets.JWT_SECRET}}
+      JWT_DASHBOARD_SECRET: Dashboard_tickets_get_their_own_secret
       TEST_USER: ${{secrets.TEST_USER}}
       TEST_USER_ID: ${{secrets.TEST_USER_ID}}
     steps:

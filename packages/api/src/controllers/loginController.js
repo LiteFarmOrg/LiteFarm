@@ -24,6 +24,7 @@ import parser from 'ua-parser-js';
 import UserLogModel from '../models/userLogModel.js';
 import EmailModel from '../models/emailTokenModel.js';
 import { createToken } from '../util/jwt.js';
+import { randomUUID } from 'crypto';
 
 const loginController = {
   authenticateUser() {
@@ -239,6 +240,53 @@ const loginController = {
         return res.status(400).json({
           error,
         });
+      }
+    };
+  },
+
+  dashboardIssueTicket() {
+    return async (req, res) => {
+      try {
+        // The signed-in user only. A user_id in the body is ignored, so a ticket can never name
+        // anyone but the caller.
+        const { user_id } = req.auth;
+        const { return_to, farm_id } = req.body;
+
+        // The addresses the Analytics Dashboard is served at, and the only ones a ticket may be
+        // handed to. Read per request so a test can set the variable after importing this module.
+        // filter(Boolean) drops the empty string an unset or blank variable would otherwise
+        // produce, so a missing configuration rejects every address instead of matching ''.
+        const allowedReturnAddresses = (process.env.DASHBOARD_ALLOWED_RETURN_TO ?? '')
+          .split(',')
+          .map((address) => address.trim())
+          .filter(Boolean);
+
+        // Exact string match: a prefix, suffix or substring of an allowed address is not a match.
+        if (!allowedReturnAddresses.includes(return_to)) {
+          return res.status(400).send({ message: 'return_to is not an allowed address.' });
+        }
+
+        if (farm_id) {
+          const userFarm = await UserFarmModel.query()
+            .where({ user_id, farm_id, status: 'Active' })
+            .first();
+          if (!userFarm) {
+            return res.sendStatus(403);
+          }
+        }
+
+        const ticket = await createToken('dashboard', {
+          user_id,
+          farm_id: farm_id ?? null,
+          jti: randomUUID(),
+        });
+
+        // The validated return_to is echoed back so the web app navigates to an address the
+        // server approved rather than to its own copy of the value.
+        return res.status(200).send({ ticket, return_to });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
       }
     };
   },

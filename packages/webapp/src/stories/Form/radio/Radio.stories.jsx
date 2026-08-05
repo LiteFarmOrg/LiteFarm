@@ -33,3 +33,18 @@ CheckedAndDisabled.args = {
   disabled: true,
   checked: true,
 };
+
+export const Card = Template.bind({});
+Card.args = {
+  label: 'Third-party certification',
+  description: 'Certified by an accredited body',
+  variant: 'card',
+};
+
+export const CardChecked = Template.bind({});
+CardChecked.args = {
+  label: 'Third-party certification',
+  description: 'Certified by an accredited body',
+  variant: 'card',
+  checked: true,
+};

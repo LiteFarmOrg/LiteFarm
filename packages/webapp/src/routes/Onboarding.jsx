@@ -18,7 +18,6 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../containers/userFarmSlice';
-import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -26,42 +25,9 @@ const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-const InterestedOrganic = React.lazy(
-  () =>
-    import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
-);
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-    ),
-);
-
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-    ),
-);
-
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
-    ),
-);
-
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
-);
 
 function OnboardingFlow(props) {
-  const { step_one, step_two, step_three, step_four, step_five, has_consent } = props;
-
-  const { interested } = useSelector(
-    hookFormPersistSelector,
-    (pre, next) => pre.interested === next.interested,
-  );
+  const { step_one, step_two, step_three, step_five, has_consent } = props;
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
   const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
@@ -103,55 +69,10 @@ function OnboardingFlow(props) {
       />
 
       <Route
-        path="/certification/interested_in_organic"
-        exact
-        children={
-          <RequireCondition condition={step_three} {...requireConditionProps}>
-            <InterestedOrganic />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/selection"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <CertificationSelection />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/certifier/selection"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <CertifierSelectionMenu />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/certifier/request"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <RequestCertifier />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/certification/summary"
-        exact
-        children={
-          <RequireCondition condition={step_four || interested} {...requireConditionProps}>
-            <SetCertificationSummary />
-          </RequireCondition>
-        }
-      />
-      <Route
         path="/outro"
         exact
         children={
-          <RequireCondition condition={step_four} {...requireConditionProps}>
+          <RequireCondition condition={step_three} {...requireConditionProps}>
             <Outro />
           </RequireCondition>
         }
@@ -169,7 +90,6 @@ const RequireCondition = ({
   step_one,
   step_two,
   step_three,
-  step_four,
   step_five,
   has_consent,
   farm_id,
@@ -180,12 +100,8 @@ const RequireCondition = ({
     return children;
   }
 
-  if (step_one && step_four && !step_five) {
+  if (step_one && step_three && !step_five) {
     return <Redirect to="/outro" />;
-  }
-
-  if (step_one && step_three && !step_four) {
-    return <Redirect to="/certification/interested_in_organic" />;
   }
 
   if (step_two && !step_three) {
@@ -208,7 +124,7 @@ const RequireCondition = ({
     return <Redirect to="/farm_selection" />;
   }
 
-  if (step_four && !has_consent) {
+  if (step_three && !has_consent) {
     return <Redirect to="/consent" />;
   }
 

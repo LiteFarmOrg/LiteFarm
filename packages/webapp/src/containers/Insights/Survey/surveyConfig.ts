@@ -37,7 +37,7 @@ interface SurveyInfo {
  * Adding a survey:
  *  1. Add a SURVEY_INFO entry here: image, ResultsComponent (omit for the generic thank-you page),
  *     cdnDirectory, versionsByCountry.
- *  2. Add the title in useSurveyTitle.ts as a literal call: surveyKey: t('INSIGHTS.<KEY>.TITLE').
+ *  2. Add the title in useSurveyTitle.ts by calling t() with the key INSIGHTS.<KEY>.TITLE.
  *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
  *  4. Upload the survey's <version>.json to its CDN directory.
  */

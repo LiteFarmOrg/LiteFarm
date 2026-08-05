@@ -121,6 +121,15 @@ function getRandomFileName(file) {
   return `${uuidv4()}${path.extname(file.originalname)}`;
 }
 
+// Like getRandomFileName, but keeps the original filename recoverable from the storage
+// key itself (encodeURIComponent, not a strip-unsafe-chars sanitizer, so the name round-trips
+// exactly via decodeURIComponent). The uuid prefix still guarantees no collisions.
+function getFileNameWithOriginalName(file) {
+  const ext = path.extname(file.originalname);
+  const baseName = path.basename(file.originalname, ext);
+  return `${uuidv4()}-${encodeURIComponent(baseName)}${ext}`;
+}
+
 function getPrivateS3Url() {
   if (process.env.NODE_ENV === 'development') {
     return `${MINIO_ENDPOINT}/${getPrivateS3BucketName()}`;
@@ -155,6 +164,7 @@ export {
   imaginaryPost,
   imaginaryGet,
   getRandomFileName,
+  getFileNameWithOriginalName,
   getPublicS3Url,
   getPrivateS3Url,
   deleteImage,

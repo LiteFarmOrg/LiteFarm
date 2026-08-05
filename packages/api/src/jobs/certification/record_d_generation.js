@@ -1,5 +1,6 @@
 import XlsxPopulate from 'xlsx-populate';
 import { i18n, t, tCrop } from '../locales/i18nt.js';
+import { sanitizeFileName } from './fileUtils.js';
 const boolToStringTransformation = (bool) =>
   bool ? i18n.t('Y') : bool !== null ? i18n.t('N') : i18n.t('N/A');
 const blankTransformation = () => '';
@@ -173,7 +174,9 @@ export default (data, exportId, from_date, to_date, farm_name) => {
       });
     });
     return workbook.toFileAsync(
-      `${process.env.EXPORT_WD}/temp/${exportId}/${t('RECORD_D.EXPORT_DOCUMENT_NAME')}.xlsx`,
+      `${process.env.EXPORT_WD}/temp/${exportId}/${sanitizeFileName(
+        t('RECORD_D.EXPORT_DOCUMENT_NAME'),
+      )}.xlsx`,
     );
   });
 };

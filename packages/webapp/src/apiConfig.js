@@ -105,6 +105,7 @@ export const offlineEventLogUrl = `${URI}/offline_event_log`;
 export const surveyResponseUrl = `${URI}/survey_response`;
 export const farmNoteUrl = `${URI}/farm_notes`;
 export const farmNotesReadUrl = `${URI}/farm_notes_read`;
+export const certificationsUrl = `${URI}/certifications`;
 
 export const url = URI;
 
@@ -174,5 +175,6 @@ export default {
   marketDirectoryPartnersUrl,
   farmNoteUrl,
   farmNotesReadUrl,
+  certificationsUrl,
   url,
 };

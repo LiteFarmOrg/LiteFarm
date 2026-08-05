@@ -1,10 +1,10 @@
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import PureAddCropVariety from '../../components/AddCropVariety';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import { cropVarietiesSelector } from '../cropVarietySlice';
 import { postCropAndVarietal, postVarietal } from './saga';
-import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
+import { useHasCertifications } from '../../hooks/useHasCertifications';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import ImagePickerWrapper from '../ImagePickerWrapper';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ function AddCropVarietyForm() {
   const dispatch = useDispatch();
   const crop_id = match.params.crop_id;
   const existingCropInfo = useSelector(cropSelector(crop_id));
-  const { interested } = useSelector(certifierSurveySelector, shallowEqual);
+  const hasCertifications = useHasCertifications();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const isNewCrop = crop_id === 'new';
   const crop = isNewCrop ? persistedFormData : existingCropInfo;
@@ -55,9 +55,9 @@ function AddCropVarietyForm() {
     <HookFormPersistProvider>
       <PureAddCropVariety
         match={match}
-        onSubmit={interested ? onContinue : onSubmit}
+        onSubmit={hasCertifications ? onContinue : onSubmit}
         onError={onError}
-        isSeekingCert={interested}
+        isSeekingCert={hasCertifications}
         crop={crop}
         imageUploader={
           <ImagePickerWrapper>

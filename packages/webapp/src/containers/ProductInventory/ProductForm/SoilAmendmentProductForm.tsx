@@ -12,12 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useGetSoilAmendmentFertiliserTypesQuery } from '../../../store/api/apiSlice';
 import PureSoilAmendmentProductForm from '../../../components/ProductInventory/ProductForm/PureSoilAmendmentProductForm';
 import { userFarmSelector } from '../../userFarmSlice';
-import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { useHasCertifications } from '../../../hooks/useHasCertifications';
 import { productsForTaskTypeSelector } from '../../productSlice';
 import { TASK_TYPES } from '../../Task/constants';
 import { FormMode } from '..';
@@ -30,8 +30,8 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
 
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
   // @ts-expect-error - Selector return empty object without property
-  const { country_id } = useSelector(userFarmSelector);
-  const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
+  const { country_id, farm_id } = useSelector(userFarmSelector);
+  const hasCertifications = useHasCertifications();
 
   // t('ADD_PRODUCT.DRY_FERTILISER')
   // t('ADD_PRODUCT.LIQUID_FERTILISER')
@@ -49,7 +49,7 @@ export default function SoilAmendmentProductForm({ mode, productId }: FormConten
     <PureSoilAmendmentProductForm
       mode={mode}
       isReadOnly={isReadOnly}
-      farm={{ farm_id, interested, country_id }}
+      farm={{ farm_id, interested: hasCertifications, country_id }}
       fertiliserTypeOptions={fertiliserTypeOptions}
       products={soilAmendmentProducts}
       productId={productId}

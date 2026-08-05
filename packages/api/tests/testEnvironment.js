@@ -42,7 +42,7 @@ async function tableCleanup(knex) {
     DELETE FROM "notification_user";
     DELETE FROM "notification";
     DELETE FROM "supportTicket";
-    DELETE FROM "organicCertifierSurvey";
+    DELETE FROM "certification";
     DELETE FROM "password";
     DELETE FROM "showedSpotlight";
     DELETE FROM "userLog";

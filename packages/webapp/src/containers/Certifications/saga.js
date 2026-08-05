@@ -6,7 +6,7 @@ import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { startExportModal } from '../ChooseFarm/chooseFarmFlowSlice';
 
-const exportUrl = () => `${url}/organic_certifier_survey/request_export`;
+const exportUrl = () => `${url}/certifications/request_export`;
 
 export const exportCertificationData = createAction('exportCertificationDataSaga');
 export function* exportCertificationDataSaga({ payload: exportData }) {

@@ -53,11 +53,19 @@ const FormNavigationButtons = ({
     <div className={clsx(styles.container)}>
       {contextualContent && <div className={styles.contextualContent}>{contextualContent}</div>}
       <div className={styles.buttonContainer}>
-        <Button color="secondary-cta" onClick={onCancel} className={styles.button} sm fullLength>
+        <Button
+          type="button"
+          color="secondary-cta"
+          onClick={onCancel}
+          className={styles.button}
+          sm
+          fullLength
+        >
           {cancelButtonContent || t('common:CANCEL')}
         </Button>
         {onPrevious && (
           <Button
+            type="button"
             color="secondary"
             disabled={isFirstStep}
             onClick={onPrevious}

@@ -32,6 +32,18 @@
       "UPDATE": "Document mis à jour"
     }
   },
+  "CERTIFICATION": {
+    "ERROR": {
+      "ADD": "Impossible de créer la certification",
+      "DELETE": "Échec de la suppression de la certification",
+      "EDIT": "Échec de la mise à jour de la certification"
+    },
+    "SUCCESS": {
+      "ADD": "Certification enregistrée avec succès",
+      "DELETE": "Certification supprimée avec succès",
+      "EDIT": "Certification mise à jour avec succès"
+    }
+  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Erreur à l'ajout de la variété",
@@ -154,9 +166,9 @@
     }
   },
   "MAP": {
+    "FAIL_DELETE": "Echec de retraite",
     "FAIL_PATCH": "Impossible de mettre à jour",
     "FAIL_POST": "Impossible d'ajouter",
-    "FAIL_DELETE": "Echec de retraite",
     "SUCCESS_DELETE": "Supprimé avec succès",
     "SUCCESS_PATCH": "Mise à jour réussie",
     "SUCCESS_POST": "Enregistré avec succès"

@@ -7,11 +7,11 @@ export default function RenderSurvey() {
   const data = window?.data;
   const organicCertifierSurvey = data?.organicCertifierSurvey;
   const certification = data?.certification
-    ? t(`certifications:${data?.certification.certification_translation_key}`)
-    : organicCertifierSurvey?.requested_certification;
+    ? t(`certifications:${data?.certification.translation_key}`)
+    : organicCertifierSurvey?.requested_system_type;
   const certifier = data?.certifier
     ? data?.certifier.certifier_name
-    : organicCertifierSurvey?.requested_certifier;
+    : organicCertifierSurvey?.other_certifier;
   return data?.questionAnswerMap ? (
     <div
       style={{

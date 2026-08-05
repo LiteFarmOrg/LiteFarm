@@ -64,7 +64,7 @@ export default function IrrigationPrescriptionTable({
       },
       {
         id: !vriZonesPresent || !isMobile ? 'available_soil_moisture' : null,
-        label: t('IRRIGATION_PRESCRIPTION.AVAILABLE_SOIL_MOISTURE'),
+        label: t('IRRIGATION_PRESCRIPTION.PLANT_AVAILABLE_WATER'),
         format: (d: IrrigationPrescriptionTableInfo) => (
           <Cell
             kind={CellKind.PLAIN}

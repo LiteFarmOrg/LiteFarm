@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.12.2',
+    release: '3.13.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -155,7 +155,8 @@ import locationRoute from './routes/locationRoute.js';
 import userFarmDataRoute from './routes/userFarmDataRoute.js';
 import userFarmRoute from './routes/userFarmRoute.js';
 import rolesRoutes from './routes/rolesRoute.js';
-import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.js';
+import certificationRoutes from './routes/certificationRoute.js';
+import certificationsRoutes from './routes/certificationsRoute.js';
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
 import releaseBadgeRoutes from './routes/releaseBadgeRoute.js';
@@ -213,6 +214,7 @@ app.set('json replacer', (key: string, value: string) => {
     'effective_date',
     'germination_date',
     'harvest_date',
+    'issue_date',
     'plant_date',
     'seed_date',
     'start_date',
@@ -344,7 +346,8 @@ app
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
-  .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
+  .use('/organic_certifier_survey', certificationRoutes)
+  .use('/certifications', certificationsRoutes)
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)

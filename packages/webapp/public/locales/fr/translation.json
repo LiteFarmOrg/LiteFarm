@@ -405,6 +405,9 @@
     "TITLE": "Voulez-vous vraiment annuler ?"
   },
   "CERTIFICATION": {
+    "ADD_CERTIFICATIONS": "Ajouter des certifications",
+    "BANNER": "Les certifications actives ajoutées ici apparaissent automatiquement dans votre profil <strong>Répertoire de Marché</strong>, afin que les acheteurs puissent voir vos identifiants dans votre liste.",
+    "BANNER_SAVED": "Les certifications actives et expirées ont été enregistrées et ajoutées à votre profil <strong>Répertoire de marché</strong>.",
     "CERTIFICATION_EXPORT": {
       "ADD": "Ajouter",
       "CHANGE_CERTIFICATION_PREFERENCE": "modifiez vos préférences de certification",
@@ -419,6 +422,7 @@
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "auprès de",
       "UPDATE_SUCCESS": "Préférences de certification enregistrées"
     },
+    "CERTIFICATION_ID": "ID de certification",
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Demander un autre type de certification",
       "SUBTITLE_ONE": "Voici une liste de certificateurs",
@@ -432,12 +436,42 @@
       "REQUEST_CERTIFIER": "Demander un certificateur",
       "TITLE": "De quelle organisation obtenez-vous votre certification ?"
     },
+    "EMPTY_STATE": {
+      "BODY": "Ajoutez une certification active pour renforcer votre profil de marché, ou faites-nous savoir que vous travaillez pour en obtenir un.",
+      "HEADING": "Avez-vous des certifications actives ou poursuivant des certifications ?"
+    },
+    "FORM": {
+      "CERTIFICATE_NUMBER": "Numéro de certificat",
+      "CERTIFICATE_NUMBER_PLACEHOLDER": "par ex. CAN-ORG-2024-01567",
+      "CERTIFICATION_STATUS": "Statut de la certification",
+      "CERTIFICATION_TYPE": "Type de certification",
+      "CERTIFICATION_TYPE_PLACEHOLDER": "Sélectionnez un type de certification",
+      "CERTIFYING_BODY": "Corps certifiant",
+      "CERTIFYING_BODY_INFO": "Nom de l'organisation certifiante",
+      "CERTIFYING_BODY_PLACEHOLDER": "Sélectionnez un corps de certification",
+      "CERTIFYING_GROUP_INFO": "Nom de votre groupe ou Système de Garantie Participatif",
+      "CERTIFYING_GROUP_PLACEHOLDER": "Sélectionnez un corps de certification",
+      "IS_ACTIVE": "La certification est-elle active ?",
+      "MEMBER_ID_PLACEHOLDER": "Entrez votre ID de membre",
+      "OTHER_CERTIFIER": "Autre certificateur",
+      "OTHER_CERTIFIER_PLACEHOLDER": "Entrez le nom du certificateur",
+      "PGS_GROUP_NAME": "Nom du groupe SPG",
+      "SYSTEM_TYPE": "Type de système",
+      "TITLE": "Ajouter des certifications",
+      "VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE": "La date d'expiration doit être postérieure à la date d'émission"
+    },
     "INPUT_PLACEHOLDER": "Tapez pour rechercher",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Prévoyez-vous obtenir ou renouveler votre certification pour la saison ?",
       "TITLE": "Préférences de certification",
       "WHY_ANSWER": "LiteFarm génère les documents requis pour la certification biologique. Certaines informations seront obligatoires."
     },
+    "LIST": {
+      "PURSUING_SECTION": "Poursuivre des certifications"
+    },
+    "LOOK_FOR_LEAF_ICON": "Recherchez l'icône en feuille: <leafIcon /> il marque les informations dont votre certificateur peut avoir besoin",
+    "MEMBER_ID": "Identifiant du membre",
+    "PURSUING_ITEM": "Poursuivre {{item}}",
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificateur demandé",
       "REQUEST": "Quel certificateur souhaitez-vous demander ?",
@@ -454,10 +488,19 @@
       "INFORMATION": "Nous indiquerons ces informations à travers l'application avec une icône de feuille.",
       "TITLE": "Vous êtes intéressé à postuler pour :",
       "YOUR_CERTIFICATION": "Votre certification"
-    }
+    },
+    "SYSTEM_TYPE": {
+      "PGS": "Système de participation garantie (SPG)",
+      "PGS_DESCRIPTION": "Certification communautaire évaluée par les pairs",
+      "THIRD_PARTY_ORGANIC": "Certification par un tiers",
+      "THIRD_PARTY_ORGANIC_DESCRIPTION": "Certifié par un organisme accrédité"
+    },
+    "THIS_CERTIFICATION": "cette attestation",
+    "VIEW_MARKET_DIRECTORY_PROFILE": "Voir votre profil d'annuaire de marché"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "LiteFarm ne travaille pas spécifiquement avec votre certificateur, il aura peut-être besoin d'informations complémentaires. Vos documents spécifiques seront envoyés à :",
+    "EMAIL_YOUR_EXPORT": "Nous allons envoyer votre exportation à : <strong>{{email}}</strong>. Elle inclut vos dossiers et documents de LiteFarm. Votre certificateur peut demander des informations supplémentaires.",
     "EXPORT": "Exporter",
     "EXPORT_DOCS": "Exporter les documents de certification",
     "EXPORT_DOWNLOADING_MESSAGE": "Téléchargement de vos documents de certification biologique ...",
@@ -468,6 +511,9 @@
     "NEXT_WE_WILL_CHECK": "Nous vérifierons ensuite si votre certificateur a besoin d'informations supplémentaires pour traiter votre soumission de certification.",
     "NOTE_CANNOT_RESUBMIT": "Remarque : Une fois l'enquête envoyée, vous ne pourrez plus modifier vos réponses. Pour les modifier après l'envoi, commencez une nouvelle exportation.",
     "ORGANIC_CERTIFICATION_FROM": "Certification biologique de",
+    "SELECT_EXPORT_CERTIFIER": "Pour quel certificat souhaitez-vous exporter vos données LiteFarm ?",
+    "SELECT_CERTIFIER": "Sélectionnez le certificateur",
+    "SELECT_CERTIFIER_PLACEHOLDER": "Sélectionnez parmi vos certificateurs",
     "SELECT_REPORTING_PERIOD": "Sélectionnez votre période de rapport",
     "UH_OH": "Oups !",
     "WOULD_LIKE_ANSWERS": "Votre certificateur aimerait que vous répondiez à quelques questions supplémentaires avant que nous puissions exporter vos documents."
@@ -656,6 +702,9 @@
     "THURSDAY": "J",
     "TUESDAY": "M",
     "WEDNESDAY": "M"
+  },
+  "DELETE_CONFIRMATION": {
+    "BODY": "Êtes-vous sûr de vouloir supprimer {{subject}}? Cette action est irréversible."
   },
   "DIRECTION": {
     "E": "E",
@@ -1175,6 +1224,9 @@
       "SPECIES_COUNT_other": "{{count}} espèces",
       "TITLE": "Biodiversité"
     },
+    "CATHI_GAO": {
+      "TITLE": "Projet de recherche Cathi-Gao"
+    },
     "CLICK_TO_CALCULATE": "Cliquez pour calculer",
     "CURRENT": "Courant",
     "INFO": "Ces mesures fournissent de l’information supplémentaire sur ce qui se passe sur votre exploitation. Plus vous entrez de données dans l’application, plus ces informations sont complètes. Veuillez explorer les différentes mesures pour plus de détails.",
@@ -1200,6 +1252,10 @@
       "HEADER": "Matière organique du sol",
       "INFO": "La matière organique du sol est essentielle pour maintenir un sol sain pour vos récoltes. La teneur en matière organique est calculée à partir de vos journaux d’analyse de sol les plus récents. Si vous n’avez pas de données sur votre sol, nous estimons la matière organique potentielle de votre sol en fonction de votre emplacement dans le monde.",
       "TITLE": "Matière organique du Sol"
+    },
+    "SURVEY": {
+      "THANK_YOU": "Merci, vos réponses ont été enregistrées.",
+      "TITLE": "Sondage"
     },
     "TAPE": {
       "COMPLETED": "Terminé - Voir vos résultats",
@@ -1287,6 +1343,7 @@
     "IRRIGATION_PRESCRIPTION_FILES": "Fichiers d’irrigation",
     "IRRIGATION_PRESCRIPTIONS": "Ordonnances d’irrigation",
     "IRRIGATION_ZONE": "Zone d'Irrigation",
+    "PLANT_AVAILABLE_WATER": "Planter de l'eau disponible",
     "PRESCRIPTION_DATE": "Date de l’ordonnance",
     "SOIL_MOISTURE_DEFICIT": "Déficit d'humidité du sol",
     "START_DATE": "Date de début",
@@ -1562,6 +1619,7 @@
     "MARKET_DIRECTORY_INFO": "Informations sur l'annuaire du marché",
     "NO_PARTNER": "Nous n'avons pas de partenaire dans votre région pour le moment.",
     "PARTNERS": {
+      "GROWNBY_DESCRIPTION": "Créez un compte gratuit et soyez publié sur GrownBy",
       "OFN_DESCRIPTION": "Créez un compte gratuit et soyez publié sur cet annuaire OFN"
     },
     "WHERE_TO_BE_FEATURED": "Où souhaitez-vous être publié?"
@@ -1991,9 +2049,17 @@
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "Capteur de pression de ligne de goutte",
+      "DRIPDRAIN_SENSOR": "Capteur DripDrain",
+      "ET_SENSOR": "ET sensor",
+      "HUMIDITY_SENSOR": "Capteur d'humidité",
       "IR_TEMPERATURE_SENSOR": "Capteur de température infrarouge",
+      "SDI-12_WEATHER_STATION": "Station météo SDI-12",
+      "SOIL_WATER_CONTENT_SENSOR": "Potentiel hydrique du sol",
       "SOIL_WATER_POTENTIAL_SENSOR": "Potentiel hydrique du sol",
+      "TIPPING_BUCKET_RAIN_GAUGE": "Pluviomètre du godet",
+      "TURBINE_FLOW_METER": "Compteur de débit à turbine",
       "WEATHER_STATION": "Station Météo",
+      "WIND_SENSOR_VOLTAGE": "Tension du capteur de vent",
       "WIND_SPEED_SENSOR": "Capteur de vitesse du vent"
     },
     "ESCI": {
@@ -2020,7 +2086,12 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "Pression barométrique",
       "CUMULATIVE_RAINFALL": "Pluie cumulée",
+      "ELECTRICAL_CONDUCTIVITY": "Conductivité électrique",
+      "EVAPOTRANSPIRATION": "Évapotranspiration",
+      "HEAT_FLUX": "Flux de chaleur",
+      "LATENT_ENERGY_FLUX": "Flux d'énergie latent",
       "LATEST_READING": "Dernière lecture :",
+      "MOISTURE": "Humidité",
       "RAINFALL_RATE": "Taux de pluie",
       "RELATIVE_HUMIDITY": "Humidité relative",
       "SOIL_WATER_CONTENT": "Teneur en eau du sol",
@@ -2030,7 +2101,10 @@
       "TYPES": "Type de données relevées par les capteurs",
       "UNKNOWN": "Inconnue",
       "UPDATE_READINGS": "Mise à jour des lectures",
+      "VAPOR_PRESSURE_DEFICIT": "Vapor pressure deficit",
+      "VOLUME": "Volume",
       "WATER_PRESSURE": "Pression de l'eau",
+      "WET_BULB_TEMPERATURE": "Température de l'ampoule humide",
       "WIND_DIRECTION": "Direction du vent",
       "WIND_SPEED": "Vitesse du vent",
       "WIND_SPEED_AND_DIRECTION": "Vitesse & direction du vent"

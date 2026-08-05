@@ -7,7 +7,13 @@ import { Semibold } from '../Typography';
 import YearSelectorModal from '../Modals/YearSelectorModal';
 import { getNewDate } from '../Form/InputDuration/utils';
 import { languageCodes } from '../../hooks/useLanguageOptions';
-const languageJsonFiles = import.meta.glob('../../locales/*/rcYearCalendar.json', { eager: true });
+
+// TODO: LF-5430 Revert to re-add Khmer
+// Exclude km
+const languageJsonFiles = import.meta.glob(
+  '../../locales/{en,es,de,fr,pt,hi,pa,ml}/rcYearCalendar.json',
+  { eager: true },
+);
 
 languageCodes.forEach((language) => {
   const translationJson = languageJsonFiles[`../../locales/${language}/rcYearCalendar.json`];

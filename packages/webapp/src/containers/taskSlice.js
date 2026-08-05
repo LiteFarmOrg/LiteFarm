@@ -232,6 +232,11 @@ export const taskEntitiesSelector = createSelector(
     }) => {
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
+      // Returns undefined when the planting or management plan is not in the store; both call
+      // sites below (`managementPlans.map` and the plant/transplant branch) `.filter(Boolean)` it out.
+      if (!managementPlanEntities[management_plan_id]) {
+        return undefined;
+      }
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
@@ -243,29 +248,35 @@ export const taskEntitiesSelector = createSelector(
     return produce(taskEntities, (taskEntities) => {
       for (const task_id in taskEntities) {
         taskEntities[task_id].managementPlans =
-          taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
-          [];
+          taskEntities[task_id].managementPlans
+            ?.map(getManagementPlanByPlantingManagementPlan)
+            .filter(Boolean) || [];
         // Drop location_ids with no cached location so tasksSelector never reads farm_id off undefined.
         taskEntities[task_id].locations =
           taskEntities[task_id].locations
             ?.map((location_id) => locationEntities[location_id])
             .filter(Boolean) || [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
+        // Task type may not be loaded yet; a task with no type cannot render.
+        if (!taskType) {
+          delete taskEntities[task_id];
+          continue;
+        }
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][getSubtaskName(task_translation_key)] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
-          // Keep the location only when its record is cached, so an unloaded location yields [] not [undefined].
-          taskEntities[task_id].locations = subtask.planting_management_plan.location_id
-            ? [locationEntities[subtask.planting_management_plan.location_id]].filter(Boolean)
+          const planting_management_plan = subtask?.planting_management_plan;
+          taskEntities[task_id].locations = planting_management_plan?.location_id
+            ? [locationEntities[planting_management_plan.location_id]].filter(Boolean)
             : [];
-          taskEntities[task_id].managementPlans = [
-            getManagementPlanByPlantingManagementPlan(subtask),
-          ];
+          taskEntities[task_id].managementPlans = subtask
+            ? [getManagementPlanByPlantingManagementPlan(subtask)].filter(Boolean)
+            : [];
         }
         taskEntities[task_id].assignee =
-          userFarmEntities[userFarm.farm_id][taskEntities[task_id].assignee_user_id];
+          userFarmEntities[userFarm.farm_id]?.[taskEntities[task_id].assignee_user_id];
       }
     });
   },

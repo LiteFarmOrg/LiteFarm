@@ -125,35 +125,9 @@ const CertificationReportingPeriod = React.lazy(
 );
 const CertificationSurvey = React.lazy(() => import('../containers/Certifications/Survey'));
 
-const InterestedOrganic = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
-);
-const CertificationSelection = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'
-    ),
-);
-
-const CertifierSelectionMenu = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'
-    ),
-);
-
-const SetCertificationSummary = React.lazy(
-  () =>
-    import(
-      '../containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
-    ),
-);
-
-const RequestCertifier = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
-);
-const ViewCertification = React.lazy(
-  () => import('../containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
+const Certifications = React.lazy(() => import('../containers/Certifications'));
+const CertificationForm = React.lazy(
+  () => import('../containers/Certifications/CertificationForm'),
 );
 
 const RenderSurvey = React.lazy(() => import('../containers/RenderSurvey/RenderSurvey'));
@@ -238,7 +212,6 @@ const Routes = ({ isCompactSideMenu }) => {
     (pre, next) =>
       pre.step_five === next.step_five &&
       pre.step_two === next.step_two &&
-      pre.step_four === next.step_four &&
       pre.has_consent === next.has_consent &&
       pre.role_id === next.role_id &&
       pre.step_one === next.step_one &&
@@ -249,10 +222,9 @@ const Routes = ({ isCompactSideMenu }) => {
     chooseFarmFlowSelector,
     (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three, step_four } =
-    userFarm;
+  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
   const hasSelectedFarm = !!farm_id;
-  const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
+  const hasFinishedOnBoardingFlow = step_one && step_five;
 
   return (
     <Suspense fallback={<Spinner />}>
@@ -526,37 +498,24 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/password_reset" children={<PasswordResetAccount />} />
                     <Route path={'/expired'} children={<ExpiredTokenScreen />} />
                     <Route path="/invite_user" exact children={<InviteUser />} />
-                    <Route path="/certification" exact children={<ViewCertification />} />
                     <Route
                       path="/certification/report_period"
                       exact
                       children={<CertificationReportingPeriod />}
                     />
                     <Route path="/certification/survey" exact children={<CertificationSurvey />} />
+                    <Route path="/certifications" exact>
+                      <Certifications isCompactSideMenu={isCompactSideMenu} />
+                    </Route>
                     <Route
-                      path="/certification/interested_in_organic"
+                      path="/certifications/add_certification"
                       exact
-                      children={<InterestedOrganic />}
+                      children={<CertificationForm />}
                     />
                     <Route
-                      path="/certification/selection"
+                      path="/certifications/:certification_id/edit_certification"
                       exact
-                      children={<CertificationSelection />}
-                    />
-                    <Route
-                      path="/certification/certifier/selection"
-                      exact
-                      children={<CertifierSelectionMenu />}
-                    />
-                    <Route
-                      path="/certification/certifier/request"
-                      exact
-                      children={<RequestCertifier />}
-                    />
-                    <Route
-                      path="/certification/summary"
-                      exact
-                      children={<SetCertificationSummary />}
+                      children={<CertificationForm />}
                     />
                     <Route
                       path="/export/:id/from/:from/to/:to"
@@ -857,37 +816,24 @@ const Routes = ({ isCompactSideMenu }) => {
                     <Route path="/password_reset" children={<PasswordResetAccount />} />
                     <Route path={'/expired'} children={<ExpiredTokenScreen />} />
                     <Route path="/invite_user" exact children={<InviteUser />} />
-                    <Route path="/certification" exact children={<ViewCertification />} />
                     <Route
                       path="/certification/report_period"
                       exact
                       children={<CertificationReportingPeriod />}
                     />
                     <Route path="/certification/survey" exact children={<CertificationSurvey />} />
+                    <Route path="/certifications" exact>
+                      <Certifications isCompactSideMenu={isCompactSideMenu} />
+                    </Route>
                     <Route
-                      path="/certification/interested_in_organic"
+                      path="/certifications/add_certification"
                       exact
-                      children={<InterestedOrganic />}
+                      children={<CertificationForm />}
                     />
                     <Route
-                      path="/certification/selection"
+                      path="/certifications/:certification_id/edit_certification"
                       exact
-                      children={<CertificationSelection />}
-                    />
-                    <Route
-                      path="/certification/certifier/selection"
-                      exact
-                      children={<CertifierSelectionMenu />}
-                    />
-                    <Route
-                      path="/certification/certifier/request"
-                      exact
-                      children={<RequestCertifier />}
-                    />
-                    <Route
-                      path="/certification/summary"
-                      exact
-                      children={<SetCertificationSummary />}
+                      children={<CertificationForm />}
                     />
                     <Route
                       path="/export/:id/from/:from/to/:to"

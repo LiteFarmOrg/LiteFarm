@@ -405,6 +405,9 @@
     "TITLE": "क्या आप वाकई रद्द करना चाहते हैं?"
   },
   "CERTIFICATION": {
+    "ADD_CERTIFICATIONS": "प्रमाणन जोड़ें",
+    "BANNER": "यहाँ जोड़े गए सक्रिय प्रमाणन आपके <strong>बाज़ार निर्देशिका प्रोफ़ाइल</strong> में अपने-आप दिखाई देंगे, जिससे खरीदार आपकी सूची में आपके प्रमाणन देख सकेंगे।",
+    "BANNER_SAVED": "सक्रिय और समाप्त हो चुके प्रमाणन आपके <strong>बाज़ार निर्देशिका प्रोफ़ाइल</strong> में सहेज दिए गए हैं।",
     "CERTIFICATION_EXPORT": {
       "ADD": "प्रमाणन जोड़ें",
       "CHANGE_CERTIFICATION_PREFERENCE": "अपनी प्रमाणन प्राथमिकताएं बदलें",
@@ -419,6 +422,7 @@
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "प्रमाणीकरण",
       "UPDATE_SUCCESS": "प्रमाणन प्राथमिकताएं सहेजी गईं"
     },
+    "CERTIFICATION_ID": "प्रमाणन आईडी",
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "एक अन्य प्रकार का प्रमाणन अनुरोध करें",
       "SUBTITLE_ONE": "यहाँ एक सूची है",
@@ -432,12 +436,42 @@
       "REQUEST_CERTIFIER": "प्रमाणक अनुरोध करें",
       "TITLE": "आपका प्रमाणक कौन है?"
     },
+    "EMPTY_STATE": {
+      "BODY": "अपनी बाज़ार प्रोफ़ाइल को बेहतर बनाने के लिए एक सक्रिय प्रमाणन जोड़ें, या हमें बताएँ कि आप एक प्रमाणन प्राप्त करने की प्रक्रिया में हैं।",
+      "HEADING": "क्या आपके पास कोई सक्रिय प्रमाणन है या आप किसी प्रमाणन की प्रक्रिया में हैं?"
+    },
+    "FORM": {
+      "CERTIFICATE_NUMBER": "प्रमाणपत्र संख्या",
+      "CERTIFICATE_NUMBER_PLACEHOLDER": "उदा. CAN-ORG-2024-01567",
+      "CERTIFICATION_STATUS": "प्रमाणन की स्थिति",
+      "CERTIFICATION_TYPE": "प्रमाणन का प्रकार चुनें",
+      "CERTIFICATION_TYPE_PLACEHOLDER": "प्रमाणन संस्था",
+      "CERTIFYING_BODY": "प्रमाणन संस्था चुनें",
+      "CERTIFYING_BODY_INFO": "अपने स्थानीय PGS समूह या नेटवर्क का नाम",
+      "CERTIFYING_BODY_PLACEHOLDER": "प्रमाणन समूह चुनें",
+      "CERTIFYING_GROUP_INFO": "अपने स्थानीय PGS समूह या नेटवर्क का नाम",
+      "CERTIFYING_GROUP_PLACEHOLDER": "प्रमाणन समूह चुनें",
+      "IS_ACTIVE": "क्या यह प्रमाणन सक्रिय है?",
+      "MEMBER_ID_PLACEHOLDER": "अपनी सदस्य आईडी दर्ज करें",
+      "OTHER_CERTIFIER": "अन्य प्रमाणन संस्था",
+      "OTHER_CERTIFIER_PLACEHOLDER": "प्रमाणन संस्था का नाम दर्ज करें",
+      "PGS_GROUP_NAME": "PGS समूह का नाम",
+      "SYSTEM_TYPE": "प्रणाली का प्रकार",
+      "TITLE": "प्रमाणन जोड़ें",
+      "VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE": "तक मान्य' तिथि, 'जारी करने की तिथि' के बाद होनी चाहिए"
+    },
     "INPUT_PLACEHOLDER": "खोजने के लिए टाइप करें",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "क्या आप इस सीजन में प्रमाणन प्राप्त करने या नवीनीकरण करने की योजना बना रहे हैं?",
       "TITLE": "प्रमाणन में रुचि रखते हैं?",
       "WHY_ANSWER": "लाइटफार्म जैविक प्रमाणन के लिए आवश्यक फॉर्म उत्पन्न करता है। कुछ जानकारी अनिवार्य होगी।"
     },
+    "LIST": {
+      "PURSUING_SECTION": "प्रक्रिया में प्रमाणन"
+    },
+    "LOOK_FOR_LEAF_ICON": "पत्ती के चिह्न <leafIcon /> पर ध्यान दें: यह उन जानकारियों को दर्शाता है जिनकी आपके प्रमाणनकर्ता को आवश्यकता हो सकती है",
+    "MEMBER_ID": "सदस्य आईडी",
+    "PURSUING_ITEM": "{{item}} की प्रक्रिया में",
     "REQUEST_CERTIFIER": {
       "LABEL": "अनुरोधित प्रमाणक",
       "REQUEST": "अनुरोधित प्रमाणक",
@@ -454,10 +488,19 @@
       "INFORMATION": "हम इस जानकारी को ऐप में पत्ती के आइकन के साथ इंगित करेंगे।",
       "TITLE": "आप आवेदन करने में रुचि रखते हैं:",
       "YOUR_CERTIFICATION": "आपका प्रमाणन"
-    }
+    },
+    "SYSTEM_TYPE": {
+      "PGS": "सहभागी गारंटी प्रणाली (PGS)",
+      "PGS_DESCRIPTION": "सहकर्मी-समीक्षित, समुदाय-आधारित प्रमाणन",
+      "THIRD_PARTY_ORGANIC": "तृतीय-पक्ष प्रमाणन",
+      "THIRD_PARTY_ORGANIC_DESCRIPTION": "मान्यता प्राप्त संस्था द्वारा प्रमाणित"
+    },
+    "THIS_CERTIFICATION": "यह प्रमाणन",
+    "VIEW_MARKET_DIRECTORY_PROFILE": "अपनी बाज़ार निर्देशिका प्रोफ़ाइल देखें"
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "ऐसा लगता है कि LiteFarm वर्तमान में आपके प्रमाणक के प्रारूप में निर्यात नहीं करता है। आप अभी भी अपने दस्तावेज़ निर्यात कर सकते हैं लेकिन आपके प्रमाणक को अतिरिक्त जानकारी की आवश्यकता हो सकती है। हम उन्हें आपको भेज देंगे:",
+    "EMAIL_YOUR_EXPORT": "हम आपका निर्यात <strong>{{email}}</strong> पर ईमेल करेंगे। इसमें LiteFarm के आपके रिकॉर्ड और दस्तावेज़ शामिल होंगे। आपका प्रमाणनकर्ता अतिरिक्त जानकारी भी मांग सकता है।",
     "EXPORT": "निर्यात करें",
     "EXPORT_DOCS": "प्रमाणन दस्तावेज़ निर्यात करें",
     "EXPORT_DOWNLOADING_MESSAGE": "आपके जैविक प्रमाणन फ़ाइलों को डाउनलोड कर रहे हैं ...",
@@ -468,6 +511,9 @@
     "NEXT_WE_WILL_CHECK": "अगला हम जांच करेंगे कि आपके प्रमाणन प्रस्तुति को प्रक्रिया करने के लिए आपके प्रमाणक को कोई अतिरिक्त जानकारी की आवश्यकता है या नहीं।",
     "NOTE_CANNOT_RESUBMIT": "ध्यान दें: एक बार आप सर्वेक्षण प्रस्तुत करने के बाद आप अपने उत्तरों को संपादित नहीं कर पाएंगे। प्रस्तुत करने के बाद उन्हें बदलने के लिए, एक नया निर्यात शुरू करें।",
     "ORGANIC_CERTIFICATION_FROM": "जैविक प्रमाणन से",
+    "SELECT_EXPORT_CERTIFIER": "आप अपना LiteFarm डेटा किस प्रमाणन संस्था के लिए निर्यात करना चाहते हैं?",
+    "SELECT_CERTIFIER": "प्रमाणनकर्ता चुनें",
+    "SELECT_CERTIFIER_PLACEHOLDER": "अपने प्रमाणनकर्ताओं में से चुनें",
     "SELECT_REPORTING_PERIOD": "अपनी रिपोर्टिंग अवधि चुनें",
     "UH_OH": "उह ओह!",
     "WOULD_LIKE_ANSWERS": "आपके प्रमाणक आपसे दस्तावेज़ निर्यात करने से पहले कुछ अतिरिक्त प्रश्नों का उत्तर देना चाहेंगे।"
@@ -656,6 +702,9 @@
     "THURSDAY": "गु",
     "TUESDAY": "मं",
     "WEDNESDAY": "बु"
+  },
+  "DELETE_CONFIRMATION": {
+    "BODY": "क्या आप वाकई {{subject}} को हटाना चाहते हैं? यह कार्रवाई वापस नहीं की जा सकती।"
   },
   "DIRECTION": {
     "E": "पूरब",
@@ -1175,6 +1224,9 @@
       "SPECIES_COUNT_other": "{{count}} प्रजातियाँ",
       "TITLE": "जैव विविधता"
     },
+    "CATHI_GAO": {
+      "TITLE": "कैथी-गाओ अनुसंधान परियोजना"
+    },
     "CLICK_TO_CALCULATE": "गणना करने के लिए क्लिक करें",
     "CURRENT": "वर्तमान",
     "INFO": "इनसाइट्स आपकी फार्म पर हो रही गतिविधियों के बारे में अतिरिक्त डेटा अंतर्दृष्टि प्रदान करता है। जितना अधिक डेटा आप एप्लिकेशन में प्रदान करते हैं, उतनी ही अधिक अंतर्दृष्टि उत्पन्न की जा सकती है।",
@@ -1200,6 +1252,10 @@
       "HEADER": "मृदा कार्बनिक पदार्थ",
       "INFO": "मृदा कार्बनिक पदार्थ आपकी फसलों के लिए एक स्वस्थ मृदा वातावरण बनाए रखने के लिए आवश्यक है। हम आपके सबसे हाल के मृदा विश्लेषण कार्य के परिणामों से इस अंतर्दृष्टि को भरते हैं। यदि आपके पास कोई डेटा नहीं है तो हम आपके स्थान के लिए संभावित मृदा कार्बनिक पदार्थ का अनुमान लगाते हैं।",
       "TITLE": "मृदा ओएम"
+    },
+    "SURVEY": {
+      "THANK_YOU": "धन्यवाद। आपके उत्तर दर्ज कर लिए गए हैं।",
+      "TITLE": "सर्वेक्षण"
     },
     "TAPE": {
       "COMPLETED": "पूर्ण — अपने परिणाम देखें",
@@ -1287,6 +1343,7 @@
     "IRRIGATION_PRESCRIPTION_FILES": "सिंचाई निर्देश फ़ाइलें",
     "IRRIGATION_PRESCRIPTIONS": "सिंचाई निर्देश",
     "IRRIGATION_ZONE": "सिंचाई क्षेत्र",
+    "PLANT_AVAILABLE_WATER": "पौधों के लिए उपलब्ध जल",
     "PRESCRIPTION_DATE": "निर्देश की तिथि",
     "SOIL_MOISTURE_DEFICIT": "मृदा नमी की कमी",
     "START_DATE": "प्रारंभ तिथि",
@@ -1562,6 +1619,7 @@
     "MARKET_DIRECTORY_INFO": "बाज़ार निर्देशिका की जानकारी",
     "NO_PARTNER": "फ़िलहाल आपके क्षेत्र में हमारा कोई साझेदार नहीं है।",
     "PARTNERS": {
+      "GROWNBY_DESCRIPTION": "निःशुल्क खाता बनाएँ और GrownBy पर प्रकाशित हों",
       "OFN_DESCRIPTION": "एक निःशुल्क खाता बनाएँ और इस OFN निर्देशिका में प्रकाशित हों"
     },
     "WHERE_TO_BE_FEATURED": "आप कहाँ प्रदर्शित होना चाहेंगे?"
@@ -1991,9 +2049,17 @@
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "ड्रिप लाइन दबाव सेंसर",
+      "DRIPDRAIN_SENSOR": "ड्रिपड्रेन सेंसर",
+      "ET_SENSOR": "ईटी (वाष्पोत्सर्जन) सेंसर",
+      "HUMIDITY_SENSOR": "आर्द्रता सेंसर",
       "IR_TEMPERATURE_SENSOR": "आईआर तापमान सेंसर",
+      "SDI-12_WEATHER_STATION": "SDI-12 मौसम स्टेशन",
+      "SOIL_WATER_CONTENT_SENSOR": "मृदा जल मात्रा सेंसर",
       "SOIL_WATER_POTENTIAL_SENSOR": "मृदा जल संभाव्यता सेंसर",
+      "TIPPING_BUCKET_RAIN_GAUGE": "टिपिंग-बकेट वर्षामापी",
+      "TURBINE_FLOW_METER": "टरबाइन प्रवाह मीटर",
       "WEATHER_STATION": "मौसम स्टेशन",
+      "WIND_SENSOR_VOLTAGE": "पवन सेंसर वोल्टेज",
       "WIND_SPEED_SENSOR": "पवन वेग सेंसर"
     },
     "ESCI": {
@@ -2020,7 +2086,12 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "वायुमंडलीय दबाव",
       "CUMULATIVE_RAINFALL": "संचयी वर्षा",
+      "ELECTRICAL_CONDUCTIVITY": "विद्युत चालकता",
+      "EVAPOTRANSPIRATION": "वाष्पोत्सर्जन",
+      "HEAT_FLUX": "ऊष्मा प्रवाह",
+      "LATENT_ENERGY_FLUX": "गुप्त ऊर्जा प्रवाह",
       "LATEST_READING": "नवीनतम रीडिंग:",
+      "MOISTURE": "नमी",
       "RAINFALL_RATE": "वर्षा की दर",
       "RELATIVE_HUMIDITY": "सापेक्ष आर्द्रता",
       "SOIL_WATER_CONTENT": "मिट्टी का जल सामग्री",
@@ -2030,7 +2101,10 @@
       "TYPES": "रीडिंग प्रकार",
       "UNKNOWN": "अज्ञात",
       "UPDATE_READINGS": "रीडिंग अपडेट करें",
+      "VAPOR_PRESSURE_DEFICIT": "वाष्प दाब घाटा",
+      "VOLUME": "आयतन",
       "WATER_PRESSURE": "जल दबाव",
+      "WET_BULB_TEMPERATURE": "आर्द्र बल्ब तापमान",
       "WIND_DIRECTION": "पवन दिशा",
       "WIND_SPEED": "पवन वेग",
       "WIND_SPEED_AND_DIRECTION": "पवन वेग और दिशा"

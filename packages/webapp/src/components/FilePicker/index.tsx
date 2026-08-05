@@ -18,7 +18,7 @@ import { ContainerWithIcon } from '../ContainerWithIcon/ContainerWithIcon';
 import { ReactComponent as TrashIcon } from '../../assets/images/document/trash.svg';
 import { FilePickerFunctions } from './useFilePickerUpload';
 import { mediaEnum } from '../../containers/MediaWithAuthentication/constants';
-import CertifierSelectionMenuItem from '../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import MenuItem from '../MenuItem';
 import { Loading } from '../Loading/Loading';
 
 type UploadedFile = {
@@ -66,7 +66,7 @@ const FilePicker = ({
               mediaType: mediaEnum.IMAGE,
             })
           ) : (
-            <CertifierSelectionMenuItem certifierName={file_name} />
+            <MenuItem label={file_name} />
           )}
         </ContainerWithIcon>
       ))}

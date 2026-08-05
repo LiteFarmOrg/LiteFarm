@@ -8,6 +8,10 @@ import { APP_VERSION } from '../util/constants';
 
 // Backend Fallback: https://www.i18next.com/how-to/backend-fallback
 
+// TODO: LF-5430 Revert to re-add Khmer
+// Explicit language list to exclude km
+const offlineLocales = import.meta.glob('../../public/locales/{en,es,de,fr,pt,hi,pa,ml}/*.json');
+
 i18n
   .use(ChainedBackend)
   .use(initReactI18next)
@@ -16,6 +20,7 @@ i18n
     defaultNS: 'translation',
     nsSeparator: ':',
     fallbackLng: 'en',
+    // TODO: LF-5430 Re-add Khmer
     supportedLngs: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'], // i18n allow list
     locales: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'],
     debug: false,
@@ -32,10 +37,10 @@ i18n
       backends: [
         HttpBackend,
         resourcesToBackend((lng, ns) => {
-          if (lng === i18n.language) {
-            return import(`../../public/locales/${lng}/${ns}.json`);
-          } else if (lng === 'en') {
-            return import(`../../public/locales/${lng}/${ns}.json`);
+          const isAvailable = lng === i18n.language || lng === 'en';
+          const loadOfflineLocale = offlineLocales[`../../public/locales/${lng}/${ns}.json`];
+          if (isAvailable && loadOfflineLocale) {
+            return loadOfflineLocale();
           }
           throw new Error(`Language ${lng} not available offline`);
         }),

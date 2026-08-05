@@ -1,8 +1,8 @@
 import { useHistory, useParams } from 'react-router-dom';
 import PureEditCropVariety from '../../components/EditCropVariety';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { postCropAndVarietal, postVarietal } from './saga';
-import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
+import { useHasCertifications } from '../../hooks/useHasCertifications';
 // import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import ImagePickerWrapper from '../ImagePickerWrapper';
 import { AddLink } from '../../components/Typography';
@@ -17,7 +17,7 @@ function EditCropVarietyForm() {
   const dispatch = useDispatch();
   const { variety_id } = useParams();
   const cropVariety = useSelector(cropVarietySelector(variety_id));
-  const { interested } = useSelector(certifierSurveySelector, shallowEqual);
+  const hasCertifications = useHasCertifications();
 
   const onError = (error) => {
     console.log(error);
@@ -38,7 +38,7 @@ function EditCropVarietyForm() {
     <PureEditCropVariety
       onSubmit={onSubmit}
       onError={onError}
-      isSeekingCert={interested}
+      isSeekingCert={hasCertifications}
       imageUploader={
         <ImagePickerWrapper>
           <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>

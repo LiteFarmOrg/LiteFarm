@@ -309,8 +309,6 @@ const loginController = {
           return res.sendStatus(401);
         }
 
-        // The insert is what claims the ticket. A second, concurrent exchange of the same ticket
-        // conflicts on the primary key, is ignored, and returns no row.
         const claimed = await knex.transaction(async (trx) => {
           await trx('dashboard_ticket_use')
             .whereRaw("used_at < now() - interval '5 minutes'")
@@ -322,6 +320,7 @@ const loginController = {
             .ignore()
             .returning('jti');
 
+          // False when this ticket has already been exchanged
           return inserted.length > 0;
         });
 
@@ -343,8 +342,6 @@ const loginController = {
           .andWhere('userFarm.status', 'Active')
           .andWhere('farm.deleted', false);
 
-        // The Dashboard writes this farm_id into its session as the active farm without checking
-        // it appears in farms, so membership is confirmed here.
         if (farm_id && !farms.some((farm) => farm.farm_id === farm_id)) {
           return res.sendStatus(401);
         }

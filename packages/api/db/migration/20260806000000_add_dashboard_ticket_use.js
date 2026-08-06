@@ -20,7 +20,7 @@
 export const up = async function (knex) {
   await knex.schema.createTable('dashboard_ticket_use', (table) => {
     table.text('jti').primary();
-    table.timestamp('used_at', { useTz: true }).notNullable().defaultTo(knex.fn.now());
+    table.timestamp('used_at').notNullable().defaultTo(knex.fn.now());
   });
 };
 

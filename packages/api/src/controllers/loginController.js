@@ -24,6 +24,7 @@ import parser from 'ua-parser-js';
 import UserLogModel from '../models/userLogModel.js';
 import EmailModel from '../models/emailTokenModel.js';
 import { createToken } from '../util/jwt.js';
+import { randomUUID } from 'crypto';
 
 const loginController = {
   authenticateUser() {
@@ -239,6 +240,46 @@ const loginController = {
         return res.status(400).json({
           error,
         });
+      }
+    };
+  },
+
+  dashboardIssueTicket() {
+    return async (req, res) => {
+      try {
+        const { user_id } = req.auth;
+        const { return_to, farm_id } = req.body;
+
+        const allowedReturnAddresses = (process.env.DASHBOARD_ALLOWED_RETURN_TO ?? '')
+          .split(',')
+          .map((address) => address.trim())
+          // Without this, an unset variable produces [''] and return_to: '' is allowed
+          .filter(Boolean);
+
+        // Exact string match: a prefix, suffix or substring of an allowed address is not a match.
+        if (!allowedReturnAddresses.includes(return_to)) {
+          return res.status(400).send({ message: 'return_to is not an allowed address.' });
+        }
+
+        if (farm_id) {
+          const userFarm = await UserFarmModel.query()
+            .where({ user_id, farm_id, status: 'Active' })
+            .first();
+          if (!userFarm) {
+            return res.sendStatus(403);
+          }
+        }
+
+        const ticket = await createToken('dashboard', {
+          user_id,
+          farm_id: farm_id ?? null,
+          jti: randomUUID(),
+        });
+
+        return res.status(200).send({ ticket, return_to });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
       }
     };
   },

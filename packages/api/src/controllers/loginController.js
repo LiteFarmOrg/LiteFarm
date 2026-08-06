@@ -247,18 +247,13 @@ const loginController = {
   dashboardIssueTicket() {
     return async (req, res) => {
       try {
-        // The signed-in user only. A user_id in the body is ignored, so a ticket can never name
-        // anyone but the caller.
         const { user_id } = req.auth;
         const { return_to, farm_id } = req.body;
 
-        // The addresses the Analytics Dashboard is served at, and the only ones a ticket may be
-        // handed to. Read per request so a test can set the variable after importing this module.
-        // filter(Boolean) drops the empty string an unset or blank variable would otherwise
-        // produce, so a missing configuration rejects every address instead of matching ''.
         const allowedReturnAddresses = (process.env.DASHBOARD_ALLOWED_RETURN_TO ?? '')
           .split(',')
           .map((address) => address.trim())
+          // Without this, an unset variable produces [''] and return_to: '' is allowed
           .filter(Boolean);
 
         // Exact string match: a prefix, suffix or substring of an allowed address is not a match.
@@ -281,8 +276,6 @@ const loginController = {
           jti: randomUUID(),
         });
 
-        // The validated return_to is echoed back so the web app navigates to an address the
-        // server approved rather than to its own copy of the value.
         return res.status(200).send({ ticket, return_to });
       } catch (error) {
         console.error(error);

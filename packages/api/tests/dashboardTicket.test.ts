@@ -33,12 +33,7 @@ jest.mock('../src/templates/sendEmailTemplate.js', () => ({
   sendEmail: jest.fn(),
   emails: { INVITATION: { path: 'invitation_to_farm_email' } },
 }));
-// checkJwt and util/jwt.js are deliberately not mocked: the real middleware and the real signer
-// are both under test.
 
-// The allowlist is supplied by DASHBOARD_ALLOWED_RETURN_TO, so these stand in for the real
-// deployment addresses. Every near-miss case below is derived from the first entry, and stays
-// correct if these change.
 const ALLOWED_RETURN_ADDRESSES = [
   'https://dashboard.test/auth/finish',
   'https://second-host.test/litefarm/auth/finish',

@@ -309,7 +309,7 @@ const loginController = {
           return res.sendStatus(401);
         }
 
-        const claimed = await knex.transaction(async (trx) => {
+        const claimSucceeded = await knex.transaction(async (trx) => {
           await trx('dashboard_ticket_use')
             .whereRaw("used_at < now() - interval '5 minutes'")
             .del();
@@ -324,7 +324,7 @@ const loginController = {
           return inserted.length > 0;
         });
 
-        if (!claimed) {
+        if (!claimSucceeded) {
           return res.sendStatus(401);
         }
 

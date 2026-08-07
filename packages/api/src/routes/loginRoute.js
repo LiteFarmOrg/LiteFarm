@@ -10,5 +10,6 @@ router.get('/user/:email', loginController.getUserNameByUserEmail());
 // This router is mounted before the global checkJwt in server.ts,
 // so the middleware is attached here to make the endpoint require a login token
 router.post('/dashboard/ticket', checkJwt, loginController.dashboardIssueTicket());
+router.post('/dashboard/exchange', loginController.dashboardExchange());
 
 export default router;

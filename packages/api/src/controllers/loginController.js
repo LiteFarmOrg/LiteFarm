@@ -25,6 +25,8 @@ import UserLogModel from '../models/userLogModel.js';
 import EmailModel from '../models/emailTokenModel.js';
 import { createToken } from '../util/jwt.js';
 import { randomUUID } from 'crypto';
+import jwt from 'jsonwebtoken';
+import knex from '../util/knex.js';
 
 const loginController = {
   authenticateUser() {
@@ -277,6 +279,80 @@ const loginController = {
         });
 
         return res.status(200).send({ ticket, return_to });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
+    };
+  },
+
+  dashboardExchange() {
+    return async (req, res) => {
+      try {
+        const { ticket } = req.body;
+
+        if (!ticket) {
+          return res.status(400).send({ message: 'ticket is required.' });
+        }
+
+        let payload;
+        try {
+          payload = jwt.verify(ticket, process.env.JWT_DASHBOARD_SECRET, {
+            algorithms: ['HS256'],
+          });
+        } catch (_verificationError) {
+          return res.sendStatus(401);
+        }
+
+        const { jti, user_id, farm_id } = payload;
+        if (!jti || !user_id) {
+          return res.sendStatus(401);
+        }
+
+        const claimSucceeded = await knex.transaction(async (trx) => {
+          await trx('dashboard_ticket_use')
+            .whereRaw("used_at < now() - interval '5 minutes'")
+            .del();
+
+          const inserted = await trx('dashboard_ticket_use')
+            .insert({ jti })
+            .onConflict('jti')
+            .ignore()
+            .returning('jti');
+
+          // False when this ticket has already been exchanged
+          return inserted.length > 0;
+        });
+
+        if (!claimSucceeded) {
+          return res.sendStatus(401);
+        }
+
+        const user = await UserModel.query()
+          .select('user_id', 'email', 'first_name')
+          .findById(user_id);
+        if (!user) {
+          return res.sendStatus(401);
+        }
+
+        const farms = await UserFarmModel.query()
+          .select('userFarm.farm_id', 'farm.farm_name', 'userFarm.role_id')
+          .join('farm', 'userFarm.farm_id', 'farm.farm_id')
+          .where('userFarm.user_id', user_id)
+          .andWhere('userFarm.status', 'Active')
+          .andWhere('farm.deleted', false);
+
+        if (farm_id && !farms.some((farm) => farm.farm_id === farm_id)) {
+          return res.sendStatus(401);
+        }
+
+        return res.status(200).send({
+          user_id: user.user_id,
+          email: user.email,
+          first_name: user.first_name,
+          farm_id: farm_id ?? null,
+          farms,
+        });
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });

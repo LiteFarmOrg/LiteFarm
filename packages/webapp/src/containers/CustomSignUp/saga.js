@@ -25,6 +25,7 @@ import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey, setPasswordResetError } from '../customSignUpSlice';
+import { handOffToDashboardIfRequested } from '../dashboardTicketSaga';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
@@ -93,7 +94,10 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
     localStorage.setItem('id_token', id_token);
 
     yield put(loginSuccess({ user_id }));
-    history.push('/farm_selection');
+    const handedOff = yield call(handOffToDashboardIfRequested);
+    if (!handedOff) {
+      history.push('/farm_selection');
+    }
   } catch (e) {
     if (e.response?.status === 401) {
       showPasswordError();
@@ -137,7 +141,10 @@ export function* customCreateUserSaga({ payload: data }) {
 
       localStorage.setItem('litefarm_lang', language_preference);
       yield put(loginSuccess({ user_id }));
-      history.push('/farm_selection');
+      const handedOff = yield call(handOffToDashboardIfRequested);
+      if (!handedOff) {
+        history.push('/farm_selection');
+      }
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.INVITE')));

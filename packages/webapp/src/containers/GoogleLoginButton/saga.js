@@ -10,6 +10,7 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey } from '../customSignUpSlice';
 import { inlineErrors } from '../CustomSignUp/constants';
+import { handOffToDashboardIfRequested } from '../dashboardTicketSaga';
 
 const loginUrl = () => `${url}/google`;
 
@@ -49,10 +50,13 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       );
     } else {
       yield put(loginSuccess(user));
-      if (isSignUp) {
-        history.push('/welcome');
-      } else {
-        history.push('/farm_selection');
+      const handedOff = yield call(handOffToDashboardIfRequested);
+      if (!handedOff) {
+        if (isSignUp) {
+          history.push('/welcome');
+        } else {
+          history.push('/farm_selection');
+        }
       }
     }
   } catch (e) {

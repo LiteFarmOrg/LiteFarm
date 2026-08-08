@@ -10,7 +10,7 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { setCustomSignUpErrorKey } from '../customSignUpSlice';
 import { inlineErrors } from '../CustomSignUp/constants';
-import { handOffToDashboardIfRequested } from '../dashboardTicketSaga';
+import { handOffToDashboardIfRequested } from '../dashboardTicketHandoff';
 
 const loginUrl = () => `${url}/google`;
 

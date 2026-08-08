@@ -22,7 +22,7 @@ import {
   isHandingOffToDashboardSelector,
   setDashboardReturnTo,
 } from '../dashboardTicketSlice';
-import { handOffToDashboard } from '../dashboardTicketSaga';
+import { handOffToDashboardIfRequested } from '../dashboardTicketHandoff';
 
 /**
  * Captures the Analytics Dashboard return address on arrival and, when a LiteFarm session
@@ -47,7 +47,7 @@ export default function useDashboardHandoff(): boolean {
 
     if (returnTo && isAuthenticated()) {
       dispatch(dashboardHandOffStarted());
-      dispatch(handOffToDashboard());
+      handOffToDashboardIfRequested();
     }
   }, []);
 

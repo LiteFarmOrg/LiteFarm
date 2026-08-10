@@ -16,13 +16,11 @@
 import { getReturnToFromSearch } from '../util/dashboardTicket';
 
 /**
- * The Analytics Dashboard return address for this page load.
+ * The Analytics Dashboard return address, read from the URL query string when this module first
+ * loads. `CustomSignUp` later calls `history.replace` with a URL that has no query string, so
+ * reading it any later finds nothing.
  *
- * Read at module evaluation, which happens before any component renders and therefore before
- * `CustomSignUp` replaces the location with one that carries no search string.
- *
- * The value belongs to one document. It is never written to storage, so it cannot be
- * rehydrated into a later ordinary sign-in, and one tab cannot read another tab's address.
+ * Not stored anywhere: a reload or a second tab starts from whatever its own URL carries.
  */
 let returnTo: string | null = getReturnToFromSearch(window.location.search);
 

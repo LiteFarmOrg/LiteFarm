@@ -26,9 +26,6 @@ import { clearDashboardReturnTo, getDashboardReturnTo } from './dashboardReturnT
  * Requests a ticket and sends the browser to the Analytics Dashboard when the user arrived
  * with a return address. Resolves true when it has navigated away, false when the caller
  * should continue to its ordinary destination.
- *
- * Reads the store directly rather than taking `dispatch` as an argument, so that a saga
- * (`yield call(handOffToDashboardIfRequested)`) and the arrival hook can share one call.
  */
 export async function handOffToDashboardIfRequested(): Promise<boolean> {
   const returnTo = getDashboardReturnTo();
@@ -37,9 +34,7 @@ export async function handOffToDashboardIfRequested(): Promise<boolean> {
     return false;
   }
 
-  // store.ts annotates its middleware array as Middleware[], which reduces the store's
-  // dispatch type to Dispatch<AnyAction>. Starting an RTK Query endpoint needs the thunk
-  // signature that annotation discards.
+  // store.ts types its middleware as Middleware[], which narrows store.dispatch to plain actions
   const dispatch = store.dispatch as ThunkDispatch<RootState, unknown, AnyAction>;
 
   const request = dispatch(
@@ -49,8 +44,6 @@ export async function handOffToDashboardIfRequested(): Promise<boolean> {
   try {
     const { ticket, return_to } = await request.unwrap();
     clearDashboardReturnTo();
-    // Navigate to the address the API returned, so the browser is only ever sent
-    // somewhere the server approved.
     window.location.replace(buildDashboardTicketUrl(return_to, ticket));
     return true;
   } catch (e) {
@@ -66,8 +59,7 @@ export async function handOffToDashboardIfRequested(): Promise<boolean> {
     clearDashboardReturnTo();
     return false;
   } finally {
-    // The whole store is persisted to localStorage, mutation results included. Dropping
-    // the cache entry keeps the ticket out of storage.
+    // The ticket is a credential, and a mutation result stays in the RTK Query cache until reset
     request.reset();
   }
 }

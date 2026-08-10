@@ -19,12 +19,12 @@ import { getDashboardReturnTo } from '../dashboardReturnTo';
 import { handOffToDashboardIfRequested } from '../dashboardTicketHandoff';
 
 /**
- * Starts the hand-off to the Analytics Dashboard when the user arrived with a return address
- * and a LiteFarm session is already present.
+ * Starts the hand-off to the Analytics Dashboard when the user arrived with a return address and
+ * is already signed in.
  *
- * Returns true while the request is in flight, so the caller can render a Spinner in place of
- * the route tree. The initial value is computed during the first render, so the route tree is
- * never rendered before the redirect.
+ * Returns true until the ticket request finishes, so the caller can render a Spinner instead of a
+ * route. The first value is computed during the first render, so no route renders before the
+ * redirect.
  */
 export default function useDashboardHandoff(): boolean {
   const [isHandingOff, setIsHandingOff] = useState(
@@ -36,8 +36,7 @@ export default function useDashboardHandoff(): boolean {
       return;
     }
 
-    // On success the browser leaves LiteFarm, so only a failure needs to release the route
-    // tree, and it lands the user on their ordinary destination.
+    // On success the browser has already left LiteFarm, so only a failure stops the Spinner
     handOffToDashboardIfRequested().then((handedOff) => {
       if (!handedOff) {
         setIsHandingOff(false);

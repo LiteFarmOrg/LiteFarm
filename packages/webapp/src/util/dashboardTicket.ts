@@ -13,25 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- * The query parameter the Analytics Dashboard uses to tell LiteFarm where to send the
- * browser once the user is signed in and a ticket has been issued.
- */
 export const DASHBOARD_RETURN_TO_PARAM = 'return_to';
 
-/**
- * Reads the return address out of a location search string. The value is not validated
- * here: the API checks it against its allowlist and refuses to issue a ticket for an
- * address that is not on it.
- */
+/** Not validated here — the API refuses a ticket for an address off its allowlist */
 export function getReturnToFromSearch(search: string): string | null {
   return new URLSearchParams(search).get(DASHBOARD_RETURN_TO_PARAM) || null;
 }
 
-/**
- * Attaches the ticket to the return address, preserving any query string the address
- * already carries.
- */
 export function buildDashboardTicketUrl(returnTo: string, ticket: string): string {
   const url = new URL(returnTo);
   url.searchParams.set('ticket', ticket);

@@ -228,8 +228,6 @@ const Routes = ({ isCompactSideMenu }) => {
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_one && step_five;
 
-  // A signed-in user who arrived with a Dashboard return address leaves LiteFarm as soon as
-  // the ticket comes back, so no route is rendered in the meantime.
   if (isHandingOffToDashboard) {
     return <Spinner />;
   }

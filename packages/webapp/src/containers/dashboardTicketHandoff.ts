@@ -19,7 +19,7 @@ import { store, RootState } from '../store/store';
 import { dashboardTicketApi } from '../store/api/dashboardTicketApi';
 import { buildDashboardTicketUrl } from '../util/dashboardTicket';
 import { enqueueErrorSnackbar } from './Snackbar/snackbarSlice';
-import { dashboardHandOffEnded, dashboardReturnToSelector } from './dashboardTicketSlice';
+import { clearDashboardReturnTo, getDashboardReturnTo } from './dashboardReturnTo';
 
 /**
  * Requests a ticket and sends the browser to the Analytics Dashboard when the user arrived
@@ -30,7 +30,7 @@ import { dashboardHandOffEnded, dashboardReturnToSelector } from './dashboardTic
  * (`yield call(handOffToDashboardIfRequested)`) and the arrival hook can share one call.
  */
 export async function handOffToDashboardIfRequested(): Promise<boolean> {
-  const returnTo = dashboardReturnToSelector(store.getState());
+  const returnTo = getDashboardReturnTo();
 
   if (!returnTo) {
     return false;
@@ -47,7 +47,7 @@ export async function handOffToDashboardIfRequested(): Promise<boolean> {
 
   try {
     const { ticket, return_to } = await request.unwrap();
-    dispatch(dashboardHandOffEnded());
+    clearDashboardReturnTo();
     // Navigate to the address the API returned, so the browser is only ever sent
     // somewhere the server approved.
     window.location.replace(buildDashboardTicketUrl(return_to, ticket));
@@ -55,7 +55,7 @@ export async function handOffToDashboardIfRequested(): Promise<boolean> {
   } catch (e) {
     console.error(e);
     dispatch(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.DASHBOARD_TICKET')));
-    dispatch(dashboardHandOffEnded());
+    clearDashboardReturnTo();
     return false;
   } finally {
     // The whole store is persisted to localStorage, mutation results included. Dropping

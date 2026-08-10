@@ -21,7 +21,7 @@ import {
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
-import { dashboardReturnToSelector } from '../dashboardTicketSlice';
+import { getDashboardReturnTo } from '../dashboardReturnTo';
 import { VALID_EMAIL_REGEX } from '../../util/validation';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
@@ -60,7 +60,7 @@ function CustomSignUp() {
   const { t, i18n, ready } = useTranslation(['translation', 'common'], { useSuspense: false });
 
   const customSignUpErrorKey = useSelector(customSignUpErrorKeySelector);
-  const dashboardReturnTo = useSelector(dashboardReturnToSelector);
+  const dashboardReturnTo = getDashboardReturnTo();
   const [submittedEmail, setSubmittedEmail] = useState('');
 
   const forgotPassword = () => {

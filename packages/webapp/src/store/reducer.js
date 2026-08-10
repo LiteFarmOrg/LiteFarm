@@ -64,7 +64,6 @@ import documentReducer from '../containers/documentSlice';
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
 import customSignUpReducer from '../containers/customSignUpSlice';
-import dashboardTicketReducer from '../containers/dashboardTicketSlice';
 import fieldWorkTypeReducer from '../containers/fieldWorkTypeSlice';
 import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
@@ -197,7 +196,6 @@ const tempStateReducer = combineReducers({
   filterReducer,
   snackbarReducer,
   customSignUpReducer,
-  dashboardTicketReducer,
   offlineDetectorReducer,
   offlineReadinessReducer,
 });

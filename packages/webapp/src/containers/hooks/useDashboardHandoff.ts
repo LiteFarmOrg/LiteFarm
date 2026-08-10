@@ -14,41 +14,35 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { isAuthenticated } from '../../util/jwt';
-import { getReturnToFromSearch } from '../../util/dashboardTicket';
-import {
-  dashboardHandOffStarted,
-  isHandingOffToDashboardSelector,
-  setDashboardReturnTo,
-} from '../dashboardTicketSlice';
+import { getDashboardReturnTo } from '../dashboardReturnTo';
 import { handOffToDashboardIfRequested } from '../dashboardTicketHandoff';
 
 /**
- * Captures the Analytics Dashboard return address on arrival and, when a LiteFarm session
- * is already present, starts the hand-off at once.
+ * Starts the hand-off to the Analytics Dashboard when the user arrived with a return address
+ * and a LiteFarm session is already present.
  *
- * The address is read during render because `CustomSignUp` is a child of `Routes` and
- * replaces the location with one that carries no search string. React runs child effects
- * before parent effects, so an effect here would already see an empty search string.
- *
- * Returns true while the hand-off is in flight, so the caller can render a Spinner in
- * place of the route tree.
+ * Returns true while the request is in flight, so the caller can render a Spinner in place of
+ * the route tree. The initial value is computed during the first render, so the route tree is
+ * never rendered before the redirect.
  */
 export default function useDashboardHandoff(): boolean {
-  const dispatch = useDispatch();
-  const [returnTo] = useState(() => getReturnToFromSearch(window.location.search));
-  const isHandingOff = useSelector(isHandingOffToDashboardSelector);
+  const [isHandingOff, setIsHandingOff] = useState(
+    () => !!getDashboardReturnTo() && isAuthenticated(),
+  );
 
   useEffect(() => {
-    // Written on every arrival, null included, so a value persisted by Redux Persist from
-    // an earlier page load cannot reach a later ordinary sign-in.
-    dispatch(setDashboardReturnTo(returnTo));
-
-    if (returnTo && isAuthenticated()) {
-      dispatch(dashboardHandOffStarted());
-      handOffToDashboardIfRequested();
+    if (!isHandingOff) {
+      return;
     }
+
+    // On success the browser leaves LiteFarm, so only a failure needs to release the route
+    // tree, and it lands the user on their ordinary destination.
+    handOffToDashboardIfRequested().then((handedOff) => {
+      if (!handedOff) {
+        setIsHandingOff(false);
+      }
+    });
   }, []);
 
   return isHandingOff;

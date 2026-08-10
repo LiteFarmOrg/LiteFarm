@@ -23,6 +23,27 @@
   align-items: center;
 }
 
+// Draft placement pending design: sits between the logo and the release card.
+.dashboardSignIn {
+  padding-top: 24px;
+  max-width: 312px;
+  text-align: center;
+}
+
+.dashboardSignInTitle {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--fontColor);
+}
+
+.dashboardSignInSubtitle {
+  padding-top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--grey600);
+}
+
 .ssoButton {
   margin: auto;
   padding-top: 32px;

@@ -2117,6 +2117,8 @@
   },
   "SIGNUP": {
     "CHANGES": "Read about the changes",
+    "DASHBOARD_CONTINUE_TO": "Continue to the Data Dashboard",
+    "DASHBOARD_SIGN_IN_WITH": "Sign in with your LiteFarm account",
     "EMAIL_INVALID": "Email is invalid",
     "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",

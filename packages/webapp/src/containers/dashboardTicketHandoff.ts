@@ -18,6 +18,7 @@ import i18n from '../locales/i18n';
 import { store, RootState } from '../store/store';
 import { dashboardTicketApi } from '../store/api/dashboardTicketApi';
 import { buildDashboardTicketUrl } from '../util/dashboardTicket';
+import { logout } from '../util/jwt';
 import { enqueueErrorSnackbar } from './Snackbar/snackbarSlice';
 import { clearDashboardReturnTo, getDashboardReturnTo } from './dashboardReturnTo';
 
@@ -54,6 +55,13 @@ export async function handOffToDashboardIfRequested(): Promise<boolean> {
     return true;
   } catch (e) {
     console.error(e);
+
+    // Sign out, but keep the address so the sign-in that follows completes the hand-off
+    if (typeof e === 'object' && e !== null && 'status' in e && e.status === 401) {
+      logout();
+      return false;
+    }
+
     dispatch(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.DASHBOARD_TICKET')));
     clearDashboardReturnTo();
     return false;

@@ -24,6 +24,7 @@ export default function PureCustomSignUp({
   classes = {},
   isChrome = true,
   errorMessage = undefined,
+  isDashboardSignIn = false,
 }) {
   const { t } = useTranslation();
   const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
@@ -33,7 +34,17 @@ export default function PureCustomSignUp({
       <div className={styles.lander}>
         <div className={styles.greetContainer}>
           <Logo />
-          <NewReleaseCard style={{ marginTop: '32px', maxWidth: '312px' }} />
+          {isDashboardSignIn && (
+            <div className={styles.dashboardSignIn}>
+              <div className={styles.dashboardSignInTitle}>{t('SIGNUP.DASHBOARD_CONTINUE_TO')}</div>
+              <div className={styles.dashboardSignInSubtitle}>
+                {t('SIGNUP.DASHBOARD_SIGN_IN_WITH')}
+              </div>
+            </div>
+          )}
+          {!isDashboardSignIn && (
+            <NewReleaseCard style={{ marginTop: '32px', maxWidth: '312px' }} />
+          )}
           {(!isChrome || !!errorMessage) && (
             <div className={styles.otherBrowserMessageTop}>
               {errorMessage ? (
@@ -88,4 +99,5 @@ PureCustomSignUp.prototype = {
   GoogleLoginButton: PropTypes.node,
   classes: PropTypes.objectOf(PropTypes.object),
   errorMessage: PropTypes.string,
+  isDashboardSignIn: PropTypes.bool,
 };

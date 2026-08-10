@@ -148,6 +148,7 @@
   },
   "LOGIN": {
     "ERROR": {
+      "DASHBOARD_TICKET": "Could not connect to the Data Dashboard. Please try again.",
       "LOGIN_FAIL": "Failed to login user info"
     }
   },

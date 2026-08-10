@@ -28,6 +28,7 @@ import { isAuthenticated } from '../util/jwt';
 import { userFarmSelector } from '../containers/userFarmSlice';
 import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import useScrollToTop from '../containers/hooks/useScrollToTop';
+import useDashboardHandoff from '../containers/hooks/useDashboardHandoff';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 import {
@@ -207,6 +208,7 @@ const UnknownRecord = React.lazy(
 const Routes = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
+  const isHandingOffToDashboard = useDashboardHandoff();
   const userFarm = useSelector(
     userFarmSelector,
     (pre, next) =>
@@ -225,6 +227,10 @@ const Routes = ({ isCompactSideMenu }) => {
   let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_one && step_five;
+
+  if (isHandingOffToDashboard) {
+    return <Spinner />;
+  }
 
   return (
     <Suspense fallback={<Spinner />}>

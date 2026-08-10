@@ -21,6 +21,7 @@ import {
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
+import { getDashboardReturnTo } from '../dashboardReturnTo';
 import { VALID_EMAIL_REGEX } from '../../util/validation';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
@@ -59,6 +60,7 @@ function CustomSignUp() {
   const { t, i18n, ready } = useTranslation(['translation', 'common'], { useSuspense: false });
 
   const customSignUpErrorKey = useSelector(customSignUpErrorKeySelector);
+  const dashboardReturnTo = getDashboardReturnTo();
   const [submittedEmail, setSubmittedEmail] = useState('');
 
   const forgotPassword = () => {
@@ -173,6 +175,7 @@ function CustomSignUp() {
           GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
           isChrome={isChrome()}
           errorMessage={errorMessage}
+          isDashboardSignIn={!!dashboardReturnTo}
           inputs={[
             {
               label: t('SIGNUP.ENTER_EMAIL'),

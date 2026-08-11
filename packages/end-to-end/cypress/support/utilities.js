@@ -12,34 +12,20 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+export async function loadTranslations({ additionalTranslation, user }) {
+  const lang = user.language_preference;
 
-export const loadTranslationsAndConfigureUserFarm = ({ additionalTranslation }) => {
-  return cy.fixture('e2e-test-users.json').then((loadedUsers) => {
-    const users = loadedUsers;
-    const user = users[Cypress.env('USER')];
+  const [translation, additional] = await Promise.all([
+    fetch(`/locales/${lang}/translation.json`).then((r) => {
+      if (!r.ok) throw new Error(`Failed to load translation.json`);
+      return r.json();
+    }),
+    fetch(`/locales/${lang}/${additionalTranslation}.json`).then((r) => {
+      if (!r.ok) throw new Error(`Failed to load ${additionalTranslation}.json`);
+      return r.json();
+    }),
+  ]);
 
-    return cy
-      .fixture('../../../webapp/public/locales/' + user.locale + '/translation.json')
-      .then((translation) => {
-        cy.visit('/');
+  return [translation, additional];
+}
 
-        cy.loginOrCreateAccount(
-          user.email,
-          user.password,
-          user.name,
-          user.language,
-          translation['MENU']['CROPS'],
-          translation['MENU']['MAP'],
-          translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
-        );
-
-        return cy
-          .fixture(
-            '../../../webapp/public/locales/' + user.locale + `/${additionalTranslation}.json`,
-          )
-          .then((additionalTranslationData) => {
-            return [translation, additionalTranslationData];
-          });
-      });
-  });
-};

@@ -25,8 +25,7 @@ import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenConte
 import checkUserFarmStatus from '../middleware/acl/checkUserFarmStatus.js';
 
 // Get all userFarms for a specified user
-// no permission limits
-router.get('/user/:user_id', userFarmController.getUserFarmByUserID());
+router.get('/user/:user_id', isSelf, userFarmController.getUserFarmByUserID());
 
 // Get info on all users (userFarm) at a farm
 router.get(

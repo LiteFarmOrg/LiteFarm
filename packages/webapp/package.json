@@ -124,6 +124,7 @@
     "@storybook/react-vite": "^8.2.8",
     "@storybook/test": "^8.2.8",
     "@storybook/test-runner": "^0.19.1",
+    "@testing-library/react": "^16.3.2",
     "@types/d3": "^7.4.0",
     "@types/google.maps": "^3.58.1",
     "@types/history": "4",

@@ -40,8 +40,13 @@ import userModel from '../src/models/userModel.js';
 describe('User Farm Tests', () => {
   // let middleware;
 
-  function getUserFarmsOfUserRequest({ user_id }, callback) {
-    chai.request(server).get(`/user_farm/user/${user_id}`).end(callback);
+  // The mocked checkJwt above reads the authenticated user from the user_id header, so that header
+  // is what stands in for the caller's token
+  function getUserFarmsOfUserRequest({ user_id, requesting_user_id = user_id }) {
+    return chai
+      .request(server)
+      .get(`/user_farm/user/${user_id}`)
+      .set('user_id', requesting_user_id);
   }
 
   // note: the object that is sent should be adjusted to not include consent_version
@@ -217,11 +222,22 @@ describe('User Farm Tests', () => {
     await createUserFarmForUser({}, user);
     await createUserFarmForUser({}, user);
 
-    getUserFarmsOfUserRequest({ user_id: user.user_id }, async (_err, res) => {
-      expect(_err).toEqual(null);
-      expect(res.status).toBe(200);
-      expect(res.body.length).toBe(3);
+    const res = await getUserFarmsOfUserRequest({ user_id: user.user_id });
+
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(3);
+  });
+
+  test('Get all user farms of another user is forbidden', async () => {
+    const { user } = await setupUserFarm({});
+    const { user: otherUser } = await setupUserFarm({});
+
+    const res = await getUserFarmsOfUserRequest({
+      user_id: user.user_id,
+      requesting_user_id: otherUser.user_id,
     });
+
+    expect(res.status).toBe(403);
   });
 
   test('Update consent status for user farm', async () => {

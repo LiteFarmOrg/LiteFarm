@@ -14,7 +14,6 @@
  */
 
 import { useEffect, useState } from 'react';
-import { isAuthenticated } from '../../util/jwt';
 import { getDashboardReturnTo } from '../dashboardReturnTo';
 import { handOffToDashboardIfRequested } from '../dashboardTicketHandoff';
 
@@ -25,11 +24,11 @@ import { handOffToDashboardIfRequested } from '../dashboardTicketHandoff';
  * Returns true until the ticket request finishes, so the caller can render a Spinner instead of a
  * route. The first value is computed during the first render, so no route renders before the
  * redirect.
+ *
+ * @param isSignedIn whether the browser holds a session the app can use.
  */
-export default function useDashboardHandoff(): boolean {
-  const [isHandingOff, setIsHandingOff] = useState(
-    () => !!getDashboardReturnTo() && isAuthenticated(),
-  );
+export default function useDashboardHandoff(isSignedIn: boolean): boolean {
+  const [isHandingOff, setIsHandingOff] = useState(() => !!getDashboardReturnTo() && isSignedIn);
 
   useEffect(() => {
     if (!isHandingOff) {

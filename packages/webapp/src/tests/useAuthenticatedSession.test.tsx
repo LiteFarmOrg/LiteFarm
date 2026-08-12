@@ -68,11 +68,13 @@ describe('useAuthenticatedSession', () => {
     expect(localStorage.getItem('id_token')).toBe('a-token');
   });
 
-  test('a token with no identity is not a usable session, and the token is cleared', () => {
+  // `localStorage` is shared between tabs, so removing the token here would reach a tab that is
+  // signed in and using it.
+  test('a token with no identity is not a usable session, and the token is left in place', () => {
     const { result } = renderSession({ token: 'a-token' });
 
     expect(result.current).toBe(false);
-    expect(localStorage.getItem('id_token')).toBe(null);
+    expect(localStorage.getItem('id_token')).toBe('a-token');
   });
 
   test('an identity with no token is not a usable session', () => {

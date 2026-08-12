@@ -276,7 +276,8 @@ app
   .disable('x-powered-by')
 
   // https://expressjs.com/en/guide/behind-proxies/
-  .enable('trust proxy')
+  // 1: trust exactly one hop (nginx) so a client-supplied X-Forwarded-For entry can't spoof req.ip
+  .set('trust proxy', 1)
 
   // prevent CORS errors
   .use(cors())

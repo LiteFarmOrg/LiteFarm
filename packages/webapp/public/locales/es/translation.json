@@ -2117,6 +2117,8 @@
   },
   "SIGNUP": {
     "CHANGES": "Leer sobre los cambios",
+    "DASHBOARD_CONTINUE_TO": "Continuar al panel de datos",
+    "DASHBOARD_SIGN_IN_WITH": "Inicia sesión con tu cuenta de LiteFarm",
     "EMAIL_INVALID": "Correo invalido",
     "ENTER_EMAIL": "Ingresar Correo",
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",

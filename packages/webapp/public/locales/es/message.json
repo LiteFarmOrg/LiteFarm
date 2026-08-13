@@ -148,6 +148,7 @@
   },
   "LOGIN": {
     "ERROR": {
+      "DASHBOARD_TICKET": "No se pudo conectar al panel de datos. Por favor, inténtalo de nuevo.",
       "LOGIN_FAIL": "No se pudo iniciar sesión con información del usuario"
     }
   },

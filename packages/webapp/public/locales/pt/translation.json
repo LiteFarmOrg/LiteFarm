@@ -2117,6 +2117,8 @@
   },
   "SIGNUP": {
     "CHANGES": "Leia sobre as mudanças",
+    "DASHBOARD_CONTINUE_TO": "Continuar para o painel de dados",
+    "DASHBOARD_SIGN_IN_WITH": "Faça login com a sua conta LiteFarm",
     "EMAIL_INVALID": "Email é inválido",
     "ENTER_EMAIL": "Digite seu endereço de e-mail",
     "EXPIRED_ERROR": "NÃO EXISTE",

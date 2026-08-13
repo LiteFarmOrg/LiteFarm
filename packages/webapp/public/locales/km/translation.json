@@ -405,6 +405,9 @@
     "TITLE": "តើអ្នកប្រាកដថាចង់បោះបង់មែនទេ?"
   },
   "CERTIFICATION": {
+    "ADD_CERTIFICATIONS": "",
+    "BANNER": "",
+    "BANNER_SAVED": "",
     "CERTIFICATION_EXPORT": {
       "ADD": "បន្ថែមវិញ្ញាបនបត្រ",
       "CHANGE_CERTIFICATION_PREFERENCE": "ប្ដូរវិញ្ញាបនបត្រដែលអ្នកចូលចិត្ត",
@@ -419,6 +422,7 @@
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "វិញ្ញាបនបត្រពី",
       "UPDATE_SUCCESS": "វិញ្ញាបនបត្រដែលអ្នកចូលចិត្តត្រូវបានរក្សាទុក"
     },
+    "CERTIFICATION_ID": "",
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "ស្នើសុំវិញ្ញាបនបត្រប្រភេទផ្សេងទៀត",
       "SUBTITLE_ONE": "នេះគឺជាបញ្ជីនៃ",
@@ -432,12 +436,42 @@
       "REQUEST_CERTIFIER": "ស្នើសុំអ្នកចេញវិញ្ញាបនបត្រ",
       "TITLE": "តើអ្នកចេញវិញ្ញាបនបត្ររបស់អ្នកជាអ្នកណា?"
     },
+    "EMPTY_STATE": {
+      "BODY": "",
+      "HEADING": ""
+    },
+    "FORM": {
+      "CERTIFICATE_NUMBER": "",
+      "CERTIFICATE_NUMBER_PLACEHOLDER": "",
+      "CERTIFICATION_STATUS": "",
+      "CERTIFICATION_TYPE": "",
+      "CERTIFICATION_TYPE_PLACEHOLDER": "",
+      "CERTIFYING_BODY": "",
+      "CERTIFYING_BODY_INFO": "",
+      "CERTIFYING_BODY_PLACEHOLDER": "",
+      "CERTIFYING_GROUP_INFO": "",
+      "CERTIFYING_GROUP_PLACEHOLDER": "",
+      "IS_ACTIVE": "",
+      "MEMBER_ID_PLACEHOLDER": "",
+      "OTHER_CERTIFIER": "",
+      "OTHER_CERTIFIER_PLACEHOLDER": "",
+      "PGS_GROUP_NAME": "",
+      "SYSTEM_TYPE": "",
+      "TITLE": "",
+      "VALID_UNTIL_MUST_BE_AFTER_ISSUE_DATE": ""
+    },
     "INPUT_PLACEHOLDER": "វាយអក្សរដើម្បីស្វែងរក",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "តើអ្នកមានគម្រោងតាមយក ឬបន្តសុពលភាពវិញ្ញាបនបត្រនៅរដូវកាលនេះទេ?",
       "TITLE": "ចាប់អារម្មណ៍លើវិញ្ញាបនបត្រទេ?",
       "WHY_ANSWER": "ឡៃហ្វាម បង្កើតទម្រង់ដែលត្រូវការសម្រាប់វិញ្ញាបនបត្រសរីរាង្គ។ ព័ត៌មានមួយចំនួននឹងត្រូវបានទាមទារជាចាំបាច់។"
     },
+    "LIST": {
+      "PURSUING_SECTION": ""
+    },
+    "LOOK_FOR_LEAF_ICON": "",
+    "MEMBER_ID": "",
+    "PURSUING_ITEM": "",
     "REQUEST_CERTIFIER": {
       "LABEL": "អ្នកចេញវិញ្ញាបនបត្រដែលបានស្នើសុំ",
       "REQUEST": "តើអ្នកចេញវិញ្ញាបនបត្រណាដែលអ្នកចង់ស្នើសុំ?",
@@ -454,10 +488,19 @@
       "INFORMATION": "យើងនឹងបង្ហាញព័ត៌មាននេះនៅទូទាំងកម្មវិធី ដោយប្រើរូបតំណាងស្លឹកឈើ។",
       "TITLE": "អ្នកមានចំណាប់អារម្មណ៍ក្នុងការដាក់ពាក្យសម្រាប់៖",
       "YOUR_CERTIFICATION": "វិញ្ញាបនបត្ររបស់អ្នក"
-    }
+    },
+    "SYSTEM_TYPE": {
+      "PGS": "",
+      "PGS_DESCRIPTION": "",
+      "THIRD_PARTY_ORGANIC": "",
+      "THIRD_PARTY_ORGANIC_DESCRIPTION": ""
+    },
+    "THIS_CERTIFICATION": "",
+    "VIEW_MARKET_DIRECTORY_PROFILE": ""
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "វាហាក់ដូចជា ឡៃហ្វាម បច្ចុប្បន្នមិនអាចបញ្ចូលក្នុងទម្រង់របស់អ្នកចេញវិញ្ញាបនបត្ររបស់អ្នកបានទេ។ ទោះយ៉ាងណា អ្នកនៅតែអាចបញ្ចូលឯកសាររបស់អ្នកបាន ប៉ុន្តែអ្នកចេញវិញ្ញាបនបត្រអាចត្រូវការព័ត៌មានបន្ថែម។ យើងនឹងផ្ញើវាទៅអ្នកនៅ៖",
+    "EMAIL_YOUR_EXPORT": "",
     "EXPORT": "បញ្ចូល​ / នាំចេញ",
     "EXPORT_DOCS": "បញ្ចូលឯកសារវិញ្ញាបនបត្រ",
     "EXPORT_DOWNLOADING_MESSAGE": "កំពុងទាញយកឯកសារវិញ្ញាបនបត្រសរីរាង្គរបស់អ្នក...",
@@ -468,6 +511,9 @@
     "NEXT_WE_WILL_CHECK": "បន្ទាប់មក យើងនឹងពិនិត្យថាតើអ្នកចេញវិញ្ញាបនបត្ររបស់អ្នកត្រូវការព័ត៌មានបន្ថែមណាមួយសម្រាប់ដំណើរការការដាក់ស្នើវិញ្ញាបនបត្ររបស់អ្នកឬអត់។",
     "NOTE_CANNOT_RESUBMIT": "ចំណាំ៖ នៅពេលអ្នកដាក់បញ្ចួនសំណួរស្ទង់មតិរួច អ្នកនឹងមិនអាចកែសម្រួលចម្លើយបានទៀតទេ។ ដើម្បីកែប្រែបន្ទាប់ពីដាក់ស្នើ សូមចាប់ផ្តើមការបញ្ចូលជាថ្មីម្តងទៀត។",
     "ORGANIC_CERTIFICATION_FROM": "វិញ្ញាបនបត្រសរីរាង្គពី",
+    "SELECT_EXPORT_CERTIFIER": "",
+    "SELECT_CERTIFIER": "",
+    "SELECT_CERTIFIER_PLACEHOLDER": "",
     "SELECT_REPORTING_PERIOD": "ជ្រើសរើសរយៈពេលរាយការណ៍របស់អ្នក",
     "UH_OH": "អុ​​​ អូ!",
     "WOULD_LIKE_ANSWERS": "អ្នកត្រួតពិនិត្យឯកសាររបស់អ្នកចង់ឱ្យអ្នកឆ្លើយសំណួរមួយចំនួនបន្ថែមទៀត មុនពេលយើងអាចនាំចេញឯកសាររបស់អ្នកបាន។"
@@ -656,6 +702,9 @@
     "THURSDAY": "ថ្ងៃព្រហស្បតិ៍",
     "TUESDAY": "ថ្ងៃអង្គារ",
     "WEDNESDAY": "ថ្ងៃពុធ"
+  },
+  "DELETE_CONFIRMATION": {
+    "BODY": ""
   },
   "DIRECTION": {
     "E": "ទិសខាងកើត",
@@ -1175,6 +1224,9 @@
       "SPECIES_COUNT_other": "{{count}}​ ប្រភេទពូជ",
       "TITLE": "ជីវចំរុះ"
     },
+    "CATHI_GAO": {
+      "TITLE": ""
+    },
     "CLICK_TO_CALCULATE": "ចុចដើម្បីគណនា",
     "CURRENT": "បច្ចុប្បន្ន",
     "INFO": "ការវិភាគផ្តល់ព័ត៌មានបន្ថែមអំពីអ្វីកំពុងកើតឡើងនៅលើកសិដ្ឋានរបស់អ្នក។ ទិន្នន័យដែលអ្នកផ្តល់ក្នុងកម្មវិធីកាន់តែច្រើន នោះការវិភាគក៏អាចបង្កើតបានកាន់តែច្រើនផងដែរ។ សូមមើលការវិភាគនីមួយៗសម្រាប់ព័ត៌មានលម្អិតបន្ថែម។",
@@ -1200,6 +1252,10 @@
       "HEADER": "សារធាតុសរីរាង្គក្នុងដី",
       "INFO": "សារធាតុអង្គធាតុសរីរាង្គក្នុងដី គឺចាំបាច់សម្រាប់រក្សាបរិស្ថានដីឲ្យមានសុខភាពល្អសម្រាប់ដំណាំរបស់អ្នក។ យើងបំពេញព័ត៌មានវិភាគនេះដោយផ្អែកលើលទ្ធផលពីការវិភាគដីចុងក្រោយបំផុតរបស់អ្នក។ ប្រសិនបើអ្នកមិនមានទិន្នន័យណាមួយទេ យើងនឹងប៉ាន់ស្មានបរិមាណសារធាតុអង្គធាតុសរីរាង្គក្នុងដីដែលអាចមាននៅទីតាំងរបស់អ្នកនៅទូទាំងពិភពលោក។",
       "TITLE": "សារធាតុសរីរាង្គក្នុងដី"
+    },
+    "SURVEY": {
+      "THANK_YOU": "",
+      "TITLE": ""
     },
     "TAPE": {
       "COMPLETED": "បានបញ្ចប់ - មើលលទ្ធផលរបស់អ្នក",
@@ -1287,6 +1343,7 @@
     "IRRIGATION_PRESCRIPTION_FILES": "ឯកសារក្បួនខ្នាតការស្រោចស្រព",
     "IRRIGATION_PRESCRIPTIONS": "ក្បួនខ្នាតការស្រោចស្រព",
     "IRRIGATION_ZONE": "តំបន់ស្រោចស្រព",
+    "PLANT_AVAILABLE_WATER": "",
     "PRESCRIPTION_DATE": "កាលបរិច្ឆេទកំណត់",
     "SOIL_MOISTURE_DEFICIT": "កង្វះសំណើមដី",
     "START_DATE": "កាលបរិច្ឆេទចាប់ផ្តើម",
@@ -1562,6 +1619,7 @@
     "MARKET_DIRECTORY_INFO": "ព័ត៌មានបញ្ជីទីផ្សារ",
     "NO_PARTNER": "បច្ចុប្បន្នមិនមានដៃគូនៅទីតាំងរបស់អ្នកទេ។",
     "PARTNERS": {
+      "GROWNBY_DESCRIPTION": "",
       "OFN_DESCRIPTION": "បង្កើតគណនីឥតគិតថ្លៃ ហើយបង្ហោះលើបញ្ជី អូអែហ្វអិន នេះ"
     },
     "WHERE_TO_BE_FEATURED": "តើអ្នកចង់បង្ហាញនៅទីណា?"
@@ -1991,9 +2049,17 @@
     },
     "DEVICE_TYPES": {
       "DRIP_LINE_PRESSURE_SENSOR": "ឧបករណ៍ចាប់សញ្ញាសម្ពាធបំពង់ស្រោចទឹកតំណក់",
+      "DRIPDRAIN_SENSOR": "",
+      "ET_SENSOR": "",
+      "HUMIDITY_SENSOR": "",
       "IR_TEMPERATURE_SENSOR": "ឧបករណ៍ចាប់សីតុណ្ហភាពអ៊ីនហ្វ្រារ៉េដ",
+      "SDI-12_WEATHER_STATION": "",
+      "SOIL_WATER_CONTENT_SENSOR": "",
       "SOIL_WATER_POTENTIAL_SENSOR": "ឧបករណ៍ចាប់សក្តានុពលទឹកក្នុងដី",
+      "TIPPING_BUCKET_RAIN_GAUGE": "",
+      "TURBINE_FLOW_METER": "",
       "WEATHER_STATION": "ស្ថានីយអាកាសធាតុ",
+      "WIND_SENSOR_VOLTAGE": "",
       "WIND_SPEED_SENSOR": "ឧបករណ៍ចាប់សញ្ញាល្បឿនខ្យល់"
     },
     "ESCI": {
@@ -2020,7 +2086,12 @@
     "READING": {
       "BAROMETRIC_PRESSURE": "សម្ពាធបារ៉ូម៉ែត្រ",
       "CUMULATIVE_RAINFALL": "បរិមាណទឹកភ្លៀងសរុប",
+      "ELECTRICAL_CONDUCTIVITY": "",
+      "EVAPOTRANSPIRATION": "",
+      "HEAT_FLUX": "",
+      "LATENT_ENERGY_FLUX": "",
       "LATEST_READING": "ការអានចុងក្រោយ៖",
+      "MOISTURE": "",
       "RAINFALL_RATE": "អត្រាទឹកភ្លៀង",
       "RELATIVE_HUMIDITY": "សំណើមបរិយាកាស",
       "SOIL_WATER_CONTENT": "បរិមាណទឹកក្នុងដី",
@@ -2030,7 +2101,10 @@
       "TYPES": "ប្រភេទទិន្នន័យអាន",
       "UNKNOWN": "មិនស្គាល់",
       "UPDATE_READINGS": "ធ្វើបច្ចុប្បន្នភាពការអាន",
+      "VAPOR_PRESSURE_DEFICIT": "",
+      "VOLUME": "",
       "WATER_PRESSURE": "សម្ពាធទឹក",
+      "WET_BULB_TEMPERATURE": "",
       "WIND_DIRECTION": "ទិសខ្យល់",
       "WIND_SPEED": "ល្បឿនខ្យល់",
       "WIND_SPEED_AND_DIRECTION": "ល្បឿន និងទិសខ្យល់"
@@ -2043,6 +2117,8 @@
   },
   "SIGNUP": {
     "CHANGES": "អានអំពីការផ្លាស់ប្តូរ",
+    "DASHBOARD_CONTINUE_TO": "",
+    "DASHBOARD_SIGN_IN_WITH": "",
     "EMAIL_INVALID": "អ៊ីមែលមិនត្រឹមត្រូវទេ",
     "ENTER_EMAIL": "បញ្ចូលអាសយដ្ឋានអ៊ីមែលរបស់អ្នក",
     "EXPIRED_ERROR": "យើងបានធ្វើបច្ចុប្បន្នភាពប្រព័ន្ធហេដ្ឋារចនាសម្ព័ន្ធរបស់យើង ហើយអ្នកនឹងត្រូវកំណត់ពាក្យសម្ងាត់ឡើងវិញ។ សូមពិនិត្យប្រអប់សាររបស់អ្នកដើម្បីបន្ត។",

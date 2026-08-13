@@ -28,21 +28,21 @@ import {
   pivotCenterLabel,
   pivotSectorLabel,
 } from './styles.module.scss';
-import waterValve from '../../assets/images/map/water-valve.svg?react';
-import waterValveHover from '../../assets/images/map/water-valve-hover.svg?react';
-import waterValveActive from '../../assets/images/map/water-valve-active.svg?react';
-import gate from '../../assets/images/map/gate.svg?react';
-import gateHover from '../../assets/images/map/gate-hover.svg?react';
-import gateActive from '../../assets/images/map/gate-active.svg?react';
-import soilSampleLocation from '../../assets/images/map/soil-sample-location.svg?react';
-import soilSampleLocationHover from '../../assets/images/map/soil-sample-location-hover.svg?react';
-import soilSampleLocationActive from '../../assets/images/map/soil-sample-location-active.svg?react';
-import sensor from '../../assets/images/map/sensor.svg?react';
-import sensorHover from '../../assets/images/map/sensor-hover.svg?react';
-import sensorActive from '../../assets/images/map/sensor-active.svg?react';
-import sensorArray from '../../assets/images/map/sensor-array.svg?react';
-import sensorArrayHover from '../../assets/images/map/sensor-array-hover.svg?react';
-import sensorArrayActive from '../../assets/images/map/sensor-array-active.svg?react';
+import waterValve from '../../assets/images/map/water-valve.svg';
+import waterValveHover from '../../assets/images/map/water-valve-hover.svg';
+import waterValveActive from '../../assets/images/map/water-valve-active.svg';
+import gate from '../../assets/images/map/gate.svg';
+import gateHover from '../../assets/images/map/gate-hover.svg';
+import gateActive from '../../assets/images/map/gate-active.svg';
+import soilSampleLocation from '../../assets/images/map/soil-sample-location.svg';
+import soilSampleLocationHover from '../../assets/images/map/soil-sample-location-hover.svg';
+import soilSampleLocationActive from '../../assets/images/map/soil-sample-location-active.svg';
+import sensor from '../../assets/images/map/sensor.svg';
+import sensorHover from '../../assets/images/map/sensor-hover.svg';
+import sensorActive from '../../assets/images/map/sensor-active.svg';
+import sensorArray from '../../assets/images/map/sensor-array.svg';
+import sensorArrayHover from '../../assets/images/map/sensor-array-hover.svg';
+import sensorArrayActive from '../../assets/images/map/sensor-array-active.svg';
 
 export const areaStyles = {
   barn: {

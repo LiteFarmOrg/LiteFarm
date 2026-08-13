@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './styles.module.scss';
-import loadingBar from '../../../assets/images/insights/loading_dot.svg?react';
+import loadingBar from '../../../assets/images/insights/loading_dot.svg';
 import { LinearProgress } from '@mui/material';
 import { Info } from '../../Typography';
 

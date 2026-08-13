@@ -33,7 +33,7 @@ import {
 import useSelectionHandler from './useSelectionHandler';
 import { useMaxZoom } from './useMaxZoom';
 
-import MapPin from '../../assets/images/map/map_pin.svg?react';
+import MapPin from '../../assets/images/map/map_pin.svg';
 import { userFarmSelector } from '../userFarmSlice';
 import CreateMarkerCluster from '../../components/Map/MarkerCluster';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';

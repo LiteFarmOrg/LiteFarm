@@ -33,7 +33,7 @@ import {
   waterValveEnum,
 } from '../../containers/constants';
 import styles from './styles.module.scss';
-import Leaf from '../../assets/images/farmMapFilter/Leaf.svg?react';
+import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
 import {
   area_total_area,
   line_length,

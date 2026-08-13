@@ -19,10 +19,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 // images
-import soil_om from '../../assets/images/insights/soil_om.svg?react';
-import labour_happiness from '../../assets/images/insights/labour_happiness.svg?react';
-import biodiversity from '../../assets/images/insights/biodiversity.svg?react';
-import prices from '../../assets/images/insights/prices.svg?react';
+import soil_om from '../../assets/images/insights/soil_om.svg';
+import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
+import biodiversity from '../../assets/images/insights/biodiversity.svg';
+import prices from '../../assets/images/insights/prices.svg';
 
 // actions
 import { getLabourHappinessData, getPricesWithDistanceData, getSoilOMData } from './actions';

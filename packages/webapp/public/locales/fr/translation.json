@@ -2117,6 +2117,8 @@
   },
   "SIGNUP": {
     "CHANGES": "En savoir plus sur les changements",
+    "DASHBOARD_CONTINUE_TO": "Continuer vers le tableau de bord des données",
+    "DASHBOARD_SIGN_IN_WITH": "Connectez-vous avec votre compte LiteFarm",
     "EMAIL_INVALID": "Courriel non-valide",
     "ENTER_EMAIL": "Entrez votre Courriel",
     "EXPIRED_ERROR": "Nous avons mis à jour notre infrastructure et vous devriez réinitialiser votre mot de passe. Vérifiez votre boîte de courriels pour continuer.",

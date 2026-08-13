@@ -24,6 +24,9 @@ import parser from 'ua-parser-js';
 import UserLogModel from '../models/userLogModel.js';
 import EmailModel from '../models/emailTokenModel.js';
 import { createToken } from '../util/jwt.js';
+import { randomUUID } from 'crypto';
+import jwt from 'jsonwebtoken';
+import knex from '../util/knex.js';
 
 const loginController = {
   authenticateUser() {
@@ -39,14 +42,7 @@ const loginController = {
       const ua = parser(req.headers['user-agent']);
       const languages = req.acceptsLanguages();
       let userID;
-
-      let ip = req.headers['x-forwarded-for'];
-      if (ip) {
-        const list = ip.split(',');
-        ip = list[list.length - 1];
-      } else {
-        ip = req.connection.remoteAddress;
-      }
+      const { ip } = req;
 
       try {
         const userData = await UserModel.query().select('*').where('email', email).first();
@@ -239,6 +235,120 @@ const loginController = {
         return res.status(400).json({
           error,
         });
+      }
+    };
+  },
+
+  dashboardIssueTicket() {
+    return async (req, res) => {
+      try {
+        const { user_id } = req.auth;
+        const { return_to, farm_id } = req.body;
+
+        const allowedReturnAddresses = (process.env.DASHBOARD_ALLOWED_RETURN_TO ?? '')
+          .split(',')
+          .map((address) => address.trim())
+          // Without this, an unset variable produces [''] and return_to: '' is allowed
+          .filter(Boolean);
+
+        // Exact string match: a prefix, suffix or substring of an allowed address is not a match.
+        if (!allowedReturnAddresses.includes(return_to)) {
+          return res.status(400).send({ message: 'return_to is not an allowed address.' });
+        }
+
+        if (farm_id) {
+          const userFarm = await UserFarmModel.query()
+            .where({ user_id, farm_id, status: 'Active' })
+            .first();
+          if (!userFarm) {
+            return res.sendStatus(403);
+          }
+        }
+
+        const ticket = await createToken('dashboard', {
+          user_id,
+          farm_id: farm_id ?? null,
+          jti: randomUUID(),
+        });
+
+        return res.status(200).send({ ticket, return_to });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
+    };
+  },
+
+  dashboardExchange() {
+    return async (req, res) => {
+      try {
+        const { ticket } = req.body;
+
+        if (!ticket) {
+          return res.status(400).send({ message: 'ticket is required.' });
+        }
+
+        let payload;
+        try {
+          payload = jwt.verify(ticket, process.env.JWT_DASHBOARD_SECRET, {
+            algorithms: ['HS256'],
+          });
+        } catch (_verificationError) {
+          return res.sendStatus(401);
+        }
+
+        const { jti, user_id, farm_id } = payload;
+        if (!jti || !user_id) {
+          return res.sendStatus(401);
+        }
+
+        const claimSucceeded = await knex.transaction(async (trx) => {
+          await trx('dashboard_ticket_use')
+            .whereRaw("used_at < now() - interval '5 minutes'")
+            .del();
+
+          const inserted = await trx('dashboard_ticket_use')
+            .insert({ jti })
+            .onConflict('jti')
+            .ignore()
+            .returning('jti');
+
+          // False when this ticket has already been exchanged
+          return inserted.length > 0;
+        });
+
+        if (!claimSucceeded) {
+          return res.sendStatus(401);
+        }
+
+        const user = await UserModel.query()
+          .select('user_id', 'email', 'first_name')
+          .findById(user_id);
+        if (!user) {
+          return res.sendStatus(401);
+        }
+
+        const farms = await UserFarmModel.query()
+          .select('userFarm.farm_id', 'farm.farm_name', 'userFarm.role_id')
+          .join('farm', 'userFarm.farm_id', 'farm.farm_id')
+          .where('userFarm.user_id', user_id)
+          .andWhere('userFarm.status', 'Active')
+          .andWhere('farm.deleted', false);
+
+        if (farm_id && !farms.some((farm) => farm.farm_id === farm_id)) {
+          return res.sendStatus(401);
+        }
+
+        return res.status(200).send({
+          user_id: user.user_id,
+          email: user.email,
+          first_name: user.first_name,
+          farm_id: farm_id ?? null,
+          farms,
+        });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
       }
     };
   },

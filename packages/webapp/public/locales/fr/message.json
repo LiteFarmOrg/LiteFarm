@@ -148,6 +148,7 @@
   },
   "LOGIN": {
     "ERROR": {
+      "DASHBOARD_TICKET": "Impossible de se connecter au tableau de bord des données. Veuillez réessayer.",
       "LOGIN_FAIL": "Impossible de se connecter aux informations de l'utilisateur"
     }
   },

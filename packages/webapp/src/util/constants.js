@@ -8,9 +8,9 @@ export const DO_CDN_URL = `https://${
 export const SUPPORT_EMAIL = 'support@litefarm.org';
 
 // Changing this forces logout and updates the new release card
-export const APP_VERSION = '3.12.0';
+export const APP_VERSION = '3.13.0';
 export const VERSION_RELEASE_NOTES_LINK =
-  'https://www.litefarm.org/post/know-your-farm-before-the-day-starts';
+  'https://www.litefarm.org/post/certifications-rebuilt-for-how-farms-actually-certify';
 
 export const CONSENT_VERSION = '7.1';
 

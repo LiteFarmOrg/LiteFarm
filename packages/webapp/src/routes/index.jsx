@@ -22,12 +22,13 @@ import Spinner from '../components/Spinner';
 import OnboardingFlow from './Onboarding';
 import CustomSignUp from '../containers/CustomSignUp';
 import { useSelector } from 'react-redux';
-import { isAuthenticated } from '../util/jwt';
+import useAuthenticatedSession from '../hooks/useAuthenticatedSession';
 
 // action
 import { userFarmSelector } from '../containers/userFarmSlice';
 import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import useScrollToTop from '../containers/hooks/useScrollToTop';
+import useDashboardHandoff from '../containers/hooks/useDashboardHandoff';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 import {
@@ -207,6 +208,8 @@ const UnknownRecord = React.lazy(
 const Routes = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
+  const isSignedIn = useAuthenticatedSession();
+  const isHandingOffToDashboard = useDashboardHandoff(isSignedIn);
   const userFarm = useSelector(
     userFarmSelector,
     (pre, next) =>
@@ -226,13 +229,17 @@ const Routes = ({ isCompactSideMenu }) => {
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_one && step_five;
 
+  if (isHandingOffToDashboard) {
+    return <Spinner />;
+  }
+
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
         <Route
           path="*"
           render={() => {
-            if (isAuthenticated()) {
+            if (isSignedIn) {
               role_id = Number(role_id);
               // TODO check every step
               if (isInvitationFlow) {
@@ -1055,7 +1062,7 @@ const Routes = ({ isCompactSideMenu }) => {
                   </Switch>
                 );
               }
-            } else if (!isAuthenticated()) {
+            } else {
               return (
                 <Switch>
                   <Route path={'/render_survey'} exact children={<RenderSurvey />} />

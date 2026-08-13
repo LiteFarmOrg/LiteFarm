@@ -178,6 +178,9 @@ export const formatFarmDataToDfcStandard = async (
   const certificationInstances = (certifications ?? [])
     .filter((cert) => cert.is_active && cert.certification_type)
     .map((cert) => {
+      // Note: dfc-b:operatorId is the only identifier property dfc-b:Certfication defines
+      const identifier = cert.certificate_member_id || cert.certificate_number;
+
       const certification = new Certification({
         connector,
         semanticId: `${enterpriseUrl}#certification-${cert.id}`,
@@ -189,7 +192,7 @@ export const formatFarmDataToDfcStandard = async (
         certificationReferences: cert.certifier?.certifier_name
           ? [cert.certifier.certifier_name]
           : [cert.other_certifier!],
-        operatorIds: cert.certificate_member_id ? [cert.certificate_member_id] : [],
+        operatorIds: identifier ? [identifier] : [],
         certificationScores: [],
       });
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,25 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const supportedLanguages = [
-  ['en', 'English'],
-  ['es', 'Español'],
-  ['de', 'Deutsch'],
-  ['fr', 'Français'],
-  ['pt', 'Português'],
-  ['hi', 'हिंदी'],
-  ['ml', 'മലയാളം'],
-  ['pa', 'ਪੰਜਾਬੀ'],
-  // ['km', 'ខ្មែរ'], TODO: LF-5430 Re-add Khmer
-];
-
-const useLanguageOptions = () => {
-  return supportedLanguages.map(([value, text]) => ({
-    value,
-    label: text,
-  }));
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const up = async function (knex) {
+  await knex.schema.createTable('dashboard_ticket_use', (table) => {
+    table.text('jti').primary();
+    table.timestamp('used_at').notNullable().defaultTo(knex.fn.now());
+  });
 };
 
-export const languageCodes = supportedLanguages.map(([code]) => code);
-
-export default useLanguageOptions;
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const down = async function (knex) {
+  await knex.schema.dropTable('dashboard_ticket_use');
+};

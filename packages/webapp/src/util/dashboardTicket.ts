@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,25 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const supportedLanguages = [
-  ['en', 'English'],
-  ['es', 'Español'],
-  ['de', 'Deutsch'],
-  ['fr', 'Français'],
-  ['pt', 'Português'],
-  ['hi', 'हिंदी'],
-  ['ml', 'മലയാളം'],
-  ['pa', 'ਪੰਜਾਬੀ'],
-  // ['km', 'ខ្មែរ'], TODO: LF-5430 Re-add Khmer
-];
+export const DASHBOARD_RETURN_TO_PARAM = 'return_to';
 
-const useLanguageOptions = () => {
-  return supportedLanguages.map(([value, text]) => ({
-    value,
-    label: text,
-  }));
-};
+/** Not validated here — the API refuses a ticket for an address off its allowlist */
+export function getReturnToFromSearch(search: string): string | null {
+  return new URLSearchParams(search).get(DASHBOARD_RETURN_TO_PARAM) || null;
+}
 
-export const languageCodes = supportedLanguages.map(([code]) => code);
-
-export default useLanguageOptions;
+export function buildDashboardTicketUrl(returnTo: string, ticket: string): string {
+  const url = new URL(returnTo);
+  url.searchParams.set('ticket', ticket);
+  return url.toString();
+}

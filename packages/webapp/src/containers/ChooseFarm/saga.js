@@ -40,6 +40,11 @@ export function* getUserFarmsSaga() {
   const { userFarmUrl } = apiConfig;
   try {
     const { user_id } = yield select(loginSelector);
+    if (!user_id) {
+      // Without an identity the request cannot succeed, and the catch below dispatches
+      // onLoadingUserFarmsFail, which sets loaded: true.
+      return;
+    }
     const header = getHeader(user_id);
     yield put(onLoadingUserFarmsStart());
     const result = yield call(axios.get, userFarmUrl + '/user/' + user_id, header);

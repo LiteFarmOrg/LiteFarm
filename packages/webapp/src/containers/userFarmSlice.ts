@@ -23,7 +23,6 @@ interface UserFarm {
 type SagaError = Error & Partial<AxiosError>;
 
 interface UserFarmState {
-  farmIdUserIdTuple: Array<{ farm_id: string; user_id: string }>;
   byFarmIdUserId: {
     [farmId: string]: {
       [userId: string]: UserFarm;
@@ -61,7 +60,6 @@ export function onLoadingSuccess(state: UserFarmState) {
 const adminRoles = [1, 2, 5];
 
 export const initialState: UserFarmState = {
-  farmIdUserIdTuple: [],
   byFarmIdUserId: {},
   loading: false,
   error: undefined,
@@ -75,9 +73,6 @@ const addUserFarm = (state: UserFarmState, action: PayloadAction<UserFarm>) => {
   state.loading = false;
   state.error = null;
   const { farm_id, user_id } = userFarm;
-  if (!(state.byFarmIdUserId[farm_id] && state.byFarmIdUserId[farm_id][user_id])) {
-    state.farmIdUserIdTuple.push({ farm_id, user_id });
-  }
   state.byFarmIdUserId[farm_id] = state.byFarmIdUserId[farm_id] || {};
   state.byFarmIdUserId[farm_id][user_id] = userFarm;
   delete state.byFarmIdUserId[farm_id][user_id].role;
@@ -86,13 +81,7 @@ const addUserFarm = (state: UserFarmState, action: PayloadAction<UserFarm>) => {
 const removeUserFarm = (state: UserFarmState, action: PayloadAction<UserFarm>) => {
   const { payload: userFarm } = action;
   const { farm_id, user_id } = userFarm;
-  if (state.byFarmIdUserId[farm_id]?.[user_id]) {
-    delete state.byFarmIdUserId[farm_id]?.[user_id];
-    state.farmIdUserIdTuple = state.farmIdUserIdTuple.filter(
-      (farmIdUserIdTuple) =>
-        farmIdUserIdTuple.farm_id !== farm_id && farmIdUserIdTuple.user_id !== user_id,
-    );
-  }
+  delete state.byFarmIdUserId[farm_id]?.[user_id];
 };
 
 const userFarmSlice = createSlice({
@@ -119,9 +108,6 @@ const userFarmSlice = createSlice({
       state.loaded = true;
       userFarms.forEach((userFarm: UserFarm) => {
         const { farm_id, user_id } = userFarm;
-        if (!(state.byFarmIdUserId[farm_id] && state.byFarmIdUserId[farm_id][user_id])) {
-          state.farmIdUserIdTuple.push({ farm_id, user_id });
-        }
         const prevUserFarms = state.byFarmIdUserId[farm_id] || {};
         state.byFarmIdUserId[farm_id] = prevUserFarms;
         state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[user_id] || {};
@@ -272,11 +258,12 @@ export const userFarmStatusSelector = createSelector(
     loaded,
   }),
 );
+// Derive from userFarmsByUserSelector so that this selector
+// (Welcome, Onboarding Routes) cannot disagree with
+// ChooseFarm's farms.length === 0
 export const userFarmLengthSelector = createSelector(
-  userFarmReducerSelector,
-  ({ farmIdUserIdTuple }) => {
-    return farmIdUserIdTuple.length;
-  },
+  userFarmsByUserSelector,
+  (userFarms) => userFarms.length,
 );
 export const userFarmEntitiesSelector = createSelector(
   userFarmReducerSelector,

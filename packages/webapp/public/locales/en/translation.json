@@ -511,7 +511,7 @@
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
-    "SELECT_CERTIFICATION": "Select certification you want to export",
+    "SELECT_EXPORT_CERTIFIER": "For which certifier do you want to export your LiteFarm data?",
     "SELECT_CERTIFIER": "Select the certifier",
     "SELECT_CERTIFIER_PLACEHOLDER": "Select from your certifiers",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
@@ -2117,6 +2117,8 @@
   },
   "SIGNUP": {
     "CHANGES": "Read about the changes",
+    "DASHBOARD_CONTINUE_TO": "Continue to the Data Dashboard",
+    "DASHBOARD_SIGN_IN_WITH": "Sign in with your LiteFarm account",
     "EMAIL_INVALID": "Email is invalid",
     "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",

@@ -1263,12 +1263,6 @@ export default {
   },
   entitiesReducer: {
     userFarmReducer: {
-      farmIdUserIdTuple: [
-        {
-          farm_id: '31881f94-83c6-11ec-9fa9-0242ac130004',
-          user_id: '2cc91b7a-83c6-11ec-9fa9-0242ac130004',
-        },
-      ],
       byFarmIdUserId: {
         '31881f94-83c6-11ec-9fa9-0242ac130004': {
           '2cc91b7a-83c6-11ec-9fa9-0242ac130004': {

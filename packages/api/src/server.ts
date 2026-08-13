@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.12.2',
+    release: '3.13.0',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -274,6 +274,10 @@ app
   .use(applyExpressJSON)
   .use(express.urlencoded({ extended: true }))
   .disable('x-powered-by')
+
+  // https://expressjs.com/en/guide/behind-proxies/
+  // 1: trust exactly one hop (nginx) so a client-supplied X-Forwarded-For entry can't spoof req.ip
+  .set('trust proxy', 1)
 
   // prevent CORS errors
   .use(cors())

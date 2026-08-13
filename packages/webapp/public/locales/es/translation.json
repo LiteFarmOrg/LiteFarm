@@ -511,7 +511,7 @@
     "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
     "NOTE_CANNOT_RESUBMIT": "Nota: Una vez que envíe la encuesta, no podrá editar sus respuestas. Para cambiarlos después del envío, comience una nueva exportación.",
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
-    "SELECT_CERTIFICATION": "Seleccione la certificación que desea exportar",
+    "SELECT_EXPORT_CERTIFIER": "¿Para qué certificador quieres exportar tus datos de LiteFarm?",
     "SELECT_CERTIFIER": "Seleccione el certificador",
     "SELECT_CERTIFIER_PLACEHOLDER": "Seleccionar entre sus certificadores",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",

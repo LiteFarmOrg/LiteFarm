@@ -99,7 +99,13 @@ Both files stay in `.bundle-snapshots/`, which is gitignored.
 
 ### Take a release snapshot
 
-1. Check out the commit being released.
+1. Check out the released commit.
+
+   > [!TIP]
+   > To build the release snapshot, use the
+   > [release's tagged commit](https://github.com/LiteFarmOrg/LiteFarm/releases/latest). It is
+   > easiest to snapshot just after release.
+
 2. Run `git status`. Only `vite.config.ts` may be modified — the run ignores that one file, and
    reports every other change as a dirty tree.
 3. Run `pnpm bundle-snapshot --release`.
@@ -108,10 +114,6 @@ Both files stay in `.bundle-snapshots/`, which is gitignored.
 > [!WARNING]
 > A snapshot taken on a dirty tree carries `dirty: true` and describes no committed state, so it
 > cannot serve as a release baseline. The run still writes the file.
-
-> [!TIP]
-> For the tree a release actually shipped, check out its tag rather than the version-bump branch.
-> Commits land between the two.
 
 ### The build environment is pinned
 

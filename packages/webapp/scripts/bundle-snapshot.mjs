@@ -303,6 +303,28 @@ function categorise(url, stableName) {
   return 'js chunk';
 }
 
+/** The chunks `index.html` loads as a module, which the browser fetches before the worker exists. */
+function entryUrls() {
+  const html = join(DIST, 'index.html');
+  if (!existsSync(html)) {
+    fail('dist/index.html is missing, so the entry chunks cannot be identified');
+  }
+  const source = readFileSync(html, 'utf8');
+  const urls = [...source.matchAll(/<script\b[^>]*>/g)]
+    .map((match) => match[0])
+    .filter((tag) => /type="module"/.test(tag))
+    .map((tag) => tag.match(/src="([^"]+)"/)?.[1])
+    .filter(Boolean)
+    .map(normaliseUrl);
+  if (!urls.length) {
+    fail(
+      'no module script tag in dist/index.html carries a src, so the entry chunks cannot be ' +
+        'identified. Update the pattern in entryUrls().',
+    );
+  }
+  return new Set(urls);
+}
+
 function measure(manifest) {
   const files = [];
   let sentinelSeen = false;
@@ -418,6 +440,7 @@ const snapshot = {
   gzipLevel: GZIP_LEVEL,
   node: process.version,
   envFingerprint: fingerprint,
+  entry: [...entryUrls()].sort(),
   totals: totals(files),
   files,
 };

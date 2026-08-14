@@ -236,13 +236,19 @@ const gzOf = (files) => files.reduce((total, file) => total + file.gz, 0);
 const fetchedGz = gzOf(fetched);
 const installGz = after.totals.precached.gz;
 
+// The entry chunk gets its own row. It carries the hashed filename of each chunk it imports, so its
+// own hash moves whenever any of them does, and it is the largest single precache entry.
+const entryUrls = new Set(after.entry ?? []);
+const entryChunk = fetched.filter((file) => entryUrls.has(file.url));
+const rest = fetched.filter((file) => !entryUrls.has(file.url));
+
 const beforeStableNames = new Set([...beforePrecached.values()].map((file) => file.stableName));
 const afterNameCounts = countByStableName(after);
-const newName = fetched.filter((file) => !beforeStableNames.has(file.stableName));
-const shared = fetched.filter(
+const newName = rest.filter((file) => !beforeStableNames.has(file.stableName));
+const shared = rest.filter(
   (file) => beforeStableNames.has(file.stableName) && afterNameCounts.get(file.stableName) > 1,
 );
-const matched = fetched.filter(
+const matched = rest.filter(
   (file) => beforeStableNames.has(file.stableName) && afterNameCounts.get(file.stableName) === 1,
 );
 
@@ -277,6 +283,16 @@ console.log(
     `${`${secs(fetchedGz)} s at 400 kbps`.padStart(21)}` +
     `${`${((fetchedGz / installGz) * 100).toFixed(1)}% of a first install`.padStart(27)}`,
 );
+if (entryChunk.length) {
+  console.log(
+    updateRow(
+      '   the entry chunk',
+      entryChunk.length,
+      gzOf(entryChunk),
+      entryChunk.map((file) => file.url).join(', '),
+    ),
+  );
+}
 console.log(updateRow('   a name the older build already had', matched.length, gzOf(matched)));
 console.log(
   updateRow('   a name shared by many files', shared.length, gzOf(shared), topNames(shared, 2).join(', ')),

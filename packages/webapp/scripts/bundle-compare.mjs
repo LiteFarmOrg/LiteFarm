@@ -16,8 +16,42 @@ const LIST_LIMIT = 40;
 
 const MOVERS = 15;
 
+// Two snapshots that disagree on any of these were not measured the same way.
+const MEASUREMENT_FIELDS = ['schema', 'gzipLevel', 'gzipMinLength'];
+
+// A disagreement on any of these moves the numbers without the source changing.
+const TOOLCHAIN_FIELDS = ['envFingerprint', 'node', 'vite'];
+
+const TOOLCHAIN_WARNINGS = {
+  envFingerprint: [
+    'The pinned build environment changed between these two snapshots, most likely because a',
+    'VITE_ variable was added. Vite inlines those values, so the hash moves on every chunk that',
+    'reads one and on every chunk importing it, directly or not. Part of the update below is',
+    'that move rather than new code, and it is still a cost every returning visitor pays once.',
+  ],
+  node: [
+    'These snapshots were measured on different Node versions. Node carries its own zlib, so',
+    'every compressed size can move without the bundle changing. No hash moves, so the update',
+    'below still names what a returning visitor fetches.',
+  ],
+  vite: [
+    'These snapshots were built by different Vite versions. Chunk layout and the hashed filename',
+    'format belong to the bundler, so names and sizes can move without the source changing. Part',
+    'of the update below is that move rather than new code, and it is still a cost every',
+    'returning visitor pays once.',
+  ],
+};
+
 const WEBAPP = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SEARCH_DIRS = [join(WEBAPP, '.bundle-snapshots'), join(WEBAPP, 'bundle-snapshots')];
+
+const log = (text = '') =>
+  console.log(
+    String(text)
+      .split('\n')
+      .map((line) => (line ? `  ${line}` : line))
+      .join('\n'),
+  );
 
 function fail(message) {
   console.error(`bundle-compare: ${message}`);
@@ -62,11 +96,11 @@ function load(arg) {
 }
 
 /**
- * A snapshot pair whose measurement differs cannot be diffed at all. A pair whose build environment
- * differs can, so that case warns instead of failing.
+ * A snapshot pair whose measurement differs cannot be diffed at all. A pair built by a different
+ * toolchain can, so the mismatched toolchain fields are returned rather than refused.
  */
 function checkComparable(older, newer) {
-  const mismatched = ['schema', 'source', 'gzipLevel'].filter(
+  const mismatched = MEASUREMENT_FIELDS.filter(
     (field) => older.snapshot[field] !== newer.snapshot[field],
   );
   if (mismatched.length) {
@@ -77,7 +111,7 @@ function checkComparable(older, newer) {
         'and cannot be diffed. Re-take the older snapshot with the current script.',
     );
   }
-  return older.snapshot.envFingerprint !== newer.snapshot.envFingerprint;
+  return TOOLCHAIN_FIELDS.filter((field) => older.snapshot[field] !== newer.snapshot[field]);
 }
 
 const mb = (bytes) => (bytes / 1024 ** 2).toFixed(2);
@@ -104,26 +138,27 @@ function precachedByUrl(snapshot) {
   return entries;
 }
 
-const NO_FILES = { files: 0, raw: 0, gz: 0 };
+const NO_FILES = { files: 0, raw: 0, gz: 0, transfer: 0 };
 
 /** File count and bytes per category, for one set of files. */
 function byCategory(files) {
   const totals = new Map();
   for (const file of files) {
-    const row = totals.get(file.category) ?? { files: 0, raw: 0, gz: 0 };
+    const row = totals.get(file.category) ?? { files: 0, raw: 0, gz: 0, transfer: 0 };
     row.files += 1;
     row.raw += file.raw;
     row.gz += file.gz;
+    row.transfer += file.transfer;
     totals.set(file.category, row);
   }
   return totals;
 }
 
-/** Gzipped bytes per stable name, summed when several files share one. */
-function gzByStableName(snapshot) {
+/** Network bytes per stable name, summed when several files share one. */
+function transferByStableName(snapshot) {
   const sizes = new Map();
   for (const file of snapshot.files) {
-    sizes.set(file.stableName, (sizes.get(file.stableName) ?? 0) + file.gz);
+    sizes.set(file.stableName, (sizes.get(file.stableName) ?? 0) + file.transfer);
   }
   return sizes;
 }
@@ -133,9 +168,9 @@ function gzByStableName(snapshot) {
  * and most components and containers are an `index.jsx`, so a count above one means the name does
  * not identify which file it belongs to.
  */
-function countByStableName(snapshot) {
+function countByStableName(files) {
   const counts = new Map();
-  for (const file of snapshot.files) {
+  for (const file of files) {
     counts.set(file.stableName, (counts.get(file.stableName) ?? 0) + 1);
   }
   return counts;
@@ -145,12 +180,12 @@ function printList(title, names) {
   if (!names.length) {
     return;
   }
-  console.log(`\n${title} (${names.length}):`);
+  log(`\n${title} (${names.length}):`);
   for (const name of names.slice(0, LIST_LIMIT)) {
-    console.log(`  ${name}`);
+    log(`  ${name}`);
   }
   if (names.length > LIST_LIMIT) {
-    console.log(`  ... and ${names.length - LIST_LIMIT} more`);
+    log(`  ... and ${names.length - LIST_LIMIT} more`);
   }
 }
 
@@ -165,7 +200,7 @@ if (args.length !== 2) {
 
 const older = load(args[0]);
 const newer = load(args[1]);
-const envChanged = checkComparable(older, newer);
+const toolchainChanges = checkComparable(older, newer);
 
 const before = older.snapshot;
 const after = newer.snapshot;
@@ -178,39 +213,40 @@ function describe(loaded) {
   );
 }
 
-console.log(`older  ${describe(older)}`);
-console.log(`newer  ${describe(newer)}`);
+log(`older  ${describe(older)}`);
+log(`newer  ${describe(newer)}`);
 
-/** One `label / files / gz / change / pct` line, for either bucket. */
+/** One `label / files / network / change / pct` line, for either bucket. */
 function sizeRow(label, a, b) {
   return (
-    `${label.padEnd(18)}${String(b.files).padStart(6)}${`${mb(b.gz)} MB`.padStart(10)}` +
-    `${`${signedKb(b.gz - a.gz)} KB`.padStart(12)}${percent(a.gz, b.gz).padStart(9)}`
+    `${label.padEnd(18)}${String(b.files).padStart(6)}${`${mb(b.transfer)} MB`.padStart(10)}` +
+    `${`${signedKb(b.transfer - a.transfer)} KB`.padStart(12)}` +
+    `${percent(a.transfer, b.transfer).padStart(9)}`
   );
 }
 
 const SIZE_HEADER =
-  `${''.padEnd(18)}${'files'.padStart(6)}${'gz'.padStart(10)}` +
+  `${''.padEnd(18)}${'files'.padStart(6)}${'network'.padStart(10)}` +
   `${'change'.padStart(12)}${'pct'.padStart(9)}`;
 
-console.log('\n=== FIRST INSTALL ===  every precache entry, fetched before anything works offline');
-console.log(`${SIZE_HEADER}${'at 400 kbps'.padStart(14)}`);
-console.log(
+log('\n=== FIRST INSTALL ===  every precache entry, fetched before anything works offline');
+log(SIZE_HEADER);
+log(
   `${sizeRow('precache', before.totals.precached, after.totals.precached)}` +
-    `${`${secs(after.totals.precached.gz)} s`.padStart(14)}`,
+    `   ${secs(after.totals.precached.transfer)} s at 400 kbps`,
 );
 
-console.log('\n=== NOT PRECACHED ===  fetched only when something asks for it');
-console.log(SIZE_HEADER);
-console.log(sizeRow('total', before.totals.onDemand, after.totals.onDemand));
+log('\n=== NOT PRECACHED ===  fetched only when something asks for it');
+log(SIZE_HEADER);
+log(sizeRow('total', before.totals.onDemand, after.totals.onDemand));
 
 const notPrecachedBefore = byCategory(before.files.filter((file) => !file.precached));
 const notPrecachedAfter = byCategory(after.files.filter((file) => !file.precached));
 const notPrecachedKinds = [...new Set([...notPrecachedBefore.keys(), ...notPrecachedAfter.keys()])];
 for (const kind of notPrecachedKinds.sort(
-  (a, b) => (notPrecachedAfter.get(b)?.gz ?? 0) - (notPrecachedAfter.get(a)?.gz ?? 0),
+  (a, b) => (notPrecachedAfter.get(b)?.transfer ?? 0) - (notPrecachedAfter.get(a)?.transfer ?? 0),
 )) {
-  console.log(
+  log(
     sizeRow(
       `  ${kind}`,
       notPrecachedBefore.get(kind) ?? NO_FILES,
@@ -232,9 +268,9 @@ const fetchedSet = new Set(fetched);
 const reused = [...afterPrecached.values()].filter((file) => !fetchedSet.has(file));
 const removedFromCache = [...beforePrecached.keys()].filter((url) => !afterPrecached.has(url));
 
-const gzOf = (files) => files.reduce((total, file) => total + file.gz, 0);
-const fetchedGz = gzOf(fetched);
-const installGz = after.totals.precached.gz;
+const transferOf = (files) => files.reduce((total, file) => total + file.transfer, 0);
+const fetchedTransfer = transferOf(fetched);
+const installTransfer = after.totals.precached.transfer;
 
 // The entry chunk gets its own row. It is the largest single precache entry, and its hash moves
 // whenever any chunk it imports does, because it carries their hashed filenames.
@@ -242,101 +278,81 @@ const entryUrls = new Set(after.entry ?? []);
 const entryChunk = fetched.filter((file) => entryUrls.has(file.url));
 const rest = fetched.filter((file) => !entryUrls.has(file.url));
 
+// Both name populations are the precached files, so each side of the diff counts the same set.
 const beforeStableNames = new Set([...beforePrecached.values()].map((file) => file.stableName));
-const afterNameCounts = countByStableName(after);
+const afterPrecachedCounts = countByStableName([...afterPrecached.values()]);
 const newName = rest.filter((file) => !beforeStableNames.has(file.stableName));
 const shared = rest.filter(
-  (file) => beforeStableNames.has(file.stableName) && afterNameCounts.get(file.stableName) > 1,
+  (file) => beforeStableNames.has(file.stableName) && afterPrecachedCounts.get(file.stableName) > 1,
 );
 const matched = rest.filter(
-  (file) => beforeStableNames.has(file.stableName) && afterNameCounts.get(file.stableName) === 1,
+  (file) =>
+    beforeStableNames.has(file.stableName) && afterPrecachedCounts.get(file.stableName) === 1,
 );
 
-/** The stable names carrying the most fetched bytes, for the annotation on the shared-name row. */
-function topNames(files, limit) {
-  const gzPerName = new Map();
-  for (const file of files) {
-    gzPerName.set(file.stableName, (gzPerName.get(file.stableName) ?? 0) + file.gz);
+for (const field of toolchainChanges) {
+  log('');
+  for (const [index, line] of TOOLCHAIN_WARNINGS[field].entries()) {
+    log(`${index === 0 ? '!! ' : '   '}${line}`);
   }
-  const sorted = [...gzPerName].sort((a, b) => b[1] - a[1]);
-  const names = sorted.slice(0, limit).map(([name]) => name);
-  return sorted.length > limit ? [...names, `and ${sorted.length - limit} more`] : names;
 }
 
-if (envChanged) {
-  console.log('\n!! The pinned build environment changed between these two snapshots, most likely');
-  console.log(
-    '   because a VITE_ variable was added. Vite inlines those values, so the hash moves',
-  );
-  console.log('   on every chunk that reads one and on every chunk importing it, directly or not.');
-  console.log('   Part of the update below is that move rather than new code, and it is still a');
-  console.log('   cost every returning visitor pays once.');
+/** One `label / entries / network` line under UPDATE, with an optional trailing note. */
+function updateRow(label, entries, transfer, note = '') {
+  const size = transfer === null ? '' : `${mb(transfer)} MB`.padStart(10);
+  return `${label.padEnd(36)}${String(entries).padStart(5)}${size}${note && `   ${note}`}`;
 }
 
-/** One `label / entries / gz` line under UPDATE, with an optional trailing note. */
-function updateRow(label, entries, gz, note = '') {
-  const size = gz === null ? '' : `${mb(gz)} MB`.padStart(10);
-  return `${label.padEnd(38)}${String(entries).padStart(5)}${size}${note && `   ${note}`}`;
-}
+const entryLabel = entryChunk.length
+  ? `   entry chunk (${entryChunk.map((file) => basename(file.url)).join(', ')})`
+  : '   entry chunk';
 
-console.log('\n=== UPDATE ===  what a user already on the older build fetches');
-console.log(
-  `${updateRow('fetched', fetched.length, fetchedGz)}` +
-    `${`${secs(fetchedGz)} s at 400 kbps`.padStart(21)}` +
-    `${`${((fetchedGz / installGz) * 100).toFixed(1)}% of a first install`.padStart(27)}`,
+log('\n=== UPDATE ===  what a user already on the older build fetches');
+log(
+  `${updateRow('fetched', fetched.length, fetchedTransfer)}` +
+    `${`${secs(fetchedTransfer)} s at 400 kbps`.padStart(21)}` +
+    `${`${((fetchedTransfer / installTransfer) * 100).toFixed(1)}% of a first install`.padStart(
+      27,
+    )}`,
 );
-if (entryChunk.length) {
-  console.log(
-    updateRow(
-      '   the entry chunk',
-      entryChunk.length,
-      gzOf(entryChunk),
-      entryChunk.map((file) => file.url).join(', '),
-    ),
-  );
-}
-console.log(updateRow('   a name the older build already had', matched.length, gzOf(matched)));
-console.log(
-  updateRow(
-    '   a name shared by many files',
-    shared.length,
-    gzOf(shared),
-    topNames(shared, 2).join(', '),
-  ),
-);
-console.log(updateRow('   a name new to this build', newName.length, gzOf(newName)));
-console.log(updateRow('reused from cache', reused.length, gzOf(reused)));
-console.log(updateRow('removed from cache', removedFromCache.length, null));
+log(updateRow(entryLabel, entryChunk.length, transferOf(entryChunk)));
+log(updateRow('   name older build already had', matched.length, transferOf(matched)));
+log(updateRow('   name shared by many files', shared.length, transferOf(shared)));
+log(updateRow('   name new to this build', newName.length, transferOf(newName)));
+log(updateRow('reused from cache', reused.length, transferOf(reused)));
+log(updateRow('removed from cache', removedFromCache.length, null));
 
 const fetchedByKind = byCategory(fetched);
 const reusedByKind = byCategory(reused);
 const kinds = [...new Set([...fetchedByKind.keys(), ...reusedByKind.keys()])];
 
-console.log(`\n${'by kind'.padEnd(20)}${'fetched'.padStart(19)}${'reused'.padStart(19)}`);
-console.log(
-  `${''.padEnd(20)}${'files'.padStart(7)}${'gz'.padStart(12)}` +
-    `${'files'.padStart(7)}${'gz'.padStart(12)}`,
+log(`\n${'by kind'.padEnd(20)}${'fetched'.padStart(19)}${'reused'.padStart(19)}`);
+log(
+  `${''.padEnd(20)}${'files'.padStart(7)}${'network'.padStart(12)}` +
+    `${'files'.padStart(7)}${'network'.padStart(12)}`,
 );
 for (const kind of kinds.sort(
-  (a, b) => (fetchedByKind.get(b)?.gz ?? 0) - (fetchedByKind.get(a)?.gz ?? 0),
+  (a, b) => (fetchedByKind.get(b)?.transfer ?? 0) - (fetchedByKind.get(a)?.transfer ?? 0),
 )) {
   const wasFetched = fetchedByKind.get(kind) ?? NO_FILES;
   const wasReused = reusedByKind.get(kind) ?? NO_FILES;
-  console.log(
-    `${kind.padEnd(20)}${String(wasFetched.files).padStart(7)}${`${kb(wasFetched.gz)} KB`.padStart(
-      12,
-    )}` + `${String(wasReused.files).padStart(7)}${`${kb(wasReused.gz)} KB`.padStart(12)}`,
+  log(
+    `${kind.padEnd(20)}${String(wasFetched.files).padStart(7)}${`${kb(
+      wasFetched.transfer,
+    )} KB`.padStart(12)}` +
+      `${String(wasReused.files).padStart(7)}${`${kb(wasReused.transfer)} KB`.padStart(12)}`,
   );
 }
 
-const beforeSizes = gzByStableName(before);
-const afterSizes = gzByStableName(after);
-const beforeCounts = countByStableName(before);
+const beforeSizes = transferByStableName(before);
+const afterSizes = transferByStableName(after);
+const beforeCounts = countByStableName(before.files);
+const afterCounts = countByStableName(after.files);
 const allNames = new Set([...beforeSizes.keys(), ...afterSizes.keys()]);
 
 /** A name covering more than one file is a sum, so the row prints how many files it covers. */
 function fileCountNote(name) {
-  const count = Math.max(beforeCounts.get(name) ?? 0, afterNameCounts.get(name) ?? 0);
+  const count = Math.max(beforeCounts.get(name) ?? 0, afterCounts.get(name) ?? 0);
   return count > 1 ? `  (${count} files)` : '';
 }
 
@@ -357,12 +373,12 @@ for (const name of allNames) {
 }
 movers.sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
 
-console.log(`\n=== BIGGEST MOVERS (gzipped, by stable name, ${movers.length} changed) ===`);
+log(`\n=== BIGGEST MOVERS (network bytes, by stable name, ${movers.length} changed) ===`);
 if (!movers.length) {
-  console.log('none — no file changed size');
+  log('none — no file changed size');
 }
 for (const mover of movers.slice(0, MOVERS)) {
-  console.log(
+  log(
     `${signedKb(mover.delta).padStart(10)} KB  ${kb(mover.before).padStart(9)} -> ` +
       `${kb(mover.after).padStart(9)} KB  ${mover.name}${fileCountNote(mover.name)}`,
   );

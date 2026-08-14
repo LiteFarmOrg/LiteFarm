@@ -12,10 +12,20 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
 
-const SCHEMA = 1;
+const SCHEMA = 2;
 
-// Matches `gzip_comp_level` in packages/webapp/nginx.conf.
+// Matches `gzip_comp_level` and `gzip_min_length` in packages/webapp/nginx.conf.
 const GZIP_LEVEL = 6;
+const GZIP_MIN_LENGTH = 1024;
+
+// The extensions whose content type is in `gzip_types` in packages/webapp/nginx.conf, plus
+// text/html, which nginx always compresses. `image/svg+xml` is the only image type in that list.
+// No font type is, and neither is the application/manifest+json that the `types` block in that
+// file gives `.webmanifest`.
+const COMPRESSED_EXTENSIONS = new Set(['.css', '.html', '.js', '.json', '.svg', '.txt', '.xml']);
+
+// The extensions a substituted `import.meta.env` can end up in, scanned for environment key names
+const SUBSTITUTED_EXTENSIONS = new Set(['.css', '.html', '.js']);
 
 // Asserted to appear in the built output on every run. If it does not, the environment override
 // below did not take effect and the snapshot describes an unknown environment.
@@ -46,24 +56,21 @@ const DIST = join(WEBAPP, 'dist');
 const SRC = join(WEBAPP, 'src');
 const LOCAL_DIR = join(WEBAPP, '.bundle-snapshots');
 const RELEASE_DIR = join(WEBAPP, 'bundle-snapshots');
-const BUILD_MARKER = join(LOCAL_DIR, '.last-build.json');
+const VITE_PACKAGE = join(WEBAPP, 'node_modules', 'vite', 'package.json');
 
 const PUBLIC = join(WEBAPP, 'public');
 
-// `public/` is copied into `dist` wholesale, so a file git ignores there is measured on the machine
-// that has it and absent from every deployed build. `git check-ignore` decides which those are.
-// macOS recreates `.DS_Store` as soon as a folder is opened, so deleting it does not stay done. No
-// server serves it and no glob matches it, which is what makes it safe to drop rather than report.
+// macOS recreates `.DS_Store` as soon as a folder is opened
 const REGENERATED = new Set(['.DS_Store']);
 
+// `public/` is copied into `dist` wholesale, so a file git ignores there is measured locally
+// but absent from every deployed build; will be skipped in snapshot
 const LOCAL_ONLY = ignoredUnderPublic();
 
 // The one glob that reaches public/ is `public/locales/{lng}/*.json` via `src/locales/i18n.js`. An
-// ignored file it matches becomes a chunk in dist, which is build output no filter here can catch.
+// ignored file it matches becomes a chunk in dist that can't then be matched; existence will stop build
 const BUNDLED_LOCAL = [...LOCAL_ONLY].filter((url) => /^\/locales\/[^/]+\/[^/]+\.json$/.test(url));
 
-// One chunk per namespace per language, from the `import.meta.glob` over `public/locales` in
-// `src/locales/i18n.js`. The namespaces are whatever is on disk.
 const LOCALE_NAMESPACES = new Set(
   readdirSync(join(PUBLIC, 'locales', 'en'))
     .filter((name) => name.endsWith('.json'))
@@ -78,9 +85,12 @@ const HASH_PATTERN = /-([A-Za-z0-9_-]{8})(?=\.[^/]*$)/;
 const IMAGE_PATTERN = /\.(avif|gif|ico|jpe?g|png|webp)$/;
 const FONT_PATTERN = /\.(eot|otf|ttf|woff2?)$/;
 
-// The path `src/locales/i18n.js` gives HttpBackend as a `loadPath`,
-// served over the network rather than compiled into a chunk
+// The path `src/locales/i18n.js` gives HttpBackend as a `loadPath`
 const TRANSLATION_JSON_PATTERN = /^\/locales\/.+\.json$/;
+
+// A key name on its own: the leading guard rejects the tail of a longer identifier, such as the
+// `VITE_USER` inside `INVITE_USER`
+const ENV_KEY_PATTERN = /(?<![A-Za-z0-9_$])VITE_[A-Z0-9_]+/g;
 
 function fail(message) {
   console.error(`bundle-snapshot: ${message}`);
@@ -88,13 +98,11 @@ function fail(message) {
 }
 
 function parseArgs(argv) {
-  const options = { build: true, release: false, label: null };
+  const options = { release: false, label: null };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--release') {
       options.release = true;
-    } else if (arg === '--no-build') {
-      options.build = false;
     } else if (arg === '--label') {
       options.label = argv[++i];
       if (!options.label) {
@@ -115,22 +123,31 @@ function git(args) {
   if (result.status !== 0) {
     fail(`git ${args.join(' ')} failed: ${(result.stderr || '').trim()}`);
   }
-  return result.stdout.trim();
+  return result.stdout.trimEnd();
 }
 
-/** Working-tree state, ignoring vite.config.ts, which carries local dev config on some machines. */
+/** Working-tree state. `dirtyPaths` is printed, never written into the snapshot. */
 function commitInfo() {
-  const status = git(['status', '--porcelain']);
-  const dirty = status
+  const dirtyPaths = git(['status', '--porcelain'])
     .split('\n')
     .filter(Boolean)
-    .some((line) => line.slice(3).trim() !== 'packages/webapp/vite.config.ts');
+    .map((line) => line.slice(3).trim())
+    .sort();
   return {
     sha: git(['rev-parse', 'HEAD']),
     shortSha: git(['rev-parse', '--short', 'HEAD']),
     branch: git(['rev-parse', '--abbrev-ref', 'HEAD']),
-    dirty,
+    dirty: dirtyPaths.length > 0,
+    dirtyPaths,
   };
+}
+
+/** The Vite version that decided the chunk layout */
+function viteVersion() {
+  if (!existsSync(VITE_PACKAGE)) {
+    fail('node_modules/vite is missing, so the Vite version cannot be recorded. Run pnpm install.');
+  }
+  return JSON.parse(readFileSync(VITE_PACKAGE, 'utf8')).version;
 }
 
 function walk(dir) {
@@ -150,8 +167,8 @@ function walk(dir) {
 }
 
 /**
- * The files under `public/` that git ignores, as URLs. `git check-ignore`
- * exits 0 and returns the matches on stndout when it matches something
+ * The files under `public/` that git ignores, as URLs. `git check-ignore` exits 0 and returns the
+ * matches on stdout when it matches something, and 1 when it matches nothing
  */
 function ignoredUnderPublic() {
   if (!existsSync(PUBLIC)) {
@@ -163,8 +180,8 @@ function ignoredUnderPublic() {
     encoding: 'utf8',
     input: paths.join('\n'),
   });
-  if (result.status > 1) {
-    fail(`git check-ignore failed: ${(result.stderr || '').trim()}`);
+  if (result.error || result.status === null || result.status > 1) {
+    fail(`git check-ignore failed: ${(result.stderr || result.error?.message || '').trim()}`);
   }
   return new Set(
     result.stdout
@@ -172,6 +189,10 @@ function ignoredUnderPublic() {
       .filter(Boolean)
       .map((path) => normaliseUrl(relative(PUBLIC, path))),
   );
+}
+
+function accountedFor(key) {
+  return key in PINNED_ENV || key in BLANKED_ENV;
 }
 
 /** Every `import.meta.env.VITE_*` key read under src/ must be given a value or blanked. */
@@ -187,9 +208,7 @@ function assertEnvExhaustive() {
       used.add(match[1]);
     }
   }
-  const unaccounted = [...used]
-    .filter((key) => !(key in PINNED_ENV) && !(key in BLANKED_ENV))
-    .sort();
+  const unaccounted = [...used].filter((key) => !accountedFor(key)).sort();
   if (unaccounted.length) {
     fail(
       `src/ reads ${unaccounted.join(', ')}, which the pinned environment does not account for. ` +
@@ -208,7 +227,7 @@ function envFingerprint() {
   return createHash('sha256').update(canonical).digest('hex');
 }
 
-function runBuild(fingerprint) {
+function runBuild() {
   console.log('bundle-snapshot: building with the pinned environment (this takes minutes)');
   const result = spawnSync('pnpm', ['build'], {
     cwd: WEBAPP,
@@ -217,22 +236,6 @@ function runBuild(fingerprint) {
   });
   if (result.status !== 0) {
     fail('the build failed');
-  }
-  mkdirSync(LOCAL_DIR, { recursive: true });
-  writeFileSync(BUILD_MARKER, `${JSON.stringify({ envFingerprint: fingerprint }, null, 2)}\n`);
-}
-
-/** The dist on disk must be one this script built, under the pin now in force. */
-function assertBuiltByThisScript(fingerprint) {
-  if (!existsSync(BUILD_MARKER)) {
-    fail('--no-build, but no dist built by this script. Run without --no-build.');
-  }
-  const marker = JSON.parse(readFileSync(BUILD_MARKER, 'utf8'));
-  if (marker.envFingerprint !== fingerprint) {
-    fail(
-      '--no-build, but the existing dist was built under a different pinned environment. ' +
-        'Run without --no-build.',
-    );
   }
 }
 
@@ -253,19 +256,25 @@ function normaliseUrl(url) {
   return `/${url.replace(/^\.?\//, '')}`;
 }
 
+/**
+ * `/assets/` is the only directory Vite hashes. Elsewhere a hyphen and eight characters belong to
+ * the filename, as in `/crop-images/maize-ordinary.jpg`.
+ */
 function splitHash(url) {
-  const match = url.match(HASH_PATTERN);
+  const match = url.startsWith('/assets/') ? url.match(HASH_PATTERN) : null;
   return {
     hash: match ? match[1] : null,
     stableName: match ? url.replace(HASH_PATTERN, '') : url,
   };
 }
 
+/** What nginx puts on the wire: the gzipped body only when it compresses that type at that size. */
+function transferSize(url, raw, gz) {
+  return COMPRESSED_EXTENSIONS.has(extname(url)) && raw >= GZIP_MIN_LENGTH ? gz : raw;
+}
+
 function categorise(url, stableName) {
   const ext = extname(url);
-  if (ext === '.map') {
-    return 'sourcemap';
-  }
   if (ext === '.svg') {
     return 'svg';
   }
@@ -324,9 +333,15 @@ function entryUrls() {
 
 function measure(manifest) {
   const files = [];
+  const envKeysInOutput = new Set();
   let sentinelSeen = false;
 
   for (const path of walk(DIST)) {
+    // No user downloads a sourcemap: a browser requests one only when DevTools is open, and they
+    // are not in the precache manifest
+    if (extname(path) === '.map') {
+      continue;
+    }
     const url = normaliseUrl(relative(DIST, path));
     if (LOCAL_ONLY.has(url)) {
       continue;
@@ -335,8 +350,13 @@ function measure(manifest) {
     const category = categorise(url, stableName);
     const bytes = readFileSync(path);
 
-    if (category !== 'sourcemap' && bytes.includes(SENTINEL_API_URL)) {
+    if (bytes.includes(SENTINEL_API_URL)) {
       sentinelSeen = true;
+    }
+    if (SUBSTITUTED_EXTENSIONS.has(extname(url))) {
+      for (const key of bytes.toString('latin1').matchAll(ENV_KEY_PATTERN)) {
+        envKeysInOutput.add(key[0]);
+      }
     }
     if (url.startsWith('/assets/') && stableName === url) {
       fail(
@@ -345,12 +365,15 @@ function measure(manifest) {
       );
     }
 
+    const raw = bytes.length;
+    const gz = gzipSync(bytes, { level: GZIP_LEVEL }).length;
     files.push({
       url,
       stableName,
       hash,
-      raw: bytes.length,
-      gz: gzipSync(bytes, { level: GZIP_LEVEL }).length,
+      raw,
+      gz,
+      transfer: transferSize(url, raw, gz),
       category,
       precached: manifest.has(url),
       revision: manifest.get(url) ?? null,
@@ -361,6 +384,16 @@ function measure(manifest) {
     fail(
       `${SENTINEL_API_URL} does not appear in the built output, so the pinned environment did ` +
         'not reach the build. The snapshot would describe an unknown environment.',
+    );
+  }
+
+  const unaccounted = [...envKeysInOutput].filter((key) => !accountedFor(key)).sort();
+  if (unaccounted.length) {
+    fail(
+      `the built output names ${unaccounted.join(', ')}, which the pinned environment does not ` +
+        'account for. Vite writes a bare import.meta.env as the whole environment object, keys ' +
+        'included, so those values came from the .env on this machine and no other checkout ' +
+        'reproduces this measurement. Add each key to PINNED_ENV or BLANKED_ENV in this file.',
     );
   }
 
@@ -376,8 +409,13 @@ function measure(manifest) {
 
 function total(files) {
   return files.reduce(
-    (acc, file) => ({ files: acc.files + 1, raw: acc.raw + file.raw, gz: acc.gz + file.gz }),
-    { files: 0, raw: 0, gz: 0 },
+    (acc, file) => ({
+      files: acc.files + 1,
+      raw: acc.raw + file.raw,
+      gz: acc.gz + file.gz,
+      transfer: acc.transfer + file.transfer,
+    }),
+    { files: 0, raw: 0, gz: 0, transfer: 0 },
   );
 }
 
@@ -393,16 +431,26 @@ function mb(bytes) {
   return (bytes / 1024 ** 2).toFixed(2);
 }
 
+function listPaths(paths) {
+  return paths.map((path) => `  ${path}`).join('\n');
+}
+
 const options = parseArgs(process.argv.slice(2));
 const fingerprint = envFingerprint();
 
 assertEnvExhaustive();
 
-if (options.build) {
-  runBuild(fingerprint);
-} else {
-  assertBuiltByThisScript(fingerprint);
+const { dirtyPaths, ...commit } = commitInfo();
+
+if (options.release && commit.dirty) {
+  fail(
+    'a release snapshot must describe a committed tree, and these paths are modified:\n' +
+      `${listPaths(dirtyPaths)}\n` +
+      'Stash them and run again: git stash push <path>',
+  );
 }
+
+runBuild();
 
 // Hard stop: the existence of local-only bundled locales will inflate the snapshot
 if (BUNDLED_LOCAL.length) {
@@ -410,9 +458,7 @@ if (BUNDLED_LOCAL.length) {
     `git ignores ${BUNDLED_LOCAL.length} locale files under public/, and src/locales/i18n.js globs ` +
       'each one into a precached chunk. Those chunks are build output, so this script cannot ' +
       'filter them, and any snapshot taken now counts files no other checkout has:\n' +
-      BUNDLED_LOCAL.sort()
-        .map((url) => `  public${url}`)
-        .join('\n') +
+      listPaths(BUNDLED_LOCAL.sort().map((url) => `public${url}`)) +
       '\nDelete them and build again.',
   );
 }
@@ -421,20 +467,18 @@ if (!existsSync(join(DIST, 'sw.js'))) {
   fail('dist/sw.js is missing, so there is no precache manifest to read');
 }
 
-const commit = commitInfo();
 const version = JSON.parse(readFileSync(join(WEBAPP, 'package.json'), 'utf8')).version;
-// No user downloads a sourcemap: a browser requests one only when DevTools is open, and they are
-// not in the precache manifest.
-const files = measure(readManifest()).filter((file) => file.category !== 'sourcemap');
+const files = measure(readManifest());
 
 const snapshot = {
   schema: SCHEMA,
-  source: 'dist',
   commit,
   version,
   label: options.label,
   gzipLevel: GZIP_LEVEL,
+  gzipMinLength: GZIP_MIN_LENGTH,
   node: process.version,
+  vite: viteVersion(),
   envFingerprint: fingerprint,
   entry: [...entryUrls()].sort(),
   totals: totals(files),
@@ -450,35 +494,28 @@ const outputPath = join(directory, name);
 mkdirSync(directory, { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`);
 
-const { precached, onDemand } = snapshot.totals;
 console.log(`\nwrote ${relative(WEBAPP, outputPath)}`);
 console.log(`  commit     ${commit.shortSha}${commit.dirty ? ' (dirty)' : ''} on ${commit.branch}`);
 console.log(`  version    ${version}`);
-console.log(
-  `  precache       ${precached.files} files, ${mb(precached.raw)} MB raw, ${mb(
-    precached.gz,
-  )} MB gz`,
-);
-console.log(
-  `  not precached  ${onDemand.files} files, ${mb(onDemand.raw)} MB raw, ${mb(onDemand.gz)} MB gz`,
-);
+for (const [label, bucket] of [
+  ['precache', snapshot.totals.precached],
+  ['not precached', snapshot.totals.onDemand],
+]) {
+  console.log(
+    `  ${label.padEnd(16)}${String(bucket.files).padStart(4)} files, ${mb(bucket.raw)} MB raw, ` +
+      `${mb(bucket.transfer)} MB over the network`,
+  );
+}
 
 if (LOCAL_ONLY.size) {
   console.log(
     `\ngit ignores these ${LOCAL_ONLY.size} files under public/, so they are not measured:`,
   );
-  for (const url of [...LOCAL_ONLY].sort()) {
-    console.log(`  public${url}`);
-  }
-}
-if (BUNDLED_LOCAL.length) {
-  console.log(
-    `\n${BUNDLED_LOCAL.length} of them are locale JSON, which src/locales/i18n.js globs into\n` +
-      'precached chunks. Those chunks are build output, so no filter here removes them. Delete the\n' +
-      'files above and rebuild for a snapshot another checkout reproduces.',
-  );
+  console.log(listPaths([...LOCAL_ONLY].sort().map((url) => `public${url}`)));
 }
 
 if (commit.dirty) {
-  console.log('\nthe working tree is dirty, so this snapshot describes no committed state');
+  console.log('\nthis snapshot describes no committed state, because these paths are modified:');
+  console.log(listPaths(dirtyPaths));
+  console.log('To measure a committed tree, stash them and run again: git stash push <path>');
 }

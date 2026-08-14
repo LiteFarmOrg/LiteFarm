@@ -22,6 +22,7 @@
     "dev": "vite --host",
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
     "bundle-snapshot": "node scripts/bundle-snapshot.mjs",
+    "bundle-compare": "node scripts/bundle-compare.mjs",
     "preview": "vite preview",
     "lint": "eslint src",
     "i18n": "i18next 'src/**/*.{js,jsx,ts,tsx}' -c src/locales/i18next-parser.config.cjs",

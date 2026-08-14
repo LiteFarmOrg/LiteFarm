@@ -3,10 +3,6 @@
 // Compare two snapshots written by bundle-snapshot.mjs and report what changed.
 //
 // Usage, output blocks and failure messages: ../bundle-snapshots/README.md
-//
-// A precache entry counts as fetched on update when its url is absent from the older snapshot, and
-// also when the url matches but `revision` changed — index.html and the other entries Workbox
-// tracks by revision keep their url across builds.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, isAbsolute, join, resolve } from 'node:path';
@@ -67,7 +63,7 @@ function load(arg) {
 
 /**
  * A snapshot pair whose measurement differs cannot be diffed at all. A pair whose build environment
- * differs can: the diff is real, and the environment change is one of the things it is measuring.
+ * differs can, so that case warns instead of failing.
  */
 function checkComparable(older, newer) {
   const mismatched = ['schema', 'source', 'gzipLevel'].filter(
@@ -75,7 +71,9 @@ function checkComparable(older, newer) {
   );
   if (mismatched.length) {
     fail(
-      `these snapshots differ in ${mismatched.join(', ')}, so they were not measured the same way ` +
+      `these snapshots differ in ${mismatched.join(
+        ', ',
+      )}, so they were not measured the same way ` +
         'and cannot be diffed. Re-take the older snapshot with the current script.',
     );
   }
@@ -95,7 +93,7 @@ function percent(before, after) {
   return `${change >= 0 ? '+' : ''}${change.toFixed(1)}%`;
 }
 
-/** Manifest entries by url. The value is what decides whether the entry is fetched again. */
+/** Manifest entries by url */
 function precachedByUrl(snapshot) {
   const entries = new Map();
   for (const file of snapshot.files) {
@@ -121,7 +119,7 @@ function byCategory(files) {
   return totals;
 }
 
-/** Gzipped bytes per stable name, so the same file rebuilt under a new hash lines up. */
+/** Gzipped bytes per stable name, summed when several files share one. */
 function gzByStableName(snapshot) {
   const sizes = new Map();
   for (const file of snapshot.files) {
@@ -226,6 +224,8 @@ const afterPrecached = precachedByUrl(after);
 
 const fetched = [...afterPrecached.values()].filter((file) => {
   const previous = beforePrecached.get(file.url);
+  // A precache entry counts as fetched on update when its url is absent from
+  // the older snapshot, or for non-hashed tracked files, when `revision` changed
   return !previous || previous.revision !== file.revision;
 });
 const fetchedSet = new Set(fetched);
@@ -236,8 +236,8 @@ const gzOf = (files) => files.reduce((total, file) => total + file.gz, 0);
 const fetchedGz = gzOf(fetched);
 const installGz = after.totals.precached.gz;
 
-// The entry chunk gets its own row. It carries the hashed filename of each chunk it imports, so its
-// own hash moves whenever any of them does, and it is the largest single precache entry.
+// The entry chunk gets its own row. It is the largest single precache entry, and its hash moves
+// whenever any chunk it imports does, because it carries their hashed filenames.
 const entryUrls = new Set(after.entry ?? []);
 const entryChunk = fetched.filter((file) => entryUrls.has(file.url));
 const rest = fetched.filter((file) => !entryUrls.has(file.url));
@@ -252,7 +252,7 @@ const matched = rest.filter(
   (file) => beforeStableNames.has(file.stableName) && afterNameCounts.get(file.stableName) === 1,
 );
 
-/** The stable names carrying the most fetched bytes, so the shared-name row names its own cause. */
+/** The stable names carrying the most fetched bytes, for the annotation on the shared-name row. */
 function topNames(files, limit) {
   const gzPerName = new Map();
   for (const file of files) {
@@ -265,7 +265,9 @@ function topNames(files, limit) {
 
 if (envChanged) {
   console.log('\n!! The pinned build environment changed between these two snapshots, most likely');
-  console.log('   because a VITE_ variable was added. Vite inlines those values, so the hash moves');
+  console.log(
+    '   because a VITE_ variable was added. Vite inlines those values, so the hash moves',
+  );
   console.log('   on every chunk that reads one and on every chunk importing it, directly or not.');
   console.log('   Part of the update below is that move rather than new code, and it is still a');
   console.log('   cost every returning visitor pays once.');
@@ -295,7 +297,12 @@ if (entryChunk.length) {
 }
 console.log(updateRow('   a name the older build already had', matched.length, gzOf(matched)));
 console.log(
-  updateRow('   a name shared by many files', shared.length, gzOf(shared), topNames(shared, 2).join(', ')),
+  updateRow(
+    '   a name shared by many files',
+    shared.length,
+    gzOf(shared),
+    topNames(shared, 2).join(', '),
+  ),
 );
 console.log(updateRow('   a name new to this build', newName.length, gzOf(newName)));
 console.log(updateRow('reused from cache', reused.length, gzOf(reused)));
@@ -316,8 +323,9 @@ for (const kind of kinds.sort(
   const wasFetched = fetchedByKind.get(kind) ?? NO_FILES;
   const wasReused = reusedByKind.get(kind) ?? NO_FILES;
   console.log(
-    `${kind.padEnd(20)}${String(wasFetched.files).padStart(7)}${`${kb(wasFetched.gz)} KB`.padStart(12)}` +
-      `${String(wasReused.files).padStart(7)}${`${kb(wasReused.gz)} KB`.padStart(12)}`,
+    `${kind.padEnd(20)}${String(wasFetched.files).padStart(7)}${`${kb(wasFetched.gz)} KB`.padStart(
+      12,
+    )}` + `${String(wasReused.files).padStart(7)}${`${kb(wasReused.gz)} KB`.padStart(12)}`,
   );
 }
 

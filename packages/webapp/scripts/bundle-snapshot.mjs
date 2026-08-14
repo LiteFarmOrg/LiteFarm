@@ -4,10 +4,6 @@
 //
 // Usage, output fields and failure messages: ../bundle-snapshots/README.md
 //
-// The script runs the build itself. Eleven files under `src/` read `import.meta.env`, and Vite
-// inlines each value at build time, so the environment the build ran under is part of what the
-// snapshot describes. `envFingerprint` records it; snapshots taken under different values are not
-// comparable.
 
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -25,9 +21,8 @@ const GZIP_LEVEL = 6;
 // below did not take effect and the snapshot describes an unknown environment.
 const SENTINEL_API_URL = 'https://snapshot.invalid';
 
-// Keys a deployed build has a value for. All values here are dummies; none is secret. `NODE_ENV` is
-// set because Vite otherwise takes it from the developer's `.env`, where `development` yields a
-// React development build.
+// Keys the deployed builds have a value for. All values here are dummies; none is secret. `NODE_ENV` is
+// set because Vite otherwise takes it from the developer's `.env`
 const PINNED_ENV = {
   NODE_ENV: 'production',
   VITE_API_URL: SENTINEL_API_URL,
@@ -39,7 +34,7 @@ const PINNED_ENV = {
   VITE_SURVEY_GROUP_ID: 'snapshot-survey-group-id',
 };
 
-// Keys only a local `.env` carries, blanked because an unset key falls back to that file.
+// Keys only a local `.env` would carry, blanked because an unset key falls back to that file.
 const BLANKED_ENV = {
   VITE_DEV_BUCKET_NAME: '',
   VITE_DEV_ENDPOINT: '',
@@ -56,14 +51,14 @@ const BUILD_MARKER = join(LOCAL_DIR, '.last-build.json');
 const PUBLIC = join(WEBAPP, 'public');
 
 // `public/` is copied into `dist` wholesale, so a file git ignores there is measured on the machine
-// that has it and absent from every deployed build. Git is the authority on which those are.
+// that has it and absent from every deployed build. `git check-ignore` decides which those are.
 // macOS recreates `.DS_Store` as soon as a folder is opened, so deleting it does not stay done. No
 // server serves it and no glob matches it, which is what makes it safe to drop rather than report.
 const REGENERATED = new Set(['.DS_Store']);
 
 const LOCAL_ONLY = ignoredUnderPublic();
 
-// The one glob that reaches public/ is `public/locales/{lng}/*.json` in `src/locales/i18n.js`. An
+// The one glob that reaches public/ is `public/locales/{lng}/*.json` via `src/locales/i18n.js`. An
 // ignored file it matches becomes a chunk in dist, which is build output no filter here can catch.
 const BUNDLED_LOCAL = [...LOCAL_ONLY].filter((url) => /^\/locales\/[^/]+\/[^/]+\.json$/.test(url));
 
@@ -76,15 +71,15 @@ const LOCALE_NAMESPACES = new Set(
     .map((name) => name.slice(0, -'.json'.length)),
 );
 
-// The `-<hash>` Rollup inserts before the extension. Matches both Rollup 3's `crop-0de75771.js`
-// and Rollup 4's `index-BfFsbPPC.js`.
+// The `-<hash>` Rollup inserts before the extension. Matches both
+// Rollup 3 (`crop-0de75771.js`) and Rollup 4 (`index-BfFsbPPC.js`)
 const HASH_PATTERN = /-([A-Za-z0-9_-]{8})(?=\.[^/]*$)/;
 
 const IMAGE_PATTERN = /\.(avif|gif|ico|jpe?g|png|webp)$/;
 const FONT_PATTERN = /\.(eot|otf|ttf|woff2?)$/;
 
-// The path `src/locales/i18n.js` gives HttpBackend as `loadPath`, one file per namespace per
-// language, served over the network rather than compiled into a chunk.
+// The path `src/locales/i18n.js` gives HttpBackend as a `loadPath`,
+// served over the network rather than compiled into a chunk
 const TRANSLATION_JSON_PATTERN = /^\/locales\/.+\.json$/;
 
 function fail(message) {
@@ -155,8 +150,8 @@ function walk(dir) {
 }
 
 /**
- * The `public/` files git ignores, as the urls they take in `dist`. `git check-ignore` exits 1 when
- * nothing matches, which is not an error.
+ * The files under `public/` that git ignores, as URLs. `git check-ignore`
+ * exits 0 and returns the matches on stndout when it matches something
  */
 function ignoredUnderPublic() {
   if (!existsSync(PUBLIC)) {
@@ -186,7 +181,9 @@ function assertEnvExhaustive() {
     if (!/\.(js|jsx|ts|tsx)$/.test(path)) {
       continue;
     }
-    for (const match of readFileSync(path, 'utf8').matchAll(/import\.meta\.env\.(VITE_[A-Z0-9_]+)/g)) {
+    for (const match of readFileSync(path, 'utf8').matchAll(
+      /import\.meta\.env\.(VITE_[A-Z0-9_]+)/g,
+    )) {
       used.add(match[1]);
     }
   }
@@ -239,7 +236,7 @@ function assertBuiltByThisScript(fingerprint) {
   }
 }
 
-/** Precache manifest URLs, and their revisions, out of a built sw.js. */
+/** Precache manifest URLs, and their revisions, from the built sw.js. */
 function readManifest() {
   const source = readFileSync(join(DIST, 'sw.js'), 'utf8');
   const entries = new Map();
@@ -303,7 +300,7 @@ function categorise(url, stableName) {
   return 'js chunk';
 }
 
-/** The chunks `index.html` loads as a module, which the browser fetches before the worker exists. */
+/** The module chunks `index.html` loads directly */
 function entryUrls() {
   const html = join(DIST, 'index.html');
   if (!existsSync(html)) {
@@ -407,8 +404,7 @@ if (options.build) {
   assertBuiltByThisScript(fingerprint);
 }
 
-// Every comparison this snapshot takes part in is wrong while these exist, not only a committed
-// one: each file becomes a precached chunk that the other side of the diff reports as new.
+// Hard stop: the existence of local-only bundled locales will inflate the snapshot
 if (BUNDLED_LOCAL.length) {
   fail(
     `git ignores ${BUNDLED_LOCAL.length} locale files under public/, and src/locales/i18n.js globs ` +
@@ -459,14 +455,18 @@ console.log(`\nwrote ${relative(WEBAPP, outputPath)}`);
 console.log(`  commit     ${commit.shortSha}${commit.dirty ? ' (dirty)' : ''} on ${commit.branch}`);
 console.log(`  version    ${version}`);
 console.log(
-  `  precache       ${precached.files} files, ${mb(precached.raw)} MB raw, ${mb(precached.gz)} MB gz`,
+  `  precache       ${precached.files} files, ${mb(precached.raw)} MB raw, ${mb(
+    precached.gz,
+  )} MB gz`,
 );
 console.log(
   `  not precached  ${onDemand.files} files, ${mb(onDemand.raw)} MB raw, ${mb(onDemand.gz)} MB gz`,
 );
 
 if (LOCAL_ONLY.size) {
-  console.log(`\ngit ignores these ${LOCAL_ONLY.size} files under public/, so they are not measured:`);
+  console.log(
+    `\ngit ignores these ${LOCAL_ONLY.size} files under public/, so they are not measured:`,
+  );
   for (const url of [...LOCAL_ONLY].sort()) {
     console.log(`  public${url}`);
   }

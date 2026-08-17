@@ -26,6 +26,7 @@ interface SurveyInfo {
   // Uppercase ISO-2 country code -> CDN version to load. The 'default' key is the global fallback;
   // a survey with no 'default' is available only in the countries it lists explicitly.
   versionsByCountry: Record<string, string>;
+  shouldTranslate?: (baseVersion: string) => boolean;
 }
 
 /**
@@ -36,10 +37,11 @@ interface SurveyInfo {
  *
  * Adding a survey:
  *  1. Add a SURVEY_INFO entry here: image, ResultsComponent (omit for the generic thank-you page),
- *     cdnDirectory, versionsByCountry.
+ *     cdnDirectory, versionsByCountry, and shouldTranslate if the survey has localized versions.
  *  2. Add the title in useSurveyTitle.ts by calling t() with the key INSIGHTS.<KEY>.TITLE.
  *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
- *  4. Upload the survey's <version>.json to its CDN directory.
+ *  4. Upload the survey's <version>.json to its CDN directory (plus <version>_<language>.json per
+ *     supported language, if shouldTranslate is set).
  */
 export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape: {
@@ -47,6 +49,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'fao', AU: 'au' },
+    shouldTranslate: (baseVersion: string) => baseVersion === 'fao',
   },
   cathi_gao: {
     image: tape_survey,
@@ -59,12 +62,26 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
  * The CDN version of a survey for a given country, or undefined when the survey does not exist or is
  * not available in that country. A country-specific entry wins over the global 'default'.
  */
-export const getSurveyVersion = (surveyId: string, countryCode?: string): string | undefined => {
+export const getSurveyVersion = (
+  surveyId: string,
+  countryCode?: string,
+  language: string = 'en',
+): { version: string; fallbackVersion?: string } | undefined => {
   const info = SURVEY_INFO[surveyId];
   if (!info) {
     return undefined;
   }
-  return (countryCode && info.versionsByCountry[countryCode]) ?? info.versionsByCountry.default;
+  const baseVersion =
+    (countryCode && info.versionsByCountry[countryCode]) ?? info.versionsByCountry.default;
+
+  if (!baseVersion) {
+    return undefined;
+  }
+
+  const shouldTranslate = language === 'en' ? false : info.shouldTranslate?.(baseVersion) || false;
+  return shouldTranslate
+    ? { version: `${baseVersion}_${language}`, fallbackVersion: baseVersion }
+    : { version: baseVersion };
 };
 
 /**

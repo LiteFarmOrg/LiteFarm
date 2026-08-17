@@ -48,7 +48,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  const surveyVersion = getSurveyVersion(surveyId, country_code);
+  const { version: surveyVersion } = getSurveyVersion(surveyId, country_code) || {};
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =

@@ -90,6 +90,61 @@ export const getSurveyDefinitionVersion = (surveyJson: any): string | undefined 
   return expression.replace(/^'(.*)'$/, '$1');
 };
 
+export const TAPE_NEW_SCHEMA_MARKER = 'location1';
+
+const hasQuestionNamed = (surveyJson: Record<string, any>, name: string): boolean => {
+  const search = (node: any): boolean => {
+    if (Array.isArray(node)) {
+      return node.some(search);
+    }
+    if (!node || typeof node !== 'object') {
+      return false;
+    }
+    if (node.name === name && node.type) {
+      return true;
+    }
+    return Object.values(node).some(search);
+  };
+
+  return search(surveyJson.pages);
+};
+
+export const isUpdatedTapeSchema = (surveyJson: Record<string, any> | undefined): boolean =>
+  !!surveyJson && hasQuestionNamed(surveyJson, TAPE_NEW_SCHEMA_MARKER);
+
+interface CheckDraftStaleParams {
+  surveyJson: Record<string, any> | undefined;
+  hasDraftData: boolean;
+  draftDefinitionVersion: string | undefined;
+  definitionVersion: string | undefined;
+}
+
+/**
+ * Determines if an existing in-progress survey draft is stale and must be discarded.
+ *
+ * For legacy drafts created prior to version tracking, draftDefinitionVersion will be undefined
+ *  - If the schema is TAPE V2, discard the draft
+ *  - For other surveys (e.g. AU TAPE), preserve, populating definitionVersion on the next edit
+ */
+export const isSurveyDraftStale = ({
+  surveyJson,
+  hasDraftData,
+  draftDefinitionVersion,
+  definitionVersion,
+}: CheckDraftStaleParams): boolean => {
+  if (!surveyJson || !hasDraftData || draftDefinitionVersion === definitionVersion) {
+    return false;
+  }
+
+  // If draft version is defined, any mismatch indicates a true update
+  if (draftDefinitionVersion !== undefined) {
+    return true;
+  }
+
+  // Legacy transition: invalidate unversioned drafts only when migrating to FAO TAPE v2
+  return isUpdatedTapeSchema(surveyJson);
+};
+
 /**
  * The results component for a survey, defaulting to the generic thank-you page when the survey
  * defines none.

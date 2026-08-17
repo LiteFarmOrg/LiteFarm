@@ -22,7 +22,12 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyVersion, getSurveyDefinitionVersion } from './surveyConfig';
+import {
+  SURVEY_INFO,
+  getSurveyVersion,
+  getSurveyDefinitionVersion,
+  isSurveyDraftStale,
+} from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import DraftResetCallout from './DraftResetCallout';
@@ -78,10 +83,12 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const [wasDraftDiscarded, setWasDraftDiscarded] = useState(false);
 
   const definitionVersion = surveyJson ? getSurveyDefinitionVersion(surveyJson) : undefined;
-  const isDraftStale =
-    !!surveyJson &&
-    Object.keys(surveyDataInProgress).length > 0 &&
-    draftDefinitionVersion !== definitionVersion;
+  const isDraftStale = isSurveyDraftStale({
+    surveyJson,
+    hasDraftData: Object.keys(surveyDataInProgress).length > 0,
+    draftDefinitionVersion,
+    definitionVersion,
+  });
 
   const initialData = isDraftStale
     ? prepopulatedData

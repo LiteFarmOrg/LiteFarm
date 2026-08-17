@@ -22,6 +22,7 @@ import {
 } from '../../../util/google-maps/parseAddressComponents';
 import { userFarmSelector } from '../../userFarmSlice';
 import { UserFarm } from '../../../types';
+import { isUpdatedTapeSchema } from './surveyConfig';
 
 interface SurveyPrepopulatedData {
   location_province?: string;
@@ -35,31 +36,12 @@ interface SurveyPrepopulatedData {
   longitude?: number;
 }
 
-const TAPE_NEW_SCHEMA_MARKER = 'location1';
-
-const hasQuestionNamed = (surveyJson: Record<string, any>, name: string): boolean => {
-  const search = (node: any): boolean => {
-    if (Array.isArray(node)) {
-      return node.some(search);
-    }
-    if (!node || typeof node !== 'object') {
-      return false;
-    }
-    if (node.name === name && node.type) {
-      return true;
-    }
-    return Object.values(node).some(search);
-  };
-
-  return search(surveyJson.pages);
-};
-
 const buildTapeLocationData = (
   surveyJson: Record<string, any>,
   parsedAddress: ParsedAddress,
   gridPoints: { lat: number; lng: number },
 ): SurveyPrepopulatedData => {
-  if (hasQuestionNamed(surveyJson, TAPE_NEW_SCHEMA_MARKER)) {
+  if (isUpdatedTapeSchema(surveyJson)) {
     return {
       location1: parsedAddress.location_province,
       location2: parsedAddress.location_municipality,

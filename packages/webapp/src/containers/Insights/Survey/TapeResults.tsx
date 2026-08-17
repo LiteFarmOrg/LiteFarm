@@ -77,7 +77,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     }
   }, [surveyDataError, isSuccess, surveyData]);
 
-  const tapeData = survey_response ? analyzeTAPEData(survey_response) : [];
+  const tapeData = survey_response ? getTAPEDimensionScores(survey_response) : [];
 
   const chartData = {
     labels: tapeData.map((d) => d.dimension),
@@ -148,23 +148,46 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   );
 }
 
-const DIMENSION_MAPPING = {
-  Diversity: 'diversity_1',
-  Synergy: 'synergy_2',
-  Recycling: 'recycling_3',
-  Efficiency: 'efficiency_4',
-  Resilience: 'resilience_5',
-  'Culture and food traditions': 'culture_6',
-  'Co-creation and sharing of knowledge': 'knowledge_7',
-  'Human and social values': 'human_8',
-  'Circular economy and solidarity': 'circular_9',
-  'Responsible governance': 'governance_10',
+const DIMENSIONS = [
+  { dimension: 'Diversity', prefix: 'diversity_1', scoreField: 'div_score' },
+  { dimension: 'Synergy', prefix: 'synergy_2', scoreField: 'synergy_score' },
+  { dimension: 'Recycling', prefix: 'recycling_3', scoreField: 'recycling_score' },
+  { dimension: 'Efficiency', prefix: 'efficiency_4', scoreField: 'efficiency_score' },
+  { dimension: 'Resilience', prefix: 'resilience_5', scoreField: 'resilience_score' },
+  { dimension: 'Culture and food traditions', prefix: 'culture_6', scoreField: 'cultfood_score' },
+  {
+    dimension: 'Co-creation and sharing of knowledge',
+    prefix: 'knowledge_7',
+    scoreField: 'cocrea_score',
+  },
+  { dimension: 'Human and social values', prefix: 'human_8', scoreField: 'human_score' },
+  {
+    dimension: 'Circular economy and solidarity',
+    prefix: 'circular_9',
+    scoreField: 'circular_score',
+  },
+  { dimension: 'Responsible governance', prefix: 'governance_10', scoreField: 'respgov_score' },
+];
+
+const OVERALL_SCORE_FIELD = 'caet_score';
+
+const getTAPEDimensionScores = (data: any): TAPEDimension[] => {
+  if (!data) {
+    return [];
+  }
+
+  return OVERALL_SCORE_FIELD in data ? readTAPEScores(data) : analyzeTAPEData(data);
 };
 
-const analyzeTAPEData = (data: any): TAPEDimension[] => {
-  if (!data) return [];
+const readTAPEScores = (data: any): TAPEDimension[] =>
+  DIMENSIONS.map(({ dimension, scoreField }) => ({
+    dimension,
+    score: Number(data[scoreField]) || 0,
+    maxScore: MAX_SCORE,
+  }));
 
-  return Object.entries(DIMENSION_MAPPING).map(([dimension, prefix]) => {
+const analyzeTAPEData = (data: any): TAPEDimension[] => {
+  return DIMENSIONS.map(({ dimension, prefix }) => {
     const scores = Object.keys(data)
       .filter((key) => key.startsWith(prefix))
       .map((key) => Number(data[key]) || 0);

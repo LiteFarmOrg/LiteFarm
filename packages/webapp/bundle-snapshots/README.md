@@ -104,12 +104,15 @@ Therefore, the script sets its own fixed values in the build's environment, wher
 pnpm bundle-compare <older> <newer>
 ```
 
-Snapshots can be specified as a full path, a filename, or a bare `--label` value. All three of these will work:
+Snapshots can be specified as a full path, a filename, a bare `--label` value, or a version (for releases). E.g.
 
 ```bash
+pnpm bundle-compare 3.13.1 integration
+pnpm bundle-compare integration mybranch
 pnpm bundle-compare .bundle-snapshots/a1b2c3d-integration.json .bundle-snapshots/e4f5g6h-mybranch.json
 pnpm bundle-compare a1b2c3d-integration e4f5g6h-mybranch
-pnpm bundle-compare integration mybranch
+
+
 ```
 
 A label has to pick out one file. If two snapshots are labelled the same, but taken on different commits, the run fails and names both files.

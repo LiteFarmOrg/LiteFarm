@@ -8,7 +8,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// 400 kbps, the baseline network the performance work is measured against, as KB per second.
+// 400 kilobits/sec, converted to 50 kilobytes/sec for the time estimate.
 const KBPS = 400 / 8;
 
 // Beyond this, the added and removed lists are truncated with an explicit count.
@@ -19,26 +19,21 @@ const MOVERS = 15;
 // Two snapshots that disagree on any of these were not measured the same way.
 const MEASUREMENT_FIELDS = ['schema', 'gzipLevel', 'gzipMinLength'];
 
-// A disagreement on any of these moves the numbers without the source changing.
 const TOOLCHAIN_FIELDS = ['envFingerprint', 'node', 'vite'];
 
 const TOOLCHAIN_WARNINGS = {
   envFingerprint: [
     'The pinned build environment changed between these two snapshots, most likely because a',
     'VITE_ variable was added. Vite inlines those values, so the hash moves on every chunk that',
-    'reads one and on every chunk importing it, directly or not. Part of the update below is',
-    'that move rather than new code, and it is still a cost every returning visitor pays once.',
+    'reads one and on every chunk importing it, directly or not.',
   ],
   node: [
     'These snapshots were measured on different Node versions. Node carries its own zlib, so',
-    'every compressed size can move without the bundle changing. No hash moves, so the update',
-    'below still names what a returning visitor fetches.',
+    'every compressed size can move without the bundle changing.',
   ],
   vite: [
     'These snapshots were built by different Vite versions. Chunk layout and the hashed filename',
-    'format belong to the bundler, so names and sizes can move without the source changing. Part',
-    'of the update below is that move rather than new code, and it is still a cost every',
-    'returning visitor pays once.',
+    'format belong to the bundler, so names and sizes can move without the source changing.',
   ],
 };
 
@@ -71,10 +66,12 @@ function resolveSnapshot(arg) {
     return found;
   }
 
-  // A bare label or short SHA, matching the tail of `<shortSha>-<label>.json`.
+  const isReleaseSnapshot = (name, arg) =>
+    new RegExp(`^${arg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-[0-9a-f]{7,12}\\.json$`).test(name);
+
   const matches = SEARCH_DIRS.filter((dir) => existsSync(dir)).flatMap((dir) =>
     readdirSync(dir)
-      .filter((name) => name.endsWith(`-${arg}.json`))
+      .filter((name) => name.endsWith(`-${arg}.json`) || isReleaseSnapshot(name, arg))
       .map((name) => join(dir, name)),
   );
   if (matches.length === 1) {
@@ -95,10 +92,6 @@ function load(arg) {
   }
 }
 
-/**
- * A snapshot pair whose measurement differs cannot be diffed at all. A pair built by a different
- * toolchain can, so the mismatched toolchain fields are returned rather than refused.
- */
 function checkComparable(older, newer) {
   const mismatched = MEASUREMENT_FIELDS.filter(
     (field) => older.snapshot[field] !== newer.snapshot[field],
@@ -140,7 +133,6 @@ function precachedByUrl(snapshot) {
 
 const NO_FILES = { files: 0, raw: 0, gz: 0, transfer: 0 };
 
-/** File count and bytes per category, for one set of files. */
 function byCategory(files) {
   const totals = new Map();
   for (const file of files) {
@@ -154,7 +146,6 @@ function byCategory(files) {
   return totals;
 }
 
-/** Network bytes per stable name, summed when several files share one. */
 function transferByStableName(snapshot) {
   const sizes = new Map();
   for (const file of snapshot.files) {
@@ -165,7 +156,7 @@ function transferByStableName(snapshot) {
 
 /**
  * How many files carry each stable name. Rollup names a chunk after its entry module's basename,
- * and most components and containers are an `index.jsx`, so a count above one means the name does
+ * and most components and containers are an `index.jsx`. A count above one means the name does
  * not identify which file it belongs to.
  */
 function countByStableName(files) {
@@ -216,7 +207,6 @@ function describe(loaded) {
 log(`older  ${describe(older)}`);
 log(`newer  ${describe(newer)}`);
 
-/** One `label / files / network / change / pct` line, for either bucket. */
 function sizeRow(label, a, b) {
   return (
     `${label.padEnd(18)}${String(b.files).padStart(6)}${`${mb(b.transfer)} MB`.padStart(10)}` +
@@ -260,7 +250,7 @@ const afterPrecached = precachedByUrl(after);
 
 const fetched = [...afterPrecached.values()].filter((file) => {
   const previous = beforePrecached.get(file.url);
-  // A precache entry counts as fetched on update when its url is absent from
+  // A precache entry counts as fetched when its url is absent from
   // the older snapshot, or for non-hashed tracked files, when `revision` changed
   return !previous || previous.revision !== file.revision;
 });
@@ -278,7 +268,6 @@ const entryUrls = new Set(after.entry ?? []);
 const entryChunk = fetched.filter((file) => entryUrls.has(file.url));
 const rest = fetched.filter((file) => !entryUrls.has(file.url));
 
-// Both name populations are the precached files, so each side of the diff counts the same set.
 const beforeStableNames = new Set([...beforePrecached.values()].map((file) => file.stableName));
 const afterPrecachedCounts = countByStableName([...afterPrecached.values()]);
 const newName = rest.filter((file) => !beforeStableNames.has(file.stableName));
@@ -297,7 +286,6 @@ for (const field of toolchainChanges) {
   }
 }
 
-/** One `label / entries / network` line under UPDATE, with an optional trailing note. */
 function updateRow(label, entries, transfer, note = '') {
   const size = transfer === null ? '' : `${mb(transfer)} MB`.padStart(10);
   return `${label.padEnd(36)}${String(entries).padStart(5)}${size}${note && `   ${note}`}`;
@@ -350,7 +338,6 @@ const beforeCounts = countByStableName(before.files);
 const afterCounts = countByStableName(after.files);
 const allNames = new Set([...beforeSizes.keys(), ...afterSizes.keys()]);
 
-/** A name covering more than one file is a sum, so the row prints how many files it covers. */
 function fileCountNote(name) {
   const count = Math.max(beforeCounts.get(name) ?? 0, afterCounts.get(name) ?? 0);
   return count > 1 ? `  (${count} files)` : '';

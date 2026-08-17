@@ -14,25 +14,19 @@ import { gzipSync } from 'node:zlib';
 
 const SCHEMA = 2;
 
-// Matches `gzip_comp_level` and `gzip_min_length` in packages/webapp/nginx.conf.
+// Matches packages/webapp/nginx.conf.
 const GZIP_LEVEL = 6;
 const GZIP_MIN_LENGTH = 1024;
 
-// The extensions whose content type is in `gzip_types` in packages/webapp/nginx.conf, plus
-// text/html, which nginx always compresses. `image/svg+xml` is the only image type in that list.
-// No font type is, and neither is the application/manifest+json that the `types` block in that
-// file gives `.webmanifest`.
 const COMPRESSED_EXTENSIONS = new Set(['.css', '.html', '.js', '.json', '.svg', '.txt', '.xml']);
 
-// The extensions a substituted `import.meta.env` can end up in, scanned for environment key names
 const SUBSTITUTED_EXTENSIONS = new Set(['.css', '.html', '.js']);
 
 // Asserted to appear in the built output on every run. If it does not, the environment override
 // below did not take effect and the snapshot describes an unknown environment.
 const SENTINEL_API_URL = 'https://snapshot.invalid';
 
-// Keys the deployed builds have a value for. All values here are dummies; none is secret. `NODE_ENV` is
-// set because Vite otherwise takes it from the developer's `.env`
+// Keys the deployed builds have a value for. All values here are dummies; none is secret.
 const PINNED_ENV = {
   NODE_ENV: 'production',
   VITE_API_URL: SENTINEL_API_URL,
@@ -63,12 +57,8 @@ const PUBLIC = join(WEBAPP, 'public');
 // macOS recreates `.DS_Store` as soon as a folder is opened
 const REGENERATED = new Set(['.DS_Store']);
 
-// `public/` is copied into `dist` wholesale, so a file git ignores there is measured locally
-// but absent from every deployed build; will be skipped in snapshot
 const LOCAL_ONLY = ignoredUnderPublic();
 
-// The one glob that reaches public/ is `public/locales/{lng}/*.json` via `src/locales/i18n.js`. An
-// ignored file it matches becomes a chunk in dist that can't then be matched; existence will stop build
 const BUNDLED_LOCAL = [...LOCAL_ONLY].filter((url) => /^\/locales\/[^/]+\/[^/]+\.json$/.test(url));
 
 const LOCALE_NAMESPACES = new Set(
@@ -78,8 +68,8 @@ const LOCALE_NAMESPACES = new Set(
     .map((name) => name.slice(0, -'.json'.length)),
 );
 
-// The `-<hash>` Rollup inserts before the extension. Matches both
-// Rollup 3 (`crop-0de75771.js`) and Rollup 4 (`index-BfFsbPPC.js`)
+// The `-<hash>` Rollup inserts before the extension.
+// Matches Rollup 3 (`crop-0de75771.js`) and Rollup 4 (`index-BfFsbPPC.js`)
 const HASH_PATTERN = /-([A-Za-z0-9_-]{8})(?=\.[^/]*$)/;
 
 const IMAGE_PATTERN = /\.(avif|gif|ico|jpe?g|png|webp)$/;
@@ -88,8 +78,6 @@ const FONT_PATTERN = /\.(eot|otf|ttf|woff2?)$/;
 // The path `src/locales/i18n.js` gives HttpBackend as a `loadPath`
 const TRANSLATION_JSON_PATTERN = /^\/locales\/.+\.json$/;
 
-// A key name on its own: the leading guard rejects the tail of a longer identifier, such as the
-// `VITE_USER` inside `INVITE_USER`
 const ENV_KEY_PATTERN = /(?<![A-Za-z0-9_$])VITE_[A-Z0-9_]+/g;
 
 function fail(message) {
@@ -126,7 +114,6 @@ function git(args) {
   return result.stdout.trimEnd();
 }
 
-/** Working-tree state. `dirtyPaths` is printed, never written into the snapshot. */
 function commitInfo() {
   const dirtyPaths = git(['status', '--porcelain'])
     .split('\n')
@@ -142,7 +129,6 @@ function commitInfo() {
   };
 }
 
-/** The Vite version that decided the chunk layout */
 function viteVersion() {
   if (!existsSync(VITE_PACKAGE)) {
     fail('node_modules/vite is missing, so the Vite version cannot be recorded. Run pnpm install.');
@@ -166,10 +152,6 @@ function walk(dir) {
   return found;
 }
 
-/**
- * The files under `public/` that git ignores, as URLs. `git check-ignore` exits 0 and returns the
- * matches on stdout when it matches something, and 1 when it matches nothing
- */
 function ignoredUnderPublic() {
   if (!existsSync(PUBLIC)) {
     return new Set();
@@ -195,7 +177,6 @@ function accountedFor(key) {
   return key in PINNED_ENV || key in BLANKED_ENV;
 }
 
-/** Every `import.meta.env.VITE_*` key read under src/ must be given a value or blanked. */
 function assertEnvExhaustive() {
   const used = new Set();
   for (const path of walk(SRC)) {
@@ -239,7 +220,6 @@ function runBuild() {
   }
 }
 
-/** Precache manifest URLs, and their revisions, from the built sw.js. */
 function readManifest() {
   const source = readFileSync(join(DIST, 'sw.js'), 'utf8');
   const entries = new Map();
@@ -256,10 +236,6 @@ function normaliseUrl(url) {
   return `/${url.replace(/^\.?\//, '')}`;
 }
 
-/**
- * `/assets/` is the only directory Vite hashes. Elsewhere a hyphen and eight characters belong to
- * the filename, as in `/crop-images/maize-ordinary.jpg`.
- */
 function splitHash(url) {
   const match = url.startsWith('/assets/') ? url.match(HASH_PATTERN) : null;
   return {
@@ -268,7 +244,6 @@ function splitHash(url) {
   };
 }
 
-/** What nginx puts on the wire: the gzipped body only when it compresses that type at that size. */
 function transferSize(url, raw, gz) {
   return COMPRESSED_EXTENSIONS.has(extname(url)) && raw >= GZIP_MIN_LENGTH ? gz : raw;
 }
@@ -309,7 +284,6 @@ function categorise(url, stableName) {
   return 'js chunk';
 }
 
-/** The module chunks `index.html` loads directly */
 function entryUrls() {
   const html = join(DIST, 'index.html');
   if (!existsSync(html)) {
@@ -419,7 +393,6 @@ function total(files) {
   );
 }
 
-/** Every measured file is in exactly one of these. Sourcemaps are not measured. */
 function totals(files) {
   return {
     precached: total(files.filter((file) => file.precached)),
@@ -452,7 +425,6 @@ if (options.release && commit.dirty) {
 
 runBuild();
 
-// Hard stop: the existence of local-only bundled locales will inflate the snapshot
 if (BUNDLED_LOCAL.length) {
   fail(
     `git ignores ${BUNDLED_LOCAL.length} locale files under public/, and src/locales/i18n.js globs ` +

@@ -1259,6 +1259,18 @@
     },
     "TAPE": {
       "COMPLETED": "Completed - See your results",
+      "DIMENSIONS": {
+        "CIRCULAR_ECONOMY": "Circular economy and solidarity",
+        "COCREATION_AND_KNOWLEDGE": "Co-creation and sharing of knowledge",
+        "CULTURE_AND_FOOD": "Culture and food traditions",
+        "DIVERSITY": "Diversity",
+        "EFFICIENCY": "Efficiency",
+        "HUMAN_AND_SOCIAL": "Human and social values",
+        "RECYCLING": "Recycling",
+        "RESILIENCE": "Resilience",
+        "RESPONSIBLE_GOVERNANCE": "Responsible governance",
+        "SYNERGY": "Synergy"
+      },
       "IN_PROGRESS": "In progress",
       "LOAD_ERROR": "Failed to load survey. Please try again later.",
       "NOT_FILLED": "Not filled",

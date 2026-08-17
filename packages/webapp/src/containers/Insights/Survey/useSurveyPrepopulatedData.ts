@@ -35,7 +35,7 @@ interface SurveyPrepopulatedData {
   longitude?: number;
 }
 
-const FAO_STEP1_MARKER_QUESTION = 'location1';
+const TAPE_NEW_SCHEMA_MARKER = 'location1';
 
 const hasQuestionNamed = (surveyJson: Record<string, any>, name: string): boolean => {
   const search = (node: any): boolean => {
@@ -59,7 +59,7 @@ const buildTapeLocationData = (
   parsedAddress: ParsedAddress,
   gridPoints: { lat: number; lng: number },
 ): SurveyPrepopulatedData => {
-  if (hasQuestionNamed(surveyJson, FAO_STEP1_MARKER_QUESTION)) {
+  if (hasQuestionNamed(surveyJson, TAPE_NEW_SCHEMA_MARKER)) {
     return {
       location1: parsedAddress.location_province,
       location2: parsedAddress.location_municipality,

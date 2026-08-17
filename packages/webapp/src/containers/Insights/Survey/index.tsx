@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
@@ -22,9 +22,10 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyVersion } from './surveyConfig';
+import { SURVEY_INFO, getSurveyVersion, getSurveyDefinitionVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
+import DraftResetCallout from './DraftResetCallout';
 import PageTitle from '../../../components/PageTitle';
 import {
   usePrefetch,
@@ -68,18 +69,30 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const [addSurveyResponse] = useAddSurveyResponseMutation();
   const prefetchLatestResponse = usePrefetch('getLatestSurveyResponse');
 
-  const { surveyData: surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(
-    surveyDraftSelector(surveyId),
-  );
+  const {
+    surveyData: surveyDataInProgress,
+    currentPageNo: savedPageNo,
+    definitionVersion: draftDefinitionVersion,
+  } = useSelector(surveyDraftSelector(surveyId));
   const notifications: { message: string }[] = useSelector(snackbarSelector);
+  const [wasDraftDiscarded, setWasDraftDiscarded] = useState(false);
 
-  const initialData = { ...prepopulatedData, ...surveyDataInProgress };
+  const definitionVersion = surveyJson ? getSurveyDefinitionVersion(surveyJson) : undefined;
+  const isDraftStale =
+    !!surveyJson &&
+    Object.keys(surveyDataInProgress).length > 0 &&
+    draftDefinitionVersion !== definitionVersion;
+
+  const initialData = isDraftStale
+    ? prepopulatedData
+    : { ...prepopulatedData, ...surveyDataInProgress };
+  const initialPageNo = isDraftStale ? 0 : savedPageNo;
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
-      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData }));
+      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, definitionVersion }));
     },
-    [dispatch, surveyId],
+    [dispatch, surveyId, definitionVersion],
   );
 
   const handleComplete = useCallback(
@@ -101,6 +114,17 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     },
     [addSurveyResponse, prefetchLatestResponse, dispatch, history, surveyId, farm_id],
   );
+
+  const handleCurrentPageChanged = useCallback(() => {
+    setWasDraftDiscarded(false);
+  }, []);
+
+  useEffect(() => {
+    if (isDraftStale) {
+      dispatch(clearSurvey({ surveyId }));
+      setWasDraftDiscarded(true);
+    }
+  }, [isDraftStale, dispatch, surveyId]);
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
@@ -126,14 +150,16 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     <div className={insightStyles.insightContainer}>
       <PageTitle title={surveyTitle} backUrl="/Insights" />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
+        {wasDraftDiscarded && <DraftResetCallout />}
         {/* wait for prepopulated data and survey JSON to load */}
         {!isLoading && surveyJson && (
           <SurveyComponent
             surveyJson={surveyJson}
             onComplete={handleComplete}
             onValueChanged={handleDataChange}
+            onCurrentPageChanged={handleCurrentPageChanged}
             initialData={initialData}
-            initialPageNo={savedPageNo}
+            initialPageNo={initialPageNo}
           />
         )}
       </div>

@@ -77,6 +77,20 @@ export const getAvailableSurveyIds = (countryCode?: string): string[] =>
   );
 
 /**
+ * Pull the survey_version from the survey JSON. Used to invalidate drafts when survey version changes
+ */
+export const getSurveyDefinitionVersion = (surveyJson: any): string | undefined => {
+  const expression = surveyJson?.calculatedValues?.find(
+    (calculatedValue: { name?: string }) => calculatedValue.name === 'survey_version',
+  )?.expression;
+
+  if (typeof expression !== 'string') {
+    return undefined;
+  }
+  return expression.replace(/^'(.*)'$/, '$1');
+};
+
+/**
  * The results component for a survey, defaulting to the generic thank-you page when the survey
  * defines none.
  */

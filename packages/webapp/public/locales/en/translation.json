@@ -1271,6 +1271,10 @@
         "RESPONSIBLE_GOVERNANCE": "Responsible governance",
         "SYNERGY": "Synergy"
       },
+      "DRAFT_RESET": {
+        "BODY": "Some questions have changed, so please take the updated version now instead.",
+        "TITLE": "This survey has been updated"
+      },
       "IN_PROGRESS": "In progress",
       "LOAD_ERROR": "Failed to load survey. Please try again later.",
       "NOT_FILLED": "Not filled",

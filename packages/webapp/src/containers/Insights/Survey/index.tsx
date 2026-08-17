@@ -32,6 +32,7 @@ import {
   useAddSurveyResponseMutation,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 
@@ -48,7 +49,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  const { version: surveyVersion } = getSurveyVersion(surveyId, country_code) || {};
+  const { version: surveyVersion, fallbackVersion: surveyFallbackVersion } =
+    getSurveyVersion(surveyId, country_code, getLanguageFromLocalStorage() || 'en') || {};
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
@@ -59,7 +61,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
   } = useGetSurveyJsonQuery(
-    { cdnDirectory: cdnDirectory ?? '', version: surveyVersion ?? '' },
+    {
+      cdnDirectory: cdnDirectory ?? '',
+      version: surveyVersion ?? '',
+      fallbackVersion: surveyFallbackVersion,
+    },
     { skip: !cdnDirectory || !surveyVersion },
   );
 

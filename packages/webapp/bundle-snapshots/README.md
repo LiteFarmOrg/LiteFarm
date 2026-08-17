@@ -77,13 +77,12 @@ Both files stay in `.bundle-snapshots/`, which is gitignored.
 
 ### Take a release snapshot
 
+  > [!TIP]
+  > To build the release snapshot, use the
+  > [release's tagged commit](https://github.com/LiteFarmOrg/LiteFarm/releases/latest). It is
+  > easiest to snapshot just after release.
+
 1. Check out the released commit.
-
-   > [!TIP]
-   > To build the release snapshot, use the
-   > [release's tagged commit](https://github.com/LiteFarmOrg/LiteFarm/releases/latest). It is
-   > easiest to snapshot just after release.
-
 2. Run `git status` and stash every path it lists: `git stash push <path>`.
 3. Run `pnpm bundle-snapshot --release`.
 4. Check that the printed filename carries the version and short SHA you expect, then `git add` it.

@@ -40,3 +40,6 @@ packages/.DS_Store
 packages/webapp/.pnpm-debug.log
 
 /dist
+
+# Local bundle snapshots. Only released states are committed, and those go to bundle-snapshots/.
+/.bundle-snapshots

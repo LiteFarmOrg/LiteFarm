@@ -16,10 +16,10 @@
 import { ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation, Trans } from 'react-i18next';
-import { ReactComponent as CheckIcon } from '../../assets/images/check-circle2.svg';
+import CheckIcon from '../../assets/images/check-circle2.svg?react';
 import Switch from '../Form/Switch';
 import Button from '../Form/Button';
-import { ReactComponent as MessageSquareIcon } from '../../assets/images/message-square-02.svg';
+import MessageSquareIcon from '../../assets/images/message-square-02.svg?react';
 import styles from './styles.module.scss';
 
 export interface PureMarketDirectoryTileProps {

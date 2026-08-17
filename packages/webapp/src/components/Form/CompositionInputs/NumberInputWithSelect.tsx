@@ -20,7 +20,7 @@ import useReactSelectStyles from '../Unit/useReactSelectStyles';
 import useNumberInput from '../NumberInput/useNumberInput';
 import InputBase from '../InputBase';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
-import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
+import RatioOptionIcon from '../../../assets/images/ratio-option.svg?react';
 import styles from './styles.module.scss';
 
 export type Option = { value: string; label: string };

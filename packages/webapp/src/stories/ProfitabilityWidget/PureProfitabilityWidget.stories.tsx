@@ -146,8 +146,8 @@ const Wrapper = ({
   const ctaVariant: CtaVariant = isEmpty
     ? 'noTransactions'
     : hasAttributions
-    ? 'default'
-    : 'noAttributions';
+      ? 'default'
+      : 'noAttributions';
 
   return (
     <PureProfitabilityWidget

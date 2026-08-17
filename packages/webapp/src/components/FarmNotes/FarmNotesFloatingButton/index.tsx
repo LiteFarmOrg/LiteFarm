@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as MessageTextSquareIcon } from '../../../assets/images/message-text-square-02.svg';
+import MessageTextSquareIcon from '../../../assets/images/message-text-square-02.svg?react';
 import styles from './styles.module.scss';
 
 interface FarmNotesFloatingButtonProps {

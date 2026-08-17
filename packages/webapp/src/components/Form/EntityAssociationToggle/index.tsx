@@ -17,8 +17,8 @@ import clsx from 'clsx';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBaseLabel from '../InputBase/InputBaseLabel';
-import { ReactComponent as CropIcon } from '../../../assets/images/nav/crops.svg';
-import { ReactComponent as AnimalIcon } from '../../../assets/images/nav/animals.svg';
+import CropIcon from '../../../assets/images/nav/crops.svg?react';
+import AnimalIcon from '../../../assets/images/nav/animals.svg?react';
 import { EntityType } from '../../../containers/Finances/types';
 import styles from './styles.module.scss';
 

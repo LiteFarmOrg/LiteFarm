@@ -21,7 +21,7 @@ import TextButton from '../../Form/Button/TextButton';
 import { Label } from '../../Typography';
 import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
 import type { SoilAmendmentProduct } from '../../../store/api/types';
-import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
+import PlusCircleIcon from '../../../assets/images/plus-circle.svg?react';
 import styles from './styles.module.scss';
 import { FlattenedInternalArea } from '../../../hooks/location/types';
 

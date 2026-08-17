@@ -17,7 +17,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import Tab from '../../components/RouterTab/Tab';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as TasksIcon } from '../../assets/images/nav/tasks.svg';
+import TasksIcon from '../../assets/images/nav/tasks.svg?react';
 import styles from './styles.module.scss';
 
 export default {

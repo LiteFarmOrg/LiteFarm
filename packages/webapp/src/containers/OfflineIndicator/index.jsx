@@ -20,7 +20,7 @@ import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 import { useOfflineReadiness } from '../../hooks/useOfflineReadiness/useOfflineReadiness';
 import styles from './styles.module.scss';
 import Badge from '../../components/Badge';
-import { ReactComponent as RefreshIcon } from '../../assets/images/refresh-cw.svg';
+import RefreshIcon from '../../assets/images/refresh-cw.svg?react';
 
 function TransitionDown(props) {
   return <Slide {...props} direction="down" />;

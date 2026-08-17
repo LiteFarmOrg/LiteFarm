@@ -19,11 +19,11 @@ import { Collapse } from '@mui/material';
 import useExpandable from '../../../../../components/Expandable/useExpandableItem';
 import TextButton from '../../../../../components/Form/Button/TextButton';
 import PrivateBadge from '../../../../../components/SimpleBadges/PrivateBadge';
+import PlusSquareIcon from '../../../../../assets/images/plus-square.svg?react';
+import MinusSquareIcon from '../../../../../assets/images/minus-square.svg?react';
 import type { CertificationItem } from '../../../../../components/Certifications/types';
 import { PGS_TRANSLATION_KEY, toCertificationItems } from '../../../../Certifications/utils';
 import { getLocalizedDateString } from '../../../../../util/moment';
-import { ReactComponent as PlusSquareIcon } from '../../../../../assets/images/plus-square.svg';
-import { ReactComponent as MinusSquareIcon } from '../../../../../assets/images/minus-square.svg';
 import {
   Certification,
   MarketDirectoryInfo,

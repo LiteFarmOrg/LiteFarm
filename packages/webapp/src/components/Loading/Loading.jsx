@@ -1,4 +1,4 @@
-import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
+import LoadingAnimation from '../../assets/images/signUp/animated_loading_farm.svg?react';
 import { colors } from '../../assets/theme';
 
 export function Loading({ children = <LoadingAnimation />, style = {}, ...props }) {

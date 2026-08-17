@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Meta, StoryObj } from '@storybook/react/*';
+import { Meta, StoryObj } from '@storybook/react';
 import styles from './styles.module.scss';
 import { DateInput } from '../../../components/Inputs/DateTime';
 import { componentDecorators } from '../../Pages/config/Decorators';

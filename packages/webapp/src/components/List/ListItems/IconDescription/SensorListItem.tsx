@@ -14,8 +14,8 @@
  */
 import React from 'react';
 import clsx from 'clsx';
-import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
-import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
+import UncheckedEnabled from '../../../../assets/images/unchecked-enabled.svg?react';
+import CheckedEnabled from '../../../../assets/images/checked-enabled.svg?react';
 import { BsChevronRight } from 'react-icons/bs';
 import Icon, { IconName } from '../../../Icons';
 import styles from './styles.module.scss';

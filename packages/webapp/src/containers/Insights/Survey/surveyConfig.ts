@@ -46,7 +46,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     image: tape_survey,
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'fao', AU: 'au' },
+    versionsByCountry: { default: 'fao/step0_step1', AU: 'au' },
   },
   cathi_gao: {
     image: tape_survey,

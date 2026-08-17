@@ -17,8 +17,8 @@ import InputBase from '../../InputBase';
 import { NumberInputStepperButton } from '../../NumberInput/NumberInputStepper';
 import useNumberInput from '../../NumberInput/useNumberInput';
 import styles from './styles.module.scss';
-import { ReactComponent as PlusSquareIcon } from '../../../../assets/images/plus-square.svg';
-import { ReactComponent as MinusSquareIcon } from '../../../../assets/images/minus-square.svg';
+import PlusSquareIcon from '../../../../assets/images/plus-square.svg?react';
+import MinusSquareIcon from '../../../../assets/images/minus-square.svg?react';
 
 type SexDetailsCountInputProps = {
   label: string;

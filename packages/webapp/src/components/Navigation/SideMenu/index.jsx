@@ -15,15 +15,15 @@ import { matchPath } from 'react-router-dom';
 import { FiEye } from 'react-icons/fi';
 
 import useExpandable from '../../Expandable/useExpandableItem';
-import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
-import { ReactComponent as LogoOffline } from '../../../assets/images/middle_logo-offline.svg';
+import Logo from '../../../assets/images/middle_logo.svg?react';
+import LogoOffline from '../../../assets/images/middle_logo-offline.svg?react';
 import {
   useGetMenuItems,
   offlineDisabledPageKeys,
   offlineViewOnlyPageKeys,
 } from '../../../hooks/useGetMenuItems';
 import Drawer from '../../Drawer';
-import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
+import CollapseMenuIcon from '../../../assets/images/nav/collapse-menu.svg?react';
 import styles from './styles.module.scss';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { useIsOffline } from '../../../containers/hooks/useOfflineDetector/useIsOffline';

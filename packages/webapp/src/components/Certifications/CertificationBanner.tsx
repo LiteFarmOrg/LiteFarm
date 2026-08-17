@@ -17,7 +17,7 @@ import clsx from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-import { ReactComponent as ExportIcon } from '../../assets/images/finance/Report-icn.svg';
+import ExportIcon from '../../assets/images/finance/Report-icn.svg?react';
 import styles from './index.module.scss';
 
 interface CertificationBannerProps {

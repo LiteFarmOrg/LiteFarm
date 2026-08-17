@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactNode } from 'react';
 import clsx from 'clsx';
 import Infoi from '../../../Tooltip/Infoi';
-import { ReactComponent as Leaf } from '../../../../assets/images/signUp/leaf.svg';
+import Leaf from '../../../../assets/images/signUp/leaf.svg?react';
 import { Label } from '../../../Typography';
 import styles from './styles.module.scss';
 

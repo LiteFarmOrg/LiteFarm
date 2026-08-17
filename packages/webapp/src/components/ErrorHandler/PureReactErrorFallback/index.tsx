@@ -19,13 +19,13 @@ import { useMediaQuery } from '@mui/material';
 import styles from './styles.module.scss';
 import { Title, Main } from '../../Typography';
 import TextButton from '../../Form/Button/TextButton';
-import { ReactComponent as Background } from '../../../assets/images/errorFallback/background.svg';
-import { ReactComponent as MobileBackground } from '../../../assets/images/errorFallback/background_mobile.svg';
-import { ReactComponent as FarmerDesktop } from '../../../assets/images/errorFallback/farmer_desktop.svg';
-import { ReactComponent as FarmerMobile } from '../../../assets/images/errorFallback/farmer_mobile.svg';
-import { ReactComponent as RefreshIcon } from '../../../assets/images/errorFallback/refresh.svg';
-import { ReactComponent as LogoutIcon } from '../../../assets/images/errorFallback/logout.svg';
-import { ReactComponent as Logo } from '../../../assets/images/nav/logo-large.svg';
+import Background from '../../../assets/images/errorFallback/background.svg?react';
+import MobileBackground from '../../../assets/images/errorFallback/background_mobile.svg?react';
+import FarmerDesktop from '../../../assets/images/errorFallback/farmer_desktop.svg?react';
+import FarmerMobile from '../../../assets/images/errorFallback/farmer_mobile.svg?react';
+import RefreshIcon from '../../../assets/images/errorFallback/refresh.svg?react';
+import LogoutIcon from '../../../assets/images/errorFallback/logout.svg?react';
+import Logo from '../../../assets/images/nav/logo-large.svg?react';
 import { SUPPORT_EMAIL } from '../../../util/constants';
 
 interface PureReactErrorFallbackProps {

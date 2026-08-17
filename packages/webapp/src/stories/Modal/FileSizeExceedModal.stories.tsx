@@ -1,7 +1,7 @@
 import FileSizeExceedModal from '../../components/Modals/FileSizeExceedModal';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';
-import type { Meta, StoryObj } from '@storybook/react/*';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof FileSizeExceedModal> = {
   title: 'Components/Modals/FileSizeExceedModal',

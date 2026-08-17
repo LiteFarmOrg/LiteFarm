@@ -15,8 +15,8 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
-import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
+import AwardIcon from '../../assets/images/nav/certifications.svg?react';
+import PlusCircleIcon from '../../assets/images/plus-circle.svg?react';
 import Button from '../Form/Button';
 import styles from './index.module.scss';
 

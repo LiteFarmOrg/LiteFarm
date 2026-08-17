@@ -15,7 +15,7 @@
 
 import { useTranslation } from 'react-i18next';
 import TextButton from '../../Form/Button/TextButton';
-import { ReactComponent as ClearFilterIcon } from '../../../assets/images/clear-filters.svg';
+import ClearFilterIcon from '../../../assets/images/clear-filters.svg?react';
 import styles from './styles.module.scss';
 
 export enum ClearFiltersButtonType {

@@ -16,7 +16,7 @@
 import { Tooltip } from '@mui/material';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as TrendArrowIcon } from '../../assets/images/profitability/trend-arrow.svg';
+import TrendArrowIcon from '../../assets/images/profitability/trend-arrow.svg?react';
 import { TrendDirection } from './constants';
 import styles from './styles.module.scss';
 

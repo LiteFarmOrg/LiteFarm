@@ -24,7 +24,7 @@ import {
 } from 'react-select';
 import { colors } from '../../../assets/theme';
 import { BsX } from 'react-icons/bs';
-import { ReactComponent as SearchIcon } from '../../../assets/images/search.svg';
+import SearchIcon from '../../../assets/images/search.svg?react';
 
 function ClearIndicator<
   Option = unknown,

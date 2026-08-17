@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import FarmNoteItem from '../FarmNoteItem';
 import Button from '../../Form/Button';
-import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
+import PlusCircleIcon from '../../../assets/images/plus-circle.svg?react';
 import { FarmNote } from '../../../store/api/types';
 import styles from './styles.module.scss';
 

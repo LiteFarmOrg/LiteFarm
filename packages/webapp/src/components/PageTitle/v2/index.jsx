@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { CancelButton } from '../CancelButton';
-import { ReactComponent as GreyHeaderChevron } from '../../../assets/images/header-chevron-left.svg';
+import GreyHeaderChevron from '../../../assets/images/header-chevron-left.svg?react';
 
 function PageTitle({ title, onGoBack, onCancel, style, label, classNames = {}, subtext }) {
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);

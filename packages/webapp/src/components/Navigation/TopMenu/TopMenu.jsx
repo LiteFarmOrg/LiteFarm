@@ -1,17 +1,17 @@
 import { useRef, useState } from 'react';
 import { logout } from '../../../util/jwt';
-import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
-import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
-import { ReactComponent as VideoIcon } from '../../../assets/images/navbar/play-square.svg';
-import { ReactComponent as SwitchFarmIcon } from '../../../assets/images/navbar/switch-farm.svg';
-import { ReactComponent as LaunchIcon } from '../../../assets/images/icon_launch.svg';
-import { ReactComponent as CloseX } from '../../../assets/images/close-x.svg';
-import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
+import LogoutIcon from '../../../assets/images/navbar/logout.svg?react';
+import MyInfoIcon from '../../../assets/images/navbar/my-info.svg?react';
+import VideoIcon from '../../../assets/images/navbar/play-square.svg?react';
+import SwitchFarmIcon from '../../../assets/images/navbar/switch-farm.svg?react';
+import LaunchIcon from '../../../assets/images/icon_launch.svg?react';
+import CloseX from '../../../assets/images/close-x.svg?react';
+import NotificationIcon from '../../../assets/images/notif.svg?react';
 // TODO: use profile picture stored in db
-import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
-import { ReactComponent as IconLogo } from '../../../assets/images/navbar/nav-logo.svg';
-import { ReactComponent as IconLogoOffline } from '../../../assets/images/navbar/nav-logo-offline.svg';
-import { ReactComponent as WordsLogo } from '../../../assets/images/middle_logo.svg';
+import ProfilePicture from '../../../assets/images/navbar/defaultpfp.svg?react';
+import IconLogo from '../../../assets/images/navbar/nav-logo.svg?react';
+import IconLogoOffline from '../../../assets/images/navbar/nav-logo-offline.svg?react';
+import WordsLogo from '../../../assets/images/middle_logo.svg?react';
 import { BiMenu } from 'react-icons/bi';
 import {
   AppBar,

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactComponent as NotificationPivotIcon } from '../../assets/images/irrigation/notification-pivot-icon.svg';
+import NotificationPivotIcon from '../../assets/images/irrigation/notification-pivot-icon.svg?react';
 
 /**
  * Provides the appropriate icon for a specified notification type.

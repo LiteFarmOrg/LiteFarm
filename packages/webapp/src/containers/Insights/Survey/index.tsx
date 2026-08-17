@@ -51,9 +51,6 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const surveyVersion = getSurveyVersion(surveyId, country_code);
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
-  const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
-    useSurveyPrepopulatedData(surveyId);
-
   const {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
@@ -61,6 +58,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   } = useGetSurveyJsonQuery(
     { cdnDirectory: cdnDirectory ?? '', version: surveyVersion ?? '' },
     { skip: !cdnDirectory || !surveyVersion },
+  );
+
+  const { prepopulatedData, isLoading: isPrepopulatedDataLoading } = useSurveyPrepopulatedData(
+    surveyId,
+    surveyJson,
   );
 
   const [addSurveyResponse] = useAddSurveyResponseMutation();

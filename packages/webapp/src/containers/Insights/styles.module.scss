@@ -18,7 +18,7 @@
 .insightContainer {
   width: 100%;
   max-width: 1024px;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--global-navbar-height));
   height: auto;
   padding: 24px 24px 0 24px;
   display: flex;

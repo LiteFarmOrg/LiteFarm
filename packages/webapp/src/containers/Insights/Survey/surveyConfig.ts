@@ -59,7 +59,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
  * The CDN version of a survey for a given country, or undefined when the survey does not exist or is
  * not available in that country. A country-specific entry wins over the global 'default'.
  */
-export const getSurveyVersion = (surveyId: string, countryCode?: string): string | undefined => {
+export const getCdnFileName = (surveyId: string, countryCode?: string): string | undefined => {
   const info = SURVEY_INFO[surveyId];
   if (!info) {
     return undefined;
@@ -73,10 +73,10 @@ export const getSurveyVersion = (surveyId: string, countryCode?: string): string
  */
 export const getAvailableSurveyIds = (countryCode?: string): string[] =>
   Object.keys(SURVEY_INFO).filter(
-    (surveyId) => getSurveyVersion(surveyId, countryCode) !== undefined,
+    (surveyId) => getCdnFileName(surveyId, countryCode) !== undefined,
   );
 
-export const getSurveyDefinitionVersion = (surveyJson: any): string | undefined => {
+export const getSurveyVersion = (surveyJson: any): string | undefined => {
   const expression = surveyJson?.calculatedValues?.find(
     (calculatedValue: { name?: string }) => calculatedValue.name === 'survey_version',
   )?.expression;
@@ -113,16 +113,16 @@ interface CheckDraftStaleParams {
   surveyJson: Record<string, any> | undefined;
   hasDraftData: boolean;
   draftDefinitionVersion: string | undefined;
-  definitionVersion: string | undefined;
+  surveyVersion: string | undefined;
 }
 
 export const isSurveyDraftStale = ({
   surveyJson,
   hasDraftData,
   draftDefinitionVersion,
-  definitionVersion,
+  surveyVersion,
 }: CheckDraftStaleParams): boolean => {
-  if (!surveyJson || !hasDraftData || draftDefinitionVersion === definitionVersion) {
+  if (!surveyJson || !hasDraftData || draftDefinitionVersion === surveyVersion) {
     return false;
   }
 

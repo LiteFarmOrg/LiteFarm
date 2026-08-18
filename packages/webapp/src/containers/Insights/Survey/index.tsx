@@ -22,12 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
-import {
-  SURVEY_INFO,
-  getSurveyVersion,
-  getSurveyDefinitionVersion,
-  isSurveyDraftStale,
-} from './surveyConfig';
+import { SURVEY_INFO, getCdnFileName, getSurveyVersion, isSurveyDraftStale } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import DraftResetCallout from './DraftResetCallout';
@@ -54,7 +49,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  const surveyVersion = getSurveyVersion(surveyId, country_code);
+  const cdnFileName = getCdnFileName(surveyId, country_code);
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
   const {
@@ -62,8 +57,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
   } = useGetSurveyJsonQuery(
-    { cdnDirectory: cdnDirectory ?? '', version: surveyVersion ?? '' },
-    { skip: !cdnDirectory || !surveyVersion },
+    { cdnDirectory: cdnDirectory ?? '', version: cdnFileName ?? '' },
+    { skip: !cdnDirectory || !cdnFileName },
   );
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } = useSurveyPrepopulatedData(
@@ -77,18 +72,18 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const {
     surveyData: surveyDataInProgress,
     currentPageNo: savedPageNo,
-    definitionVersion: draftDefinitionVersion,
+    surveyVersion: draftDefinitionVersion,
   } = useSelector(surveyDraftSelector(surveyId));
   const notifications: { message: string }[] = useSelector(snackbarSelector);
   const [wasDraftDiscarded, setWasDraftDiscarded] = useState(false);
 
-  const definitionVersion = surveyJson ? getSurveyDefinitionVersion(surveyJson) : undefined;
+  const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
   const isDraftStale = isSurveyDraftStale({
     surveyJson,
     hasDraftData: Object.keys(surveyDataInProgress).length > 0,
     draftDefinitionVersion,
-    definitionVersion,
+    surveyVersion,
   });
 
   const initialData = isDraftStale
@@ -98,9 +93,9 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
-      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, definitionVersion }));
+      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion }));
     },
-    [surveyId, definitionVersion],
+    [surveyId, surveyVersion],
   );
 
   const handleComplete = useCallback(
@@ -136,10 +131,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!surveyVersion) {
+    if (!cdnFileName) {
       history.replace('/Insights');
     }
-  }, [surveyVersion, history]);
+  }, [cdnFileName, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {

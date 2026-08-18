@@ -19,7 +19,7 @@ import { createSelector } from 'reselect';
 interface SurveyDraft {
   currentPageNo: number;
   surveyData: Record<string, any>;
-  definitionVersion?: string;
+  surveyVersion?: string;
 }
 
 interface SurveyDraftState {
@@ -42,15 +42,15 @@ const surveyDraftSlice = createSlice({
         surveyId: string;
         currentPageNo: number;
         surveyData: Record<string, any>;
-        definitionVersion?: string;
+        surveyVersion?: string;
       }>,
     ) => {
-      const { surveyId, currentPageNo, surveyData, definitionVersion } = action.payload;
+      const { surveyId, currentPageNo, surveyData, surveyVersion } = action.payload;
       const previous = state.bySurveyId[surveyId]?.surveyData ?? {};
       state.bySurveyId[surveyId] = {
         currentPageNo,
         surveyData: { ...previous, ...surveyData },
-        definitionVersion,
+        surveyVersion,
       };
     },
     clearSurvey: (state, action: PayloadAction<{ surveyId: string }>) => {

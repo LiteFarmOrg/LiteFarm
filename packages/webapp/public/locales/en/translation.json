@@ -1254,10 +1254,6 @@
       "TITLE": "Soil OM"
     },
     "SURVEY": {
-      "DRAFT_RESET": {
-        "BODY": "Some questions have changed, so please take the updated version now instead.",
-        "TITLE": "This survey has been updated"
-      },
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"
     },

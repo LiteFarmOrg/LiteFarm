@@ -67,6 +67,37 @@ export const getCdnFileName = (surveyId: string, countryCode?: string): string |
   return (countryCode && info.versionsByCountry[countryCode]) ?? info.versionsByCountry.default;
 };
 
+export const getSurveyCdnPath = (
+  surveyId: string,
+  countryCode: string | undefined,
+  draftSurveyVersion?: string,
+  hasDraft = false,
+): string | undefined => {
+  const info = SURVEY_INFO[surveyId];
+  if (!info) {
+    return undefined;
+  }
+
+  const latest = getCdnFileName(surveyId, countryCode);
+
+  const usesGlobalSurvey = !countryCode || !info.versionsByCountry[countryCode];
+
+  // One-time fallback for old to new FAO TAPE transition
+  const isLegacyFaoDraft =
+    surveyId === 'tape' && hasDraft && draftSurveyVersion === undefined && usesGlobalSurvey;
+
+  if (isLegacyFaoDraft) {
+    return 'fao';
+  }
+
+  // Pinned draft fallback to be completed in LF-5473
+  if (hasDraft && draftSurveyVersion !== undefined && latest) {
+    return `${latest}/${draftSurveyVersion}`;
+  }
+
+  return latest;
+};
+
 /**
  * The survey ids available to a farm in the given country: those with a country-specific or global
  * version. Drives the Insights tile list.
@@ -108,32 +139,6 @@ const hasQuestionNamed = (surveyJson: Record<string, any>, name: string): boolea
 
 export const isUpdatedTapeSchema = (surveyJson: Record<string, any> | undefined): boolean =>
   !!surveyJson && hasQuestionNamed(surveyJson, TAPE_NEW_SCHEMA_MARKER);
-
-interface CheckDraftStaleParams {
-  surveyJson: Record<string, any> | undefined;
-  hasDraftData: boolean;
-  draftSurveyVersion: string | undefined;
-  surveyVersion: string | undefined;
-}
-
-export const isSurveyDraftStale = ({
-  surveyJson,
-  hasDraftData,
-  draftSurveyVersion,
-  surveyVersion,
-}: CheckDraftStaleParams): boolean => {
-  if (!surveyJson || !hasDraftData || draftSurveyVersion === surveyVersion) {
-    return false;
-  }
-
-  // Defined and unequal draft versions indicate a survey update
-  if (draftSurveyVersion !== undefined) {
-    return true;
-  }
-
-  // Legacy transition: invalidate unversioned drafts only when migrating to FAO TAPE v2
-  return isUpdatedTapeSchema(surveyJson);
-};
 
 /**
  * The results component for a survey, defaulting to the generic thank-you page when the survey

@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const FAO_LOCATION_CODES_BY_ISO2: Record<string, string> = {
+// Country codes are standard FAOSTAT Country Codes, i.e. match:
+// https://www.fao.org/faostat/en/#definitions
+// Region codes appear to be TAPE-specific
+const TAPE_REGION_AND_COUNTRY_BY_ISO2: Record<string, string> = {
   AE: '2,225',
   AF: '3,2',
   AG: '5,8',
@@ -233,8 +236,11 @@ const FAO_LOCATION_CODES_BY_ISO2: Record<string, string> = {
 export const getTapeLocationCodes = (
   countryCode?: string,
 ): { region: string; country: string } | undefined => {
-  const codes = countryCode ? FAO_LOCATION_CODES_BY_ISO2[countryCode.toUpperCase()] : undefined;
+  if (!countryCode) {
+    return undefined;
+  }
 
+  const codes = TAPE_REGION_AND_COUNTRY_BY_ISO2[countryCode.toUpperCase()];
   if (!codes) {
     return undefined;
   }

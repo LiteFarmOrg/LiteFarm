@@ -83,6 +83,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const [wasDraftDiscarded, setWasDraftDiscarded] = useState(false);
 
   const definitionVersion = surveyJson ? getSurveyDefinitionVersion(surveyJson) : undefined;
+
   const isDraftStale = isSurveyDraftStale({
     surveyJson,
     hasDraftData: Object.keys(surveyDataInProgress).length > 0,
@@ -99,7 +100,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     (currentPageNo: number, surveyData: Record<string, any>) => {
       dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, definitionVersion }));
     },
-    [dispatch, surveyId, definitionVersion],
+    [surveyId, definitionVersion],
   );
 
   const handleComplete = useCallback(
@@ -131,7 +132,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       dispatch(clearSurvey({ surveyId }));
       setWasDraftDiscarded(true);
     }
-  }, [isDraftStale, dispatch, surveyId]);
+  }, [isDraftStale, surveyId]);
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {

@@ -76,9 +76,6 @@ export const getAvailableSurveyIds = (countryCode?: string): string[] =>
     (surveyId) => getSurveyVersion(surveyId, countryCode) !== undefined,
   );
 
-/**
- * Pull the survey_version from the survey JSON. Used to invalidate drafts when survey version changes
- */
 export const getSurveyDefinitionVersion = (surveyJson: any): string | undefined => {
   const expression = surveyJson?.calculatedValues?.find(
     (calculatedValue: { name?: string }) => calculatedValue.name === 'survey_version',
@@ -119,13 +116,6 @@ interface CheckDraftStaleParams {
   definitionVersion: string | undefined;
 }
 
-/**
- * Determines if an existing in-progress survey draft is stale and must be discarded.
- *
- * For legacy drafts created prior to version tracking, draftDefinitionVersion will be undefined
- *  - If the schema is TAPE V2, discard the draft
- *  - For other surveys (e.g. AU TAPE), preserve, populating definitionVersion on the next edit
- */
 export const isSurveyDraftStale = ({
   surveyJson,
   hasDraftData,
@@ -136,7 +126,7 @@ export const isSurveyDraftStale = ({
     return false;
   }
 
-  // If draft version is defined, any mismatch indicates a true update
+  // Defined and unequal draft versions indicate a survey update
   if (draftDefinitionVersion !== undefined) {
     return true;
   }

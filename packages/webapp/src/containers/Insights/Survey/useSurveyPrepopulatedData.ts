@@ -65,8 +65,7 @@ const buildTapeLocationData = (
 /**
  * Returns pre-populated answers for a survey. Only the TAPE survey geocodes the farm address to
  * pre-fill location/GPS fields; other surveys start empty. Survey-specific pre-population is added
- * here per survey id. The question names differ between TAPE definitions, so the loaded
- * `surveyJson` decides which names are written
+ * here per survey id.
  */
 export const useSurveyPrepopulatedData = (
   surveyId: string,

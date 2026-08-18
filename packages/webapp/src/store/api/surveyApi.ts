@@ -42,14 +42,14 @@ export const surveyApi = api.injectEndpoints({
       { cdnDirectory: string; version: string; fallbackVersion?: string }
     >({
       queryFn: async ({ cdnDirectory, version, fallbackVersion }) => {
-        const fetchVersion = (filename: string) =>
+        const fetchSurvey = (filename: string) =>
           fetch(`${DO_CDN_URL}/${cdnDirectory}/${filename}.json`);
         try {
-          let response = await fetchVersion(version);
+          let response = await fetchSurvey(version);
           // DO Spaces returns 403 (not 404) for a file that doesn't exist, since the bucket
           // won't confirm or deny what files exist to unauthenticated requests like this one.
           if (!response.ok && [403, 404].includes(response.status) && fallbackVersion) {
-            response = await fetchVersion(fallbackVersion);
+            response = await fetchSurvey(fallbackVersion);
           }
           if (!response.ok) {
             return {

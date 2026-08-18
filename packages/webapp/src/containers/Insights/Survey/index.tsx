@@ -26,6 +26,7 @@ import { SURVEY_INFO, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
+import Spinner from '../../../components/Spinner';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
@@ -131,7 +132,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       <PageTitle title={surveyTitle} backUrl="/Insights" />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
-        {!isLoading && surveyJson && (
+        {!isLoading && surveyJson ? (
           <SurveyComponent
             surveyJson={surveyJson}
             onComplete={handleComplete}
@@ -139,6 +140,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
             initialData={initialData}
             initialPageNo={savedPageNo}
           />
+        ) : (
+          <div className={styles.spinner}>
+            <Spinner />
+          </div>
         )}
       </div>
     </div>

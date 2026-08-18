@@ -44,3 +44,10 @@
     margin-left: calc(var(--global-side-menu-width) / 2);
   }
 }
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

@@ -21,8 +21,8 @@ export default function DraftResetCallout() {
 
   return (
     <div className={styles.draftResetCallout}>
-      <h4 className={styles.draftResetCalloutTitle}>{t('INSIGHTS.TAPE.DRAFT_RESET.TITLE')}</h4>
-      <p className={styles.draftResetCalloutBody}>{t('INSIGHTS.TAPE.DRAFT_RESET.BODY')}</p>
+      <h4 className={styles.draftResetCalloutTitle}>{t('INSIGHTS.SURVEY.DRAFT_RESET.TITLE')}</h4>
+      <p className={styles.draftResetCalloutBody}>{t('INSIGHTS.SURVEY.DRAFT_RESET.BODY')}</p>
     </div>
   );
 }

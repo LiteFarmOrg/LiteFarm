@@ -511,9 +511,9 @@
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
-    "SELECT_EXPORT_CERTIFIER": "For which certifier do you want to export your LiteFarm data?",
     "SELECT_CERTIFIER": "Select the certifier",
     "SELECT_CERTIFIER_PLACEHOLDER": "Select from your certifiers",
+    "SELECT_EXPORT_CERTIFIER": "For which certifier do you want to export your LiteFarm data?",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "UH_OH": "Uh oh!",
     "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
@@ -1254,6 +1254,10 @@
       "TITLE": "Soil OM"
     },
     "SURVEY": {
+      "DRAFT_RESET": {
+        "BODY": "Some questions have changed, so please take the updated version now instead.",
+        "TITLE": "This survey has been updated"
+      },
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"
     },
@@ -1270,10 +1274,6 @@
         "RESILIENCE": "Resilience",
         "RESPONSIBLE_GOVERNANCE": "Responsible governance",
         "SYNERGY": "Synergy"
-      },
-      "DRAFT_RESET": {
-        "BODY": "Some questions have changed, so please take the updated version now instead.",
-        "TITLE": "This survey has been updated"
       },
       "IN_PROGRESS": "In progress",
       "LOAD_ERROR": "Failed to load survey. Please try again later.",

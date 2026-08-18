@@ -75,7 +75,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     surveyVersion: draftDefinitionVersion,
   } = useSelector(surveyDraftSelector(surveyId));
   const notifications: { message: string }[] = useSelector(snackbarSelector);
-  const [wasDraftDiscarded, setWasDraftDiscarded] = useState(false);
+  const [showDraftResetBanner, setShowDraftResetBanner] = useState(false);
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
@@ -119,13 +119,13 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   );
 
   const handleCurrentPageChanged = useCallback(() => {
-    setWasDraftDiscarded(false);
+    setShowDraftResetBanner(false);
   }, []);
 
   useEffect(() => {
     if (isDraftStale) {
       dispatch(clearSurvey({ surveyId }));
-      setWasDraftDiscarded(true);
+      setShowDraftResetBanner(true);
     }
   }, [isDraftStale, surveyId]);
 
@@ -153,7 +153,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     <div className={insightStyles.insightContainer}>
       <PageTitle title={surveyTitle} backUrl="/Insights" />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
-        {wasDraftDiscarded && <DraftResetCallout />}
+        {showDraftResetBanner && <DraftResetCallout />}
         {/* wait for prepopulated data and survey JSON to load */}
         {!isLoading && surveyJson && (
           <SurveyComponent

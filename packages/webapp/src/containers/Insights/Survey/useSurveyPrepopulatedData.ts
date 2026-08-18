@@ -23,6 +23,7 @@ import {
 import { userFarmSelector } from '../../userFarmSlice';
 import { UserFarm } from '../../../types';
 import { isUpdatedTapeSchema } from './surveyConfig';
+import { getTapeLocationCodes } from './faoLocationCodes';
 
 interface SurveyPrepopulatedData {
   location_province?: string;
@@ -30,6 +31,7 @@ interface SurveyPrepopulatedData {
   country?: string;
   gps_lat?: number;
   gps_lon?: number;
+  region?: string;
   location1?: string;
   location2?: string;
   latitude?: number;
@@ -47,6 +49,7 @@ const buildTapeLocationData = (
       location2: parsedAddress.location_municipality,
       latitude: gridPoints.lat,
       longitude: gridPoints.lng,
+      ...getTapeLocationCodes(parsedAddress.countryCode),
     };
   }
 

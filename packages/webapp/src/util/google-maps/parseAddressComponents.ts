@@ -26,6 +26,7 @@ export interface ParsedAddress {
   location_province?: string;
   location_municipality?: string;
   country?: string;
+  countryCode?: string;
 }
 
 /**
@@ -51,10 +52,16 @@ export const parseGoogleGeocodedAddress = async (address: string): Promise<Parse
     const getValue = (type: AddressType) =>
       components.find((component) => component.types.includes(type))?.long_name;
 
+    // Google's short_name for countries is 2-character ISO
+    const countryCode = components.find((component) =>
+      component.types.includes(AddressType.country),
+    )?.short_name;
+
     return {
       location_province: getValue(AddressType.administrative_area_level_1),
       location_municipality: getValue(AddressType.administrative_area_level_2),
       country: getValue(AddressType.country),
+      countryCode,
     };
   } catch (error) {
     console.error('Geocoding failed:', error);

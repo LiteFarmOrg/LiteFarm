@@ -46,8 +46,8 @@ export const surveyApi = api.injectEndpoints({
           fetch(`${DO_CDN_URL}/${cdnDirectory}/${filename}.json`);
         try {
           let response = await fetchVersion(version);
-          // DO Spaces returns 403, not 404, for a missing key when the bucket doesn't
-          // grant anonymous ListBucket — so a missing localized file surfaces as 403 here.
+          // DO Spaces returns 403 (not 404) for a file that doesn't exist, since the bucket
+          // won't confirm or deny what files exist to unauthenticated requests like this one.
           if (!response.ok && [403, 404].includes(response.status) && fallbackVersion) {
             response = await fetchVersion(fallbackVersion);
           }

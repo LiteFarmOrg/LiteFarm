@@ -112,22 +112,22 @@ export const isUpdatedTapeSchema = (surveyJson: Record<string, any> | undefined)
 interface CheckDraftStaleParams {
   surveyJson: Record<string, any> | undefined;
   hasDraftData: boolean;
-  draftDefinitionVersion: string | undefined;
+  draftSurveyVersion: string | undefined;
   surveyVersion: string | undefined;
 }
 
 export const isSurveyDraftStale = ({
   surveyJson,
   hasDraftData,
-  draftDefinitionVersion,
+  draftSurveyVersion,
   surveyVersion,
 }: CheckDraftStaleParams): boolean => {
-  if (!surveyJson || !hasDraftData || draftDefinitionVersion === surveyVersion) {
+  if (!surveyJson || !hasDraftData || draftSurveyVersion === surveyVersion) {
     return false;
   }
 
   // Defined and unequal draft versions indicate a survey update
-  if (draftDefinitionVersion !== undefined) {
+  if (draftSurveyVersion !== undefined) {
     return true;
   }
 

@@ -72,7 +72,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const {
     surveyData: surveyDataInProgress,
     currentPageNo: savedPageNo,
-    surveyVersion: draftDefinitionVersion,
+    surveyVersion: draftSurveyVersion,
   } = useSelector(surveyDraftSelector(surveyId));
   const notifications: { message: string }[] = useSelector(snackbarSelector);
   const [showDraftResetBanner, setShowDraftResetBanner] = useState(false);
@@ -82,7 +82,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const isDraftStale = isSurveyDraftStale({
     surveyJson,
     hasDraftData: Object.keys(surveyDataInProgress).length > 0,
-    draftDefinitionVersion,
+    draftSurveyVersion,
     surveyVersion,
   });
 

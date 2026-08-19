@@ -132,7 +132,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       <PageTitle title={surveyTitle} backUrl="/Insights" />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
-        {isLoading && !surveyJson && (
+        {isLoading && (
           <div className={styles.spinner}>
             <Spinner />
           </div>

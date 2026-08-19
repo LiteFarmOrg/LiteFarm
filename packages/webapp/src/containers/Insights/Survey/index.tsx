@@ -26,12 +26,14 @@ import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig'
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
+import Spinner from '../../../components/Spinner';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
   useAddSurveyResponseMutation,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 
@@ -57,15 +59,27 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   } = useSelector(surveyDraftSelector(surveyId));
 
   const hasDraft = Object.keys(surveyDataInProgress).length > 0;
-  const fetchVersion = getSurveyCdnPath(surveyId, country_code, draftSurveyVersion, hasDraft);
+
+  const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
+    getSurveyCdnPath(
+      surveyId,
+      country_code,
+      getLanguageFromLocalStorage() || 'en',
+      draftSurveyVersion,
+      hasDraft,
+    ) || {};
 
   const {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
   } = useGetSurveyJsonQuery(
-    { cdnDirectory: cdnDirectory ?? '', version: fetchVersion ?? '' },
-    { skip: !cdnDirectory || !fetchVersion },
+    {
+      cdnDirectory: cdnDirectory ?? '',
+      version: cdnPath ?? '',
+      fallbackVersion: cdnFallbackPath,
+    },
+    { skip: !cdnDirectory || !cdnPath },
   );
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } = useSurveyPrepopulatedData(
@@ -111,10 +125,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!fetchVersion) {
+    if (!cdnPath) {
       history.replace('/Insights');
     }
-  }, [fetchVersion, history]);
+  }, [cdnPath, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {
@@ -134,6 +148,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       <PageTitle title={surveyTitle} backUrl="/Insights" />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
+        {isLoading && (
+          <div className={styles.spinner}>
+            <Spinner />
+          </div>
+        )}
         {!isLoading && surveyJson && (
           <SurveyComponent
             surveyJson={surveyJson}

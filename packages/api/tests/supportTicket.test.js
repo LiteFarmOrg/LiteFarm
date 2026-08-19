@@ -54,7 +54,6 @@ describe('supportTicket Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .field({
-        _file_: data.attachments,
         data: JSON.stringify(data),
       })
       .end(callback);

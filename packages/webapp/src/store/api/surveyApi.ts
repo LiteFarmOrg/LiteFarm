@@ -37,10 +37,20 @@ export const surveyApi = api.injectEndpoints({
   endpoints: (build) => ({
     // Fetches the SurveyJS JSON definition from DO CDN.
     // Uses queryFn (not query) because this bypasses the LiteFarm API base URL and auth headers.
-    getSurveyJson: build.query<Record<string, any>, { cdnDirectory: string; version: string }>({
-      queryFn: async ({ cdnDirectory, version }) => {
+    getSurveyJson: build.query<
+      Record<string, any>,
+      { cdnDirectory: string; version: string; fallbackVersion?: string }
+    >({
+      queryFn: async ({ cdnDirectory, version, fallbackVersion }) => {
+        const fetchSurvey = (filename: string) =>
+          fetch(`${DO_CDN_URL}/${cdnDirectory}/${filename}.json`);
         try {
-          const response = await fetch(`${DO_CDN_URL}/${cdnDirectory}/${version}.json`);
+          let response = await fetchSurvey(version);
+          // DO Spaces returns 403 (not 404) for a file that doesn't exist, since the bucket
+          // won't confirm or deny what files exist to unauthenticated requests like this one.
+          if (!response.ok && [403, 404].includes(response.status) && fallbackVersion) {
+            response = await fetchSurvey(fallbackVersion);
+          }
           if (!response.ok) {
             return {
               error: { status: response.status, data: `Failed to fetch survey JSON` },

@@ -26,12 +26,14 @@ import { SURVEY_INFO, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
+import Spinner from '../../../components/Spinner';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
   useAddSurveyResponseMutation,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 
@@ -48,7 +50,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  const surveyVersion = getSurveyVersion(surveyId, country_code);
+  const { version: surveyVersion, fallbackVersion: surveyFallbackVersion } =
+    getSurveyVersion(surveyId, country_code, getLanguageFromLocalStorage() || 'en') || {};
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
@@ -59,7 +62,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
   } = useGetSurveyJsonQuery(
-    { cdnDirectory: cdnDirectory ?? '', version: surveyVersion ?? '' },
+    {
+      cdnDirectory: cdnDirectory ?? '',
+      version: surveyVersion ?? '',
+      fallbackVersion: surveyFallbackVersion,
+    },
     { skip: !cdnDirectory || !surveyVersion },
   );
 
@@ -125,6 +132,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       <PageTitle title={surveyTitle} backUrl="/Insights" />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
+        {isLoading && (
+          <div className={styles.spinner}>
+            <Spinner />
+          </div>
+        )}
         {!isLoading && surveyJson && (
           <SurveyComponent
             surveyJson={surveyJson}

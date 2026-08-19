@@ -21,11 +21,19 @@ import ThankYouResults from './ThankYouResults';
 interface SurveyInfo {
   image: string;
   ResultsComponent?: ComponentType<{ surveyId: string }>;
-  // CDN directory under DO_CDN_URL holding the survey's `<version>.json` definitions.
+  // CDN directory under DO_CDN_URL holding the survey's file(s), optionally nested under a per-language
+  // subfolder (see resolveVersion below).
   cdnDirectory: string;
   // Uppercase ISO-2 country code -> CDN version to load. The 'default' key is the global fallback;
   // a survey with no 'default' is available only in the countries it lists explicitly.
   versionsByCountry: Record<string, string>;
+  // Called only for the survey's 'default' version. Resolves the version to request for a language,
+  // plus a fallbackVersion for the untranslated default if that's missing. Omit if the default version
+  // has no per-language content (e.g. cathi_gao).
+  resolveVersion?: (
+    defaultVersion: string,
+    language: string,
+  ) => { version: string; fallbackVersion?: string };
 }
 
 /**
@@ -36,17 +44,28 @@ interface SurveyInfo {
  *
  * Adding a survey:
  *  1. Add a SURVEY_INFO entry here: image, ResultsComponent (omit for the generic thank-you page),
- *     cdnDirectory, versionsByCountry.
+ *     cdnDirectory, versionsByCountry, and resolveVersion if the default version has localized files.
  *  2. Add the title in useSurveyTitle.ts by calling t() with the key INSIGHTS.<KEY>.TITLE.
  *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
- *  4. Upload the survey's <version>.json to its CDN directory.
+ *  4. Upload the survey's <version>.json to its CDN directory. A translatable default version goes
+ *     in a per-language subfolder (e.g. fao/step0_step1.json for English, fao_fr/step0_step1_fr.json
+ *     for French); a non-translatable, country-specific version (e.g. au) stays flat at the CDN
+ *     directory root, no subfolder.
  */
 export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape: {
     image: tape_survey,
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'fao', AU: 'au' },
+    versionsByCountry: { default: 'step0_step1', AU: 'au' },
+    resolveVersion: (defaultVersion: string, language: string) => {
+      return language === 'en'
+        ? { version: `fao/${defaultVersion}` }
+        : {
+            version: `fao_${language}/${defaultVersion}_${language}`,
+            fallbackVersion: `fao/${defaultVersion}`,
+          };
+    },
   },
   cathi_gao: {
     image: tape_survey,
@@ -59,12 +78,24 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
  * The CDN version of a survey for a given country, or undefined when the survey does not exist or is
  * not available in that country. A country-specific entry wins over the global 'default'.
  */
-export const getSurveyVersion = (surveyId: string, countryCode?: string): string | undefined => {
+export const getSurveyVersion = (
+  surveyId: string,
+  countryCode?: string,
+  language: string = 'en',
+): { version: string; fallbackVersion?: string } | undefined => {
   const info = SURVEY_INFO[surveyId];
   if (!info) {
     return undefined;
   }
-  return (countryCode && info.versionsByCountry[countryCode]) ?? info.versionsByCountry.default;
+  const countryOverride = countryCode && info.versionsByCountry[countryCode];
+  if (countryOverride) {
+    return { version: countryOverride };
+  }
+  const defaultVersion = info.versionsByCountry.default;
+  if (!defaultVersion) {
+    return undefined;
+  }
+  return info.resolveVersion?.(defaultVersion, language) ?? { version: defaultVersion };
 };
 
 /**

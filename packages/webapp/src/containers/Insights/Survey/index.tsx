@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyVersion } from './surveyConfig';
+import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
@@ -50,12 +50,24 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  const { version: surveyVersion, fallbackVersion: surveyFallbackVersion } =
-    getSurveyVersion(surveyId, country_code, getLanguageFromLocalStorage() || 'en') || {};
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
-  const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
-    useSurveyPrepopulatedData(surveyId);
+  const {
+    surveyData: surveyDataInProgress,
+    currentPageNo: savedPageNo,
+    surveyVersion: draftSurveyVersion,
+  } = useSelector(surveyDraftSelector(surveyId));
+
+  const hasDraft = Object.keys(surveyDataInProgress).length > 0;
+
+  const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
+    getSurveyCdnPath(
+      surveyId,
+      country_code,
+      getLanguageFromLocalStorage() || 'en',
+      draftSurveyVersion,
+      hasDraft,
+    ) || {};
 
   const {
     data: surveyJson,
@@ -64,27 +76,31 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   } = useGetSurveyJsonQuery(
     {
       cdnDirectory: cdnDirectory ?? '',
-      version: surveyVersion ?? '',
-      fallbackVersion: surveyFallbackVersion,
+      version: cdnPath ?? '',
+      fallbackVersion: cdnFallbackPath,
     },
-    { skip: !cdnDirectory || !surveyVersion },
+    { skip: !cdnDirectory || !cdnPath },
+  );
+
+  const { prepopulatedData, isLoading: isPrepopulatedDataLoading } = useSurveyPrepopulatedData(
+    surveyId,
+    surveyJson,
   );
 
   const [addSurveyResponse] = useAddSurveyResponseMutation();
   const prefetchLatestResponse = usePrefetch('getLatestSurveyResponse');
 
-  const { surveyData: surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(
-    surveyDraftSelector(surveyId),
-  );
   const notifications: { message: string }[] = useSelector(snackbarSelector);
+
+  const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
   const initialData = { ...prepopulatedData, ...surveyDataInProgress };
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
-      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData }));
+      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion }));
     },
-    [dispatch, surveyId],
+    [surveyId, surveyVersion],
   );
 
   const handleComplete = useCallback(
@@ -109,10 +125,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!surveyVersion) {
+    if (!cdnPath) {
       history.replace('/Insights');
     }
-  }, [surveyVersion, history]);
+  }, [cdnPath, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {

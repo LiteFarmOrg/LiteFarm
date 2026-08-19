@@ -16,9 +16,14 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useGoogleMapsLoader } from '../../../hooks/useGoogleMapsLoader';
-import { parseGoogleGeocodedAddress } from '../../../util/google-maps/parseAddressComponents';
+import {
+  parseGoogleGeocodedAddress,
+  ParsedAddress,
+} from '../../../util/google-maps/parseAddressComponents';
 import { userFarmSelector } from '../../userFarmSlice';
 import { UserFarm } from '../../../types';
+import { isUpdatedTapeSchema } from './surveyConfig';
+import { getTapeLocationCodes } from './faoLocationCodes';
 
 interface SurveyPrepopulatedData {
   location_province?: string;
@@ -26,14 +31,46 @@ interface SurveyPrepopulatedData {
   country?: string;
   gps_lat?: number;
   gps_lon?: number;
+  region?: string;
+  location1?: string;
+  location2?: string;
+  latitude?: number;
+  longitude?: number;
 }
+
+const buildTapeLocationData = (
+  surveyJson: Record<string, any>,
+  parsedAddress: ParsedAddress,
+  gridPoints: { lat: number; lng: number },
+): SurveyPrepopulatedData => {
+  if (isUpdatedTapeSchema(surveyJson)) {
+    return {
+      location1: parsedAddress.location_province,
+      location2: parsedAddress.location_municipality,
+      latitude: gridPoints.lat,
+      longitude: gridPoints.lng,
+      ...getTapeLocationCodes(parsedAddress.countryCode),
+    };
+  }
+
+  return {
+    country: parsedAddress.country,
+    location_province: parsedAddress.location_province,
+    location_municipality: parsedAddress.location_municipality,
+    gps_lat: gridPoints.lat,
+    gps_lon: gridPoints.lng,
+  };
+};
 
 /**
  * Returns pre-populated answers for a survey. Only the TAPE survey geocodes the farm address to
  * pre-fill location/GPS fields; other surveys start empty. Survey-specific pre-population is added
  * here per survey id.
  */
-export const useSurveyPrepopulatedData = (surveyId: string) => {
+export const useSurveyPrepopulatedData = (
+  surveyId: string,
+  surveyJson: Record<string, any> | undefined,
+) => {
   const { isLoaded } = useGoogleMapsLoader(['geocoding']);
 
   // @ts-expect-error -- userFarmSelector issue
@@ -49,7 +86,7 @@ export const useSurveyPrepopulatedData = (surveyId: string) => {
     }
 
     const fetchGeocodedData = async () => {
-      if (!isLoaded) {
+      if (!isLoaded || !surveyJson) {
         return;
       }
 
@@ -61,15 +98,7 @@ export const useSurveyPrepopulatedData = (surveyId: string) => {
       try {
         const parsedAddress = await parseGoogleGeocodedAddress(userFarm.address);
 
-        const data: SurveyPrepopulatedData = {
-          country: parsedAddress.country,
-          location_province: parsedAddress.location_province,
-          location_municipality: parsedAddress.location_municipality,
-          gps_lat: userFarm.grid_points.lat,
-          gps_lon: userFarm.grid_points.lng,
-        };
-
-        setPrepopulatedData(data);
+        setPrepopulatedData(buildTapeLocationData(surveyJson, parsedAddress, userFarm.grid_points));
       } catch (error) {
         console.error('Failed to fetch geocoded data:', error);
       } finally {
@@ -78,7 +107,7 @@ export const useSurveyPrepopulatedData = (surveyId: string) => {
     };
 
     fetchGeocodedData();
-  }, [surveyId, isLoaded, userFarm?.address, userFarm?.grid_points]);
+  }, [surveyId, isLoaded, surveyJson, userFarm?.address, userFarm?.grid_points]);
 
   return { prepopulatedData, isLoading };
 };

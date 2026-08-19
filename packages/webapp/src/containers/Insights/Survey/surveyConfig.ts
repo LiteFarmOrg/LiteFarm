@@ -74,11 +74,13 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   },
 };
 
+const LEGACY_FAO_SURVEY_VERSION = 'TAPE_CAET_STEP1_2025_V1';
+
 /**
  * The CDN version of a survey for a given country, or undefined when the survey does not exist or is
  * not available in that country. A country-specific entry wins over the global 'default'.
  */
-export const getSurveyVersion = (
+export const getLatestCdnPath = (
   surveyId: string,
   countryCode?: string,
   language: string = 'en',
@@ -98,14 +100,74 @@ export const getSurveyVersion = (
   return info.resolveVersion?.(defaultVersion, language) ?? { version: defaultVersion };
 };
 
+export const getSurveyCdnPath = (
+  surveyId: string,
+  countryCode?: string,
+  language: string = 'en',
+  draftSurveyVersion?: string,
+  hasDraft = false,
+): { version: string; fallbackVersion?: string } | undefined => {
+  const info = SURVEY_INFO[surveyId];
+  if (!info) {
+    return undefined;
+  }
+
+  const usesGlobalSurvey = !countryCode || !info.versionsByCountry[countryCode];
+
+  const isLegacyFaoDraft =
+    surveyId === 'tape' &&
+    hasDraft &&
+    usesGlobalSurvey &&
+    (draftSurveyVersion === undefined || draftSurveyVersion === LEGACY_FAO_SURVEY_VERSION);
+
+  if (isLegacyFaoDraft) {
+    return { version: 'fao' };
+  }
+
+  return getLatestCdnPath(surveyId, countryCode, language);
+};
+
 /**
  * The survey ids available to a farm in the given country: those with a country-specific or global
  * version. Drives the Insights tile list.
  */
 export const getAvailableSurveyIds = (countryCode?: string): string[] =>
   Object.keys(SURVEY_INFO).filter(
-    (surveyId) => getSurveyVersion(surveyId, countryCode) !== undefined,
+    (surveyId) => getLatestCdnPath(surveyId, countryCode) !== undefined,
   );
+
+export const getSurveyVersion = (surveyJson: any): string | undefined => {
+  const expression = surveyJson?.calculatedValues?.find(
+    (calculatedValue: { name?: string }) => calculatedValue.name === 'survey_version',
+  )?.expression;
+
+  if (typeof expression !== 'string') {
+    return undefined;
+  }
+  return expression.replace(/^'(.*)'$/, '$1');
+};
+
+export const TAPE_NEW_SCHEMA_MARKER = 'location1';
+
+const hasQuestionNamed = (surveyJson: Record<string, any>, name: string): boolean => {
+  const search = (node: any): boolean => {
+    if (Array.isArray(node)) {
+      return node.some(search);
+    }
+    if (!node || typeof node !== 'object') {
+      return false;
+    }
+    if (node.name === name && node.type) {
+      return true;
+    }
+    return Object.values(node).some(search);
+  };
+
+  return search(surveyJson.pages);
+};
+
+export const isUpdatedTapeSchema = (surveyJson: Record<string, any> | undefined): boolean =>
+  !!surveyJson && hasQuestionNamed(surveyJson, TAPE_NEW_SCHEMA_MARKER);
 
 /**
  * The results component for a survey, defaulting to the generic thank-you page when the survey

@@ -55,6 +55,8 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   },
 };
 
+const LEGACY_FAO_SURVEY_VERSION = 'TAPE_CAET_STEP1_2025_V1';
+
 /**
  * The CDN version of a survey for a given country, or undefined when the survey does not exist or is
  * not available in that country. A country-specific entry wins over the global 'default'.
@@ -82,17 +84,14 @@ export const getSurveyCdnPath = (
 
   const usesGlobalSurvey = !countryCode || !info.versionsByCountry[countryCode];
 
-  // One-time fallback for old to new FAO TAPE transition
   const isLegacyFaoDraft =
-    surveyId === 'tape' && hasDraft && draftSurveyVersion === undefined && usesGlobalSurvey;
+    surveyId === 'tape' &&
+    hasDraft &&
+    usesGlobalSurvey &&
+    (draftSurveyVersion === undefined || draftSurveyVersion === LEGACY_FAO_SURVEY_VERSION);
 
   if (isLegacyFaoDraft) {
     return 'fao';
-  }
-
-  // Pinned draft fallback to be completed in LF-5473
-  if (hasDraft && draftSurveyVersion !== undefined && latest) {
-    return `${latest}/${draftSurveyVersion}`;
   }
 
   return latest;

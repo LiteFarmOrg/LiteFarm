@@ -77,7 +77,6 @@ export default defineConfig({
             id.includes('/node_modules/@kurkle/color/') ||
             id.includes('/node_modules/react-smooth/') ||
             id.includes('/node_modules/decimal.js-light/') ||
-            id.includes('/node_modules/victory-vendor/') ||
             id.includes('/node_modules/d3-')
           ) {
             return 'charts-vendor';
@@ -104,7 +103,8 @@ export default defineConfig({
             id.includes('/node_modules/redux-saga/') ||
             id.includes('/node_modules/reselect/') ||
             id.includes('/node_modules/immer/') ||
-            id.includes('/node_modules/moment/')
+            id.includes('/node_modules/moment/') ||
+            id.includes('/node_modules/tiny-invariant/')
           ) {
             return 'app-vendor';
           }

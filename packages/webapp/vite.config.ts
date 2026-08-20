@@ -83,6 +83,10 @@ export default defineConfig({
             return 'charts-vendor';
           }
 
+          if (id.includes('/node_modules/react-redux-form/')) {
+            return 'react-redux-form-vendor';
+          }
+
           if (
             id.includes('/node_modules/@mui/material/') ||
             id.includes('/node_modules/@mui/system/') ||
@@ -100,7 +104,6 @@ export default defineConfig({
             id.includes('/node_modules/redux-saga/') ||
             id.includes('/node_modules/reselect/') ||
             id.includes('/node_modules/immer/') ||
-            id.includes('/node_modules/react-redux-form/') ||
             id.includes('/node_modules/moment/')
           ) {
             return 'app-vendor';

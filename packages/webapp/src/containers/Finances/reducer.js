@@ -26,7 +26,6 @@ import {
   SET_SELECTED_SALE,
 } from './constants';
 
-import { combineForms } from 'react-redux-form';
 import { combineReducers } from 'redux';
 import { DateRangeOptions } from '../../components/DateRangeSelector/types';
 
@@ -86,14 +85,5 @@ function financeReducer(state = initialState, action) {
 }
 
 export default combineReducers({
-  forms: combineForms(
-    {
-      addSale: {},
-      editSale: {},
-      expenseDetail: {},
-      date_range: null,
-    },
-    'financeReducer.forms',
-  ),
   financeReducer,
 });

@@ -15,7 +15,6 @@
 
 import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
-import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
 import { api } from './api/apiSlice';
 import insightReducer from '../containers/Insights/reducer';
@@ -71,73 +70,6 @@ import revenueTypeReducer from '../containers/revenueTypeSlice';
 import surveyDraftReducer from '../containers/Insights/Survey/surveyDraftSlice';
 
 import { ActionTypes } from './actionTypes';
-// all the initial state for the forms
-const initialFarmState = {
-  farm_name: '',
-  address: '',
-  gridPoints: {},
-  unit: 'metric',
-  currency: 'CAD',
-  date: 'MM/DD/YY',
-  sandbox: false,
-};
-
-const initialNotification = {
-  alert_pest: true,
-  alert_weather: true,
-  alert_worker_finish: true,
-  alert_before_planned_date: true,
-  alert_action_after_scouting: true,
-};
-
-const initialUserInfo = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  phone_number: '',
-  address: '',
-  profile_picture: '',
-};
-
-const initialFarmInfo = {
-  farm_name: '',
-  unit: 'metric',
-  currency: 'CAD',
-  date: 'MM/DD/YY',
-  phone_number: '',
-  phone_country: '',
-  address: '',
-  gridPoints: {},
-};
-
-const editUserInfo = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  role: 'Worker',
-  pay: {
-    type: 'hourly',
-    amount: 0,
-  },
-};
-
-const addUserInfo = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  role: 'Worker',
-  pay: {
-    type: '',
-    amount: null,
-  },
-};
-
-const signUpUserInfo = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  password: '',
-};
 
 const entitiesReducer = combineReducers({
   userFarmReducer,
@@ -203,18 +135,6 @@ const tempStateReducer = combineReducers({
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
   [api.reducerPath]: api.reducer,
-  profileForms: combineForms(
-    {
-      addInfo: addUserInfo,
-      farm: initialFarmState,
-      notification: initialNotification,
-      userInfo: initialUserInfo,
-      farmInfo: initialFarmInfo,
-      editInfo: editUserInfo,
-      signUpInfo: signUpUserInfo,
-    },
-    'profileForms',
-  ),
   entitiesReducer,
   farmStateReducer,
   persistedStateReducer,

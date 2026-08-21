@@ -52,7 +52,10 @@ async function validatePrecacheIntegrity() {
 // Assets omitted from precache, but cached on first fetch for fast subsequent loads
 registerRoute(
   ({ url }) => /\/assets\/(survey-vendor)-[^/]+\.(js|css)$/.test(url.pathname),
-  new CacheFirst({ cacheName: 'dynamic-chunks' }),
+  new CacheFirst({
+    cacheName: 'dynamic-chunks',
+    plugins: [new ExpirationPlugin({ maxEntries: 2, purgeOnQuotaError: true })],
+  }),
 );
 
 // Farm note images served through the Cloudflare Worker proxy (beta/prod) or minio (dev)

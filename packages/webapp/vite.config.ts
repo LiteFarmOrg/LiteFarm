@@ -82,10 +82,6 @@ export default defineConfig({
             return 'charts-vendor';
           }
 
-          if (id.includes('/node_modules/react-redux-form/')) {
-            return 'react-redux-form-vendor';
-          }
-
           if (
             id.includes('/node_modules/@mui/material/') ||
             id.includes('/node_modules/@mui/system/') ||

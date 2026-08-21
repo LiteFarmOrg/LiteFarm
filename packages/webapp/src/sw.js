@@ -58,6 +58,22 @@ registerRoute(
   }),
 );
 
+async function purgeStaleDynamicChunks() {
+  try {
+    const cache = await caches.open('dynamic-chunks');
+    const keys = await cache.keys();
+    // Keep only the last key in insertion order
+    const stale = keys.slice(0, -1);
+    await Promise.all(stale.map((request) => cache.delete(request)));
+  } catch {
+    return;
+  }
+}
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(purgeStaleDynamicChunks());
+});
+
 // Farm note images served through the Cloudflare Worker proxy (beta/prod) or minio (dev)
 registerRoute(
   ({ url, request }) =>

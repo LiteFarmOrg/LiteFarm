@@ -14,8 +14,11 @@
  */
 
 import { Response } from 'express';
+import { transaction, Model } from 'objection';
 import { LiteFarmRequest } from '../types.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 import SurveyResponseModel from '../models/surveyResponseModel.js';
+import SurveyDraftModel from '../models/surveyDraftModel.js';
 
 interface SurveyResponseData {
   survey_version: string;
@@ -49,19 +52,29 @@ const surveyResponseController = {
       req: LiteFarmRequest<unknown, unknown, unknown, CreateSurveyResponseReqBody>,
       res: Response,
     ) => {
+      const trx = await transaction.start(Model.knex());
       try {
         const { farm_id } = req.headers;
         const user_id = req.auth?.user_id;
         const { survey_key, survey_response } = req.body;
         if (!survey_key) {
+          await trx.rollback();
           return res.status(400).json({ error: 'survey_key is required' });
         }
         const { survey_version, project_id, survey_step } = survey_response;
 
-        const insertQuery = SurveyResponseModel.query().context({
+        // A live draft, if one exists, hands its submission_id over to the response so a draft
+        // write that arrives after this point can recognize its own lineage is now complete.
+        /* @ts-expect-error known issue with models */
+        const liveDraft = await SurveyDraftModel.query(trx)
+          .whereNotDeleted()
+          .findOne({ farm_id, survey_key, survey_step: survey_step ?? '' });
+
+        const insertQuery = SurveyResponseModel.query(trx).context({
           user_id,
         }) as unknown as InsertableQuery;
         await insertQuery.insert({
+          ...(liveDraft ? { submission_id: liveDraft.submission_id } : {}),
           farm_id,
           survey_key,
           survey_response,
@@ -70,10 +83,15 @@ const surveyResponseController = {
           survey_step,
         });
 
+        if (liveDraft) {
+          /* @ts-expect-error known issue with models */
+          await SurveyDraftModel.query(trx).context({ user_id }).deleteById(liveDraft.id);
+        }
+
+        await trx.commit();
         return res.status(201).send();
       } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error });
+        return await handleObjectionError(error as Error, res, trx);
       }
     };
   },

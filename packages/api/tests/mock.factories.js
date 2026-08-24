@@ -2999,6 +2999,28 @@ const farm_noteFactory = async (
     .returning('*');
 };
 
+const fakeSurveyDraft = (defaultData = {}) => {
+  return {
+    survey_key: 'tape',
+    survey_step: '',
+    survey_version: 'v1',
+    survey_data: { [faker.lorem.word()]: faker.lorem.word() },
+    current_page_no: 0,
+    ...defaultData,
+  };
+};
+
+const survey_draftFactory = async (
+  { promisedUserFarm = userFarmFactory({ roleId: 1 }) } = {},
+  surveyDraft = fakeSurveyDraft(),
+) => {
+  const [[{ user_id, farm_id }]] = await Promise.all([promisedUserFarm]);
+
+  return await knex('survey_draft')
+    .insert({ farm_id, ...baseProperties(user_id), ...surveyDraft })
+    .returning('*');
+};
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -3178,6 +3200,8 @@ export default {
   market_directory_partner_permissionsFactory,
   fakeFarmNote,
   farm_noteFactory,
+  fakeSurveyDraft,
+  survey_draftFactory,
   fakeAnimalSale,
   animal_saleFactory,
   fakeFarmExpenseCropVariety,

@@ -80,7 +80,8 @@ const surveyDraftController = {
           })
           .returning('*');
 
-        const wasCreated = upserted.created_at === upserted.updated_at;
+        const wasCreated =
+          new Date(upserted.created_at).getTime() === new Date(upserted.updated_at).getTime();
         return res.status(wasCreated ? 201 : 200).send(upserted);
       } catch (error) {
         console.error(error);

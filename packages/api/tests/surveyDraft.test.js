@@ -63,7 +63,7 @@ describe('Survey draft endpoint tests', () => {
   async function putRequest(
     survey_data,
     { user_id = owner.user_id, farm_id = farm.farm_id, survey_key = 'tape', survey_step } = {},
-    { survey_version = 'v1', current_page_no = 0 } = {},
+    { survey_version = 'v1', current_page_no = 0, submission_id } = {},
   ) {
     return chai
       .request(server)
@@ -71,7 +71,7 @@ describe('Survey draft endpoint tests', () => {
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send({ farm_id, survey_version, survey_data, current_page_no });
+      .send({ farm_id, survey_version, survey_data, current_page_no, submission_id });
   }
 
   beforeEach(async () => {
@@ -189,6 +189,31 @@ describe('Survey draft endpoint tests', () => {
         .where({ farm_id: farm.farm_id, survey_key: 'tape' })
         .first();
       expect(responseRow.submission_id).toBeTruthy();
+    });
+
+    test('A draft write is rejected once its submission_id has already been completed', async () => {
+      await postSurveyResponse();
+      const { submission_id } = await knex('survey_response')
+        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
+        .first();
+
+      const res = await putRequest({ q1: 'too late' }, {}, { submission_id });
+      expect(res.status).toBe(409);
+
+      const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
+      expect(rows.length).toBe(0);
+    });
+
+    test('A draft write is unaffected by a completed survey under a different submission_id', async () => {
+      await postSurveyResponse();
+      const { submission_id: completedId } = await knex('survey_response')
+        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
+        .first();
+      const unrelatedId = '11111111-1111-1111-1111-111111111111';
+      expect(unrelatedId).not.toBe(completedId);
+
+      const res = await putRequest({ q1: 'answer' }, {}, { submission_id: unrelatedId });
+      expect(res.status).toBe(201);
     });
   });
 

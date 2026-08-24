@@ -15,7 +15,10 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import { checkSurveyDraftKey } from '../middleware/validation/checkSurveyDraft.js';
+import {
+  checkSurveyDraftKey,
+  checkDraftNotCompleted,
+} from '../middleware/validation/checkSurveyDraft.js';
 import surveyDraftController from '../controllers/surveyDraftController.js';
 
 const router = express.Router();
@@ -37,6 +40,7 @@ router.put(
   '/:survey_key/:survey_step?',
   checkScope(['edit:survey_draft']),
   checkSurveyDraftKey(),
+  checkDraftNotCompleted(),
   surveyDraftController.upsertDraft(),
 );
 

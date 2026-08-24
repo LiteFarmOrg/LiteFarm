@@ -16,10 +16,10 @@
 import { Response } from 'express';
 import knex from '../util/knex.js';
 import SurveyDraftModel from '../models/surveyDraftModel.js';
-import { SurveyDraftParams } from '../middleware/validation/checkSurveyDraft.js';
+import { SurveyDraftParams, UpsertDraftBody } from '../middleware/validation/checkSurveyDraft.js';
 import { LiteFarmRequest } from '../types.js';
 
-interface UpsertDraftReqBody {
+interface UpsertDraftReqBody extends UpsertDraftBody {
   survey_version: string;
   survey_data: Record<string, unknown>;
   current_page_no?: number;

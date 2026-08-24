@@ -51,7 +51,7 @@ async function validatePrecacheIntegrity() {
 
 // Assets omitted from precache, but cached on first fetch for fast subsequent loads
 registerRoute(
-  ({ url }) => /\/assets\/(survey-vendor)-[^/]+\.(js|css)$/.test(url.pathname),
+  ({ url }) => /\/assets\/(survey-vendor|survey-locales)-[^/]+\.(js|css)$/.test(url.pathname),
   new CacheFirst({ cacheName: 'dynamic-chunks' }),
 );
 

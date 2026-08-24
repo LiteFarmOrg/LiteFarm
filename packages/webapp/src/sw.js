@@ -54,7 +54,7 @@ registerRoute(
   ({ url }) => /\/assets\/(survey-vendor)-[^/]+\.(js)$/.test(url.pathname),
   new CacheFirst({
     cacheName: 'dynamic-chunks',
-    plugins: [new ExpirationPlugin({ maxEntries: 2, purgeOnQuotaError: true })],
+    plugins: [new ExpirationPlugin({ maxEntries: 2 })],
   }),
 );
 

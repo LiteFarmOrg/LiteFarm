@@ -182,6 +182,7 @@ import marketProductCategoryRoute from './routes/marketProductCategoryRoute.js';
 import marketDirectoryPartnerRoute from './routes/marketDirectoryPartnerRoute.js';
 import offlineEventLogRoute from './routes/offlineEventLogRoute.js';
 import surveyResponseRoute from './routes/surveyResponseRoute.js';
+import surveyDraftRoute from './routes/surveyDraftRoute.js';
 import farmNoteRoute from './routes/farmNoteRoute.js';
 import farmNotesReadRoute from './routes/farmNotesReadRoute.js';
 
@@ -372,6 +373,7 @@ app
   .use('/market_directory_partners', marketDirectoryPartnerRoute)
   .use('/offline_event_log', offlineEventLogRoute)
   .use('/survey_response', surveyResponseRoute)
+  .use('/survey_drafts', surveyDraftRoute)
   .use('/farm_notes', farmNoteRoute)
   .use('/farm_notes_read', farmNotesReadRoute);
 

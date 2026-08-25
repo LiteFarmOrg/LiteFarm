@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
@@ -145,6 +145,17 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     [surveyId, surveyStep, surveyVersion, dispatch, upsertSurveyDraft],
   );
 
+  const latestDraftRef = useRef({ surveyData: surveyDataInProgress, currentPageNo: savedPageNo });
+
+  useEffect(() => {
+    return () => {
+      persistDraft({
+        survey_data: latestDraftRef.current.surveyData,
+        current_page_no: latestDraftRef.current.currentPageNo,
+      });
+    };
+  }, []);
+
   const initialData = { ...prepopulatedData, ...surveyDataInProgress };
 
   const handleDataChange = useCallback(
@@ -152,6 +163,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       dispatch(
         saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion, surveyStep }),
       );
+      latestDraftRef.current = { surveyData, currentPageNo };
     },
     [surveyId, surveyVersion, surveyStep],
   );
@@ -234,6 +246,14 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
 
+  const onCurrentPageChanged = useCallback(
+    (currentPageNo: number, surveyData: Record<string, unknown>) => {
+      persistDraft({ current_page_no: currentPageNo, survey_data: surveyData });
+      latestDraftRef.current = { surveyData, currentPageNo };
+    },
+    [persistDraft],
+  );
+
   return (
     <div className={insightStyles.insightContainer}>
       <PageTitle title={surveyTitle} backUrl="/Insights" />
@@ -251,6 +271,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
             onValueChanged={handleDataChange}
             initialData={initialData}
             initialPageNo={savedPageNo}
+            onCurrentPageChanged={onCurrentPageChanged}
           />
         )}
       </div>

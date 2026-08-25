@@ -107,6 +107,7 @@ describe('Survey draft endpoint tests', () => {
       expect(res.status).toBe(200);
       expect(res.body.survey_data).toEqual({ q1: 'answer' });
       expect(res.body.survey_step).toBe('');
+      expect(res.body.updated_at).toBeTruthy();
     });
 
     test('Should return the live draft for the farm for a given survey_step', async () => {
@@ -227,6 +228,7 @@ describe('Survey draft endpoint tests', () => {
         expect(res.status).toBe(201);
         expect(res.body.survey_data).toEqual({ q1: 'answer' });
         expect(res.body.submission_id).toBeTruthy();
+        expect(res.body.updated_at).toBeTruthy();
       }
     });
 

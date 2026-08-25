@@ -24,6 +24,10 @@ class SurveyDraftModel extends BaseModel {
     return 'id';
   }
 
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'deleted'];
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',

@@ -215,6 +215,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
             surveyData: serverDraft.survey_data,
             surveyVersion: serverDraft.survey_version,
             surveyStep,
+            updatedAt: new Date(serverDraft.updated_at).getTime(),
           }),
         );
       }

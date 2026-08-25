@@ -21,6 +21,7 @@ interface SurveyDraft {
   surveyData: Record<string, any>;
   surveyVersion?: string;
   submissionId?: string;
+  updatedAt?: number;
 }
 
 interface SurveyDraftState {
@@ -48,9 +49,19 @@ const surveyDraftSlice = createSlice({
         surveyData: Record<string, any>;
         surveyVersion?: string;
         surveyStep?: string;
+        // Defaults to now; callers adopting server content should pass the server's own
+        // updated_at, not when it was merely copied into this store.
+        updatedAt?: number;
       }>,
     ) => {
-      const { surveyId, currentPageNo, surveyData, surveyVersion, surveyStep } = action.payload;
+      const {
+        surveyId,
+        currentPageNo,
+        surveyData,
+        surveyVersion,
+        surveyStep,
+        updatedAt = Date.now(),
+      } = action.payload;
       const step = normalizeStep(surveyStep);
       const previous = state.bySurveyId[surveyId]?.[step] ?? emptyDraft;
       state.bySurveyId[surveyId] = {
@@ -60,6 +71,7 @@ const surveyDraftSlice = createSlice({
           currentPageNo,
           surveyData,
           surveyVersion,
+          updatedAt,
         },
       };
     },

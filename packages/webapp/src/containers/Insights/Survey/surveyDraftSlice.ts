@@ -20,10 +20,12 @@ interface SurveyDraft {
   currentPageNo: number;
   surveyData: Record<string, any>;
   surveyVersion?: string;
+  submissionId?: string;
 }
 
 interface SurveyDraftState {
-  bySurveyId: Record<string, SurveyDraft>;
+  // e.g., { tape: { STEP1: {...}, STEP2: {...} }, cathi_gao: { '': {...} } }
+  bySurveyId: Record<string, Record<string, SurveyDraft>>;
 }
 
 const initialState: SurveyDraftState = {
@@ -31,6 +33,8 @@ const initialState: SurveyDraftState = {
 };
 
 const emptyDraft: SurveyDraft = { currentPageNo: 0, surveyData: {} };
+
+const normalizeStep = (surveyStep?: string) => surveyStep ?? '';
 
 const surveyDraftSlice = createSlice({
   name: 'surveyDraftReducer',
@@ -43,37 +47,72 @@ const surveyDraftSlice = createSlice({
         currentPageNo: number;
         surveyData: Record<string, any>;
         surveyVersion?: string;
+        surveyStep?: string;
       }>,
     ) => {
-      const { surveyId, currentPageNo, surveyData, surveyVersion } = action.payload;
-      const previous = state.bySurveyId[surveyId]?.surveyData ?? {};
+      const { surveyId, currentPageNo, surveyData, surveyVersion, surveyStep } = action.payload;
+      const step = normalizeStep(surveyStep);
+      const previous = state.bySurveyId[surveyId]?.[step] ?? emptyDraft;
       state.bySurveyId[surveyId] = {
-        currentPageNo,
-        surveyData: { ...previous, ...surveyData },
-        surveyVersion,
+        ...state.bySurveyId[surveyId],
+        [step]: {
+          ...previous,
+          currentPageNo,
+          surveyData,
+          surveyVersion,
+        },
       };
     },
-    clearSurvey: (state, action: PayloadAction<{ surveyId: string }>) => {
-      delete state.bySurveyId[action.payload.surveyId];
+    setDraftSubmissionId: (
+      state,
+      action: PayloadAction<{ surveyId: string; surveyStep?: string; submissionId: string }>,
+    ) => {
+      const { surveyId, surveyStep, submissionId } = action.payload;
+      const step = normalizeStep(surveyStep);
+      state.bySurveyId[surveyId] = {
+        ...state.bySurveyId[surveyId],
+        [step]: {
+          ...(state.bySurveyId[surveyId]?.[step] ?? emptyDraft),
+          submissionId,
+        },
+      };
+    },
+    clearSurvey: (state, action: PayloadAction<{ surveyId: string; surveyStep?: string }>) => {
+      const { surveyId, surveyStep } = action.payload;
+      const surveyDrafts = state.bySurveyId[surveyId];
+      if (!surveyDrafts) {
+        return;
+      }
+      delete surveyDrafts[normalizeStep(surveyStep)];
+      if (Object.keys(surveyDrafts).length === 0) {
+        delete state.bySurveyId[surveyId];
+      }
     },
   },
 });
 
-export const { saveSurveyProgress, clearSurvey } = surveyDraftSlice.actions;
+export const { saveSurveyProgress, setDraftSubmissionId, clearSurvey } = surveyDraftSlice.actions;
 export default surveyDraftSlice.reducer;
 
 // Selectors
 const surveyDraftStateSelector = (state: any): SurveyDraftState =>
   state.farmStateReducer[surveyDraftSlice.name] || initialState;
 
-export const surveyDraftSelector = (surveyId: string) =>
+export const surveyDraftSelector = (surveyId: string, surveyStep?: string) =>
   createSelector(
     [surveyDraftStateSelector],
-    (draftState) => draftState.bySurveyId[surveyId] || emptyDraft,
+    (draftState) => draftState.bySurveyId[surveyId]?.[normalizeStep(surveyStep)] || emptyDraft,
   );
 
-export const surveyInProgressSelector = (surveyId: string) =>
-  createSelector(
-    [surveyDraftStateSelector],
-    (draftState) => Object.keys(draftState.bySurveyId[surveyId]?.surveyData ?? {}).length > 0,
-  );
+// With no surveyStep, reports whether any step of this survey has unsaved progress.
+export const surveyInProgressSelector = (surveyId: string, surveyStep?: string) =>
+  createSelector([surveyDraftStateSelector], (draftState) => {
+    const surveyDrafts = draftState.bySurveyId[surveyId];
+    if (!surveyDrafts) {
+      return false;
+    }
+    if (surveyStep !== undefined) {
+      return Object.keys(surveyDrafts[normalizeStep(surveyStep)]?.surveyData ?? {}).length > 0;
+    }
+    return Object.values(surveyDrafts).some((draft) => Object.keys(draft.surveyData).length > 0);
+  });

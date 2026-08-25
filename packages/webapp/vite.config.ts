@@ -70,6 +70,45 @@ export default defineConfig({
             return 'survey-vendor';
           }
 
+          if (
+            id.includes('/node_modules/recharts/') ||
+            id.includes('/node_modules/chart.js/') ||
+            id.includes('/node_modules/react-chartjs-2/') ||
+            id.includes('/node_modules/@kurkle/color/') ||
+            id.includes('/node_modules/react-smooth/') ||
+            id.includes('/node_modules/decimal.js-light/') ||
+            id.includes('/node_modules/d3-')
+          ) {
+            return 'charts-vendor';
+          }
+
+          if (id.includes('/node_modules/react-redux-form/')) {
+            return 'react-redux-form-vendor';
+          }
+
+          if (
+            id.includes('/node_modules/@mui/material/') ||
+            id.includes('/node_modules/@mui/system/') ||
+            id.includes('/node_modules/@mui/base/') ||
+            id.includes('/node_modules/@mui/utils/') ||
+            id.includes('/node_modules/@mui/styles/') ||
+            id.includes('/node_modules/@mui/styled-engine/') ||
+            id.includes('/node_modules/@mui/private-theming/') ||
+            id.includes('/node_modules/@emotion/') ||
+            id.includes('/node_modules/react-select/') ||
+            id.includes('/node_modules/@reduxjs/toolkit/') ||
+            id.includes('/node_modules/react-redux/') ||
+            id.includes('/node_modules/redux/') ||
+            id.includes('/node_modules/redux-persist/') ||
+            id.includes('/node_modules/redux-saga/') ||
+            id.includes('/node_modules/reselect/') ||
+            id.includes('/node_modules/immer/') ||
+            id.includes('/node_modules/moment/') ||
+            id.includes('/node_modules/tiny-invariant/')
+          ) {
+            return 'app-vendor';
+          }
+
           return undefined;
         },
       },

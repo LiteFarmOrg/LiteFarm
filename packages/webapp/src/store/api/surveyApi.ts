@@ -14,7 +14,7 @@
  */
 
 import { api } from './apiSlice';
-import { surveyResponseUrl } from '../../apiConfig';
+import { surveyResponseUrl, getSurveyDraftUrl } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 
 export interface SurveyResponseRecord {
@@ -32,6 +32,31 @@ export interface AddSurveyResponseReqBody {
   survey_key: string;
   survey_response: Record<string, any>;
 }
+
+export interface SurveyDraftRecord {
+  id: string;
+  submission_id: string;
+  farm_id: string;
+  survey_key: string;
+  survey_step: string;
+  survey_version: string;
+  survey_data: Record<string, any>;
+  current_page_no: number;
+  updated_at: string;
+}
+
+export interface UpsertSurveyDraftReqBody {
+  submission_id?: string;
+  surveyKey: string;
+  surveyStep?: string;
+  survey_version: string;
+  survey_data: Record<string, any>;
+  current_page_no?: number;
+}
+
+const formatSurveyKeyStep = (surveyKey: string, surveyStep?: string) => {
+  return surveyStep ? `${surveyKey}-${surveyStep}` : surveyKey;
+};
 
 export const surveyApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -80,6 +105,27 @@ export const surveyApi = api.injectEndpoints({
         { type: 'SurveyResponse', id: survey_key },
       ],
     }),
+    getSurveyDraft: build.query<
+      SurveyDraftRecord | null,
+      { surveyKey: string; surveyStep?: string }
+    >({
+      query: ({ surveyKey, surveyStep }) => ({
+        url: getSurveyDraftUrl(surveyKey, surveyStep),
+      }),
+      providesTags: (_result, _error, { surveyKey, surveyStep }) => [
+        { type: 'SurveyDraft', id: formatSurveyKeyStep(surveyKey, surveyStep) },
+      ],
+    }),
+    upsertSurveyDraft: build.mutation<SurveyDraftRecord, UpsertSurveyDraftReqBody>({
+      query: ({ surveyKey, surveyStep, ...body }) => ({
+        url: getSurveyDraftUrl(surveyKey, surveyStep),
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: (_result, _error, { surveyKey, surveyStep }) => [
+        { type: 'SurveyDraft', id: formatSurveyKeyStep(surveyKey, surveyStep) },
+      ],
+    }),
   }),
 });
 
@@ -87,5 +133,7 @@ export const {
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponseQuery,
   useAddSurveyResponseMutation,
+  useGetSurveyDraftQuery,
+  useUpsertSurveyDraftMutation,
   usePrefetch,
 } = surveyApi;

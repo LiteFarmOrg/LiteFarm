@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
@@ -21,12 +21,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
-import {
-  saveSurveyProgress,
-  setDraftSubmissionId,
-  clearSurvey,
-  surveyDraftSelector,
-} from './surveyDraftSlice';
+import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
 import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
@@ -36,14 +31,13 @@ import {
   usePrefetch,
   useGetSurveyJsonQuery,
   useAddSurveyResponseMutation,
-  useGetSurveyDraftQuery,
-  useUpsertSurveyDraftMutation,
 } from '../../../store/api/surveyApi';
-import { isFetchBaseQueryError } from '../../../store/api/typeGuards';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
+import useSurveyDraftSync from './useSurveyDraftSync';
+import useInitialDraft from './useInitialDraft';
 
 interface SurveyProps {
   isCompactSideMenu: boolean;
@@ -69,23 +63,19 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
   const surveyStep = getSurveyStep(surveyId);
 
-  const {
-    surveyData: surveyDataInProgress,
-    currentPageNo: savedPageNo,
-    surveyVersion: draftSurveyVersion,
-    submissionId,
-  } = useSelector(surveyDraftSelector(surveyId, surveyStep));
-
-  const hasDraft = Object.keys(surveyDataInProgress).length > 0;
+  const draftState = useInitialDraft(surveyId, surveyStep);
+  const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
   const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
-    getSurveyCdnPath(
-      surveyId,
-      country_code,
-      getLanguageFromLocalStorage() || 'en',
-      draftSurveyVersion,
-      hasDraft,
-    ) || {};
+    (!draftState.isDraftLoading &&
+      getSurveyCdnPath(
+        surveyId,
+        country_code,
+        getLanguageFromLocalStorage() || 'en',
+        draftState.initialDraft.surveyVersion,
+        hasDraft,
+      )) ||
+    {};
 
   const {
     data: surveyJson,
@@ -108,62 +98,28 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const [addSurveyResponse] = useAddSurveyResponseMutation();
   const prefetchLatestResponse = usePrefetch('getLatestSurveyResponse');
 
-  const { data: serverDraft, isLoading: isServerDraftLoading } = useGetSurveyDraftQuery(
-    { surveyKey: surveyId, surveyStep },
-    { skip: !surveyId },
-  );
-  const [upsertSurveyDraft] = useUpsertSurveyDraftMutation();
-
   const notifications: { message: string }[] = useSelector(snackbarSelector);
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
-  // Upserts the draft to the server, then syncs the returned submission_id into Redux.
-  const persistDraft = useCallback(
-    async (payload: { survey_data: Record<string, any>; current_page_no?: number }) => {
-      if (!surveyVersion) {
-        return;
-      }
-      try {
-        const created = await upsertSurveyDraft({
-          surveyKey: surveyId,
-          surveyStep,
-          survey_version: surveyVersion,
-          ...payload,
-        }).unwrap();
-        dispatch(
-          setDraftSubmissionId({ surveyId, surveyStep, submissionId: created.submission_id }),
-        );
-      } catch (error) {
-        if (isFetchBaseQueryError(error) && error.status === 409) {
-          // TODO: Handle 409 (survey already completed)
-          return;
-        }
-        // Best effort — a later save trigger will retry.
-      }
-    },
-    [surveyId, surveyStep, surveyVersion, dispatch, upsertSurveyDraft],
-  );
+  const { onCurrentPageChanged, recordLatestDraft } = useSurveyDraftSync({
+    surveyId,
+    surveyVersion,
+    surveyStep,
+    ...draftState,
+  });
 
-  const latestDraftRef = useRef({ surveyData: surveyDataInProgress, currentPageNo: savedPageNo });
-
-  useEffect(() => {
-    return () => {
-      persistDraft({
-        survey_data: latestDraftRef.current.surveyData,
-        current_page_no: latestDraftRef.current.currentPageNo,
-      });
-    };
-  }, []);
-
-  const initialData = { ...prepopulatedData, ...surveyDataInProgress };
+  const initialData = {
+    ...prepopulatedData,
+    ...(!draftState.isDraftLoading ? draftState.initialDraft.surveyData : {}),
+  };
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
       dispatch(
         saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion, surveyStep }),
       );
-      latestDraftRef.current = { surveyData, currentPageNo };
+      recordLatestDraft(surveyData, currentPageNo);
     },
     [surveyId, surveyVersion, surveyStep],
   );
@@ -195,45 +151,6 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     }
   }, [cdnPath, history]);
 
-  // Ensure a submission_id exists on mount — adopted from the server draft, or created fresh —
-  // so a stale write can later be recognized as already completed. Only adopt the server draft's
-  // content when there's no local draft yet; otherwise defer reconciliation.
-  useEffect(() => {
-    if (!surveyVersion || isServerDraftLoading || submissionId) {
-      return;
-    }
-    if (serverDraft) {
-      dispatch(
-        setDraftSubmissionId({ surveyId, surveyStep, submissionId: serverDraft.submission_id }),
-      );
-
-      if (!hasDraft) {
-        dispatch(
-          saveSurveyProgress({
-            surveyId,
-            currentPageNo: serverDraft.current_page_no,
-            surveyData: serverDraft.survey_data,
-            surveyVersion: serverDraft.survey_version,
-            surveyStep,
-            updatedAt: new Date(serverDraft.updated_at).getTime(),
-          }),
-        );
-      }
-      return;
-    }
-    persistDraft({ survey_data: {} });
-  }, [
-    surveyVersion,
-    isServerDraftLoading,
-    serverDraft,
-    submissionId,
-    hasDraft,
-    surveyId,
-    surveyStep,
-    dispatch,
-    persistDraft,
-  ]);
-
   useEffect(() => {
     if (isSurveyJsonError) {
       const activeError = notifications.find(
@@ -246,14 +163,6 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   }, [isSurveyJsonError]);
 
   const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
-
-  const onCurrentPageChanged = useCallback(
-    (currentPageNo: number, surveyData: Record<string, unknown>) => {
-      persistDraft({ current_page_no: currentPageNo, survey_data: surveyData });
-      latestDraftRef.current = { surveyData, currentPageNo };
-    },
-    [persistDraft],
-  );
 
   return (
     <div className={insightStyles.insightContainer}>
@@ -271,7 +180,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
             onComplete={handleComplete}
             onValueChanged={handleDataChange}
             initialData={initialData}
-            initialPageNo={savedPageNo}
+            initialPageNo={!draftState.isDraftLoading ? draftState.initialDraft.currentPageNo : 0}
             onCurrentPageChanged={onCurrentPageChanged}
           />
         )}

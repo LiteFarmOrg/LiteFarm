@@ -226,7 +226,7 @@ To run [ESLint](https://eslint.org/) checks execute `pnpm lint`
 
 Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
 
-You can also test LiteFarm on your actual mobile device using the network adddress returned by `vite --host` when you start the webapp in development mode. To do this, also update `VITE_API_URL` in your `webapp/.env` file from localhost to that address (or your computer's network name) and the appropriate API port. Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
+You can also test LiteFarm on your actual mobile device using the network address returned by `pnpm dev` when you start the webapp in development mode. As long as `VITE_API_URL` is left blank in `packages/webapp/.env`, the app will automatically route API calls to the same host on port 5001. Most of LiteFarm can be tested like this, but please note that Google SSO and some other functionality will not work over the local network.
 
 # ngrok
 

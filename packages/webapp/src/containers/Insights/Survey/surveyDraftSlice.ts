@@ -115,16 +115,3 @@ export const surveyDraftSelector = (surveyId: string, surveyStep?: string) =>
     [surveyDraftStateSelector],
     (draftState) => draftState.bySurveyId[surveyId]?.[normalizeStep(surveyStep)] || emptyDraft,
   );
-
-// With no surveyStep, reports whether any step of this survey has unsaved progress.
-export const surveyInProgressSelector = (surveyId: string, surveyStep?: string) =>
-  createSelector([surveyDraftStateSelector], (draftState) => {
-    const surveyDrafts = draftState.bySurveyId[surveyId];
-    if (!surveyDrafts) {
-      return false;
-    }
-    if (surveyStep !== undefined) {
-      return Object.keys(surveyDrafts[normalizeStep(surveyStep)]?.surveyData ?? {}).length > 0;
-    }
-    return Object.values(surveyDrafts).some((draft) => Object.keys(draft.surveyData).length > 0);
-  });

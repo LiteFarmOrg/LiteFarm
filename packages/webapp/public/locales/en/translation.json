@@ -1261,6 +1261,10 @@
         "VERY_HIGH": "Very High",
         "VERY_LOW": "Very Low"
       },
+      "BAND_RANGE": {
+        "INCLUSIVE": "{{min}} – {{max}}%",
+        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%"
+      },
       "NO_SCORE_YET": "No score yet",
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"

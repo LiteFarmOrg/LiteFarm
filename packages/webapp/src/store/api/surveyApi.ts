@@ -122,9 +122,6 @@ export const surveyApi = api.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: (_result, _error, { surveyKey, surveyStep }) => [
-        { type: 'SurveyDraft', id: formatSurveyKeyStep(surveyKey, surveyStep) },
-      ],
     }),
   }),
 });

@@ -30,8 +30,7 @@ const surveyDraftController = {
     return async (req: LiteFarmRequest<unknown, SurveyDraftParams>, res: Response) => {
       try {
         const { farm_id } = req.headers;
-        const { survey_key } = req.params;
-        const survey_step = req.params.survey_step ?? '';
+        const { survey_key, survey_step = '' } = req.params;
         /* @ts-expect-error known issue with models */
         const result = await SurveyDraftModel.query()
           .whereNotDeleted()

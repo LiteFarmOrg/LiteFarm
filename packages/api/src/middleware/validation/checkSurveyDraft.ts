@@ -38,7 +38,7 @@ export function checkSurveyDraftKey() {
 
 export function checkDraftNotCompleted() {
   return async (
-    req: LiteFarmRequest<unknown, unknown, unknown, UpsertDraftBody>,
+    req: LiteFarmRequest<unknown, SurveyDraftParams, unknown, UpsertDraftBody>,
     res: Response,
     next: NextFunction,
   ) => {

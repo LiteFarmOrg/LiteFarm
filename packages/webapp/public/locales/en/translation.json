@@ -1254,6 +1254,14 @@
       "TITLE": "Soil OM"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "High",
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "VERY_HIGH": "Very High",
+        "VERY_LOW": "Very Low"
+      },
+      "NO_SCORE_YET": "No score yet",
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"
     },

@@ -1265,6 +1265,16 @@
         "INCLUSIVE": "{{min}} – {{max}}%",
         "GREATER_THAN_MIN": "> {{min}}% – {{max}}%"
       },
+      "CARD": {
+        "COMPLETED_ON": "Completed · {{date}}",
+        "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "IN_PROGRESS": "In progress",
+        "LAST_UPDATED": "Last updated {{date}}",
+        "RESUME": "Resume",
+        "STARTED": "Started {{date}}",
+        "TAKE_SURVEY": "Take survey",
+        "UPDATE": "Update"
+      },
       "NO_SCORE_YET": "No score yet",
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"

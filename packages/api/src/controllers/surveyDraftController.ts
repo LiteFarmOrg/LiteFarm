@@ -35,7 +35,7 @@ const surveyDraftController = {
         const result = await SurveyDraftModel.query()
           .whereNotDeleted()
           .findOne({ farm_id, survey_key, survey_step });
-        return res.status(200).send(result ?? null);
+        return res.status(200).json(result ?? null);
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });

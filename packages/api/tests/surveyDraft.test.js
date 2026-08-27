@@ -193,27 +193,45 @@ describe('Survey draft endpoint tests', () => {
     });
 
     test('A draft write is rejected once its submission_id has already been completed', async () => {
-      await postSurveyResponse();
+      await postSurveyResponse(); // completes survey_step: 'step-1'
       const { submission_id } = await knex('survey_response')
         .where({ farm_id: farm.farm_id, survey_key: 'tape' })
         .first();
 
-      const res = await putRequest({ q1: 'too late' }, {}, { submission_id });
+      const res = await putRequest(
+        { q1: 'too late' },
+        { survey_step: 'step-1' },
+        { submission_id },
+      );
       expect(res.status).toBe(409);
 
       const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
       expect(rows.length).toBe(0);
     });
 
-    test('A draft write is unaffected by a completed survey under a different submission_id', async () => {
-      await postSurveyResponse();
-      const { submission_id: completedId } = await knex('survey_response')
-        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
-        .first();
+    // TODO: LF-5192 Delete once we support retake/update
+    test('A draft write is rejected regardless of which submission_id is sent, once the survey_step is completed', async () => {
+      await postSurveyResponse(); // completes survey_step: 'step-1'
       const unrelatedId = '11111111-1111-1111-1111-111111111111';
-      expect(unrelatedId).not.toBe(completedId);
 
-      const res = await putRequest({ q1: 'answer' }, {}, { submission_id: unrelatedId });
+      const res = await putRequest(
+        { q1: 'too late' },
+        { survey_step: 'step-1' },
+        { submission_id: unrelatedId },
+      );
+      expect(res.status).toBe(409);
+    });
+
+    // TODO: LF-5192 Enable
+    xtest('A draft write is unaffected by a completed survey under a different submission_id', async () => {
+      await postSurveyResponse(); // completes survey_step: 'step-1'
+      const unrelatedId = '11111111-1111-1111-1111-111111111111';
+
+      const res = await putRequest(
+        { q1: 'answer' },
+        { survey_step: 'step-1' },
+        { submission_id: unrelatedId },
+      );
       expect(res.status).toBe(201);
     });
   });

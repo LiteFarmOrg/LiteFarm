@@ -36,17 +36,23 @@ export function checkSurveyDraftKey() {
   };
 }
 
+// TODO: LF-5192 Adjust logic
+// Only correct while retake isn't supported: "a response exists" is treated as permanently done.
+// Once retakes exist, this will incorrectly block starting a new attempt after a prior one completes.
 export function checkDraftNotCompleted() {
   return async (
     req: LiteFarmRequest<unknown, SurveyDraftParams, unknown, UpsertDraftBody>,
     res: Response,
     next: NextFunction,
   ) => {
-    const { submission_id } = req.body;
-    if (!submission_id) {
-      return next();
-    }
-    const existing = await SurveyResponseModel.query().findOne({ submission_id });
+    const { farm_id } = req.headers;
+    const { survey_key, survey_step = '' } = req.params;
+
+    const existing = await SurveyResponseModel.query().findOne({
+      farm_id,
+      survey_key,
+      survey_step,
+    });
     if (existing) {
       return res.status(409).json({ error: 'Survey has already been completed' });
     }

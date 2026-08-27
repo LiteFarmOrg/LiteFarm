@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { surveyDraftSelector } from './surveyDraftSlice';
 import { useGetSurveyDraftQuery } from '../../../store/api/surveyApi';
@@ -34,13 +34,19 @@ export type InitialDraftResult =
 
 function useInitialDraft(surveyId: string, surveyStep?: string) {
   const localDraft = useSelector(surveyDraftSelector(surveyId, surveyStep));
-  const { data: serverDraft, isLoading } = useGetSurveyDraftQuery(
+  const { data: serverDraft, isFetching } = useGetSurveyDraftQuery(
     { surveyKey: surveyId, surveyStep },
-    { skip: !surveyId },
+    { skip: !surveyId, refetchOnMountOrArgChange: true },
   );
 
+  const resolvedRef = useRef<InitialDraftResult | null>(null);
+
   return useMemo<InitialDraftResult>(() => {
-    if (isLoading) {
+    if (resolvedRef.current) {
+      return resolvedRef.current;
+    }
+
+    if (isFetching) {
       return { isDraftLoading: true, initialDraft: {} };
     }
 
@@ -50,7 +56,7 @@ function useInitialDraft(surveyId: string, surveyStep?: string) {
 
     // The draft has been completed on the server, and there is no new server draft
     if (isLocalDraftStale && !serverDraft) {
-      return {
+      resolvedRef.current = {
         isDraftLoading: false,
         initialDraft: {
           submissionId: undefined,
@@ -61,6 +67,7 @@ function useInitialDraft(surveyId: string, surveyStep?: string) {
           updatedAt: undefined,
         },
       };
+      return resolvedRef.current;
     }
 
     const shouldAdoptServer =
@@ -86,12 +93,13 @@ function useInitialDraft(surveyId: string, surveyStep?: string) {
           needsLocalSync: false,
         };
 
-    return { isDraftLoading: false, initialDraft };
+    resolvedRef.current = { isDraftLoading: false, initialDraft };
+    return resolvedRef.current;
 
-    // Deliberately omits serverDraft/localDraft — resolves once when loading finishes and never
-    // again, so later edits/refetches don't retroactively change the survey's starting point.
-    // Do not add them to this array.
-  }, [isLoading]);
+    // Omit serverDraft/localDraft, so a local edit alone never re-runs this.
+    // isFetching also fires on unrelated refetches, but resolvedRef locks in
+    // the first result so those don't produce a new one.
+  }, [isFetching]);
 }
 
 export default useInitialDraft;

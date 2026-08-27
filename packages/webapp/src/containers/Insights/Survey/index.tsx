@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
+import { SURVEY_INFO, getSurveyCdnPath, getSurveyStep, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
@@ -42,14 +42,6 @@ import useInitialDraft from './useInitialDraft';
 interface SurveyProps {
   isCompactSideMenu: boolean;
 }
-
-// TODO: LF-5127 Implement properly
-const getSurveyStep = (surveyId: string) => {
-  if (surveyId === 'cathi_gao') {
-    return '';
-  }
-  return 'STEP1';
-};
 
 function Survey({ isCompactSideMenu }: SurveyProps) {
   const { t } = useTranslation();

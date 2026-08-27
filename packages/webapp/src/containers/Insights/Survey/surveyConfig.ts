@@ -127,6 +127,14 @@ export const getSurveyCdnPath = (
   return getLatestCdnPath(surveyId, countryCode, language);
 };
 
+// TODO: LF-5127 Implement properly
+export const getSurveyStep = (surveyId: string): string | undefined => {
+  if (surveyId === 'cathi_gao') {
+    return '';
+  }
+  return 'STEP1';
+};
+
 /**
  * The survey ids available to a farm in the given country: those with a country-specific or global
  * version. Drives the Insights tile list.

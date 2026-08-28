@@ -1,0 +1,31 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+
+.newVersion {
+  @include fontFamily();
+
+  flex-shrink: 0;
+  padding: 2px 7px;
+  overflow: hidden;
+  border: 1px solid var(--tag-new-version-border);
+  border-radius: 10px;
+  background-color: var(--tag-new-version-bg);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--tag-new-version-ink);
+  white-space: nowrap;
+}

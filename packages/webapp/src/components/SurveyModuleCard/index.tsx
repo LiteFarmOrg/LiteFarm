@@ -18,13 +18,14 @@ import type { TFunction } from 'i18next';
 import Button, { ButtonProps } from '../Form/Button';
 import SurveyIcon from '../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
+import NewVersionBadge from '../SimpleBadges/NewVersionBadge';
 import { getLocalizedDateString } from '../../util/moment';
 import styles from './styles.module.scss';
 
 export type SurveyState =
   | { type: 'not-started'; estimatedMinutes: number }
   | { type: 'in-progress'; progress: number; startedAt: Date }
-  | { type: 'completed'; completedAt: Date; score?: number };
+  | { type: 'completed'; completedAt: Date; score?: number; hasNewVersion?: boolean };
 
 export interface SurveyModuleCardProps {
   title: string;
@@ -64,7 +65,9 @@ const getCardConfig = (survey: SurveyState, t: TFunction): CardActionConfig => {
       const date = getLocalizedDateString(survey.completedAt, COMPLETED_DATE_OPTIONS);
       return {
         actionColor: 'secondary',
-        actionLabel: t('INSIGHTS.SURVEY.CARD.UPDATE'),
+        actionLabel: survey.hasNewVersion
+          ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
+          : t('INSIGHTS.SURVEY.CARD.UPDATE'),
         metaText:
           survey.score === undefined
             ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
@@ -80,7 +83,10 @@ const SurveyModuleCard = ({ title, onAction, survey }: SurveyModuleCardProps) =>
 
   return (
     <div className={styles.card}>
-      <span className={styles.title}>{title}</span>
+      <div className={styles.titleRow}>
+        <span className={styles.title}>{title}</span>
+        {survey.type === 'completed' && survey.hasNewVersion && <NewVersionBadge />}
+      </div>
       <div className={styles.body}>
         <SurveyStatusDisplay survey={survey} />
       </div>

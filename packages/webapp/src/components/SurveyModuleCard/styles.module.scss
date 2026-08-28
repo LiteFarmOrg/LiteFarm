@@ -27,10 +27,20 @@
   filter: drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.05));
 }
 
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 34px;
+}
+
 .title {
   @include fontFamily();
 
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   height: 34px;
   overflow: hidden;
   font-size: 13px;

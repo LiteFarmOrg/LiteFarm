@@ -1270,7 +1270,9 @@
         "ESTIMATED_MINUTES": "~{{minutes}} min",
         "IN_PROGRESS": "In progress",
         "LAST_UPDATED": "Last updated {{date}}",
+        "NEW_VERSION": "New version",
         "RESUME": "Resume",
+        "RETAKE_SURVEY": "Retake survey",
         "STARTED": "Started {{date}}",
         "TAKE_SURVEY": "Take survey",
         "UPDATE": "Update"

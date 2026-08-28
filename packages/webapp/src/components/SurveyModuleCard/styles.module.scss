@@ -29,9 +29,10 @@
 
 .titleRow {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
+  gap: 4px 8px;
   width: 100%;
   min-height: 34px;
 }
@@ -41,13 +42,10 @@
 
   flex: 1;
   min-width: 0;
-  height: 34px;
-  overflow: hidden;
   font-size: 13px;
   font-weight: 600;
   line-height: 17px;
   color: var(--text-ink);
-  word-break: break-word;
 }
 
 .body {

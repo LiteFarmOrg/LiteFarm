@@ -70,6 +70,17 @@ export const CompletedWithScore: Story = {
   },
 };
 
+export const LongTitle: Story = {
+  args: {
+    title: 'Productivity, income and value added',
+    survey: {
+      type: 'completed',
+      completedAt: COMPLETED_AT,
+      score: 64,
+    },
+  },
+};
+
 export const ScoredNewVersion: Story = {
   args: {
     title: 'Soil health',
@@ -90,17 +101,6 @@ export const ScoredNewVersionLongTitle: Story = {
       completedAt: COMPLETED_AT,
       score: 62,
       hasNewVersion: true,
-    },
-  },
-};
-
-export const LongTitle: Story = {
-  args: {
-    title: 'Productivity, income and value added',
-    survey: {
-      type: 'completed',
-      completedAt: COMPLETED_AT,
-      score: 64,
     },
   },
 };

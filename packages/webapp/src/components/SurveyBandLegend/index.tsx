@@ -31,12 +31,16 @@ const BAND_CLASSES: Record<SurveyScoreBand, string> = {
   '5-very-high': styles.band5VeryHigh,
 };
 
-const SurveyBandLegend = () => {
+export interface SurveyBandLegendProps {
+  className?: string;
+}
+
+const SurveyBandLegend = ({ className }: SurveyBandLegendProps) => {
   const { t } = useTranslation();
   const bandLabels = useSurveyScoreBandLabels();
 
   return (
-    <div className={styles.legend}>
+    <div className={clsx(styles.legend, className)}>
       {SURVEY_SCORE_BAND_RANGES.map(({ band, min, max }) => (
         <div key={band} className={clsx(styles.entry, BAND_CLASSES[band])}>
           <span className={styles.swatch} />

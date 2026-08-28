@@ -51,14 +51,14 @@ async function validatePrecacheIntegrity() {
 
 // Assets omitted from precache, but cached on first fetch for fast subsequent loads.
 // Each chunk name here must also be listed in `globIgnores` in vite.config.ts
-const DYNAMIC_CHUNK_PATTERN = /\/assets\/(survey-vendor)-[^/]+\.js$/;
+const DYNAMIC_CHUNK_PATTERN = /\/assets\/(survey-vendor|survey-locales)-[^/]+\.js$/;
 
 registerRoute(
   ({ url }) => DYNAMIC_CHUNK_PATTERN.test(url.pathname),
   new CacheFirst({
     cacheName: 'dynamic-chunks',
     // Two versions per chunk name matched by DYNAMIC_CHUNK_PATTERN
-    plugins: [new ExpirationPlugin({ maxEntries: 2 })],
+    plugins: [new ExpirationPlugin({ maxEntries: 4 })],
   }),
 );
 

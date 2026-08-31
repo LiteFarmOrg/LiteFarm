@@ -134,10 +134,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!cdnPath) {
+    if (!draftState.isDraftLoading && !cdnPath) {
       history.replace('/Insights');
     }
-  }, [cdnPath, history]);
+  }, [draftState.isDraftLoading, cdnPath, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {

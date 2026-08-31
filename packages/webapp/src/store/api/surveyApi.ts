@@ -120,6 +120,7 @@ export const {
   useGetLatestSurveyResponseQuery,
   useAddSurveyResponseMutation,
   useGetSurveyDraftQuery,
+  useLazyGetSurveyDraftQuery,
   useUpsertSurveyDraftMutation,
   usePrefetch,
 } = surveyApi;

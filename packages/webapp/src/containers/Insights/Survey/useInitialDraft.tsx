@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { surveyDraftSelector } from './surveyDraftSlice';
-import { useGetSurveyDraftQuery } from '../../../store/api/surveyApi';
+import { useGetSurveyDraftQuery, useLazyGetSurveyDraftQuery } from '../../../store/api/surveyApi';
 
 export type InitialDraftResult =
   | { isDraftLoading: true; initialDraft: Record<string, never> }
@@ -32,74 +32,89 @@ export type InitialDraftResult =
       };
     };
 
+const loadingResult: InitialDraftResult = { isDraftLoading: true, initialDraft: {} };
+
 function useInitialDraft(surveyId: string) {
   const localDraft = useSelector(surveyDraftSelector(surveyId));
-  const { data: serverDraft, isFetching } = useGetSurveyDraftQuery(
+  const [fetchDraft] = useLazyGetSurveyDraftQuery();
+  // Read-only: gives us whatever getSurveyDraft last had cached, so a failed fetchDraft can fall
+  // back to it instead of reading as "no draft".
+  const { data: cachedServerDraft } = useGetSurveyDraftQuery(
     { surveyKey: surveyId },
-    { skip: !surveyId, refetchOnMountOrArgChange: true },
+    { skip: !surveyId },
   );
 
-  const resolvedRef = useRef<InitialDraftResult | null>(null);
+  const [resolved, setResolved] = useState<InitialDraftResult>(loadingResult);
 
-  return useMemo<InitialDraftResult>(() => {
-    if (resolvedRef.current) {
-      return resolvedRef.current;
+  // Resolves once on mount. Uses the lazy trigger, not the normal query hook, since a normal
+  // subscription can briefly show a stale cached value (e.g., isFetching: false).
+  useEffect(() => {
+    if (!surveyId) {
+      return;
     }
+    let cancelled = false;
+    (async () => {
+      const serverDraft = await fetchDraft({ surveyKey: surveyId })
+        .unwrap()
+        .catch(() => cachedServerDraft);
+      if (cancelled) {
+        return;
+      }
 
-    if (isFetching) {
-      return { isDraftLoading: true, initialDraft: {} };
-    }
+      const isLocalDraftStale =
+        (Object.keys(localDraft.surveyData).length === 0 && serverDraft?.submission_id) ||
+        (localDraft.submissionId && localDraft.submissionId !== serverDraft?.submission_id);
 
-    const isLocalDraftStale =
-      (Object.keys(localDraft.surveyData).length === 0 && serverDraft?.submission_id) ||
-      (localDraft.submissionId && localDraft.submissionId !== serverDraft?.submission_id);
+      // The draft has been completed on the server, and there is no new server draft
+      if (isLocalDraftStale && !serverDraft) {
+        setResolved({
+          isDraftLoading: false,
+          initialDraft: {
+            submissionId: undefined,
+            surveyVersion: undefined,
+            surveyData: {},
+            currentPageNo: 0,
+            needsLocalSync: true,
+            updatedAt: undefined,
+          },
+        });
+        return;
+      }
 
-    // The draft has been completed on the server, and there is no new server draft
-    if (isLocalDraftStale && !serverDraft) {
-      resolvedRef.current = {
-        isDraftLoading: false,
-        initialDraft: {
-          submissionId: undefined,
-          surveyVersion: undefined,
-          surveyData: {},
-          currentPageNo: 0,
-          needsLocalSync: true,
-          updatedAt: undefined,
-        },
-      };
-      return resolvedRef.current;
-    }
+      const shouldAdoptServer =
+        !!serverDraft &&
+        (isLocalDraftStale ||
+          new Date(serverDraft.updated_at).getTime() >= (localDraft.updatedAt ?? 0));
 
-    const shouldAdoptServer =
-      !!serverDraft &&
-      (isLocalDraftStale ||
-        new Date(serverDraft.updated_at).getTime() >= (localDraft.updatedAt ?? 0));
+      const initialDraft = shouldAdoptServer
+        ? {
+            submissionId: serverDraft.submission_id,
+            surveyVersion: serverDraft.survey_version,
+            surveyData: serverDraft.survey_data,
+            currentPageNo: serverDraft.current_page_no,
+            updatedAt: new Date(serverDraft.updated_at).getTime(),
+            needsLocalSync: true,
+          }
+        : {
+            submissionId: localDraft.submissionId,
+            surveyVersion: localDraft.surveyVersion,
+            surveyData: localDraft.surveyData,
+            currentPageNo: localDraft.currentPageNo,
+            updatedAt: localDraft.updatedAt,
+            needsLocalSync: false,
+          };
 
-    const initialDraft = shouldAdoptServer
-      ? {
-          submissionId: serverDraft.submission_id,
-          surveyVersion: serverDraft.survey_version,
-          surveyData: serverDraft.survey_data,
-          currentPageNo: serverDraft.current_page_no,
-          updatedAt: new Date(serverDraft.updated_at).getTime(),
-          needsLocalSync: true,
-        }
-      : {
-          submissionId: localDraft.submissionId,
-          surveyVersion: localDraft.surveyVersion,
-          surveyData: localDraft.surveyData,
-          currentPageNo: localDraft.currentPageNo,
-          updatedAt: localDraft.updatedAt,
-          needsLocalSync: false,
-        };
+      setResolved({ isDraftLoading: false, initialDraft });
+    })();
 
-    resolvedRef.current = { isDraftLoading: false, initialDraft };
-    return resolvedRef.current;
+    return () => {
+      cancelled = true;
+    };
 
-    // Omit serverDraft/localDraft, so a local edit alone never re-runs this.
-    // isFetching also fires on unrelated refetches, but resolvedRef locks in
-    // the first result so those don't produce a new one.
-  }, [isFetching]);
+    // Omit localDraft, so a local edit alone never re-runs this.
+  }, [surveyId, fetchDraft]);
+
+  return resolved;
 }
 
 export default useInitialDraft;

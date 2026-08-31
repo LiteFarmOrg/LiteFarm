@@ -49,11 +49,43 @@ async function validatePrecacheIntegrity() {
   }
 }
 
-// Assets omitted from precache, but cached on first fetch for fast subsequent loads
+// Assets omitted from precache, but cached on first fetch for fast subsequent loads.
+// Each chunk name here must also be listed in `globIgnores` in vite.config.ts
+const DYNAMIC_CHUNK_PATTERN = /\/assets\/(survey-vendor)-[^/]+\.js$/;
+
 registerRoute(
-  ({ url }) => /\/assets\/(survey-vendor)-[^/]+\.(js|css)$/.test(url.pathname),
-  new CacheFirst({ cacheName: 'dynamic-chunks' }),
+  ({ url }) => DYNAMIC_CHUNK_PATTERN.test(url.pathname),
+  new CacheFirst({
+    cacheName: 'dynamic-chunks',
+    // Two versions per chunk name matched by DYNAMIC_CHUNK_PATTERN
+    plugins: [new ExpirationPlugin({ maxEntries: 2 })],
+  }),
 );
+
+// Keep the newest entry per chunk name
+async function purgeStaleDynamicChunks() {
+  try {
+    const cache = await caches.open('dynamic-chunks');
+    const keys = await cache.keys();
+    // cache.keys() returns in insertion order
+    const newest = new Map();
+    for (const request of keys) {
+      const chunkName = request.url.match(DYNAMIC_CHUNK_PATTERN)?.[1];
+      if (chunkName) {
+        newest.set(chunkName, request);
+      }
+    }
+    const keep = new Set(newest.values());
+    const stale = keys.filter((request) => !keep.has(request));
+    await Promise.all(stale.map((request) => cache.delete(request)));
+  } catch {
+    return;
+  }
+}
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(purgeStaleDynamicChunks());
+});
 
 // Farm note images served through the Cloudflare Worker proxy (beta/prod) or minio (dev)
 registerRoute(

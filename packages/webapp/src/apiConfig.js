@@ -25,7 +25,7 @@ if (VITE_NGROK_API && hostNameSplit && hostNameSplit.length > 1 && hostNameSplit
   URI = import.meta.env.VITE_API_URL;
 } else {
   if (VITE_ENV === 'development') {
-    URI = window.location.href.replace(/3000.*/, '5000');
+    URI = `${window.location.protocol}//${window.location.hostname}:5001`;
   } else if (VITE_ENV === 'production') {
     URI = 'https://api.app.litefarm.org';
   } else if (VITE_ENV === 'integration') {

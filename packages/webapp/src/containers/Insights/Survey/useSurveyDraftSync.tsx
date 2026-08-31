@@ -81,7 +81,9 @@ function useSurveyDraftSync({
         current_page_no: latestDraftRef.current.currentPageNo,
       });
     };
-  }, []);
+    // persistDraft must be a dependency, or the cleanup stays frozen on the mount-time closure
+    // where surveyVersion is still undefined, and no-ops forever.
+  }, [persistDraft]);
 
   // Resolve this survey's draft state with the server on mount: adopt the server's draft when it
   // should win, discard local content when its submission_id no longer matches anything live on

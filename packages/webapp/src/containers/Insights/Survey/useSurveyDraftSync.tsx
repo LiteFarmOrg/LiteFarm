@@ -23,13 +23,11 @@ import { InitialDraftResult } from './useInitialDraft';
 type UseSurveyDraftSyncProps = InitialDraftResult & {
   surveyId: string;
   surveyVersion?: string;
-  surveyStep?: string;
 };
 
 function useSurveyDraftSync({
   surveyId,
   surveyVersion = '',
-  surveyStep,
   isDraftLoading,
   initialDraft,
 }: UseSurveyDraftSyncProps) {
@@ -48,7 +46,6 @@ function useSurveyDraftSync({
       try {
         const created = await upsertSurveyDraft({
           surveyKey: surveyId,
-          surveyStep,
           survey_version: surveyVersion,
           submission_id: submissionIdRef.current,
           ...payload,
@@ -56,9 +53,7 @@ function useSurveyDraftSync({
 
         submissionIdRef.current = created.submission_id;
 
-        dispatch(
-          setDraftSubmissionId({ surveyId, surveyStep, submissionId: created.submission_id }),
-        );
+        dispatch(setDraftSubmissionId({ surveyId, submissionId: created.submission_id }));
       } catch (error) {
         if (isFetchBaseQueryError(error) && error.status === 409) {
           // TODO: Handle 409 (survey already completed)
@@ -67,7 +62,7 @@ function useSurveyDraftSync({
         // Best effort — a later save trigger will retry.
       }
     },
-    [surveyId, surveyStep, surveyVersion, dispatch, upsertSurveyDraft],
+    [surveyId, surveyVersion, dispatch, upsertSurveyDraft],
   );
 
   const latestDraftRef = useRef({
@@ -108,7 +103,6 @@ function useSurveyDraftSync({
             currentPageNo: initialDraft.currentPageNo,
             surveyData: initialDraft.surveyData,
             surveyVersion: initialDraft.surveyVersion,
-            surveyStep,
             updatedAt: initialDraft.updatedAt,
           }),
         );
@@ -117,7 +111,7 @@ function useSurveyDraftSync({
 
       // Local's submission_id points to a draft that's already been completed, and no new server
       // draft replaced it — discard the stale local content rather than keep building on it.
-      dispatch(clearSurvey({ surveyId, surveyStep }));
+      dispatch(clearSurvey({ surveyId }));
       persistDraft({ survey_data: {}, current_page_no: 0 });
       return;
     }
@@ -127,7 +121,7 @@ function useSurveyDraftSync({
       survey_data: initialDraft.surveyData,
       current_page_no: initialDraft.currentPageNo,
     });
-  }, [surveyVersion, isDraftLoading, initialDraft, surveyId, surveyStep, dispatch, persistDraft]);
+  }, [surveyVersion, isDraftLoading, initialDraft, surveyId, dispatch, persistDraft]);
 
   const onCurrentPageChanged = useCallback(
     (currentPageNo: number, surveyData: Record<string, unknown>) => {

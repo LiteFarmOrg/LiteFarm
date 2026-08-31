@@ -30,11 +30,11 @@ const surveyDraftController = {
     return async (req: LiteFarmRequest<unknown, SurveyDraftParams>, res: Response) => {
       try {
         const { farm_id } = req.headers;
-        const { survey_key, survey_step = '' } = req.params;
+        const { survey_key } = req.params;
         /* @ts-expect-error known issue with models */
         const result = await SurveyDraftModel.query()
           .whereNotDeleted()
-          .findOne({ farm_id, survey_key, survey_step });
+          .findOne({ farm_id, survey_key });
         return res.status(200).json(result ?? null);
       } catch (error) {
         console.error(error);
@@ -52,7 +52,7 @@ const surveyDraftController = {
       try {
         const { farm_id } = req.headers;
         const user_id = req.auth?.user_id;
-        const { survey_key, survey_step = '' } = req.params;
+        const { survey_key } = req.params;
         const { survey_version, survey_data, current_page_no = 0 } = req.body;
 
         /* @ts-expect-error known issue with models */
@@ -61,12 +61,11 @@ const surveyDraftController = {
           .insert({
             farm_id,
             survey_key,
-            survey_step,
             survey_version,
             survey_data,
             current_page_no,
           })
-          .onConflict(knex.raw('(farm_id, survey_key, survey_step) where deleted = false'))
+          .onConflict(knex.raw('(farm_id, survey_key) where deleted = false'))
           .merge({
             survey_version,
             survey_data,

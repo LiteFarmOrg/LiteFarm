@@ -32,10 +32,10 @@ export type InitialDraftResult =
       };
     };
 
-function useInitialDraft(surveyId: string, surveyStep?: string) {
-  const localDraft = useSelector(surveyDraftSelector(surveyId, surveyStep));
+function useInitialDraft(surveyId: string) {
+  const localDraft = useSelector(surveyDraftSelector(surveyId));
   const { data: serverDraft, isFetching } = useGetSurveyDraftQuery(
-    { surveyKey: surveyId, surveyStep },
+    { surveyKey: surveyId },
     { skip: !surveyId, refetchOnMountOrArgChange: true },
   );
 

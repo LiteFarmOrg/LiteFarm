@@ -3002,7 +3002,6 @@ const farm_noteFactory = async (
 const fakeSurveyDraft = (defaultData = {}) => {
   return {
     survey_key: 'tape',
-    survey_step: '',
     survey_version: 'v1',
     survey_data: { [faker.lorem.word()]: faker.lorem.word() },
     current_page_no: 0,

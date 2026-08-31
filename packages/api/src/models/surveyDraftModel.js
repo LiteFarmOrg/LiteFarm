@@ -37,7 +37,6 @@ class SurveyDraftModel extends BaseModel {
         submission_id: { type: 'string' },
         farm_id: { type: 'string' },
         survey_key: { type: 'string' },
-        survey_step: { type: 'string' },
         survey_version: { type: 'string' },
         survey_data: { type: 'object' },
         current_page_no: { type: 'integer' },

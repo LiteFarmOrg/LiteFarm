@@ -16,6 +16,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
+import { faker } from '@faker-js/faker';
 import server from './../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
@@ -41,33 +42,30 @@ describe('Survey draft endpoint tests', () => {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  function draftPath(survey_key = 'tape', survey_step) {
-    return survey_step
-      ? `/survey_drafts/${survey_key}/${survey_step}`
-      : `/survey_drafts/${survey_key}`;
+  function draftPath(survey_key = 'tape') {
+    return `/survey_drafts/${survey_key}`;
   }
 
   async function getDraftRequest({
     user_id = owner.user_id,
     farm_id = farm.farm_id,
     survey_key = 'tape',
-    survey_step,
   } = {}) {
     return chai
       .request(server)
-      .get(draftPath(survey_key, survey_step))
+      .get(draftPath(survey_key))
       .set('user_id', user_id)
       .set('farm_id', farm_id);
   }
 
   async function putRequest(
     survey_data,
-    { user_id = owner.user_id, farm_id = farm.farm_id, survey_key = 'tape', survey_step } = {},
+    { user_id = owner.user_id, farm_id = farm.farm_id, survey_key = 'tape' } = {},
     { survey_version = 'v1', current_page_no = 0, submission_id } = {},
   ) {
     return chai
       .request(server)
-      .put(draftPath(survey_key, survey_step))
+      .put(draftPath(survey_key))
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -91,34 +89,22 @@ describe('Survey draft endpoint tests', () => {
     await knex.destroy();
   });
 
-  describe('GET /survey_drafts/:survey_key/:survey_step?', () => {
+  describe('GET /survey_drafts/:survey_key', () => {
     test('Should return no content when no draft exists', async () => {
       const res = await getDraftRequest();
       expect(res.status).toBe(200);
       expect(res.body?.survey_data).toBeUndefined();
     });
 
-    test('Should return the live draft for the farm when no survey_step is given', async () => {
+    test('Should return the live draft for the farm for a given survey_key', async () => {
+      const surveyKey = faker.lorem.word();
       await mocks.survey_draftFactory(
         { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
-        mocks.fakeSurveyDraft({ survey_data: { q1: 'answer' } }),
+        mocks.fakeSurveyDraft({ survey_key: surveyKey, survey_data: { q1: 'answer' } }),
       );
-      const res = await getDraftRequest();
+      const res = await getDraftRequest({ survey_key: surveyKey });
       expect(res.status).toBe(200);
       expect(res.body.survey_data).toEqual({ q1: 'answer' });
-      expect(res.body.survey_step).toBe('');
-      expect(res.body.updated_at).toBeTruthy();
-    });
-
-    test('Should return the live draft for the farm for a given survey_step', async () => {
-      await mocks.survey_draftFactory(
-        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
-        mocks.fakeSurveyDraft({ survey_data: { q1: 'answer' }, survey_step: 'step-1' }),
-      );
-      const res = await getDraftRequest({ survey_step: 'step-1' });
-      expect(res.status).toBe(200);
-      expect(res.body.survey_data).toEqual({ q1: 'answer' });
-      expect(res.body.survey_step).toBe('step-1');
     });
 
     test('Should not return another farm draft', async () => {
@@ -165,12 +151,12 @@ describe('Survey draft endpoint tests', () => {
     test('Submitting the survey soft-deletes the live draft and reuses its submission_id', async () => {
       const [draft] = await mocks.survey_draftFactory(
         { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
-        mocks.fakeSurveyDraft({ survey_step: 'step-1' }),
+        mocks.fakeSurveyDraft(),
       );
 
       await postSurveyResponse();
 
-      const getRes = await getDraftRequest({ survey_step: 'step-1' });
+      const getRes = await getDraftRequest();
       expect(getRes.body?.survey_data).toBeUndefined();
 
       const draftRow = await knex('survey_draft').where({ id: draft.id }).first();
@@ -193,16 +179,12 @@ describe('Survey draft endpoint tests', () => {
     });
 
     test('A draft write is rejected once its submission_id has already been completed', async () => {
-      await postSurveyResponse(); // completes survey_step: 'step-1'
+      await postSurveyResponse();
       const { submission_id } = await knex('survey_response')
         .where({ farm_id: farm.farm_id, survey_key: 'tape' })
         .first();
 
-      const res = await putRequest(
-        { q1: 'too late' },
-        { survey_step: 'step-1' },
-        { submission_id },
-      );
+      const res = await putRequest({ q1: 'too late' }, {}, { submission_id });
       expect(res.status).toBe(409);
 
       const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
@@ -210,33 +192,25 @@ describe('Survey draft endpoint tests', () => {
     });
 
     // TODO: LF-5192 Delete once we support retake/update
-    test('A draft write is rejected regardless of which submission_id is sent, once the survey_step is completed', async () => {
-      await postSurveyResponse(); // completes survey_step: 'step-1'
+    test('A draft write is rejected regardless of which submission_id is sent, once the survey is completed', async () => {
+      await postSurveyResponse();
       const unrelatedId = '11111111-1111-1111-1111-111111111111';
 
-      const res = await putRequest(
-        { q1: 'too late' },
-        { survey_step: 'step-1' },
-        { submission_id: unrelatedId },
-      );
+      const res = await putRequest({ q1: 'too late' }, {}, { submission_id: unrelatedId });
       expect(res.status).toBe(409);
     });
 
     // TODO: LF-5192 Enable
     xtest('A draft write is unaffected by a completed survey under a different submission_id', async () => {
-      await postSurveyResponse(); // completes survey_step: 'step-1'
+      await postSurveyResponse();
       const unrelatedId = '11111111-1111-1111-1111-111111111111';
 
-      const res = await putRequest(
-        { q1: 'answer' },
-        { survey_step: 'step-1' },
-        { submission_id: unrelatedId },
-      );
+      const res = await putRequest({ q1: 'answer' }, {}, { submission_id: unrelatedId });
       expect(res.status).toBe(201);
     });
   });
 
-  describe('PUT /survey_drafts/:survey_key/:survey_step?', () => {
+  describe('PUT /survey_drafts/:survey_key', () => {
     test('Admin roles should be able to create a draft', async () => {
       const adminRoles = [1, 2, 5];
       for (const role of adminRoles) {
@@ -278,14 +252,6 @@ describe('Survey draft endpoint tests', () => {
 
       const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
       expect(rows.length).toBe(1);
-    });
-
-    test('A different survey_step for the same survey_key is a separate draft', async () => {
-      await putRequest({ q1: 'step-1-answer' }, { survey_step: 'step-1' });
-      await putRequest({ q1: 'step-2-answer' }, { survey_step: 'step-2' });
-
-      const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
-      expect(rows.length).toBe(2);
     });
   });
 });

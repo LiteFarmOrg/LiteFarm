@@ -25,8 +25,7 @@ interface SurveyDraft {
 }
 
 interface SurveyDraftState {
-  // e.g., { tape: { STEP1: {...}, STEP2: {...} }, cathi_gao: { '': {...} } }
-  bySurveyId: Record<string, Record<string, SurveyDraft>>;
+  bySurveyId: Record<string, SurveyDraft>;
 }
 
 const initialState: SurveyDraftState = {
@@ -34,8 +33,6 @@ const initialState: SurveyDraftState = {
 };
 
 const emptyDraft: SurveyDraft = { currentPageNo: 0, surveyData: {} };
-
-const normalizeStep = (surveyStep?: string) => surveyStep ?? '';
 
 const surveyDraftSlice = createSlice({
   name: 'surveyDraftReducer',
@@ -48,7 +45,6 @@ const surveyDraftSlice = createSlice({
         currentPageNo: number;
         surveyData: Record<string, any>;
         surveyVersion?: string;
-        surveyStep?: string;
         // Defaults to now; callers adopting server content should pass the server's own
         // updated_at, not when it was merely copied into this store.
         updatedAt?: number;
@@ -59,46 +55,28 @@ const surveyDraftSlice = createSlice({
         currentPageNo,
         surveyData,
         surveyVersion,
-        surveyStep,
         updatedAt = Date.now(),
       } = action.payload;
-      const step = normalizeStep(surveyStep);
-      const previous = state.bySurveyId[surveyId]?.[step] ?? emptyDraft;
       state.bySurveyId[surveyId] = {
         ...state.bySurveyId[surveyId],
-        [step]: {
-          ...previous,
-          currentPageNo,
-          surveyData,
-          surveyVersion,
-          updatedAt,
-        },
+        currentPageNo,
+        surveyData,
+        surveyVersion,
+        updatedAt,
       };
     },
     setDraftSubmissionId: (
       state,
-      action: PayloadAction<{ surveyId: string; surveyStep?: string; submissionId: string }>,
+      action: PayloadAction<{ surveyId: string; submissionId: string }>,
     ) => {
-      const { surveyId, surveyStep, submissionId } = action.payload;
-      const step = normalizeStep(surveyStep);
+      const { surveyId, submissionId } = action.payload;
       state.bySurveyId[surveyId] = {
         ...state.bySurveyId[surveyId],
-        [step]: {
-          ...(state.bySurveyId[surveyId]?.[step] ?? emptyDraft),
-          submissionId,
-        },
+        submissionId,
       };
     },
-    clearSurvey: (state, action: PayloadAction<{ surveyId: string; surveyStep?: string }>) => {
-      const { surveyId, surveyStep } = action.payload;
-      const surveyDrafts = state.bySurveyId[surveyId];
-      if (!surveyDrafts) {
-        return;
-      }
-      delete surveyDrafts[normalizeStep(surveyStep)];
-      if (Object.keys(surveyDrafts).length === 0) {
-        delete state.bySurveyId[surveyId];
-      }
+    clearSurvey: (state, action: PayloadAction<{ surveyId: string }>) => {
+      delete state.bySurveyId[action.payload.surveyId];
     },
   },
 });
@@ -110,8 +88,8 @@ export default surveyDraftSlice.reducer;
 const surveyDraftStateSelector = (state: any): SurveyDraftState =>
   state.farmStateReducer[surveyDraftSlice.name] || initialState;
 
-export const surveyDraftSelector = (surveyId: string, surveyStep?: string) =>
+export const surveyDraftSelector = (surveyId: string) =>
   createSelector(
     [surveyDraftStateSelector],
-    (draftState) => draftState.bySurveyId[surveyId]?.[normalizeStep(surveyStep)] || emptyDraft,
+    (draftState) => draftState.bySurveyId[surveyId] || emptyDraft,
   );

@@ -19,7 +19,6 @@ import { LiteFarmRequest } from '../../types.js';
 
 export interface SurveyDraftParams {
   survey_key: string;
-  survey_step?: string;
 }
 
 export interface UpsertDraftBody {
@@ -46,12 +45,11 @@ export function checkDraftNotCompleted() {
     next: NextFunction,
   ) => {
     const { farm_id } = req.headers;
-    const { survey_key, survey_step = '' } = req.params;
+    const { survey_key } = req.params;
 
     const existing = await SurveyResponseModel.query().findOne({
       farm_id,
       survey_key,
-      survey_step,
     });
     if (existing) {
       return res.status(409).json({ error: 'Survey has already been completed' });

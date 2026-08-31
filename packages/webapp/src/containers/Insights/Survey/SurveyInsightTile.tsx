@@ -21,7 +21,7 @@ import { Semibold, Text } from '../../../components/Typography';
 import { useGetLatestSurveyResponseQuery } from '../../../store/api/surveyApi';
 import { useSurveyTitle } from './useSurveyTitle';
 import useInitialDraft from './useInitialDraft';
-import { getSurveyStep, surveyHasResultsPage } from './surveyConfig';
+import { surveyHasResultsPage } from './surveyConfig';
 
 interface SurveyInsightTileProps {
   surveyId: string;
@@ -45,8 +45,7 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
     isFetching,
   } = useGetLatestSurveyResponseQuery({ surveyKey: surveyId });
 
-  const surveyStep = getSurveyStep(surveyId);
-  const { isDraftLoading, initialDraft } = useInitialDraft(surveyId, surveyStep);
+  const { isDraftLoading, initialDraft } = useInitialDraft(surveyId);
   const inProgress = Object.keys(initialDraft.surveyData || {}).length > 0;
 
   const isCompleted = !isError && !!surveyResponse?.id;

@@ -23,11 +23,9 @@ import surveyDraftController from '../controllers/surveyDraftController.js';
 
 const router = express.Router();
 
-// One live draft per farm_id + survey_key + survey_step (survey_step is optional,
-// and it defaults to '' on the survey_draft row).
+// One live draft per farm_id + survey_key
 router.get(
-  // TODO: LF-5475 Update the Express 4-specific `?` optional-param syntax to `{/:survey_step}`
-  '/:survey_key/:survey_step?',
+  '/:survey_key',
   checkScope(['get:survey_draft']),
   checkSurveyDraftKey(),
   surveyDraftController.getDraft(),
@@ -36,8 +34,7 @@ router.get(
 // Idempotent create-or-replace at this exact key — PUT, not POST, since the resource's
 // address is fully known up front rather than server-assigned.
 router.put(
-  // TODO: LF-5475 Update the Express 4-specific `?` optional-param syntax to `{/:survey_step}`
-  '/:survey_key/:survey_step?',
+  '/:survey_key',
   checkScope(['edit:survey_draft']),
   checkSurveyDraftKey(),
   checkDraftNotCompleted(),

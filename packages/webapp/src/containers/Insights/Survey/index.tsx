@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyCdnPath, getSurveyStep, getSurveyVersion } from './surveyConfig';
+import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
@@ -53,9 +53,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
-  const surveyStep = getSurveyStep(surveyId);
 
-  const draftState = useInitialDraft(surveyId, surveyStep);
+  const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
   const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
@@ -97,7 +96,6 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const { onCurrentPageChanged, recordLatestDraft } = useSurveyDraftSync({
     surveyId,
     surveyVersion,
-    surveyStep,
     ...draftState,
   });
 
@@ -108,12 +106,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
-      dispatch(
-        saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion, surveyStep }),
-      );
+      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion }));
       recordLatestDraft(surveyData, currentPageNo);
     },
-    [surveyId, surveyVersion, surveyStep],
+    [surveyId, surveyVersion],
   );
 
   const handleComplete = useCallback(
@@ -125,7 +121,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
           farm_id,
         }).unwrap();
         prefetchLatestResponse({ surveyKey: surveyId });
-        dispatch(clearSurvey({ surveyId, surveyStep }));
+        dispatch(clearSurvey({ surveyId }));
         // Replace instead of push so the submitted survey is not left in the history stack
         history.replace(`/insights/survey/${surveyId}/results`);
       } catch {

@@ -23,7 +23,6 @@ import SurveyDraftModel from '../models/surveyDraftModel.js';
 interface SurveyResponseData {
   survey_version: string;
   project_id: string;
-  survey_step?: string;
   [key: string]: unknown;
 }
 
@@ -61,14 +60,14 @@ const surveyResponseController = {
           await trx.rollback();
           return res.status(400).json({ error: 'survey_key is required' });
         }
-        const { survey_version, project_id, survey_step } = survey_response;
+        const { survey_version, project_id } = survey_response;
 
         // A live draft, if one exists, hands its submission_id over to the response so a draft
         // write that arrives after this point can recognize its own lineage is now complete.
         /* @ts-expect-error known issue with models */
         const liveDraft = await SurveyDraftModel.query(trx)
           .whereNotDeleted()
-          .findOne({ farm_id, survey_key, survey_step: survey_step ?? '' });
+          .findOne({ farm_id, survey_key });
 
         const insertQuery = SurveyResponseModel.query(trx).context({
           user_id,
@@ -80,7 +79,6 @@ const surveyResponseController = {
           survey_response,
           survey_version,
           project_id,
-          survey_step,
         });
 
         if (liveDraft) {

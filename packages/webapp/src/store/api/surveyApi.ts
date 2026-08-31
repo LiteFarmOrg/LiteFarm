@@ -38,7 +38,6 @@ export interface SurveyDraftRecord {
   submission_id: string;
   farm_id: string;
   survey_key: string;
-  survey_step: string;
   survey_version: string;
   survey_data: Record<string, any>;
   current_page_no: number;
@@ -48,15 +47,10 @@ export interface SurveyDraftRecord {
 export interface UpsertSurveyDraftReqBody {
   submission_id?: string;
   surveyKey: string;
-  surveyStep?: string;
   survey_version: string;
   survey_data: Record<string, any>;
   current_page_no?: number;
 }
-
-const formatSurveyKeyStep = (surveyKey: string, surveyStep?: string) => {
-  return surveyStep ? `${surveyKey}-${surveyStep}` : surveyKey;
-};
 
 export const surveyApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -105,20 +99,15 @@ export const surveyApi = api.injectEndpoints({
         { type: 'SurveyResponse', id: survey_key },
       ],
     }),
-    getSurveyDraft: build.query<
-      SurveyDraftRecord | null,
-      { surveyKey: string; surveyStep?: string }
-    >({
-      query: ({ surveyKey, surveyStep }) => ({
-        url: getSurveyDraftUrl(surveyKey, surveyStep),
+    getSurveyDraft: build.query<SurveyDraftRecord | null, { surveyKey: string }>({
+      query: ({ surveyKey }) => ({
+        url: getSurveyDraftUrl(surveyKey),
       }),
-      providesTags: (_result, _error, { surveyKey, surveyStep }) => [
-        { type: 'SurveyDraft', id: formatSurveyKeyStep(surveyKey, surveyStep) },
-      ],
+      providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyDraft', id: surveyKey }],
     }),
     upsertSurveyDraft: build.mutation<SurveyDraftRecord, UpsertSurveyDraftReqBody>({
-      query: ({ surveyKey, surveyStep, ...body }) => ({
-        url: getSurveyDraftUrl(surveyKey, surveyStep),
+      query: ({ surveyKey, ...body }) => ({
+        url: getSurveyDraftUrl(surveyKey),
         method: 'PUT',
         body,
       }),

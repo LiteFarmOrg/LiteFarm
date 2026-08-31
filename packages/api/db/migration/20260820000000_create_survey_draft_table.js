@@ -23,10 +23,6 @@ export const up = async function (knex) {
     table.uuid('submission_id').notNullable().defaultTo(knex.raw('uuid_generate_v4()'));
     table.uuid('farm_id').notNullable().references('farm_id').inTable('farm');
     table.string('survey_key').notNullable();
-    // defaults to '' rather than being nullable so the partial unique index below
-    // behaves correctly — Postgres treats every NULL as distinct, which would let
-    // multiple "live" drafts exist for the same farm+survey_key when no step applies.
-    table.string('survey_step').notNullable().defaultTo('');
     table.string('survey_version').notNullable();
     table.jsonb('survey_data').notNullable();
     table.integer('current_page_no').notNullable().defaultTo(0);
@@ -36,9 +32,9 @@ export const up = async function (knex) {
     table.dateTime('updated_at').notNullable().defaultTo(knex.fn.now());
     table.boolean('deleted').notNullable().defaultTo(false);
 
-    // One live (non-deleted) draft per farm+survey_key+survey_step.
-    table.unique(['farm_id', 'survey_key', 'survey_step'], {
-      indexName: 'survey_draft_farm_survey_step_live_unique',
+    // One live (non-deleted) draft per farm+survey_key.
+    table.unique(['farm_id', 'survey_key'], {
+      indexName: 'survey_draft_farm_survey_live_unique',
       predicate: knex.whereRaw('deleted = false'),
     });
   });

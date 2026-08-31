@@ -71,7 +71,7 @@ const surveyDraftSlice = createSlice({
     ) => {
       const { surveyId, submissionId } = action.payload;
       state.bySurveyId[surveyId] = {
-        ...state.bySurveyId[surveyId],
+        ...(state.bySurveyId[surveyId] || emptyDraft),
         submissionId,
       };
     },

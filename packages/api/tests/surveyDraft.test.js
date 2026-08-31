@@ -72,6 +72,20 @@ describe('Survey draft endpoint tests', () => {
       .send({ farm_id, survey_version, survey_data, current_page_no, submission_id });
   }
 
+  async function postSurveyResponse(survey_key = 'tape') {
+    return chai
+      .request(server)
+      .post('/survey_response')
+      .set('Content-Type', 'application/json')
+      .set('user_id', owner.user_id)
+      .set('farm_id', farm.farm_id)
+      .send({
+        farm_id: farm.farm_id,
+        survey_key,
+        survey_response: { survey_version: 'v1', project_id: 'project-1', survey_step: 'step-1' },
+      });
+  }
+
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
@@ -90,6 +104,21 @@ describe('Survey draft endpoint tests', () => {
   });
 
   describe('GET /survey_drafts/:survey_key', () => {
+    test('Admin roles should be able to get a draft', async () => {
+      const adminRoles = [1, 2, 5];
+      for (const role of adminRoles) {
+        const userFarmIds = await createUserFarmIds(role);
+        await mocks.survey_draftFactory(
+          { promisedUserFarm: [userFarmIds] },
+          mocks.fakeSurveyDraft({ survey_data: { q1: 'answer' } }),
+        );
+
+        const res = await getDraftRequest(userFarmIds);
+        expect(res.status).toBe(200);
+        expect(res.body.survey_data).toEqual({ q1: 'answer' });
+      }
+    });
+
     test('Should return no content when no draft exists', async () => {
       const res = await getDraftRequest();
       expect(res.status).toBe(200);
@@ -130,83 +159,6 @@ describe('Survey draft endpoint tests', () => {
       const idsB = await createUserFarmIds(1);
       const res = await getDraftRequest({ farm_id: idsA.farm_id, user_id: idsB.user_id });
       expect(res.status).toBe(403);
-    });
-  });
-
-  describe('Draft cleanup on survey submission', () => {
-    async function postSurveyResponse(survey_key = 'tape') {
-      return chai
-        .request(server)
-        .post('/survey_response')
-        .set('Content-Type', 'application/json')
-        .set('user_id', owner.user_id)
-        .set('farm_id', farm.farm_id)
-        .send({
-          farm_id: farm.farm_id,
-          survey_key,
-          survey_response: { survey_version: 'v1', project_id: 'project-1', survey_step: 'step-1' },
-        });
-    }
-
-    test('Submitting the survey soft-deletes the live draft and reuses its submission_id', async () => {
-      const [draft] = await mocks.survey_draftFactory(
-        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
-        mocks.fakeSurveyDraft(),
-      );
-
-      await postSurveyResponse();
-
-      const getRes = await getDraftRequest();
-      expect(getRes.body?.survey_data).toBeUndefined();
-
-      const draftRow = await knex('survey_draft').where({ id: draft.id }).first();
-      expect(draftRow.deleted).toBe(true);
-
-      const responseRow = await knex('survey_response')
-        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
-        .first();
-      expect(responseRow.submission_id).toBe(draft.submission_id);
-    });
-
-    test('Submitting without a prior draft still succeeds with a fresh submission_id', async () => {
-      const res = await postSurveyResponse();
-      expect(res.status).toBe(201);
-
-      const responseRow = await knex('survey_response')
-        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
-        .first();
-      expect(responseRow.submission_id).toBeTruthy();
-    });
-
-    test('A draft write is rejected once its submission_id has already been completed', async () => {
-      await postSurveyResponse();
-      const { submission_id } = await knex('survey_response')
-        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
-        .first();
-
-      const res = await putRequest({ q1: 'too late' }, {}, { submission_id });
-      expect(res.status).toBe(409);
-
-      const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
-      expect(rows.length).toBe(0);
-    });
-
-    // TODO: LF-5192 Delete once we support retake/update
-    test('A draft write is rejected regardless of which submission_id is sent, once the survey is completed', async () => {
-      await postSurveyResponse();
-      const unrelatedId = '11111111-1111-1111-1111-111111111111';
-
-      const res = await putRequest({ q1: 'too late' }, {}, { submission_id: unrelatedId });
-      expect(res.status).toBe(409);
-    });
-
-    // TODO: LF-5192 Enable
-    xtest('A draft write is unaffected by a completed survey under a different submission_id', async () => {
-      await postSurveyResponse();
-      const unrelatedId = '11111111-1111-1111-1111-111111111111';
-
-      const res = await putRequest({ q1: 'answer' }, {}, { submission_id: unrelatedId });
-      expect(res.status).toBe(201);
     });
   });
 
@@ -252,6 +204,71 @@ describe('Survey draft endpoint tests', () => {
 
       const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
       expect(rows.length).toBe(1);
+    });
+
+    describe('Draft writes after survey completion', () => {
+      test('A draft write is rejected once its submission_id has already been completed', async () => {
+        await postSurveyResponse();
+        const { submission_id } = await knex('survey_response')
+          .where({ farm_id: farm.farm_id, survey_key: 'tape' })
+          .first();
+
+        const res = await putRequest({ q1: 'too late' }, {}, { submission_id });
+        expect(res.status).toBe(409);
+
+        const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
+        expect(rows.length).toBe(0);
+      });
+
+      // TODO: LF-5192 Delete once we support retake/update
+      test('A draft write is rejected regardless of which submission_id is sent, once the survey is completed', async () => {
+        await postSurveyResponse();
+        const unrelatedId = '11111111-1111-1111-1111-111111111111';
+
+        const res = await putRequest({ q1: 'too late' }, {}, { submission_id: unrelatedId });
+        expect(res.status).toBe(409);
+      });
+
+      // TODO: LF-5192 Enable
+      xtest('A draft write is unaffected by a completed survey under a different submission_id', async () => {
+        await postSurveyResponse();
+        const unrelatedId = '11111111-1111-1111-1111-111111111111';
+
+        const res = await putRequest({ q1: 'answer' }, {}, { submission_id: unrelatedId });
+        expect(res.status).toBe(201);
+      });
+    });
+  });
+
+  describe('Draft cleanup on survey submission', () => {
+    test('Submitting the survey soft-deletes the live draft and reuses its submission_id', async () => {
+      const [draft] = await mocks.survey_draftFactory(
+        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
+        mocks.fakeSurveyDraft(),
+      );
+
+      await postSurveyResponse();
+
+      const getRes = await getDraftRequest();
+      expect(getRes.body?.survey_data).toBeUndefined();
+
+      const draftRow = await knex('survey_draft').where({ id: draft.id }).first();
+      expect(draftRow.deleted).toBe(true);
+
+      const responseRow = await knex('survey_response')
+        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
+        .first();
+      expect(responseRow.submission_id).toBe(draft.submission_id);
+    });
+
+    test('Submitting without a prior draft still succeeds with a fresh submission_id', async () => {
+      const res = await postSurveyResponse();
+      expect(res.status).toBe(201);
+
+      const responseRow = await knex('survey_response')
+        .where({ farm_id: farm.farm_id, survey_key: 'tape' })
+        .first();
+      expect(responseRow.submission_id).toBeTruthy();
     });
   });
 });

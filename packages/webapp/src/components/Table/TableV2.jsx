@@ -15,8 +15,7 @@
 import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Checkbox } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box, Checkbox } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';

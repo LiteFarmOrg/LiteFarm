@@ -15,6 +15,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import * as Sentry from '@sentry/react';
 import { clearSurvey, saveSurveyProgress, setDraftSubmissionId } from './surveyDraftSlice';
 import { useUpsertSurveyDraftMutation } from '../../../store/api/surveyApi';
 import { isFetchBaseQueryError } from '../../../store/api/typeGuards';
@@ -39,7 +40,10 @@ function useSurveyDraftSync({
 
   // Upserts the draft to the server, then syncs the returned submission_id into Redux.
   const persistDraft = useCallback(
-    async (payload: { survey_data: Record<string, any>; current_page_no?: number }) => {
+    async (
+      payload: { survey_data: Record<string, any>; current_page_no?: number },
+      { shouldReportErrors = false }: { shouldReportErrors?: boolean } = {},
+    ) => {
       if (!surveyVersion) {
         return;
       }
@@ -56,7 +60,12 @@ function useSurveyDraftSync({
         dispatch(setDraftSubmissionId({ surveyId, submissionId: created.submission_id }));
       } catch (error) {
         if (isFetchBaseQueryError(error) && error.status === 409) {
-          // TODO: Handle 409 (survey already completed)
+          if (shouldReportErrors) {
+            Sentry.captureException('Draft save rejected: survey already completed', {
+              tags: { surveyId },
+              extra: { submissionId: submissionIdRef.current },
+            });
+          }
           return;
         }
         // Best effort — a later save trigger will retry.
@@ -127,7 +136,13 @@ function useSurveyDraftSync({
 
   const onCurrentPageChanged = useCallback(
     (currentPageNo: number, surveyData: Record<string, unknown>) => {
-      persistDraft({ current_page_no: currentPageNo, survey_data: surveyData });
+      persistDraft(
+        {
+          current_page_no: currentPageNo,
+          survey_data: surveyData,
+        },
+        { shouldReportErrors: true },
+      );
       recordLatestDraft(surveyData, currentPageNo);
     },
     [persistDraft],

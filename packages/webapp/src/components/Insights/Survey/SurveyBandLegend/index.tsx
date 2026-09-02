@@ -15,7 +15,7 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import { SURVEY_SCORE_BAND_RANGES, SURVEY_SCORE_MIN, SurveyScoreBand } from '../surveyScoreBand';
+import { SURVEY_SCORE_BAND_RANGES, SURVEY_SCORE_MIN, SurveyScoreBand } from '../utils';
 import useSurveyScoreBandLabels from '../useSurveyScoreBandLabels';
 import styles from './styles.module.scss';
 

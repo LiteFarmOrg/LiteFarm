@@ -20,7 +20,7 @@ import {
   SURVEY_SCORE_MAX,
   SURVEY_SCORE_MIN,
   SurveyScoreBand,
-} from '../../surveyScoreBand';
+} from '../../utils';
 import useSurveyScoreBandLabels from '../../useSurveyScoreBandLabels';
 import styles from './styles.module.scss';
 
@@ -45,7 +45,7 @@ const Gauge = ({ score }: GaugeProps) => {
   const { t } = useTranslation();
   const bandLabels = useSurveyScoreBandLabels();
 
-  if (score === undefined) {
+  if (score === undefined || !Number.isFinite(score)) {
     return (
       <div className={styles.gauge}>
         <svg className={styles.arc} viewBox="0 0 120 66" aria-hidden="true">

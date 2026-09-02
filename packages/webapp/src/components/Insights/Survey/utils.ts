@@ -13,12 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export interface SurveyScoreBandRange {
-  band: SurveyScoreBand;
-  min: number;
-  max: number;
-}
-
 export const SURVEY_SCORE_MIN = 0;
 export const SURVEY_SCORE_MAX = 100;
 

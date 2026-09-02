@@ -44,7 +44,7 @@ function useSurveyDraftSync({
       payload: { survey_data: Record<string, any>; current_page_no?: number },
       { shouldReportErrors = false }: { shouldReportErrors?: boolean } = {},
     ) => {
-      if (!surveyVersion) {
+      if (!surveyVersion || !payload.survey_data) {
         return;
       }
       try {

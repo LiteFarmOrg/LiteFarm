@@ -14,6 +14,7 @@
  */
 
 @use '@assets/mixin' as *;
+@use '../surveyColors' as *;
 
 .card {
   display: flex;
@@ -45,7 +46,7 @@
   font-size: 13px;
   font-weight: 600;
   line-height: 17px;
-  color: var(--text-ink);
+  color: $text-ink;
 }
 
 .body {
@@ -63,7 +64,7 @@
   font-size: 11px;
   font-weight: 400;
   line-height: 15px;
-  color: var(--text-muted);
+  color: $text-muted;
   white-space: nowrap;
 }
 
@@ -88,12 +89,12 @@
 
 .progressLabel {
   top: 9px;
-  color: var(--text-ink);
+  color: $text-ink;
 }
 
 .progressStarted {
   top: 50px;
-  color: var(--text-muted);
+  color: $text-muted;
 }
 
 .progressTrack {
@@ -103,7 +104,7 @@
   right: 6px;
   height: 6px;
   border-radius: 3px;
-  background-color: var(--gauge-track);
+  background-color: $gauge-track;
 }
 
 .progressFill {
@@ -118,7 +119,7 @@
 }
 
 .checkCircle {
-  fill: var(--brand-green-tint);
+  fill: $brand-green-tint;
 }
 
 .checkMark {

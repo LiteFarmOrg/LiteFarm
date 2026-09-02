@@ -14,6 +14,7 @@
  */
 
 @use '@assets/mixin' as *;
+@use '../surveyColors' as *;
 
 .legend {
   display: grid;
@@ -79,21 +80,21 @@
 }
 
 .band1VeryLow {
-  --legend-color: var(--band-1-very-low-fill);
+  --legend-color: #{$band-1-very-low-fill};
 }
 
 .band2Low {
-  --legend-color: var(--band-2-low-fill);
+  --legend-color: #{$band-2-low-fill};
 }
 
 .band3Medium {
-  --legend-color: var(--band-3-medium-fill);
+  --legend-color: #{$band-3-medium-fill};
 }
 
 .band4High {
-  --legend-color: var(--band-4-high-fill);
+  --legend-color: #{$band-4-high-fill};
 }
 
 .band5VeryHigh {
-  --legend-color: var(--band-5-very-high-fill);
+  --legend-color: #{$band-5-very-high-fill};
 }

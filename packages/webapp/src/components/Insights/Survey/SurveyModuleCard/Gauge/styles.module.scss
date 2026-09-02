@@ -14,6 +14,7 @@
  */
 
 @use '@assets/mixin' as *;
+@use '../../surveyColors' as *;
 
 .gauge {
   position: relative;
@@ -36,7 +37,7 @@
 }
 
 .track {
-  stroke: var(--gauge-track);
+  stroke: $gauge-track;
 }
 
 .fill {
@@ -78,31 +79,31 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 20px;
-  color: var(--text-muted);
+  color: $text-muted;
   opacity: 0.7;
 }
 
 .band1VeryLow {
-  --gauge-fill: var(--band-1-very-low-fill);
-  --gauge-ink: var(--band-1-very-low-ink);
+  --gauge-fill: #{$band-1-very-low-fill};
+  --gauge-ink: #{$band-1-very-low-ink};
 }
 
 .band2Low {
-  --gauge-fill: var(--band-2-low-fill);
-  --gauge-ink: var(--band-2-low-ink);
+  --gauge-fill: #{$band-2-low-fill};
+  --gauge-ink: #{$band-2-low-ink};
 }
 
 .band3Medium {
-  --gauge-fill: var(--band-3-medium-fill);
-  --gauge-ink: var(--band-3-medium-ink);
+  --gauge-fill: #{$band-3-medium-fill};
+  --gauge-ink: #{$band-3-medium-ink};
 }
 
 .band4High {
-  --gauge-fill: var(--band-4-high-fill);
-  --gauge-ink: var(--band-4-high-ink);
+  --gauge-fill: #{$band-4-high-fill};
+  --gauge-ink: #{$band-4-high-ink};
 }
 
 .band5VeryHigh {
-  --gauge-fill: var(--band-5-very-high-fill);
-  --gauge-ink: var(--band-5-very-high-ink);
+  --gauge-fill: #{$band-5-very-high-fill};
+  --gauge-ink: #{$band-5-very-high-ink};
 }

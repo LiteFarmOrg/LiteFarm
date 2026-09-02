@@ -13,25 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@use '@assets/mixin' as *;
+// Colours named in Figma for the survey module cards, gauge and score band legend.
+// They are not part of the design system, so they stay scoped to this feature
+// instead of joining the global tokens in assets/colors.scss.
 
-// Named in Figma but not part of the design system, so they stay in this file
-// rather than joining the global tokens in assets/colors.scss.
-$tag-new-version-bg: #e9f2fb;
-$tag-new-version-border: #c6daf0;
-$tag-new-version-ink: #1f5c96;
-
-.newVersion {
-  @include fontFamily();
-
-  flex-shrink: 0;
-  padding: 2px 7px;
-  overflow: hidden;
-  border: 1px solid $tag-new-version-border;
-  border-radius: 10px;
-  background-color: $tag-new-version-bg;
-  font-size: 10px;
-  font-weight: 600;
-  color: $tag-new-version-ink;
-  white-space: nowrap;
-}
+$band-1-very-low-fill: #d7301f;
+$band-1-very-low-ink: #8f1b10;
+$band-2-low-fill: #f0823f;
+$band-2-low-ink: #9a4a10;
+$band-3-medium-fill: #f2c230;
+$band-3-medium-ink: #7a5a00;
+$band-4-high-fill: #8fc94b;
+$band-4-high-ink: #3f6a12;
+$band-5-very-high-fill: #1e9650;
+$band-5-very-high-ink: #14623a;
+$gauge-track: #e9ecec;
+$text-ink: #1f2a2a;
+$text-muted: #6b7777;
+$brand-green-tint: #e8f3f1;

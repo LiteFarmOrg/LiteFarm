@@ -48,7 +48,7 @@ interface SurveyInfo {
  *  2. Add the title in useSurveyTitle.ts by calling t() with the key INSIGHTS.<KEY>.TITLE.
  *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
  *  4. Upload the survey's <version>.json to its CDN directory. A translatable default version goes
- *     in a per-language subfolder (e.g. fao/step0_step1.json for English, fao_fr/step0_step1_fr.json
+ *     in a per-language subfolder (e.g. fao/step01-survey.json for English, fao_fr/step01-survey_fr.json
  *     for French); a non-translatable, country-specific version (e.g. au) stays flat at the CDN
  *     directory root, no subfolder.
  */

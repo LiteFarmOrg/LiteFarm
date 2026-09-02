@@ -57,7 +57,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     image: tape_survey,
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step0_step1', AU: 'au' },
+    versionsByCountry: { default: 'step01-survey', AU: 'au' },
     resolveVersion: (defaultVersion: string, language: string) => {
       return language === 'en'
         ? { version: `fao/${defaultVersion}` }

@@ -511,9 +511,9 @@
     "NEXT_WE_WILL_CHECK": "Em seguida, vamos verificar se a certificadora exige mais alguma informação para processar o envio da sua certificação.",
     "NOTE_CANNOT_RESUBMIT": "Observação: depois de enviar a pesquisa, você não poderar alterar as respostas. Para alterar após a submissão, é preciso começar uma nova exportação.",
     "ORGANIC_CERTIFICATION_FROM": "Certificação orgânica de",
-    "SELECT_EXPORT_CERTIFIER": "Para qual certificadora você deseja exportar seus dados do LiteFarm?",
     "SELECT_CERTIFIER": "Selecione o certificador",
     "SELECT_CERTIFIER_PLACEHOLDER": "Selecione de seus certificadores",
+    "SELECT_EXPORT_CERTIFIER": "Para qual certificadora você deseja exportar seus dados do LiteFarm?",
     "SELECT_REPORTING_PERIOD": "Selecione o período do seu relatório",
     "UH_OH": "Ops!",
     "WOULD_LIKE_ANSWERS": "A certificadora gostaria que você respondesse algumas perguntas extras antes de nós exportarmos seus documentos."
@@ -1259,6 +1259,18 @@
     },
     "TAPE": {
       "COMPLETED": "Concluído - Veja os seus resultados",
+      "DIMENSIONS": {
+        "CIRCULAR_ECONOMY": "Economia circular e solidária",
+        "COCREATION_AND_KNOWLEDGE": "Cocriação e compartilhamento de conhecimento",
+        "CULTURE_AND_FOOD": "Cultura e tradições alimentares",
+        "DIVERSITY": "Diversidade",
+        "EFFICIENCY": "Eficiência",
+        "HUMAN_AND_SOCIAL": "Valores humanos e sociais",
+        "RECYCLING": "Reciclagem",
+        "RESILIENCE": "Resiliência",
+        "RESPONSIBLE_GOVERNANCE": "Governança responsável",
+        "SYNERGY": "Sinergias"
+      },
       "IN_PROGRESS": "Em progresso",
       "LOAD_ERROR": "Falha ao carregar questionário. Tente novamente mais tarde.",
       "NOT_FILLED": "Não preenchido",

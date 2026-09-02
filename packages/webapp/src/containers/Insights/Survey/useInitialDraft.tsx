@@ -16,7 +16,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { surveyDraftSelector } from './surveyDraftSlice';
-import { useGetSurveyDraftQuery, useLazyGetSurveyDraftQuery } from '../../../store/api/surveyApi';
+import { useLazyGetSurveyDraftQuery } from '../../../store/api/surveyApi';
 
 export type InitialDraftResult =
   | { isDraftLoading: true; initialDraft: Record<string, never> }
@@ -37,12 +37,6 @@ const loadingResult: InitialDraftResult = { isDraftLoading: true, initialDraft: 
 function useInitialDraft(surveyId: string) {
   const localDraft = useSelector(surveyDraftSelector(surveyId));
   const [fetchDraft] = useLazyGetSurveyDraftQuery();
-  // Read-only: gives us whatever getSurveyDraft last had cached, so a failed fetchDraft can fall
-  // back to it instead of reading as "no draft".
-  const { data: cachedServerDraft } = useGetSurveyDraftQuery(
-    { surveyKey: surveyId },
-    { skip: !surveyId },
-  );
 
   const [resolved, setResolved] = useState<InitialDraftResult>(loadingResult);
 
@@ -54,19 +48,19 @@ function useInitialDraft(surveyId: string) {
     }
     let cancelled = false;
     (async () => {
-      const serverDraft = await fetchDraft({ surveyKey: surveyId })
-        .unwrap()
-        .catch(() => cachedServerDraft);
+      const { data, isSuccess } = await fetchDraft({ surveyKey: surveyId });
       if (cancelled) {
         return;
       }
+
+      const serverDraft = isSuccess ? data : undefined;
 
       const isLocalDraftStale =
         (Object.keys(localDraft.surveyData).length === 0 && serverDraft?.submission_id) ||
         (localDraft.submissionId && localDraft.submissionId !== serverDraft?.submission_id);
 
       // The draft has been completed on the server, and there is no new server draft
-      if (isLocalDraftStale && !serverDraft) {
+      if (isLocalDraftStale && !serverDraft && isSuccess) {
         setResolved({
           isDraftLoading: false,
           initialDraft: {

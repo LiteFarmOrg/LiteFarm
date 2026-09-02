@@ -119,7 +119,6 @@ export const {
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponseQuery,
   useAddSurveyResponseMutation,
-  useGetSurveyDraftQuery,
   useLazyGetSurveyDraftQuery,
   useUpsertSurveyDraftMutation,
   usePrefetch,

@@ -511,9 +511,9 @@
     "NEXT_WE_WILL_CHECK": "अगला हम जांच करेंगे कि आपके प्रमाणन प्रस्तुति को प्रक्रिया करने के लिए आपके प्रमाणक को कोई अतिरिक्त जानकारी की आवश्यकता है या नहीं।",
     "NOTE_CANNOT_RESUBMIT": "ध्यान दें: एक बार आप सर्वेक्षण प्रस्तुत करने के बाद आप अपने उत्तरों को संपादित नहीं कर पाएंगे। प्रस्तुत करने के बाद उन्हें बदलने के लिए, एक नया निर्यात शुरू करें।",
     "ORGANIC_CERTIFICATION_FROM": "जैविक प्रमाणन से",
-    "SELECT_EXPORT_CERTIFIER": "आप अपना LiteFarm डेटा किस प्रमाणन संस्था के लिए निर्यात करना चाहते हैं?",
     "SELECT_CERTIFIER": "प्रमाणनकर्ता चुनें",
     "SELECT_CERTIFIER_PLACEHOLDER": "अपने प्रमाणनकर्ताओं में से चुनें",
+    "SELECT_EXPORT_CERTIFIER": "आप अपना LiteFarm डेटा किस प्रमाणन संस्था के लिए निर्यात करना चाहते हैं?",
     "SELECT_REPORTING_PERIOD": "अपनी रिपोर्टिंग अवधि चुनें",
     "UH_OH": "उह ओह!",
     "WOULD_LIKE_ANSWERS": "आपके प्रमाणक आपसे दस्तावेज़ निर्यात करने से पहले कुछ अतिरिक्त प्रश्नों का उत्तर देना चाहेंगे।"
@@ -1259,6 +1259,18 @@
     },
     "TAPE": {
       "COMPLETED": "पूर्ण — अपने परिणाम देखें",
+      "DIMENSIONS": {
+        "CIRCULAR_ECONOMY": "",
+        "COCREATION_AND_KNOWLEDGE": "",
+        "CULTURE_AND_FOOD": "",
+        "DIVERSITY": "",
+        "EFFICIENCY": "",
+        "HUMAN_AND_SOCIAL": "",
+        "RECYCLING": "",
+        "RESILIENCE": "",
+        "RESPONSIBLE_GOVERNANCE": "",
+        "SYNERGY": ""
+      },
       "IN_PROGRESS": "प्रगति में",
       "LOAD_ERROR": "सर्वे लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "NOT_FILLED": "भरा नहीं गया",

@@ -1,0 +1,54 @@
+{
+  "EQUIPMENT": {
+    "EXPENSE_NAME": "Attrezzatura",
+    "CUSTOM_DESCRIPTION": "Spese relative a semplici attrezzi, materiali e ricambi per il funzionamento della tua azienda agricola."
+  },
+  "SOIL_AMENDMENT": {
+    "EXPENSE_NAME": "Ammendante del suolo",
+    "CUSTOM_DESCRIPTION": "Spese relative ad additivi come i fertilizzanti che migliorano le caratteristiche del tuo suolo."
+  },
+  "MACHINERY": {
+    "EXPENSE_NAME": "Macchinari",
+    "CUSTOM_DESCRIPTION": "Spese relative all'acquisto, al leasing, al noleggio e alla manutenzione dei macchinari."
+  },
+  "PEST_CONTROL": {
+    "EXPENSE_NAME": "Controllo dei parassiti",
+    "CUSTOM_DESCRIPTION": "Spese relative all'acquisto di ingredienti, prodotti e dispositivi utilizzati per gestire le specie indesiderate."
+  },
+  "FUEL": {
+    "EXPENSE_NAME": "Carburante",
+    "CUSTOM_DESCRIPTION": "Spese relative al rifornimento di carburante per infrastrutture, veicoli, macchinari e attrezzature."
+  },
+  "LAND": {
+    "EXPENSE_NAME": "Terreno",
+    "CUSTOM_DESCRIPTION": "Spese relative all'acquisto, al finanziamento, al leasing, al noleggio, all'accesso, alle tasse e ad altri costi per la proprietà o l'uso del terreno."
+  },
+  "SEEDS_AND_PLANTS": {
+    "EXPENSE_NAME": "Sementi e piante",
+    "CUSTOM_DESCRIPTION": "Acquisti di sementi, germogli e piantine utilizzati nella semina e nel trapianto."
+  },
+  "MISCELLANEOUS": {
+    "EXPENSE_NAME": "Miscellanea",
+    "CUSTOM_DESCRIPTION": "Tutto il resto. Valuta di creare un tipo di spesa personalizzato se in futuro avrai altre spese di questo tipo."
+  },
+  "UTILITIES": {
+    "EXPENSE_NAME": "Utenze",
+    "CUSTOM_DESCRIPTION": "Spese ricorrenti relative a elettricità, gas, acqua (inclusa l'irrigazione), raccolta dei rifiuti e altri servizi periodici."
+  },
+  "LABOUR": {
+    "EXPENSE_NAME": "Manodopera a contratto",
+    "CUSTOM_DESCRIPTION": "Spese relative a persone assunte a contratto."
+  },
+  "INFRASTRUCTURE": {
+    "EXPENSE_NAME": "Infrastrutture",
+    "CUSTOM_DESCRIPTION": "Spese relative alla costruzione o al miglioramento di strutture nell'azienda agricola."
+  },
+  "TRANSPORTATION": {
+    "EXPENSE_NAME": "Trasporto",
+    "CUSTOM_DESCRIPTION": "Spese relative allo spostamento di merci input, output e persone."
+  },
+  "SERVICES": {
+    "EXPENSE_NAME": "Servizi",
+    "CUSTOM_DESCRIPTION": "Spese relative ad altri servizi come licenze, certificazioni, supporto agronomico, analisi, marketing e altro."
+  }
+}

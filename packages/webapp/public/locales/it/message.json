@@ -1,0 +1,343 @@
+{
+  "ANIMALS": {
+    "FAILED_CREATE_ANIMALS": "Impossibile aggiungere gli animali",
+    "FAILED_CREATE_BATCHES": "Impossibile creare i lotti",
+    "FAILED_REMOVE_ANIMALS": "Impossibile rimuovere gli animali selezionati",
+    "FAILED_REMOVE_BATCHES": "Impossibile rimuovere i lotti selezionati",
+    "FAILED_UPDATE_ANIMAL": "Impossibile aggiornare l'animale selezionato",
+    "FAILED_UPDATE_BATCH": "Impossibile aggiornare il lotto selezionato",
+    "SUCCESS_CREATE_ANIMALS": "Animali creati correttamente",
+    "SUCCESS_CREATE_BATCHES": "Lotti creati correttamente",
+    "SUCCESS_REMOVE_ANIMALS": "Animali selezionati rimossi correttamente",
+    "SUCCESS_REMOVE_BATCHES": "Lotti selezionati rimossi correttamente",
+    "SUCCESS_UPDATE_ANIMAL": "Animale aggiornato correttamente",
+    "SUCCESS_UPDATE_BATCH": "Lotto aggiornato correttamente"
+  },
+  "ASSIGN_TASK": {
+    "ERROR": "Impossibile assegnare le attività",
+    "SUCCESS": "Attività assegnate correttamente"
+  },
+  "ATTACHMENTS": {
+    "ERROR": {
+      "CREATE": "Impossibile creare il documento",
+      "FAILED_ARCHIVE": "Impossibile archiviare il documento",
+      "FAILED_UNARCHIVE": "Impossibile rimuovere il documento dall'archivio",
+      "FAILED_UPLOAD": "Impossibile caricare gli allegati",
+      "UPDATE": "Impossibile aggiornare il documento"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Documento archiviato correttamente",
+      "CREATE": "Documento creato correttamente",
+      "UNARCHIVE": "Documento rimosso dall'archivio correttamente",
+      "UPDATE": "Documento aggiornato correttamente"
+    }
+  },
+  "CERTIFICATION": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "Errore: impossibile aggiungere la varietà al database",
+      "ADD_ALREADY_EXISTS": "Errore: la varietà esiste già",
+      "DELETE": "Impossibile eliminare la varietà di coltura",
+      "UPDATE": "Impossibile aggiornare la varietà di coltura"
+    },
+    "SUCCESS": {
+      "ADD": "Varietà salvata correttamente!",
+      "DELETE": "Varietà di coltura eliminata",
+      "UPDATE": "Varietà di coltura aggiornata correttamente"
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "Impossibile aggiungere nuove spese",
+      "DELETE": "Impossibile eliminare le spese",
+      "EXPENSE_DELETED": "Questa spesa non esiste più",
+      "EXPENSE_TYPE_DELETED": "Questo tipo di spesa è stato eliminato",
+      "UPDATE": "Impossibile aggiornare le spese!"
+    },
+    "SUCCESS": {
+      "ADD": "Nuove spese aggiunte correttamente!",
+      "DELETE": "Spese eliminate correttamente!",
+      "UPDATE": "Spese aggiornate correttamente!"
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "Impossibile creare la spesa personalizzata",
+      "DELETE": "Impossibile eliminare la spesa personalizzata",
+      "UPDATE": "Impossibile aggiornare la spesa personalizzata"
+    },
+    "SUCCESS": {
+      "ADD": "Spesa personalizzata creata correttamente",
+      "DELETE": "Spesa personalizzata disattivata correttamente",
+      "UPDATE": "Spesa personalizzata aggiornata correttamente"
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "Impossibile aggiungere l'azienda agricola, contatta LiteFarm per assistenza",
+      "FETCH": "Impossibile recuperare l'azienda agricola dal database",
+      "UPDATE": "Impossibile aggiornare le informazioni dell'azienda agricola"
+    },
+    "SUCCESS": {
+      "UPDATE": "Informazioni dell'azienda agricola aggiornate correttamente!"
+    }
+  },
+  "FARM_ADDON": {
+    "FAILED_DISCONNECT_ADDON": "",
+    "IRRIGATION_PRESCRIPTION": {
+      "FAILED_TO_GET": ""
+    },
+    "SUCCESS_DISCONNECT_ADDON": ""
+  },
+  "FARM_NOTE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "EDIT": ""
+    },
+    "SYNC": {
+      "ADD": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "DELETE": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "EDIT": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      },
+      "FAILED": "",
+      "NOT_FOUND": "",
+      "UNAUTHORIZED": ""
+    }
+  },
+  "HELP_REQUEST": {
+    "ERROR": {
+      "SEND": "Si è verificato un problema durante l'invio del tuo riscontro. Riprova."
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Impossibile aggiungere il tipo di utilizzo del raccolto personalizzato",
+      "AMOUNT_TOTAL": "Il totale non corrisponde all'importo da assegnare"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Tipo di utilizzo del raccolto personalizzato aggiunto correttamente"
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "DASHBOARD_TICKET": "",
+      "LOGIN_FAIL": "Impossibile accedere alle informazioni dell'utente"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "Impossibile abbandonare il piano colturale!",
+      "COMPLETE": "Impossibile completare il piano colturale!",
+      "DELETE": "Impossibile eliminare il piano colturale!",
+      "POST": "Impossibile aggiungere il piano colturale!"
+    },
+    "SUCCESS": {
+      "ABANDON": "Piano colturale abbandonato correttamente!",
+      "COMPLETE": "Piano colturale completato correttamente!",
+      "DELETE": "Piano colturale eliminato correttamente!",
+      "POST": "Piano colturale aggiunto correttamente!"
+    }
+  },
+  "MAP": {
+    "FAIL_DELETE": "",
+    "FAIL_PATCH": "Impossibile aggiornare",
+    "FAIL_POST": "Impossibile aggiungerne uno nuovo",
+    "SUCCESS_DELETE": "Disattivato correttamente",
+    "SUCCESS_PATCH": "Aggiornato correttamente",
+    "SUCCESS_POST": "Salvato correttamente"
+  },
+  "MARKET_DIRECTORY": {
+    "ERROR": {
+      "SAVE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "SAVE": "",
+      "UPDATE": "",
+      "UPDATE_LIVE_DATA": ""
+    }
+  },
+  "MARKET_DIRECTORY_CONSENT": {
+    "ERROR": "",
+    "SUCCESS": {
+      "CONSENT": "",
+      "PARTNER": ""
+    }
+  },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "CREATE": "Impossibile creare la certificazione.",
+      "UPDATE": "Impossibile aggiornare la certificazione!"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "Impossibile aggiornare il piano colturale"
+    },
+    "SUCCESS": {
+      "EDIT": "Piano colturale aggiornato correttamente"
+    }
+  },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "Impossibile creare il prodotto",
+      "REMOVE": "",
+      "UPDATE": "Impossibile aggiornare il prodotto"
+    },
+    "SUCCESS": {
+      "CREATE": "Prodotto creato correttamente",
+      "REMOVE": "",
+      "UPDATE": "Prodotto aggiornato correttamente"
+    }
+  },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Impossibile ripetere {{Nome del Piano}}"
+    },
+    "SUCCESS": {
+      "POST": "{{Nome del Piano}} ripetuto correttamente"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "Impossibile aggiornare l'entrata",
+      "REVENUE_TYPE_DELETED": "Questo tipo di entrata è stato eliminato"
+    },
+    "SUCCESS": {
+      "EDIT": "Entrata aggiornata correttamente"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "Impossibile aggiungere il tipo di entrata",
+      "DELETE": "Impossibile disattivare il tipo di entrata",
+      "UPDATE": "Impossibile aggiornare il tipo di entrata"
+    },
+    "SUCCESS": {
+      "ADD": "Tipo di entrata aggiunto correttamente",
+      "DELETE": "Tipo di entrata disattivato correttamente",
+      "UPDATE": "Tipo di entrata aggiornato correttamente"
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "Impossibile aggiungere la vendita",
+      "DELETE": "Impossibile eliminare la nuova vendita",
+      "SALE_DELETED": "Questa vendita non esiste più",
+      "UPDATE": "Impossibile aggiornare la vendita"
+    },
+    "SUCCESS": {
+      "ADD": "Vendita aggiunta correttamente",
+      "DELETE": "Vendita eliminata correttamente",
+      "UPDATE": "Vendita aggiornata correttamente"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "Impossibile abbandonare l'attività",
+      "SUCCESS": "Attività abbandonata correttamente",
+      "SYNC": {
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
+    },
+    "COMPLETE": {
+      "FAILED": "Impossibile completare l'attività",
+      "SUCCESS": "Attività completata correttamente",
+      "SYNC": {
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
+    },
+    "CREATE": {
+      "FAILED": "Impossibile creare l'attività",
+      "SUCCESS": "Attività creata correttamente",
+      "SYNC": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
+    },
+    "DELETE": {
+      "SYNC": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
+    },
+    "SYNC": {
+      "FAILED": "",
+      "LOCATION_DELETED": "",
+      "NETWORK_ERROR": "",
+      "NOT_FOUND": "",
+      "UNAUTHORIZED": ""
+    },
+    "UPDATE": {
+      "FAILED": "Impossibile aggiornare l'attività",
+      "SUCCESS": "",
+      "SYNC": {
+        "NETWORK_ERROR": "",
+        "ONLINE": "",
+        "SUCCESS": ""
+      }
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Impossibile creare l'attività personalizzata",
+      "SUCCESS": "Attività personalizzata creata correttamente"
+    },
+    "DELETE": {
+      "FAILED": "Impossibile eliminare l'attività personalizzata",
+      "SUCCESS": "Attività personalizzata eliminata correttamente"
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "Impossibile aggiungere l'utente",
+      "AGREEMENT": "Impossibile aggiornare l'accordo dell'utente",
+      "EXISTS": "L'utente esiste già nella rete LiteFarm",
+      "INVITE": "Errore durante la creazione dell'account utente, contatta LiteFarm per assistenza.",
+      "MAX_RESET_EMAILS": "Ti abbiamo inviato via email un link per reimpostare la password; controlla la posta in arrivo e la cartella spam.",
+      "RESET_PASSWORD": "Errore nell'invio dell'email di reimpostazione della password, contatta LiteFarm per assistenza.",
+      "RESTORE": "Si è verificato un errore durante il ripristino dell'accesso",
+      "REVOKE": "Si è verificato un errore durante la revoca dell'accesso",
+      "SIGNUP_UNKNOWN": "Problema sconosciuto! Riprova più tardi.",
+      "UPDATE": "Impossibile aggiornare le informazioni dell'utente"
+    },
+    "SUCCESS": {
+      "ADD": "Utente aggiunto all'azienda agricola correttamente!",
+      "RESTORE": "Accesso dell'utente ripristinato",
+      "REVOKE": "Accesso dell'utente revocato!",
+      "UPDATE": "Informazioni dell'utente aggiornate correttamente!"
+    }
+  }
+}

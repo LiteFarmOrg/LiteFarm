@@ -21,7 +21,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
-import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
+import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
 import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
@@ -36,6 +36,8 @@ import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarS
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
+import useSurveyDraftSync from './useSurveyDraftSync';
+import useInitialDraft from './useInitialDraft';
 
 interface SurveyProps {
   isCompactSideMenu: boolean;
@@ -52,22 +54,19 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
-  const {
-    surveyData: surveyDataInProgress,
-    currentPageNo: savedPageNo,
-    surveyVersion: draftSurveyVersion,
-  } = useSelector(surveyDraftSelector(surveyId));
-
-  const hasDraft = Object.keys(surveyDataInProgress).length > 0;
+  const draftState = useInitialDraft(surveyId);
+  const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
   const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
-    getSurveyCdnPath(
-      surveyId,
-      country_code,
-      getLanguageFromLocalStorage() || 'en',
-      draftSurveyVersion,
-      hasDraft,
-    ) || {};
+    (!draftState.isDraftLoading &&
+      getSurveyCdnPath(
+        surveyId,
+        country_code,
+        getLanguageFromLocalStorage() || 'en',
+        draftState.initialDraft.surveyVersion,
+        hasDraft,
+      )) ||
+    {};
 
   const {
     data: surveyJson,
@@ -94,11 +93,21 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
-  const initialData = { ...prepopulatedData, ...surveyDataInProgress };
+  const { onCurrentPageChanged, recordLatestDraft } = useSurveyDraftSync({
+    surveyId,
+    surveyVersion,
+    ...draftState,
+  });
+
+  const initialData = {
+    ...prepopulatedData,
+    ...(!draftState.isDraftLoading ? draftState.initialDraft.surveyData : {}),
+  };
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
       dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion }));
+      recordLatestDraft(surveyData, currentPageNo);
     },
     [surveyId, surveyVersion],
   );
@@ -125,10 +134,23 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!cdnPath) {
+    if (!draftState.isDraftLoading && !cdnPath) {
       history.replace('/Insights');
     }
-  }, [cdnPath, history]);
+  }, [draftState.isDraftLoading, cdnPath, history]);
+
+  // TODO: LF-5192 Remove useEffect once retake is supported.
+  useEffect(() => {
+    // The draft has already been completed on the server. Send the user to the results page
+    // instead of showing an empty form they can't actually save progress on.
+    if (
+      !draftState.isDraftLoading &&
+      draftState.initialDraft.needsLocalSync &&
+      !draftState.initialDraft.submissionId
+    ) {
+      history.replace(`/insights/survey/${surveyId}/results`);
+    }
+  }, [draftState.isDraftLoading, draftState.initialDraft, surveyId, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {
@@ -159,7 +181,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
             onComplete={handleComplete}
             onValueChanged={handleDataChange}
             initialData={initialData}
-            initialPageNo={savedPageNo}
+            initialPageNo={!draftState.isDraftLoading ? draftState.initialDraft.currentPageNo : 0}
+            onCurrentPageChanged={onCurrentPageChanged}
           />
         )}
       </div>

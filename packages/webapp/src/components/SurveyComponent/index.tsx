@@ -56,9 +56,13 @@ export default function SurveyComponent({
       model.data = initialData;
     }
 
-    // Set initial page if provided
+    // Set initial page if provided, and mark prior pages passed so the progress bar reflects pages
+    // already completed in an earlier session
     if (initialPageNo > 0) {
       model.currentPageNo = initialPageNo;
+      model.pages.slice(0, initialPageNo).forEach((page) => {
+        page.passed = true;
+      });
     }
 
     return model;

@@ -139,6 +139,19 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     }
   }, [draftState.isDraftLoading, cdnPath, history]);
 
+  // TODO: LF-5192 Remove useEffect once retake is supported.
+  useEffect(() => {
+    // The draft has already been completed on the server. Send the user to the results page
+    // instead of showing an empty form they can't actually save progress on.
+    if (
+      !draftState.isDraftLoading &&
+      draftState.initialDraft.needsLocalSync &&
+      !draftState.initialDraft.submissionId
+    ) {
+      history.replace(`/insights/survey/${surveyId}/results`);
+    }
+  }, [draftState.isDraftLoading, draftState.initialDraft, surveyId, history]);
+
   useEffect(() => {
     if (isSurveyJsonError) {
       const activeError = notifications.find(

@@ -1259,18 +1259,6 @@
     },
     "TAPE": {
       "COMPLETED": "पूर्ण — अपने परिणाम देखें",
-      "DIMENSIONS": {
-        "CIRCULAR_ECONOMY": "",
-        "COCREATION_AND_KNOWLEDGE": "",
-        "CULTURE_AND_FOOD": "",
-        "DIVERSITY": "",
-        "EFFICIENCY": "",
-        "HUMAN_AND_SOCIAL": "",
-        "RECYCLING": "",
-        "RESILIENCE": "",
-        "RESPONSIBLE_GOVERNANCE": "",
-        "SYNERGY": ""
-      },
       "IN_PROGRESS": "प्रगति में",
       "LOAD_ERROR": "सर्वे लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "NOT_FILLED": "भरा नहीं गया",

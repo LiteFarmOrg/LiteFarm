@@ -1,0 +1,102 @@
+{
+  "EXPORT_README_TITLE": "",
+  "N": "",
+  "N/A": "",
+  "NO": "",
+  "NOT_SURE": "",
+  "OPERATION_NAME": "",
+  "RECORD_A": {
+    "ACRES": "",
+    "AREA": "",
+    "BUILDING": "",
+    "CERTIFIED": "",
+    "CROPS_OR_ANIMALS": "",
+    "CURRENT_STATUS": "",
+    "EXPORT_DOCUMENT_NAME": "",
+    "HEADER": "",
+    "HECTARES": "",
+    "INDIVIDUAL_PRODUCTION_UNIT": "",
+    "NAME_OR_ID": "",
+    "NEW": "",
+    "NEW_AREA": "",
+    "NON_ORGANIC": "",
+    "NON_PRODUCING": "",
+    "OPERATION_NAME": "",
+    "ORGANIC_AREA": "",
+    "PLEASE_VERIFY": "",
+    "PRODUCTION": "",
+    "REMOVED": "",
+    "REPORTING_PERIOD": "",
+    "ROW_FT": "",
+    "ROW_M": "",
+    "SIZE_IN_PREFERRED_UNIT": "",
+    "SPLIT": "",
+    "SQ_FT": "",
+    "SQ_M": "",
+    "TRANSITIONAL": "",
+    "WHY_REMOVED": ""
+  },
+  "RECORD_D": {
+    "DATE_COMPLETED": "",
+    "EXPORT_DOCUMENT_NAME": "",
+    "FROM": "",
+    "HEADER": "",
+    "NOTE": {
+      "LIST_ALL": "",
+      "ONE": "",
+      "TWO": {
+        "A": "",
+        "B": "",
+        "C": "",
+        "PART_1": "",
+        "PART_2": "",
+        "PART_3": ""
+      }
+    },
+    "REPORTING_PERIOD": "",
+    "TABLE_COLUMN": {
+      "IS_SEARCH_COMPLETED": "",
+      "LIST_SEED_TREATMENTS": "",
+      "LOT_NUMBER": "",
+      "NON_GE_DOCS_AVAILABLE": "",
+      "NOTES": "",
+      "SEED_CROP_OR_PLANTING_STOCK": "",
+      "STATUS_CERTIFIED_ORGANIC": "",
+      "SUPPLIER": "",
+      "TREATMENT_DOCS_AVAILABLE": ""
+    },
+    "TO": ""
+  },
+  "RECORD_I": {
+    "CLEANERS": "",
+    "CROP_PRODUCTION_AIDS": "",
+    "EXPORT_DOCUMENT_NAME": "",
+    "HEADER": "",
+    "INPUT_CATEGORY": "",
+    "LOCATIONS": "",
+    "NOTE": {
+      "LIST_ALL": "",
+      "LIVESTOCK_INPUTS": "",
+      "ONE": {
+        "PART_1": "",
+        "PART_2": ""
+      },
+      "PLEASE_USE_SEPARATE_RECORD": "",
+      "PREP_INPUTS": "",
+      "TWO": ""
+    },
+    "REPORTING_PERIOD": "",
+    "TABLE_COLUMN": {
+      "CROP_FIELD_APPLIED_TO": "",
+      "DATE_USED": "",
+      "LISTED_IN_PSL": "",
+      "NOTES": "",
+      "PRODUCT_NAME": "",
+      "QUANTITY": "",
+      "SUPPLIER": ""
+    },
+    "VARIETALS": ""
+  },
+  "Y": "",
+  "YES": ""
+}

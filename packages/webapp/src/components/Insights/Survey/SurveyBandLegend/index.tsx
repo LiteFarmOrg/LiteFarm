@@ -15,12 +15,8 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import {
-  SURVEY_SCORE_BAND_RANGES,
-  SURVEY_SCORE_MIN,
-  SurveyScoreBand,
-} from '../../util/surveyScoreBand';
-import useSurveyScoreBandLabels from '../../hooks/useSurveyScoreBandLabels';
+import { SURVEY_SCORE_BAND_RANGES, SURVEY_SCORE_MIN, SurveyScoreBand } from '../surveyScoreBand';
+import useSurveyScoreBandLabels from '../useSurveyScoreBandLabels';
 import styles from './styles.module.scss';
 
 const BAND_CLASSES: Record<SurveyScoreBand, string> = {

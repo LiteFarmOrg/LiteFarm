@@ -15,7 +15,7 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import SurveyBandLegend from '../../components/SurveyBandLegend';
+import SurveyBandLegend from '../../components/Insights/Survey/SurveyBandLegend';
 
 const meta: Meta<typeof SurveyBandLegend> = {
   title: 'Components/SurveyBandLegend',

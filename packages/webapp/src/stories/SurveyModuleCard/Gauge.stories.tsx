@@ -15,7 +15,7 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import Gauge, { type GaugeProps } from '../../components/SurveyModuleCard/Gauge';
+import Gauge, { type GaugeProps } from '../../components/Insights/Survey/SurveyModuleCard/Gauge';
 
 const meta: Meta<GaugeProps> = {
   title: 'Components/SurveyModuleCard/Gauge',

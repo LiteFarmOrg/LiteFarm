@@ -15,7 +15,9 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import SurveyModuleCard, { type SurveyModuleCardProps } from '../../components/SurveyModuleCard';
+import SurveyModuleCard, {
+  type SurveyModuleCardProps,
+} from '../../components/Insights/Survey/SurveyModuleCard';
 
 const COMPLETED_AT = new Date('2026-07-03T00:00:00');
 const STARTED_AT = new Date('2026-08-12T00:00:00');

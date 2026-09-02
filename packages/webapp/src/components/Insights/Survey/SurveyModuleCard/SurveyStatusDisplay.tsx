@@ -15,7 +15,7 @@
 
 import { useTranslation } from 'react-i18next';
 import Gauge from './Gauge';
-import { getLocalizedDateString } from '../../util/moment';
+import { getLocalizedDateString } from '../../../../util/moment';
 import type { SurveyState } from './index';
 import styles from './styles.module.scss';
 

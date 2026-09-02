@@ -20,8 +20,8 @@ import {
   SURVEY_SCORE_MAX,
   SURVEY_SCORE_MIN,
   SurveyScoreBand,
-} from '../../../util/surveyScoreBand';
-import useSurveyScoreBandLabels from '../../../hooks/useSurveyScoreBandLabels';
+} from '../../surveyScoreBand';
+import useSurveyScoreBandLabels from '../../useSurveyScoreBandLabels';
 import styles from './styles.module.scss';
 
 // Semicircular arc from (6,66) to (114,66) with 54px radius

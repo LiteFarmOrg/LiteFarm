@@ -16,7 +16,9 @@
 import type { CSSProperties } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import SurveyModuleSection, { type SurveyModule } from '../../components/SurveyModuleSection';
+import SurveyModuleSection, {
+  type SurveyModule,
+} from '../../components/Insights/Survey/SurveyModuleSection';
 
 const COMPLETED_AT = new Date('2026-07-03T00:00:00');
 const STARTED_AT = new Date('2026-08-12T00:00:00');

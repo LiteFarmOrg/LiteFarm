@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { SurveyScoreBand } from '../util/surveyScoreBand';
+import { SurveyScoreBand } from './surveyScoreBand';
 
 const useSurveyScoreBandLabels = (): Record<SurveyScoreBand, string> => {
   const { t } = useTranslation();

@@ -15,11 +15,11 @@
 
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import Button, { ButtonProps } from '../Form/Button';
-import SurveyIcon from '../../assets/images/survey.svg?react';
+import Button, { ButtonProps } from '../../../Form/Button';
+import SurveyIcon from '../../../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
-import NewVersionBadge from '../SimpleBadges/NewVersionBadge';
-import { getLocalizedDateString } from '../../util/moment';
+import NewVersionBadge from '../../../SimpleBadges/NewVersionBadge';
+import { getLocalizedDateString } from '../../../../util/moment';
 import styles from './styles.module.scss';
 
 export type SurveyState =

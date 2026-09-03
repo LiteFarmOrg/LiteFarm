@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import { ReactComponent as OutroImg } from '../../assets/images/farm-switch-outro/outro.svg';
+import OutroImg from '../../assets/images/farm-switch-outro/outro.svg';
 import Button from '../Form/Button';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ export default function FarmSwitchPureOutroSplash({ onFinish, farm_name }) {
       <div className={styles.bodyContainer}>
         <div className={styles.title}>{t('SWITCH_OUTRO.TITLE')}</div>
         <div className={styles.imgContainer}>
-          <OutroImg />
+          <img src={OutroImg} alt="" width={295} height={251} />
         </div>
 
         <div className={styles.descriptionTop}>{descriptionTop}</div>

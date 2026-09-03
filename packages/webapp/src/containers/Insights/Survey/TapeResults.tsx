@@ -41,8 +41,23 @@ const RAW_MAX_SCORE = 4;
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
+const DIMENSIONS = [
+  { id: 'diversity', prefix: 'diversity_1', scoreField: 'div_score' },
+  { id: 'synergy', prefix: 'synergy_2', scoreField: 'synergy_score' },
+  { id: 'recycling', prefix: 'recycling_3', scoreField: 'recycling_score' },
+  { id: 'efficiency', prefix: 'efficiency_4', scoreField: 'efficiency_score' },
+  { id: 'resilience', prefix: 'resilience_5', scoreField: 'resilience_score' },
+  { id: 'cultureAndFood', prefix: 'culture_6', scoreField: 'cultfood_score' },
+  { id: 'cocreationAndKnowledge', prefix: 'knowledge_7', scoreField: 'cocrea_score' },
+  { id: 'humanAndSocial', prefix: 'human_8', scoreField: 'human_score' },
+  { id: 'circularEconomy', prefix: 'circular_9', scoreField: 'circular_score' },
+  { id: 'responsibleGovernance', prefix: 'governance_10', scoreField: 'respgov_score' },
+] as const;
+
+type TAPEDimensionId = (typeof DIMENSIONS)[number]['id'];
+
 interface TAPEDimension {
-  dimension: string;
+  dimension: TAPEDimensionId;
   score: number;
   maxScore: number;
 }
@@ -77,10 +92,23 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     }
   }, [surveyDataError, isSuccess, surveyData]);
 
-  const tapeData = survey_response ? analyzeTAPEData(survey_response) : [];
+  const tapeData = survey_response ? getTAPEDimensionScores(survey_response) : [];
+
+  const dimensionLabels: Record<TAPEDimensionId, string> = {
+    diversity: t('INSIGHTS.TAPE.DIMENSIONS.DIVERSITY'),
+    synergy: t('INSIGHTS.TAPE.DIMENSIONS.SYNERGY'),
+    recycling: t('INSIGHTS.TAPE.DIMENSIONS.RECYCLING'),
+    efficiency: t('INSIGHTS.TAPE.DIMENSIONS.EFFICIENCY'),
+    resilience: t('INSIGHTS.TAPE.DIMENSIONS.RESILIENCE'),
+    cultureAndFood: t('INSIGHTS.TAPE.DIMENSIONS.CULTURE_AND_FOOD'),
+    cocreationAndKnowledge: t('INSIGHTS.TAPE.DIMENSIONS.COCREATION_AND_KNOWLEDGE'),
+    humanAndSocial: t('INSIGHTS.TAPE.DIMENSIONS.HUMAN_AND_SOCIAL'),
+    circularEconomy: t('INSIGHTS.TAPE.DIMENSIONS.CIRCULAR_ECONOMY'),
+    responsibleGovernance: t('INSIGHTS.TAPE.DIMENSIONS.RESPONSIBLE_GOVERNANCE'),
+  };
 
   const chartData = {
-    labels: tapeData.map((d) => d.dimension),
+    labels: tapeData.map((d) => dimensionLabels[d.dimension]),
     datasets: [
       {
         data: tapeData.map((d) => roundToOne(d.score)),
@@ -110,7 +138,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
           font: {
             size: 14,
           },
-          // Splits labels into a maximum of 2 lines (assumes English labels)
+          // Splits labels into a maximum of 2 lines at a word boundary
           callback: (label: any) => {
             const words = label.split(' ');
             const splitIndex = words.length === 1 ? 1 : Math.floor(words.length / 2);
@@ -148,35 +176,37 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   );
 }
 
-const DIMENSION_MAPPING = {
-  Diversity: 'diversity_1',
-  Synergy: 'synergy_2',
-  Recycling: 'recycling_3',
-  Efficiency: 'efficiency_4',
-  Resilience: 'resilience_5',
-  'Culture and food traditions': 'culture_6',
-  'Co-creation and sharing of knowledge': 'knowledge_7',
-  'Human and social values': 'human_8',
-  'Circular economy and solidarity': 'circular_9',
-  'Responsible governance': 'governance_10',
+const OVERALL_SCORE_FIELD = 'caet_score';
+
+const getTAPEDimensionScores = (data: any): TAPEDimension[] => {
+  if (!data) {
+    return [];
+  }
+
+  return OVERALL_SCORE_FIELD in data ? readTAPEScores(data) : analyzeTAPEData(data);
 };
 
-const analyzeTAPEData = (data: any): TAPEDimension[] => {
-  if (!data) return [];
+const readTAPEScores = (data: any): TAPEDimension[] =>
+  DIMENSIONS.map(({ id, scoreField }) => ({
+    dimension: id,
+    score: Number(data[scoreField]) || 0,
+    maxScore: MAX_SCORE,
+  }));
 
-  return Object.entries(DIMENSION_MAPPING).map(([dimension, prefix]) => {
+const analyzeTAPEData = (data: any): TAPEDimension[] => {
+  return DIMENSIONS.map(({ id, prefix }) => {
     const scores = Object.keys(data)
       .filter((key) => key.startsWith(prefix))
       .map((key) => Number(data[key]) || 0);
 
     if (!scores.length) {
-      return { dimension, score: 0, maxScore: MAX_SCORE };
+      return { dimension: id, score: 0, maxScore: MAX_SCORE };
     }
 
     const averageRawScore = scores.reduce((sum, value) => sum + value, 0) / scores.length;
 
     return {
-      dimension,
+      dimension: id,
       score: (averageRawScore / RAW_MAX_SCORE) * MAX_SCORE,
       maxScore: MAX_SCORE,
     };

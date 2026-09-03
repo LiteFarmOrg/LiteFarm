@@ -57,6 +57,7 @@ export const FarmTags = [
   'Weather',
   'MarketDirectoryInfo',
   'SurveyResponse',
+  'SurveyDraft',
   'FarmNote',
   'FarmNotesRead',
   'Certifications',

@@ -16,9 +16,9 @@
 import clsx from 'clsx';
 import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as AwardIcon } from '../../assets/images/nav/certifications.svg';
-import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
-import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
+import AwardIcon from '../../assets/images/nav/certifications.svg?react';
+import EditIcon from '../../assets/images/edit.svg?react';
+import TrashIcon from '../../assets/images/farm-profile/trash.svg?react';
 import { getLocalizedDateString } from '../../util/moment';
 import type { CertificationStatus } from './types';
 import {

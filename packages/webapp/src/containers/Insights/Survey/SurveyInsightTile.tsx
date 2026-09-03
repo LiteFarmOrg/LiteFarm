@@ -13,15 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
 import insightStyles from '../styles.module.scss';
 import { Semibold, Text } from '../../../components/Typography';
 import { useGetLatestSurveyResponseQuery } from '../../../store/api/surveyApi';
-import { surveyInProgressSelector } from './surveyDraftSlice';
 import { useSurveyTitle } from './useSurveyTitle';
+import useInitialDraft from './useInitialDraft';
 import { surveyHasResultsPage } from './surveyConfig';
 
 interface SurveyInsightTileProps {
@@ -45,12 +44,14 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
     isError,
     isFetching,
   } = useGetLatestSurveyResponseQuery({ surveyKey: surveyId });
-  const inProgress = useSelector(surveyInProgressSelector(surveyId));
+
+  const { isDraftLoading, initialDraft } = useInitialDraft(surveyId);
+  const inProgress = Object.keys(initialDraft.surveyData || {}).length > 0;
 
   const isCompleted = !isError && !!surveyResponse?.id;
 
   let currentData = t('INSIGHTS.TAPE.NOT_FILLED');
-  if (isFetching) {
+  if (isFetching || isDraftLoading) {
     currentData = t('common:LOADING');
   } else if (inProgress) {
     currentData = t('INSIGHTS.TAPE.IN_PROGRESS');

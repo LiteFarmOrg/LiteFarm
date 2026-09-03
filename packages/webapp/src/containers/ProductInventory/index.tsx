@@ -20,7 +20,7 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import animalInventoryStyles from '../Animals/Inventory/styles.module.scss';
 import styles from './styles.module.scss';
-import { ReactComponent as BookIcon } from '../../assets/images/book-closed.svg';
+import BookIcon from '../../assets/images/book-closed.svg?react';
 import useSearchFilter from '../../containers/hooks/useSearchFilter';
 import PureProductInventory from '../../components/ProductInventory';
 import { getProducts } from '../Task/saga';

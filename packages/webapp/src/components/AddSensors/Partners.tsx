@@ -22,7 +22,7 @@ import Input, { getInputErrors } from '../Form/Input';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
 import { Main } from '../Typography';
 import { PARTNERS } from '../../containers/AddSensors/constants';
-import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_external_link.svg';
+import ExternalLinkIcon from '../../assets/images/icon_external_link.svg?react';
 import { AddSensorsFormFields, FarmAddonField, PARTNER } from '../../containers/AddSensors/types';
 import styles from './styles.module.scss';
 import { AddonPartner } from '../../types';

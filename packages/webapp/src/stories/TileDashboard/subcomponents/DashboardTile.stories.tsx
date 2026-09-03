@@ -16,7 +16,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import { DashboardTile } from '../../../components/TileDashboard/DashboardTile';
-import { ReactComponent as CattleIcon } from '../../../assets/images/animals/cattle-icon.svg';
+import CattleIcon from '../../../assets/images/animals/cattle-icon.svg?react';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof DashboardTile> = {

@@ -18,6 +18,10 @@ import { CompleteEvent, Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { DefaultLight } from 'survey-core/themes';
 import 'survey-core/survey-core.css';
+import 'survey-core/i18n/french';
+import 'survey-core/i18n/spanish';
+import 'survey-core/i18n/portuguese';
+import 'survey-core/i18n/italian';
 
 interface SurveyComponentProps {
   surveyJson: any; // Survey JSON schema object

@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import styles from './styles.module.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
-import { ReactComponent as SwapIcon } from '../../../../assets/images/swap.svg';
+import SwapIcon from '../../../../assets/images/swap.svg?react';
 import TextButton from '../../../Form/Button/TextButton';
 import Switch from '../../../Form/Switch';
 import Unit from '../../../Form/Unit';

@@ -4,7 +4,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Label } from '../../components/Typography';
 import Button from '../../components/Form/Button';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';
-import { ReactComponent as Email } from '../../assets/images/export/email/Email.svg';
+import Email from '../../assets/images/export/email/Email.svg?react';
 
 export default {
   title: 'Components/Modals/ModalComponentV2',

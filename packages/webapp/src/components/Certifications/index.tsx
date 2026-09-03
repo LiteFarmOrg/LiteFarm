@@ -23,9 +23,9 @@ import CertificationBanner from './CertificationBanner';
 import CertificationsEmptyState from './CertificationsEmptyState';
 import CertificationsList from './CertificationsList';
 import DeleteConfirmationModal from '../Modals/DeleteConfirmationModal';
-import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
-import { ReactComponent as ExportIcon } from '../../assets/images/finance/Report-icn.svg';
-import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
+import PlusCircleIcon from '../../assets/images/plus-circle.svg?react';
+import ExportIcon from '../../assets/images/finance/Report-icn.svg?react';
+import Leaf from '../../assets/images/signUp/leaf.svg?react';
 import type { CertificationItem } from './types';
 import styles from './index.module.scss';
 

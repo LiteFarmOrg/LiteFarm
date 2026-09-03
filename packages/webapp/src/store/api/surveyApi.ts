@@ -14,7 +14,7 @@
  */
 
 import { api } from './apiSlice';
-import { surveyResponseUrl } from '../../apiConfig';
+import { surveyResponseUrl, getSurveyDraftUrl } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 
 export interface SurveyResponseRecord {
@@ -33,14 +33,43 @@ export interface AddSurveyResponseReqBody {
   survey_response: Record<string, any>;
 }
 
+export interface SurveyDraftRecord {
+  id: string;
+  submission_id: string;
+  farm_id: string;
+  survey_key: string;
+  survey_version: string;
+  survey_data: Record<string, any>;
+  current_page_no: number;
+  updated_at: string;
+}
+
+export interface UpsertSurveyDraftReqBody {
+  submission_id?: string;
+  surveyKey: string;
+  survey_version: string;
+  survey_data: Record<string, any>;
+  current_page_no?: number;
+}
+
 export const surveyApi = api.injectEndpoints({
   endpoints: (build) => ({
     // Fetches the SurveyJS JSON definition from DO CDN.
     // Uses queryFn (not query) because this bypasses the LiteFarm API base URL and auth headers.
-    getSurveyJson: build.query<Record<string, any>, { cdnDirectory: string; version: string }>({
-      queryFn: async ({ cdnDirectory, version }) => {
+    getSurveyJson: build.query<
+      Record<string, any>,
+      { cdnDirectory: string; version: string; fallbackVersion?: string }
+    >({
+      queryFn: async ({ cdnDirectory, version, fallbackVersion }) => {
+        const fetchSurvey = (filename: string) =>
+          fetch(`${DO_CDN_URL}/${cdnDirectory}/${filename}.json`);
         try {
-          const response = await fetch(`${DO_CDN_URL}/${cdnDirectory}/${version}.json`);
+          let response = await fetchSurvey(version);
+          // DO Spaces returns 403 (not 404) for a file that doesn't exist, since the bucket
+          // won't confirm or deny what files exist to unauthenticated requests like this one.
+          if (!response.ok && [403, 404].includes(response.status) && fallbackVersion) {
+            response = await fetchSurvey(fallbackVersion);
+          }
           if (!response.ok) {
             return {
               error: { status: response.status, data: `Failed to fetch survey JSON` },
@@ -70,6 +99,19 @@ export const surveyApi = api.injectEndpoints({
         { type: 'SurveyResponse', id: survey_key },
       ],
     }),
+    getSurveyDraft: build.query<SurveyDraftRecord | null, { surveyKey: string }>({
+      query: ({ surveyKey }) => ({
+        url: getSurveyDraftUrl(surveyKey),
+      }),
+      providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyDraft', id: surveyKey }],
+    }),
+    upsertSurveyDraft: build.mutation<SurveyDraftRecord, UpsertSurveyDraftReqBody>({
+      query: ({ surveyKey, ...body }) => ({
+        url: getSurveyDraftUrl(surveyKey),
+        method: 'PUT',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -77,5 +119,7 @@ export const {
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponseQuery,
   useAddSurveyResponseMutation,
+  useLazyGetSurveyDraftQuery,
+  useUpsertSurveyDraftMutation,
   usePrefetch,
 } = surveyApi;

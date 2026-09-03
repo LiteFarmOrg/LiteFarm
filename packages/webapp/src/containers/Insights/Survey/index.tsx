@@ -21,19 +21,23 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
-import { saveSurveyProgress, clearSurvey, surveyDraftSelector } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyVersion } from './surveyConfig';
+import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
+import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
+import Spinner from '../../../components/Spinner';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
   useAddSurveyResponseMutation,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
+import useSurveyDraftSync from './useSurveyDraftSync';
+import useInitialDraft from './useInitialDraft';
 
 interface SurveyProps {
   isCompactSideMenu: boolean;
@@ -48,36 +52,64 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
-  const surveyVersion = getSurveyVersion(surveyId, country_code);
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
 
-  const { prepopulatedData, isLoading: isPrepopulatedDataLoading } =
-    useSurveyPrepopulatedData(surveyId);
+  const draftState = useInitialDraft(surveyId);
+  const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
+
+  const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
+    (!draftState.isDraftLoading &&
+      getSurveyCdnPath(
+        surveyId,
+        country_code,
+        getLanguageFromLocalStorage() || 'en',
+        draftState.initialDraft.surveyVersion,
+        hasDraft,
+      )) ||
+    {};
 
   const {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
   } = useGetSurveyJsonQuery(
-    { cdnDirectory: cdnDirectory ?? '', version: surveyVersion ?? '' },
-    { skip: !cdnDirectory || !surveyVersion },
+    {
+      cdnDirectory: cdnDirectory ?? '',
+      version: cdnPath ?? '',
+      fallbackVersion: cdnFallbackPath,
+    },
+    { skip: !cdnDirectory || !cdnPath },
+  );
+
+  const { prepopulatedData, isLoading: isPrepopulatedDataLoading } = useSurveyPrepopulatedData(
+    surveyId,
+    surveyJson,
   );
 
   const [addSurveyResponse] = useAddSurveyResponseMutation();
   const prefetchLatestResponse = usePrefetch('getLatestSurveyResponse');
 
-  const { surveyData: surveyDataInProgress, currentPageNo: savedPageNo } = useSelector(
-    surveyDraftSelector(surveyId),
-  );
   const notifications: { message: string }[] = useSelector(snackbarSelector);
 
-  const initialData = { ...prepopulatedData, ...surveyDataInProgress };
+  const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
+
+  const { onCurrentPageChanged, recordLatestDraft } = useSurveyDraftSync({
+    surveyId,
+    surveyVersion,
+    ...draftState,
+  });
+
+  const initialData = {
+    ...prepopulatedData,
+    ...(!draftState.isDraftLoading ? draftState.initialDraft.surveyData : {}),
+  };
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
-      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData }));
+      dispatch(saveSurveyProgress({ surveyId, currentPageNo, surveyData, surveyVersion }));
+      recordLatestDraft(surveyData, currentPageNo);
     },
-    [dispatch, surveyId],
+    [surveyId, surveyVersion],
   );
 
   const handleComplete = useCallback(
@@ -102,10 +134,23 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!surveyVersion) {
+    if (!draftState.isDraftLoading && !cdnPath) {
       history.replace('/Insights');
     }
-  }, [surveyVersion, history]);
+  }, [draftState.isDraftLoading, cdnPath, history]);
+
+  // TODO: LF-5192 Remove useEffect once retake is supported.
+  useEffect(() => {
+    // The draft has already been completed on the server. Send the user to the results page
+    // instead of showing an empty form they can't actually save progress on.
+    if (
+      !draftState.isDraftLoading &&
+      draftState.initialDraft.needsLocalSync &&
+      !draftState.initialDraft.submissionId
+    ) {
+      history.replace(`/insights/survey/${surveyId}/results`);
+    }
+  }, [draftState.isDraftLoading, draftState.initialDraft, surveyId, history]);
 
   useEffect(() => {
     if (isSurveyJsonError) {
@@ -125,13 +170,19 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       <PageTitle title={surveyTitle} backUrl="/Insights" />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
+        {isLoading && (
+          <div className={styles.spinner}>
+            <Spinner />
+          </div>
+        )}
         {!isLoading && surveyJson && (
           <SurveyComponent
             surveyJson={surveyJson}
             onComplete={handleComplete}
             onValueChanged={handleDataChange}
             initialData={initialData}
-            initialPageNo={savedPageNo}
+            initialPageNo={!draftState.isDraftLoading ? draftState.initialDraft.currentPageNo : 0}
+            onCurrentPageChanged={onCurrentPageChanged}
           />
         )}
       </div>

@@ -16,7 +16,7 @@
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@mui/material';
-import { ReactComponent as StatusIndicatorDot } from '../../assets/images/status-indicator-dot.svg';
+import StatusIndicatorDot from '../../assets/images/status-indicator-dot.svg?react';
 import styles from './styles.module.scss';
 import { Semibold, Main } from '../Typography';
 

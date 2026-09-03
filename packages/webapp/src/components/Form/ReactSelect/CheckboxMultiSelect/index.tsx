@@ -26,7 +26,7 @@ import Select, {
 } from 'react-select';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-import { ReactComponent as XCircle } from '../../../../assets/images/x-circle.svg';
+import XCircle from '../../../../assets/images/x-circle.svg?react';
 import TextButton from '../../Button/TextButton';
 import Checkbox from '../../Checkbox';
 

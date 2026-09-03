@@ -66,7 +66,13 @@ import {
   onLoadingDocumentFail,
   onLoadingDocumentStart,
 } from './documentSlice';
-import { resetTasksFilter } from './filterSlice';
+import {
+  resetAnimalsFilter,
+  resetTasksFilter,
+  resetCropCatalogueFilter,
+  resetDocumentsFilter,
+  resetInventoryFilter,
+} from './filterSlice';
 import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
 import { fetchAllData as fetchAllFinanceData } from './Finances/saga';
 import {
@@ -545,6 +551,10 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetFarmStateReducer());
   yield put(resetTasks());
+  yield put(resetAnimalsFilter());
+  yield put(resetCropCatalogueFilter());
+  yield put(resetDocumentsFilter());
+  yield put(resetInventoryFilter());
   yield put(resetDateRange());
   releaseFarmScopedQuerySubscriptions();
   // RTK Query tracks subscriptions in two places: a live copy that `unsubscribe` updates right

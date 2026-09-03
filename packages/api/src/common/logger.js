@@ -3,7 +3,7 @@ import DailyRotateFile from 'winston-daily-rotate-file';
 import Transport from 'winston-transport';
 import * as Sentry from '@sentry/node';
 
-const { errors, json, combine } = format;
+const { errors, json, combine, cli } = format;
 
 // Add the error message as an enumerable property to return with res.json({ error })
 const enumerateErrorMessage = format((info) => {
@@ -13,8 +13,56 @@ const enumerateErrorMessage = format((info) => {
   return info;
 });
 
+/**
+ * Get the log level from a string or default value if not present or invalid
+ * @param {any} value log level string
+ * @param {string} defaultValue default log level
+ * @return {string} valid log level
+ */
+function getLogLevel(value, defaultValue) {
+  if (typeof value !== 'string') {
+    return defaultValue;
+  }
+  value = value.toLowerCase().trim();
+  if (
+    value === 'error' ||
+    value === 'warn' ||
+    value === 'info' ||
+    value === 'http' ||
+    value === 'debug' ||
+    value === 'silly' ||
+    value === 'off'
+  ) {
+    return value;
+  }
+  return defaultValue;
+}
+
+/**
+ * Check if a string is true.
+ * @param {any} value string to check
+ * @param {boolean} defaultValue default value if not a string
+ * @returns {boolean} true if the string is true, false otherwise
+ */
+function parseBoolean(value, defaultValue) {
+  if (typeof value !== 'string') {
+    return defaultValue;
+  }
+  value = value.toLowerCase().trim();
+  if (value === 'true' || value === '1' || value === 'yes' || value === 'on') {
+    return true;
+  }
+  if (value === 'false' || value === '0' || value === 'no' || value === 'off') {
+    return false;
+  }
+  return defaultValue;
+}
+
+const rootLogLevel = getLogLevel(process.env.LOG_LEVEL, 'info');
+
 const logger = winston.createLogger({
-  level: 'info',
+  level: rootLogLevel === 'off' ? 'info' : rootLogLevel,
+  silent: rootLogLevel === 'off',
   format: combine(enumerateErrorMessage(), json()),
   defaultMeta: { service: 'user-service' },
   transports: [
@@ -24,7 +72,6 @@ const logger = winston.createLogger({
     //
     new DailyRotateFile({ filename: './logs/error.log', level: 'error' }),
     new DailyRotateFile({ filename: './logs/combined.log' }),
-    new winston.transports.Console({ level: 'info' }),
   ],
 });
 
@@ -32,10 +79,13 @@ const logger = winston.createLogger({
 // If we're not in production then log to the `console` with the format:
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
-if (process.env.NODE_ENV !== 'production') {
+const consoleLogLevel = getLogLevel(process.env.LOG_CONSOLE_LEVEL, 'error');
+
+if (consoleLogLevel !== 'off') {
   logger.add(
     new winston.transports.Console({
-      format: combine(errors(), json()),
+      level: consoleLogLevel,
+      format: combine(errors(), cli()),
     }),
   );
 }
@@ -61,7 +111,7 @@ class SentryTransport extends Transport {
 }
 
 // Report Errors to Sentry
-if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== 'development' && parseBoolean(process.env.LOG_ENABLE_SENTRY, true)) {
   logger.add(new SentryTransport());
 }
 

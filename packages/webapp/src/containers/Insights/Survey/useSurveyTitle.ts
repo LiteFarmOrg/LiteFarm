@@ -26,6 +26,14 @@ export const useSurveyTitle = (surveyId: string): string => {
 
   const titleBySurveyId: Record<string, string> = {
     tape: t('INSIGHTS.TAPE.TITLE'),
+    tape_economic: t('INSIGHTS.TAPE_ECONOMIC.TITLE'),
+    tape_food_security: t('INSIGHTS.TAPE_FOOD_SECURITY.TITLE'),
+    tape_dietary_diversity: t('INSIGHTS.TAPE_DIETARY_DIVERSITY.TITLE'),
+    tape_youth: t('INSIGHTS.TAPE_YOUTH.TITLE'),
+    tape_soil: t('INSIGHTS.TAPE_SOIL.TITLE'),
+    tape_pesticides: t('INSIGHTS.TAPE_PESTICIDES.TITLE'),
+    tape_land_aweai: t('INSIGHTS.TAPE_LAND_AWEAI.TITLE'),
+    tape_productivity_biodiversity: t('INSIGHTS.TAPE_PRODUCTIVITY_BIODIVERSITY.TITLE'),
     cathi_gao: t('INSIGHTS.CATHI_GAO.TITLE'),
   };
 

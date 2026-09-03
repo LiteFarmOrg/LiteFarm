@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "What will you be applying?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "Add a custom task",
+    "ADD_A_CUSTOM_TASK": "Add a custom task type",
     "ADD_A_TASK": "Add a task",
-    "ADD_CUSTOM_TASK": "Add custom task",
+    "ADD_CUSTOM_TASK": "Add custom task type",
     "AFFECT_PLANS": "Will this task affect any plans?",
     "ASSIGN_ALL_TO_PERSON": "Assign all tasks on this date to {{name}}",
     "ASSIGN_DATE": "Change task date",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_PLANS": "Clear all plans",
-    "CUSTOM_TASK": "Custom Task",
+    "CUSTOM_TASK": "Custom Task Type",
     "CUSTOM_TASK_CHAR_LIMIT": "Custom task type name cannot exceed 25 characters",
     "CUSTOM_TASK_NAME": "Custom task name",
     "CUSTOM_TASK_TYPE": "Custom Task Type",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?"
     },
-    "MANAGE_CUSTOM_TASKS": "Manage your custom tasks",
+    "MANAGE_CUSTOM_TASKS": "Manage your custom task types",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "What's the purpose of this movement?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "Select the purpose for this movement",

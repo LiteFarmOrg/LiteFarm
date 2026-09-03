@@ -43,7 +43,7 @@ export default defineConfig({
       filename: 'sw.js',
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg}'],
-        globIgnores: ['**/survey-vendor-*.js'],
+        globIgnores: ['**/survey-vendor-*.js', '**/survey-locales-*.js'],
         maximumFileSizeToCacheInBytes: 3 * 1024 ** 2, // 3MB
       },
     }),
@@ -61,6 +61,11 @@ export default defineConfig({
             id.includes('/node_modules/scheduler/')
           ) {
             return 'framework-vendor';
+          }
+
+          // Separate locale dictionaries so adding a language doesn't rehash survey-vendor
+          if (id.includes('/node_modules/survey-core/fesm/i18n/')) {
+            return 'survey-locales';
           }
 
           if (

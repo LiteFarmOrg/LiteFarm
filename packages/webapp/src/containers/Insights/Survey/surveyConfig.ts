@@ -19,7 +19,7 @@ import TapeResults from './TapeResults';
 import ThankYouResults from './ThankYouResults';
 
 interface SurveyInfo {
-  image: string;
+  image?: string;
   ResultsComponent?: ComponentType<{ surveyId: string }>;
   // CDN directory under DO_CDN_URL holding the survey's file(s), optionally nested under a per-language
   // subfolder (see resolveVersion below).
@@ -34,7 +34,29 @@ interface SurveyInfo {
     defaultVersion: string,
     language: string,
   ) => { version: string; fallbackVersion?: string };
+  parentSurveyId?: string;
+  isAvailable?: (parentResponse: Record<string, any>) => boolean;
 }
+
+const resolveFaoVersion = (defaultVersion: string, language: string) =>
+  language === 'en'
+    ? { version: `fao/${defaultVersion}` }
+    : {
+        version: `fao_${language}/${defaultVersion}_${language}`,
+        fallbackVersion: `fao/${defaultVersion}`,
+      };
+
+const UNKNOWN_COUNT = -99;
+
+const toHouseholdCount = (value: unknown): number => {
+  // Current JSONs lack inputType: number on these questions and return a string
+  const numeric = typeof value === 'string' ? Number(value.trim()) : Number(value);
+
+  if (!Number.isFinite(numeric) || numeric === UNKNOWN_COUNT) {
+    return 0;
+  }
+  return numeric;
+};
 
 /**
  * The catalog of surveys, keyed by survey `key` (the same string stored in survey_response.survey_key).
@@ -45,6 +67,7 @@ interface SurveyInfo {
  * Adding a survey:
  *  1. Add a SURVEY_INFO entry here: image, ResultsComponent (omit for the generic thank-you page),
  *     cdnDirectory, versionsByCountry, and resolveVersion if the default version has localized files.
+ *     For a child module, set parentSurveyId (and optionally isAvailable) and omit image/ResultsComponent.
  *  2. Add the title in useSurveyTitle.ts by calling t() with the key INSIGHTS.<KEY>.TITLE.
  *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
  *  4. Upload the survey's <version>.json to its CDN directory. A translatable default version goes
@@ -58,14 +81,61 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step01-survey', AU: 'au' },
-    resolveVersion: (defaultVersion: string, language: string) => {
-      return language === 'en'
-        ? { version: `fao/${defaultVersion}` }
-        : {
-            version: `fao_${language}/${defaultVersion}_${language}`,
-            fallbackVersion: `fao/${defaultVersion}`,
-          };
-    },
+    resolveVersion: resolveFaoVersion,
+  },
+  tape_economic: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-economic' },
+    resolveVersion: resolveFaoVersion,
+  },
+  tape_food_security: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-food-security' },
+    resolveVersion: resolveFaoVersion,
+  },
+  tape_dietary_diversity: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-dietary-diversity' },
+    resolveVersion: resolveFaoVersion,
+    isAvailable: (parentResponse) =>
+      toHouseholdCount(parentResponse.people?.hh_women) > 0 ||
+      toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
+  },
+  tape_youth: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-youth' },
+    resolveVersion: resolveFaoVersion,
+    isAvailable: (parentResponse) =>
+      toHouseholdCount(parentResponse.people?.hh_myoung) > 0 ||
+      toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
+  },
+  tape_soil: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-soil-health' },
+    resolveVersion: resolveFaoVersion,
+  },
+  tape_pesticides: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-pesticides' },
+    resolveVersion: resolveFaoVersion,
+  },
+  tape_land_aweai: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-land-tenure-aweai' },
+    resolveVersion: resolveFaoVersion,
+  },
+  tape_productivity_biodiversity: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    versionsByCountry: { default: 'step2-productivity-biodiversity' },
+    resolveVersion: resolveFaoVersion,
   },
   cathi_gao: {
     image: tape_survey,
@@ -133,8 +203,32 @@ export const getSurveyCdnPath = (
  */
 export const getAvailableSurveyIds = (countryCode?: string): string[] =>
   Object.keys(SURVEY_INFO).filter(
-    (surveyId) => getLatestCdnPath(surveyId, countryCode) !== undefined,
+    (surveyId) =>
+      // Hide child modules from the Insight tile list
+      !SURVEY_INFO[surveyId].parentSurveyId &&
+      getLatestCdnPath(surveyId, countryCode) !== undefined,
   );
+
+export const CAET_SCORE_FIELD = 'caet_score';
+
+export const getAvailableModuleIds = (
+  parentSurveyId: string,
+  parentResponse?: Record<string, unknown>,
+): string[] => {
+  if (!parentResponse || !(CAET_SCORE_FIELD in parentResponse)) {
+    return [];
+  }
+  return Object.keys(SURVEY_INFO).filter((surveyId) => {
+    const info = SURVEY_INFO[surveyId];
+    const belongsToParent = info.parentSurveyId === parentSurveyId;
+    const isModuleAvailable = info.isAvailable?.(parentResponse) ?? true;
+
+    return belongsToParent && isModuleAvailable;
+  });
+};
+
+export const getPostSubmitRoute = (surveyId: string): string =>
+  `/insights/survey/${SURVEY_INFO[surveyId]?.parentSurveyId ?? surveyId}/results`;
 
 export const getSurveyVersion = (surveyJson: any): string | undefined => {
   const expression = surveyJson?.calculatedValues?.find(

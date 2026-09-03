@@ -22,7 +22,12 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
+import {
+  SURVEY_INFO,
+  getSurveyCdnPath,
+  getSurveyVersion,
+  getPostSubmitRoute,
+} from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
@@ -123,7 +128,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         prefetchLatestResponse({ surveyKey: surveyId });
         dispatch(clearSurvey({ surveyId }));
         // Replace instead of push so the submitted survey is not left in the history stack
-        history.replace(`/insights/survey/${surveyId}/results`);
+        history.replace(getPostSubmitRoute(surveyId));
       } catch {
         // Display the default "An error occurred and we could not save the results." message.
         options.showSaveError();
@@ -148,7 +153,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       draftState.initialDraft.needsLocalSync &&
       !draftState.initialDraft.submissionId
     ) {
-      history.replace(`/insights/survey/${surveyId}/results`);
+      history.replace(getPostSubmitRoute(surveyId));
     }
   }, [draftState.isDraftLoading, draftState.initialDraft, surveyId, history]);
 

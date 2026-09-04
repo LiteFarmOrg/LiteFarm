@@ -72,6 +72,14 @@ describe('Survey draft endpoint tests', () => {
       .send({ farm_id, survey_version, survey_data, current_page_no, submission_id });
   }
 
+  async function getDraftsRequest({ user_id = owner.user_id, farm_id = farm.farm_id } = {}) {
+    return chai
+      .request(server)
+      .get('/survey_drafts')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  }
+
   async function postSurveyResponse(survey_key = 'tape') {
     return chai
       .request(server)
@@ -158,6 +166,62 @@ describe('Survey draft endpoint tests', () => {
       const idsA = await createUserFarmIds(1);
       const idsB = await createUserFarmIds(1);
       const res = await getDraftRequest({ farm_id: idsA.farm_id, user_id: idsB.user_id });
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('GET /survey_drafts', () => {
+    test('Should return an empty result when the farm has no drafts', async () => {
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test('Should return one entry per survey_key the farm has a live draft for', async () => {
+      const promisedUserFarm = [{ farm_id: farm.farm_id, user_id: owner.user_id }];
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape', survey_data: { q1: 'parent' } }),
+      );
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape_economic', survey_data: { q1: 'module' } }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(Object.keys(res.body).sort()).toEqual(['tape', 'tape_economic']);
+      expect(res.body.tape.survey_data).toEqual({ q1: 'parent' });
+      expect(res.body.tape_economic.survey_data).toEqual({ q1: 'module' });
+    });
+
+    test('Should not return a soft-deleted draft', async () => {
+      await mocks.survey_draftFactory(
+        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape' }),
+      );
+      await postSurveyResponse('tape');
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test("Should not return another farm's drafts", async () => {
+      const otherFarm = await createUserFarmIds(1);
+      await mocks.survey_draftFactory(
+        { promisedUserFarm: [otherFarm] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape' }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test('Worker should not be able to get the drafts', async () => {
+      const userFarmIds = await createUserFarmIds(3);
+      const res = await getDraftsRequest(userFarmIds);
       expect(res.status).toBe(403);
     });
   });

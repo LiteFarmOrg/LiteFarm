@@ -19,13 +19,7 @@ import { LiteFarmRequest } from '../types.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import SurveyResponseModel from '../models/surveyResponseModel.js';
 import SurveyDraftModel from '../models/surveyDraftModel.js';
-
-interface SurveyResponseData {
-  survey_version: string;
-  project_id: string;
-  survey_step?: string;
-  [key: string]: unknown;
-}
+import { SurveyResponse, SurveyResponseData } from '../models/types.js';
 
 interface CreateSurveyResponseReqBody {
   survey_key: string;
@@ -117,6 +111,28 @@ const surveyResponseController = {
     };
   },
 
+  getLatestSurveyResponses() {
+    return async (req: LiteFarmRequest, res: Response) => {
+      try {
+        const { farm_id } = req.headers;
+        const rows = (await SurveyResponseModel.query()
+          .distinctOn('survey_key')
+          .where({ farm_id })
+          .orderBy([
+            { column: 'survey_key' },
+            { column: 'created_at', order: 'desc' },
+          ])) as unknown as SurveyResponse[];
+
+        const responsesBySurveyKey = Object.fromEntries(rows.map((row) => [row.survey_key, row]));
+
+        return res.status(200).json(responsesBySurveyKey);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
+    };
+  },
+
   // Note: Not currently called from frontend
   updateSurveyResponse() {
     return async (
@@ -136,7 +152,7 @@ const surveyResponseController = {
         const { survey_version, project_id, survey_step } = survey_response;
 
         const existing = (await SurveyResponseModel.query().findOne({ submission_id })) as
-          | { survey_key: string }
+          | SurveyResponse
           | undefined;
         if (!existing) {
           return res.status(404).json({ error: 'Survey response not found' });

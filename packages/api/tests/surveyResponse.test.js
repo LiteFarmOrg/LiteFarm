@@ -64,6 +64,14 @@ describe('Survey response endpoint tests', () => {
       .set('farm_id', farm_id);
   }
 
+  async function getLatestRequest({ user_id = owner.user_id, farm_id = farm.farm_id } = {}) {
+    return chai
+      .request(server)
+      .get('/survey_response/latest')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  }
+
   async function patchRequest(
     submission_id,
     survey_response,
@@ -193,6 +201,54 @@ describe('Survey response endpoint tests', () => {
       const idsA = await createUserFarmIds(1);
       const idsB = await createUserFarmIds(1);
       const res = await getRequest({ farm_id: idsA.farm_id, user_id: idsB.user_id });
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('GET /survey_response/latest', () => {
+    test('Should return an empty result when the farm has no survey responses', async () => {
+      const res = await getLatestRequest();
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test('Should return the latest response for each survey_key the farm has answered', async () => {
+      await postRequest(fakeSurveyPayload(farm.farm_id, 'tape'));
+      await postRequest(fakeSurveyPayload(farm.farm_id, 'tape_economic'));
+      await postRequest({
+        ...fakeSurveyPayload(farm.farm_id, 'tape_soil'),
+        survey_response: {
+          survey_version: 'v1',
+          project_id: 'project-1',
+          survey_step: 'step-1',
+        },
+      });
+      await postRequest({
+        ...fakeSurveyPayload(farm.farm_id, 'tape_soil'),
+        survey_response: {
+          survey_version: 'v2',
+          project_id: 'project-2',
+          survey_step: 'step-2',
+        },
+      });
+
+      const res = await getLatestRequest();
+      expect(res.status).toBe(200);
+      expect(Object.keys(res.body).sort()).toEqual(['tape', 'tape_economic', 'tape_soil']);
+      expect(res.body.tape_soil.survey_response.survey_step).toBe('step-2');
+    });
+
+    test("Should not return another farm's survey responses", async () => {
+      await postRequest(fakeSurveyPayload(farm.farm_id, 'tape'));
+      const otherOwner = await createUserFarmIds(1);
+      const res = await getLatestRequest(otherOwner);
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test('Worker should not be able to get the latest survey responses', async () => {
+      const userFarmIds = await createUserFarmIds(3);
+      const res = await getLatestRequest(userFarmIds);
       expect(res.status).toBe(403);
     });
   });

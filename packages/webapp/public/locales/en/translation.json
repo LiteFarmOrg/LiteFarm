@@ -1303,6 +1303,30 @@
       "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
       "UPDATE_ANSWERS": "Update your answers"
     },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": "Dietary diversity"
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": "Qualitative economic indicator"
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": "Food security"
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": "Land tenure"
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": "Exposure to pesticides"
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": "Productivity, income and value added"
+    },
+    "TAPE_SOIL": {
+      "TITLE": "Soil health"
+    },
+    "TAPE_YOUTH": {
+      "TITLE": "Youth employment opportunity and emigration"
+    },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
   },

@@ -18,6 +18,7 @@ import knex from '../util/knex.js';
 import SurveyDraftModel from '../models/surveyDraftModel.js';
 import { SurveyDraftParams, UpsertDraftBody } from '../middleware/validation/checkSurveyDraft.js';
 import { LiteFarmRequest } from '../types.js';
+import { SurveyDraftSummary } from '../models/types.js';
 
 interface UpsertDraftReqBody extends UpsertDraftBody {
   survey_version: string;
@@ -36,6 +37,36 @@ const surveyDraftController = {
           .whereNotDeleted()
           .findOne({ farm_id, survey_key });
         return res.status(200).json(result ?? null);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error });
+      }
+    };
+  },
+
+  getDrafts() {
+    return async (req: LiteFarmRequest, res: Response) => {
+      try {
+        const { farm_id } = req.headers;
+
+        const rows =
+          /* @ts-expect-error known issue with models */
+          (await SurveyDraftModel.query()
+            .context({ showHidden: true })
+            .select(
+              'survey_key',
+              'current_page_no',
+              'created_at',
+              knex.raw("survey_data <> '{}'::jsonb as has_data"),
+            )
+            .whereNotDeleted()
+            .where({ farm_id })) as unknown as SurveyDraftSummary[];
+
+        const draftsBySurveyKey = Object.fromEntries(
+          rows.map(({ survey_key, ...draft }) => [survey_key, draft]),
+        );
+
+        return res.status(200).json(draftsBySurveyKey);
       } catch (error) {
         console.error(error);
         return res.status(500).json({ error });

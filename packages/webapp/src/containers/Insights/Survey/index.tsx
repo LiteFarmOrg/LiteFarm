@@ -27,6 +27,7 @@ import {
   getSurveyCdnPath,
   getSurveyVersion,
   getPostSubmitRoute,
+  getSurveyBackUrl,
 } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
@@ -172,7 +173,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   return (
     <div className={insightStyles.insightContainer}>
-      <PageTitle title={surveyTitle} backUrl="/Insights" />
+      <PageTitle title={surveyTitle} backUrl={getSurveyBackUrl(surveyId)} />
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
         {isLoading && (

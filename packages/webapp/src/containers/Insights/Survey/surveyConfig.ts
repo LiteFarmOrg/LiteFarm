@@ -36,6 +36,9 @@ interface SurveyInfo {
   ) => { version: string; fallbackVersion?: string };
   parentSurveyId?: string;
   isAvailable?: (parentResponse: Record<string, any>) => boolean;
+  scoreField?: string;
+  pages?: number;
+  estimatedMinutes?: number;
 }
 
 const resolveFaoVersion = (defaultVersion: string, language: string) =>
@@ -88,12 +91,18 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-economic' },
     resolveVersion: resolveFaoVersion,
+    scoreField: 'econ_index',
+    pages: 1,
+    estimatedMinutes: 5,
   },
   tape_food_security: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-food-security' },
     resolveVersion: resolveFaoVersion,
+    scoreField: 'fies_score',
+    pages: 1,
+    estimatedMinutes: 5,
   },
   tape_dietary_diversity: {
     parentSurveyId: 'tape',
@@ -103,6 +112,9 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_women) > 0 ||
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
+    scoreField: 'dietary_score',
+    pages: 3,
+    estimatedMinutes: 10,
   },
   tape_youth: {
     parentSurveyId: 'tape',
@@ -112,30 +124,43 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_myoung) > 0 ||
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
+    pages: 1,
+    estimatedMinutes: 10,
   },
   tape_soil: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-soil-health' },
     resolveVersion: resolveFaoVersion,
+    scoreField: 'soilhealth_score',
+    pages: 1,
+    estimatedMinutes: 5,
   },
   tape_pesticides: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-pesticides' },
     resolveVersion: resolveFaoVersion,
+    pages: 1,
+    estimatedMinutes: 10,
   },
   tape_land_aweai: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-land-tenure-aweai' },
     resolveVersion: resolveFaoVersion,
+    scoreField: 'aweai',
+    pages: 9,
+    estimatedMinutes: 25,
   },
   tape_productivity_biodiversity: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-productivity-biodiversity' },
     resolveVersion: resolveFaoVersion,
+    scoreField: 'GSI_overall',
+    pages: 13,
+    estimatedMinutes: 45,
   },
   cathi_gao: {
     image: tape_survey,
@@ -225,6 +250,16 @@ export const getAvailableModuleIds = (
 
     return belongsToParent && isModuleAvailable;
   });
+};
+
+/**
+ * Where the back caret leads: a module returns to its parent's results page, a top-level survey to
+ * the Insights list.
+ */
+export const getSurveyBackUrl = (surveyId: string): string => {
+  const parentSurveyId = SURVEY_INFO[surveyId]?.parentSurveyId;
+
+  return parentSurveyId ? `/insights/survey/${parentSurveyId}/results` : '/Insights';
 };
 
 export const getPostSubmitRoute = (surveyId: string): string =>

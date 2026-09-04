@@ -16,7 +16,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-interface SurveyDraft {
+export interface SurveyDraft {
   currentPageNo: number;
   surveyData: Record<string, any>;
   surveyVersion?: string;
@@ -87,6 +87,11 @@ export default surveyDraftSlice.reducer;
 // Selectors
 const surveyDraftStateSelector = (state: any): SurveyDraftState =>
   state.farmStateReducer[surveyDraftSlice.name] || initialState;
+
+export const allSurveyDraftsSelector = createSelector(
+  [surveyDraftStateSelector],
+  (draftState) => draftState.bySurveyId,
+);
 
 export const surveyDraftSelector = (surveyId: string) =>
   createSelector(

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -23,6 +23,8 @@ import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import TapeRadarChart from './TapeRadarChart';
 import { getTAPEDimensionScores } from './caetScores';
+import SurveyModuleSection from '../../../components/Insights/Survey/SurveyModuleSection';
+import { useSurveyModules } from './useSurveyModules';
 import { useGetLatestSurveyResponseQuery } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 
@@ -57,6 +59,12 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   }, [surveyDataError, isSuccess, surveyData]);
 
   const caetScores = survey_response ? getTAPEDimensionScores(survey_response) : [];
+  const modules = useSurveyModules(surveyId, survey_response);
+
+  const openModule = useCallback(
+    (moduleSurveyId: string) => history.push(`/insights/survey/${moduleSurveyId}`),
+    [history],
+  );
 
   return (
     <div className={insightStyles.insightContainer}>
@@ -66,6 +74,9 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
           <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
           {caetScores.length > 0 && <TapeRadarChart dimensions={caetScores} />}
         </div>
+        {modules.length > 0 && (
+          <SurveyModuleSection modules={modules} onModuleAction={openModule} />
+        )}
       </div>
     </div>
   );

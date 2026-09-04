@@ -51,7 +51,9 @@ export interface SurveyDraftRecord {
   updated_at: string;
 }
 
-export type SurveyDraftSummary = Pick<SurveyDraftRecord, 'current_page_no' | 'created_at'>;
+export type SurveyDraftSummary = Pick<SurveyDraftRecord, 'current_page_no' | 'created_at'> & {
+  has_data: boolean;
+};
 
 export interface UpsertSurveyDraftReqBody {
   submission_id?: string;
@@ -134,6 +136,7 @@ export const surveyApi = api.injectEndpoints({
         method: 'PUT',
         body,
       }),
+      invalidatesTags: [{ type: 'SurveyDraft', id: 'LIST' }],
     }),
   }),
 });

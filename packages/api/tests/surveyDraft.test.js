@@ -195,7 +195,7 @@ describe('Survey draft endpoint tests', () => {
       expect(res.body.tape_economic.current_page_no).toBe(2);
     });
 
-    test('Should return created_at and leave out survey_data', async () => {
+    test('Should return created_at and leave out survey_data and survey_key', async () => {
       await mocks.survey_draftFactory(
         { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
         mocks.fakeSurveyDraft({ survey_key: 'tape' }),
@@ -205,6 +205,24 @@ describe('Survey draft endpoint tests', () => {
       expect(res.status).toBe(200);
       expect(res.body.tape.created_at).toBeDefined();
       expect(res.body.tape.survey_data).toBeUndefined();
+      expect(res.body.tape.survey_key).toBeUndefined();
+    });
+
+    test('Should report has_data false for a draft holding no answers', async () => {
+      const promisedUserFarm = [{ farm_id: farm.farm_id, user_id: owner.user_id }];
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape', survey_data: {} }),
+      );
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape_economic' }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body.tape.has_data).toBe(false);
+      expect(res.body.tape_economic.has_data).toBe(true);
     });
 
     test('Should not return a soft-deleted draft', async () => {

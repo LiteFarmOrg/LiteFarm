@@ -60,7 +60,7 @@ const getSurveyState = (
 
   const hasLocalDraft = !!localDraft && Object.keys(localDraft.surveyData).length > 0;
 
-  if (serverDraft || hasLocalDraft) {
+  if (serverDraft?.has_data || hasLocalDraft) {
     const currentPageNo = Math.max(
       serverDraft?.current_page_no ?? 0,
       localDraft?.currentPageNo ?? 0,

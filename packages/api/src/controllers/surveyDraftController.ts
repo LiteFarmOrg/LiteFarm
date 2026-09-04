@@ -53,11 +53,18 @@ const surveyDraftController = {
           /* @ts-expect-error known issue with models */
           (await SurveyDraftModel.query()
             .context({ showHidden: true })
-            .select('survey_key', 'current_page_no', 'created_at')
+            .select(
+              'survey_key',
+              'current_page_no',
+              'created_at',
+              knex.raw("survey_data <> '{}'::jsonb as has_data"),
+            )
             .whereNotDeleted()
             .where({ farm_id })) as unknown as SurveyDraftSummary[];
 
-        const draftsBySurveyKey = Object.fromEntries(rows.map((row) => [row.survey_key, row]));
+        const draftsBySurveyKey = Object.fromEntries(
+          rows.map(({ survey_key, ...draft }) => [survey_key, draft]),
+        );
 
         return res.status(200).json(draftsBySurveyKey);
       } catch (error) {

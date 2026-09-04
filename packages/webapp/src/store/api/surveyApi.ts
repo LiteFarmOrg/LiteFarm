@@ -14,7 +14,7 @@
  */
 
 import { api } from './apiSlice';
-import { surveyResponseUrl, getSurveyDraftUrl } from '../../apiConfig';
+import { surveyResponseUrl, latestSurveyResponsesUrl, getSurveyDraftUrl } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 
 export interface SurveyResponseRecord {
@@ -89,6 +89,12 @@ export const surveyApi = api.injectEndpoints({
       }),
       providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyResponse', id: surveyKey }],
     }),
+    getLatestSurveyResponses: build.query<Record<string, SurveyResponseRecord>, void>({
+      query: () => ({
+        url: latestSurveyResponsesUrl,
+      }),
+      providesTags: [{ type: 'SurveyResponse', id: 'LIST' }],
+    }),
     addSurveyResponse: build.mutation<void, AddSurveyResponseReqBody>({
       query: (body) => ({
         url: surveyResponseUrl,
@@ -97,6 +103,7 @@ export const surveyApi = api.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { survey_key }) => [
         { type: 'SurveyResponse', id: survey_key },
+        { type: 'SurveyResponse', id: 'LIST' },
       ],
     }),
     getSurveyDraft: build.query<SurveyDraftRecord | null, { surveyKey: string }>({
@@ -118,6 +125,7 @@ export const surveyApi = api.injectEndpoints({
 export const {
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponseQuery,
+  useGetLatestSurveyResponsesQuery,
   useAddSurveyResponseMutation,
   useLazyGetSurveyDraftQuery,
   useUpsertSurveyDraftMutation,

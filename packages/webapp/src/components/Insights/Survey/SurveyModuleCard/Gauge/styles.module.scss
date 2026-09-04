@@ -1,0 +1,109 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+@use '../../surveyColors' as *;
+
+.gauge {
+  position: relative;
+  width: 120px;
+  height: 86px;
+}
+
+.arc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 66px;
+}
+
+.track,
+.fill {
+  fill: none;
+  stroke-width: 12;
+}
+
+.track {
+  stroke: $gauge-track;
+}
+
+.fill {
+  stroke: var(--gauge-fill);
+}
+
+.value,
+.category,
+.placeholder {
+  @include fontFamily();
+
+  position: absolute;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+.value {
+  top: 44px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  color: var(--gauge-ink);
+}
+
+.category {
+  top: 68px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--gauge-ink);
+}
+
+.placeholder {
+  top: 50px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: $text-muted;
+  opacity: 0.7;
+}
+
+.band1VeryLow {
+  --gauge-fill: #{$band-1-very-low-fill};
+  --gauge-ink: #{$band-1-very-low-ink};
+}
+
+.band2Low {
+  --gauge-fill: #{$band-2-low-fill};
+  --gauge-ink: #{$band-2-low-ink};
+}
+
+.band3Medium {
+  --gauge-fill: #{$band-3-medium-fill};
+  --gauge-ink: #{$band-3-medium-ink};
+}
+
+.band4High {
+  --gauge-fill: #{$band-4-high-fill};
+  --gauge-ink: #{$band-4-high-ink};
+}
+
+.band5VeryHigh {
+  --gauge-fill: #{$band-5-very-high-fill};
+  --gauge-ink: #{$band-5-very-high-ink};
+}

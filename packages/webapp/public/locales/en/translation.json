@@ -1254,6 +1254,30 @@
       "TITLE": "Soil OM"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "High",
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "VERY_HIGH": "Very High",
+        "VERY_LOW": "Very Low"
+      },
+      "BAND_RANGE": {
+        "INCLUSIVE": "{{min}} – {{max}}%",
+        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%"
+      },
+      "CARD": {
+        "COMPLETED_ON": "Completed · {{date}}",
+        "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "IN_PROGRESS": "In progress",
+        "LAST_UPDATED": "Last updated {{date}}",
+        "NEW_VERSION": "New version",
+        "RESUME": "Resume",
+        "RETAKE_SURVEY": "Retake survey",
+        "STARTED": "Started {{date}}",
+        "TAKE_SURVEY": "Take survey",
+        "UPDATE": "Update"
+      },
+      "NO_SCORE_YET": "No score yet",
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"
     },

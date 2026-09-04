@@ -767,5 +767,8 @@ export interface SurveyDraft {
   survey_version: string;
   survey_data: Record<string, unknown>;
   current_page_no: number;
+  created_at: string;
   updated_at: string;
 }
+
+export type SurveyDraftSummary = Pick<SurveyDraft, 'survey_key' | 'current_page_no' | 'created_at'>;

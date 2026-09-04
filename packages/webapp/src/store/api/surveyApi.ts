@@ -30,6 +30,7 @@ export interface SurveyResponseRecord {
   survey_version: string;
   project_id: string;
   survey_step: string;
+  created_at: string;
 }
 
 export interface AddSurveyResponseReqBody {
@@ -46,8 +47,11 @@ export interface SurveyDraftRecord {
   survey_version: string;
   survey_data: Record<string, any>;
   current_page_no: number;
+  created_at: string;
   updated_at: string;
 }
+
+export type SurveyDraftSummary = Pick<SurveyDraftRecord, 'current_page_no' | 'created_at'>;
 
 export interface UpsertSurveyDraftReqBody {
   submission_id?: string;
@@ -118,7 +122,7 @@ export const surveyApi = api.injectEndpoints({
       }),
       providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyDraft', id: surveyKey }],
     }),
-    getSurveyDrafts: build.query<Record<string, SurveyDraftRecord>, void>({
+    getSurveyDrafts: build.query<Record<string, SurveyDraftSummary>, void>({
       query: () => ({
         url: surveyDraftsUrl,
       }),

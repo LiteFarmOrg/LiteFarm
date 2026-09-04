@@ -181,18 +181,30 @@ describe('Survey draft endpoint tests', () => {
       const promisedUserFarm = [{ farm_id: farm.farm_id, user_id: owner.user_id }];
       await mocks.survey_draftFactory(
         { promisedUserFarm },
-        mocks.fakeSurveyDraft({ survey_key: 'tape', survey_data: { q1: 'parent' } }),
+        mocks.fakeSurveyDraft({ survey_key: 'tape', current_page_no: 7 }),
       );
       await mocks.survey_draftFactory(
         { promisedUserFarm },
-        mocks.fakeSurveyDraft({ survey_key: 'tape_economic', survey_data: { q1: 'module' } }),
+        mocks.fakeSurveyDraft({ survey_key: 'tape_economic', current_page_no: 2 }),
       );
 
       const res = await getDraftsRequest();
       expect(res.status).toBe(200);
       expect(Object.keys(res.body).sort()).toEqual(['tape', 'tape_economic']);
-      expect(res.body.tape.survey_data).toEqual({ q1: 'parent' });
-      expect(res.body.tape_economic.survey_data).toEqual({ q1: 'module' });
+      expect(res.body.tape.current_page_no).toBe(7);
+      expect(res.body.tape_economic.current_page_no).toBe(2);
+    });
+
+    test('Should return created_at and leave out survey_data', async () => {
+      await mocks.survey_draftFactory(
+        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape' }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body.tape.created_at).toBeDefined();
+      expect(res.body.tape.survey_data).toBeUndefined();
     });
 
     test('Should not return a soft-deleted draft', async () => {

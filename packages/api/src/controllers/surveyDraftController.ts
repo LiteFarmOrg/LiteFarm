@@ -18,7 +18,7 @@ import knex from '../util/knex.js';
 import SurveyDraftModel from '../models/surveyDraftModel.js';
 import { SurveyDraftParams, UpsertDraftBody } from '../middleware/validation/checkSurveyDraft.js';
 import { LiteFarmRequest } from '../types.js';
-import { SurveyDraft } from '../models/types.js';
+import { SurveyDraftSummary } from '../models/types.js';
 
 interface UpsertDraftReqBody extends UpsertDraftBody {
   survey_version: string;
@@ -48,10 +48,14 @@ const surveyDraftController = {
     return async (req: LiteFarmRequest, res: Response) => {
       try {
         const { farm_id } = req.headers;
-        /* @ts-expect-error known issue with models */
-        const rows = (await SurveyDraftModel.query()
-          .whereNotDeleted()
-          .where({ farm_id })) as unknown as SurveyDraft[];
+
+        const rows =
+          /* @ts-expect-error known issue with models */
+          (await SurveyDraftModel.query()
+            .context({ showHidden: true })
+            .select('survey_key', 'current_page_no', 'created_at')
+            .whereNotDeleted()
+            .where({ farm_id })) as unknown as SurveyDraftSummary[];
 
         const draftsBySurveyKey = Object.fromEntries(rows.map((row) => [row.survey_key, row]));
 

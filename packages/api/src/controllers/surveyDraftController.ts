@@ -57,7 +57,7 @@ const surveyDraftController = {
               'survey_key',
               'current_page_no',
               'created_at',
-              knex.raw("survey_data <> '{}'::jsonb as has_data"),
+              knex.raw("survey_data != '{}'::jsonb as has_data"),
             )
             .whereNotDeleted()
             .where({ farm_id })) as unknown as SurveyDraftSummary[];

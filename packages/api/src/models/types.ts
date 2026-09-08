@@ -738,3 +738,40 @@ export interface UserFarm {
   step_five_end?: string;
   wage_do_not_ask_again?: boolean;
 }
+
+export interface SurveyResponseData {
+  survey_version: string;
+  project_id: string;
+  survey_step?: string;
+  [key: string]: unknown;
+}
+
+export interface SurveyResponse {
+  id: number;
+  submission_id: string;
+  farm_id: Farm['farm_id'];
+  survey_key: string;
+  survey_version: string;
+  project_id: string;
+  survey_step: string | null;
+  survey_response: SurveyResponseData;
+  created_by_user_id: User['user_id'];
+  created_at: string;
+}
+
+export interface SurveyDraft {
+  id: string;
+  submission_id: string;
+  farm_id: Farm['farm_id'];
+  survey_key: string;
+  survey_version: string;
+  survey_data: Record<string, unknown>;
+  current_page_no: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export type SurveyDraftSummary = Pick<
+  SurveyDraft,
+  'survey_key' | 'current_page_no' | 'created_at'
+> & { has_data: boolean };

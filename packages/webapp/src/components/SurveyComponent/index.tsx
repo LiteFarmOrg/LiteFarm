@@ -22,6 +22,7 @@ import 'survey-core/i18n/french';
 import 'survey-core/i18n/spanish';
 import 'survey-core/i18n/portuguese';
 import 'survey-core/i18n/italian';
+import './customFunctions';
 
 interface SurveyComponentProps {
   surveyJson: any; // Survey JSON schema object

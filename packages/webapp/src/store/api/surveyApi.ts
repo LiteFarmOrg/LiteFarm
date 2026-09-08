@@ -14,7 +14,12 @@
  */
 
 import { api } from './apiSlice';
-import { surveyResponseUrl, getSurveyDraftUrl } from '../../apiConfig';
+import {
+  surveyResponseUrl,
+  latestSurveyResponsesUrl,
+  surveyDraftsUrl,
+  getSurveyDraftUrl,
+} from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 
 export interface SurveyResponseRecord {
@@ -25,6 +30,7 @@ export interface SurveyResponseRecord {
   survey_version: string;
   project_id: string;
   survey_step: string;
+  created_at: string;
 }
 
 export interface AddSurveyResponseReqBody {
@@ -41,8 +47,13 @@ export interface SurveyDraftRecord {
   survey_version: string;
   survey_data: Record<string, any>;
   current_page_no: number;
+  created_at: string;
   updated_at: string;
 }
+
+export type SurveyDraftSummary = Pick<SurveyDraftRecord, 'current_page_no' | 'created_at'> & {
+  has_data: boolean;
+};
 
 export interface UpsertSurveyDraftReqBody {
   submission_id?: string;
@@ -89,6 +100,12 @@ export const surveyApi = api.injectEndpoints({
       }),
       providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyResponse', id: surveyKey }],
     }),
+    getLatestSurveyResponses: build.query<Record<string, SurveyResponseRecord>, void>({
+      query: () => ({
+        url: latestSurveyResponsesUrl,
+      }),
+      providesTags: [{ type: 'SurveyResponse', id: 'LIST' }],
+    }),
     addSurveyResponse: build.mutation<void, AddSurveyResponseReqBody>({
       query: (body) => ({
         url: surveyResponseUrl,
@@ -97,6 +114,8 @@ export const surveyApi = api.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { survey_key }) => [
         { type: 'SurveyResponse', id: survey_key },
+        { type: 'SurveyResponse', id: 'LIST' },
+        { type: 'SurveyDraft', id: 'LIST' },
       ],
     }),
     getSurveyDraft: build.query<SurveyDraftRecord | null, { surveyKey: string }>({
@@ -105,12 +124,19 @@ export const surveyApi = api.injectEndpoints({
       }),
       providesTags: (_result, _error, { surveyKey }) => [{ type: 'SurveyDraft', id: surveyKey }],
     }),
+    getSurveyDrafts: build.query<Record<string, SurveyDraftSummary>, void>({
+      query: () => ({
+        url: surveyDraftsUrl,
+      }),
+      providesTags: [{ type: 'SurveyDraft', id: 'LIST' }],
+    }),
     upsertSurveyDraft: build.mutation<SurveyDraftRecord, UpsertSurveyDraftReqBody>({
       query: ({ surveyKey, ...body }) => ({
         url: getSurveyDraftUrl(surveyKey),
         method: 'PUT',
         body,
       }),
+      invalidatesTags: [{ type: 'SurveyDraft', id: 'LIST' }],
     }),
   }),
 });
@@ -118,8 +144,10 @@ export const surveyApi = api.injectEndpoints({
 export const {
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponseQuery,
+  useGetLatestSurveyResponsesQuery,
   useAddSurveyResponseMutation,
   useLazyGetSurveyDraftQuery,
+  useGetSurveyDraftsQuery,
   useUpsertSurveyDraftMutation,
   usePrefetch,
 } = surveyApi;

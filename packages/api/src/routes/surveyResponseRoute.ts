@@ -27,6 +27,12 @@ router.post(
   surveyResponseController.createSurveyResponse(),
 );
 
+router.get(
+  '/latest',
+  checkScope(['get:survey_response']),
+  surveyResponseController.getLatestSurveyResponses(),
+);
+
 // Latest survey response of the kind given by the survey_key query param
 router.get(
   '/',

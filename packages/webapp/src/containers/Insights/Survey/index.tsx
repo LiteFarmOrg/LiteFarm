@@ -22,7 +22,14 @@ import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
+import {
+  SURVEY_INFO,
+  getSurveyCdnPath,
+  getSurveyVersion,
+  getPostSubmitRoute,
+  getSurveyBackUrl,
+  getAvailableModuleIds,
+} from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
@@ -30,6 +37,7 @@ import Spinner from '../../../components/Spinner';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
+  useGetLatestSurveyResponseQuery,
   useAddSurveyResponseMutation,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
@@ -53,6 +61,19 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
+  const parentSurveyId = SURVEY_INFO[surveyId]?.parentSurveyId;
+
+  const { data: parentResponse, isLoading: isParentResponseLoading } =
+    useGetLatestSurveyResponseQuery({ surveyKey: parentSurveyId ?? '' }, { skip: !parentSurveyId });
+
+  const isGuardPending = !!parentSurveyId && isParentResponseLoading;
+
+  const isUnauthorizedModule =
+    !!parentSurveyId &&
+    !isParentResponseLoading &&
+    !getAvailableModuleIds(parentSurveyId, parentResponse?.survey_response).includes(surveyId);
+
+  const isBlockedModule = isGuardPending || isUnauthorizedModule;
 
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
@@ -78,7 +99,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       version: cdnPath ?? '',
       fallbackVersion: cdnFallbackPath,
     },
-    { skip: !cdnDirectory || !cdnPath },
+    { skip: !cdnDirectory || !cdnPath || isBlockedModule },
   );
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } = useSurveyPrepopulatedData(
@@ -123,7 +144,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         prefetchLatestResponse({ surveyKey: surveyId });
         dispatch(clearSurvey({ surveyId }));
         // Replace instead of push so the submitted survey is not left in the history stack
-        history.replace(`/insights/survey/${surveyId}/results`);
+        history.replace(getPostSubmitRoute(surveyId));
       } catch {
         // Display the default "An error occurred and we could not save the results." message.
         options.showSaveError();
@@ -134,10 +155,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!draftState.isDraftLoading && !cdnPath) {
+    if ((!draftState.isDraftLoading && !cdnPath) || isUnauthorizedModule) {
       history.replace('/Insights');
     }
-  }, [draftState.isDraftLoading, cdnPath, history]);
+  }, [draftState.isDraftLoading, cdnPath, isUnauthorizedModule, history]);
 
   // TODO: LF-5192 Remove useEffect once retake is supported.
   useEffect(() => {
@@ -148,7 +169,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       draftState.initialDraft.needsLocalSync &&
       !draftState.initialDraft.submissionId
     ) {
-      history.replace(`/insights/survey/${surveyId}/results`);
+      history.replace(getPostSubmitRoute(surveyId));
     }
   }, [draftState.isDraftLoading, draftState.initialDraft, surveyId, history]);
 
@@ -163,11 +184,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     }
   }, [isSurveyJsonError]);
 
-  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
+  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule;
 
   return (
     <div className={insightStyles.insightContainer}>
-      <PageTitle title={surveyTitle} backUrl="/Insights" />
+      {!isBlockedModule && <PageTitle title={surveyTitle} backUrl={getSurveyBackUrl(surveyId)} />}
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
         {isLoading && (

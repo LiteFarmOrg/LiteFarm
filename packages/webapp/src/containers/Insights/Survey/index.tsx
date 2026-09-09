@@ -29,6 +29,7 @@ import {
   getPostSubmitRoute,
   getSurveyBackUrl,
   getAvailableModuleIds,
+  hasNewSurveyVersion,
 } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
@@ -37,8 +38,9 @@ import Spinner from '../../../components/Spinner';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
-  useGetLatestSurveyResponseQuery,
+  useGetLatestSurveyResponsesQuery,
   useAddSurveyResponseMutation,
+  SurveyResponseRecord,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
@@ -50,6 +52,22 @@ import useInitialDraft from './useInitialDraft';
 interface SurveyProps {
   isCompactSideMenu: boolean;
 }
+
+const getSurveyInitialData = (
+  draftSurveyData: Record<string, any> | undefined,
+  surveyResponse: SurveyResponseRecord | undefined,
+  prepopulatedData: Record<string, any>,
+  hasNewVersion: boolean,
+): Record<string, any> => {
+  if (draftSurveyData) {
+    return draftSurveyData;
+  }
+  if (surveyResponse && !hasNewVersion) {
+    return surveyResponse.survey_response;
+  }
+
+  return prepopulatedData;
+};
 
 function Survey({ isCompactSideMenu }: SurveyProps) {
   const { t } = useTranslation();
@@ -63,14 +81,15 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
   const parentSurveyId = SURVEY_INFO[surveyId]?.parentSurveyId;
 
-  const { data: parentResponse, isLoading: isParentResponseLoading } =
-    useGetLatestSurveyResponseQuery({ surveyKey: parentSurveyId ?? '' }, { skip: !parentSurveyId });
+  const { data: responses, isLoading: isResponsesLoading } = useGetLatestSurveyResponsesQuery();
+  const parentResponse = parentSurveyId ? responses?.[parentSurveyId] : undefined;
+  const ownResponse = responses?.[surveyId];
 
-  const isGuardPending = !!parentSurveyId && isParentResponseLoading;
+  const isGuardPending = !!parentSurveyId && isResponsesLoading;
 
   const isUnauthorizedModule =
     !!parentSurveyId &&
-    !isParentResponseLoading &&
+    !isResponsesLoading &&
     !getAvailableModuleIds(parentSurveyId, parentResponse?.survey_response).includes(surveyId);
 
   const isBlockedModule = isGuardPending || isUnauthorizedModule;
@@ -120,10 +139,12 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     ...draftState,
   });
 
-  const initialData = {
-    ...prepopulatedData,
-    ...(!draftState.isDraftLoading ? draftState.initialDraft.surveyData : {}),
-  };
+  const initialData = getSurveyInitialData(
+    hasDraft ? draftState.initialDraft.surveyData : undefined,
+    ownResponse,
+    prepopulatedData,
+    hasNewSurveyVersion(), // returns false until LF-5473 is implemented
+  );
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {

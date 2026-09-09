@@ -123,8 +123,7 @@ function useSurveyDraftSync({
       // Local's submission_id points to a draft that's already been completed, and no new server
       // draft replaced it — discard the stale local content rather than keep building on it.
       dispatch(clearSurvey({ surveyId }));
-      // TODO: LF-5192 Remove this comment and uncomment the following line once retake is supported.
-      // persistDraft({ survey_data: {}, current_page_no: 0 });
+      persistDraft({ survey_data: {}, current_page_no: 0 });
       return;
     }
 

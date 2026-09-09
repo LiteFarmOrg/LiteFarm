@@ -314,21 +314,18 @@ describe('Survey draft endpoint tests', () => {
         expect(rows.length).toBe(0);
       });
 
-      // TODO: LF-5192 Delete once we support retake/update
-      test('A draft write is rejected regardless of which submission_id is sent, once the survey is completed', async () => {
-        await postSurveyResponse();
-        const unrelatedId = '11111111-1111-1111-1111-111111111111';
-
-        const res = await putRequest({ q1: 'too late' }, {}, { submission_id: unrelatedId });
-        expect(res.status).toBe(409);
-      });
-
-      // TODO: LF-5192 Enable
-      xtest('A draft write is unaffected by a completed survey under a different submission_id', async () => {
+      test('A draft write is unaffected by a completed survey under a different submission_id', async () => {
         await postSurveyResponse();
         const unrelatedId = '11111111-1111-1111-1111-111111111111';
 
         const res = await putRequest({ q1: 'answer' }, {}, { submission_id: unrelatedId });
+        expect(res.status).toBe(201);
+      });
+
+      test('A draft write with no submission_id succeeds after the survey is completed', async () => {
+        await postSurveyResponse();
+
+        const res = await putRequest({ q1: 'answer' });
         expect(res.status).toBe(201);
       });
     });

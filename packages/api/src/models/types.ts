@@ -773,5 +773,5 @@ export interface SurveyDraft {
 
 export type SurveyDraftSummary = Pick<
   SurveyDraft,
-  'survey_key' | 'current_page_no' | 'created_at'
+  'survey_key' | 'submission_id' | 'current_page_no' | 'created_at'
 > & { has_data: boolean };

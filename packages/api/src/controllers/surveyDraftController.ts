@@ -55,6 +55,7 @@ const surveyDraftController = {
             .context({ showHidden: true })
             .select(
               'survey_key',
+              'submission_id',
               'current_page_no',
               'created_at',
               knex.raw("survey_data != '{}'::jsonb as has_data"),

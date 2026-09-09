@@ -195,8 +195,8 @@ describe('Survey draft endpoint tests', () => {
       expect(res.body.tape_economic.current_page_no).toBe(2);
     });
 
-    test('Should return created_at and leave out survey_data and survey_key', async () => {
-      await mocks.survey_draftFactory(
+    test('Should return created_at and submission_id, and leave out survey_data and survey_key', async () => {
+      const [draft] = await mocks.survey_draftFactory(
         { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
         mocks.fakeSurveyDraft({ survey_key: 'tape' }),
       );
@@ -204,6 +204,7 @@ describe('Survey draft endpoint tests', () => {
       const res = await getDraftsRequest();
       expect(res.status).toBe(200);
       expect(res.body.tape.created_at).toBeDefined();
+      expect(res.body.tape.submission_id).toBe(draft.submission_id);
       expect(res.body.tape.survey_data).toBeUndefined();
       expect(res.body.tape.survey_key).toBeUndefined();
     });

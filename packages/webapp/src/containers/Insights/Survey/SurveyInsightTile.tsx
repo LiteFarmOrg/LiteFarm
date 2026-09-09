@@ -62,9 +62,10 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
   }
 
   const isLoading = currentData === t('common:LOADING');
-  const route = isCompleted
-    ? `/insights/survey/${surveyId}/results`
-    : `/insights/survey/${surveyId}`;
+  const route =
+    isCompleted && !inProgress
+      ? `/insights/survey/${surveyId}/results`
+      : `/insights/survey/${surveyId}`;
 
   return (
     <div className={`insightItem item-${index} ${insightStyles.insightItem}`}>

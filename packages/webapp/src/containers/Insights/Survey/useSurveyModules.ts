@@ -20,7 +20,7 @@ import {
   SurveyResponseRecord,
   SurveyDraftSummary,
 } from '../../../store/api/surveyApi';
-import { SURVEY_INFO, getAvailableModuleIds } from './surveyConfig';
+import { SURVEY_INFO, getAvailableModuleIds, hasNewSurveyVersion } from './surveyConfig';
 import { allSurveyDraftsSelector, SurveyDraft } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
 import { useSurveyTitles } from './useSurveyTitle';
@@ -69,10 +69,13 @@ const getSurveyState = (
   }
 
   if (response) {
+    const hasNewVersion = hasNewSurveyVersion(); // returns false until LF-5473 is implemented
+
     return {
       type: 'completed',
       completedAt: new Date(response.created_at),
       score: readScore(response, scoreField),
+      hasNewVersion,
     };
   }
 

@@ -87,7 +87,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
           {/* TODO: LF-5491 Implement properly */}
           <Button sm color="secondary" onClick={() => openModule(surveyId)}>
             <SurveyIcon />
-            {hasNewSurveyVersion()
+            {hasNewSurveyVersion() // returns false until LF-5473 is implemented
               ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
               : t('INSIGHTS.SURVEY.CARD.UPDATE')}
           </Button>

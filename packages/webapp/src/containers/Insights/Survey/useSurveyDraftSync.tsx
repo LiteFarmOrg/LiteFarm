@@ -37,6 +37,7 @@ function useSurveyDraftSync({
   const [upsertSurveyDraft] = useUpsertSurveyDraftMutation();
 
   const submissionIdRef = useRef(initialDraft.submissionId);
+  const isCompletedRef = useRef(false);
 
   // Upserts the draft to the server, then syncs the returned submission_id into Redux.
   const persistDraft = useCallback(
@@ -44,7 +45,7 @@ function useSurveyDraftSync({
       payload: { survey_data: Record<string, any>; current_page_no?: number },
       { shouldReportErrors = false }: { shouldReportErrors?: boolean } = {},
     ) => {
-      if (!surveyVersion || !payload.survey_data) {
+      if (!surveyVersion || !payload.survey_data || isCompletedRef.current) {
         return;
       }
       try {
@@ -148,7 +149,11 @@ function useSurveyDraftSync({
     [persistDraft],
   );
 
-  return { onCurrentPageChanged, recordLatestDraft };
+  const markSurveyCompleted = () => {
+    isCompletedRef.current = true;
+  };
+
+  return { onCurrentPageChanged, recordLatestDraft, markSurveyCompleted };
 }
 
 export default useSurveyDraftSync;

@@ -133,7 +133,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
-  const { onCurrentPageChanged, recordLatestDraft } = useSurveyDraftSync({
+  const { onCurrentPageChanged, recordLatestDraft, markSurveyCompleted } = useSurveyDraftSync({
     surveyId,
     surveyVersion,
     ...draftState,
@@ -164,6 +164,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         }).unwrap();
         prefetchLatestResponse({ surveyKey: surveyId });
         dispatch(clearSurvey({ surveyId }));
+        markSurveyCompleted();
         // Replace instead of push so the submitted survey is not left in the history stack
         history.replace(getPostSubmitRoute(surveyId));
       } catch {
@@ -171,7 +172,15 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         options.showSaveError();
       }
     },
-    [addSurveyResponse, prefetchLatestResponse, dispatch, history, surveyId, farm_id],
+    [
+      addSurveyResponse,
+      prefetchLatestResponse,
+      markSurveyCompleted,
+      dispatch,
+      history,
+      surveyId,
+      farm_id,
+    ],
   );
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country

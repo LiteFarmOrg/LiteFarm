@@ -106,7 +106,6 @@ export default function PurePeople({ users, history, isAdmin }) {
   };
   return (
     <ProfileLayout
-      onSubmit={() => history.push('/invite_user')}
       history={history}
       buttonGroup={
         isAdmin && (

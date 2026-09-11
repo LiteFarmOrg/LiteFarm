@@ -28,7 +28,7 @@ const formatDefaultTypeValue = (typeValue, fieldWorkTypeOptions) => {
   };
 };
 
-const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = false }) => {
+const PureFieldWorkTask = ({ register, control, setValue, watch, formState, disabled = false }) => {
   const { t } = useTranslation();
 
   const fieldWorkTypes = useSelector(fieldWorkTypeSliceSelector)?.fieldWorkTypes || [];
@@ -103,7 +103,14 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
           style={{ marginBottom: '20px' }}
           name={FIELD_WORK_OTHER_TYPE}
           disabled={disabled}
-          hookFormRegister={register(FIELD_WORK_OTHER_TYPE, { required: true })}
+          hookFormRegister={register(FIELD_WORK_OTHER_TYPE, {
+            required: true,
+            validate: (value) => !!value?.trim(),
+          })}
+          errors={
+            formState?.errors?.field_work_task?.field_work_task_type?.field_work_name &&
+            t('ADD_TASK.FIELD_WORK_VIEW.INVALID_NAME')
+          }
         />
       )}
     </>

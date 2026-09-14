@@ -67,6 +67,7 @@ export default function PureCompleteStepOne({
   useHookFormPersist,
   filePickerFunctions,
   isUploading,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const isOffline = useIsOffline();
@@ -239,7 +240,7 @@ export default function PureCompleteStepOne({
             locations: selectedTask.locations,
           })
         : null}
-      {taskType === 'SOIL_SAMPLE_TASK' && !isOffline && (
+      {taskType === 'SOIL_SAMPLE_TASK' && isAdmin && !isOffline && (
         <div>
           <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_GET_RESULTS')}</Main>
           <RadioGroup hookFormControl={control} required name={RESULTS_AVAILABLE} />

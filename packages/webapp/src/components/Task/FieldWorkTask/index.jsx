@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
 import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
@@ -105,12 +105,9 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, formState, disa
           disabled={disabled}
           hookFormRegister={register(FIELD_WORK_OTHER_TYPE, {
             required: true,
-            validate: (value) => !!value?.trim(),
+            setValueAs: (value) => value?.trim(),
           })}
-          errors={
-            formState?.errors?.field_work_task?.field_work_task_type?.field_work_name &&
-            t('ADD_TASK.FIELD_WORK_VIEW.INVALID_NAME')
-          }
+          errors={getInputErrors(formState?.errors, FIELD_WORK_OTHER_TYPE)}
         />
       )}
     </>

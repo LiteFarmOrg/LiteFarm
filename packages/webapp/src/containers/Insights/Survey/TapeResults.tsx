@@ -20,16 +20,19 @@ import { useHistory } from 'react-router-dom';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import { Semibold } from '../../../components/Typography';
-import PageTitle from '../../../components/PageTitle';
 import Button from '../../../components/Form/Button';
 import SurveyIcon from '../../../assets/images/survey.svg?react';
+import GreyHeaderChevron from '../../../assets/images/header-chevron-left.svg?react';
+import NewVersionBadge from '../../../components/SimpleBadges/NewVersionBadge';
 import TapeRadarChart from './TapeRadarChart';
 import { getTAPEDimensionScores } from './caetScores';
 import SurveyModuleSection from '../../../components/Insights/Survey/SurveyModuleSection';
+import { COMPLETED_DATE_OPTIONS } from '../../../components/Insights/Survey/SurveyModuleCard';
 import { useSurveyModules } from './useSurveyModules';
 import { surveyDraftSelector } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
 import { hasNewSurveyVersion } from './surveyConfig';
+import { getLocalizedDateString } from '../../../util/moment';
 import {
   useGetLatestSurveyResponseQuery,
   useGetSurveyDraftsQuery,
@@ -81,21 +84,42 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
 
   const openModule = (moduleSurveyId: string) => history.push(`/insights/survey/${moduleSurveyId}`);
 
+  const hasNewVersion = hasNewSurveyVersion(); // returns false until LF-5473 is implemented
+  const completedDate = surveyData
+    ? getLocalizedDateString(surveyData.created_at, COMPLETED_DATE_OPTIONS)
+    : '';
+
   return (
     <div className={insightStyles.insightContainer}>
-      <PageTitle title={t('INSIGHTS.TAPE.TITLE')} backUrl="/Insights" />
+      <div className={styles.header}>
+        <div className={styles.headerMain}>
+          <div className={styles.headerTitle}>
+            <button className={styles.backButton} onClick={() => history.push('/Insights')}>
+              <GreyHeaderChevron />
+            </button>
+            <span className={styles.title}>{t('INSIGHTS.TAPE.TITLE')}</span>
+          </div>
+          <div className={styles.completionText}>
+            {t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date: completedDate })}
+          </div>
+        </div>
+        {hasModules && (
+          <div className={styles.headerAction}>
+            {hasNewVersion && <NewVersionBadge className={styles.newVersionBadge} />}
+            <Button sm color="secondary" onClick={() => openModule(surveyId)}>
+              <SurveyIcon />
+              <span className={styles.buttonLabel}>
+                {hasNewVersion
+                  ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
+                  : t('INSIGHTS.SURVEY.CARD.UPDATE')}
+              </span>
+            </Button>
+          </div>
+        )}
+      </div>
       <div className={styles.resultsContainer}>
         <div className={styles.sectionContainer}>
           <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
-          {/* TODO: LF-5491 Implement properly */}
-          {hasModules && (
-            <Button sm color="secondary" onClick={() => openModule(surveyId)}>
-              <SurveyIcon />
-              {hasNewSurveyVersion() // returns false until LF-5473 is implemented
-                ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
-                : t('INSIGHTS.SURVEY.CARD.UPDATE')}
-            </Button>
-          )}
           {caetScores.length > 0 && <TapeRadarChart dimensions={caetScores} />}
         </div>
         {hasModules && <SurveyModuleSection modules={modules} onModuleAction={openModule} />}

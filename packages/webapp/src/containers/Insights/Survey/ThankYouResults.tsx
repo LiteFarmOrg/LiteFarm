@@ -32,11 +32,7 @@ function ThankYouResults({ surveyId }: { surveyId: string }) {
   return (
     <div className={insightStyles.insightContainer}>
       <PageTitle title={surveyTitle} backUrl={getSurveyBackUrl(surveyId)} />
-      <div className={styles.resultsContainer}>
-        <div className={styles.sectionContainer}>
-          <Semibold className={styles.titleText}>{t('INSIGHTS.SURVEY.THANK_YOU')}</Semibold>
-        </div>
-      </div>
+      <Semibold className={styles.titleText}>{t('INSIGHTS.SURVEY.THANK_YOU')}</Semibold>
     </div>
   );
 }

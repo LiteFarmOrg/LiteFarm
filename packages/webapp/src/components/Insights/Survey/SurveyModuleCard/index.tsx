@@ -39,7 +39,7 @@ interface CardActionConfig {
   metaText: string | null;
 }
 
-const COMPLETED_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
+export const COMPLETED_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   month: 'short',
   year: 'numeric',

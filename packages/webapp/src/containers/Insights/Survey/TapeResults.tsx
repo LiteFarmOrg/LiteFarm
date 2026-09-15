@@ -76,6 +76,9 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const caetScores = survey_response ? getTAPEDimensionScores(survey_response) : [];
   const modules = useSurveyModules(surveyId, survey_response);
 
+  // modules.length > 0 means both "retake is available" and "there's a module section to show"
+  const hasModules = modules.length > 0;
+
   const openModule = (moduleSurveyId: string) => history.push(`/insights/survey/${moduleSurveyId}`);
 
   return (
@@ -85,17 +88,17 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
         <div className={styles.sectionContainer}>
           <Semibold className={styles.titleText}>{t('INSIGHTS.TAPE.RESULTS_TITLE')}</Semibold>
           {/* TODO: LF-5491 Implement properly */}
-          <Button sm color="secondary" onClick={() => openModule(surveyId)}>
-            <SurveyIcon />
-            {hasNewSurveyVersion() // returns false until LF-5473 is implemented
-              ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
-              : t('INSIGHTS.SURVEY.CARD.UPDATE')}
-          </Button>
+          {hasModules && (
+            <Button sm color="secondary" onClick={() => openModule(surveyId)}>
+              <SurveyIcon />
+              {hasNewSurveyVersion() // returns false until LF-5473 is implemented
+                ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
+                : t('INSIGHTS.SURVEY.CARD.UPDATE')}
+            </Button>
+          )}
           {caetScores.length > 0 && <TapeRadarChart dimensions={caetScores} />}
         </div>
-        {modules.length > 0 && (
-          <SurveyModuleSection modules={modules} onModuleAction={openModule} />
-        )}
+        {hasModules && <SurveyModuleSection modules={modules} onModuleAction={openModule} />}
       </div>
     </div>
   );

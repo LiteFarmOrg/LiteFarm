@@ -13,12 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
-export const NewVersionBadge = () => {
+export const NewVersionBadge = ({ className }: { className?: string }) => {
   const { t } = useTranslation();
-  return <span className={styles.newVersion}>{t('INSIGHTS.SURVEY.CARD.NEW_VERSION')}</span>;
+  return (
+    <span className={clsx(styles.newVersion, className)}>
+      {t('INSIGHTS.SURVEY.CARD.NEW_VERSION')}
+    </span>
+  );
 };
 
 export default NewVersionBadge;

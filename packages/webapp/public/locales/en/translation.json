@@ -135,7 +135,6 @@
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "EDIT_TASK_WAGE": "Edit task wage",
     "FIELD_WORK_VIEW": {
-      "INVALID_NAME": "Task name cannot be empty or contain only spaces.",
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "TYPE": {
         "COVERING_SOIL": "Covering soil",

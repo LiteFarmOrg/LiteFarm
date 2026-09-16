@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
 import { getFieldWorkTypes } from '../../../containers/Task/FieldWorkTask/saga';
@@ -28,7 +28,7 @@ const formatDefaultTypeValue = (typeValue, fieldWorkTypeOptions) => {
   };
 };
 
-const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = false }) => {
+const PureFieldWorkTask = ({ register, control, setValue, watch, formState, disabled = false }) => {
   const { t } = useTranslation();
 
   const fieldWorkTypes = useSelector(fieldWorkTypeSliceSelector)?.fieldWorkTypes || [];
@@ -103,7 +103,11 @@ const PureFieldWorkTask = ({ register, control, setValue, watch, disabled = fals
           style={{ marginBottom: '20px' }}
           name={FIELD_WORK_OTHER_TYPE}
           disabled={disabled}
-          hookFormRegister={register(FIELD_WORK_OTHER_TYPE, { required: true })}
+          hookFormRegister={register(FIELD_WORK_OTHER_TYPE, {
+            required: true,
+            setValueAs: (value) => value?.trim(),
+          })}
+          errors={getInputErrors(formState?.errors, FIELD_WORK_OTHER_TYPE)}
         />
       )}
     </>

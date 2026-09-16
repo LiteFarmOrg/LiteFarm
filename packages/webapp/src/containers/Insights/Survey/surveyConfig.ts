@@ -276,6 +276,9 @@ export const getSurveyVersion = (surveyJson: any): string | undefined => {
   return expression.replace(/^'(.*)'$/, '$1');
 };
 
+// TODO: LF-5473 Implement
+export const hasNewSurveyVersion = (): boolean => false;
+
 export const TAPE_NEW_SCHEMA_MARKER = 'location1';
 
 const hasQuestionNamed = (surveyJson: Record<string, any>, name: string): boolean => {

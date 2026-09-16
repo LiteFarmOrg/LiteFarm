@@ -48,6 +48,7 @@ const surveyDraftSlice = createSlice({
         // Defaults to now; callers adopting server content should pass the server's own
         // updated_at, not when it was merely copied into this store.
         updatedAt?: number;
+        submissionId?: string;
       }>,
     ) => {
       const {
@@ -56,6 +57,7 @@ const surveyDraftSlice = createSlice({
         surveyData,
         surveyVersion,
         updatedAt = Date.now(),
+        submissionId,
       } = action.payload;
       state.bySurveyId[surveyId] = {
         ...state.bySurveyId[surveyId],
@@ -63,6 +65,7 @@ const surveyDraftSlice = createSlice({
         surveyData,
         surveyVersion,
         updatedAt,
+        ...(submissionId ? { submissionId } : {}),
       };
     },
     setDraftSubmissionId: (

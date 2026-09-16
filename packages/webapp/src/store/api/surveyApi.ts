@@ -51,7 +51,10 @@ export interface SurveyDraftRecord {
   updated_at: string;
 }
 
-export type SurveyDraftSummary = Pick<SurveyDraftRecord, 'current_page_no' | 'created_at'> & {
+export type SurveyDraftSummary = Pick<
+  SurveyDraftRecord,
+  'submission_id' | 'current_page_no' | 'created_at'
+> & {
   has_data: boolean;
 };
 

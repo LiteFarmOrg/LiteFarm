@@ -76,6 +76,9 @@ export default function SurveyComponent({
 
   const handleCurrentPageChanged = useCallback(
     (surveyModel: Model) => {
+      if (surveyModel.state === 'completed') {
+        return;
+      }
       const { currentPageNo, surveyData } = extractSurveyState(surveyModel);
       onCurrentPageChanged?.(currentPageNo, surveyData);
     },

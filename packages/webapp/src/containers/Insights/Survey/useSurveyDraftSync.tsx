@@ -37,6 +37,13 @@ function useSurveyDraftSync({
   const [upsertSurveyDraft] = useUpsertSurveyDraftMutation();
 
   const submissionIdRef = useRef(initialDraft.submissionId);
+  const isCompletedRef = useRef(false);
+
+  useEffect(() => {
+    if (!submissionIdRef.current && initialDraft.submissionId) {
+      submissionIdRef.current = initialDraft.submissionId;
+    }
+  }, [initialDraft.submissionId]);
 
   // Upserts the draft to the server, then syncs the returned submission_id into Redux.
   const persistDraft = useCallback(
@@ -44,7 +51,7 @@ function useSurveyDraftSync({
       payload: { survey_data: Record<string, any>; current_page_no?: number },
       { shouldReportErrors = false }: { shouldReportErrors?: boolean } = {},
     ) => {
-      if (!surveyVersion || !payload.survey_data) {
+      if (!surveyVersion || !payload.survey_data || isCompletedRef.current) {
         return;
       }
       try {
@@ -115,6 +122,7 @@ function useSurveyDraftSync({
             surveyData: initialDraft.surveyData,
             surveyVersion: initialDraft.surveyVersion,
             updatedAt: initialDraft.updatedAt,
+            submissionId: initialDraft.submissionId,
           }),
         );
         return;
@@ -123,8 +131,7 @@ function useSurveyDraftSync({
       // Local's submission_id points to a draft that's already been completed, and no new server
       // draft replaced it — discard the stale local content rather than keep building on it.
       dispatch(clearSurvey({ surveyId }));
-      // TODO: LF-5192 Remove this comment and uncomment the following line once retake is supported.
-      // persistDraft({ survey_data: {}, current_page_no: 0 });
+      persistDraft({ survey_data: {}, current_page_no: 0 });
       return;
     }
 
@@ -149,7 +156,11 @@ function useSurveyDraftSync({
     [persistDraft],
   );
 
-  return { onCurrentPageChanged, recordLatestDraft };
+  const markSurveyCompleted = () => {
+    isCompletedRef.current = true;
+  };
+
+  return { onCurrentPageChanged, recordLatestDraft, markSurveyCompleted };
 }
 
 export default useSurveyDraftSync;

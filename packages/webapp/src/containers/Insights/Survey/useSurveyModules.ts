@@ -20,8 +20,9 @@ import {
   SurveyResponseRecord,
   SurveyDraftSummary,
 } from '../../../store/api/surveyApi';
-import { SURVEY_INFO, getAvailableModuleIds } from './surveyConfig';
+import { SURVEY_INFO, getAvailableModuleIds, hasNewSurveyVersion } from './surveyConfig';
 import { allSurveyDraftsSelector, SurveyDraft } from './surveyDraftSlice';
+import { isLocalDraftStale } from './utils';
 import { useSurveyTitles } from './useSurveyTitle';
 import type { SurveyModule } from '../../../components/Insights/Survey/SurveyModuleSection';
 import type { SurveyState } from '../../../components/Insights/Survey/SurveyModuleCard';
@@ -50,15 +51,10 @@ const getSurveyState = (
 ): SurveyState => {
   const { scoreField, pages = DEFAULT_PAGE_COUNT, estimatedMinutes } = SURVEY_INFO[surveyId];
 
-  if (response) {
-    return {
-      type: 'completed',
-      completedAt: new Date(response.created_at),
-      score: readScore(response, scoreField),
-    };
-  }
-
-  const hasLocalDraft = !!localDraft && Object.keys(localDraft.surveyData).length > 0;
+  const hasLocalDraft =
+    !!localDraft &&
+    Object.keys(localDraft.surveyData).length > 0 &&
+    !isLocalDraftStale(localDraft, serverDraft);
 
   if (serverDraft?.has_data || hasLocalDraft) {
     const currentPageNo = Math.max(
@@ -70,6 +66,17 @@ const getSurveyState = (
       : new Date(localDraft?.updatedAt ?? Date.now());
 
     return { type: 'in-progress', progress: getProgress(currentPageNo, pages), startedAt };
+  }
+
+  if (response) {
+    const hasNewVersion = hasNewSurveyVersion(); // returns false until LF-5473 is implemented
+
+    return {
+      type: 'completed',
+      completedAt: new Date(response.created_at),
+      score: readScore(response, scoreField),
+      hasNewVersion,
+    };
   }
 
   return {

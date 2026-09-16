@@ -39,6 +39,12 @@ function useSurveyDraftSync({
   const submissionIdRef = useRef(initialDraft.submissionId);
   const isCompletedRef = useRef(false);
 
+  useEffect(() => {
+    if (!submissionIdRef.current && initialDraft.submissionId) {
+      submissionIdRef.current = initialDraft.submissionId;
+    }
+  }, [initialDraft.submissionId]);
+
   // Upserts the draft to the server, then syncs the returned submission_id into Redux.
   const persistDraft = useCallback(
     async (
@@ -116,6 +122,7 @@ function useSurveyDraftSync({
             surveyData: initialDraft.surveyData,
             surveyVersion: initialDraft.surveyVersion,
             updatedAt: initialDraft.updatedAt,
+            submissionId: initialDraft.submissionId,
           }),
         );
         return;

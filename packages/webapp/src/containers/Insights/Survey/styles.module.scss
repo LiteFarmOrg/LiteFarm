@@ -13,11 +13,113 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@use '@assets/mixin' as *;
+@use '../../../components/Insights/Survey/surveyColors' as *;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  @include md-breakpoint {
+    flex-direction: column;
+  }
+}
+
+.headerMain {
+  .headerTitle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+
+    .backButton {
+      background: none;
+      border: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .title {
+      color: var(--Colors-Neutral-Neutral-900);
+      font-size: 19px;
+      line-height: 24px;
+    }
+  }
+
+  .completionText {
+    margin-left: 32px;
+    color: $text-muted;
+    font-size: 11px;
+    line-height: normal;
+  }
+
+  @include md-breakpoint {
+    order: 1;
+  }
+}
+
+.headerAction {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+
+  @include md-breakpoint {
+    gap: 8px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .newVersionBadge {
+    @include md-breakpoint {
+      margin-right: auto;
+    }
+  }
+
+  button {
+    min-width: 0;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    .buttonLabel {
+      @include truncateText();
+    }
+  }
+}
+
 .resultsContainer {
   padding-bottom: 48px;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 16px;
+}
+
+.sectionContainer {
+  padding: 16px 32px;
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+
+  @include md-breakpoint {
+    padding: 8px 16px;
+  }
+}
+
+.titleText {
+  color: #000;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+
+  @include md-breakpoint {
+    text-align: center;
+  }
 }
 
 .chartContainerWrapper {

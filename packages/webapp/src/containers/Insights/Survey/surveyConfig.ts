@@ -276,8 +276,24 @@ export const getSurveyVersion = (surveyJson: any): string | undefined => {
   return expression.replace(/^'(.*)'$/, '$1');
 };
 
-// TODO: LF-5473 Implement
-export const hasNewSurveyVersion = (): boolean => false;
+export const hasNewSurveyVersion = (recordedVersion?: string, latestVersion?: string): boolean => {
+  if (!recordedVersion || !latestVersion) {
+    return false;
+  }
+  return recordedVersion !== latestVersion;
+};
+
+export const getLatestSurveyVersion = (
+  surveyId: string,
+  countryCode: string | undefined,
+  manifest: Record<string, string> | undefined,
+): string | undefined => {
+  if (!manifest) {
+    return undefined;
+  }
+  const latest = getLatestCdnPath(surveyId, countryCode, 'en');
+  return latest ? manifest[latest.version] : undefined;
+};
 
 export const TAPE_NEW_SCHEMA_MARKER = 'location1';
 

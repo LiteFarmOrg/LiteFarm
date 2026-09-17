@@ -42,6 +42,8 @@ const TLU_RATES: Record<string, number> = {
   crocodiles: 0.05,
 };
 
+const DEFAULT_TLU_RATE = 0.1;
+
 interface ExpressionContext {
   survey?: Model;
 }
@@ -96,7 +98,7 @@ FunctionFactory.Instance.register(
 FunctionFactory.Instance.register(
   'getTLUFactor',
   function ([animalCode]: any[]) {
-    return TLU_RATES[animalCode] ?? 0;
+    return TLU_RATES[animalCode] ?? DEFAULT_TLU_RATE;
   },
   false,
 );

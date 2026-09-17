@@ -31,6 +31,7 @@ import {
   getSurveyBackUrl,
   getAvailableModuleIds,
   hasNewSurveyVersion,
+  getLatestSurveyVersion,
 } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
@@ -40,6 +41,7 @@ import {
   usePrefetch,
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponsesQuery,
+  useGetSurveyVersionManifestQuery,
   useAddSurveyResponseMutation,
   SurveyResponseRecord,
 } from '../../../store/api/surveyApi';
@@ -95,6 +97,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const isBlockedModule = isGuardPending || isUnauthorizedModule;
 
+  const { data: versionManifest } = useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
+    skip: !cdnDirectory,
+  });
+  const latestVersion = getLatestSurveyVersion(surveyId, country_code, versionManifest);
+
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
@@ -144,7 +151,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     hasDraft ? draftState.initialDraft.surveyData : undefined,
     ownResponse,
     prepopulatedData,
-    hasNewSurveyVersion(), // returns false until LF-5473 is implemented
+    hasNewSurveyVersion(ownResponse?.survey_version, latestVersion),
   );
 
   const handleDataChange = useCallback(

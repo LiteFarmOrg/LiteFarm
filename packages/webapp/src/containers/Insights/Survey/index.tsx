@@ -17,6 +17,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
+import * as Sentry from '@sentry/react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
@@ -198,6 +199,12 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       if (!activeError) {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.LOAD_ERROR')));
       }
+      // Surfaces a missing/unreachable survey file (e.g. an archived version that should exist but
+      // doesn't) so it gets noticed operationally, not just silently retried by one farmer.
+      Sentry.captureException('Failed to fetch survey JSON', {
+        tags: { surveyId },
+        extra: { cdnDirectory, version: cdnPath, fallbackVersion: cdnFallbackPath },
+      });
     }
   }, [isSurveyJsonError]);
 

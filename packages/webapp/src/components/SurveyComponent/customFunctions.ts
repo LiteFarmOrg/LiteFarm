@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionFactory } from 'survey-core';
+import { FunctionFactory, Model, QuestionSelectBase } from 'survey-core';
 
 const TLU_RATES: Record<string, number> = {
   cow_bull: 0.7,
@@ -42,30 +42,61 @@ const TLU_RATES: Record<string, number> = {
   crocodiles: 0.05,
 };
 
-const DEFAULT_TLU_RATE = 0.1;
+interface ExpressionContext {
+  survey?: Model;
+}
 
 // Gets the display label of the Nth selected item from a tagbox.
 // Used for crop names, animal names, and product names in panel titles.
-FunctionFactory.Instance.register('getItemAtIndex', ([arr, idx]) =>
-  Array.isArray(arr) ? arr[idx] ?? null : null,
+FunctionFactory.Instance.register(
+  'itemName',
+  function (this: ExpressionContext, [values, index, fieldName]: any[]) {
+    if (!Array.isArray(values) || index == null || index < 0) {
+      return '';
+    }
+    const code = values[index];
+    if (code === undefined) {
+      return '';
+    }
+    const question = this.survey?.getQuestionByName(fieldName) as QuestionSelectBase | undefined;
+    const choice = question?.choices?.find((c) => c.value == code);
+    return choice ? choice.text : code;
+  },
+  false,
+);
+
+// Gets the Nth selected value (stored code) from a tagbox.
+// Used in biodiversity to identify which animal species each panel refers to.
+FunctionFactory.Instance.register(
+  'selectedAt',
+  function ([values, index]: any[]) {
+    if (!Array.isArray(values) || index == null || index < 0) {
+      return null;
+    }
+    const value = values[index];
+    return value === undefined ? null : value;
+  },
+  false,
 );
 
 // Gets a field value from another paneldynamic at the same panel index.
 // Used in biodiversity to pull crop area and variety count from productivity.
-FunctionFactory.Instance.register('getPanelValue', ([panelArray, idx, fieldName]) => {
-  if (!Array.isArray(panelArray) || idx >= panelArray.length) {
-    return null;
-  }
-  return panelArray[idx]?.[fieldName] ?? null;
-});
-
-// Gets the Nth selected value (stored code) from a tagbox.
-// Used in biodiversity to identify which animal species each panel refers to.
-FunctionFactory.Instance.register('selectedAt', ([arr, idx]) =>
-  Array.isArray(arr) ? arr[idx] ?? null : null,
+FunctionFactory.Instance.register(
+  'getPanelValue',
+  function ([panels, index, fieldName]: any[]) {
+    if (!Array.isArray(panels) || index == null || index < 0) {
+      return null;
+    }
+    const panel = panels[index];
+    return panel && panel[fieldName] !== undefined ? panel[fieldName] : null;
+  },
+  false,
 );
 
 FunctionFactory.Instance.register(
   'getTLUFactor',
-  ([animalCode]) => TLU_RATES[animalCode] ?? DEFAULT_TLU_RATE,
+  function ([animalCode]: any[]) {
+    return TLU_RATES[animalCode] ?? 0;
+  },
+  false,
 );

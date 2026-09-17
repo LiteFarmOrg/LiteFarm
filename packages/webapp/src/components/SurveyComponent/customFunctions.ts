@@ -42,6 +42,33 @@ const TLU_RATES: Record<string, number> = {
   crocodiles: 0.05,
 };
 
+const ANIMAL_CODE_TO_SPECIES: Record<string, string> = {
+  '0': 'cow_bull',
+  '1': 'bison',
+  '2': 'water_buffalo',
+  '3': 'horse',
+  '4': 'reindeer',
+  '5': 'donkey',
+  '6': 'mule',
+  '7': 'sheep',
+  '8': 'goat',
+  '9': 'pig',
+  '10': 'camel',
+  '11': 'llama',
+  '12': 'rabbit',
+  '13': 'chicken',
+  '14': 'duck',
+  '15': 'goose',
+  '16': 'turkey',
+  '17': 'pigeon',
+  '18': 'ostrich',
+  '19': 'fish',
+  '20': 'crustaceans',
+  '21': 'molluscs',
+  '22': 'peacock',
+  '23': 'crocodiles',
+};
+
 const DEFAULT_TLU_RATE = 0.1;
 
 interface ExpressionContext {
@@ -98,7 +125,7 @@ FunctionFactory.Instance.register(
 FunctionFactory.Instance.register(
   'getTLUFactor',
   function ([animalCode]: any[]) {
-    return TLU_RATES[animalCode] ?? DEFAULT_TLU_RATE;
+    return TLU_RATES[ANIMAL_CODE_TO_SPECIES[animalCode]] ?? DEFAULT_TLU_RATE;
   },
   false,
 );

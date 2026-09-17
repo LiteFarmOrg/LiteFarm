@@ -71,6 +71,8 @@ const ANIMAL_CODE_TO_SPECIES: Record<string, string> = {
 
 const DEFAULT_TLU_RATE = 0.1;
 
+const NONE_CODE = '-97';
+
 interface ExpressionContext {
   survey?: Model;
 }
@@ -83,7 +85,7 @@ FunctionFactory.Instance.register(
     if (!Array.isArray(values) || index == null || index < 0) {
       return '';
     }
-    const code = values[index];
+    const code = values.filter((value) => String(value) !== NONE_CODE)[index];
     if (code === undefined) {
       return '';
     }
@@ -102,7 +104,7 @@ FunctionFactory.Instance.register(
     if (!Array.isArray(values) || index == null || index < 0) {
       return null;
     }
-    const value = values[index];
+    const value = values.filter((selected) => String(selected) !== NONE_CODE)[index];
     return value === undefined ? null : value;
   },
   false,
@@ -125,6 +127,9 @@ FunctionFactory.Instance.register(
 FunctionFactory.Instance.register(
   'getTLUFactor',
   function ([animalCode]: any[]) {
+    if (animalCode == NONE_CODE) {
+      return 0;
+    }
     return TLU_RATES[ANIMAL_CODE_TO_SPECIES[animalCode]] ?? DEFAULT_TLU_RATE;
   },
   false,

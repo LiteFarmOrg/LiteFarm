@@ -67,7 +67,7 @@ export function readSurveyVersion(body: string): string | undefined {
       return undefined;
     }
 
-    return expression.replace(/^['"](.*)['"]$/, '$1');
+    return expression.replace(/^'(.*)'$/, '$1');
   } catch {
     return undefined;
   }

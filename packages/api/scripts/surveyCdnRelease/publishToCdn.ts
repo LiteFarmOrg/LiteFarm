@@ -29,6 +29,8 @@ export interface SurveyFileReport {
   latestObjectKey: string;
   archivedObjectKey: string;
   version: string;
+  currentPointerVersion?: string;
+  isPointerUnchanged: boolean;
   state: SurveyFileState;
   preservedArchivedObjectKey?: string;
 }
@@ -53,15 +55,16 @@ interface PreservedArchive {
 interface PlannedSurveyFile {
   file: VersionedSurveyFile;
   state: SurveyFileState;
+  currentPointerVersion?: string;
+  isPointerUnchanged: boolean;
   preservedArchive?: PreservedArchive;
 }
 
 async function findUnarchivedPointer(
   target: BucketTarget,
   latestObjectKey: string,
+  pointerBody: string | undefined,
 ): Promise<PreservedArchive | undefined> {
-  const pointerBody = await readObjectBody(target, latestObjectKey);
-
   if (!pointerBody) {
     return undefined;
   }
@@ -85,7 +88,11 @@ async function planSurveyFile(
   target: BucketTarget,
   file: VersionedSurveyFile,
 ): Promise<PlannedSurveyFile> {
-  const preservedArchive = await findUnarchivedPointer(target, file.latestObjectKey);
+  const pointerBody = await readObjectBody(target, file.latestObjectKey);
+  const currentPointerVersion = pointerBody ? readSurveyVersion(pointerBody) : undefined;
+  const isPointerUnchanged = pointerBody === file.body;
+
+  const preservedArchive = await findUnarchivedPointer(target, file.latestObjectKey, pointerBody);
   const preservesIncomingKey = preservedArchive?.key === file.archivedObjectKey;
 
   const existingArchive = preservesIncomingKey
@@ -95,7 +102,13 @@ async function planSurveyFile(
   const state: SurveyFileState =
     existingArchive === undefined ? 'new' : existingArchive === file.body ? 'unchanged' : 'differs';
 
-  return { file, state, preservedArchive };
+  return {
+    file,
+    state,
+    currentPointerVersion,
+    isPointerUnchanged,
+    preservedArchive,
+  };
 }
 
 async function planSurveyFiles(
@@ -111,11 +124,19 @@ async function planSurveyFiles(
   return planned;
 }
 
-function toReport({ file, state, preservedArchive }: PlannedSurveyFile): SurveyFileReport {
+function toReport({
+  file,
+  state,
+  currentPointerVersion,
+  isPointerUnchanged,
+  preservedArchive,
+}: PlannedSurveyFile): SurveyFileReport {
   return {
     latestObjectKey: file.latestObjectKey,
     archivedObjectKey: file.archivedObjectKey,
     version: file.version,
+    currentPointerVersion,
+    isPointerUnchanged,
     state,
     preservedArchivedObjectKey: preservedArchive?.key,
   };
@@ -143,7 +164,7 @@ export async function publishToCdn(
   const latestObjectKeysWritten: string[] = [];
   const published: VersionedSurveyFile[] = [];
 
-  for (const { file, state, preservedArchive } of planned) {
+  for (const { file, state, isPointerUnchanged, preservedArchive } of planned) {
     if (preservedArchive) {
       await putObject(target, preservedArchive.key, preservedArchive.body);
       archivedObjectKeysWritten.push(preservedArchive.key);
@@ -154,8 +175,11 @@ export async function publishToCdn(
       archivedObjectKeysWritten.push(file.archivedObjectKey);
     }
 
-    await putObject(target, file.latestObjectKey, file.body);
-    latestObjectKeysWritten.push(file.latestObjectKey);
+    if (!isPointerUnchanged) {
+      await putObject(target, file.latestObjectKey, file.body);
+      latestObjectKeysWritten.push(file.latestObjectKey);
+    }
+
     published.push(file);
   }
 

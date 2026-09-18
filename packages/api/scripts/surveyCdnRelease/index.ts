@@ -15,7 +15,11 @@
 
 import { parseArgs } from 'node:util';
 import '../../src/dotenvConfig.js';
-import { PUBLISH_ENVIRONMENTS, resolveBucketTarget } from './spacesClient.js';
+import {
+  PUBLISH_ENVIRONMENTS,
+  TAPE_SURVEYS_DIRECTORY,
+  resolveBucketTarget,
+} from './spacesClient.js';
 import {
   SurveyFile,
   isArchivedSurveyKey,
@@ -24,24 +28,21 @@ import {
 } from './surveySources.js';
 import { SurveyFileReport, publishToCdn } from './publishToCdn.js';
 
-const DEFAULT_SURVEY_DIRECTORY = 'tape_surveys';
-
 const USAGE = `Usage: npm run publish-surveys -- --env <name[,name]> [options] [path]
 
   --env <names>    Target environments, comma separated or repeated. Required.
                    One of: ${PUBLISH_ENVIRONMENTS.join(', ')}.
-  --dir <name>     Survey directory. Default "${DEFAULT_SURVEY_DIRECTORY}".
   --from-bucket    Publish the files already on the bucket instead of local files.
   --report         Print what would be written and write nothing.
   --refresh        Replace an archive copy that differs under an existing version.
-  --prefix <path>  Sub-path to insert under --dir, for a partial delivery.
+  --prefix <path>  Sub-path to insert under ${TAPE_SURVEYS_DIRECTORY}/, for a partial delivery.
 
   [path] is one file or one folder. The object key mirrors the path relative to
-  what you pass, under --dir, so a delivery folder shaped like the bucket needs
-  no other option. Point at fao_es/ alone and add --prefix fao_es.
+  what you pass, under ${TAPE_SURVEYS_DIRECTORY}/, so a delivery folder shaped like the
+  bucket needs no other option. Point at fao_es/ alone and add --prefix fao_es.
 
-  Only the archived directories are published: <dir>/fao/ and <dir>/fao_xx/.
-  Anything else is listed as skipped and left untouched.
+  Only the archived directories are published: ${TAPE_SURVEYS_DIRECTORY}/fao/ and
+  ${TAPE_SURVEYS_DIRECTORY}/fao_xx/. Anything else is listed as skipped and left untouched.
 
   SURVEY_CDN_ACCESS_KEY_ID and SURVEY_CDN_SECRET_ACCESS_KEY are read from the
   environment, or from packages/api/.env. A value set in the shell wins.`;
@@ -67,7 +68,6 @@ async function main(): Promise<void> {
   const { values, positionals } = parseArgs({
     options: {
       env: { type: 'string', multiple: true },
-      dir: { type: 'string', default: DEFAULT_SURVEY_DIRECTORY },
       'from-bucket': { type: 'boolean', default: false },
       prefix: { type: 'string' },
       report: { type: 'boolean', default: false },
@@ -77,7 +77,6 @@ async function main(): Promise<void> {
   });
 
   const environments = parseEnvironments(values.env);
-  const surveyDirectory = values.dir;
   const fromBucket = values['from-bucket'];
 
   if (environments.length === 0) {
@@ -92,12 +91,12 @@ async function main(): Promise<void> {
 
   const localFiles: SurveyFile[] | undefined = fromBucket
     ? undefined
-    : await readSurveyFilesFromDisk(positionals[0], surveyDirectory, values.prefix);
+    : await readSurveyFilesFromDisk(positionals[0], TAPE_SURVEYS_DIRECTORY, values.prefix);
 
   for (const target of targets) {
-    const sourced = localFiles ?? (await readSurveyFilesFromBucket(target, surveyDirectory));
+    const sourced = localFiles ?? (await readSurveyFilesFromBucket(target, TAPE_SURVEYS_DIRECTORY));
     const files = sourced.filter((file) =>
-      isArchivedSurveyKey(file.latestObjectKey, surveyDirectory),
+      isArchivedSurveyKey(file.latestObjectKey, TAPE_SURVEYS_DIRECTORY),
     );
     const skipped = sourced.length - files.length;
 
@@ -111,7 +110,7 @@ async function main(): Promise<void> {
       continue;
     }
 
-    const result = await publishToCdn(target, surveyDirectory, files, {
+    const result = await publishToCdn(target, TAPE_SURVEYS_DIRECTORY, files, {
       refresh: values.refresh,
       reportOnly: values.report,
     });

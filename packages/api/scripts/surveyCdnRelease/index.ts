@@ -216,10 +216,13 @@ async function main(): Promise<void> {
       continue;
     }
 
+    const changedEntries = result.changedManifestEntryCount ?? 0;
+
     console.log(
       `  archives ${result.archivedObjectKeysWritten.length}, ` +
         `pointers ${result.latestObjectKeysWritten.length}, ` +
-        `manifest entries ${Object.keys(result.manifest ?? {}).length}`,
+        `manifest ${changedEntries} ${changedEntries === 1 ? 'entry' : 'entries'} changed ` +
+        `of ${Object.keys(result.manifest ?? {}).length}`,
     );
   }
 }

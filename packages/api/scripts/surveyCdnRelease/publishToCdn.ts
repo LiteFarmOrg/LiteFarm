@@ -45,6 +45,7 @@ export interface PublishResult {
   archivedObjectKeysWritten: string[];
   latestObjectKeysWritten: string[];
   manifest?: VersionManifest;
+  changedManifestEntryCount?: number;
 }
 
 interface PreservedArchive {
@@ -183,7 +184,17 @@ export async function publishToCdn(
     published.push(file);
   }
 
-  const manifest = await writeVersionManifest(target, surveyDirectory, published);
+  const { manifest, changedEntryCount } = await writeVersionManifest(
+    target,
+    surveyDirectory,
+    published,
+  );
 
-  return { reports, archivedObjectKeysWritten, latestObjectKeysWritten, manifest };
+  return {
+    reports,
+    archivedObjectKeysWritten,
+    latestObjectKeysWritten,
+    manifest,
+    changedManifestEntryCount: changedEntryCount,
+  };
 }

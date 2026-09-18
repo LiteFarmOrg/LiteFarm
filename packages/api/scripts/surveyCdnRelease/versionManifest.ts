@@ -63,11 +63,14 @@ export async function writeVersionManifest(
   target: BucketTarget,
   surveyDirectory: string,
   files: VersionedSurveyFile[],
-): Promise<VersionManifest> {
+): Promise<{ manifest: VersionManifest; changedEntryCount: number }> {
   const existing = await readVersionManifest(target, surveyDirectory);
   const merged = mergeVersionManifest(existing, files, surveyDirectory);
 
   await putObject(target, getVersionManifestKey(surveyDirectory), JSON.stringify(merged, null, 2));
 
-  return merged;
+  return {
+    manifest: merged,
+    changedEntryCount: Object.keys(merged).filter((key) => existing[key] !== merged[key]).length,
+  };
 }

@@ -79,7 +79,7 @@ export function resolveSurveyFiles(files: SurveyFile[]): VersionedSurveyFile[] {
   });
 }
 
-async function putObject(target: BucketTarget, key: string, body: string): Promise<void> {
+export async function putObject(target: BucketTarget, key: string, body: string): Promise<void> {
   await target.client.send(
     new PutObjectCommand({
       ...OBJECT_WRITE_DEFAULTS,

@@ -15,7 +15,7 @@
 
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { BucketTarget, OBJECT_WRITE_DEFAULTS } from './bucketTarget.js';
-import { VersionedSurveyFile } from './publishSurveys.js';
+import { VersionedSurveyFile } from './surveyObjects.js';
 
 export type VersionManifest = Record<string, string>;
 
@@ -37,7 +37,7 @@ export function getVersionManifestEntryKey(
   return relativeKey.replace(/\.json$/, '');
 }
 
-function isMissingObject(error: unknown): boolean {
+export function isMissingObject(error: unknown): boolean {
   const { name, $metadata } = (error ?? {}) as {
     name?: string;
     $metadata?: { httpStatusCode?: number };

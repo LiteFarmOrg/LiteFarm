@@ -13,9 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
-import { BucketTarget, OBJECT_WRITE_DEFAULTS } from './bucketTarget.js';
-import { VersionedSurveyFile } from './surveyObjects.js';
+import { BucketTarget, putObject, readObjectBody } from './spacesClient.js';
+import { VersionedSurveyFile } from './surveySources.js';
 
 export type VersionManifest = Record<string, string>;
 
@@ -37,37 +36,13 @@ export function getVersionManifestEntryKey(
   return relativeKey.replace(/\.json$/, '');
 }
 
-export function isMissingObject(error: unknown): boolean {
-  const { name, $metadata } = (error ?? {}) as {
-    name?: string;
-    $metadata?: { httpStatusCode?: number };
-  };
-
-  return name === 'NoSuchKey' || $metadata?.httpStatusCode === 404;
-}
-
 export async function readVersionManifest(
   target: BucketTarget,
   surveyDirectory: string,
 ): Promise<VersionManifest> {
-  try {
-    const response = await target.client.send(
-      new GetObjectCommand({
-        Bucket: target.bucket,
-        Key: getVersionManifestKey(surveyDirectory),
-      }),
-    );
+  const body = await readObjectBody(target, getVersionManifestKey(surveyDirectory));
 
-    const body = await response.Body?.transformToString();
-
-    return body ? (JSON.parse(body) as VersionManifest) : {};
-  } catch (error) {
-    if (isMissingObject(error)) {
-      return {};
-    }
-
-    throw error;
-  }
+  return body ? (JSON.parse(body) as VersionManifest) : {};
 }
 
 export function mergeVersionManifest(
@@ -92,14 +67,7 @@ export async function writeVersionManifest(
   const existing = await readVersionManifest(target, surveyDirectory);
   const merged = mergeVersionManifest(existing, files, surveyDirectory);
 
-  await target.client.send(
-    new PutObjectCommand({
-      ...OBJECT_WRITE_DEFAULTS,
-      Bucket: target.bucket,
-      Key: getVersionManifestKey(surveyDirectory),
-      Body: JSON.stringify(merged, null, 2),
-    }),
-  );
+  await putObject(target, getVersionManifestKey(surveyDirectory), JSON.stringify(merged, null, 2));
 
   return merged;
 }

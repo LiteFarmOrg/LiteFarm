@@ -13,17 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { BucketTarget } from './bucketTarget.js';
+import { BucketTarget, putObject, readObjectBody } from './spacesClient.js';
 import {
   SurveyFile,
   VersionedSurveyFile,
   getArchiveKey,
-  putObject,
   readSurveyVersion,
   resolveSurveyFiles,
-} from './surveyObjects.js';
-import { VersionManifest, isMissingObject, writeVersionManifest } from './versionManifest.js';
+} from './surveySources.js';
+import { VersionManifest, writeVersionManifest } from './versionManifest.js';
 
 export type SurveyFileState = 'new' | 'unchanged' | 'differs';
 
@@ -58,30 +56,6 @@ interface PlannedSurveyFile {
   preservedArchive?: PreservedArchive;
 }
 
-export async function readObjectBody(
-  target: BucketTarget,
-  key: string,
-): Promise<string | undefined> {
-  try {
-    const response = await target.client.send(
-      new GetObjectCommand({ Bucket: target.bucket, Key: key }),
-    );
-
-    return await response.Body?.transformToString();
-  } catch (error) {
-    if (isMissingObject(error)) {
-      return undefined;
-    }
-
-    throw error;
-  }
-}
-
-/**
- * Checks the existing remote pointer in S3 before overwriting it.
- * If the remote pointer carries a valid survey_version that lacks
- * an archive snapshot in S3, reports the snapshot that must be written first.
- */
 async function findUnarchivedPointer(
   target: BucketTarget,
   latestObjectKey: string,
@@ -149,15 +123,6 @@ function toReport({ file, state, preservedArchive }: PlannedSurveyFile): SurveyF
 
 function shouldWriteArchivedObject(state: SurveyFileState, refresh?: boolean): boolean {
   return state === 'new' || (state === 'differs' && Boolean(refresh));
-}
-
-export async function reportSurveyFiles(
-  target: BucketTarget,
-  files: SurveyFile[],
-): Promise<SurveyFileReport[]> {
-  const planned = await planSurveyFiles(target, resolveSurveyFiles(files));
-
-  return planned.map(toReport);
 }
 
 export async function publishToCdn(

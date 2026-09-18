@@ -15,21 +15,21 @@
 
 import { parseArgs } from 'node:util';
 import '../../src/dotenvConfig.js';
-import { RELEASE_ENVIRONMENTS, resolveBucketTarget } from './bucketTarget.js';
-import { SurveyFile } from './surveyObjects.js';
-import { SurveyFileReport, publishToCdn } from './publishToCdn.js';
+import { PUBLISH_ENVIRONMENTS, resolveBucketTarget } from './spacesClient.js';
 import {
+  SurveyFile,
   isArchivedSurveyKey,
   readSurveyFilesFromBucket,
   readSurveyFilesFromDisk,
 } from './surveySources.js';
+import { SurveyFileReport, publishToCdn } from './publishToCdn.js';
 
 const DEFAULT_SURVEY_DIRECTORY = 'tape_surveys';
 
 const USAGE = `Usage: npm run publish-surveys -- --env <name[,name]> [options] [path]
 
   --env <names>    Target environments, comma separated or repeated. Required.
-                   One of: ${RELEASE_ENVIRONMENTS.join(', ')}.
+                   One of: ${PUBLISH_ENVIRONMENTS.join(', ')}.
   --dir <name>     Survey directory. Default "${DEFAULT_SURVEY_DIRECTORY}".
   --from-bucket    Publish the files already on the bucket instead of local files.
   --report         Print what would be written and write nothing.

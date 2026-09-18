@@ -13,14 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
-import { BucketTarget } from './bucketTarget.js';
-import { SurveyFile } from './surveyObjects.js';
-import { readObjectBody } from './publishToCdn.js';
+import { BucketTarget, listObjectKeys, readObjectBody } from './spacesClient.js';
 
 export const ARCHIVED_DIRECTORY_PATTERN = /^fao(_[a-z]{2})?$/;
+
+export interface SurveyFile {
+  latestObjectKey: string;
+  body: string;
+}
+
+export interface VersionedSurveyFile extends SurveyFile {
+  version: string;
+  archivedObjectKey: string;
+}
 
 export function isArchivedSurveyKey(objectKey: string, surveyDirectory: string): boolean {
   const directoryPrefix = `${surveyDirectory}/`;
@@ -42,54 +49,44 @@ export function buildObjectKey(
   return [surveyDirectory, prefix, relativePath.split(/[\\/]/).join('/')].filter(Boolean).join('/');
 }
 
-export async function listObjectKeys(
-  target: BucketTarget,
-  surveyDirectory: string,
-): Promise<string[]> {
-  const objectKeys: string[] = [];
-  let continuationToken: string | undefined;
-
-  do {
-    const response = await target.client.send(
-      new ListObjectsV2Command({
-        Bucket: target.bucket,
-        Prefix: `${surveyDirectory}/`,
-        ContinuationToken: continuationToken,
-      }),
-    );
-
-    for (const object of response.Contents ?? []) {
-      if (object.Key) {
-        objectKeys.push(object.Key);
-      }
-    }
-
-    continuationToken = response.IsTruncated ? response.NextContinuationToken : undefined;
-  } while (continuationToken);
-
-  return objectKeys;
+export function getArchiveKey(latestObjectKey: string, version: string): string {
+  return `${latestObjectKey.replace(/\.json$/, '')}/${version}.json`;
 }
 
-export async function readSurveyFilesFromBucket(
-  target: BucketTarget,
-  surveyDirectory: string,
-): Promise<SurveyFile[]> {
-  const objectKeys = await listObjectKeys(target, surveyDirectory);
-  const files: SurveyFile[] = [];
+export function readSurveyVersion(body: string): string | undefined {
+  try {
+    const parsed = JSON.parse(body) as {
+      calculatedValues?: Array<{ name?: string; expression?: string }>;
+    };
 
-  for (const latestObjectKey of objectKeys.sort()) {
-    if (!isArchivedSurveyKey(latestObjectKey, surveyDirectory)) {
-      continue;
+    const expression = parsed?.calculatedValues?.find(
+      (calculatedValue) => calculatedValue.name === 'survey_version',
+    )?.expression;
+
+    if (typeof expression !== 'string') {
+      return undefined;
     }
 
-    const body = await readObjectBody(target, latestObjectKey);
-
-    if (body !== undefined) {
-      files.push({ latestObjectKey, body });
-    }
+    return expression.replace(/^['"](.*)['"]$/, '$1');
+  } catch {
+    return undefined;
   }
+}
 
-  return files;
+export function resolveSurveyFiles(files: SurveyFile[]): VersionedSurveyFile[] {
+  return files.map((file) => {
+    const version = readSurveyVersion(file.body);
+
+    if (!version) {
+      throw new Error(`${file.latestObjectKey} carries no valid survey_version value.`);
+    }
+
+    return {
+      ...file,
+      version,
+      archivedObjectKey: getArchiveKey(file.latestObjectKey, version),
+    };
+  });
 }
 
 export async function readSurveyFilesFromDisk(
@@ -111,6 +108,28 @@ export async function readSurveyFilesFromDisk(
       latestObjectKey: buildObjectKey(relativePath, surveyDirectory, prefix),
       body: await readFile(join(root, relativePath), 'utf8'),
     });
+  }
+
+  return files;
+}
+
+export async function readSurveyFilesFromBucket(
+  target: BucketTarget,
+  surveyDirectory: string,
+): Promise<SurveyFile[]> {
+  const objectKeys = await listObjectKeys(target, surveyDirectory);
+  const files: SurveyFile[] = [];
+
+  for (const latestObjectKey of objectKeys.sort()) {
+    if (!isArchivedSurveyKey(latestObjectKey, surveyDirectory)) {
+      continue;
+    }
+
+    const body = await readObjectBody(target, latestObjectKey);
+
+    if (body !== undefined) {
+      files.push({ latestObjectKey, body });
+    }
   }
 
   return files;

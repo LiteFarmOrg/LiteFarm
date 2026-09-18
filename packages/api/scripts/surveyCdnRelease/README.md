@@ -78,7 +78,7 @@ npm run publish-surveys -- --env <environment> [options] <path | --from-bucket>
 | :---------------- | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--env <names>`   | String (required) | Target environment(s), comma-separated or repeated: `development`, `integration`, `production`.                                                             |
 | `--from-bucket`   | Boolean           | Re-publishes/re-manifests files currently on the bucket instead of local files.                                                                             |
-| `--report`        | Boolean           | Dry run mode. Calculates diffs and prints the report without writing any files to S3.                                                                       |
+| `--dry-run`       | Boolean           | Calculates diffs and prints the report without writing any files to S3.                                                                                     |
 | `--refresh`       | Boolean           | Overwrites an existing archived version copy if the contents differ (by default, differing existing archives are preserved/skipped).                        |
 | `--prefix <path>` | String            | Sub-path under `tape_surveys` to prefix incoming files (useful when publishing a partial folder like `fao_es/` or single files).                            |
 | `-h, --help`      | Boolean           | Print the command-line usage and options.                                                                                                                   |
@@ -92,7 +92,7 @@ npm run publish-surveys -- --env <environment> [options] <path | --from-bucket>
 
 ```bash
 cd <path-to-surveys>/2026_UPDATED/
-publish-surveys --env development --report .
+publish-surveys --env development --dry-run .
 ```
 
 ### 2. Publish a full set of surveys to development & integration

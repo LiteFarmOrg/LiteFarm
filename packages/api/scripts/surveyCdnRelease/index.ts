@@ -23,7 +23,7 @@ import {
 } from './spacesClient.js';
 import {
   SurveyFile,
-  isArchivedSurveyKey,
+  isManagedSurveyPointerKey,
   readSurveyFilesFromBucket,
   readSurveyFilesFromDisk,
 } from './surveySources.js';
@@ -34,7 +34,7 @@ const USAGE = `Usage: npm run publish-surveys -- --env <name[,name]> [options] <
   --env <names>    Target environments, comma separated or repeated. Required.
                    One of: ${PUBLISH_ENVIRONMENTS.join(', ')}.
   --from-bucket    Publish the files already on the bucket instead of local files.
-  --report         Print what would be written and write nothing.
+  --dry-run        Print what would be written and write nothing.
   --refresh        Replace an archive copy that differs under an existing version.
   --prefix <path>  Sub-path to insert under ${TAPE_SURVEYS_DIRECTORY}/, for a partial delivery.
   -h, --help       Show this help message.
@@ -44,7 +44,7 @@ const USAGE = `Usage: npm run publish-surveys -- --env <name[,name]> [options] <
   so a delivery folder shaped like the bucket needs no other option. Point at fao_es/ alone
   and add --prefix fao_es.
 
-  Only the archived directories are published: ${TAPE_SURVEYS_DIRECTORY}/fao/ and
+  Only the managed directories are published: ${TAPE_SURVEYS_DIRECTORY}/fao/ and
   ${TAPE_SURVEYS_DIRECTORY}/fao_xx/ (e.g. fao_es/, fao_pt/). Anything else is listed as skipped and left untouched.
 
   SURVEY_CDN_ACCESS_KEY_ID and SURVEY_CDN_SECRET_ACCESS_KEY are read from the
@@ -151,7 +151,7 @@ async function main(): Promise<void> {
       env: { type: 'string', multiple: true },
       'from-bucket': { type: 'boolean', default: false },
       prefix: { type: 'string' },
-      report: { type: 'boolean', default: false },
+      'dry-run': { type: 'boolean', default: false },
       refresh: { type: 'boolean', default: false },
       help: { type: 'boolean', short: 'h', default: false },
     },
@@ -187,7 +187,7 @@ async function main(): Promise<void> {
   for (const target of targets) {
     const sourced = localFiles ?? (await readSurveyFilesFromBucket(target, TAPE_SURVEYS_DIRECTORY));
     const files = sourced.filter((file) =>
-      isArchivedSurveyKey(file.latestObjectKey, TAPE_SURVEYS_DIRECTORY),
+      isManagedSurveyPointerKey(file.latestObjectKey, TAPE_SURVEYS_DIRECTORY),
     );
     const skipped = sourced.length - files.length;
 
@@ -197,7 +197,7 @@ async function main(): Promise<void> {
     );
 
     if (skipped > 0) {
-      console.log(`  ${skipped} file(s) outside the archived directories, not published`);
+      console.log(`  ${skipped} file(s) outside the managed directories, not published`);
     }
 
     if (files.length === 0) {
@@ -206,13 +206,13 @@ async function main(): Promise<void> {
 
     const result = await publishToCdn(target, TAPE_SURVEYS_DIRECTORY, files, {
       refresh: values.refresh,
-      reportOnly: values.report,
+      reportOnly: values['dry-run'],
     });
 
     printReports(result.reports, values.refresh);
 
-    if (values.report) {
-      console.log('  nothing written (--report)');
+    if (values['dry-run']) {
+      console.log('  nothing written (--dry-run)');
       continue;
     }
 

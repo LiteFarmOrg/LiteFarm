@@ -17,7 +17,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
 import { BucketTarget, listObjectKeys, readObjectBody } from './spacesClient.js';
 
-export const ARCHIVED_DIRECTORY_PATTERN = /^fao(_[a-z]{2})?$/;
+export const MANAGED_DIRECTORY_PATTERN = /^fao(_[a-z]{2})?$/;
 
 export interface SurveyFile {
   latestObjectKey: string;
@@ -29,7 +29,7 @@ export interface VersionedSurveyFile extends SurveyFile {
   archivedObjectKey: string;
 }
 
-export function isArchivedSurveyKey(objectKey: string, surveyDirectory: string): boolean {
+export function isManagedSurveyPointerKey(objectKey: string, surveyDirectory: string): boolean {
   const directoryPrefix = `${surveyDirectory}/`;
 
   if (!objectKey.startsWith(directoryPrefix) || !objectKey.endsWith('.json')) {
@@ -38,7 +38,7 @@ export function isArchivedSurveyKey(objectKey: string, surveyDirectory: string):
 
   const segments = objectKey.slice(directoryPrefix.length).split('/');
 
-  return segments.length === 2 && ARCHIVED_DIRECTORY_PATTERN.test(segments[0]);
+  return segments.length === 2 && MANAGED_DIRECTORY_PATTERN.test(segments[0]);
 }
 
 export function buildObjectKey(
@@ -121,7 +121,7 @@ export async function readSurveyFilesFromBucket(
   const files: SurveyFile[] = [];
 
   for (const latestObjectKey of objectKeys.sort()) {
-    if (!isArchivedSurveyKey(latestObjectKey, surveyDirectory)) {
+    if (!isManagedSurveyPointerKey(latestObjectKey, surveyDirectory)) {
       continue;
     }
 

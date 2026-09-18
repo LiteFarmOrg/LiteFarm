@@ -48,7 +48,7 @@ const USAGE = `Usage: npm run publish-surveys -- --env <name[,name]> [options] <
   ${TAPE_SURVEYS_DIRECTORY}/fao_xx/ (e.g. fao_es/, fao_pt/). Anything else is listed as skipped and left untouched.
 
   SURVEY_CDN_ACCESS_KEY_ID and SURVEY_CDN_SECRET_ACCESS_KEY are read from the
-  environment, or from packages/api/.env. A value set in the shell wins.`;
+  environment, or from packages/api/.env.`;
 
 function parseEnvironments(values: string[] | undefined): string[] {
   return (values ?? [])

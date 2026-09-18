@@ -18,7 +18,7 @@ Surveys are stored under `tape_surveys/` in an environment bucket, in three form
 
 ---
 
-## File Structure
+## File Structure and Responsibilities
 
 ```
 packages/api/scripts/surveyCdnRelease/
@@ -28,18 +28,6 @@ packages/api/scripts/surveyCdnRelease/
 ├── publishToCdn.ts     # Planning engine (diffs/states) and upload execution pipeline
 └── index.ts            # CLI argument parsing, status output, and process lifecycle
 ```
-
-### Module Responsibilities
-
-| File                     | Responsibilities                                                                                                                                                                                                            |
-| :----------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`spacesClient.ts`**    | Resolves target bucket per environment, configures `@aws-sdk/client-s3` client, encapsulates `readObjectBody`, `putObject`, `listObjectKeys`, and error matching (`isMissingObject`).                                       |
-| **`surveySources.ts`**   | Reads JSON files from local directories or remote buckets. Extracts embedded `survey_version` strings and computes immutable archive destination keys.                                                                      |
-| **`versionManifest.ts`** | Reads, merges, and writes the central `<surveyDirectory>/versions.json` manifest on Spaces.                                                                                                                                 |
-| **`publishToCdn.ts`**    | Compares incoming surveys against existing bucket state. Determines diff states (`new`, `unchanged`, `differs`), checks unarchived pointers, writes versioned copies, updates latest pointers, and updates `versions.json`. |
-| **`index.ts`**           | CLI entry point. Parses flags (`parseArgs`), formats terminal report tables, logs summary metrics, and handles exit codes.                                                                                                  |
-
----
 
 ## Prerequisites & Environment Variables
 
@@ -61,14 +49,10 @@ To run the script directly from your local survey directories without typing lon
 Add an alias to your `~/.zshrc` (or `~/.bashrc`):
 
 ```bash
-alias publish-surveys="npm --prefix /Users/joyce/LiteFarm/packages/api run publish-surveys --"
+alias publish-surveys="npm --prefix <path-to-LF>/LiteFarm/packages/api run publish-surveys --"
 ```
 
-Reload your shell:
-
-```bash
-source ~/.zshrc
-```
+and reload your shell
 
 Now you can run `publish-surveys` directly from anywhere on your machine.
 
@@ -79,33 +63,35 @@ Now you can run `publish-surveys` directly from anywhere on your machine.
 From inside a survey directory (using the shell alias):
 
 ```bash
-publish-surveys --env <environment> [options] [path]
+publish-surveys --env <environment> [options] <path | --from-bucket>
 ```
 
 Or from `packages/api` via npm:
 
 ```bash
-npm run publish-surveys -- --env <environment> [options] [path]
+npm run publish-surveys -- --env <environment> [options] <path | --from-bucket>
 ```
 
 ### Options
 
-| Option            | Type              | Description                                                                                                                          |
-| :---------------- | :---------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
-| `--env <names>`   | String (required) | Target environment(s), comma-separated or repeated: `development`, `integration`, `production`.                                      |
-| `--from-bucket`   | Boolean           | Re-publishes/re-manifests files currently on the bucket instead of local files.                                                      |
-| `--report`        | Boolean           | Dry run mode. Calculates diffs and prints the report without writing any files to S3.                                                |
-| `--refresh`       | Boolean           | Overwrites an existing archived version copy if the contents differ (by default, differing existing archives are preserved/skipped). |
-| `--prefix <path>` | String            | Sub-path under `tape_surveys` to prefix incoming files (useful when publishing a partial folder like `fao_es/` or single files).     |
-| `[path]`          | Positional        | Path to a single survey JSON file or directory of survey files on disk. Pass `.` when inside the target folder.                      |
+| Option            | Type              | Description                                                                                                                                                 |
+| :---------------- | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--env <names>`   | String (required) | Target environment(s), comma-separated or repeated: `development`, `integration`, `production`.                                                             |
+| `--from-bucket`   | Boolean           | Re-publishes/re-manifests files currently on the bucket instead of local files.                                                                             |
+| `--report`        | Boolean           | Dry run mode. Calculates diffs and prints the report without writing any files to S3.                                                                       |
+| `--refresh`       | Boolean           | Overwrites an existing archived version copy if the contents differ (by default, differing existing archives are preserved/skipped).                        |
+| `--prefix <path>` | String            | Sub-path under `tape_surveys` to prefix incoming files (useful when publishing a partial folder like `fao_es/` or single files).                            |
+| `-h, --help`      | Boolean           | Print the command-line usage and options.                                                                                                                   |
+| `<path>`          | Positional        | Path to a single survey JSON file or directory of survey files on disk (required unless `--from-bucket` is passed). Pass `.` when inside the target folder. |
 
 ---
 
 ## Examples
 
-### 1. Dry run a local release to development (from survey folder)
+### 1. Dry run a local release to development
 
 ```bash
+cd <path-to-surveys>/2026_UPDATED/
 publish-surveys --env development --report .
 ```
 
@@ -118,7 +104,7 @@ publish-surveys --env development,integration .
 ### 3. Publish a single language folder
 
 ```bash
-cd <path-to-surveys>/2026_release/fao_es
+cd <path-to-surveys>/2026_ES_NEW/fao_es/
 publish-surveys --env integration --prefix fao_es .
 ```
 
@@ -133,6 +119,6 @@ publish-surveys --env production --from-bucket
 Overwrites both the latest pointer (`tape_surveys/fao/step01.json`) and the existing versioned archive (`tape_surveys/fao/step01/2026_v1.json`) for a single file:
 
 ```bash
-cd <path-to-surveys>/2026_release/fao
+cd <path-to-surveys>/2026_09_18_fix/
 publish-surveys --env development --refresh --prefix fao step01.json
 ```

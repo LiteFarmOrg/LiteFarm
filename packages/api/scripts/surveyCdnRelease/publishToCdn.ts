@@ -58,7 +58,10 @@ interface PlannedSurveyFile {
   preservedArchive?: PreservedArchive;
 }
 
-async function readObjectBody(target: BucketTarget, key: string): Promise<string | undefined> {
+export async function readObjectBody(
+  target: BucketTarget,
+  key: string,
+): Promise<string | undefined> {
   try {
     const response = await target.client.send(
       new GetObjectCommand({ Bucket: target.bucket, Key: key }),

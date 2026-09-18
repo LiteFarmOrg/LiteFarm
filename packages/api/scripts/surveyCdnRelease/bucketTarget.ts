@@ -51,12 +51,12 @@ export function resolveBucketTarget(environment: string): BucketTarget {
     );
   }
 
-  const accessKeyId = process.env.DO_SPACES_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.DO_SPACES_SECRET_ACCESS_KEY;
+  const accessKeyId = process.env.SURVEY_CDN_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.SURVEY_CDN_SECRET_ACCESS_KEY;
 
   if (!accessKeyId || !secretAccessKey) {
     throw new Error(
-      'DO_SPACES_ACCESS_KEY_ID and DO_SPACES_SECRET_ACCESS_KEY must both be set to run a release.',
+      'SURVEY_CDN_ACCESS_KEY_ID and SURVEY_CDN_SECRET_ACCESS_KEY must both be set to run a release.',
     );
   }
 

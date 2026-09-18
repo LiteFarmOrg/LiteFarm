@@ -14,33 +14,39 @@
  */
 
 import { ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { basename, dirname, join } from 'node:path';
 import { BucketTarget } from './bucketTarget.js';
 import { SurveyFile } from './surveyObjects.js';
 import { readObjectBody } from './publishToCdn.js';
 
 export const ARCHIVED_DIRECTORY_PATTERN = /^fao(_[a-z]{2})?$/;
 
-export function isSurveyPointerKey(objectKey: string, surveyDirectory: string): boolean {
-  const prefix = `${surveyDirectory}/`;
+export function isArchivedSurveyKey(objectKey: string, surveyDirectory: string): boolean {
+  const directoryPrefix = `${surveyDirectory}/`;
 
-  if (!objectKey.startsWith(prefix) || !objectKey.endsWith('.json')) {
+  if (!objectKey.startsWith(directoryPrefix) || !objectKey.endsWith('.json')) {
     return false;
   }
 
-  const segments = objectKey.slice(prefix.length).split('/');
+  const segments = objectKey.slice(directoryPrefix.length).split('/');
 
-  if (segments.length !== 2) {
-    return false;
-  }
-
-  return ARCHIVED_DIRECTORY_PATTERN.test(segments[0]);
+  return segments.length === 2 && ARCHIVED_DIRECTORY_PATTERN.test(segments[0]);
 }
 
-export async function listSurveyPointers(
+export function buildObjectKey(
+  relativePath: string,
+  surveyDirectory: string,
+  prefix?: string,
+): string {
+  return [surveyDirectory, prefix, relativePath.split(/[\\/]/).join('/')].filter(Boolean).join('/');
+}
+
+export async function listObjectKeys(
   target: BucketTarget,
   surveyDirectory: string,
 ): Promise<string[]> {
-  const pointerKeys: string[] = [];
+  const objectKeys: string[] = [];
   let continuationToken: string | undefined;
 
   do {
@@ -53,30 +59,58 @@ export async function listSurveyPointers(
     );
 
     for (const object of response.Contents ?? []) {
-      if (object.Key && isSurveyPointerKey(object.Key, surveyDirectory)) {
-        pointerKeys.push(object.Key);
+      if (object.Key) {
+        objectKeys.push(object.Key);
       }
     }
 
     continuationToken = response.IsTruncated ? response.NextContinuationToken : undefined;
   } while (continuationToken);
 
-  return pointerKeys.sort();
+  return objectKeys;
 }
 
 export async function readSurveyFilesFromBucket(
   target: BucketTarget,
   surveyDirectory: string,
 ): Promise<SurveyFile[]> {
-  const pointerKeys = await listSurveyPointers(target, surveyDirectory);
+  const objectKeys = await listObjectKeys(target, surveyDirectory);
   const files: SurveyFile[] = [];
 
-  for (const latestObjectKey of pointerKeys) {
+  for (const latestObjectKey of objectKeys.sort()) {
+    if (!isArchivedSurveyKey(latestObjectKey, surveyDirectory)) {
+      continue;
+    }
+
     const body = await readObjectBody(target, latestObjectKey);
 
     if (body !== undefined) {
       files.push({ latestObjectKey, body });
     }
+  }
+
+  return files;
+}
+
+export async function readSurveyFilesFromDisk(
+  path: string,
+  surveyDirectory: string,
+  prefix?: string,
+): Promise<SurveyFile[]> {
+  const stats = await stat(path);
+
+  const relativePaths = stats.isFile()
+    ? [basename(path)]
+    : (await readdir(path, { recursive: true })).filter((entry) => entry.endsWith('.json')).sort();
+
+  const root = stats.isFile() ? dirname(path) : path;
+  const files: SurveyFile[] = [];
+
+  for (const relativePath of relativePaths) {
+    files.push({
+      latestObjectKey: buildObjectKey(relativePath, surveyDirectory, prefix),
+      body: await readFile(join(root, relativePath), 'utf8'),
+    });
   }
 
   return files;

@@ -18,8 +18,11 @@ import '../../src/dotenvConfig.js';
 import { RELEASE_ENVIRONMENTS, resolveBucketTarget } from './bucketTarget.js';
 import { SurveyFile } from './surveyObjects.js';
 import { SurveyFileReport, publishToCdn } from './publishToCdn.js';
-import { readSurveyFilesFromBucket } from './bucketSource.js';
-import { readSurveyFilesFromDisk } from './localSource.js';
+import {
+  isArchivedSurveyKey,
+  readSurveyFilesFromBucket,
+  readSurveyFilesFromDisk,
+} from './surveySources.js';
 
 const DEFAULT_SURVEY_DIRECTORY = 'tape_surveys';
 
@@ -31,11 +34,14 @@ const USAGE = `Usage: npm run publish-surveys -- --env <name[,name]> [options] [
   --from-bucket    Publish the files already on the bucket instead of local files.
   --report         Print what would be written and write nothing.
   --refresh        Replace an archive copy that differs under an existing version.
+  --prefix <path>  Sub-path to insert under --dir, for a partial delivery.
 
-  [path] is one file or one folder. A folder is searched for .json files at any
-  depth, so it may be the whole delivery, one language folder, or a single file.
-  The object key is taken from the language folder when there is one, and from
-  the filename suffix otherwise.
+  [path] is one file or one folder. The object key mirrors the path relative to
+  what you pass, under --dir, so a delivery folder shaped like the bucket needs
+  no other option. Point at fao_es/ alone and add --prefix fao_es.
+
+  Only the archived directories are published: <dir>/fao/ and <dir>/fao_xx/.
+  Anything else is listed as skipped and left untouched.
 
   SURVEY_CDN_ACCESS_KEY_ID and SURVEY_CDN_SECRET_ACCESS_KEY are read from the
   environment, or from packages/api/.env. A value set in the shell wins.`;
@@ -63,6 +69,7 @@ async function main(): Promise<void> {
       env: { type: 'string', multiple: true },
       dir: { type: 'string', default: DEFAULT_SURVEY_DIRECTORY },
       'from-bucket': { type: 'boolean', default: false },
+      prefix: { type: 'string' },
       report: { type: 'boolean', default: false },
       refresh: { type: 'boolean', default: false },
     },
@@ -85,12 +92,20 @@ async function main(): Promise<void> {
 
   const localFiles: SurveyFile[] | undefined = fromBucket
     ? undefined
-    : await readSurveyFilesFromDisk(positionals[0], surveyDirectory);
+    : await readSurveyFilesFromDisk(positionals[0], surveyDirectory, values.prefix);
 
   for (const target of targets) {
-    const files = localFiles ?? (await readSurveyFilesFromBucket(target, surveyDirectory));
+    const sourced = localFiles ?? (await readSurveyFilesFromBucket(target, surveyDirectory));
+    const files = sourced.filter((file) =>
+      isArchivedSurveyKey(file.latestObjectKey, surveyDirectory),
+    );
+    const skipped = sourced.length - files.length;
 
     console.log(`\n${target.environment} (${target.bucket}) — ${files.length} survey file(s)`);
+
+    if (skipped > 0) {
+      console.log(`  ${skipped} file(s) outside the archived directories, not published`);
+    }
 
     if (files.length === 0) {
       continue;

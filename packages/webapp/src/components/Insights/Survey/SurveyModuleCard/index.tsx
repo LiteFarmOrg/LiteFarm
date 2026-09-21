@@ -84,8 +84,10 @@ const SurveyModuleCard = ({ title, onAction, survey }: SurveyModuleCardProps) =>
   return (
     <div className={styles.card}>
       <div className={styles.titleRow}>
-        <span className={styles.title}>{title}</span>
-        {survey.type === 'completed' && survey.hasNewVersion && <NewVersionBadge />}
+        {survey.type === 'completed' && survey.hasNewVersion && (
+          <NewVersionBadge className={styles.newVersionBadge} />
+        )}
+        {title}
       </div>
       <div className={styles.body}>
         <SurveyStatusDisplay survey={survey} />

@@ -26,12 +26,12 @@ const meta: Meta<SurveyModuleCardProps> = {
   title: 'Components/SurveyModuleCard',
   component: SurveyModuleCard,
   decorators: [
-    ...componentDecorators,
     (Story) => (
-      <div style={{ minWidth: '235px', width: 'min-content' }}>
+      <div style={{ width: '235px' }}>
         <Story />
       </div>
     ),
+    ...componentDecorators,
   ],
   args: {
     onAction: () => console.log('action'),

@@ -34,6 +34,9 @@ interface SurveyInfo {
     defaultVersion: string,
     language: string,
   ) => { version: string; fallbackVersion?: string };
+  // Whether this survey has archived per-version copies on the CDN. A function lets one survey vary it
+  // by country override, e.g. tape's global path is archived but its AU is not.
+  hasArchivedVersions?: boolean | ((countryCode?: string) => boolean);
   parentSurveyId?: string;
   isAvailable?: (parentResponse: Record<string, any>) => boolean;
   scoreField?: string;
@@ -85,12 +88,15 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step01-survey', AU: 'au' },
     resolveVersion: resolveFaoVersion,
+    // Archived, except for a country override (AU)
+    hasArchivedVersions: (countryCode) => !countryCode || countryCode !== 'AU',
   },
   tape_economic: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-economic' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     scoreField: 'econ_index',
     pages: 1,
     estimatedMinutes: 2,
@@ -100,6 +106,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-food-security' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     scoreField: 'fies_score',
     pages: 1,
     estimatedMinutes: 2,
@@ -109,6 +116,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-dietary-diversity' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_women) > 0 ||
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
@@ -121,6 +129,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-youth' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_myoung) > 0 ||
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
@@ -132,6 +141,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-soil-health' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     scoreField: 'soilhealth_score',
     pages: 1,
     estimatedMinutes: 3,
@@ -141,6 +151,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-pesticides' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     pages: 1,
     estimatedMinutes: 4,
   },
@@ -149,6 +160,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-land-tenure-aweai' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     scoreField: 'aweai',
     pages: 9,
     estimatedMinutes: 15,
@@ -158,6 +170,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     versionsByCountry: { default: 'step2-productivity-biodiversity' },
     resolveVersion: resolveFaoVersion,
+    hasArchivedVersions: true,
     scoreField: 'GSI_overall',
     pages: 13,
     estimatedMinutes: 15,
@@ -219,7 +232,30 @@ export const getSurveyCdnPath = (
     return { version: 'fao' };
   }
 
-  return getLatestCdnPath(surveyId, countryCode, language);
+  // latest.version is the resolved path stem (e.g. 'fao/step01-survey') and can be used to fetch
+  // the latest survey JSON by appending '.json' to it (e.g. 'fao/step01-survey.json'). An archived
+  // version is fetched by appending the version instead (e.g.
+  // 'fao/step01-survey/TAPE_FAO_STEP1_20260714_132600.json').
+  const latest = getLatestCdnPath(surveyId, countryCode, language);
+  if (!latest) {
+    return undefined;
+  }
+
+  const hasArchivedVersions =
+    typeof info.hasArchivedVersions === 'function'
+      ? info.hasArchivedVersions(countryCode)
+      : !!info.hasArchivedVersions;
+
+  if (hasDraft && draftSurveyVersion && hasArchivedVersions) {
+    return {
+      version: `${latest.version}/${draftSurveyVersion}`,
+      fallbackVersion: latest.fallbackVersion
+        ? `${latest.fallbackVersion}/${draftSurveyVersion}`
+        : undefined,
+    };
+  }
+
+  return latest;
 };
 
 /**

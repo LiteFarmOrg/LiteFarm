@@ -97,9 +97,10 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const isBlockedModule = isGuardPending || isUnauthorizedModule;
 
-  const { data: versionManifest } = useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
-    skip: !cdnDirectory,
-  });
+  const { data: versionManifest, isLoading: isVersionManifestLoading } =
+    useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
+      skip: !cdnDirectory,
+    });
   const latestVersion = getLatestSurveyVersion(surveyId, country_code, versionManifest);
 
   const draftState = useInitialDraft(surveyId);
@@ -215,7 +216,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     }
   }, [isSurveyJsonError]);
 
-  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule;
+  const isLoading =
+    isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule || isVersionManifestLoading;
 
   return (
     <div className={insightStyles.insightContainer}>

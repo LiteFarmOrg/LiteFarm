@@ -121,6 +121,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
     isError: isSurveyJsonError,
+    error: surveyJsonError,
   } = useGetSurveyJsonQuery(
     {
       cdnDirectory: cdnDirectory ?? '',
@@ -211,7 +212,12 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       // doesn't) so it gets noticed operationally, not just silently retried by one farmer.
       Sentry.captureException('Failed to fetch survey JSON', {
         tags: { surveyId },
-        extra: { cdnDirectory, version: cdnPath, fallbackVersion: cdnFallbackPath },
+        extra: {
+          cdnDirectory,
+          version: cdnPath,
+          fallbackVersion: cdnFallbackPath,
+          error: surveyJsonError,
+        },
       });
     }
   }, [isSurveyJsonError]);

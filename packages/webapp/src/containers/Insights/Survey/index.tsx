@@ -99,7 +99,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const { data: versionManifest, isLoading: isVersionManifestLoading } =
     useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
-      skip: !cdnDirectory,
+      skip: !cdnDirectory || !SURVEY_INFO[surveyId]?.hasArchivedVersions,
     });
   const latestVersion = getLatestSurveyVersion(surveyId, country_code, versionManifest);
 

@@ -93,7 +93,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     scoreField: 'econ_index',
     pages: 1,
-    estimatedMinutes: 5,
+    estimatedMinutes: 2,
   },
   tape_food_security: {
     parentSurveyId: 'tape',
@@ -102,7 +102,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     scoreField: 'fies_score',
     pages: 1,
-    estimatedMinutes: 5,
+    estimatedMinutes: 2,
   },
   tape_dietary_diversity: {
     parentSurveyId: 'tape',
@@ -114,7 +114,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
     scoreField: 'dietary_score',
     pages: 3,
-    estimatedMinutes: 10,
+    estimatedMinutes: 3,
   },
   tape_youth: {
     parentSurveyId: 'tape',
@@ -125,7 +125,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
       toHouseholdCount(parentResponse.people?.hh_myoung) > 0 ||
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
     pages: 1,
-    estimatedMinutes: 10,
+    estimatedMinutes: 3,
   },
   tape_soil: {
     parentSurveyId: 'tape',
@@ -134,7 +134,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     scoreField: 'soilhealth_score',
     pages: 1,
-    estimatedMinutes: 5,
+    estimatedMinutes: 3,
   },
   tape_pesticides: {
     parentSurveyId: 'tape',
@@ -142,7 +142,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     versionsByCountry: { default: 'step2-pesticides' },
     resolveVersion: resolveFaoVersion,
     pages: 1,
-    estimatedMinutes: 10,
+    estimatedMinutes: 4,
   },
   tape_land_aweai: {
     parentSurveyId: 'tape',
@@ -151,7 +151,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     scoreField: 'aweai',
     pages: 9,
-    estimatedMinutes: 25,
+    estimatedMinutes: 15,
   },
   tape_productivity_biodiversity: {
     parentSurveyId: 'tape',
@@ -160,7 +160,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     scoreField: 'GSI_overall',
     pages: 13,
-    estimatedMinutes: 45,
+    estimatedMinutes: 15,
   },
   cathi_gao: {
     image: tape_survey,

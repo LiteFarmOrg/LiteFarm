@@ -5,6 +5,7 @@ import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import {
   container_plant_spacing,
   length_of_bed_or_row,
+  seedWeight,
   seedYield,
 } from '../../../util/convert-units/unit';
 import Unit from '../../Form/Unit';
@@ -213,7 +214,7 @@ export default function PureRowForm({
                     name={ESTIMATED_SEED}
                     displayUnitName={ESTIMATED_SEED_UNIT}
                     errors={errors[ESTIMATED_SEED]}
-                    unitType={seedYield}
+                    unitType={seedWeight}
                     system={system}
                     hookFormSetValue={setValue}
                     hookFormGetValue={getValues}

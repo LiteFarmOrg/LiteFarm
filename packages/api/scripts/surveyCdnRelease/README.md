@@ -15,6 +15,7 @@ Surveys are stored under `tape_surveys/` in an environment bucket, in three form
 - Only folders matching `fao/` and `fao_<lang>/` (e.g. `fao_es/`, `fao_pt/`) are archived.
 - Every survey JSON file must declare a calculated `survey_version` expression in its definition.
 - If an existing remote pointer has not been archived yet, the script archives that snapshot before overwriting the latest pointer.
+- If a file's version already has an archive with different contents, no archive, pointer, or manifest entry is written for that file. Bump `survey_version`, or rerun with `--refresh` to overwrite both the archive and the pointer.
 
 ---
 
@@ -74,15 +75,15 @@ npm run publish-surveys -- --env <environment> [options] <path | --from-bucket>
 
 ### Options
 
-| Option            | Type              | Description                                                                                                                                                 |
-| :---------------- | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--env <names>`   | String (required) | Target environment(s), comma-separated or repeated: `development`, `integration`, `production`.                                                             |
-| `--from-bucket`   | Boolean           | Re-publishes/re-manifests files currently on the bucket instead of local files.                                                                             |
-| `--dry-run`       | Boolean           | Calculates diffs and prints the report without writing any files to S3.                                                                                     |
-| `--refresh`       | Boolean           | Overwrites an existing archived version copy if the contents differ (by default, differing existing archives are preserved/skipped).                        |
-| `--prefix <path>` | String            | Sub-path under `tape_surveys` to prefix incoming files (useful when publishing a partial folder like `fao_es/` or single files).                            |
-| `-h, --help`      | Boolean           | Print the command-line usage and options.                                                                                                                   |
-| `<path>`          | Positional        | Path to a single survey JSON file or directory of survey files on disk (required unless `--from-bucket` is passed). Pass `.` when inside the target folder. |
+| Option            | Type              | Description                                                                                                                                                                             |
+| :---------------- | :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--env <names>`   | String (required) | Target environment(s), comma-separated or repeated: `development`, `integration`, `production`.                                                                                         |
+| `--from-bucket`   | Boolean           | Re-publishes/re-manifests files currently on the bucket instead of local files.                                                                                                         |
+| `--dry-run`       | Boolean           | Calculates diffs and prints the report without writing any files to S3.                                                                                                                 |
+| `--refresh`       | Boolean           | When a file's version already has an archive with different contents, overwrites both that archive and the latest pointer. Without it, such a file is skipped and a warning is printed. |
+| `--prefix <path>` | String            | Sub-path under `tape_surveys` to prefix incoming files (useful when publishing a partial folder like `fao_es/` or single files).                                                        |
+| `-h, --help`      | Boolean           | Print the command-line usage and options.                                                                                                                                               |
+| `<path>`          | Positional        | Path to a single survey JSON file or directory of survey files on disk (required unless `--from-bucket` is passed). Pass `.` when inside the target folder.                             |
 
 ---
 

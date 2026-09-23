@@ -143,8 +143,8 @@ function toReport({
   };
 }
 
-function shouldWriteArchivedObject(state: SurveyFileState, refresh?: boolean): boolean {
-  return state === 'new' || (state === 'differs' && Boolean(refresh));
+function shouldWriteArchivedObject(state: SurveyFileState): boolean {
+  return state === 'new' || state === 'differs';
 }
 
 export async function publishToCdn(
@@ -166,12 +166,16 @@ export async function publishToCdn(
   const published: VersionedSurveyFile[] = [];
 
   for (const { file, state, isPointerUnchanged, preservedArchive } of planned) {
+    if (state === 'differs' && !options.refresh) {
+      continue;
+    }
+
     if (preservedArchive) {
       await putObject(target, preservedArchive.key, preservedArchive.body);
       archivedObjectKeysWritten.push(preservedArchive.key);
     }
 
-    if (shouldWriteArchivedObject(state, options.refresh)) {
+    if (shouldWriteArchivedObject(state)) {
       await putObject(target, file.archivedObjectKey, file.body);
       archivedObjectKeysWritten.push(file.archivedObjectKey);
     }

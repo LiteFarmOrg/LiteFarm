@@ -35,7 +35,9 @@ const USAGE = `Usage: npm run publish-surveys -- --env <name[,name]> [options] <
                    One of: ${PUBLISH_ENVIRONMENTS.join(', ')}.
   --from-bucket    Publish the files already on the bucket instead of local files.
   --dry-run        Print what would be written and write nothing.
-  --refresh        Replace an archive copy that differs under an existing version.
+  --refresh        When a file's version already has an archive with different contents,
+                   overwrite both that archive and the latest pointer. Without it, such a
+                   file is skipped.
   --prefix <path>  Sub-path to insert under ${TAPE_SURVEYS_DIRECTORY}/, for a partial delivery.
   -h, --help       Show this help message.
 
@@ -69,9 +71,9 @@ const OUTCOME_ORDER: PublishOutcome[] = [
 
 const OUTCOME_HEADINGS: Record<PublishOutcome, string> = {
   differs:
-    '! Version conflict: archive already exists with different contents (use --refresh to replace)',
+    '! Not published: archive already exists for this survey_version with different contents (rerun with --refresh to replace it, or bump survey_version)',
   'version-bump': '+ New version: archive created, live pointer updated',
-  refreshed: '~ Archive refreshed (--refresh): overwritten existing archive and live pointer',
+  refreshed: '~ Archive refreshed (--refresh): existing archive overwritten',
   'pointer-sync': '→ Live pointer updated: switched to existing version archive',
   'up-to-date': '✓ Up to date: no changes',
 };

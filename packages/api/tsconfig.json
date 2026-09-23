@@ -7,5 +7,5 @@
     "sourceMap": true,
     "types": ["node", "jest"]
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "scripts"]
 }

@@ -19,18 +19,18 @@
   --card-max-width: 235px;
 
   display: grid;
-  grid-template-columns: repeat(4, minmax(min-content, var(--card-max-width)));
+  grid-template-columns: repeat(2, minmax(min-content, var(--card-max-width)));
   gap: 16px;
-  justify-content: space-between;
-
-  @include md-breakpoint {
-    grid-template-columns: repeat(2, minmax(min-content, var(--card-max-width)));
-    justify-content: center;
-  }
+  justify-content: center;
 
   @include xs-breakpoint {
     grid-template-columns: minmax(min-content, var(--card-max-width));
     justify-content: center;
+  }
+
+  @include lg-breakpoint {
+    grid-template-columns: repeat(4, minmax(min-content, var(--card-max-width)));
+    justify-content: space-between;
   }
 }
 

@@ -48,6 +48,7 @@ import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import useSurveyDraftSync from './useSurveyDraftSync';
 import useInitialDraft from './useInitialDraft';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 interface SurveyProps {
   isCompactSideMenu: boolean;
@@ -130,6 +131,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const prefetchLatestResponse = usePrefetch('getLatestSurveyResponse');
 
   const notifications: { message: string }[] = useSelector(snackbarSelector);
+  const isOffline = useIsOffline();
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
@@ -191,7 +193,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   }, [draftState.isDraftLoading, cdnPath, isUnauthorizedModule, history]);
 
   useEffect(() => {
-    if (isSurveyJsonError) {
+    if (isSurveyJsonError && !isOffline) {
       const activeError = notifications.find(
         ({ message }) => message === t('INSIGHTS.TAPE.LOAD_ERROR'),
       );
@@ -199,7 +201,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.LOAD_ERROR')));
       }
     }
-  }, [isSurveyJsonError]);
+  }, [isSurveyJsonError, isOffline]);
 
   const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule;
 

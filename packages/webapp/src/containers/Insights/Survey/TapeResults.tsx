@@ -38,6 +38,7 @@ import {
   useGetSurveyDraftsQuery,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { t } = useTranslation();
@@ -53,6 +54,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   });
   const { survey_response } = surveyData || {};
   const notifications: { message: string }[] = useSelector(snackbarSelector);
+  const isOffline = useIsOffline();
 
   const localDraft = useSelector(surveyDraftSelector(surveyId));
   const { data: serverDrafts } = useGetSurveyDraftsQuery();
@@ -66,7 +68,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
       // No saved survey for this farm (e.g. if they open the results page directly without
       // completing the survey) or a retake is already in progress: send the user to fill it in.
       history.replace(`/insights/survey/${surveyId}`);
-    } else if (surveyDataError) {
+    } else if (surveyDataError && !isOffline) {
       const activeError = notifications.find(
         ({ message }) => message === t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR'),
       );
@@ -74,7 +76,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR')));
       }
     }
-  }, [surveyDataError, isSuccess, surveyData, hasDraftInProgress]);
+  }, [surveyDataError, isSuccess, surveyData, hasDraftInProgress, isOffline]);
 
   const caetScores = survey_response ? getTAPEDimensionScores(survey_response) : [];
   const modules = useSurveyModules(surveyId, survey_response);

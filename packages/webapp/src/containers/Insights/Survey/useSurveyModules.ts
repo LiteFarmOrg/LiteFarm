@@ -20,7 +20,7 @@ import {
   SurveyResponseRecord,
   SurveyDraftSummary,
 } from '../../../store/api/surveyApi';
-import { SURVEY_INFO, getAvailableModuleIds, hasNewSurveyVersion } from './surveyConfig';
+import { SURVEY_INFO, getAvailableModuleIds } from './surveyConfig';
 import { allSurveyDraftsSelector, SurveyDraft } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
 import { useSurveyTitles } from './useSurveyTitle';
@@ -48,6 +48,7 @@ const getSurveyState = (
   response: SurveyResponseRecord | undefined,
   serverDraft: SurveyDraftSummary | undefined,
   localDraft: SurveyDraft | undefined,
+  checkHasNewVersion: (surveyId: string, recordedVersion: string | undefined) => boolean,
 ): SurveyState => {
   const { scoreField, pages = DEFAULT_PAGE_COUNT, estimatedMinutes } = SURVEY_INFO[surveyId];
 
@@ -69,7 +70,7 @@ const getSurveyState = (
   }
 
   if (response) {
-    const hasNewVersion = hasNewSurveyVersion(); // returns false until LF-5473 is implemented
+    const hasNewVersion = checkHasNewVersion(surveyId, response.survey_version);
 
     return {
       type: 'completed',
@@ -87,6 +88,7 @@ const getSurveyState = (
 
 export const useSurveyModules = (
   parentSurveyId: string,
+  checkHasNewVersion: (surveyId: string, recordedVersion: string | undefined) => boolean,
   parentResponse?: Record<string, any>,
 ): SurveyModule[] => {
   const titleBySurveyId = useSurveyTitles();
@@ -106,6 +108,7 @@ export const useSurveyModules = (
       responses?.[surveyId],
       serverDrafts?.[surveyId],
       localDrafts[surveyId],
+      checkHasNewVersion,
     ),
   }));
 };

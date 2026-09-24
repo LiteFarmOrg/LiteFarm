@@ -17,6 +17,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
+import * as Sentry from '@sentry/react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
@@ -30,6 +31,7 @@ import {
   getSurveyBackUrl,
   getAvailableModuleIds,
   hasNewSurveyVersion,
+  getLatestSurveyVersion,
 } from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
@@ -39,6 +41,7 @@ import {
   usePrefetch,
   useGetSurveyJsonQuery,
   useGetLatestSurveyResponsesQuery,
+  useGetSurveyVersionManifestQuery,
   useAddSurveyResponseMutation,
   SurveyResponseRecord,
 } from '../../../store/api/surveyApi';
@@ -95,6 +98,14 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const isBlockedModule = isGuardPending || isUnauthorizedModule;
 
+  const language = getLanguageFromLocalStorage() || 'en';
+
+  const { data: versionManifest, isLoading: isVersionManifestLoading } =
+    useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
+      skip: !cdnDirectory || !SURVEY_INFO[surveyId]?.hasArchivedVersions,
+    });
+  const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
+
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
@@ -103,7 +114,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       getSurveyCdnPath(
         surveyId,
         country_code,
-        getLanguageFromLocalStorage() || 'en',
+        language,
         draftState.initialDraft.surveyVersion,
         hasDraft,
       )) ||
@@ -114,6 +125,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     isLoading: isSurveyJsonLoading,
     isFetching: isSurveyJsonFetching,
     isError: isSurveyJsonError,
+    error: surveyJsonError,
   } = useGetSurveyJsonQuery(
     {
       cdnDirectory: cdnDirectory ?? '',
@@ -146,7 +158,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     hasDraft ? draftState.initialDraft.surveyData : undefined,
     ownResponse,
     prepopulatedData,
-    hasNewSurveyVersion(), // returns false until LF-5473 is implemented
+    hasNewSurveyVersion(ownResponse?.survey_version, latestVersion),
   );
 
   const handleDataChange = useCallback(
@@ -208,10 +220,22 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       if (!activeError) {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.LOAD_ERROR')));
       }
+      // Surfaces a missing/unreachable survey file (e.g. an archived version that should exist but
+      // doesn't) so it gets noticed operationally, not just silently retried by one farmer.
+      Sentry.captureException('Failed to fetch survey JSON', {
+        tags: { surveyId },
+        extra: {
+          cdnDirectory,
+          version: cdnPath,
+          fallbackVersion: cdnFallbackPath,
+          error: surveyJsonError,
+        },
+      });
     }
   }, [isSurveyJsonFetching, isSurveyJsonError, surveyJson, isOffline]);
 
-  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule;
+  const isLoading =
+    isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule || isVersionManifestLoading;
 
   return (
     <div className={insightStyles.insightContainer}>

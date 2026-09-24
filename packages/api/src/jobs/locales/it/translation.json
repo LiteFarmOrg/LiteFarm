@@ -1,0 +1,102 @@
+{
+  "EXPORT_README_TITLE": "Sto acquisendo la tua esportazione di certificazione",
+  "N": "Nord",
+  "N/A": "N/D",
+  "NO": "No",
+  "NOT_SURE": "Non so",
+  "OPERATION_NAME": "NOME DELL'OPERAZIONE",
+  "RECORD_A": {
+    "ACRES": "Acri",
+    "AREA": "Area",
+    "BUILDING": "(edifici, bosco, area di biodiversità, viale d'accesso)",
+    "CERTIFIED": "Certificato",
+    "CROPS_OR_ANIMALS": "Coltura/e o tipo di animale per unità",
+    "CURRENT_STATUS": "Stato attuale - contrassegnane uno per unità",
+    "EXPORT_DOCUMENT_NAME": "SCHEDA A",
+    "HEADER": "SCHEDA A - IDENTIFICAZIONE DEL SITO",
+    "HECTARES": "Ettari",
+    "INDIVIDUAL_PRODUCTION_UNIT": "per ciascuna singola unità di produzione (es. Sito/Campo/Serra/Area definita - come appropriato per la tua operazione e indicato sulla tua mappa)",
+    "NAME_OR_ID": "Nome o numero Certificazione Identità",
+    "NEW": "Nuovo",
+    "NEW_AREA": "Area (aggiunta quest'anno)",
+    "NON_ORGANIC": "Area non biologica in",
+    "NON_PRODUCING": "Non produttiva",
+    "OPERATION_NAME": "NOME DELL'OPERAZIONE",
+    "ORGANIC_AREA": "Area biologica",
+    "PLEASE_VERIFY": "Verifica i dettagli e apporta le modifiche necessarie ogni anno. Se l'operazione gestisce più siti separati, assicurati di descrivere ciascun sito separatamente. Fai riferimento alla scheda di esempio fornita qui sotto per esempi su come compilare questo modulo.",
+    "PRODUCTION": "produzione",
+    "REMOVED": "Rimosso dal programma",
+    "REPORTING_PERIOD": "Periodo di rendicontazione",
+    "ROW_FT": "Piedi di fila",
+    "ROW_M": "Metri di fila",
+    "SIZE_IN_PREFERRED_UNIT": "Dimensione nell'unità di misura preferita",
+    "SPLIT": "Frazionato/Parallelo",
+    "SQ_FT": "Piedi quadrati",
+    "SQ_M": "Metri quadrati",
+    "TRANSITIONAL": "In conversione",
+    "WHY_REMOVED": "Motivo della rimozione o altre note"
+  },
+  "RECORD_D": {
+    "DATE_COMPLETED": "Data di completamento",
+    "EXPORT_DOCUMENT_NAME": "SCHEDA D",
+    "FROM": "Da",
+    "HEADER": "Scheda D - Sementi e materiale di propagazione",
+    "NOTE": {
+      "LIST_ALL": "Elenca TUTTE le sementi e il materiale di propagazione utilizzati durante il periodo di rendicontazione. Nota:",
+      "ONE": "Assicurati che ricevute d'acquisto, etichette, cartellini e certificati biologici per tutte le sementi/materiale siano disponibili per la revisione durante l'ispezione.",
+      "TWO": {
+        "A": "Ricerca di disponibilità commerciale secondo COS 5.3 - (Scheda D1 o equivalente)",
+        "B": "Documentazione che conferma lo stato non-GE",
+        "C": "Documentazione che conferma che eventuali trattamenti, come inoculanti o rivestimenti delle sementi, sono conformi alla PSL (nota: la conformità NOP non è sufficiente)",
+        "PART_1": "Dove",
+        "PART_2": "sementi/materiale non biologico",
+        "PART_3": "viene utilizzato, la seguente documentazione deve essere disponibile durante l'ispezione"
+      }
+    },
+    "REPORTING_PERIOD": "Periodo di rendicontazione",
+    "TABLE_COLUMN": {
+      "IS_SEARCH_COMPLETED": "Se sementi/materiale non biologico (Non-CO), è stata completata una ricerca (S/N)",
+      "LIST_SEED_TREATMENTS": "Elenca i trattamenti delle sementi (se presenti)",
+      "LOT_NUMBER": "N. lotto (dove applicabile)",
+      "NON_GE_DOCS_AVAILABLE": "Documenti Non-GE disponibili (S/N)",
+      "NOTES": "Note/Date di semina delle piante perenni/ecc.",
+      "SEED_CROP_OR_PLANTING_STOCK": "Coltura/varietà da seme o materiale di propagazione",
+      "STATUS_CERTIFIED_ORGANIC": "Stato sementi/materiale = certificato biologico (S/N)",
+      "SUPPLIER": "Fonte/Fornitore",
+      "TREATMENT_DOCS_AVAILABLE": "Documenti sui trattamenti disponibili (S/N)"
+    },
+    "TO": "A"
+  },
+  "RECORD_I": {
+    "CLEANERS": "Detergenti",
+    "CROP_PRODUCTION_AIDS": "Coadiuvanti della produzione colturale",
+    "EXPORT_DOCUMENT_NAME": "SCHEDA I",
+    "HEADER": "Scheda I",
+    "INPUT_CATEGORY": "Categoria di dati inseriti",
+    "LOCATIONS": "Posizione/i",
+    "NOTE": {
+      "LIST_ALL": "Elenca TUTTI i dati insieriti utilizzati negli ultimi 12 mesi o dalla tua ultima Scheda I inviata. Puoi scegliere di usare questo documento per tenere un registro continuo dei dati inseriti utilizzati durante la stagione.",
+      "LIVESTOCK_INPUTS": "Nota: i dati per il bestiame (mangimi, additivi e integratori per mangimi, prodotti sanitari e coadiuvanti della produzione, lettiera per animali, ecc.) devono essere elencati nella Scheda LI - dati per il bestiame.",
+      "ONE": {
+        "PART_1": "Ammendanti del suolo, nutrizione delle colture, coadiuvanti e materiali per la produzione colturale:",
+        "PART_2": "es. pacciame, fertilizzanti, spray fogliari, compost, letame, terricci per invasatura o loro componenti, torba, ammendanti del suolo, ecc."
+      },
+      "PLEASE_USE_SEPARATE_RECORD": "Utilizza una Scheda di input separata per ciascuna categoria di input come descritto qui sotto e carica ciascuna nella corrispondente posizione di caricamento della Sezione 99 - Caricamenti:",
+      "PREP_INPUTS": "Nota: i dati di preparazione (additivi alimentari, altri ingredienti, coadiuvanti tecnologici) devono essere elencati nella Scheda PM - Elenco principale degli ingredienti e coadiuvanti tecnologici di lavorazione.",
+      "TWO": "Detergenti, disinfettanti, sanificanti, sostanze per la gestione dei parassiti degli impianti."
+    },
+    "REPORTING_PERIOD": "PERIODO DI RENDICONTAZIONE",
+    "TABLE_COLUMN": {
+      "CROP_FIELD_APPLIED_TO": "Coltura/campo a cui è applicato o unità di produzione in cui è utilizzato",
+      "DATE_USED": "Data di utilizzo",
+      "LISTED_IN_PSL": "Elencato nella PSL? (S/N)",
+      "NOTES": "Note",
+      "PRODUCT_NAME": "Nome del prodotto",
+      "QUANTITY": "Quantità",
+      "SUPPLIER": "Nome della marca o fonte/fornitore"
+    },
+    "VARIETALS": "Varietà"
+  },
+  "Y": "Y",
+  "YES": "Sì"
+}

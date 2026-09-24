@@ -322,13 +322,20 @@ export const hasNewSurveyVersion = (recordedVersion?: string, latestVersion?: st
 export const getLatestSurveyVersion = (
   surveyId: string,
   countryCode: string | undefined,
+  language: string,
   manifest: Record<string, string> | undefined,
 ): string | undefined => {
   if (!manifest) {
     return undefined;
   }
-  const latest = getLatestCdnPath(surveyId, countryCode, 'en');
-  return latest ? manifest[latest.version] : undefined;
+  const latest = getLatestCdnPath(surveyId, countryCode, language);
+  if (!latest) {
+    return undefined;
+  }
+  return (
+    manifest[latest.version] ??
+    (latest.fallbackVersion ? manifest[latest.fallbackVersion] : undefined)
+  );
 };
 
 export const TAPE_NEW_SCHEMA_MARKER = 'location1';

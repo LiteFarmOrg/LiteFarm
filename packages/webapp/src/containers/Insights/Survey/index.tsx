@@ -97,11 +97,13 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const isBlockedModule = isGuardPending || isUnauthorizedModule;
 
+  const language = getLanguageFromLocalStorage() || 'en';
+
   const { data: versionManifest, isLoading: isVersionManifestLoading } =
     useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
       skip: !cdnDirectory || !SURVEY_INFO[surveyId]?.hasArchivedVersions,
     });
-  const latestVersion = getLatestSurveyVersion(surveyId, country_code, versionManifest);
+  const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
 
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
@@ -111,7 +113,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       getSurveyCdnPath(
         surveyId,
         country_code,
-        getLanguageFromLocalStorage() || 'en',
+        language,
         draftState.initialDraft.surveyVersion,
         hasDraft,
       )) ||

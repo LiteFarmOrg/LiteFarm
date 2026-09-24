@@ -33,6 +33,7 @@ import { surveyDraftSelector } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
 import { hasNewSurveyVersion, getLatestSurveyVersion, SURVEY_INFO } from './surveyConfig';
 import { getLocalizedDateString } from '../../../util/moment';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import {
   useGetLatestSurveyResponseQuery,
   useGetSurveyDraftsQuery,
@@ -86,7 +87,8 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   }, [surveyDataError, isSuccess, surveyData, hasDraftInProgress]);
 
   const checkHasNewVersion = (surveyId: string, recordedVersion: string | undefined) => {
-    const latestVersion = getLatestSurveyVersion(surveyId, country_code, versionManifest);
+    const language = getLanguageFromLocalStorage() || 'en';
+    const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
     return hasNewSurveyVersion(recordedVersion, latestVersion);
   };
 

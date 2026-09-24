@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -41,6 +41,7 @@ import {
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     data: surveyData,
     error: surveyDataError,
     isSuccess,
+    isFetching,
   } = useGetLatestSurveyResponseQuery({
     surveyKey: surveyId,
   });
@@ -63,6 +65,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { data: versionManifest } = useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
     skip: !cdnDirectory,
   });
+  const isOffline = useIsOffline();
 
   const localDraft = useSelector(surveyDraftSelector(surveyId));
   const { data: serverDrafts } = useGetSurveyDraftsQuery();
@@ -76,7 +79,18 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
       // No saved survey for this farm (e.g. if they open the results page directly without
       // completing the survey) or a retake is already in progress: send the user to fill it in.
       history.replace(`/insights/survey/${surveyId}`);
-    } else if (surveyDataError) {
+    }
+  }, [isSuccess, surveyData, hasDraftInProgress]);
+
+  const prevFetchingRef = useRef(false);
+
+  useEffect(() => {
+    const fetchCompleted = prevFetchingRef.current && !isFetching;
+
+    // Update fetching ref for next effect run
+    prevFetchingRef.current = isFetching;
+
+    if (fetchCompleted && surveyDataError && !surveyData && !isOffline) {
       const activeError = notifications.find(
         ({ message }) => message === t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR'),
       );
@@ -84,7 +98,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR')));
       }
     }
-  }, [surveyDataError, isSuccess, surveyData, hasDraftInProgress]);
+  }, [isFetching, surveyDataError, surveyData, isOffline]);
 
   const checkHasNewVersion = (surveyId: string, recordedVersion: string | undefined) => {
     const language = getLanguageFromLocalStorage() || 'en';

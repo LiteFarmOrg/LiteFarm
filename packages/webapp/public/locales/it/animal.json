@@ -1,0 +1,69 @@
+{
+  "BREED": {
+    "ANGUS": "Angus",
+    "CHAROLAIS": "Charolaise",
+    "COBB_500": "Cobb 500",
+    "CORNISH_CROSS": "Cornish Cross (Pollo ibrido da carne)",
+    "DUROC": "Duroc",
+    "HEREFORD": "Hereford",
+    "LANDRACE": "Landrace",
+    "LEGHORN": "Leghorn",
+    "PLYMOUTH_ROCK": "Plymouth Rock",
+    "RHODE_ISLAND_RED": "Rhode Island Red",
+    "ROSS_308": "Ross 308",
+    "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White"
+  },
+  "ORIGIN": {
+    "BORN_AT_FARM": "Nato nell'azienda agricola",
+    "BROUGHT_IN": "Introdotto"
+  },
+  "PURPOSE": {
+    "GRAZING": "Pascolo",
+    "MILKING": "Mungitura",
+    "MANURE_MANAGEMENT": "Gestione del letame",
+    "PEST_OR_DISEASE_CONTROL": "Controllo di parassiti o malattie",
+    "BREEDING": "Riproduzione",
+    "FEEDING": "Alimentazione",
+    "VETERINARY_CARE": "Cure veterinarie",
+    "BIRTHING": "Parto",
+    "WEANING": "Svezzamento",
+    "TRANSPORTATION": "Trasporto",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "Gestione comportamentale e sociale",
+    "EXERCISE": "Esercizio fisico",
+    "QUARANTINE": "Quarantena",
+    "OTHER": "Altro"
+  },
+  "SEX": {
+    "MALE": "Maschio",
+    "FEMALE": "Femmina"
+  },
+  "TAG_COLOR": {
+    "BLUE": "Blu",
+    "GREEN": "Verde",
+    "ORANGE": "Arancione",
+    "RED": "Rosso",
+    "WHITE": "Bianco",
+    "YELLOW": "Giallo"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "Cartellino auricolare",
+    "LEG_BAND": "Anello alla zampa"
+  },
+  "TYPE": {
+    "CATTLE": "Bovini",
+    "CHICKEN": "Polli",
+    "PIGS": "Suini"
+  },
+  "USE": {
+    "MILK": "Latte",
+    "EGGS": "Uova",
+    "FAT": "Grasso",
+    "MEAT": "Carne",
+    "ANIMAL_FIBERS_AND_SKINS": "Fibre e pelli animali",
+    "LABOUR_AND_DRAFT": "Lavoro e traino",
+    "BREEDING": "Riproduzione",
+    "RECREATIONAL_OR_CULTURAL_USE": "Uso ricreativo o culturale",
+    "COMPANIONSHIP": "Compagnia",
+    "OTHER": "Altro"
+  }
+}

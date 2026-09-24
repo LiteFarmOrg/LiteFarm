@@ -1,0 +1,16 @@
+{
+  "PGS": "Sistema di garanzia partecipata",
+  "THIRD_PARTY_ORGANIC": "Biologico certificato da enti terzi",
+  "TYPES": {
+    "ANIMAL_WELFARE": "Benessere animale",
+    "BIODYNAMIC": "Biodinamico",
+    "CARBON/CLIMATE": "Carbonio/Clima",
+    "CERTIFIED_HUMANE": "Certificato nel rispetto del benessere animale (Certified Humane)",
+    "FAIR_TRADE": "Commercio equo solidale",
+    "GRASSFED/PASTURE": "Nutrimento erbivoro/ Pascolo",
+    "NON-GMO": "Non OGM",
+    "ORGANIC": "Biologico",
+    "REGENERATIVE": "Rigenerativo",
+    "SUSTAINABILITY": "Sostenibilità"
+  }
+}

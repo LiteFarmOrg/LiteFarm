@@ -1,0 +1,30 @@
+{
+  "CTA_BANNER": {
+    "CTA": "Aggiungi transazioni",
+    "DEFAULT": "Aggiungi le tue transazioni più recenti per analisi accurate",
+    "NO_ATTRIBUTIONS": "Attribuisci le tue transazioni a colture e gruppi di animali per sbloccare il dettaglio per singole varietà",
+    "NO_TRANSACTIONS": "Inizia a registrare entrate e spese per monitorare la redditività di colture e animali"
+  },
+  "KPI": {
+    "MARGIN": "Margine",
+    "NO_TREND_TOOLTIP": "Aggiungi più dati dell'anno precedente per calcolare un andamento",
+    "YOY_TOOLTIP": "Rispetto allo stesso intervallo di date dell'anno precedente.",
+    "YOY_TREND": "rispetto all'anno precedente",
+    "YOY_TREND_SHORT": "y/y"
+  },
+  "LESS_DATA": "Meno dati",
+  "MORE_DATA": "Più dati",
+  "NET_PROFIT": "Utile netto",
+  "TABLE": {
+    "ANIMAL": "Animale",
+    "EXPENSE": "Spesa",
+    "FOOTNOTE": "Un'analisi della redditività di colture e animali per il periodo selezionato.",
+    "NO_ANIMALS": "Non hai animali nel tuo inventario",
+    "NO_CROP_VARIETIES": "Non hai varietà di coltura nella tua azienda agricola",
+    "TYPE_TOTAL": "Totale {{tipo}}",
+    "VARIETY": "Varietà"
+  },
+  "TOP_EXPENSE_CATEGORIES": "Principali categorie di spesa",
+  "TOP_REVENUE_CATEGORIES": "Principali categorie di entrate",
+  "WIDGET_TITLE": "Redditività"
+}

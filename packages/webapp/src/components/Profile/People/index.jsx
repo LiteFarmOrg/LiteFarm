@@ -132,8 +132,8 @@ export default function PurePeople({ users, history, isAdmin }) {
         columns={summaryColumns}
         data={getFilteredUsers()}
         showPagination={true}
-        pageSizeOptions={[5, 10, 20, 50]}
-        defaultPageSize={5}
+        pageSizeOptions={[50]}
+        defaultPageSize={50}
         className="-striped -highlight"
         getTdProps={onRowEdit}
         orderDesc={false}

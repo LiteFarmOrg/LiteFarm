@@ -1,0 +1,105 @@
+{
+  "TEMPLATE": {
+    "DEAR": "Gentile",
+    "CHEERS": "Cordiali saluti",
+    "LITEFARM_TEAM": "Il team di LiteFarm",
+    "NO_RESPONSE": "Ti preghiamo di non rispondere a questa email.",
+    "GET_IN_TOUCH": "Per metterti in contatto con noi, clicca",
+    "HELP": "assistenza",
+    "OR": "oppure",
+    "CONTACT": "contattaci"
+  },
+  "HELP_REQUEST": {
+    "RESPONSE": "Grazie per averci contattato. Un membro del nostro team di assistenza ti risponderà entro 48 ore. Di seguito trovi un riepilogo della tua richiesta.",
+    "TYPE_HEADER": "Tipo di assistenza",
+    "MESSAGE_HEADER": "Messaggio",
+    "REQUEST_INFORMATION": "Richiedi Informazioni",
+    "REPORT_A_BUG": "Segnala un problema",
+    "REQUEST_A_FEATURE": "Richiedi una funzionalità",
+    "OTHER": "Altro",
+    "CONTACT_METHOD_HEADER": "Metodo di contatto preferito",
+    "SUBJECT": "La tua richiesta di assistenza LiteFarm presso",
+    "OOO_RESPONSE": "Grazie per averci contattato. Ti informiamo che il nostro team sarà assente fino al {{Data Scadenza}}. Risponderemo al tuo messaggio il prima possibile al nostro rientro. Grazie per la comprensione! Di seguito trovi un riepilogo della tua richiesta."
+  },
+  "INVITE": {
+    "GREAT_FOLK": "Il fantastico popolo di",
+    "INVITED_YOU": "ti hanno invitato a unirti al loro team su LiteFarm! LiteFarm è uno strumento software open source che aiuta gli agricoltori a gestire le loro aziende agricole. Puoi leggere di più su LiteFarm al sito",
+    "YOU_CAN_ACCEPT": "Puoi accettare questo invito (da qualsiasi dispositivo) utilizzando il pulsante qui sotto",
+    "SUBJECT0": "Sei stato invitato a unirti a",
+    "SUBJECT1": "su LiteFarm!"
+  },
+  "PASSWORD_RESET_REQUEST": {
+    "DID_YOU_FORGET": "Hai dimenticato la tua password LiteFarm? Nessun problema! Clicca il pulsante \"Reimposta\" qui sotto e il tuo accesso sarà presto ripristinato.",
+    "RESET": "Reimposta password",
+    "IGNORE": "Se non hai richiesto questa email, puoi ignorarla. Non è stata apportata alcuna modifica al tuo account.",
+    "SUBJECT": "Richiesta di reimpostazione della password"
+  },
+  "PASSWORD_RESET_CONFIRMATION": {
+    "UPDATED": "Abbiamo aggiornato la tua password LiteFarm. Clicca 'Accedi' qui sotto per accedere al tuo account.",
+    "SUBJECT": "La tua password LiteFarm è stata modificata"
+  },
+  "RESTORE_ACCESS": {
+    "ADMIN": "Sembra che uno degli amministratori di",
+    "RESTORED": "ha rinnovato il tuo accesso alla loro azienda agricola su LiteFarm. Bentornato!",
+    "CLICK_BELOW": "Puoi accedere nuovamente cliccando qui sotto",
+    "SUBJECT0": "Il tuo accesso a",
+    "SUBJECT1": "è stato ripristinato!"
+  },
+  "REVOKE_ACCESS": {
+    "ADMIN": "Sembra che uno degli amministratori di",
+    "REVOKE": "ha revocato il tuo accesso alla loro azienda agricola su LiteFarm. Se non sei a conoscenza di tutto ciò, ti consigliamo di contattare il tuo referente per risolvere il problema.",
+    "SUBJECT0": "Hai perso le credenziali a",
+    "SUBJECT1": "su LiteFarm!"
+  },
+  "ACCEPT_INVITE_CONFIRMATION": {
+    "CONGRATS": "Congratulazioni! Sei diventato il nuovo",
+    "AT": "presso",
+    "CLICK_BELOW": "Puoi accedere (da qualsiasi dispositivo) utilizzando il pulsante qui sotto",
+    "SUBJECT": "La tua iscrizione è stata effettuata correttamente"
+  },
+  "CREATE_ACCOUNT_CONFIRMATION": {
+    "WELCOME": "Benvenuto in LiteFarm! LiteFarm è uno strumento software open source che aiuta gli agricoltori a gestire le loro aziende agricole. Puoi leggere di più su LiteFarm sul sito",
+    "CLICK_BELOW": "Puoi anche accedere (da qualsiasi dispositivo) utilizzando il pulsante qui sotto",
+    "SUBJECT": "Benvenuto in LiteFarm!"
+  },
+  "WITHHOLD_CONSENT": {
+    "RECENT": "Recentemente, durante l'adesione",
+    "WITHHOLD": "sull'applicazione LiteFarm, hai deciso di negare il consenso all'informativa sulla privacy di LiteFarm. Anche se ciò rientra nei tuoi diritti, tuttavia e non potrai accedere all'applicazione. Ci dispiace molto.",
+    "DEACTIVATE": "Abbiamo disattivato la tua associazione a",
+    "HOWEVER": "Tuttavia, conserviamo ancora le informazioni di base che ci hai fornito durante la configurazione del tuo account utente. Se sei associato ad altre aziende agricole, conserviamo anche le informazioni che hai inserito mentre collaboravi con quelle aziende.",
+    "RIGHT": "I tuoi diritti riguardo i dati sono elencati di seguito",
+    "COPY": "Per sapere quali dati abbiamo su di te e richiedere una copia di essi",
+    "UPDATE": "Per aggiornare o correggere qualsiasi dato che abbiamo su di te",
+    "STOP": "Richiesta di interruzione della raccolta dei tuoi dati (hai appena effettuato l'operazione)",
+    "TRANSFER": "Richiesta do trasferimento dei tuoi dati",
+    "DELETE": "Richiesta di cancellazione dei tuoi dati",
+    "TO_REQUEST": "Per effettuare una di queste operazioni, invia un'email a",
+    "SUPPORT": "con la tua richiesta e ci occuperemo di te.",
+    "OTHERWISE": "Altrimenti, se cambi idea, puoi accedere (da qualsiasi dispositivo) in qualsiasi momento e accettare la nostra informativa sulla privacy utilizzando il pulsante qui sotto",
+    "RESTORE": "In tal caso, potrai nuovamente accedere al sistema LiteFarm.",
+    "SUBJECT": "Non hai accettato l'informativa sulla privacy di LiteFarm: ecco le tue opzioni"
+  },
+  "EXPORT_MAP": {
+    "EXPORT": "Ecco l'esportazione della mappa dell'azienda agricola per",
+    "REQUESTED": "che hai richiesto su LiteFarm.",
+    "GREETING": "Buona giornata!",
+    "SUBJECT0": "Ecco la mappa della tua azienda agricola per",
+    "SUBJECT1": "su LiteFarm"
+  },
+  "EXPORT": {
+    "SEASON": "Speriamo che la stagione sia stata proficua (presso)",
+    "CERTIFICATION": " Puoi cliccare il link qui sotto per scaricare un file zip dei tuoi documenti di certificazione e di tutti i documenti giustificativi (foto delle confezioni di sementi, scansioni delle ricevute dei tuoi dati, ecc.) per il tuo periodo di riferimento.",
+    "PRIVACY": "In LiteFarm abbiamo a cuore la tua privacy, quindi dovrai aver effettuato l'accesso prima di poter consultare la tua esportazione. Ci scusiamo per l'inconveniente. In bocca al lupo per la tua presentazione e grazie per aver usato LiteFarm!",
+    "SUBJECT": "Esportazione dei tuoi documenti di certificazione da LiteFarm",
+    "HI": "Ciao",
+    "GET_YOUR_EXPORT": "Ottieni documenti"
+  },
+  "COMMON": {
+    "JOIN": "Unisci",
+    "LOG_IN": "Accedi",
+    "OWNER": "Proprietario",
+    "MANAGER": "Gestore",
+    "WORKER": "Lavoratore",
+    "EXTENSION_OFFICER": "Tecnico agricolo"
+  }
+}

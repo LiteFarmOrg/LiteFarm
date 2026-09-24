@@ -96,6 +96,20 @@ export const surveyApi = api.injectEndpoints({
         }
       },
     }),
+    getSurveyVersionManifest: build.query<Record<string, string>, string>({
+      queryFn: async (cdnDirectory) => {
+        try {
+          const response = await fetch(`${DO_CDN_URL}/${cdnDirectory}/versions.json`);
+          if (!response.ok) {
+            return { data: {} };
+          }
+          const data = await response.json();
+          return { data: data && typeof data === 'object' ? data : {} };
+        } catch {
+          return { data: {} };
+        }
+      },
+    }),
     getLatestSurveyResponse: build.query<SurveyResponseRecord | null, { surveyKey: string }>({
       query: ({ surveyKey }) => ({
         url: surveyResponseUrl,
@@ -146,6 +160,7 @@ export const surveyApi = api.injectEndpoints({
 
 export const {
   useGetSurveyJsonQuery,
+  useGetSurveyVersionManifestQuery,
   useGetLatestSurveyResponseQuery,
   useGetLatestSurveyResponsesQuery,
   useAddSurveyResponseMutation,

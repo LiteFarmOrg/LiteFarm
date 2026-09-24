@@ -31,13 +31,16 @@ import { COMPLETED_DATE_OPTIONS } from '../../../components/Insights/Survey/Surv
 import { useSurveyModules } from './useSurveyModules';
 import { surveyDraftSelector } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
-import { hasNewSurveyVersion } from './surveyConfig';
+import { hasNewSurveyVersion, getLatestSurveyVersion, SURVEY_INFO } from './surveyConfig';
 import { getLocalizedDateString } from '../../../util/moment';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import {
   useGetLatestSurveyResponseQuery,
   useGetSurveyDraftsQuery,
+  useGetSurveyVersionManifestQuery,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
@@ -55,6 +58,13 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   });
   const { survey_response } = surveyData || {};
   const notifications: { message: string }[] = useSelector(snackbarSelector);
+
+  // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
+  const { country_code } = useSelector(userFarmSelector);
+  const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
+  const { data: versionManifest } = useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
+    skip: !cdnDirectory,
+  });
   const isOffline = useIsOffline();
 
   const localDraft = useSelector(surveyDraftSelector(surveyId));
@@ -90,15 +100,21 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     }
   }, [isFetching, surveyDataError, surveyData, isOffline]);
 
-  const caetScores = survey_response ? getTAPEDimensionScores(survey_response) : [];
-  const modules = useSurveyModules(surveyId, survey_response);
+  const checkHasNewVersion = (surveyId: string, recordedVersion: string | undefined) => {
+    const language = getLanguageFromLocalStorage() || 'en';
+    const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
+    return hasNewSurveyVersion(recordedVersion, latestVersion);
+  };
 
-  // modules.length > 0 means both "retake is available" and "there's a module section to show"
+  const caetScores = survey_response ? getTAPEDimensionScores(survey_response) : [];
+  const modules = useSurveyModules(surveyId, checkHasNewVersion, survey_response);
+
   const hasModules = modules.length > 0;
 
   const openModule = (moduleSurveyId: string) => history.push(`/insights/survey/${moduleSurveyId}`);
 
-  const hasNewVersion = hasNewSurveyVersion(); // returns false until LF-5473 is implemented
+  const hasNewVersion = checkHasNewVersion(surveyId, surveyData?.survey_version);
+
   const completedDate = surveyData
     ? getLocalizedDateString(surveyData.created_at, COMPLETED_DATE_OPTIONS)
     : '';
@@ -117,7 +133,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
             {t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date: completedDate })}
           </div>
         </div>
-        {hasModules && (
+        {(hasModules || hasNewVersion) && (
           <div className={styles.headerAction}>
             {hasNewVersion && <NewVersionBadge className={styles.newVersionBadge} />}
             <Button sm color="secondary" onClick={() => openModule(surveyId)}>

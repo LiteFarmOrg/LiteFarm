@@ -35,6 +35,7 @@ import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
 import Spinner from '../../../components/Spinner';
+import { Main } from '../../../components/Typography';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
@@ -114,6 +115,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     isLoading: isSurveyJsonLoading,
     isFetching: isSurveyJsonFetching,
     isError: isSurveyJsonError,
+    refetch: refetchSurveyJson,
   } = useGetSurveyJsonQuery(
     {
       cdnDirectory: cdnDirectory ?? '',
@@ -211,7 +213,16 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     }
   }, [isSurveyJsonFetching, isSurveyJsonError, surveyJson, isOffline]);
 
-  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule;
+  useEffect(() => {
+    if (!isOffline && isSurveyJsonError && !surveyJson) {
+      refetchSurveyJson();
+    }
+  }, [isOffline]);
+
+  const isUnavailableOffline = isOffline && isSurveyJsonError && !surveyJson;
+
+  const isLoading =
+    !isUnavailableOffline && (isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule);
 
   return (
     <div className={insightStyles.insightContainer}>
@@ -222,6 +233,9 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
           <div className={styles.spinner}>
             <Spinner />
           </div>
+        )}
+        {isUnavailableOffline && (
+          <Main className={styles.offlineMessage}>{t('INSIGHTS.TAPE.NOT_AVAILABLE_OFFLINE')}</Main>
         )}
         {!isLoading && surveyJson && (
           <SurveyComponent

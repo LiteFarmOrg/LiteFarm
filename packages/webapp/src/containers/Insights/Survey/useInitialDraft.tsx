@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { surveyDraftSelector } from './surveyDraftSlice';
 import { useLazyGetSurveyDraftQuery } from '../../../store/api/surveyApi';
 import { isLocalDraftStale } from './utils';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 export type InitialDraftResult =
   | { isDraftLoading: true; initialDraft: Record<string, never> }
@@ -38,6 +39,7 @@ const loadingResult: InitialDraftResult = { isDraftLoading: true, initialDraft: 
 function useInitialDraft(surveyId: string) {
   const localDraft = useSelector(surveyDraftSelector(surveyId));
   const [fetchDraft] = useLazyGetSurveyDraftQuery();
+  const isOffline = useIsOffline();
 
   const [resolved, setResolved] = useState<InitialDraftResult>(loadingResult);
 
@@ -54,7 +56,7 @@ function useInitialDraft(surveyId: string) {
         return;
       }
 
-      const serverDraft = isSuccess ? data : undefined;
+      const serverDraft = isSuccess || isOffline ? data : undefined;
 
       const localDraftStale = isLocalDraftStale(localDraft, serverDraft);
 

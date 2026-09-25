@@ -137,10 +137,10 @@ const Insights = () => {
     return insightData;
   }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
 
-  // Surveys are shown only to admins and only when online. getAvailableSurveyIds gates the list to
+  // Surveys are shown only to admins. getAvailableSurveyIds gates the list to
   // surveys available in the farm's country (see SURVEY_INFO).
   const surveyTiles = useMemo(() => {
-    if (isOffline || !isAdmin) {
+    if (!isAdmin) {
       return [];
     }
     return getAvailableSurveyIds(farm?.country_code).map((surveyId, index) => (
@@ -151,7 +151,7 @@ const Insights = () => {
         index={index}
       />
     ));
-  }, [farm?.country_code, isOffline, isAdmin]);
+  }, [farm?.country_code, isAdmin]);
 
   const renderedItems = useMemo(() => {
     const otherTiles = items.map((item, index) =>

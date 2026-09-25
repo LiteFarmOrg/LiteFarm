@@ -21,6 +21,7 @@ import {
   getSurveyDraftUrl,
 } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
+import { getSurveyVersion } from '../../containers/Insights/Survey/utils';
 
 export interface SurveyResponseRecord {
   id: string;
@@ -78,7 +79,12 @@ export const surveyApi = api.injectEndpoints({
         const fetchSurvey = (filename: string) =>
           fetch(`${DO_CDN_URL}/${cdnDirectory}/${filename}.json`);
         try {
-          let response = await fetchSurvey(version);
+          let response = await fetchSurvey(version).catch((error) => {
+            if (!fallbackVersion) {
+              throw error;
+            }
+            return fetchSurvey(fallbackVersion);
+          });
           // DO Spaces returns 403 (not 404) for a file that doesn't exist, since the bucket
           // won't confirm or deny what files exist to unauthenticated requests like this one.
           if (!response.ok && [403, 404].includes(response.status) && fallbackVersion) {
@@ -92,6 +98,19 @@ export const surveyApi = api.injectEndpoints({
           const data = await response.json();
           return { data };
         } catch (error) {
+          // A pinned draft asks for `<latest path>/<survey_version>`. If that fails offline, the
+          // cached latest file is used, but only when it is that same survey_version.
+          const pinnedVersion = version.split('/')[2];
+          if (pinnedVersion) {
+            const toLatest = (path: string) => path.replace(`/${pinnedVersion}`, '');
+            const response = await fetchSurvey(toLatest(version))
+              .catch(() => (fallbackVersion ? fetchSurvey(toLatest(fallbackVersion)) : undefined))
+              .catch(() => undefined);
+            const data = response?.ok ? await response.json().catch(() => undefined) : undefined;
+            if (getSurveyVersion(data) === pinnedVersion) {
+              return { data };
+            }
+          }
           return { error: { status: 'FETCH_ERROR', error: String(error) } };
         }
       },

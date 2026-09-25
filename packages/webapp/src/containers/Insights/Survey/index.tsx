@@ -26,7 +26,6 @@ import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
 import {
   SURVEY_INFO,
   getSurveyCdnPath,
-  getSurveyVersion,
   getPostSubmitRoute,
   getSurveyBackUrl,
   getAvailableModuleIds,
@@ -37,6 +36,7 @@ import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
 import Spinner from '../../../components/Spinner';
+import { Main } from '../../../components/Typography';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
@@ -51,6 +51,8 @@ import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import useSurveyDraftSync from './useSurveyDraftSync';
 import useInitialDraft from './useInitialDraft';
+import { getSurveyVersion } from './utils';
+import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 interface SurveyProps {
@@ -125,6 +127,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     isLoading: isSurveyJsonLoading,
     isFetching: isSurveyJsonFetching,
     isError: isSurveyJsonError,
+    refetch: refetchSurveyJson,
     error: surveyJsonError,
   } = useGetSurveyJsonQuery(
     {
@@ -145,6 +148,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const notifications: { message: string }[] = useSelector(snackbarSelector);
   const isOffline = useIsOffline();
+  usePrefetchModuleDefinitions(surveyId, country_code);
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
@@ -234,8 +238,18 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     }
   }, [isSurveyJsonFetching, isSurveyJsonError, surveyJson, isOffline]);
 
+  useEffect(() => {
+    if (!isOffline && isSurveyJsonError && !surveyJson) {
+      refetchSurveyJson();
+    }
+  }, [isOffline]);
+
+  const isUnavailableOffline = isOffline && isSurveyJsonError && !surveyJson;
+
   const isLoading =
-    isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule || isVersionManifestLoading;
+    (!isUnavailableOffline &&
+      (isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule)) ||
+    isVersionManifestLoading;
 
   return (
     <div className={insightStyles.insightContainer}>
@@ -246,6 +260,9 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
           <div className={styles.spinner}>
             <Spinner />
           </div>
+        )}
+        {isUnavailableOffline && (
+          <Main className={styles.offlineMessage}>{t('INSIGHTS.TAPE.NOT_AVAILABLE_OFFLINE')}</Main>
         )}
         {!isLoading && surveyJson && (
           <SurveyComponent

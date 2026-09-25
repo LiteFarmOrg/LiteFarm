@@ -16,7 +16,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import axiosWithoutInterceptors from 'axios';
 import produce from 'immer';
-import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, delay, fork, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import i18n from '../locales/i18n';
@@ -93,6 +93,7 @@ import {
 } from './rowMethodSlice';
 import { resetTasks } from './taskSlice';
 import {
+  isAdminSelector,
   loginSelector,
   patchFarmSuccess,
   putUserSuccess,
@@ -105,6 +106,7 @@ import { resetFarmStateReducer } from '../store/actionTypes';
 import { api, invalidateTags } from '../store/api/apiSlice';
 import { locationApi } from '../store/api/locationApi';
 import { certificationsApi } from '../store/api/certificationsApi';
+import { surveyApi } from '../store/api/surveyApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
 import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
@@ -494,11 +496,45 @@ function* openFarmScopedQuery(initiateThunk) {
   // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#removing-a-subscription
   const subscription = yield put(initiateThunk);
   farmScopedQuerySubscriptions.push(subscription);
+  return subscription;
 }
 
 function releaseFarmScopedQuerySubscriptions() {
   farmScopedQuerySubscriptions.forEach((subscription) => subscription?.unsubscribe?.());
   farmScopedQuerySubscriptions = [];
+}
+
+function* prefetchSurveyDataSaga() {
+  try {
+    const isAdmin = yield select(isAdminSelector);
+    if (!isAdmin) {
+      return;
+    }
+
+    const [responsesSubscription, draftsSubscription] = yield all([
+      call(openFarmScopedQuery, surveyApi.endpoints.getLatestSurveyResponses.initiate()),
+      call(openFarmScopedQuery, surveyApi.endpoints.getSurveyDrafts.initiate()),
+    ]);
+    // initiate()'s returned subscription handles are also promises that resolve to { data }
+    const [{ data: responses }, { data: drafts }] = yield all([
+      responsesSubscription,
+      draftsSubscription,
+    ]);
+
+    // Seed the individual response query caches from the bulk response
+    for (const [surveyKey, response] of Object.entries(responses ?? {})) {
+      yield put(surveyApi.util.upsertQueryData('getLatestSurveyResponse', { surveyKey }, response));
+    }
+
+    // Draft summaries don't contain the full draft, so fetch those where required
+    for (const [surveyKey, draft] of Object.entries(drafts ?? {})) {
+      if (draft.has_data) {
+        yield call(openFarmScopedQuery, surveyApi.endpoints.getSurveyDraft.initiate({ surveyKey }));
+      }
+    }
+  } catch (e) {
+    console.error('failed to prefetch survey data', e);
+  }
 }
 
 export function* fetchAllSaga() {
@@ -520,6 +556,8 @@ export function* fetchAllSaga() {
     put(api.endpoints.getAnimalMovementPurposes.initiate()),
     call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
   ]);
+
+  yield fork(prefetchSurveyDataSaga);
 
   yield put(fetchAllFinanceData());
 

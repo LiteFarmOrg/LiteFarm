@@ -30,6 +30,7 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import useDashboardHandoff from '../containers/hooks/useDashboardHandoff';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
+import SurveyUnavailableOffline from '../containers/Insights/Survey/SurveyUnavailableOffline';
 
 import {
   ADD_SENSORS_URL,
@@ -61,7 +62,14 @@ const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('../containers/Insights/Prices'));
-const SurveyRoutes = React.lazy(() => import('./SurveyRoutes'));
+const SurveyRoutes = React.lazy(() =>
+  import('./SurveyRoutes').catch((error) => {
+    if (navigator.onLine) {
+      throw error;
+    }
+    return { default: SurveyUnavailableOffline };
+  }),
+);
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
 

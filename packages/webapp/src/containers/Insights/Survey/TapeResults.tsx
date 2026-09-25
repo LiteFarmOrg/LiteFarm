@@ -42,6 +42,7 @@ import {
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
+import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 
 function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { t } = useTranslation();
@@ -66,6 +67,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     skip: !cdnDirectory,
   });
   const isOffline = useIsOffline();
+  usePrefetchModuleDefinitions(surveyId, country_code);
 
   const localDraft = useSelector(surveyDraftSelector(surveyId));
   const { data: serverDrafts } = useGetSurveyDraftsQuery();

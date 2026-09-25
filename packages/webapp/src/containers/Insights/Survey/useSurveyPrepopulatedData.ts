@@ -32,6 +32,7 @@ interface SurveyPrepopulatedData {
   gps_lat?: number;
   gps_lon?: number;
   region?: string;
+  country_code?: string;
   location1?: string;
   location2?: string;
   latitude?: number;

@@ -26,7 +26,6 @@ import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
 import {
   SURVEY_INFO,
   getSurveyCdnPath,
-  getSurveyVersion,
   getPostSubmitRoute,
   getSurveyBackUrl,
   getAvailableModuleIds,
@@ -52,6 +51,7 @@ import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import useSurveyDraftSync from './useSurveyDraftSync';
 import useInitialDraft from './useInitialDraft';
+import { getSurveyVersion } from './utils';
 import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 

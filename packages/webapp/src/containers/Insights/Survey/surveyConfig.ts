@@ -303,17 +303,6 @@ export const getSurveyBackUrl = (surveyId: string): string => {
 export const getPostSubmitRoute = (surveyId: string): string =>
   `/insights/survey/${SURVEY_INFO[surveyId]?.parentSurveyId ?? surveyId}/results`;
 
-export const getSurveyVersion = (surveyJson: any): string | undefined => {
-  const expression = surveyJson?.calculatedValues?.find(
-    (calculatedValue: { name?: string }) => calculatedValue.name === 'survey_version',
-  )?.expression;
-
-  if (typeof expression !== 'string') {
-    return undefined;
-  }
-  return expression.replace(/^'(.*)'$/, '$1');
-};
-
 export const hasNewSurveyVersion = (recordedVersion?: string, latestVersion?: string): boolean => {
   if (!recordedVersion || !latestVersion) {
     return false;

@@ -521,7 +521,7 @@ function* prefetchSurveyDataSaga() {
       draftsSubscription,
     ]);
 
-    // Seed the individiual response query caches from the bulk response
+    // Seed the individual response query caches from the bulk response
     for (const [surveyKey, response] of Object.entries(responses ?? {})) {
       yield put(surveyApi.util.upsertQueryData('getLatestSurveyResponse', { surveyKey }, response));
     }

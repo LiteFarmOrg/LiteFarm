@@ -38,22 +38,25 @@ export default function usePrefetchModuleDefinitions(parentSurveyId: string, cou
   const isOffline = useIsOffline();
 
   useEffect(() => {
-    if (isOffline || (countryCode && SURVEY_INFO[parentSurveyId]?.versionsByCountry[countryCode])) {
+    const hasCountryOverride =
+      !!countryCode && !!SURVEY_INFO[parentSurveyId]?.versionsByCountry[countryCode];
+    if (isOffline || hasCountryOverride) {
       return;
     }
     const language = getLanguageFromLocalStorage() || 'en';
-    Object.keys(SURVEY_INFO)
-      .filter((surveyId) => SURVEY_INFO[surveyId].parentSurveyId === parentSurveyId)
-      .forEach((moduleId) => {
-        const path = getLatestCdnPath(moduleId, countryCode, language);
-        if (!path) {
-          return;
-        }
-        prefetchDefinition(
-          SURVEY_INFO[moduleId].cdnDirectory,
-          path.version,
-          path.fallbackVersion,
-        ).catch(() => undefined);
-      });
+
+    // Find all modules configured under this survey in surveyConfig
+    // (empty unless a parentSurveyId, i.e. TAPE Step 1)
+    const moduleIds = Object.keys(SURVEY_INFO).filter(
+      (surveyId) => SURVEY_INFO[surveyId].parentSurveyId === parentSurveyId,
+    );
+    for (const moduleId of moduleIds) {
+      const path = getLatestCdnPath(moduleId, countryCode, language);
+      if (path) {
+        prefetchDefinition(SURVEY_INFO[moduleId].cdnDirectory, path.version, path.fallbackVersion)
+          // Ignore errors; prefetch is best-effort
+          .catch(() => undefined);
+      }
+    }
   }, [parentSurveyId, countryCode, isOffline]);
 }

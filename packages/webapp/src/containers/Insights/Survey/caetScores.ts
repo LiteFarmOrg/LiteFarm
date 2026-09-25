@@ -19,16 +19,36 @@ export const MAX_SCORE = 100;
 export const RAW_MAX_SCORE = 4;
 
 export const DIMENSIONS = [
-  { id: 'diversity', prefix: 'diversity_1', scoreField: 'div_score' },
+  {
+    id: 'diversity',
+    prefix: 'diversity_1',
+    scoreField: 'diversity_score',
+    previousScoreField: 'div_score',
+  },
   { id: 'synergy', prefix: 'synergy_2', scoreField: 'synergy_score' },
   { id: 'recycling', prefix: 'recycling_3', scoreField: 'recycling_score' },
   { id: 'efficiency', prefix: 'efficiency_4', scoreField: 'efficiency_score' },
   { id: 'resilience', prefix: 'resilience_5', scoreField: 'resilience_score' },
-  { id: 'cultureAndFood', prefix: 'culture_6', scoreField: 'cultfood_score' },
-  { id: 'cocreationAndKnowledge', prefix: 'knowledge_7', scoreField: 'cocrea_score' },
+  {
+    id: 'cultureAndFood',
+    prefix: 'culture_6',
+    scoreField: 'culture_food_score',
+    previousScoreField: 'cultfood_score',
+  },
+  {
+    id: 'cocreationAndKnowledge',
+    prefix: 'knowledge_7',
+    scoreField: 'cocreation_score',
+    previousScoreField: 'cocrea_score',
+  },
   { id: 'humanAndSocial', prefix: 'human_8', scoreField: 'human_score' },
   { id: 'circularEconomy', prefix: 'circular_9', scoreField: 'circular_score' },
-  { id: 'responsibleGovernance', prefix: 'governance_10', scoreField: 'respgov_score' },
+  {
+    id: 'responsibleGovernance',
+    prefix: 'governance_10',
+    scoreField: 'responsible_governance_score',
+    previousScoreField: 'respgov_score',
+  },
 ] as const;
 
 export type TAPEDimensionId = (typeof DIMENSIONS)[number]['id'];
@@ -50,9 +70,13 @@ export const getTAPEDimensionScores = (
 };
 
 const readTAPEScores = (data: Record<string, unknown>): TAPEDimension[] =>
-  DIMENSIONS.map(({ id, scoreField }) => ({
-    dimension: id,
-    score: Number(data[scoreField]) || 0,
+  DIMENSIONS.map((dimension) => ({
+    dimension: dimension.id,
+    score:
+      Number(
+        data[dimension.scoreField] ??
+          ('previousScoreField' in dimension ? data[dimension.previousScoreField] : undefined),
+      ) || 0,
     maxScore: MAX_SCORE,
   }));
 

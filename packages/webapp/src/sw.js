@@ -19,7 +19,7 @@ import {
   createHandlerBoundToURL,
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { CacheFirst, NetworkOnly } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst, NetworkOnly } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim, cacheNames } from 'workbox-core';
@@ -102,6 +102,21 @@ registerRoute(
         purgeOnQuotaError: true,
       }),
     ],
+  }),
+);
+
+const SURVEY_DEFINITION_DIRECTORIES = ['tape_surveys', 'idems_surveys'];
+
+registerRoute(
+  ({ url, request }) =>
+    request.method === 'GET' &&
+    url.hostname.endsWith('.cdn.digitaloceanspaces.com') &&
+    SURVEY_DEFINITION_DIRECTORIES.includes(url.pathname.split('/')[1]) &&
+    url.pathname.endsWith('.json'),
+  new NetworkFirst({
+    cacheName: 'survey-definitions',
+    networkTimeoutSeconds: 5,
+    plugins: [new ExpirationPlugin({ maxEntries: 20 })],
   }),
 );
 

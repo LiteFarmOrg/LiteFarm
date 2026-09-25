@@ -80,6 +80,8 @@ const toHouseholdCount = (value: unknown): number => {
  *     in a per-language subfolder (e.g. fao/step01-survey.json for English, fao_fr/step01-survey_fr.json
  *     for French); a non-translatable, country-specific version (e.g. au) stays flat at the CDN
  *     directory root, no subfolder.
+ *  5. If the CDN directory is new, add it to SURVEY_DEFINITION_DIRECTORIES in src/sw.js so its
+ *     definitions are cached for offline use.
  */
 export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape: {

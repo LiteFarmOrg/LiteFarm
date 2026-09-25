@@ -52,6 +52,7 @@ import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import useSurveyDraftSync from './useSurveyDraftSync';
 import useInitialDraft from './useInitialDraft';
+import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 interface SurveyProps {
@@ -147,6 +148,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const notifications: { message: string }[] = useSelector(snackbarSelector);
   const isOffline = useIsOffline();
+  usePrefetchModuleDefinitions(surveyId, country_code);
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 

@@ -13,13 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../../components/Typography';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 export default function SurveyUnavailableOffline() {
   const { t } = useTranslation();
+  const isOffline = useIsOffline();
+
+  useEffect(() => {
+    if (!isOffline && navigator.onLine) {
+      window.location.reload();
+    }
+  }, [isOffline]);
 
   return (
     <div className={insightStyles.insightContainer}>

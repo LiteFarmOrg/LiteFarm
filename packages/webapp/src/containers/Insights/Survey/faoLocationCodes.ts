@@ -235,7 +235,7 @@ const TAPE_REGION_AND_COUNTRY_BY_ISO2: Record<string, string> = {
 
 export const getTapeLocationCodes = (
   countryCode?: string,
-): { region: string; country: string } | undefined => {
+): { region: string; country_code: string } | undefined => {
   if (!countryCode) {
     return undefined;
   }
@@ -245,6 +245,6 @@ export const getTapeLocationCodes = (
     return undefined;
   }
 
-  const [region, country] = codes.split(',');
-  return { region, country };
+  const [region, country_code] = codes.split(',');
+  return { region, country_code };
 };

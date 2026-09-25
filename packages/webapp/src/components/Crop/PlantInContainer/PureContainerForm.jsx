@@ -7,6 +7,7 @@ import Unit from '../../Form/Unit';
 import {
   container_plant_spacing,
   container_planting_depth,
+  seedWeight,
   seedYield,
 } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
@@ -241,7 +242,7 @@ export default function PureContainerForm({
                   name={ESTIMATED_SEED}
                   displayUnitName={ESTIMATED_SEED_UNIT}
                   errors={errors[ESTIMATED_SEED]}
-                  unitType={seedYield}
+                  unitType={seedWeight}
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
@@ -258,7 +259,7 @@ export default function PureContainerForm({
                     name={ESTIMATED_SEED}
                     displayUnitName={ESTIMATED_SEED_UNIT}
                     errors={errors[ESTIMATED_SEED]}
-                    unitType={seedYield}
+                    unitType={seedWeight}
                     system={system}
                     hookFormSetValue={setValue}
                     hookFormGetValue={getValues}

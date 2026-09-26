@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "Qu'allez-vous appliquer ?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "Ajouter une tâche personnalisée",
+    "ADD_A_CUSTOM_TASK": "",
     "ADD_A_TASK": "Ajouter une tâche",
-    "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
+    "ADD_CUSTOM_TASK": "",
     "AFFECT_PLANS": "Cette tâche affectera-t-elle les plans ?",
     "ASSIGN_ALL_TO_PERSON": "Assigner toutes les tâches à cette date à {{name}}",
     "ASSIGN_DATE": "Attribuer une date d'échéance",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "Tout effacer",
     "CLEAR_ALL_PLANS": "Effacer tous les plans",
-    "CUSTOM_TASK": "Tâche personnalisée",
+    "CUSTOM_TASK": "",
     "CUSTOM_TASK_CHAR_LIMIT": "Le nom du type de tâche personnalisée ne peut pas dépasser 25 caractères",
     "CUSTOM_TASK_NAME": "Nom de la tâche personnalisée",
     "CUSTOM_TASK_TYPE": "Type de tâche personnalisée",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "Quel type d'irrigation ?"
     },
-    "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
+    "MANAGE_CUSTOM_TASKS": "",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "Quel est le but de ce mouvement ?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "Sélectionnez le but de ce mouvement",
@@ -1254,6 +1254,30 @@
       "TITLE": "Matière organique du Sol"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "",
+        "LOW": "",
+        "MEDIUM": "",
+        "VERY_HIGH": "",
+        "VERY_LOW": ""
+      },
+      "BAND_RANGE": {
+        "INCLUSIVE": "",
+        "GREATER_THAN_MIN": ""
+      },
+      "CARD": {
+        "COMPLETED_ON": "",
+        "ESTIMATED_MINUTES": "",
+        "IN_PROGRESS": "",
+        "LAST_UPDATED": "",
+        "NEW_VERSION": "",
+        "RESUME": "",
+        "RETAKE_SURVEY": "",
+        "STARTED": "",
+        "TAKE_SURVEY": "",
+        "UPDATE": ""
+      },
+      "NO_SCORE_YET": "",
       "THANK_YOU": "Merci, vos réponses ont été enregistrées.",
       "TITLE": "Sondage"
     },
@@ -1278,6 +1302,30 @@
       "RESULTS_TITLE": "Caractéristiques des transitions agroécologiques (CAET)",
       "TITLE": "TAPE (Évaluation de la performance de l'Agroécologie)",
       "UPDATE_ANSWERS": "Mettre à jour vos réponses"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": ""
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": ""
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": ""
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": ""
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_SOIL": {
+      "TITLE": ""
+    },
+    "TAPE_YOUTH": {
+      "TITLE": ""
     },
     "TITLE": "Mesures additionnelles",
     "UNAVAILABLE": "Indisponible"

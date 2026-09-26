@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "O que você vai aplicar?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "Adicione uma tarefa personalizada",
+    "ADD_A_CUSTOM_TASK": "",
     "ADD_A_TASK": "Adicione uma tarefa",
-    "ADD_CUSTOM_TASK": "Adicionar tarefa personalizada",
+    "ADD_CUSTOM_TASK": "",
     "AFFECT_PLANS": "Esta tarefa influenciará em algum plano?",
     "ASSIGN_ALL_TO_PERSON": "Atribuir todas as tarefas neste dia para {{name}}",
     "ASSIGN_DATE": "Atribuir data de vencimento",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "Limpar tudo",
     "CLEAR_ALL_PLANS": "Limpar todos os planos",
-    "CUSTOM_TASK": "Tarefa personalizada",
+    "CUSTOM_TASK": "",
     "CUSTOM_TASK_CHAR_LIMIT": "Nome do tipo de tarefa personalizada não pode exceder 25 caractéres",
     "CUSTOM_TASK_NAME": "Nome da tarefa personalizada",
     "CUSTOM_TASK_TYPE": "Tipo de tarefa personalizada",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "Qual o tipo de irrigação?"
     },
-    "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
+    "MANAGE_CUSTOM_TASKS": "",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "Qual é a finalidade deste movimento?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "Selecione a finalidade deste movimento",
@@ -1254,6 +1254,30 @@
       "TITLE": "Matéria Orgânica do Solo"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "",
+        "LOW": "",
+        "MEDIUM": "",
+        "VERY_HIGH": "",
+        "VERY_LOW": ""
+      },
+      "BAND_RANGE": {
+        "INCLUSIVE": "",
+        "GREATER_THAN_MIN": ""
+      },
+      "CARD": {
+        "COMPLETED_ON": "",
+        "ESTIMATED_MINUTES": "",
+        "IN_PROGRESS": "",
+        "LAST_UPDATED": "",
+        "NEW_VERSION": "",
+        "RESUME": "",
+        "RETAKE_SURVEY": "",
+        "STARTED": "",
+        "TAKE_SURVEY": "",
+        "UPDATE": ""
+      },
+      "NO_SCORE_YET": "",
       "THANK_YOU": "Obrigado. Suas respostas foram gravadas.",
       "TITLE": "Questionário"
     },
@@ -1278,6 +1302,30 @@
       "RESULTS_TITLE": "Caracterização das Pontuações das Transições Agroecológicas (CAET)",
       "TITLE": "Levantamento TAPE (Ferramenta para Avaliação do Desempenho em Agroecologia)",
       "UPDATE_ANSWERS": "Atualizar as suas respostas"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": ""
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": ""
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": ""
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": ""
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_SOIL": {
+      "TITLE": ""
+    },
+    "TAPE_YOUTH": {
+      "TITLE": ""
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"

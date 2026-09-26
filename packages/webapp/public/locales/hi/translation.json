@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "आप क्या लागू करेंगे?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "एक कस्टम टास्क जोड़ें",
+    "ADD_A_CUSTOM_TASK": "",
     "ADD_A_TASK": "एक टास्क जोड़ें",
-    "ADD_CUSTOM_TASK": "कस्टम टास्क जोड़ें",
+    "ADD_CUSTOM_TASK": "",
     "AFFECT_PLANS": "क्या यह टास्क किसी योजना को प्रभावित करेगा?",
     "ASSIGN_ALL_TO_PERSON": "इस तारीख के सभी कार्य {{name}} को सौंपें",
     "ASSIGN_DATE": "टास्क की तारीख बदलें",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "सभी साफ करें",
     "CLEAR_ALL_PLANS": "सभी योजनाएं साफ करें",
-    "CUSTOM_TASK": "कस्टम टास्क",
+    "CUSTOM_TASK": "",
     "CUSTOM_TASK_CHAR_LIMIT": "कस्टम टास्क प्रकार का नाम 25 अक्षरों से अधिक नहीं हो सकता",
     "CUSTOM_TASK_NAME": "कस्टम टास्क का नाम",
     "CUSTOM_TASK_TYPE": "कस्टम टास्क प्रकार",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "सिंचाई का कौन सा प्रकार?"
     },
-    "MANAGE_CUSTOM_TASKS": "अपने कस्टम कार्यों का प्रबंधन करें",
+    "MANAGE_CUSTOM_TASKS": "",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "इस स्थानांतरण का उद्देश्य क्या है?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "इस स्थानांतरण के उद्देश्य का चयन करें",
@@ -1254,11 +1254,47 @@
       "TITLE": "मृदा ओएम"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "",
+        "LOW": "",
+        "MEDIUM": "",
+        "VERY_HIGH": "",
+        "VERY_LOW": ""
+      },
+      "BAND_RANGE": {
+        "INCLUSIVE": "",
+        "GREATER_THAN_MIN": ""
+      },
+      "CARD": {
+        "COMPLETED_ON": "",
+        "ESTIMATED_MINUTES": "",
+        "IN_PROGRESS": "",
+        "LAST_UPDATED": "",
+        "NEW_VERSION": "",
+        "RESUME": "",
+        "RETAKE_SURVEY": "",
+        "STARTED": "",
+        "TAKE_SURVEY": "",
+        "UPDATE": ""
+      },
+      "NO_SCORE_YET": "",
       "THANK_YOU": "धन्यवाद। आपके उत्तर दर्ज कर लिए गए हैं।",
       "TITLE": "सर्वेक्षण"
     },
     "TAPE": {
       "COMPLETED": "पूर्ण — अपने परिणाम देखें",
+      "DIMENSIONS": {
+        "CIRCULAR_ECONOMY": "",
+        "COCREATION_AND_KNOWLEDGE": "",
+        "CULTURE_AND_FOOD": "",
+        "DIVERSITY": "",
+        "EFFICIENCY": "",
+        "HUMAN_AND_SOCIAL": "",
+        "RECYCLING": "",
+        "RESILIENCE": "",
+        "RESPONSIBLE_GOVERNANCE": "",
+        "SYNERGY": ""
+      },
       "IN_PROGRESS": "प्रगति में",
       "LOAD_ERROR": "सर्वे लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "NOT_FILLED": "भरा नहीं गया",
@@ -1266,6 +1302,30 @@
       "RESULTS_TITLE": "कृषि-पारिस्थितिक संक्रमणों का चरित्रांकन (CAET) स्कोर",
       "TITLE": "TAPE सर्वेक्षण (कृषि-पारिस्थितिकी प्रदर्शन मूल्यांकन उपकरण)",
       "UPDATE_ANSWERS": "अपने उत्तर अपडेट करें"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": ""
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": ""
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": ""
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": ""
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_SOIL": {
+      "TITLE": ""
+    },
+    "TAPE_YOUTH": {
+      "TITLE": ""
     },
     "TITLE": "इनसाइट्स",
     "UNAVAILABLE": "अनुपलब्ध"

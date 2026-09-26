@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "¿Qué aplicará?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "Agregar una tarea personalizada",
+    "ADD_A_CUSTOM_TASK": "",
     "ADD_A_TASK": "Agregar una tarea",
-    "ADD_CUSTOM_TASK": "Agregar tarea personalizada",
+    "ADD_CUSTOM_TASK": "",
     "AFFECT_PLANS": "¿Esta tarea afectará algún plan?",
     "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas en esta fecha a {{name}}",
     "ASSIGN_DATE": "Asignar fecha de vencimiento",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "Borrar todo",
     "CLEAR_ALL_PLANS": "Borrar todos los planes",
-    "CUSTOM_TASK": "Tarea personalizada",
+    "CUSTOM_TASK": "",
     "CUSTOM_TASK_CHAR_LIMIT": "El nombre del tipo de tarea personalizada no puede superar los 25 caracteres",
     "CUSTOM_TASK_NAME": "Nombre de tarea personalizada",
     "CUSTOM_TASK_TYPE": "Tipo de tarea personalizada",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "¿Qué tipo de riego?"
     },
-    "MANAGE_CUSTOM_TASKS": "Gestiona tus tareas personalizadas",
+    "MANAGE_CUSTOM_TASKS": "",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "¿Cuál es el objetivo de este movimiento?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "Seleccionar el objetivo de este movimiento",
@@ -1254,6 +1254,30 @@
       "TITLE": "MO del Suelo"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "",
+        "LOW": "",
+        "MEDIUM": "",
+        "VERY_HIGH": "",
+        "VERY_LOW": ""
+      },
+      "BAND_RANGE": {
+        "INCLUSIVE": "",
+        "GREATER_THAN_MIN": ""
+      },
+      "CARD": {
+        "COMPLETED_ON": "",
+        "ESTIMATED_MINUTES": "",
+        "IN_PROGRESS": "",
+        "LAST_UPDATED": "",
+        "NEW_VERSION": "",
+        "RESUME": "",
+        "RETAKE_SURVEY": "",
+        "STARTED": "",
+        "TAKE_SURVEY": "",
+        "UPDATE": ""
+      },
+      "NO_SCORE_YET": "",
       "THANK_YOU": "Gracias. Sus respuestas han sido registradas.",
       "TITLE": "Encuesta"
     },
@@ -1278,6 +1302,30 @@
       "RESULTS_TITLE": "Caracterización de las Transiciones Agroecológicas (CAET) Puntaje",
       "TITLE": "Encuesta TAPE (Herramienta para la Evaluación del Rendimiento de la Agroecología)",
       "UPDATE_ANSWERS": "Actualiza tus respuestas"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": ""
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": ""
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": ""
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": ""
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": ""
+    },
+    "TAPE_SOIL": {
+      "TITLE": ""
+    },
+    "TAPE_YOUTH": {
+      "TITLE": ""
     },
     "TITLE": "Reportes",
     "UNAVAILABLE": "No Disponible"

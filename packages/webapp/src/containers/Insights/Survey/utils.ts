@@ -19,3 +19,14 @@ export const isLocalDraftStale = (
 ): boolean =>
   (Object.keys(localDraft.surveyData).length === 0 && !!serverDraft?.submission_id) ||
   (!!localDraft.submissionId && localDraft.submissionId !== serverDraft?.submission_id);
+
+export const getSurveyVersion = (surveyJson: any): string | undefined => {
+  const expression = surveyJson?.calculatedValues?.find(
+    (calculatedValue: { name?: string }) => calculatedValue.name === 'survey_version',
+  )?.expression;
+
+  if (typeof expression !== 'string') {
+    return undefined;
+  }
+  return expression.replace(/^'(.*)'$/, '$1');
+};

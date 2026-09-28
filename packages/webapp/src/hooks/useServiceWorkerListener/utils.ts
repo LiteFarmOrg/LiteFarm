@@ -24,7 +24,8 @@ export type SyncArea =
   | 'farm_notes.create'
   | 'farm_notes.edit'
   | 'farm_notes.delete'
-  | 'farm_notes.patch';
+  | 'farm_notes.patch'
+  | 'surveys.submit';
 
 /**
  * Resolve specific kinds of task operations from the URL and HTTP method.
@@ -41,6 +42,9 @@ export function resolveAreaFromUrl(method: string, url: string): SyncArea {
   }
   if (method === 'PATCH' && url.includes('/farm_notes_read')) {
     return 'farm_notes.patch';
+  }
+  if (method === 'POST' && url.includes('/survey_response')) {
+    return 'surveys.submit';
   }
 
   // Tasks (existing logic)
@@ -134,5 +138,14 @@ export const getFeedbackMessages = (): FeedbackMessages => ({
     successMessage: null,
     errors: null,
     retryMessage: null,
+  },
+  'surveys.submit': {
+    successMessage: i18n.t('message:SURVEY.SYNC.SUBMIT.SUCCESS'),
+    errors: {
+      400: i18n.t('message:SURVEY.SYNC.SUBMIT.FAILED'),
+      403: i18n.t('message:SURVEY.SYNC.SUBMIT.FAILED'),
+      500: i18n.t('message:SURVEY.SYNC.SUBMIT.FAILED'),
+    },
+    retryMessage: i18n.t('message:SURVEY.SYNC.SUBMIT.NETWORK_ERROR'),
   },
 });

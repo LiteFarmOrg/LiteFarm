@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { v4 as uuidv4 } from 'uuid';
+import i18n from 'i18next';
 import { api } from './apiSlice';
 import {
   surveyResponseUrl,
@@ -22,6 +24,10 @@ import {
 } from '../../apiConfig';
 import { DO_CDN_URL } from '../../util/constants';
 import { getSurveyVersion } from '../../containers/Insights/Survey/utils';
+import { enqueueSuccessSnackbar } from '../../containers/Snackbar/snackbarSlice';
+import { isOfflineSelector } from '../../containers/hooks/useOfflineDetector/offlineDetectorSlice';
+import { isNetworkError } from '../../util/apiUtils';
+import { RootState } from '../store';
 
 export interface SurveyResponseRecord {
   id: string;
@@ -148,6 +154,64 @@ export const surveyApi = api.injectEndpoints({
         method: 'POST',
         body,
       }),
+      async onQueryStarted(
+        { survey_key, survey_response, farm_id },
+        { dispatch, queryFulfilled, getState },
+      ) {
+        const optimisticResponse: SurveyResponseRecord = {
+          id: uuidv4(),
+          farm_id,
+          survey_key,
+          survey_response,
+          survey_version: String(survey_response.survey_version ?? ''),
+          project_id: String(survey_response.project_id ?? ''),
+          survey_step: String(survey_response.survey_step ?? ''),
+          created_at: new Date().toISOString(),
+        };
+
+        const { upsertQueryData, updateQueryData } = surveyApi.util;
+
+        // Set the optimistic response as the latest submission for this survey
+        dispatch(
+          upsertQueryData('getLatestSurveyResponse', { surveyKey: survey_key }, optimisticResponse),
+        );
+
+        // Add the optimistic response to the all-surveys response dictionary
+        const responsesPatch = dispatch(
+          updateQueryData('getLatestSurveyResponses', undefined, (draft) => {
+            draft[survey_key] = optimisticResponse;
+          }),
+        );
+
+        // Clear the active draft since the survey has now been submitted
+        dispatch(upsertQueryData('getSurveyDraft', { surveyKey: survey_key }, null));
+
+        // Remove this survey from the list of in-progress drafts
+        const draftsPatch = dispatch(
+          updateQueryData('getSurveyDrafts', undefined, (draft) => {
+            delete draft[survey_key];
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          if (isNetworkError(error)) {
+            const isOffline = isOfflineSelector(getState() as RootState);
+            dispatch(
+              enqueueSuccessSnackbar(
+                isOffline
+                  ? i18n.t('message:SURVEY.SYNC.SUBMIT.ONLINE')
+                  : i18n.t('message:SURVEY.SYNC.SUBMIT.NETWORK_ERROR'),
+              ),
+            );
+          } else {
+            // Revert list optimistic patches on true server error
+            responsesPatch.undo();
+            draftsPatch.undo();
+          }
+        }
+      },
       invalidatesTags: (_result, _error, { survey_key }) => [
         { type: 'SurveyResponse', id: survey_key },
         { type: 'SurveyResponse', id: 'LIST' },

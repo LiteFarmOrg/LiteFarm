@@ -104,8 +104,9 @@ export const surveyApi = api.injectEndpoints({
           const data = await response.json();
           return { data };
         } catch (error) {
-          // A pinned draft asks for `<latest path>/<survey_version>`. If that fails offline, the
-          // cached latest file is used, but only when it is that same survey_version.
+          // Request failed with no response (usually offline)
+          // A pinned draft's version is e.g. `fao/step01-survey/TAPE_FAO_STEP1_20260714_132600`: try the
+          // cached latest file or its English fallback, and use it only if the survey_version matches
           const pinnedVersion = version.split('/')[2];
           if (pinnedVersion) {
             const toLatest = (path: string) => path.replace(`/${pinnedVersion}`, '');

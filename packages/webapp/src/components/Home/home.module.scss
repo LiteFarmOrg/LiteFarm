@@ -23,33 +23,3 @@
     opacity: 1;
   }
 }
-
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.greeting {
-  @include fontFamily();
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 24px;
-  text-transform: capitalize;
-  color: var(--Colors-Neutral-Neutral-900);
-
-  @include md-breakpoint {
-    font-size: 20px;
-  }
-}
-
-.subtitle {
-  @include fontFamily();
-  margin: 0;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 24px;
-  text-transform: capitalize;
-  color: var(--Colors-Neutral-Neutral-900);
-}

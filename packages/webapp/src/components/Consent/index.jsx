@@ -6,7 +6,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
 
-export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, consent, disabled }) {
+export default function PureConsent({
+  onSubmit,
+  checkboxArgs,
+  onGoBack,
+  shortVersion,
+  consent,
+  disabled,
+}) {
   const { t } = useTranslation(['translation', 'common']);
   return (
     <form onSubmit={onSubmit} className={styles.form} noValidate={true}>
@@ -16,6 +23,11 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, consent,
           onGoBack={onGoBack}
           classNames={{ wrapper: styles.titleWrapper }}
         />
+        <section className={styles.shortVersion}>
+          <h4 className={styles.shortVersionHeading}>{t('CONSENT.SHORT_VERSION')}</h4>
+          <div className={styles.shortVersionText}>{shortVersion}</div>
+        </section>
+        <h4 className={styles.fullPolicyHeading}>{t('CONSENT.FULL_POLICY')}</h4>
         <div className={styles.policySection}>
           <div data-cy="consentPage-content" className={clsx(styles.consentTextContainer)}>
             {consent}

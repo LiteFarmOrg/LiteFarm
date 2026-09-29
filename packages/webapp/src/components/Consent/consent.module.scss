@@ -35,16 +35,73 @@
   gap: 6px;
 }
 
+.shortVersion {
+  @include fontFamily();
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--Consent-summary-bg);
+}
+
+.shortVersionHeading {
+  margin: 0;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--Consent-summary-text);
+}
+
+.shortVersionText {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  ul {
+    margin: 0;
+    padding-left: 21px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--grey900);
+  }
+
+  p {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--Consent-summary-divider);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--Consent-summary-text);
+  }
+}
+
+.fullPolicyHeading {
+  @include fontFamily();
+  margin: 0;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--grey900);
+}
+
 .consentTextContainer {
   @include fontFamily();
   width: 100%;
   display: flex;
   row-gap: 20px;
   flex-direction: column;
-}
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--grey600);
 
-.consentTextContainer li {
-  margin-left: 20px;
+  ul,
+  ol {
+    padding-left: 21px;
+  }
 }
 
 .endOfPolicy {

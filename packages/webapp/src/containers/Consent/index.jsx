@@ -14,8 +14,10 @@ const shortVersionFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml}/
   eager: true,
 });
 
-const getLocalizedFile = (files, language, fileName) =>
-  (files[`./locales/${language}/${fileName}`] || files[`./locales/en/${fileName}`]).default;
+const getLocalizedFile = (files, language, fileName) => {
+  const mdxModule = files[`./locales/${language}/${fileName}`] || files[`./locales/en/${fileName}`];
+  return mdxModule.default;
+};
 
 function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
   const history = useHistory();

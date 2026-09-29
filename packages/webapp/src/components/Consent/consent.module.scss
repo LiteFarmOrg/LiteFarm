@@ -59,6 +59,9 @@
   gap: 10px;
 
   ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin: 0;
     padding-left: 21px;
     font-weight: 400;

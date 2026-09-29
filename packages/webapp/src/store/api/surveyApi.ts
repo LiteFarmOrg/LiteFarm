@@ -38,6 +38,7 @@ export interface SurveyResponseRecord {
   project_id: string;
   survey_step: string;
   created_at: string;
+  to_sync?: boolean;
 }
 
 export interface AddSurveyResponseReqBody {
@@ -168,6 +169,7 @@ export const surveyApi = api.injectEndpoints({
           project_id: String(survey_response.project_id ?? ''),
           survey_step: String(survey_response.survey_step ?? ''),
           created_at: new Date().toISOString(),
+          to_sync: true,
         };
 
         const { upsertQueryData, updateQueryData } = surveyApi.util;

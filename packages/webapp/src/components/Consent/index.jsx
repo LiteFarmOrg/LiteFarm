@@ -14,7 +14,7 @@ export default function PureConsent({
 }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
-    <form onSubmit={onSubmit} className={styles.form} noValidate={true}>
+    <form onSubmit={onSubmit} noValidate={true}>
       <div className={styles.card}>
         <PageTitle
           title={t('CONSENT.DATA_POLICY')}

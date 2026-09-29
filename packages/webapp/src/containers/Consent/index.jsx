@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureConsent from '../../components/Consent';
 import { patchConsent } from './saga';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
@@ -20,15 +19,12 @@ const getLocalizedFile = (files, language, fileName) =>
 
 function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
   const history = useHistory();
-  const { t, i18n } = useTranslation();
   const language = getLanguageFromLocalStorage();
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     watch,
-    setValue,
-
     formState: { errors },
   } = useForm();
   const Consent = getLocalizedFile(consentFiles, language, 'consent.md');
@@ -45,7 +41,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
     history.push(goBackTo);
   };
 
-  const updateConsent = (data) => {
+  const updateConsent = () => {
     dispatch(patchConsent({ has_consent: true, consent_version: CONSENT_VERSION, goForwardTo }));
   };
 
@@ -66,8 +62,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
 
 export default ConsentForm;
 
-ConsentForm.prototype = {
+ConsentForm.propTypes = {
   goBackTo: PropTypes.string,
   goForwardTo: PropTypes.string,
-  history: PropTypes.object,
 };

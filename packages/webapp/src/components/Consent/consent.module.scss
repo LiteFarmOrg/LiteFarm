@@ -1,11 +1,5 @@
 @use '@assets/mixin' as *;
 
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 .card {
   display: flex;
   flex-direction: column;
@@ -18,7 +12,6 @@
 }
 
 .titleWrapper h3 {
-  @include fontFamily();
   font-weight: 700;
   font-size: 26px;
   line-height: 34px;
@@ -42,7 +35,6 @@
 }
 
 .shortVersionHeading {
-  margin: 0;
   font-weight: 600;
   font-size: 15px;
   line-height: 22px;
@@ -58,7 +50,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 0;
     padding-left: 21px;
     font-weight: 400;
     font-size: 13px;
@@ -67,7 +58,6 @@
   }
 
   p {
-    margin: 0;
     padding-top: 10px;
     border-top: 1px solid var(--Consent-summary-divider);
     font-weight: 600;
@@ -79,7 +69,6 @@
 
 .fullPolicyHeading {
   @include fontFamily();
-  margin: 0;
   font-weight: 700;
   font-size: 18px;
   line-height: 26px;
@@ -88,7 +77,6 @@
 
 .consentTextContainer {
   @include fontFamily();
-  width: 100%;
   display: flex;
   row-gap: 20px;
   flex-direction: column;
@@ -145,7 +133,6 @@
 }
 
 .agreement .checkboxLabel {
-  font-weight: 400;
   font-size: 14px;
   line-height: 21px;
   color: var(--grey900);
@@ -153,14 +140,10 @@
 
 .agreement .submitButton {
   min-height: 52px;
-  padding: 15px 0;
-  font-weight: 600;
-  font-size: 16px;
   line-height: 22px;
 
   &:disabled {
     background: var(--Consent-btn-disabled-bg);
     color: var(--Consent-btn-disabled-text);
-    box-shadow: none;
   }
 }

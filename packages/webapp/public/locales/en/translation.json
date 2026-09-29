@@ -1189,7 +1189,12 @@
     "WHATSAPP_NUMBER_LABEL": "Whatsapp number"
   },
   "HOME": {
-    "GREETING": "Good day, "
+    "GREETING": "Good day, ",
+    "TAPE_WIDGET": {
+      "DESCRIPTION": "Take the FAO TAPE assessment and score your farm across 10 dimensions, from soil and diversity to how you farm with your community.",
+      "START_ASSESSMENT": "Start the assessment",
+      "TITLE": "How agroecological is your farm?"
+    }
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
@@ -1262,8 +1267,8 @@
         "VERY_LOW": "Very Low"
       },
       "BAND_RANGE": {
-        "INCLUSIVE": "{{min}} – {{max}}%",
-        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%"
+        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%",
+        "INCLUSIVE": "{{min}} – {{max}}%"
       },
       "CARD": {
         "COMPLETED_ON": "Completed · {{date}}",

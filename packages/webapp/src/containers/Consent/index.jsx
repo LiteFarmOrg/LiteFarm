@@ -53,7 +53,6 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
     <PureConsent
       checkboxArgs={{
         hookFormRegister: checkBoxRegister,
-        label: t('CONSENT.LABEL'),
         errors: errors[checkboxName] && errors[checkboxName].message,
       }}
       onSubmit={handleSubmit(updateConsent)}

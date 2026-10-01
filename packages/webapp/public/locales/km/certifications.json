@@ -1,16 +1,4 @@
 {
   "PGS": "ប្រព័ន្ធធានាគុណភាពដោយការចូលរួម",
-  "THIRD_PARTY_ORGANIC": "ធាតុសរីរាង្គដែលបានបញ្ជាក់ដោយភាគីទីបី",
-  "TYPES": {
-    "ANIMAL_WELFARE": "",
-    "BIODYNAMIC": "",
-    "CARBON/CLIMATE": "",
-    "CERTIFIED_HUMANE": "",
-    "FAIR_TRADE": "",
-    "GRASSFED/PASTURE": "",
-    "NON-GMO": "",
-    "ORGANIC": "",
-    "REGENERATIVE": "",
-    "SUSTAINABILITY": ""
-  }
+  "THIRD_PARTY_ORGANIC": "ធាតុសរីរាង្គដែលបានបញ្ជាក់ដោយភាគីទីបី"
 }

@@ -3,13 +3,11 @@ import Button from '../Form/Button';
 import React from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import ReactSelect from '../Form/ReactSelect';
-import Input, { getInputErrors, integerOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors } from '../Form/Input';
 import { PasswordError } from '../Form/Errors';
 import { validatePasswordWithErrors } from '../Signup/utils';
-import useGenderOptions from '../../hooks/useGenderOptions';
 
 export default function PureInvitedUserCreateAccountPage({
   onSubmit,
@@ -19,12 +17,8 @@ export default function PureInvitedUserCreateAccountPage({
   isNotSSO,
   buttonText,
   autoOpen,
-  gender,
-  birthYear,
 }) {
   const NAME = 'name';
-  const GENDER = 'gender';
-  const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
   const getDefaultValues = () => {
     const defaultValues = {};
@@ -35,7 +29,6 @@ export default function PureInvitedUserCreateAccountPage({
     register,
     handleSubmit,
     watch,
-    control,
     setValue,
 
     formState: { isDirty, isValid, errors },
@@ -44,8 +37,7 @@ export default function PureInvitedUserCreateAccountPage({
     defaultValues: getDefaultValues(),
   });
 
-  const { t } = useTranslation(['translation', 'gender']);
-  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
+  const { t } = useTranslation();
 
   const onError = (error) => {
     console.log(error);
@@ -59,7 +51,6 @@ export default function PureInvitedUserCreateAccountPage({
     isTooShort,
   } = validatePasswordWithErrors(password);
   const onHandleSubmit = (data) => {
-    data[GENDER] = data?.[GENDER]?.value || gender || 'PREFER_NOT_TO_SAY';
     data.email = email;
     onSubmit(data);
   };
@@ -89,44 +80,6 @@ export default function PureInvitedUserCreateAccountPage({
         hookFormRegister={register(NAME, { required: true })}
         style={{ marginBottom: '24px' }}
         errors={getInputErrors(errors, NAME)}
-      />
-      <Controller
-        control={control}
-        name={GENDER}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <ReactSelect
-            label={t('INVITATION.GENDER')}
-            options={genderOptions}
-            onChange={onChange}
-            value={value}
-            toolTipContent={t('INVITATION.GENDER_TOOLTIP')}
-            style={{ marginBottom: '24px' }}
-            autoOpen={autoOpen}
-            getOptionLabel={getGenderOptionLabel}
-            defaultValue={
-              gender ? genderOptions.filter((option) => option.value === gender) : genderOptions[3]
-            }
-          />
-        )}
-      />
-      <Input
-        label={t('INVITATION.BIRTH_YEAR')}
-        type="number"
-        onKeyPress={integerOnKeyDown}
-        hookFormRegister={register(BIRTHYEAR, {
-          min: 1900,
-          max: new Date().getFullYear(),
-          valueAsNumber: true,
-        })}
-        toolTipContent={t('INVITATION.BIRTH_YEAR_TOOLTIP')}
-        style={{ marginBottom: '24px' }}
-        errors={
-          errors[BIRTHYEAR] &&
-          (errors[BIRTHYEAR].message ||
-            `${t('INVITATION.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
-        }
-        defaultValue={birthYear}
-        optional
       />
       {isNotSSO && (
         <>

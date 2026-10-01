@@ -38,7 +38,6 @@ export function* acceptInvitationWithSSOSaga({
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;
-    !user.birth_year && delete user.birth_year;
     const result = yield call(
       axios.put,
       acceptInvitationWithSSOUrl(),
@@ -86,7 +85,6 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;
-    !user.birth_year && delete user.birth_year;
     const result = yield call(axios.post, acceptInvitationWithLiteFarmUrl(), user, header);
     const { id_token, user: resUserFarm } = result.data;
 

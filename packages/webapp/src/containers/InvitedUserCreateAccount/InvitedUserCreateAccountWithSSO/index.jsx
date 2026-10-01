@@ -9,7 +9,7 @@ import { acceptInvitationWithSSO } from '../saga';
 export default function InvitedUserCreateAccountWithSSO() {
   const location = useLocation();
   const { t } = useTranslation(['translation', 'common']);
-  const { google_id_token, invite_token, email, name, gender, birth_year } = location.state;
+  const { google_id_token, invite_token, email, name } = location.state;
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     dispatch(
@@ -27,8 +27,6 @@ export default function InvitedUserCreateAccountWithSSO() {
       name={name}
       title={t('INVITATION.YOUR_INFORMATION')}
       buttonText={t('common:SAVE')}
-      gender={gender}
-      birthYear={birth_year}
     />
   );
 }

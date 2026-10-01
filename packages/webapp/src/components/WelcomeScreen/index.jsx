@@ -23,6 +23,7 @@ export default function PureWelcomeScreen({ onClick }) {
     hi: <SignupHindi />,
     pa: <SignupPunjabi />,
     ml: <SignupMalayalam />,
+    it: <SignupEnglish />,
   };
   const language = getLanguageFromLocalStorage();
   return (

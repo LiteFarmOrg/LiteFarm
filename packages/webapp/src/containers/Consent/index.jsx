@@ -7,12 +7,15 @@ import PropTypes from 'prop-types';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
 
-const consentFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml}/consent.md', {
+const consentFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml,it}/consent.md', {
   eager: true,
 });
-const shortVersionFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml}/short-version.md', {
-  eager: true,
-});
+const shortVersionFiles = import.meta.glob(
+  './locales/{en,es,de,fr,pt,hi,pa,ml,it}/short-version.md',
+  {
+    eager: true,
+  },
+);
 
 const getLocalizedFile = (files, language, fileName) => {
   const mdxModule = files[`./locales/${language}/${fileName}`] || files[`./locales/en/${fileName}`];

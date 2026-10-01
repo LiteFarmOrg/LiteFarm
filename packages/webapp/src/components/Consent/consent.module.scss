@@ -1,31 +1,149 @@
 @use '@assets/mixin' as *;
 
-.floatLabelRight {
-  float: right;
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 816px;
+  margin: 16px auto 0;
+  padding: 20px 20px 24px;
+  background: var(--White);
+}
+
+.titleWrapper h3 {
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 34px;
+  color: var(--grey900);
+}
+
+.policySection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.shortVersion {
+  @include fontFamily();
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--Consent-summary-bg);
+}
+
+.shortVersionHeading {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--Consent-summary-text);
+}
+
+.shortVersionText {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 21px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--grey900);
+  }
+
+  p {
+    padding-top: 10px;
+    border-top: 1px solid var(--Consent-summary-divider);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--Consent-summary-text);
+  }
+}
+
+.fullPolicyHeading {
+  @include fontFamily();
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--grey900);
 }
 
 .consentTextContainer {
   @include fontFamily();
-  height: 0;
-  flex-grow: 1;
-  width: 100%;
-  overflow-y: scroll;
   display: flex;
   row-gap: 20px;
   flex-direction: column;
-  padding-bottom: 40px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--grey600);
+
+  ul,
+  ol {
+    padding-left: 21px;
+  }
 }
 
-.consentTextContainer li {
-  margin-left: 20px;
+.endOfPolicy {
+  @include fontFamily();
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--Consent-divider-text);
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--Consent-divider-line);
+  }
 }
 
-.fadeEffect {
-  width: 100%;
-  height: 38px;
-  // rgb(250, 252, 251) = --Colors-Backgrounds-Background-color: #fafcfb;
-  background: linear-gradient(180deg, rgba(250, 252, 251, 0.2) 0%, rgba(250, 252, 251, 1) 55.21%);
-  margin-top: -28px;
-  margin-bottom: 4px;
-  z-index: 2000;
+.agreement {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.agreement .checkbox {
+  gap: 8px;
+  padding-top: 4px;
+
+  svg {
+    width: 16.8px;
+    height: 16px;
+    flex-shrink: 0;
+
+    rect {
+      stroke-width: 2.5px;
+    }
+  }
+}
+
+.agreement .checkboxLabel {
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--grey900);
+}
+
+.agreement .submitButton {
+  min-height: 52px;
+  line-height: 22px;
+
+  &:disabled {
+    background: var(--Consent-btn-disabled-bg);
+    color: var(--Consent-btn-disabled-text);
+  }
 }

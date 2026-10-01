@@ -543,8 +543,13 @@
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "Our Data Policy",
-    "LABEL": "I Agree"
+    "AGREE_AND_CONTINUE": "Agree and continue",
+    "CHECKBOX_LABEL": "I have read and I agree to the LiteFarm data policy and informed consent form.",
+    "DATA_POLICY": "Our data policy",
+    "END_OF_POLICY": "End of policy",
+    "FULL_POLICY": "Full policy",
+    "LABEL": "I Agree",
+    "SHORT_VERSION": "The short version"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Birth year",

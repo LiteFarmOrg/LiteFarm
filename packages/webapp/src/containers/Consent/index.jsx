@@ -1,62 +1,36 @@
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PureConsent from '../../components/Consent';
-import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import EnglishOwnerConsent from './locales/en/Owner.Consent.md';
-import EnglishWorkerConsent from './locales/en/Worker.Consent.md';
-import FrenchOwnerConsent from './locales/fr/Owner.Consent.md';
-import FrenchWorkerConsent from './locales/fr/Worker.Consent.md';
-import PortugueseOwnerConsent from './locales/pt/Owner.Consent.md';
-import PortugueseWorkerConsent from './locales/pt/Worker.Consent.md';
-import SpanishOwnerConsent from './locales/es/Owner.Consent.md';
-import SpanishWorkerConsent from './locales/es/Worker.Consent.md';
-import GermanOwnerConsent from './locales/de/Owner.Consent.md';
-import GermanWorkerConsent from './locales/de/Worker.Consent.md';
-import HindiOwnerConsent from './locales/hi/Owner.Consent.md';
-import HindiWorkerConsent from './locales/hi/Worker.Consent.md';
-import PunjabiOwnerConsent from './locales/pa/Owner.Consent.md';
-import PunjabiWorkerConsent from './locales/pa/Worker.Consent.md';
-import MalayalamOwnerConsent from './locales/ml/Owner.Consent.md';
-import MalayalamWorkerConsent from './locales/ml/Worker.Consent.md';
-// import KhmerOwnerConsent from './locales/km/Owner.Consent.md'; TODO: LF-5430 Re-add Khmer
-// import KhmerWorkerConsent from './locales/km/Worker.Consent.md'; TODO: LF-5430 Re-add Khmer
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
 
-const languageConsent = {
-  en: { worker: <EnglishWorkerConsent />, owner: <EnglishOwnerConsent /> },
-  fr: { worker: <FrenchWorkerConsent />, owner: <FrenchOwnerConsent /> },
-  es: { worker: <SpanishWorkerConsent />, owner: <SpanishOwnerConsent /> },
-  pt: { worker: <PortugueseWorkerConsent />, owner: <PortugueseOwnerConsent /> },
-  de: { worker: <GermanWorkerConsent />, owner: <GermanOwnerConsent /> },
-  hi: { worker: <HindiWorkerConsent />, owner: <HindiOwnerConsent /> },
-  pa: { worker: <PunjabiWorkerConsent />, owner: <PunjabiOwnerConsent /> },
-  ml: { worker: <MalayalamWorkerConsent />, owner: <MalayalamOwnerConsent /> },
-  // km: { worker: <KhmerWorkerConsent />, owner: <KhmerOwnerConsent /> }, TODO: LF-5430 Re-add Khmer
-};
+const consentFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml}/consent.md', {
+  eager: true,
+});
+const shortVersionFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml}/short-version.md', {
+  eager: true,
+});
 
-const getLanguageConsent = (language) => languageConsent[language] || languageConsent.en;
+const getLocalizedFile = (files, language, fileName) => {
+  const mdxModule = files[`./locales/${language}/${fileName}`] || files[`./locales/en/${fileName}`];
+  return mdxModule.default;
+};
 
 function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
   const history = useHistory();
-  const { t, i18n } = useTranslation();
   const language = getLanguageFromLocalStorage();
-  const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     watch,
-    setValue,
-
     formState: { errors },
   } = useForm();
-  const consent =
-    role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
+  const Consent = getLocalizedFile(consentFiles, language, 'consent.md');
+  const ShortVersion = getLocalizedFile(shortVersionFiles, language, 'short-version.md');
   const checkboxName = 'consentCheckbox';
   const hasConsent = watch(checkboxName, false);
   const checkBoxRegister = register(checkboxName, {
@@ -69,7 +43,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
     history.push(goBackTo);
   };
 
-  const updateConsent = (data) => {
+  const updateConsent = () => {
     dispatch(patchConsent({ has_consent: true, consent_version: CONSENT_VERSION, goForwardTo }));
   };
 
@@ -77,12 +51,12 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
     <PureConsent
       checkboxArgs={{
         hookFormRegister: checkBoxRegister,
-        label: t('CONSENT.LABEL'),
         errors: errors[checkboxName] && errors[checkboxName].message,
       }}
       onSubmit={handleSubmit(updateConsent)}
       onGoBack={goBackTo ? goBack : null}
-      consent={consent}
+      shortVersion={<ShortVersion />}
+      consent={<Consent />}
       disabled={!hasConsent}
     />
   );
@@ -90,8 +64,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
 
 export default ConsentForm;
 
-ConsentForm.prototype = {
+ConsentForm.propTypes = {
   goBackTo: PropTypes.string,
   goForwardTo: PropTypes.string,
-  history: PropTypes.object,
 };

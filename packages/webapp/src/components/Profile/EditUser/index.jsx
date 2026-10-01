@@ -12,7 +12,6 @@ import InvalidRevokeUserAccessModal from '../../Modals/InvalidRevokeUserAccessMo
 import Checkbox from '../../Form/Checkbox';
 import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
-import useGenderOptions from '../../../hooks/useGenderOptions';
 import useLanguageOptions from '../../../hooks/useLanguageOptions';
 
 export default function PureEditUser({
@@ -30,9 +29,7 @@ export default function PureEditUser({
   const ROLE = 'role_id';
   const WAGE = 'wage.amount';
   const EMAIL = 'email';
-  const GENDER = 'gender';
   const LANGUAGE = 'language';
-  const BIRTHYEAR = 'birth_year';
   const PHONE = 'phone_number';
   const dropDownMap = {
     1: t('role:OWNER'),
@@ -42,8 +39,6 @@ export default function PureEditUser({
   };
   const userFarms = useSelector(userFarmsByFarmSelector);
   const adminRoles = [1, 2, 5];
-
-  const { genderOptions, getGenderOptionLabel, getGenderOption } = useGenderOptions();
 
   const languageOptions = useLanguageOptions();
 
@@ -77,7 +72,7 @@ export default function PureEditUser({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { ...userFarm, role_id: roleOption, gender: getGenderOption(userFarm) },
+    defaultValues: { ...userFarm, role_id: roleOption },
     shouldUnregister: true,
   });
 
@@ -113,7 +108,6 @@ export default function PureEditUser({
   );
 
   const onSubmit = (data) => {
-    data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
     data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');
     onInvite({ ...data, email });
@@ -214,24 +208,6 @@ export default function PureEditUser({
       {isPseudoUser && shouldInvitePseudoUser && (
         <Controller
           control={control}
-          name={GENDER}
-          render={({ field }) => (
-            <ReactSelect
-              label={t('INVITE_USER.GENDER')}
-              options={genderOptions}
-              toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
-              style={{ marginBottom: '24px' }}
-              defaultValue={genderOptions[3]}
-              getOptionLabel={getGenderOptionLabel}
-              {...field}
-              optional
-            />
-          )}
-        />
-      )}
-      {isPseudoUser && shouldInvitePseudoUser && (
-        <Controller
-          control={control}
           name={LANGUAGE}
           render={({ field }) => (
             <ReactSelect
@@ -246,27 +222,6 @@ export default function PureEditUser({
               required
             />
           )}
-        />
-      )}
-      {isPseudoUser && shouldInvitePseudoUser && (
-        <Input
-          label={t('INVITE_USER.BIRTH_YEAR')}
-          type="number"
-          onKeyPress={integerOnKeyDown}
-          hookFormRegister={register(BIRTHYEAR, {
-            min: 1900,
-            max: new Date().getFullYear(),
-            valueAsNumber: true,
-          })}
-          toolTipContent={t('INVITE_USER.BIRTH_YEAR_TOOLTIP')}
-          style={{ marginBottom: '24px' }}
-          placeholder={'xxxx'}
-          errors={
-            errors[BIRTHYEAR] &&
-            (errors[BIRTHYEAR].message ||
-              `${t('INVITE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
-          }
-          optional
         />
       )}
       <Input

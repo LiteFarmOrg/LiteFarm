@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input, { getInputErrors, numberOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors } from '../Form/Input';
 import { isValidName } from '../Form/Input/utils';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
@@ -29,7 +29,6 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   const ROLE = 'role';
   const EMAIL = 'email';
   const LANGUAGE = 'language';
-  const WAGE = 'wage';
   const name = watch(NAME, undefined);
   const email = watch(EMAIL, undefined);
   const role = watch(ROLE, undefined);
@@ -134,21 +133,6 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
             required
           />
         )}
-      />
-      <Input
-        data-cy="invite-wage"
-        label={t('INVITE_USER.WAGE')}
-        step="0.01"
-        type="number"
-        onKeyPress={numberOnKeyDown}
-        hookFormRegister={register(WAGE, {
-          min: { value: 0, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
-          valueAsNumber: true,
-          max: { value: 999999999, message: t('INVITE_USER.WAGE_RANGE_ERROR') },
-        })}
-        style={{ marginBottom: '24px' }}
-        errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
-        optional
       />
     </Form>
   );

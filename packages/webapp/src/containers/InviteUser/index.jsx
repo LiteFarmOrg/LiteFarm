@@ -33,7 +33,7 @@ function InviteUser() {
   });
 
   const onInvite = (userInfo) => {
-    const { role, email, first_name, last_name, language, phone_number } = userInfo;
+    const { role, email, first_name, last_name, language } = userInfo;
     const amount = +parseFloat(userInfo?.wage).toFixed(2);
     // Pseudo worker is a worker with no email filled out
     const isPseudo = role === 3 && email.trim().length === 0;
@@ -50,9 +50,7 @@ function InviteUser() {
           amount,
         },
         language,
-        phone_number,
       };
-      !user.phone_number && delete user.phone_number;
 
       dispatch(inviteUserToFarm(user));
     } else {
@@ -69,9 +67,7 @@ function InviteUser() {
         profile_picture: 'https://cdn.auth0.com/avatars/na.png',
         user_id: pseudoId,
         language,
-        phone_number,
       };
-      !user.phone_number && delete user.phone_number;
 
       dispatch(addPseudoWorker(user));
     }

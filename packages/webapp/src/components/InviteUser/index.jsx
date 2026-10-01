@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input, { getInputErrors, integerOnKeyDown, numberOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors, numberOnKeyDown } from '../Form/Input';
 import { isValidName } from '../Form/Input/utils';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
@@ -30,7 +30,6 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   const EMAIL = 'email';
   const LANGUAGE = 'language';
   const WAGE = 'wage';
-  const PHONE = 'phone_number';
   const name = watch(NAME, undefined);
   const email = watch(EMAIL, undefined);
   const role = watch(ROLE, undefined);
@@ -149,16 +148,6 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
-        optional
-      />
-      <Input
-        data-cy="invite-phoneNumber"
-        style={{ marginBottom: '24px' }}
-        label={t('INVITE_USER.PHONE')}
-        type={'number'}
-        onKeyPress={integerOnKeyDown}
-        hookFormRegister={register(PHONE)}
-        errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional
       />
     </Form>

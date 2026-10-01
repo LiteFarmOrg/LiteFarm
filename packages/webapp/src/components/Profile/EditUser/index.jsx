@@ -1,4 +1,4 @@
-import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +30,6 @@ export default function PureEditUser({
   const WAGE = 'wage.amount';
   const EMAIL = 'email';
   const LANGUAGE = 'language';
-  const PHONE = 'phone_number';
   const dropDownMap = {
     1: t('role:OWNER'),
     2: t('role:MANAGER'),
@@ -240,17 +239,6 @@ export default function PureEditUser({
         }
         optional
       />
-      {isPseudoUser && shouldInvitePseudoUser && (
-        <Input
-          style={{ marginBottom: '24px' }}
-          label={t('INVITE_USER.PHONE')}
-          type={'number'}
-          onKeyPress={integerOnKeyDown}
-          hookFormRegister={register(PHONE)}
-          errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
-          optional
-        />
-      )}
       {isPseudoUser && (
         <Checkbox
           label={t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')}

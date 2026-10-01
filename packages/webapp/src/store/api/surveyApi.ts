@@ -218,6 +218,7 @@ export const surveyApi = api.injectEndpoints({
       invalidatesTags: (_result, _error, { survey_key }) => [
         { type: 'SurveyResponse', id: survey_key },
         { type: 'SurveyResponse', id: 'LIST' },
+        { type: 'SurveyDraft', id: survey_key },
         { type: 'SurveyDraft', id: 'LIST' },
       ],
     }),

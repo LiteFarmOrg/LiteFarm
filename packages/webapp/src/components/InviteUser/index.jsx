@@ -9,7 +9,6 @@ import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
-import useGenderOptions from '../../hooks/useGenderOptions';
 import useLanguageOptions from '../../hooks/useLanguageOptions';
 import { VALID_EMAIL_REGEX } from '../../util/validation';
 
@@ -29,9 +28,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   const NAME = 'name';
   const ROLE = 'role';
   const EMAIL = 'email';
-  const GENDER = 'gender';
   const LANGUAGE = 'language';
-  const BIRTHYEAR = 'birth_year';
   const WAGE = 'wage';
   const PHONE = 'phone_number';
   const name = watch(NAME, undefined);
@@ -41,16 +38,13 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   useEffect(() => {
     selectedRoleId && trigger(EMAIL);
   }, [selectedRoleId]);
-  const { t } = useTranslation(['translation', 'common', 'gender']);
+  const { t } = useTranslation(['translation', 'common']);
   const title = t('INVITE_USER.TITLE');
-
-  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const languageOptions = useLanguageOptions();
 
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
-    data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
     data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');
     const { first_name, last_name } = getFirstNameLastName(data.name);
@@ -126,21 +120,6 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
       />
       <Controller
         control={control}
-        name={GENDER}
-        render={({ field }) => (
-          <ReactSelect
-            label={t('INVITE_USER.GENDER')}
-            options={genderOptions}
-            toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
-            style={{ marginBottom: '24px' }}
-            defaultValue={genderOptions[3]}
-            getOptionLabel={getGenderOptionLabel}
-            {...field}
-          />
-        )}
-      />
-      <Controller
-        control={control}
         name={LANGUAGE}
         render={({ field }) => (
           <ReactSelect
@@ -156,26 +135,6 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
             required
           />
         )}
-      />
-      <Input
-        data-cy="invite-birthYear"
-        label={t('INVITE_USER.BIRTH_YEAR')}
-        type="number"
-        onKeyPress={integerOnKeyDown}
-        hookFormRegister={register(BIRTHYEAR, {
-          min: 1900,
-          max: new Date().getFullYear(),
-          valueAsNumber: true,
-        })}
-        toolTipContent={t('INVITE_USER.BIRTH_YEAR_TOOLTIP')}
-        style={{ marginBottom: '24px' }}
-        placeholder={'xxxx'}
-        errors={
-          errors[BIRTHYEAR] &&
-          (errors[BIRTHYEAR].message ||
-            `${t('INVITE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
-        }
-        optional
       />
       <Input
         data-cy="invite-wage"

@@ -38,6 +38,13 @@ const extractSurveyState = (model: Model) => ({
   surveyData: model.data,
 });
 
+const blurFocusedNumberInput = (e: React.WheelEvent<HTMLDivElement>) => {
+  const { target } = e;
+  if (target instanceof HTMLInputElement && target.type === 'number') {
+    target.blur();
+  }
+};
+
 export default function SurveyComponent({
   surveyJson,
   onComplete,
@@ -117,5 +124,9 @@ export default function SurveyComponent({
     };
   }, [survey, handleComplete, handleCurrentPageChanged, handleValueChanged]);
 
-  return <Survey model={survey} />;
+  return (
+    <div onWheel={blurFocusedNumberInput}>
+      <Survey model={survey} />
+    </div>
+  );
 }

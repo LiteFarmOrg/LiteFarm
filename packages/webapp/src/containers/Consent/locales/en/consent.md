@@ -28,7 +28,7 @@ Depending on your role on the farm and parts of the LiteFarm platform you use, t
 
 **Personal Information**
 
-“Personal Information” describes any information that can be used to identify you or your workers. . This includes:
+“Personal Information” describes any information that can be used to identify you or your workers. This includes:
 
 - Contact information (name, address, phone number, email address)
 - Demographic information (gender, year of birth, language preference, country, currency)
@@ -49,7 +49,7 @@ LiteFarm uses the management information that you enter into the app to generate
 - Pest control information: product name; amount of product applied; application target (i.e., pest or disease name), common name, scientific name, group; active ingredient name; active ingredient concentration; harvest interval; entry interval; type of control; location(s) and crop(s) targeted.
 - Harvest information: field harvested; crop harvested; quantity harvested, uses of harvests.
 - Seeding information: location(s) seeded; crop(s) seeded; spacing depth, length, width, and rate.
-- Field work information: location(s), crops(s); type of work, notes.
+- Field work information: location(s), crop(s); type of work, notes.
 - Soil information: location; depth; texture; percentage potassium, phosphorus, nitrogen, organic matter, organic carbon, inorganic carbon, total carbon, sulfur, calcium, magnesium, sodium, zinc, manganese, iron, copper, boron; cation exchange capacity (CEC); pH; bulk density.
 - Sensor data such as soil water content and soil temperature that you, the farmer, route to the app through LiteFarm integration with third-party sensors.
 - Irrigation information: location(s), crop(s); irrigation type, flow rate; total time flowing.
@@ -59,7 +59,7 @@ LiteFarm uses the management information that you enter into the app to generate
 - Expense information: date; type; name; expense amount.
 - Sales information: date; name of buyer/market; crop; amount sold (kg); revenue.
 - Worker details: number of registered workers; hourly pay; email address; role; name, etc.
-- Farm specific details: preferred units (e.g. metric or imperial); currency; whether the farm is seeking certification; certifier; bed attributes; row attributes.
+- Farm specific details: preferred units (e.g., metric or imperial); currency; whether the farm is seeking certification; certifier; bed attributes; row attributes.
 - Animal information: individual animal or batch of animal names, types, breeds, sex, brought-in or birth date and other identification details
 - Animal movements information: location, reason for movement and date of movement
 - Animal welfare information: assessments of animal housing, handling and welfare practices.
@@ -82,7 +82,8 @@ We collect usage data (i.e., general statistics about users, traffic patterns, a
 There are three primary ways that we use your data:
 
 - To improve the agricultural data visualizations we provide you with: As described above, we use your usage data (i.e., general information about how you interact with the LiteFarm platform) to improve the LiteFarm platform.
-- To generate insights about the financial, environmental, and social benefits or impacts of your management decisions: The LiteFarm platform uses the management data that you enter into the app (see “Farm management information” section above for a full list), along with built-in algorithms and some public data (e.g., local weather station information, crop coefficients, crop and fertilizer nutrient content, species occurrence data, and topographic data) to generate insights about financial, environmental, and social benefits/impacts of your management decisions. These insights are available to you via the LiteFarm Dashboard at [data.litefarm.org](https://data.litefarm.org/) using your personal LIteFarm login.To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your de-identified farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by students as part of their graduate and undergraduate degrees.
+- To generate insights about the financial, environmental, and social benefits or impacts of your management decisions: The LiteFarm platform uses the management data that you enter into the app (see “Farm management information” section above for a full list), along with built-in algorithms and some public data (e.g., local weather station information, crop coefficients, crop and fertilizer nutrient content, species occurrence data, and topographic data) to generate insights about financial, environmental, and social benefits/impacts of your management decisions. These insights are available to you via the LiteFarm Dashboard at [data.litefarm.org](https://data.litefarm.org/) using your personal LiteFarm login.
+- To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your de-identified farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by students as part of their graduate and undergraduate degrees.
 
 We will rigorously evaluate every project proposal to ensure that your data is used effectively to advance knowledge on sustainable food systems, help farmers make sustainable management decisions, and impact public policy to benefit farmers. We will keep you in the loop on research projects through email (unless you would prefer to opt out), and you can always reach out to us to learn more about the research that your data is helping to make possible.
 
@@ -92,9 +93,9 @@ We will only share your data with third parties if it is both de-identified and 
 
 We do not share any personal information to third party analytics services, such as Google Analytics. Through our security protocols, we safeguard the vulnerability of personal information within the LiteFarm website, and we use IP anonymization protocols to prevent identification and geolocation by third parties.
 
-**How we use cookies?**
+**How do we use cookies?**
 
-In some areas of our site, a cookie might be placed on your computer or device. A cookie is a small file that resides on your computer or device's hard drive that allows us to improve the quality of your visit to our websites by responding to you as an individual. We use cookies to identify which pages are being used and improve our website. we only use this information for statistical analysis purposes, they are not shared with other sites and are not used for advertisements. You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. However, if you choose to decline cookies from the LiteFarm then functionality, including your ability to log-in and use the application, may be impaired. Acceptance of cookies is implied if you continue to access our website without adjusting your browser settings.
+In some areas of our site, a cookie might be placed on your computer or device. A cookie is a small file that resides on your computer or device's hard drive that allows us to improve the quality of your visit to our websites by responding to you as an individual. We use cookies to identify which pages are being used and improve our website. We only use this information for statistical analysis purposes, they are not shared with other sites and are not used for advertisements. You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. However, if you choose to decline cookies from the LiteFarm website, then functionality, including your ability to log-in and use the application, may be impaired. Acceptance of cookies is implied if you continue to access our website without adjusting your browser settings.
 
 **Where do we store your data?**
 
@@ -102,7 +103,7 @@ Our application is hosted on Digital Ocean to quickly and reliably serve our web
 
 Farmers participating in a certification network may choose to export data they have inserted into LiteFarm into a downloadable report that they can share with an external party (e.g., an agricultural certifier). Some certifiers may independently request additional questions from the farmer related to their certification process, which farmers may optionally choose to respond to as part of their certification download within the LiteFarm application. In order to facilitate the integration of questions from independent certifiers, LiteFarm contains an integration with SurveyStack, an open-source and open-access survey questionnaire platform. By agreeing to this privacy policy, you are not required to make use of the SurveyStack integration. This is an optional feature to facilitate the certification process between your farm and your certifier.
 
-Data entered via the SurveyStack integration is stored on SurveyStack’s infrastructure using MongoDB on Amazon Web Services (AWS) via the MongoDB Cloud Atlas service. SurveyStack aims to create an open data ecosystem. Therefore, all submission data on the platform is public by default, except for data associated to survey fields marked as private, which are only accessible by the person completing the survey and the creator of the survey (e.g., a certifier). Certifiers are encouraged to make their surveys private but the LiteFarm team has no control over whether they do.
+Data entered via the SurveyStack integration is stored on SurveyStack’s infrastructure using MongoDB on Amazon Web Services (AWS) via the MongoDB Cloud Atlas service. SurveyStack aims to create an open data ecosystem. Therefore, all submission data on the platform is public by default, except for data associated with survey fields marked as private, which are only accessible by the person completing the survey and the creator of the survey (e.g., a certifier). Certifiers are encouraged to make their surveys private but the LiteFarm team has no control over whether they do.
 
 LiteFarm also gives you the option to complete the [Tool for Agroecology Performance Evaluation (TAPE)](https://www.fao.org/agroecology/database/en), a survey developed by the Food and Agriculture Organization of the United Nations (FAO). Taking part is completely optional. You do not need to complete TAPE to use LiteFarm or generate a certification report.
 
@@ -116,7 +117,7 @@ We follow industry best practices to secure user data, and we have built and con
 
 **What other potential risks are involved with using LiteFarm?**
 
-While we have made every reasonable effort to ensure our application is secure and provides as accurate as possible information to assist you in managing your farm, we recognize that usage of the LiteFarm carries risks to you and your farming operation, and may contain errors, or inaccuracies of content, and security risks. The risks associated with these include potential loss of production, revenue or profit, inability to use, interruption or delay of services, loss, damage, corruption or recovery of data, or breach of data or system security, which may result from using the LiteFarm application. We do not accept liability for these risks. If you have any concern and are not able to consent to the possibility of these arising please do not sign the consent form at the end of this page or register to use this product. In the cases of known impending risks (such as known dates of loss of services) we will make every effort to forewarn you as a user so you can take necessary precautions to mitigate the risk (e.g. to back-up your data).
+While we have made every reasonable effort to ensure our application is secure and provides as accurate as possible information to assist you in managing your farm, we recognize that usage of the LiteFarm application carries risks to you and your farming operation, and may contain errors, or inaccuracies of content, and security risks. The risks associated with these include potential loss of production, revenue or profit, inability to use, interruption or delay of services, loss, damage, corruption or recovery of data, or breach of data or system security, which may result from using the LiteFarm application. We do not accept liability for these risks. If you have any concern and are not able to consent to the possibility of these arising please do not sign the consent form at the end of this page or register to use this product. In the cases of known impending risks (such as known dates of loss of services) we will make every effort to forewarn you as a user so you can take necessary precautions to mitigate the risk (e.g., to back-up your data).
 
 **How long will we retain your data?**
 
@@ -130,7 +131,7 @@ Your usage of LiteFarm is entirely voluntary. If you decide to use LiteFarm, you
 
 **What happens if you withdraw consent?**
 
-If you withdraw your consent by emailing [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca), your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca) If you plan to withdraw consent and would like a copy of your data please request that when you withdraw your consent. We cannot guarantee the deletion of any de-identified data that has been already shared to a third-party research collaborator or published to an academic project data repository.
+If you withdraw your consent by emailing [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca), your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca). If you plan to withdraw consent and would like a copy of your data please request that when you withdraw your consent. We cannot guarantee the deletion of any de-identified data that has been already shared to a third-party research collaborator or published to an academic project data repository.
 
 **How do we make changes to the Privacy Policy?**
 
@@ -142,7 +143,7 @@ If you create a LiteFarm account, we will occasionally send email to announce ne
 
 **Licensing**
 
-At this time, the LiteFarm application is free to use. The software itself is licenced under the GNU Public Licence v3, which is a free and open-source licence ([https://www.gnu.org/licenses/quick-guide-gplv3.en.html](https://www.gnu.org/licenses/quick-guide-gplv3.en.html))
+At this time, the LiteFarm application is free to use. The software itself is licenced under the GNU General Public License v3, which is a free and open-source licence ([https://www.gnu.org/licenses/quick-guide-gplv3.en.html](https://www.gnu.org/licenses/quick-guide-gplv3.en.html)).
 
 **For further information**
 
@@ -156,7 +157,7 @@ Principal Investigator: Dr. Hannah Wittman ([hannah.wittman@ubc.ca](mailto:hanna
 
 **If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study**
 
-Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail [RSIL@ors.ubc.ca](mailto:RSIL@ors.ubc.ca) or call toll free 1-877-822-8598.
+Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance email [RSIL@ors.ubc.ca](mailto:RSIL@ors.ubc.ca) or call toll free 1-877-822-8598.
 
 **Consent**
 

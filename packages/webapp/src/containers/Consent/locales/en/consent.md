@@ -1,4 +1,4 @@
-**Version 8: September 21 2026**
+**Version 8: September 21, 2026**
 
 **Informed Consent Form and Privacy Policy (LiteFarm Users)**
 

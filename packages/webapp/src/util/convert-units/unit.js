@@ -292,6 +292,20 @@ export const seedYield = {
   databaseUnit: databaseUnit.mass,
 };
 
+export const seedWeight = {
+  metric: {
+    units: ['g', 'kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1, 1000],
+  },
+  imperial: {
+    units: ['oz', 'lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [1, 2000],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
 export const pricePerSeedYield = {
   metric: {
     units: ['kg', 'mt'],

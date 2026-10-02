@@ -5,6 +5,7 @@ import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import {
   container_planting_depth,
   length_of_bed_or_row,
+  seedWeight,
   seedYield,
 } from '../../../util/convert-units/unit';
 import clsx from 'clsx';
@@ -153,7 +154,7 @@ export function PureBedForm({
               label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
               name={ESTIMATED_SEED}
               displayUnitName={ESTIMATED_SEED_UNIT}
-              unitType={seedYield}
+              unitType={seedWeight}
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}

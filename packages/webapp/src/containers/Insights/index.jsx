@@ -13,129 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-// images
-import soil_om from '../../assets/images/insights/soil_om.svg';
-import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
-import biodiversity from '../../assets/images/insights/biodiversity.svg';
-import prices from '../../assets/images/insights/prices.svg';
-
-// actions
-import { getLabourHappinessData, getPricesWithDistanceData, getSoilOMData } from './actions';
-// selectors
-import {
-  labourHappinessSelector,
-  pricesDistanceSelector,
-  pricesSelector,
-  soilOMSelector,
-} from './selectors';
-
-import InfoBoxComponent from '../../components/InfoBoxComponent';
-import { BsChevronRight } from 'react-icons/bs';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
-import { Semibold, Text, Title } from '../../components/Typography';
-import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import { Title } from '../../components/Typography';
 import { SURVEY_INFO, getAvailableSurveyIds } from './Survey/surveyConfig';
 import SurveyInsightTile from './Survey/SurveyInsightTile';
 
 const Insights = () => {
-  const history = useHistory();
   const farm = useSelector(userFarmSelector);
-  const pricesDistance = useSelector(pricesDistanceSelector);
-  const soilOMData = useSelector(soilOMSelector);
-  const labourHappinessData = useSelector(labourHappinessSelector);
-  const biodiversityData = null;
-  const pricesData = useSelector(pricesSelector);
-  const isOffline = useIsOffline();
   const isAdmin = useSelector(isAdminSelector);
-
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-
-  const items = [
-    {
-      label: t('INSIGHTS.SOIL_OM.TITLE'),
-      image: soil_om,
-      route: 'SoilOM',
-      data_point: 'SoilOM',
-    },
-    {
-      label: t('INSIGHTS.LABOUR_HAPPINESS.TITLE'),
-      image: labour_happiness,
-      route: 'LabourHappiness',
-      data_point: 'LabourHappiness',
-    },
-    {
-      label: t('INSIGHTS.BIODIVERSITY.TITLE'),
-      image: biodiversity,
-      route: 'Biodiversity',
-      data_point: 'Biodiversity',
-    },
-    {
-      label: t('INSIGHTS.PRICES.TITLE'),
-      image: prices,
-      route: 'Prices',
-      data_point: 'Prices',
-    },
-  ];
-
-  useEffect(() => {
-    dispatch(getSoilOMData());
-    dispatch(getLabourHappinessData());
-    dispatch(getPricesWithDistanceData(farm.grid_points, pricesDistance));
-  }, []);
-
-  const handleClick = (route) => {
-    history.push(`/Insights/${route}`);
-  };
-
-  const renderItem = (item, index, currentData) => {
-    const isLoading = currentData === t('common:LOADING');
-
-    return (
-      <div key={index} className={`insightItem item-${index} ${styles.insightItem}`}>
-        <div
-          className={`itemButton item-${index} ${styles.itemButton} ${
-            isLoading ? styles.isLoading : ''
-          }`}
-          onClick={() => handleClick(item.route)}
-        >
-          <img
-            className={`itemIcon item-${index} ${styles.itemIcon}`}
-            src={item.image}
-            alt={item.label}
-          />
-          <div className={`itemText item-${index} ${styles.itemText}`}>
-            <Semibold className={styles.itemTitle}>{item.label}</Semibold>
-            {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (
-              <Text>{currentData}</Text>
-            ) : (
-              <Text>{`${t('INSIGHTS.CURRENT')}: ${currentData ?? 0}`}</Text>
-            )}
-          </div>
-          <BsChevronRight className={styles.itemArrow} />
-        </div>
-        <hr className={styles.defaultLine} />
-      </div>
-    );
-  };
-
-  const insightData = useMemo(() => {
-    const insightData = {};
-    insightData['SoilOM'] = (soilOMData.preview ?? '0') + '%';
-    insightData['LabourHappiness'] = labourHappinessData.preview
-      ? labourHappinessData.preview + '/5'
-      : t('INSIGHTS.UNAVAILABLE');
-    insightData['Biodiversity'] = t('INSIGHTS.CLICK_TO_CALCULATE');
-    insightData['prices'] = pricesData.preview
-      ? t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
-      : t('INSIGHTS.UNAVAILABLE');
-    return insightData;
-  }, [soilOMData, labourHappinessData, biodiversityData, pricesData]);
 
   // Surveys are shown only to admins. getAvailableSurveyIds gates the list to
   // surveys available in the farm's country (see SURVEY_INFO).
@@ -153,29 +43,11 @@ const Insights = () => {
     ));
   }, [farm?.country_code, isAdmin]);
 
-  const renderedItems = useMemo(() => {
-    const otherTiles = items.map((item, index) =>
-      renderItem(item, surveyTiles.length + index, insightData[item.data_point]),
-    );
-    return [...surveyTiles, ...otherTiles];
-  }, [insightData, isOffline, surveyTiles]);
-
   return (
     <div className={styles.insightContainer}>
-      <div>
-        <div className={styles.leftText}>
-          <Title>{t('INSIGHTS.TITLE')}</Title>
-        </div>
-        <div className={styles.rightText}>
-          <InfoBoxComponent
-            customStyle={{ fontSize: '20px' }}
-            title={t('INSIGHTS.TITLE')}
-            body={<div>{t('INSIGHTS.INFO')}</div>}
-          />
-        </div>
-      </div>
+      <Title>{t('INSIGHTS.FARM_INSIGHTS_TITLE')}</Title>
       <hr className={styles.defaultLine} />
-      {renderedItems}
+      {surveyTiles}
     </div>
   );
 };

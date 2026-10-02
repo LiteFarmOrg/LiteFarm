@@ -26,6 +26,7 @@ import { isLocalDraftStale } from './utils';
 import { useSurveyTitles } from './useSurveyTitle';
 import type { SurveyModule } from '../../../components/Insights/Survey/SurveyModuleSection';
 import type { SurveyState } from '../../../components/Insights/Survey/SurveyModuleCard';
+import { RISK_LEVELS, RiskLevel } from '../../../components/Insights/Survey/utils';
 
 const DEFAULT_ESTIMATED_MINUTES = 10;
 const DEFAULT_PAGE_COUNT = 1;
@@ -37,6 +38,21 @@ const readScore = (response: SurveyResponseRecord, scoreField?: string): number 
   const score = Number(response.survey_response?.[scoreField]);
 
   return Number.isFinite(score) ? score : undefined;
+};
+
+const isRiskLevel = (value: unknown): value is RiskLevel =>
+  (RISK_LEVELS as readonly unknown[]).includes(value);
+
+const readRiskLevel = (
+  response: SurveyResponseRecord,
+  scoreField?: string,
+): RiskLevel | undefined => {
+  if (!scoreField) {
+    return undefined;
+  }
+  const value = response.survey_response?.[scoreField];
+
+  return isRiskLevel(value) ? value : undefined;
 };
 
 const getProgress = (currentPageNo: number, pages: number): number =>
@@ -76,6 +92,7 @@ const getSurveyState = (
       type: 'completed',
       completedAt: new Date(response.created_at),
       score: readScore(response, scoreField),
+      riskLevel: readRiskLevel(response, scoreField),
       hasNewVersion,
     };
   }
@@ -103,6 +120,7 @@ export const useSurveyModules = (
   return moduleIds.map((surveyId) => ({
     surveyId,
     title: titleBySurveyId[surveyId],
+    scoreDisplay: SURVEY_INFO[surveyId].scoreDisplay,
     survey: getSurveyState(
       surveyId,
       responses?.[surveyId],

@@ -20,17 +20,25 @@ import SurveyIcon from '../../../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
 import NewVersionBadge from '../../../SimpleBadges/NewVersionBadge';
 import { getLocalizedDateString } from '../../../../util/moment';
+import { COMPLETED_DATE_OPTIONS, type RiskLevel, type SurveyScoreDisplay } from '../utils';
 import styles from './styles.module.scss';
 
 export type SurveyState =
   | { type: 'not-started'; estimatedMinutes: number }
   | { type: 'in-progress'; progress: number; startedAt: Date }
-  | { type: 'completed'; completedAt: Date; score?: number; hasNewVersion?: boolean };
+  | {
+      type: 'completed';
+      completedAt: Date;
+      score?: number;
+      riskLevel?: RiskLevel;
+      hasNewVersion?: boolean;
+    };
 
 export interface SurveyModuleCardProps {
   title: string;
   onAction: () => void;
   survey: SurveyState;
+  scoreDisplay?: SurveyScoreDisplay;
 }
 
 interface CardActionConfig {
@@ -39,13 +47,11 @@ interface CardActionConfig {
   metaText: string | null;
 }
 
-export const COMPLETED_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
-  day: 'numeric',
-  month: 'short',
-  year: 'numeric',
-};
-
-const getCardConfig = (survey: SurveyState, t: TFunction): CardActionConfig => {
+const getCardConfig = (
+  survey: SurveyState,
+  t: TFunction,
+  scoreDisplay?: SurveyScoreDisplay,
+): CardActionConfig => {
   switch (survey.type) {
     case 'not-started':
       return {
@@ -63,23 +69,25 @@ const getCardConfig = (survey: SurveyState, t: TFunction): CardActionConfig => {
 
     case 'completed': {
       const date = getLocalizedDateString(survey.completedAt, COMPLETED_DATE_OPTIONS);
+      const isDatedByRiskBar = scoreDisplay === 'risk' && survey.riskLevel !== undefined;
       return {
         actionColor: 'secondary',
         actionLabel: survey.hasNewVersion
           ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
           : t('INSIGHTS.SURVEY.CARD.UPDATE'),
-        metaText:
-          survey.score === undefined
-            ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
-            : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
+        metaText: isDatedByRiskBar
+          ? null
+          : survey.score === undefined && survey.riskLevel === undefined
+          ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
+          : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
       };
     }
   }
 };
 
-const SurveyModuleCard = ({ title, onAction, survey }: SurveyModuleCardProps) => {
+const SurveyModuleCard = ({ title, onAction, survey, scoreDisplay }: SurveyModuleCardProps) => {
   const { t } = useTranslation();
-  const { actionColor, actionLabel, metaText } = getCardConfig(survey, t);
+  const { actionColor, actionLabel, metaText } = getCardConfig(survey, t, scoreDisplay);
 
   return (
     <div className={styles.card}>
@@ -90,7 +98,7 @@ const SurveyModuleCard = ({ title, onAction, survey }: SurveyModuleCardProps) =>
         {title}
       </div>
       <div className={styles.body}>
-        <SurveyStatusDisplay survey={survey} />
+        <SurveyStatusDisplay survey={survey} scoreDisplay={scoreDisplay} />
       </div>
       <span className={styles.meta}>{metaText}</span>
       <Button sm color={actionColor} className={styles.action} onClick={onAction}>

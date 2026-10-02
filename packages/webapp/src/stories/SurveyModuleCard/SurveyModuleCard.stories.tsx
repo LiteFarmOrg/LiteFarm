@@ -106,3 +106,48 @@ export const ScoredNewVersionLongTitle: Story = {
     },
   },
 };
+
+export const RiskNotStarted: Story = {
+  args: {
+    title: 'Exposure to pesticides',
+    scoreDisplay: 'risk',
+    survey: { type: 'not-started', estimatedMinutes: 4 },
+  },
+};
+
+export const RiskLow: Story = {
+  args: {
+    title: 'Exposure to pesticides',
+    scoreDisplay: 'risk',
+    survey: { type: 'completed', completedAt: COMPLETED_AT, riskLevel: 'Low Risk' },
+  },
+};
+
+export const RiskVeryHigh: Story = {
+  args: {
+    title: 'Exposure to pesticides',
+    scoreDisplay: 'risk',
+    survey: { type: 'completed', completedAt: COMPLETED_AT, riskLevel: 'Very High Risk' },
+  },
+};
+
+export const RiskNoScore: Story = {
+  args: {
+    title: 'Exposure to pesticides',
+    scoreDisplay: 'risk',
+    survey: { type: 'completed', completedAt: COMPLETED_AT },
+  },
+};
+
+export const RiskNewVersion: Story = {
+  args: {
+    title: 'Exposure to pesticides',
+    scoreDisplay: 'risk',
+    survey: {
+      type: 'completed',
+      completedAt: COMPLETED_AT,
+      riskLevel: 'Moderate Risk',
+      hasNewVersion: true,
+    },
+  },
+};

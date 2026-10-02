@@ -52,7 +52,8 @@ const MODULES: SurveyModule[] = [
   {
     surveyId: 'tape_pesticides',
     title: 'Exposure to pesticides',
-    survey: { type: 'completed', completedAt: COMPLETED_AT },
+    scoreDisplay: 'risk',
+    survey: { type: 'completed', completedAt: COMPLETED_AT, riskLevel: 'Moderate Risk' },
   },
   {
     surveyId: 'tape_food_security',

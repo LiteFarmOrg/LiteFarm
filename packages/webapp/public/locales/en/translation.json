@@ -1278,14 +1278,19 @@
       "CARD": {
         "COMPLETED_ON": "Completed · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HIGH_RISK": "High Risk",
         "IN_PROGRESS": "In progress",
         "LAST_UPDATED": "Last updated {{date}}",
+        "LOW_RISK": "Low Risk",
+        "MODERATE_RISK": "Moderate Risk",
         "NEW_VERSION": "New version",
         "RESUME": "Resume",
         "RETAKE_SURVEY": "Retake survey",
         "STARTED": "Started {{date}}",
         "TAKE_SURVEY": "Take survey",
-        "UPDATE": "Update"
+        "UPDATE": "Update",
+        "VERY_HIGH_RISK": "Very High Risk",
+        "VERY_LOW_RISK": "Very Low Risk"
       },
       "NO_SCORE_YET": "No score yet",
       "THANK_YOU": "Thank you. Your responses have been recorded.",

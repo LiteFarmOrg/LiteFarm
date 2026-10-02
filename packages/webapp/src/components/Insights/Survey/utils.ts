@@ -30,3 +30,13 @@ const DEFAULT_BAND: SurveyScoreBand = '5-very-high';
 
 export const getSurveyScoreBand = (score: number): SurveyScoreBand =>
   SURVEY_SCORE_BAND_RANGES.find(({ max }) => score <= max)?.band ?? DEFAULT_BAND;
+
+export const RISK_LEVELS = [
+  'Very Low Risk',
+  'Low Risk',
+  'Moderate Risk',
+  'High Risk',
+  'Very High Risk',
+] as const;
+
+export type RiskLevel = (typeof RISK_LEVELS)[number];

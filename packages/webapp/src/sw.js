@@ -214,12 +214,16 @@ const RETRY_ROUTES = [
     matcher: ({ url }) => url.pathname.includes('/farm_notes_read'),
     method: 'PATCH',
   },
+  {
+    matcher: ({ url }) => url.pathname.endsWith('/survey_response'),
+    method: 'POST',
+  },
 ];
 
 const RETRY_QUEUE_NAME = 'retry-requests';
 
 const retryQueue = new Queue(RETRY_QUEUE_NAME, {
-  maxRetentionTime: 24 * 60, // 24 hours
+  maxRetentionTime: 7 * 24 * 60, // 7 days
   // onSync is a no-op; the actual handler is createOnSyncHandler called from the message event listener below
   onSync: () => ({}),
 });

@@ -52,6 +52,7 @@ import insightStyles from '../styles.module.scss';
 import useSurveyDraftSync from './useSurveyDraftSync';
 import useInitialDraft from './useInitialDraft';
 import { getSurveyVersion } from './utils';
+import { isNetworkError } from '../../../util/apiUtils';
 import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
@@ -181,15 +182,18 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
           survey_response: surveyData,
           farm_id,
         }).unwrap();
-        prefetchLatestResponse({ surveyKey: surveyId });
-        dispatch(clearSurvey({ surveyId }));
-        markSurveyCompleted();
-        // Replace instead of push so the submitted survey is not left in the history stack
-        history.replace(getPostSubmitRoute(surveyId));
-      } catch {
-        // Display the default "An error occurred and we could not save the results." message.
-        options.showSaveError();
+      } catch (error) {
+        if (!isNetworkError(error)) {
+          // Display the default "An error occurred and we could not save the results." message.
+          options.showSaveError();
+          return;
+        }
       }
+      prefetchLatestResponse({ surveyKey: surveyId });
+      dispatch(clearSurvey({ surveyId }));
+      markSurveyCompleted();
+      // Replace instead of push so the submitted survey is not left in the history stack
+      history.replace(getPostSubmitRoute(surveyId));
     },
     [
       addSurveyResponse,

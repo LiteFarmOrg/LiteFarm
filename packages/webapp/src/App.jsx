@@ -26,6 +26,7 @@ import { ANIMALS_URL, MAP_URL, SENSORS_URL } from './util/siteMapConstants';
 import { AppUIContext } from './contexts/appContext';
 import { useOfflineDetector } from './containers/hooks/useOfflineDetector/useOfflineDetector';
 import { useServiceWorkerListener } from './hooks/useServiceWorkerListener/useServiceWorkerListener';
+import useSyncLocalDraftsOnReconnect from './containers/Insights/Survey/useSyncLocalDraftsOnReconnect';
 import { useGoogleMapsLoader } from './hooks/useGoogleMapsLoader';
 import useOfflineActivityLogger from './hooks/useOfflineActivityLogger';
 
@@ -38,6 +39,7 @@ function App() {
 
   useOfflineDetector();
   useServiceWorkerListener();
+  useSyncLocalDraftsOnReconnect();
   useOfflineActivityLogger();
   const { isLoaded } = useGoogleMapsLoader();
 

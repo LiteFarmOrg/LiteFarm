@@ -585,6 +585,27 @@ describe('User Farm Tests', () => {
         );
       });
 
+      test('Updating user farm role should keep consent', async () => {
+        const { user: owner, farm } = await setupUserFarm({});
+        const secondOwner = await createUserFarmAtFarm({ role_id: 1 }, farm);
+        const res = await new Promise((resolve, reject) =>
+          updateRoleRequest(
+            5,
+            { user_id: owner.user_id, farm_id: farm.farm_id },
+            secondOwner.user_id,
+            (err, res) => (err ? reject(err) : resolve(res)),
+          ),
+        );
+        expect(res.status).toBe(200);
+        const updatedUserFarm = await userFarmModel
+          .query()
+          .where('farm_id', farm.farm_id)
+          .andWhere('user_id', secondOwner.user_id)
+          .first();
+        expect(updatedUserFarm.role_id).toBe(5);
+        expect(updatedUserFarm.has_consent).toBe(true);
+      });
+
       test('Manager should update user farm role', async () => {
         const { user: manager, farm } = await setupUserFarm({ role_id: 2 });
         const worker = await createUserFarmAtFarm({ role_id: 3 }, farm);

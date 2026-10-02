@@ -978,7 +978,6 @@ const Routes = ({ isCompactSideMenu }) => {
                       <SensorReadings type={'sensor_array'} />
                     </Route>
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
-                    <Route path="/insights" exact children={<Insights />} />
                     <Route path="/insights/soilom" exact children={<SoilOM />} />
                     <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
                     <Route path="/insights/biodiversity" exact children={<Biodiversity />} />

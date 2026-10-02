@@ -18,7 +18,7 @@ import TasksIcon from '../assets/images/nav/tasks.svg?react';
 import CropsIcon from '../assets/images/nav/crops.svg?react';
 import AnimalsIcon from '../assets/images/nav/animals.svg?react';
 import FinancesIcon from '../assets/images/nav/finances.svg?react';
-import InsightsIcon from '../assets/images/nav/insights.svg?react';
+import FarmInsightsIcon from '../assets/images/nav/farmInsights.svg?react';
 import DocumentsIcon from '../assets/images/nav/documents.svg?react';
 import FarmSettingsIcon from '../assets/images/nav/farmSettings.svg?react';
 import PeopleIcon from '../assets/images/nav/people.svg?react';
@@ -100,12 +100,6 @@ export const useGetMenuItems = () => {
         key: MENU_KEYS.ANIMALS,
         badge: <Badge isMenuItem={true} title={t('BADGE.BETA.TITLE')} showIcon={false} />,
       },
-      {
-        label: t('MENU.INSIGHTS'),
-        icon: <InsightsIcon />,
-        path: '/Insights',
-        key: MENU_KEYS.INSIGHTS,
-      },
     ];
 
     if (isAdmin) {
@@ -137,6 +131,12 @@ export const useGetMenuItems = () => {
             key: MENU_KEYS.ESTIMATED_REVENUE,
           },
         ],
+      });
+      list.push({
+        label: t('MENU.FARM_INSIGHTS'),
+        icon: <FarmInsightsIcon />,
+        path: '/Insights',
+        key: MENU_KEYS.INSIGHTS,
       });
       list.push({
         label: t('MENU.DOCUMENTS'),

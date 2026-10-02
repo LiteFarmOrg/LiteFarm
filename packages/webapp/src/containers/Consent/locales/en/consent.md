@@ -12,7 +12,7 @@ LiteFarm is a participatory science research project hosted at the University of
 
 **Who is the LiteFarm team?**
 
-The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory global network of individuals and organizations. The Principal Investigators are Dr. Zia Mehrabi (University of Colorado) and Dr. Hannah Wittman (hannah.wittman@ubc.ca), as well as Dr. Sean Smukler, Director of the Centre for Sustainable Food Systems at UBC Farm.
+The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory global network of individuals and organizations. The Principal Investigators are Dr. Zia Mehrabi (University of Colorado) and Dr. Hannah Wittman ([hannah.wittman@ubc.ca](mailto:hannah.wittman@ubc.ca)), as well as Dr. Sean Smukler, Director of the Centre for Sustainable Food Systems at UBC Farm.
 
 **Who funds LiteFarm?**
 
@@ -124,13 +124,13 @@ We aim to retain your data indefinitely in the interests of scientific reproduci
 
 **What are your rights with respect to your personal information?**
 
-You have the right to know what data we have about you, request a copy of it, update and correct your data, request that we stop collecting your data, request a transfer of your data, or ask questions about any analyses using your data. For any such information or requests, contact litefarm.team@ubc.ca.
+You have the right to know what data we have about you, request a copy of it, update and correct your data, request that we stop collecting your data, request a transfer of your data, or ask questions about any analyses using your data. For any such information or requests, contact [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca).
 
-Your usage of LiteFarm is entirely voluntary. If you decide to use LiteFarm, you may choose to inactivate your account at any time without giving a reason, and without any further action by the researcher. If you wish to remove all of your data from the LiteFarm database, you may do so by emailing litefarm.team@ubc.ca with your request.
+Your usage of LiteFarm is entirely voluntary. If you decide to use LiteFarm, you may choose to inactivate your account at any time without giving a reason, and without any further action by the researcher. If you wish to remove all of your data from the LiteFarm database, you may do so by emailing [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca) with your request.
 
 **What happens if you withdraw consent?**
 
-If you withdraw your consent by emailing litefarm.team@ubc.ca, your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to litefarm.team@ubc.ca If you plan to withdraw consent and would like a copy of your data please request that when you withdraw your consent. We cannot guarantee the deletion of any de-identified data that has been already shared to a third-party research collaborator or published to an academic project data repository.
+If you withdraw your consent by emailing [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca), your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca) If you plan to withdraw consent and would like a copy of your data please request that when you withdraw your consent. We cannot guarantee the deletion of any de-identified data that has been already shared to a third-party research collaborator or published to an academic project data repository.
 
 **How do we make changes to the Privacy Policy?**
 
@@ -148,15 +148,15 @@ At this time, the LiteFarm application is free to use. The software itself is li
 
 With respect to the application, please contact:
 
-Product Manager: litefarm.team@ubc.ca
+Product Manager: [litefarm.team@ubc.ca](mailto:litefarm.team@ubc.ca)
 
 With respect to this study, please contact the principal investigator:
 
-Principal Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
+Principal Investigator: Dr. Hannah Wittman ([hannah.wittman@ubc.ca](mailto:hannah.wittman@ubc.ca))
 
 **If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study**
 
-Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
+Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail [RSIL@ors.ubc.ca](mailto:RSIL@ors.ubc.ca) or call toll free 1-877-822-8598.
 
 **Consent**
 

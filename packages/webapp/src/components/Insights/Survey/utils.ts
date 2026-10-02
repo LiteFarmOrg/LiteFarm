@@ -40,3 +40,5 @@ export const RISK_LEVELS = [
 ] as const;
 
 export type RiskLevel = (typeof RISK_LEVELS)[number];
+
+export type SurveyScoreDisplay = 'gauge' | 'risk';

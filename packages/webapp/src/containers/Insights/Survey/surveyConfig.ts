@@ -17,6 +17,7 @@ import { ComponentType } from 'react';
 import tape_survey from '../../../assets/images/insights/tape_survey.svg';
 import TapeResults from './TapeResults';
 import ThankYouResults from './ThankYouResults';
+import type { SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
 
 interface SurveyInfo {
   image?: string;
@@ -40,6 +41,7 @@ interface SurveyInfo {
   parentSurveyId?: string;
   isAvailable?: (parentResponse: Record<string, any>) => boolean;
   scoreField?: string;
+  scoreDisplay?: SurveyScoreDisplay;
   pages?: number;
   estimatedMinutes?: number;
 }
@@ -155,6 +157,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'final_exposure',
+    scoreDisplay: 'risk',
     pages: 1,
     estimatedMinutes: 4,
   },

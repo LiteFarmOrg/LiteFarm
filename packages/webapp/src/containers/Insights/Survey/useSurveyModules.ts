@@ -120,6 +120,7 @@ export const useSurveyModules = (
   return moduleIds.map((surveyId) => ({
     surveyId,
     title: titleBySurveyId[surveyId],
+    scoreDisplay: SURVEY_INFO[surveyId].scoreDisplay,
     survey: getSurveyState(
       surveyId,
       responses?.[surveyId],

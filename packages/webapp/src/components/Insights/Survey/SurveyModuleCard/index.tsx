@@ -20,7 +20,7 @@ import SurveyIcon from '../../../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
 import NewVersionBadge from '../../../SimpleBadges/NewVersionBadge';
 import { getLocalizedDateString } from '../../../../util/moment';
-import type { RiskLevel } from '../utils';
+import type { RiskLevel, SurveyScoreDisplay } from '../utils';
 import styles from './styles.module.scss';
 
 export type SurveyState =
@@ -38,6 +38,7 @@ export interface SurveyModuleCardProps {
   title: string;
   onAction: () => void;
   survey: SurveyState;
+  scoreDisplay?: SurveyScoreDisplay;
 }
 
 interface CardActionConfig {

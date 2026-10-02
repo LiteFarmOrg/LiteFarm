@@ -15,11 +15,13 @@
 
 import SurveyModuleCard, { SurveyState } from '../SurveyModuleCard';
 import SurveyBandLegend from '../SurveyBandLegend';
+import type { SurveyScoreDisplay } from '../utils';
 import styles from './styles.module.scss';
 
 export interface SurveyModule {
   surveyId: string;
   title: string;
+  scoreDisplay?: SurveyScoreDisplay;
   survey: SurveyState;
 }
 
@@ -31,10 +33,11 @@ export interface SurveyModuleSectionProps {
 const SurveyModuleSection = ({ modules, onModuleAction }: SurveyModuleSectionProps) => {
   return (
     <div className={styles.grid}>
-      {modules.map(({ surveyId, title, survey }) => (
+      {modules.map(({ surveyId, title, scoreDisplay, survey }) => (
         <SurveyModuleCard
           key={surveyId}
           title={title}
+          scoreDisplay={scoreDisplay}
           survey={survey}
           onAction={() => onModuleAction(surveyId)}
         />

@@ -63,7 +63,7 @@
   font-weight: 400;
   line-height: 15px;
   color: $text-muted;
-  white-space: nowrap;
+  text-align: center;
 }
 
 .progress {
@@ -130,7 +130,7 @@
 
 .action {
   padding: 0 12px;
-  white-space: nowrap;
+  text-align: center;
 }
 
 .action svg {

@@ -154,6 +154,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     versionsByCountry: { default: 'step2-pesticides' },
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
+    scoreField: 'final_exposure',
     pages: 1,
     estimatedMinutes: 4,
   },

@@ -20,12 +20,19 @@ import SurveyIcon from '../../../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
 import NewVersionBadge from '../../../SimpleBadges/NewVersionBadge';
 import { getLocalizedDateString } from '../../../../util/moment';
+import type { RiskLevel } from '../utils';
 import styles from './styles.module.scss';
 
 export type SurveyState =
   | { type: 'not-started'; estimatedMinutes: number }
   | { type: 'in-progress'; progress: number; startedAt: Date }
-  | { type: 'completed'; completedAt: Date; score?: number; hasNewVersion?: boolean };
+  | {
+      type: 'completed';
+      completedAt: Date;
+      score?: number;
+      riskLevel?: RiskLevel;
+      hasNewVersion?: boolean;
+    };
 
 export interface SurveyModuleCardProps {
   title: string;

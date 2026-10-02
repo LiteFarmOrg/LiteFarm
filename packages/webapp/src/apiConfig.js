@@ -51,7 +51,6 @@ export const managementPlanURL = `${URI}/management_plan`;
 export const taskTypeUrl = `${URI}/task_type`;
 //export const priceURL = `${URI}/price`;
 //export const yieldURL = `${URI}/yield`;
-export const insightUrl = `${URI}/insight`;
 export const documentUrl = `${URI}/document`;
 export const salesURL = URI + '/sale';
 //export const cropSalesURL = URI + '/crop_sale';
@@ -131,7 +130,6 @@ export default {
   taskTypeUrl,
   //priceURL,
   //yieldURL,
-  insightUrl,
   documentUrl,
   salesURL,
   //cropSalesURL,

@@ -63,7 +63,7 @@ const SurveyStatusDisplay = ({ survey, scoreDisplay }: SurveyStatusDisplayProps)
 
     case 'completed':
       if (isRiskDisplay && survey.riskLevel) {
-        return <RiskBar riskLevel={survey.riskLevel} />;
+        return <RiskBar riskLevel={survey.riskLevel} completedAt={survey.completedAt} />;
       }
 
       if (survey.score === undefined) {

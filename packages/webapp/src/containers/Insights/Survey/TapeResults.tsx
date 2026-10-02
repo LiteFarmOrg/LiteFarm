@@ -27,7 +27,7 @@ import NewVersionBadge from '../../../components/SimpleBadges/NewVersionBadge';
 import TapeRadarChart from './TapeRadarChart';
 import { getTAPEDimensionScores } from './caetScores';
 import SurveyModuleSection from '../../../components/Insights/Survey/SurveyModuleSection';
-import { COMPLETED_DATE_OPTIONS } from '../../../components/Insights/Survey/SurveyModuleCard';
+import { COMPLETED_DATE_OPTIONS } from '../../../components/Insights/Survey/utils';
 import { useSurveyModules } from './useSurveyModules';
 import { surveyDraftSelector } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';

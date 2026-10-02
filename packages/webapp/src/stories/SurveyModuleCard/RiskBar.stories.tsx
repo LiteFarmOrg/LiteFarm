@@ -31,6 +31,9 @@ const meta: Meta<RiskBarProps> = {
       </div>
     ),
   ],
+  args: {
+    completedAt: new Date('2026-07-03T00:00:00'),
+  },
   argTypes: {
     riskLevel: { control: { type: 'select' }, options: [undefined, ...RISK_LEVELS] },
   },

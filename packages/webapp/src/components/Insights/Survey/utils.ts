@@ -42,3 +42,9 @@ export const RISK_LEVELS = [
 export type RiskLevel = (typeof RISK_LEVELS)[number];
 
 export type SurveyScoreDisplay = 'gauge' | 'risk';
+
+export const COMPLETED_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+};

@@ -1239,6 +1239,7 @@
     },
     "CLICK_TO_CALCULATE": "Click to calculate",
     "CURRENT": "Current",
+    "FARM_INSIGHTS_TITLE": "Farm Insights",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tasks",
@@ -1710,6 +1711,7 @@
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",
     "ESTIMATED_REVENUES": "Estimated revenues",
+    "FARM_INSIGHTS": "Farm Insights",
     "FARM_SETTINGS": "Farm settings",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",

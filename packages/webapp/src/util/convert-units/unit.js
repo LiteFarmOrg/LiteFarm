@@ -293,7 +293,6 @@ export const seedYield = {
 };
 
 export const seedWeight = {
-  ...seedYield,
   metric: {
     units: ['g', 'kg', 'mt'],
     defaultUnit: 'kg',
@@ -304,6 +303,7 @@ export const seedWeight = {
     defaultUnit: 'lb',
     breakpoints: [1, 2000],
   },
+  databaseUnit: databaseUnit.mass,
 };
 
 export const pricePerSeedYield = {

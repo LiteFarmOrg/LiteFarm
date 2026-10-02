@@ -45,7 +45,7 @@ const Insights = () => {
 
   return (
     <div className={styles.insightContainer}>
-      <Title>{t('INSIGHTS.FARM_INSIGHTS_TITLE')}</Title>
+      <Title>{t('MENU.FARM_INSIGHTS')}</Title>
       <hr className={styles.defaultLine} />
       {surveyTiles}
     </div>

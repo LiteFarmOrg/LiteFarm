@@ -77,7 +77,7 @@ const getCardConfig = (survey: SurveyState, t: TFunction): CardActionConfig => {
           ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
           : t('INSIGHTS.SURVEY.CARD.UPDATE'),
         metaText:
-          survey.score === undefined
+          survey.score === undefined && survey.riskLevel === undefined
             ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
             : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
       };
@@ -85,7 +85,7 @@ const getCardConfig = (survey: SurveyState, t: TFunction): CardActionConfig => {
   }
 };
 
-const SurveyModuleCard = ({ title, onAction, survey }: SurveyModuleCardProps) => {
+const SurveyModuleCard = ({ title, onAction, survey, scoreDisplay }: SurveyModuleCardProps) => {
   const { t } = useTranslation();
   const { actionColor, actionLabel, metaText } = getCardConfig(survey, t);
 
@@ -98,7 +98,7 @@ const SurveyModuleCard = ({ title, onAction, survey }: SurveyModuleCardProps) =>
         {title}
       </div>
       <div className={styles.body}>
-        <SurveyStatusDisplay survey={survey} />
+        <SurveyStatusDisplay survey={survey} scoreDisplay={scoreDisplay} />
       </div>
       <span className={styles.meta}>{metaText}</span>
       <Button sm color={actionColor} className={styles.action} onClick={onAction}>

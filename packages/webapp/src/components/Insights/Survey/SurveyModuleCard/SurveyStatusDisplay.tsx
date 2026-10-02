@@ -15,22 +15,26 @@
 
 import { useTranslation } from 'react-i18next';
 import Gauge from './Gauge';
+import RiskBar from './RiskBar';
 import { getLocalizedDateString } from '../../../../util/moment';
 import type { SurveyState } from './index';
+import type { SurveyScoreDisplay } from '../utils';
 import styles from './styles.module.scss';
 
 interface SurveyStatusDisplayProps {
   survey: SurveyState;
+  scoreDisplay?: SurveyScoreDisplay;
 }
 
 const STARTED_DATE_FORMAT: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
 
-const SurveyStatusDisplay = ({ survey }: SurveyStatusDisplayProps) => {
+const SurveyStatusDisplay = ({ survey, scoreDisplay }: SurveyStatusDisplayProps) => {
   const { t } = useTranslation();
+  const isRiskDisplay = scoreDisplay === 'risk';
 
   switch (survey.type) {
     case 'not-started':
-      return <Gauge />;
+      return isRiskDisplay ? <RiskBar /> : <Gauge />;
 
     case 'in-progress': {
       const filled = Math.min(Math.max(survey.progress, 0), 100);
@@ -58,6 +62,10 @@ const SurveyStatusDisplay = ({ survey }: SurveyStatusDisplayProps) => {
     }
 
     case 'completed':
+      if (isRiskDisplay && survey.riskLevel) {
+        return <RiskBar riskLevel={survey.riskLevel} />;
+      }
+
       if (survey.score === undefined) {
         return (
           <svg className={styles.check} viewBox="0 0 120 86" aria-hidden="true">

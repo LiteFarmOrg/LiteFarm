@@ -43,13 +43,16 @@ const syncSingleDraft = async (
     return;
   }
 
-  const { data: serverDraft, isSuccess } = await dispatch(
+  const draftRequest = dispatch(
     surveyApi.endpoints.getSurveyDraft.initiate(
       { surveyKey },
       { forceRefetch: true, subscribe: false },
     ),
   );
-  if (!isSuccess) {
+  let serverDraft;
+  try {
+    serverDraft = await draftRequest.unwrap();
+  } catch {
     return;
   }
 

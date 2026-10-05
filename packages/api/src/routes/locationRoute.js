@@ -23,10 +23,8 @@ import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import { modelMapping } from '../middleware/validation/location.js';
 import validateLocationDependency from '../middleware/validation/deleteLocation.js';
-import organicHistoryController from '../controllers/organicHistoryController.js';
 
 import {
-  organicHistoryLocationCheckOnPost,
   organicHistoryCheckOnPut,
   organicHistoryCheckOnPost,
 } from '../middleware/validation/organicHistoryLocationCheck.js';
@@ -53,13 +51,6 @@ router.get(
   checkScope(['delete:fields']),
   validateLocationDependency,
   LocationController.checkDeleteLocation(),
-);
-
-router.get(
-  '/:location_id/organic_history',
-  hasFarmAccess({ param: 'location_id' }),
-  checkScope(['get:organic_history']),
-  organicHistoryController.getOrganicHistory,
 );
 
 router.post(
@@ -183,14 +174,6 @@ router.post(
   checkScope(['add:farm_site_boundary']),
   modelMapping['farm_site_boundary'],
   LocationController.createLocation('farm_site_boundary'),
-);
-
-router.post(
-  '/organic_history',
-  hasFarmAccess({ body: 'location_id' }),
-  checkScope(['add:organic_history']),
-  organicHistoryLocationCheckOnPost,
-  organicHistoryController.addOrganicHistory(),
 );
 
 router.put(

@@ -72,7 +72,12 @@ router.patch(
   taskController.abandonTask,
 );
 
-router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId);
+router.get(
+  '/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:task']),
+  taskController.getTasksByFarmId,
+);
 /**
  * endpoint name should follow
  * /task/task_type.task_translation_key.toLowerCase()
@@ -308,18 +313,21 @@ router.patch(
 router.get(
   '/harvest_uses/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:task']),
   taskController.getHarvestUsesByFarmId,
 );
 
 router.get(
   '/get_field_work_types/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:task']),
   taskController.getFieldWorkTypes,
 );
 
 router.get(
   '/irrigation_task_types/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:task']),
   taskController.getIrrigationTaskTypes,
 );
 

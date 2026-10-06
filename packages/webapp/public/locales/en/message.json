@@ -260,6 +260,16 @@
       "UPDATE": "Successfully updated sale"
     }
   },
+  "SURVEY": {
+    "SYNC": {
+      "SUBMIT": {
+        "FAILED": "Survey submission failed to save",
+        "NETWORK_ERROR": "Sorry, we are down momentarily. We will retry your survey submission automatically",
+        "ONLINE": "Survey submitted. Will save when you're back online",
+        "SUCCESS": "Survey submitted offline has been saved successfully"
+      }
+    }
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Failed to abandon task",

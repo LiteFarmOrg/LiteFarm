@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherForecast from '../../containers/WeatherForecast';
 import ProfitabilityWidget from './ProfitabilityWidget';
+import TapeWidget from './TapeWidget';
 import PureHome from '../../components/Home';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
+import { getAvailableSurveyIds } from '../Insights/Survey/surveyConfig';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import {
   chooseFarmFlowSelector,
@@ -31,6 +33,8 @@ export default function Home() {
     fileUrls: [userFarm.farm_image_url],
   });
   const isAdmin = useSelector(isAdminSelector);
+  const showTapeWidget =
+    userFarm && isAdmin && getAvailableSurveyIds(userFarm.country_code).includes('tape');
 
   const { refetch: refetchSensors } = useGetSensorsQuery();
 
@@ -43,7 +47,6 @@ export default function Home() {
     <PureHome
       first_name={userFarm?.first_name}
       farmName={userFarm?.farm_name}
-      // imgUrl not currently used but should be restored in the final design
       imgUrl={authenticatedImageUrl || (isLoading ? '' : defaultImageUrl)}
       date={getLocalizedDateString(new Date(), {
         weekday: 'long',
@@ -54,6 +57,7 @@ export default function Home() {
     >
       <FarmNotes />
 
+      {showTapeWidget ? <TapeWidget /> : null}
       {userFarm ? <WeatherForecast /> : null}
       {userFarm && isAdmin ? <ProfitabilityWidget /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}

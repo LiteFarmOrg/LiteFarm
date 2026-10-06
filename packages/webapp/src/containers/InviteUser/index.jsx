@@ -33,12 +33,9 @@ function InviteUser() {
   });
 
   const onInvite = (userInfo) => {
-    const { role, email, first_name, last_name, gender, language, birth_year, phone_number } =
-      userInfo;
-    const amount = +parseFloat(userInfo?.wage).toFixed(2);
+    const { role, email, first_name, last_name, language } = userInfo;
     // Pseudo worker is a worker with no email filled out
     const isPseudo = role === 3 && email.trim().length === 0;
-    // const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered
     if (!isPseudo) {
       const user = {
         email,
@@ -48,15 +45,10 @@ function InviteUser() {
         role_id: Number(role),
         wage: {
           type: 'hourly',
-          amount,
+          amount: null,
         },
-        gender,
         language,
-        birth_year,
-        phone_number,
       };
-      !user.birth_year && delete user.birth_year;
-      !user.phone_number && delete user.phone_number;
 
       dispatch(inviteUserToFarm(user));
     } else {
@@ -68,17 +60,12 @@ function InviteUser() {
         farm_id,
         wage: {
           type: 'hourly',
-          amount,
+          amount: null,
         },
         profile_picture: 'https://cdn.auth0.com/avatars/na.png',
         user_id: pseudoId,
-        gender,
         language,
-        birth_year,
-        phone_number,
       };
-      !user.birth_year && delete user.birth_year;
-      !user.phone_number && delete user.phone_number;
 
       dispatch(addPseudoWorker(user));
     }

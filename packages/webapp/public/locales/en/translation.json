@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "What will you be applying?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "Add a custom task",
+    "ADD_A_CUSTOM_TASK": "Add a custom task type",
     "ADD_A_TASK": "Add a task",
-    "ADD_CUSTOM_TASK": "Add custom task",
+    "ADD_CUSTOM_TASK": "Add custom task type",
     "AFFECT_PLANS": "Will this task affect any plans?",
     "ASSIGN_ALL_TO_PERSON": "Assign all tasks on this date to {{name}}",
     "ASSIGN_DATE": "Change task date",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_PLANS": "Clear all plans",
-    "CUSTOM_TASK": "Custom Task",
+    "CUSTOM_TASK": "Custom Task Type",
     "CUSTOM_TASK_CHAR_LIMIT": "Custom task type name cannot exceed 25 characters",
     "CUSTOM_TASK_NAME": "Custom task name",
     "CUSTOM_TASK_TYPE": "Custom Task Type",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?"
     },
-    "MANAGE_CUSTOM_TASKS": "Manage your custom tasks",
+    "MANAGE_CUSTOM_TASKS": "Manage your custom task types",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "What's the purpose of this movement?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "Select the purpose for this movement",
@@ -543,8 +543,13 @@
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "Our Data Policy",
-    "LABEL": "I Agree"
+    "AGREE_AND_CONTINUE": "Agree and continue",
+    "CHECKBOX_LABEL": "I have read and I agree to the LiteFarm data policy and informed consent form.",
+    "DATA_POLICY": "Our data policy",
+    "END_OF_POLICY": "End of policy",
+    "FULL_POLICY": "Full policy",
+    "LABEL": "I Agree",
+    "SHORT_VERSION": "The short version"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Birth year",
@@ -1189,7 +1194,12 @@
     "WHATSAPP_NUMBER_LABEL": "Whatsapp number"
   },
   "HOME": {
-    "GREETING": "Good day, "
+    "GREETING": "Good day, ",
+    "TAPE_WIDGET": {
+      "DESCRIPTION": "Take the FAO TAPE assessment and score your farm across 10 dimensions, from soil and diversity to how you farm with your community.",
+      "START_ASSESSMENT": "Start the assessment",
+      "TITLE": "How agroecological is your farm?"
+    }
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
@@ -1254,6 +1264,35 @@
       "TITLE": "Soil OM"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "High",
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "VERY_HIGH": "Very High",
+        "VERY_LOW": "Very Low"
+      },
+      "BAND_RANGE": {
+        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%",
+        "INCLUSIVE": "{{min}} – {{max}}%"
+      },
+      "CARD": {
+        "COMPLETED_ON": "Completed · {{date}}",
+        "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HIGH_RISK": "High Risk",
+        "IN_PROGRESS": "In progress",
+        "LAST_UPDATED": "Last updated {{date}}",
+        "LOW_RISK": "Low Risk",
+        "MODERATE_RISK": "Moderate Risk",
+        "NEW_VERSION": "New version",
+        "RESUME": "Resume",
+        "RETAKE_SURVEY": "Retake survey",
+        "STARTED": "Started {{date}}",
+        "TAKE_SURVEY": "Take survey",
+        "UPDATE": "Update",
+        "VERY_HIGH_RISK": "Very High Risk",
+        "VERY_LOW_RISK": "Very Low Risk"
+      },
+      "NO_SCORE_YET": "No score yet",
       "THANK_YOU": "Thank you. Your responses have been recorded.",
       "TITLE": "Survey"
     },
@@ -1273,11 +1312,36 @@
       },
       "IN_PROGRESS": "In progress",
       "LOAD_ERROR": "Failed to load survey. Please try again later.",
+      "NOT_AVAILABLE_OFFLINE": "This survey will be available offline after you open it once while online.",
       "NOT_FILLED": "Not filled",
       "RESULTS_LOAD_ERROR": "Failed to load results. Please try again later.",
       "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
       "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
       "UPDATE_ANSWERS": "Update your answers"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": "Dietary diversity"
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": "Qualitative economic indicator"
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": "Food security"
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": "Land tenure"
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": "Exposure to pesticides"
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": "Productivity, income and value added"
+    },
+    "TAPE_SOIL": {
+      "TITLE": "Soil health"
+    },
+    "TAPE_YOUTH": {
+      "TITLE": "Youth employment opportunity and emigration"
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
@@ -1646,6 +1710,7 @@
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",
     "ESTIMATED_REVENUES": "Estimated revenues",
+    "FARM_INSIGHTS": "Farm Insights",
     "FARM_SETTINGS": "Farm settings",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",

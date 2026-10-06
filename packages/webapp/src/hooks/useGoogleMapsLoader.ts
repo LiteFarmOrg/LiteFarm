@@ -31,16 +31,20 @@ if (!optionsInitialized) {
 
 export const useGoogleMapsLoader = (libraries = ALL_LIBRARIES) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loadError, setLoadError] = useState<unknown>(null);
 
   useEffect(() => {
     const loadLibraries = async () => {
-      // Load all libraries in parallel
-      await Promise.all(libraries.map((lib) => importLibrary(lib)));
-      setIsLoaded(true);
+      try {
+        await Promise.all(libraries.map((lib) => importLibrary(lib)));
+        setIsLoaded(true);
+      } catch (error) {
+        setLoadError(error);
+      }
     };
 
     loadLibraries();
   }, [libraries.join(',')]);
 
-  return { isLoaded };
+  return { isLoaded, loadError };
 };

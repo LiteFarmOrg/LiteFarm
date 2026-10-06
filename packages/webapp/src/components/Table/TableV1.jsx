@@ -51,6 +51,7 @@ function TableV1({
       showPagination={showPagination && data?.length > defaultPageSize}
       pageSizeOptions={pageSizeOptions}
       defaultPageSize={pageSize}
+      pageSize={pageSizeOptions?.length === 1 ? pageSize : undefined}
       minRows={showPagination ? undefined : minRows} // Messes up pagination
       getTdProps={getTdProps}
       defaultSorted={defaultSorted}

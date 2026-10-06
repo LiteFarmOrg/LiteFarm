@@ -22,6 +22,7 @@ import 'survey-core/i18n/french';
 import 'survey-core/i18n/spanish';
 import 'survey-core/i18n/portuguese';
 import 'survey-core/i18n/italian';
+import './customFunctions';
 
 interface SurveyComponentProps {
   surveyJson: any; // Survey JSON schema object
@@ -36,6 +37,13 @@ const extractSurveyState = (model: Model) => ({
   currentPageNo: model.currentPageNo,
   surveyData: model.data,
 });
+
+const blurFocusedNumberInput = (e: React.WheelEvent<HTMLDivElement>) => {
+  const { target } = e;
+  if (target instanceof HTMLInputElement && target.type === 'number') {
+    target.blur();
+  }
+};
 
 export default function SurveyComponent({
   surveyJson,
@@ -75,6 +83,9 @@ export default function SurveyComponent({
 
   const handleCurrentPageChanged = useCallback(
     (surveyModel: Model) => {
+      if (surveyModel.state === 'completed') {
+        return;
+      }
       const { currentPageNo, surveyData } = extractSurveyState(surveyModel);
       onCurrentPageChanged?.(currentPageNo, surveyData);
     },
@@ -113,5 +124,9 @@ export default function SurveyComponent({
     };
   }, [survey, handleComplete, handleCurrentPageChanged, handleValueChanged]);
 
-  return <Survey model={survey} />;
+  return (
+    <div onWheel={blurFocusedNumberInput}>
+      <Survey model={survey} />
+    </div>
+  );
 }

@@ -2,17 +2,7 @@ import locationModel from '../../models/locationModel.js';
 import moment from 'moment';
 const organicHistoryLocations = ['field', 'garden', 'greenhouse'];
 
-async function organicHistoryLocationCheckOnPost(req, res, next) {
-  const location = await locationModel
-    .query()
-    .join('figure', 'figure.location_id', 'location.location_id')
-    .where('location.location_id', req.body.location_id)
-    .whereIn('type', organicHistoryLocations);
-  if (!location.length) return res.status(400).send('Location must be crop enabled.');
-  return next();
-}
-
-async function organicHistoryCheckOnPut(req, res, next) {
+async function organicHistoryCheckOnPut(req, _res, next) {
   const location = await locationModel
     .query()
     .findById(req.params.location_id)
@@ -42,7 +32,7 @@ async function organicHistoryCheckOnPut(req, res, next) {
   return next();
 }
 
-async function organicHistoryCheckOnPost(req, res, next) {
+async function organicHistoryCheckOnPost(req, _res, next) {
   if (organicHistoryLocations.includes(req.body.figure.type)) {
     req.body[req.body.figure.type].organic_history.organic_status =
       req.body[req.body.figure.type].organic_status;
@@ -50,4 +40,4 @@ async function organicHistoryCheckOnPost(req, res, next) {
   return next();
 }
 
-export { organicHistoryLocationCheckOnPost, organicHistoryCheckOnPut, organicHistoryCheckOnPost };
+export { organicHistoryCheckOnPut, organicHistoryCheckOnPost };

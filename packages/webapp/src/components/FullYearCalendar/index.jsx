@@ -11,7 +11,7 @@ import { languageCodes } from '../../hooks/useLanguageOptions';
 // TODO: LF-5430 Revert to re-add Khmer
 // Exclude km
 const languageJsonFiles = import.meta.glob(
-  '../../locales/{en,es,de,fr,pt,hi,pa,ml}/rcYearCalendar.json',
+  '../../locales/{en,es,de,fr,pt,hi,pa,ml,it}/rcYearCalendar.json',
   { eager: true },
 );
 

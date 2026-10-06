@@ -3,7 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
 import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskWithProductSelector } from '../../taskSlice';
 import { productsForTaskTypeSelector } from '../../productSlice';
@@ -15,6 +15,7 @@ import useFilePickerUpload from '../../../components/FilePicker/useFilePickerUpl
 function TaskCompleteStepOne() {
   const location = useLocation();
   const navigate = useNavigate();
+  const isAdmin = useSelector(isAdminSelector);
   const {
     units: { measurement: system },
     country_id,
@@ -57,6 +58,7 @@ function TaskCompleteStepOne() {
         selectedTask={task}
         filePickerFunctions={filePickerFunctions}
         isUploading={isUploading}
+        isAdmin={isAdmin}
       />
     </HookFormPersistProvider>
   );

@@ -8,6 +8,7 @@ import SignupGerman from '../../assets/images/signUp/signup_german.svg?react';
 import SignupHindi from '../../assets/images/signUp/signup_hindi.svg?react';
 import SignupPunjabi from '../../assets/images/signUp/signup_punjabi.svg?react';
 import SignupMalayalam from '../../assets/images/signUp/signup_malayalam.svg?react';
+import SignupItalian from '../../assets/images/signUp/signup_italian.svg?react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
@@ -23,6 +24,7 @@ export default function PureWelcomeScreen({ onClick }) {
     hi: <SignupHindi />,
     pa: <SignupPunjabi />,
     ml: <SignupMalayalam />,
+    it: <SignupItalian />,
   };
   const language = getLanguageFromLocalStorage();
   return (

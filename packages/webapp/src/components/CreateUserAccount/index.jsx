@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input, { integerOnKeyDown } from '../Form/Input';
+import Input from '../Form/Input';
 import { useEffect, useState } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -10,14 +10,9 @@ import { PasswordError } from '../Form/Errors';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../locales/i18n';
-import useGenderOptions from '../../hooks/useGenderOptions';
 import useLanguageOptions from '../../hooks/useLanguageOptions';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO = true }) {
-  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
-
-  const GENDER = 'gender';
-
   const {
     register,
     handleSubmit,
@@ -25,20 +20,16 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     control,
     setValue,
     getValues,
-    formState: { isDirty, isValid, errors },
+    formState: { isDirty, isValid },
   } = useForm({
     mode: 'onTouched',
-    defaultValues: {
-      [GENDER]: genderOptions.find(({ value }) => value === 'PREFER_NOT_TO_SAY'),
-    },
   });
 
   const NAME = 'name';
   const LANGUAGE = 'language';
-  const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
-  const { t } = useTranslation(['translation', 'common', 'gender']);
+  const { t } = useTranslation(['translation', 'common']);
   const title = t('CREATE_USER.TITLE');
 
   const {
@@ -71,7 +62,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
   const disabled = !isDirty || !isValid || (isNotSSO && !isPasswordValid);
 
   const onSubmit = (data) => {
-    data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[LANGUAGE] = data?.[LANGUAGE]?.value || t('INVITE_USER.DEFAULT_LANGUAGE_VALUE');
     onSignUp({ ...data, email });
   };
@@ -112,22 +102,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
         }}
       />
       <Controller
-        control={control}
-        name={GENDER}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            data-cy="createUser-gender"
-            label={t('CREATE_USER.GENDER')}
-            options={genderOptions}
-            onChange={onChange}
-            value={value}
-            toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
-            style={{ marginBottom: '28px' }}
-            getOptionLabel={getGenderOptionLabel}
-          />
-        )}
-      />
-      <Controller
         data-cy="createUser-language"
         control={control}
         name={LANGUAGE}
@@ -147,25 +121,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
             }}
           />
         )}
-      />
-      <Input
-        data-cy="createUser-birthYear"
-        label={t('CREATE_USER.BIRTH_YEAR')}
-        type="number"
-        onKeyPress={integerOnKeyDown}
-        hookFormRegister={register(BIRTHYEAR, {
-          min: 1900,
-          max: new Date().getFullYear(),
-          valueAsNumber: true,
-        })}
-        toolTipContent={t('CREATE_USER.BIRTH_YEAR_TOOLTIP')}
-        style={{ marginBottom: '28px' }}
-        errors={
-          errors[BIRTHYEAR] &&
-          (errors[BIRTHYEAR].message ||
-            `${t('CREATE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
-        }
-        optional
       />
       {isNotSSO && (
         <>

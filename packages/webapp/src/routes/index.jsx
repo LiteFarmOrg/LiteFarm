@@ -29,6 +29,7 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import useDashboardHandoff from '../containers/hooks/useDashboardHandoff';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
+import SurveyUnavailableOffline from '../containers/Insights/Survey/SurveyUnavailableOffline';
 
 import {
   ADD_SENSORS_URL,
@@ -56,11 +57,14 @@ const JoinFarmSuccessScreen = React.lazy(() => import('../containers/JoinFarmSuc
 const InviteUser = React.lazy(() => import('../containers/InviteUser'));
 // Insights imports
 const Insights = React.lazy(() => import('../containers/Insights'));
-const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
-const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
-const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
-const Prices = React.lazy(() => import('../containers/Insights/Prices'));
-const SurveyRoutes = React.lazy(() => import('./SurveyRoutes'));
+const SurveyRoutes = React.lazy(() =>
+  import('./SurveyRoutes').catch((error) => {
+    if (navigator.onLine) {
+      throw error;
+    }
+    return { default: SurveyUnavailableOffline };
+  }),
+);
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
 
@@ -399,10 +403,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
           <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
           <Route path="/insights" element={<Insights />} />
-          <Route path="/insights/soilom" element={<SoilOM />} />
-          <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
-          <Route path="/insights/biodiversity" element={<Biodiversity />} />
-          <Route path="/insights/prices" element={<Prices />} />
           <Route
             path="/insights/*"
             element={<SurveyRoutes isCompactSideMenu={isCompactSideMenu} />}
@@ -631,10 +631,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
           <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
           <Route path="/insights" element={<Insights />} />
-          <Route path="/insights/soilom" element={<SoilOM />} />
-          <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
-          <Route path="/insights/biodiversity" element={<Biodiversity />} />
-          <Route path="/insights/prices" element={<Prices />} />
           <Route
             path="/insights/*"
             element={<SurveyRoutes isCompactSideMenu={isCompactSideMenu} />}
@@ -737,10 +733,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
           <Route path="/farm_selection" element={<ChooseFarm />} />
           <Route path="/insights" element={<Insights />} />
-          <Route path="/insights/soilom" element={<SoilOM />} />
-          <Route path="/insights/labourhappiness" element={<LabourHappiness />} />
-          <Route path="/insights/biodiversity" element={<Biodiversity />} />
-          <Route path="/insights/prices" element={<Prices />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
           <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />

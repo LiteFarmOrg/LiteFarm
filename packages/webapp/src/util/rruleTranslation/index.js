@@ -16,9 +16,12 @@ import { languageCodes as supportedLanguages } from '../../hooks/useLanguageOpti
 // Import all translation files directly not dynamically
 // TODO: LF-5430 Revert to re-add Khmer
 // Exclude km
-const languageJsonFiles = import.meta.glob('../../locales/{en,es,de,fr,pt,hi,pa,ml}/rrule.json', {
-  eager: true,
-});
+const languageJsonFiles = import.meta.glob(
+  '../../locales/{en,es,de,fr,pt,hi,pa,ml,it}/rrule.json',
+  {
+    eager: true,
+  },
+);
 
 const getLanguage = (language) => {
   const { getText, dayNames, monthNames } = language;

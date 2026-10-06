@@ -511,9 +511,9 @@
     "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
     "NOTE_CANNOT_RESUBMIT": "Nota: Una vez que envíe la encuesta, no podrá editar sus respuestas. Para cambiarlos después del envío, comience una nueva exportación.",
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
-    "SELECT_EXPORT_CERTIFIER": "¿Para qué certificador quieres exportar tus datos de LiteFarm?",
     "SELECT_CERTIFIER": "Seleccione el certificador",
     "SELECT_CERTIFIER_PLACEHOLDER": "Seleccionar entre sus certificadores",
+    "SELECT_EXPORT_CERTIFIER": "¿Para qué certificador quieres exportar tus datos de LiteFarm?",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
     "UH_OH": "¡Oh, no!",
     "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
@@ -1189,7 +1189,7 @@
     "WHATSAPP_NUMBER_LABEL": "Número de Whatsapp"
   },
   "HOME": {
-    "GREETING": "Buen dia,"
+    "GREETING": "Buen día, "
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} otro",
@@ -1259,6 +1259,18 @@
     },
     "TAPE": {
       "COMPLETED": "Completado - Ver tus resultados",
+      "DIMENSIONS": {
+        "CIRCULAR_ECONOMY": "Economía circular y solidaria",
+        "COCREATION_AND_KNOWLEDGE": "Cocreación e intercambio de conocimientos",
+        "CULTURE_AND_FOOD": "Cultura y tradiciones alimentarias",
+        "DIVERSITY": "Diversidad",
+        "EFFICIENCY": "Eficiencia",
+        "HUMAN_AND_SOCIAL": "Valores humanos y sociales",
+        "RECYCLING": "Reciclaje",
+        "RESILIENCE": "Resiliencia",
+        "RESPONSIBLE_GOVERNANCE": "Gobernanza responsable",
+        "SYNERGY": "Sinergias"
+      },
       "IN_PROGRESS": "En progreso",
       "LOAD_ERROR": "Error al cargar la encuesta. Inténtalo de nuevo más tarde.",
       "NOT_FILLED": "Sin rellenar",

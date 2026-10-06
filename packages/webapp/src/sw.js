@@ -19,7 +19,7 @@ import {
   createHandlerBoundToURL,
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { CacheFirst, NetworkOnly } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst, NetworkOnly } from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { Queue } from 'workbox-background-sync';
 import { clientsClaim, cacheNames } from 'workbox-core';
@@ -102,6 +102,21 @@ registerRoute(
         purgeOnQuotaError: true,
       }),
     ],
+  }),
+);
+
+const SURVEY_DEFINITION_DIRECTORIES = ['tape_surveys', 'idems_surveys'];
+
+registerRoute(
+  ({ url, request }) =>
+    request.method === 'GET' &&
+    url.hostname.endsWith('.cdn.digitaloceanspaces.com') &&
+    SURVEY_DEFINITION_DIRECTORIES.includes(url.pathname.split('/')[1]) &&
+    url.pathname.endsWith('.json'),
+  new NetworkFirst({
+    cacheName: 'survey-definitions',
+    networkTimeoutSeconds: 5,
+    plugins: [new ExpirationPlugin({ maxEntries: 20 })],
   }),
 );
 
@@ -199,12 +214,16 @@ const RETRY_ROUTES = [
     matcher: ({ url }) => url.pathname.includes('/farm_notes_read'),
     method: 'PATCH',
   },
+  {
+    matcher: ({ url }) => url.pathname.endsWith('/survey_response'),
+    method: 'POST',
+  },
 ];
 
 const RETRY_QUEUE_NAME = 'retry-requests';
 
 const retryQueue = new Queue(RETRY_QUEUE_NAME, {
-  maxRetentionTime: 24 * 60, // 24 hours
+  maxRetentionTime: 7 * 24 * 60, // 7 days
   // onSync is a no-op; the actual handler is createOnSyncHandler called from the message event listener below
   onSync: () => ({}),
 });

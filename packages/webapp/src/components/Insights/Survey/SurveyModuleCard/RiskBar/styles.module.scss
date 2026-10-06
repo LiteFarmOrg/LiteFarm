@@ -1,0 +1,103 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '@assets/mixin' as *;
+@use '../../surveyColors' as *;
+
+.riskBar {
+  position: relative;
+  width: 100%;
+  height: 86px;
+}
+
+.label,
+.placeholder,
+.date {
+  @include fontFamily();
+
+  position: absolute;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.label {
+  top: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 15px;
+  color: var(--risk-ink);
+}
+
+.placeholder {
+  top: 48px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: $text-muted;
+  opacity: 0.7;
+}
+
+.date {
+  top: 45px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  color: $text-muted;
+}
+
+.track {
+  position: absolute;
+  top: 28px;
+  left: 6px;
+  right: 6px;
+  height: 12px;
+  border-radius: 3px;
+  background-color: $gauge-track;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 3px;
+  background-color: var(--risk-fill);
+}
+
+.veryLowRisk {
+  --risk-fill: #{$band-5-very-high-fill};
+  --risk-ink: #{$band-5-very-high-ink};
+}
+
+.lowRisk {
+  --risk-fill: #{$band-4-high-fill};
+  --risk-ink: #{$band-4-high-ink};
+}
+
+.moderateRisk {
+  --risk-fill: #{$band-3-medium-fill};
+  --risk-ink: #{$band-3-medium-ink};
+}
+
+.highRisk {
+  --risk-fill: #{$band-2-low-fill};
+  --risk-ink: #{$band-2-low-ink};
+}
+
+.veryHighRisk {
+  --risk-fill: #{$band-1-very-low-fill};
+  --risk-ink: #{$band-1-very-low-ink};
+}

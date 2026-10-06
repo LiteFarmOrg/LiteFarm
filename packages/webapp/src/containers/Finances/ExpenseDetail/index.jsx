@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import {
   expenseSelector,
@@ -19,17 +19,14 @@ import { cropVarietyOptionsSelector } from '../../cropVarietySlice';
 import { animalOptionsSelector } from '../../../store/selectors/animals';
 import { transformExpenseAllocations } from '../util';
 
-const ExpenseDetail = () => {
-  const history = useHistory();
-  const match = useRouteMatch();
+const ExpenseDetail = ({ isEditing }) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useHookFormPersist(); // To clear form history after editing
 
-  const isEditing = match.path.endsWith('/edit');
-
-  const { expense_id } = match.params;
+  const { expense_id } = useParams();
 
   const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
   const expense = useSelector(expenseByIdSelector(expense_id));
@@ -38,9 +35,9 @@ const ExpenseDetail = () => {
 
   useEffect(() => {
     if (!expense) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [expense, history]);
+  }, [expense]);
 
   const currentExpenseType = useSelector(expenseTypeByIdSelector(expense.expense_type_id));
 
@@ -74,7 +71,7 @@ const ExpenseDetail = () => {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditExpenseDetailsUrl(expense_id)]));
-    history.push(createEditExpenseDetailsUrl(expense_id));
+    navigate(createEditExpenseDetailsUrl(expense_id)); // TODO: Fix navigation
   };
 
   const onRetire = () => {
@@ -82,13 +79,12 @@ const ExpenseDetail = () => {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (
     expense && (
       <PureExpenseDetail
-        key={isEditing ? 'editing' : 'readonly'} // remount the component
         pageTitle={isEditing ? t('EXPENSE.EDIT_EXPENSE.TITLE') : t('SALE.EXPENSE_DETAIL.TITLE')}
         expense={expense}
         handleGoBack={handleGoBack}

@@ -14,10 +14,10 @@
  */
 
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
-import history from '../../../../history';
 import {
   createExpenseDetailsUrl,
   createRevenueDetailsUrl,
@@ -51,6 +51,7 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
 };
 
 export default function ExpandedContent({ data, currencySymbol, mobileView }) {
+  const navigate = useNavigate();
   const { transactionType } = data;
 
   const { t } = useTranslation();
@@ -66,7 +67,7 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
     <div className={styles.expandedContent}>
       <TextButton
         className={clsx(styles.toDetail, navStyles.hideWhenOffline)}
-        onClick={() => history.push(getDetailPageLink(data))}
+        onClick={() => navigate(getDetailPageLink(data))}
       >
         {toDetailText}
         <BsChevronRight />

@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
@@ -30,7 +30,7 @@ import { getBiodiversityData } from '../actions';
 import BiodiversityLoadingModal from '../../../components/Modals/BiodiversityLoadingModal/BiodiversityLoadingModal';
 
 const Biodiversity = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const biodiversityData = useSelector(biodiversitySelector);
   const biodiversityLoading = useSelector(biodiversityLoadingSelector);
   const biodiversityError = useSelector(biodiversityErrorSelector);
@@ -61,7 +61,7 @@ const Biodiversity = () => {
   });
 
   const dismissModal = () => {
-    history.push('/Insights');
+    navigate('/Insights');
   };
 
   return (

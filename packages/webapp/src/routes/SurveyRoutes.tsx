@@ -13,28 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Redirect, Switch, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams, Navigate } from 'react-router-dom';
 import Survey from '../containers/Insights/Survey';
 import { getResultsComponent } from '../containers/Insights/Survey/surveyConfig';
 
 // Renders the results component the survey declares (or the generic thank-you page).
 const SurveyResults = () => {
-  const { surveyId } = useParams<{ surveyId: string }>();
+  const { surveyId = '' } = useParams();
   const ResultsComponent = getResultsComponent(surveyId);
   return <ResultsComponent surveyId={surveyId} />;
 };
 
 const SurveyRoutes = ({ isCompactSideMenu }: { isCompactSideMenu: boolean }) => {
   return (
-    <Switch>
-      <Route path="/insights/survey/:surveyId" exact>
-        <Survey isCompactSideMenu={isCompactSideMenu} />
-      </Route>
-      <Route path="/insights/survey/:surveyId/results" exact>
-        <SurveyResults />
-      </Route>
-      <Route render={() => <Redirect to="/" />} />
-    </Switch>
+    <Routes>
+      <Route path="survey/:surveyId" element={<Survey isCompactSideMenu={isCompactSideMenu} />} />
+      <Route path="survey/:surveyId/results" element={<SurveyResults />} />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 };
 

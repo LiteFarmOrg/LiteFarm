@@ -14,7 +14,7 @@
  */
 
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
 import insightStyles from '../styles.module.scss';
@@ -37,7 +37,7 @@ interface SurveyInsightTileProps {
  */
 function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const title = useSurveyTitle(surveyId);
 
   const {
@@ -71,7 +71,7 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
         className={`itemButton item-${index} ${insightStyles.itemButton} ${
           isLoading ? insightStyles.isLoading : ''
         }`}
-        onClick={() => history.push(route)}
+        onClick={() => navigate(route)}
       >
         <img
           className={`itemIcon item-${index} ${insightStyles.itemIcon}`}

@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
@@ -7,14 +7,14 @@ import { setSelectedSale } from '../actions';
 import { createRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 const ActualRevenueItem = ({ revenueItem, ...props }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { sale_id, sale_date, customer_name } = revenueItem.sale;
 
   const dispatch = useDispatch();
 
   const onClickForward = () => {
     dispatch(setSelectedSale(revenueItem.sale));
-    history.push(createRevenueDetailsUrl(sale_id));
+    navigate(createRevenueDetailsUrl(sale_id));
   };
 
   return (

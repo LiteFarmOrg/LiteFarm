@@ -10,7 +10,7 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getCropVarieties } from '../saga';
 import { cropVarietyFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
@@ -24,13 +24,14 @@ import Drawer from '../../components/Drawer';
 import navStyles from '@navStyles';
 
 export default function CropVarieties() {
+  const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
-  const crop_id = Number(match.params.crop_id);
+  let { crop_id } = useParams();
+  crop_id = Number(crop_id);
+
   const crop = useSelector(cropSelector(crop_id));
 
   const [filterString, setFilterString] = useState('');
@@ -73,10 +74,10 @@ export default function CropVarieties() {
     setIsFilterOpen(true);
   };
 
-  const onGoBack = () => history.push('/crop_catalogue');
+  const onGoBack = () => navigate('/crop_catalogue');
 
   const goToVarietyManagement = (varietyId) => {
-    history.push(`/crop/${varietyId}/management`, { returnPath: location.pathname });
+    navigate(`/crop/${varietyId}/management`, { returnPath: location.pathname });
   };
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();

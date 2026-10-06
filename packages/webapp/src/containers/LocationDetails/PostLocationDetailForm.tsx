@@ -12,8 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import { useHistory, useRouteMatch } from 'react-router-dom';
+// TODO: Double-check the changes
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSelector, measurementSelector } from '../userFarmSlice';
 import { formatLocationTypeToLocationForDB } from './utils';
@@ -27,8 +27,7 @@ import { useTranslation } from 'react-i18next';
 import PureLocationFormWrapper from '../../components/LocationDetailLayout/PureLocationFormWrapper';
 
 function PostLocationDetailForm({ locationType }: { locationType: InternalMapLocationType }) {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const system = useSelector(measurementSelector);
@@ -52,7 +51,7 @@ function PostLocationDetailForm({ locationType }: { locationType: InternalMapLoc
       if (locationData.figure.point) {
         dispatch(setMapCache({ maxZoom: undefined, farm_id }));
       }
-      history.push({ pathname: '/map' });
+      navigate('/map');
       dispatch(
         enqueueSuccessSnackbar(
           `${t(`FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`)} ${t('message:MAP.SUCCESS_POST')
@@ -75,8 +74,6 @@ function PostLocationDetailForm({ locationType }: { locationType: InternalMapLoc
   return (
     <PureLocationFormWrapper
       locationType={locationType}
-      history={history}
-      match={match}
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}

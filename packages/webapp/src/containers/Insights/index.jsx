@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -43,7 +43,7 @@ import { SURVEY_INFO, getAvailableSurveyIds } from './Survey/surveyConfig';
 import SurveyInsightTile from './Survey/SurveyInsightTile';
 
 const Insights = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const farm = useSelector(userFarmSelector);
   const pricesDistance = useSelector(pricesDistanceSelector);
   const soilOMData = useSelector(soilOMSelector);
@@ -90,7 +90,7 @@ const Insights = () => {
   }, []);
 
   const handleClick = (route) => {
-    history.push(`/Insights/${route}`);
+    navigate(`/Insights/${route}`);
   };
 
   const renderItem = (item, index, currentData) => {

@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureTaskAnimalInventory from '../../../components/Task/TaskAnimalInventory';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTheme } from '@mui/styles';
@@ -23,18 +24,18 @@ import { getProgress } from '../util';
 
 function TaskAnimalInventory() {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
   const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_animal_selection') : undefined;
 
   const onGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onContinue = () => {
     isCustomTask
-      ? history.push('/add_task/task_details', location?.state)
-      : history.push('/add_task/task_locations', location?.state);
+      ? navigate('/add_task/task_details', { state: location.state })
+      : navigate('/add_task/task_locations', { state: location.state });
   };
 
   const theme = useTheme();
@@ -45,7 +46,6 @@ function TaskAnimalInventory() {
       <PureTaskAnimalInventory
         onGoBack={onGoBack}
         onContinue={onContinue}
-        history={history}
         isDesktop={isDesktop}
         isRequired={!isCustomTask}
         progress={progress}

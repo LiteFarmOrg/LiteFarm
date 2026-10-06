@@ -1,5 +1,4 @@
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
-import { mockAnimal1, mockAnimal2 } from '../../Animals/mockData';
 import decorator from '../config/Decorators';
 
 export default {
@@ -36,7 +35,10 @@ TaskCompleteCleaning.args = {
     },
     uploadedFiles: [],
   },
-  selectedTask: {},
+  selectedTask: {
+    animals: [],
+    animal_batches: [],
+  },
   selectedTaskType: { task_translation_key: 'CLEANING_TASK' },
   farm: '1231456',
   system: 'metric',

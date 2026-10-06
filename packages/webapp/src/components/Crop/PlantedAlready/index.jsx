@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -15,14 +16,14 @@ import { getDateDifference, getDateInputFormat } from '../../../util/moment';
 import { getPlantedAlreadyPaths } from '../getAddManagementPlanPath';
 
 export default function PurePlantedAlready({
-  history,
   useHookFormPersist,
   persistedFormData,
   system,
   cropVariety,
-  location,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -100,9 +101,9 @@ export default function PurePlantedAlready({
       setValue(FOR_COVER, false);
     }
 
-    history.push(submitPath, location?.state);
+    navigate(submitPath, { state: location.state });
   };
-  const onGoBack = () => history.back();
+  const onGoBack = () => navigate(-1);
 
   const already_in_ground = watch(ALREADY_IN_GROUND);
   const is_seed = watch(IS_SEED);

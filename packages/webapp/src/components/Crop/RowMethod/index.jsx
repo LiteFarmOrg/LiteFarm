@@ -1,4 +1,4 @@
-import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import Button from '../../Form/Button';
@@ -14,14 +14,13 @@ export default function PureRowMethod({
   useHookFormPersist,
   persistedFormData,
   isFinalPage,
-  history,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  onGoBack = () => history.back(),
   isHistoricalPage,
-  location,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -38,7 +37,7 @@ export default function PureRowMethod({
 
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onSubmit = () => history.push(submitPath, location.state);
+  const onSubmit = () => navigate(submitPath, { state: location.state });
 
   return (
     <Form
@@ -50,7 +49,7 @@ export default function PureRowMethod({
       onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
-        onGoBack={onGoBack}
+        onGoBack={() => navigate(-1)}
         onCancel={historyCancel}
         value={isFinalPage ? 75 : 55}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
@@ -84,6 +83,5 @@ PureRowMethod.prototype = {
   crop_variety: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
   isFinalPage: PropTypes.bool,
-  history: PropTypes.object,
   submitPath: PropTypes.string,
 };

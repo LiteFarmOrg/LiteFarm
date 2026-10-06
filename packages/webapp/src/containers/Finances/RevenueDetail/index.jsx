@@ -14,7 +14,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
@@ -31,11 +31,9 @@ import { getEntityTypeDefaultValues } from '../EntitySaleInputs';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/RevenueForm/constants';
 import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
-function RevenueDetail() {
-  const history = useHistory();
-  const match = useRouteMatch();
-  const isEditing = match.path.endsWith('/edit');
-  const { sale_id } = match.params;
+function RevenueDetail({ isEditing }) {
+  const navigate = useNavigate();
+  const { sale_id } = useParams();
 
   // To clear form history after editing
   useHookFormPersist();
@@ -48,9 +46,9 @@ function RevenueDetail() {
 
   useEffect(() => {
     if (!sale) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
-  }, [sale, history]);
+  }, [sale]);
 
   // Dropdown should include the current revenue's type even if it has been retired
   const revenueTypesArray = revenueTypes?.concat(revenueType?.retired ? revenueType : []);
@@ -63,7 +61,7 @@ function RevenueDetail() {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditRevenueDetailsUrl(sale_id)]));
-    history.push(createEditRevenueDetailsUrl(sale_id));
+    navigate(createEditRevenueDetailsUrl(sale_id));
   };
 
   const onRetire = () => {
@@ -71,7 +69,7 @@ function RevenueDetail() {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   const onTypeChange = (typeId, setValue) => {
@@ -87,7 +85,6 @@ function RevenueDetail() {
 
   return (
     <RevenueForm
-      key={isEditing ? 'editing' : 'readonly'}
       onSubmit={isEditing ? onSubmit : undefined}
       title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}

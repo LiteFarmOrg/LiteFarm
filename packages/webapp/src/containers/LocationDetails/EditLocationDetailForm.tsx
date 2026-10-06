@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, loginSelector, measurementSelector } from '../userFarmSlice';
 import {
@@ -36,10 +36,9 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
-  // @ts-expect-error match not typed
-  const { location_id } = match.params;
+  const navigate = useNavigate();
+  const params = useParams();
+  const { location_id = '' } = params;
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const { farm_id } = useSelector(loginSelector);
@@ -64,7 +63,7 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
         data: formatLocationTypeToLocationForDB(
           {
             ...formData,
-            ...match.params,
+            ...params,
             figure_id: locationData?.figure_id,
           },
           locationType,
@@ -72,7 +71,7 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
         type: locationType,
         location_id: location_id,
       }).unwrap();
-      history.push({ pathname: '/map' });
+      navigate({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(
           `${t(`FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`)} ${t(
@@ -110,7 +109,7 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
       if (locationData?.figure_type === FigureType.POINT) {
         dispatch(setMapCache({ maxZoom: undefined, farm_id }));
       }
-      history.push({ pathname: '/map' });
+      navigate({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(
           `${t(`FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`)} ${t(
@@ -137,8 +136,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
     <>
       <PureLocationFormWrapper
         locationType={locationType}
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={locationData}

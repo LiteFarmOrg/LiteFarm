@@ -16,7 +16,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -64,7 +64,7 @@ interface TAPEDimension {
 
 function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const {
@@ -81,7 +81,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     if (isSuccess && !surveyData) {
       // No saved survey for this farm: send the user to fill it in (e.g. if they open the results
       // page directly without completing the survey).
-      history.replace(`/insights/survey/${surveyId}`);
+      navigate(`/insights/survey/${surveyId}`, { replace: true });
     } else if (surveyDataError) {
       const activeError = notifications.find(
         ({ message }) => message === t('INSIGHTS.TAPE.RESULTS_LOAD_ERROR'),

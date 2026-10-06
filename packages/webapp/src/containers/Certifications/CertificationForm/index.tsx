@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertificationForm, {
@@ -35,7 +35,7 @@ import Layout from '../../../components/Layout';
 export default function CertificationForm() {
   const { t } = useTranslation(['translation', 'common']);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { certification_id } = useParams<{ certification_id?: string }>();
   const { data: certifications = [], refetch: refetchCertifications } = useGetCertificationsQuery();
   const { data: certifiers = [] } = useGetSupportedCertifiersQuery();
@@ -52,8 +52,7 @@ export default function CertificationForm() {
     : undefined;
 
   const onBack = () => {
-    // @ts-expect-error: temporary shim, will remove when upgrading to history@5
-    history.back();
+    navigate(-1);
   };
 
   const onSubmit = async (data: CertificationFormValues) => {
@@ -70,7 +69,7 @@ export default function CertificationForm() {
         : t('message:CERTIFICATION.SUCCESS.ADD');
       dispatch(enqueueSuccessSnackbar(message));
 
-      history.push('/certifications', { certificationSaved: true });
+      navigate('/certifications', { state: { certificationSaved: true } });
     } catch {
       const message = certification_id
         ? t('message:CERTIFICATION.ERROR.EDIT')

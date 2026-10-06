@@ -1,19 +1,16 @@
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PureTransplant from '../../../components/Crop/Transplant';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useSelector } from 'react-redux';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function TransplantForm() {
-  const history = useHistory();
-  const match = useRouteMatch();
-  const variety_id = match.params.variety_id;
-
+  const { variety_id } = useParams();
   const { can_be_cover_crop } = useSelector(cropVarietySelector(variety_id));
 
   return (
     <HookFormPersistProvider>
-      <PureTransplant can_be_cover_crop={can_be_cover_crop} match={match} history={history} />
+      <PureTransplant can_be_cover_crop={can_be_cover_crop} />
     </HookFormPersistProvider>
   );
 }

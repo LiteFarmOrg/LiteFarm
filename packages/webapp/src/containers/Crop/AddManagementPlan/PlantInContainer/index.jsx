@@ -1,4 +1,4 @@
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
 import PurePlantInContainer from '../../../../components/Crop/PlantInContainer';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
@@ -9,15 +9,13 @@ import { getContainerMethodPaths } from '../../../../components/Crop/getAddManag
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function PlantInContainer() {
-  const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
   const system = useSelector(measurementSelector);
-  const crop_variety = useSelector(cropVarietySelector(match.params.variety_id));
-  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/container_method';
+  const { variety_id } = useParams();
+  const crop_variety = useSelector(cropVarietySelector(variety_id));
+  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/container_method');
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { submitPath } = useMemo(
-    () => getContainerMethodPaths(match.params.variety_id, persistedFormData, isFinalPage),
+    () => getContainerMethodPaths(variety_id, persistedFormData, isFinalPage),
     [],
   );
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
@@ -26,14 +24,11 @@ export default function PlantInContainer() {
   return (
     <HookFormPersistProvider>
       <PurePlantInContainer
-        match={match}
-        history={history}
         system={system}
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}
         isHistorical={isHistorical}
         submitPath={submitPath}
-        location={location}
       />
     </HookFormPersistProvider>
   );

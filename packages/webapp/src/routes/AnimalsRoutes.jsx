@@ -13,15 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import {
-  ANIMALS_INVENTORY_URL,
-  ADD_ANIMALS_URL,
-  createSingleAnimalViewURL,
-  // createSingleAnimalTasksURL,
-} from '../util/siteMapConstants';
+import { Route, Routes } from 'react-router-dom';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
 const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
@@ -30,21 +23,16 @@ const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAn
 // );
 
 const AnimalsRoutes = ({ isCompactSideMenu }) => (
-  <Switch>
-    <Route path={ANIMALS_INVENTORY_URL} exact>
-      <Inventory isCompactSideMenu={isCompactSideMenu} />
-    </Route>
-    <Route path={ADD_ANIMALS_URL} exact>
-      <AddAnimals isCompactSideMenu={isCompactSideMenu} />
-    </Route>
-    <Route path={createSingleAnimalViewURL(':id')} exact>
-      <SingleAnimalView isCompactSideMenu={isCompactSideMenu} />
-    </Route>
+  <Routes>
+    <Route path="inventory" element={<Inventory isCompactSideMenu={isCompactSideMenu} />} />
+    <Route
+      path="inventory/add_animals"
+      element={<AddAnimals isCompactSideMenu={isCompactSideMenu} />}
+    />
+    <Route path=":id" element={<SingleAnimalView isCompactSideMenu={isCompactSideMenu} />} />
     {/* Temporarily removed for Animals v1 release */}
-    {/* <Route path={createSingleAnimalTasksURL(':id')} exact>
-      <SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} />
-    </Route> */}
-  </Switch>
+    {/* <Route path=":id/tasks" element={<SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} />} /> */}
+  </Routes>
 );
 
 export default AnimalsRoutes;

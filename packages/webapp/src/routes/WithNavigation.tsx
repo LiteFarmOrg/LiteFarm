@@ -14,26 +14,24 @@
  */
 
 import { ComponentType } from 'react';
-import { useHistory } from 'react-router-dom';
-import { History } from 'history';
+import { useNavigate } from 'react-router-dom';
 
 interface WithNavigationProps {
-  component: ComponentType<{ history: History }>;
+  component: ComponentType<{ navigate: ReturnType<typeof useNavigate> } & Record<string, any>>;
   [key: string]: any;
 }
 
 /**
  * Higher-order component that provides React Router navigation props to class components.
  *
- * This component bridges the gap between modern React Router hooks (useHistory etc.)
+ * This component bridges the gap between modern React Router hooks
  * and legacy class components that cannot use hooks directly.
  *
  * @see https://gist.github.com/mjackson/d54b40a094277b7afdd6b81f51a0393f?permalink_comment_id=3966559#gistcomment-3966559
  */
 const WithNavigation = ({ component: Component, ...props }: WithNavigationProps) => {
-  const history = useHistory();
-
-  return <Component {...props} history={history} />;
+  const navigate = useNavigate();
+  return <Component {...props} navigate={navigate} />;
 };
 
 export default WithNavigation;

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Table from '../../../Table';
 import { TableKind } from '../../../Table/types';
@@ -69,6 +69,7 @@ const FooterCell = ({ t, totalAmount }) => (
 );
 
 export default function EntitySaleTable({ data, currencySymbol, mobileView, titleLabel }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { items, amount, relatedId } = data;
   const totalAmount = `${currencySymbol}${amount.toFixed(2)}`;
@@ -85,7 +86,7 @@ export default function EntitySaleTable({ data, currencySymbol, mobileView, titl
       minRows={10}
       shouldFixTableLayout={true}
       FooterCell={mobileView ? () => <FooterCell t={t} totalAmount={totalAmount} /> : null}
-      onClickMore={() => history.push(createRevenueDetailsUrl(relatedId))}
+      onClickMore={() => navigate(createRevenueDetailsUrl(relatedId))}
     />
   );
 }

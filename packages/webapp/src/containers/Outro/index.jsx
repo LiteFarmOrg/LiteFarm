@@ -1,16 +1,16 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureOutroSplash from '../../components/Outro';
 import { patchOutroStep } from './saga';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 function Outro() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { navigation } = useSelector(showedSpotlightSelector);
   const toShowSpotlight = !navigation;
   const onGoBack = () => {
-    history.push('/consent');
+    navigate('/consent');
   };
   const onContinue = () => {
     dispatch(patchOutroStep());

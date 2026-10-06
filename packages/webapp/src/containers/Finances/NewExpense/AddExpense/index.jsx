@@ -80,7 +80,7 @@ class AddExpense extends Component {
       formattedData.filter((expense) => expense.value < 0 || isNaN(expense.value)).length === 0
     ) {
       this.props.dispatch(addExpenses(formattedData));
-      this.props.history.push(FINANCES_HOME_URL);
+      this.props.navigate(FINANCES_HOME_URL);
     }
   }
 
@@ -90,7 +90,7 @@ class AddExpense extends Component {
       <HookFormPersistProvider>
         <PureAddExpense
           types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-          onGoBack={this.props.history.back}
+          onGoBack={() => this.props.navigate(-1)}
           onSubmit={this.handleSubmit}
           cropVarietyOptions={this.props.cropVarietyOptions}
           animalOptions={this.props.animalOptions}

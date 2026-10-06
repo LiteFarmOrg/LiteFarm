@@ -16,7 +16,6 @@ export default function PureNavigation({
   showNavigationSpotlight,
   showNotificationSpotlight,
   resetSpotlight,
-  history,
   showNav,
   showNavActions,
   children,
@@ -55,7 +54,6 @@ export default function PureNavigation({
       {showNavActions && showNav && (
         <>
           <SideMenu
-            history={history}
             isMobile={isMobile}
             isDrawerOpen={isSideMenuOpen}
             onDrawerClose={closeSideMenu}
@@ -74,7 +72,6 @@ export default function PureNavigation({
       )}
       <div className={styles.mainColumn}>
         <TopMenu
-          history={history}
           isMobile={isMobile}
           showNavActions={showNavActions}
           onClickBurger={openSideMenu}
@@ -89,7 +86,6 @@ export default function PureNavigation({
 PureNavigation.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
-  history: PropTypes.object,
   showNav: PropTypes.bool,
   showNavActions: PropTypes.bool,
   isCompactSideMenu: PropTypes.bool,

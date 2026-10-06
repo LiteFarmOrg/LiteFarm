@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -13,15 +14,12 @@ export default function PurePlantInContainer({
   useHookFormPersist,
   persistedFormData,
   system,
-  history,
   crop_variety,
   isFinalPage,
   isHistorical,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   submitPath,
-  location,
-  onSubmit = () => history.push(submitPath, location?.state),
-  onGoBack = () => history.back(),
+  onSubmit,
 }) {
   const progress = useMemo(() => {
     if (isHistorical && !isFinalPage) return 55;
@@ -30,6 +28,8 @@ export default function PurePlantInContainer({
   }, []);
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -47,7 +47,10 @@ export default function PurePlantInContainer({
   });
   const { historyCancel } = useHookFormPersist(getValues);
 
-  const onError = () => {};
+  const onFormSubmit = handleSubmit(
+    onSubmit || (() => navigate(submitPath, { state: location.state })),
+    () => {},
+  );
 
   const disabled = !isValid;
 
@@ -58,10 +61,10 @@ export default function PurePlantInContainer({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={onFormSubmit}
     >
       <MultiStepPageTitle
-        onGoBack={onGoBack}
+        onGoBack={() => navigate(-1)}
         onCancel={historyCancel}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}
@@ -94,7 +97,6 @@ export default function PurePlantInContainer({
 }
 
 PurePlantInContainer.prototype = {
-  history: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   crop_variety: PropTypes.object,

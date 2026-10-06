@@ -13,35 +13,29 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFarmSettingsContext } from './FarmSettingsContext';
 
-const TABS = ['basic_profile', 'market_directory', 'addons'];
-
 export const useFarmSettingsRouterTabs = () => {
-  const match = useRouteMatch();
   const { t } = useTranslation();
 
   const { showAddonsTab } = useFarmSettingsContext();
 
-  const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
-
   const routerTabs = [
     {
       label: t('FARM_SETTINGS.TABS.BASIC_PROFILE'),
-      path: match.url.replace(`/${currentTab}`, '/basic_profile'),
+      path: '/farm_settings/basic_profile',
     },
     {
       label: t('FARM_SETTINGS.TABS.MARKET_DIRECTORY'),
-      path: match.url.replace(`/${currentTab}`, '/market_directory'),
+      path: '/farm_settings/market_directory',
     },
   ];
 
   if (showAddonsTab) {
     routerTabs.push({
       label: t('FARM_SETTINGS.TABS.ADDONS'),
-      path: match.url.replace(`/${currentTab}`, '/addons'),
+      path: '/farm_settings/addons',
     });
   }
 

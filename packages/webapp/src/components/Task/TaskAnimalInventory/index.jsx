@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useLocation } from 'react-router-dom';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -30,13 +31,13 @@ export default function PureTaskAnimalInventory({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
-  history,
   isDesktop,
   isRequired = true,
   progress = 43,
 }) {
   const { t } = useTranslation();
-  const preSelectedIds = persistedFormData.animalIds || history.location?.state?.animal_ids;
+  const location = useLocation();
+  const preSelectedIds = persistedFormData.animalIds || location.state?.animal_ids;
 
   const { register, handleSubmit, getValues, watch, setValue } = useForm({
     mode: 'onChange',
@@ -100,7 +101,6 @@ export default function PureTaskAnimalInventory({
         <AnimalInventory
           onSelect={onSelect}
           view={View.TASK}
-          history={history}
           preSelectedIds={preSelectedIds}
           showLinks={false}
         />

@@ -15,7 +15,7 @@
 
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -43,9 +43,9 @@ interface SurveyProps {
 
 function Survey({ isCompactSideMenu }: SurveyProps) {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { surveyId } = useParams<{ surveyId: string }>();
+  const { surveyId = '' } = useParams();
   const surveyTitle = useSurveyTitle(surveyId);
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
@@ -114,21 +114,21 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         prefetchLatestResponse({ surveyKey: surveyId });
         dispatch(clearSurvey({ surveyId }));
         // Replace instead of push so the submitted survey is not left in the history stack
-        history.replace(`/insights/survey/${surveyId}/results`);
+        navigate(`/insights/survey/${surveyId}/results`, { replace: true });
       } catch {
         // Display the default "An error occurred and we could not save the results." message.
         options.showSaveError();
       }
     },
-    [addSurveyResponse, prefetchLatestResponse, dispatch, history, surveyId, farm_id],
+    [addSurveyResponse, prefetchLatestResponse, dispatch, navigate, surveyId, farm_id],
   );
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
     if (!cdnPath) {
-      history.replace('/Insights');
+      navigate('/Insights', { replace: true });
     }
-  }, [cdnPath, history]);
+  }, [cdnPath, navigate]);
 
   useEffect(() => {
     if (isSurveyJsonError) {

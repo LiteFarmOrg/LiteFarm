@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -18,9 +19,9 @@ export default function PureNextHarvest({
   persistedFormData,
   useHookFormPersist,
   crop_variety,
-  history,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -57,8 +58,8 @@ export default function PureNextHarvest({
     () => getNextHarvestPaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
-  const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.back();
+  const onSubmit = () => navigate(submitPath);
+  const onGoBack = () => navigate(-1);
 
   const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 

@@ -145,6 +145,10 @@
   :global(.sv-save-data_root) {
     margin-left: calc(var(--global-side-menu-width) / 2);
   }
+
+  @include xs-breakpoint {
+    margin: 0 -24px;
+  }
 }
 
 .spinner {

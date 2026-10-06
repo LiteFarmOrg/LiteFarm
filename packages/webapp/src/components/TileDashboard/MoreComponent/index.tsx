@@ -42,20 +42,20 @@ export const MoreComponent = ({
   const atLeastOneSelected = moreIconTiles.some((item) => selectedFilterIds?.includes(item.id));
 
   return (
-    <div className={clsx(styles.moreContainer, className)}>
-      <TextButton
-        className={clsx(
-          styles.moreButton,
-          atLeastOneSelected && styles.selected,
-          isOpen && styles.open,
-        )}
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        <span>{t('TABLE.NUMBER_MORE', { number: moreIconTiles.length })} </span>
-        <ChevronDown />
-      </TextButton>
-      {isOpen && (
-        <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+    <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+      <div className={clsx(styles.moreContainer, className)}>
+        <TextButton
+          className={clsx(
+            styles.moreButton,
+            atLeastOneSelected && styles.selected,
+            isOpen && styles.open,
+          )}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <span>{t('TABLE.NUMBER_MORE', { number: moreIconTiles.length })} </span>
+          <ChevronDown />
+        </TextButton>
+        {isOpen && (
           <div className={styles.moreContent}>
             {moreIconTiles.map((item, index) => (
               <div key={index} className={clsx(styles.contentItem)}>
@@ -67,8 +67,8 @@ export const MoreComponent = ({
               </div>
             ))}
           </div>
-        </ClickAwayListener>
-      )}
-    </div>
+        )}
+      </div>
+    </ClickAwayListener>
   );
 };

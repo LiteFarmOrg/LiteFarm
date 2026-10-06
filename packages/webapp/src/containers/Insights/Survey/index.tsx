@@ -261,7 +261,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         <PageTitle
           title={surveyTitle}
           backUrl={getSurveyBackUrl(surveyId)}
-          classNames={{ container: styles.pageTitle }}
+          classNames={{ container: styles.pageTitle, title: styles.pageTitleText }}
         />
       )}
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>

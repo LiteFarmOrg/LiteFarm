@@ -51,7 +51,7 @@ class PageTitle extends Component {
           >
             <GreyHeaderChevron />
           </button>
-          <div className={styles.titleTextContainer}>{title}</div>
+          <div className={clsx(styles.titleTextContainer, classNames.title)}>{title}</div>
           {rightIcon && (
             <div style={{ position: 'absolute', right: '0' }}>
               <InfoBoxComponent

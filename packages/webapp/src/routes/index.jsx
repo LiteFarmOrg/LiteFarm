@@ -58,10 +58,6 @@ const JoinFarmSuccessScreen = React.lazy(() => import('../containers/JoinFarmSuc
 const InviteUser = React.lazy(() => import('../containers/InviteUser'));
 // Insights imports
 const Insights = React.lazy(() => import('../containers/Insights'));
-const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
-const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
-const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
-const Prices = React.lazy(() => import('../containers/Insights/Prices'));
 const SurveyRoutes = React.lazy(() =>
   import('./SurveyRoutes').catch((error) => {
     if (navigator.onLine) {
@@ -496,10 +492,6 @@ const Routes = ({ isCompactSideMenu }) => {
                       <SensorReadings type={'sensor_array'} />
                     </Route>
                     <Route path="/insights" exact children={<Insights />} />
-                    <Route path="/insights/soilom" exact children={<SoilOM />} />
-                    <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
-                    <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
-                    <Route path="/insights/prices" exact children={<Prices />} />
                     <Route path="/insights/*" exact>
                       <SurveyRoutes isCompactSideMenu={isCompactSideMenu} />
                     </Route>
@@ -814,10 +806,6 @@ const Routes = ({ isCompactSideMenu }) => {
                       children={<ComplianceInfo />}
                     />
                     <Route path="/insights" exact children={<Insights />} />
-                    <Route path="/insights/soilom" exact children={<SoilOM />} />
-                    <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
-                    <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
-                    <Route path="/insights/prices" exact children={<Prices />} />
                     <Route path="/insights/*" exact>
                       <SurveyRoutes isCompactSideMenu={isCompactSideMenu} />
                     </Route>
@@ -978,10 +966,6 @@ const Routes = ({ isCompactSideMenu }) => {
                       <SensorReadings type={'sensor_array'} />
                     </Route>
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
-                    <Route path="/insights/soilom" exact children={<SoilOM />} />
-                    <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
-                    <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
-                    <Route path="/insights/prices" exact children={<Prices />} />
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
                     <Route

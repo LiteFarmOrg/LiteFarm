@@ -471,25 +471,6 @@ export default {
     },
   },
   baseReducer: {},
-  insightReducer: {
-    soilOMData: {
-      preview: 0,
-      data: [],
-    },
-    labourHappinessData: {
-      preview: 0,
-      data: [],
-    },
-    biodiversityData: {
-      preview: 0,
-      data: [],
-    },
-    pricesData: {
-      preview: 0,
-      amountOfFarms: 0,
-      data: [],
-    },
-  },
   financeReducer: {
     financeReducer: {
       sales: null,

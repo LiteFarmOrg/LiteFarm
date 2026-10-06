@@ -14,6 +14,7 @@
  */
 
 import React, { Component } from 'react';
+import clsx from 'clsx';
 import styles from './styles.module.scss';
 import history from '../../history';
 import InfoBoxComponent from '../InfoBoxComponent';
@@ -32,12 +33,15 @@ class PageTitle extends Component {
     const rightIconDeleteHandler = this.props.rightIconDeleteHandler;
     const showDelete = this.props.showDelete;
     const isHarvestLogStep = this.props.isHarvestLogStep;
-    const { leftButtonText, rightButtonText } = this.props;
+    const { leftButtonText, rightButtonText, classNames = {} } = this.props;
 
     return (
       <div>
         <div
-          className={isHarvestLogStep ? styles.harvestLogStepTitleContainer : styles.titleContainer}
+          className={clsx(
+            isHarvestLogStep ? styles.harvestLogStepTitleContainer : styles.titleContainer,
+            classNames.container,
+          )}
         >
           <button
             className={styles.buttonContainer}

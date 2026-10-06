@@ -257,7 +257,13 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   return (
     <div className={insightStyles.insightContainer}>
-      {!isBlockedModule && <PageTitle title={surveyTitle} backUrl={getSurveyBackUrl(surveyId)} />}
+      {!isBlockedModule && (
+        <PageTitle
+          title={surveyTitle}
+          backUrl={getSurveyBackUrl(surveyId)}
+          classNames={{ container: styles.pageTitle }}
+        />
+      )}
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
         {isLoading && (

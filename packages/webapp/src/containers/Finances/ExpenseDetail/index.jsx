@@ -71,7 +71,7 @@ const ExpenseDetail = ({ isEditing }) => {
 
   const handleEdit = () => {
     dispatch(setPersistedPaths([createEditExpenseDetailsUrl(expense_id)]));
-    navigate(createEditExpenseDetailsUrl(expense_id)); // TODO: Fix navigation
+    navigate(createEditExpenseDetailsUrl(expense_id));
   };
 
   const onRetire = () => {

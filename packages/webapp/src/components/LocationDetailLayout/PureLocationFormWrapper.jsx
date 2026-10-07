@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// TODO: Double-check the changes
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PersistedFormWrapper } from './PersistedFormWrapper';

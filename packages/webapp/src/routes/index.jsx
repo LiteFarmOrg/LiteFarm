@@ -233,6 +233,10 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
             path="/outro"
             element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" replace />}
           />
+          <Route
+            path="*"
+            element={<Navigate to={has_consent ? '/farm_selection' : '/consent'} replace />}
+          />
         </Routes>
       );
     } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {

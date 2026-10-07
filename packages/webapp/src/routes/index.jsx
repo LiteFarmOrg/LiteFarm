@@ -732,7 +732,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/sensor/:id" element={<SensorReadings type={'sensor'} />} />
           <Route path="/sensor_array/:id" element={<SensorReadings type={'sensor_array'} />} />
           <Route path="/farm_selection" element={<ChooseFarm />} />
-          <Route path="/insights" element={<Insights />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
           <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />

@@ -145,6 +145,25 @@
   :global(.sv-save-data_root) {
     margin-left: calc(var(--global-side-menu-width) / 2);
   }
+
+  @include xs-breakpoint {
+    margin: 0 -24px;
+  }
+}
+
+.pageTitle.pageTitle {
+  @include xs-breakpoint {
+    width: calc(100% + 16px);
+    margin-block: 0 16px;
+    margin-inline: -8px;
+    padding: 0;
+  }
+}
+
+.pageTitleText.pageTitleText {
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 19px;
+  line-height: 24px;
 }
 
 .spinner {

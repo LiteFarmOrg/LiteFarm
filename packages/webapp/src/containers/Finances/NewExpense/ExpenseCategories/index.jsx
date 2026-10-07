@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
 import { setSelectedExpenseTypes } from '../../actions';
 import { withTranslation } from 'react-i18next';

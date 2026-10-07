@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
 import { addExpenses } from '../../actions';
 import { userFarmSelector } from '../../../userFarmSlice';

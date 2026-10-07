@@ -240,10 +240,10 @@ export default function Map({ isCompactSideMenu }) {
     }
 
     if (location.state?.cameraInfo) {
-      const { zoom, location } = location.state.cameraInfo;
-      if (zoom && location) {
+      const { zoom, location: cameraLocation } = location.state.cameraInfo;
+      if (zoom && cameraLocation) {
         gMap.setZoom(zoom);
-        gMap.setCenter(location);
+        gMap.setCenter(cameraLocation);
       }
     }
   }, [gMap, gMaps, isFetchingInternalLocations, isLoadingExternalLocations]);

@@ -29,7 +29,7 @@ const SurveyRoutes = ({ isCompactSideMenu }: { isCompactSideMenu: boolean }) => 
     <Routes>
       <Route path="survey/:surveyId" element={<Survey isCompactSideMenu={isCompactSideMenu} />} />
       <Route path="survey/:surveyId/results" element={<SurveyResults />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

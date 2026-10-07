@@ -84,7 +84,7 @@ const FinancesRoutes = () => (
     <Route path="add_custom_revenue" element={<AddCustomRevenue />} />
     <Route path="readonly_custom_revenue/:revenue_type_id" element={<ReadOnlyCustomRevenue />} />
     <Route path="edit_custom_revenue/:revenue_type_id" element={<EditCustomRevenue />} />
-    <Route path="*" element={<Navigate to={'/'} />} />
+    <Route path="*" element={<Navigate to={'/'} replace />} />
   </Routes>
 );
 

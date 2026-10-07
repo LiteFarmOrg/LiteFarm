@@ -226,12 +226,12 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
         <Routes>
           <Route
             path="/farm_selection"
-            element={has_consent ? <ChooseFarm /> : <Navigate to="/consent" />}
+            element={has_consent ? <ChooseFarm /> : <Navigate to="/consent" replace />}
           />
           <Route path="/consent" element={<ConsentForm goForwardTo={'/outro'} goBackTo={null} />} />
           <Route
             path="/outro"
-            element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" />}
+            element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" replace />}
           />
         </Routes>
       );
@@ -242,7 +242,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
         <Routes>
           <Route path="/farm_selection" element={<ChooseFarm />} />
           <Route path="/consent" element={<ConsentForm goForwardTo={'/'} goBackTo={null} />} />
-          <Route path="*" element={<Navigate to="/consent" />} />
+          <Route path="*" element={<Navigate to="/consent" replace />} />
         </Routes>
       );
     } else if (role_id === 1) {
@@ -469,7 +469,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route
             path="*"
             //TODO change to 404
-            element={<Navigate to={'/'} />}
+            element={<Navigate to={'/'} replace />}
           />
         </Routes>
       );
@@ -697,7 +697,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route
             path="*"
             //TODO change to 404
-            element={<Navigate to={'/'} />}
+            element={<Navigate to={'/'} replace />}
           />
         </Routes>
       );
@@ -786,7 +786,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
             element={<IrrigationPrescription isCompactSideMenu={isCompactSideMenu} />}
           />
           <Route path="/unknown_record" element={<UnknownRecord />} />
-          <Route path="*" element={<Navigate to={'/'} />} />
+          <Route path="*" element={<Navigate to={'/'} replace />} />
         </Routes>
       );
     }
@@ -803,7 +803,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
         <Route
           path="*"
           //TODO change to 404
-          element={<Navigate to={'/'} />}
+          element={<Navigate to={'/'} replace />}
         />
       </Routes>
     );

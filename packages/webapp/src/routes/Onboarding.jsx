@@ -95,15 +95,15 @@ const RequireCondition = ({
   }
 
   if (step_one && step_three && !step_five) {
-    return <Navigate to="/outro" />;
+    return <Navigate to="/outro" replace />;
   }
 
   if (step_two && !step_three) {
-    return <Navigate to="/consent" />;
+    return <Navigate to="/consent" replace />;
   }
 
   if (step_one && !step_two) {
-    return <Navigate to="/role_selection" />;
+    return <Navigate to="/role_selection" replace />;
   }
 
   if ((!farm_id || !step_one) && !hasUserFarms) {
@@ -111,19 +111,19 @@ const RequireCondition = ({
     // only treat it as "no farms" once the list has loaded, else route to /farm_selection,
     // where ChooseFarm owns the "no farms -> /welcome" decision.
     const target = farmsLoaded ? '/welcome' : '/farm_selection';
-    return <Navigate to={target} />;
+    return <Navigate to={target} replace />;
   }
 
   if (!farm_id && hasUserFarms) {
-    return <Navigate to="/farm_selection" />;
+    return <Navigate to="/farm_selection" replace />;
   }
 
   if (step_three && !has_consent) {
-    return <Navigate to="/consent" />;
+    return <Navigate to="/consent" replace />;
   }
 
   if (!step_one) {
-    return <Navigate to="/add_farm" />;
+    return <Navigate to="/add_farm" replace />;
   }
 
   return null;

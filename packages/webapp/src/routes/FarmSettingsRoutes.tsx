@@ -50,9 +50,9 @@ const FarmSettingsRoutes = () => (
       }
     />
     {/* Load on basic_profile */}
-    <Route path="/" element={<Navigate to="basic_profile" />} />
+    <Route path="/" element={<Navigate to="basic_profile" replace />} />
     {/* Redirect on non-matches */}
-    <Route path="*" element={<Navigate to={'/'} />} />
+    <Route path="*" element={<Navigate to={'/'} replace />} />
   </Routes>
 );
 

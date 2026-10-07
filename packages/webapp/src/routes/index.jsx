@@ -384,7 +384,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
           <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
           <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
-          {/* TODO: Double-check the changes - was children={<PostLocationDetailForm .../>}, changed to element= since v6's <Routes> requires literal <Route> children */}
           {allLocationTypes.map((type) => (
             <Route
               key={type}
@@ -396,7 +395,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
             path={ADD_SENSORS_URL}
             element={<AddSensorsForm isCompactSideMenu={isCompactSideMenu} />}
           />
-          {/* TODO: Double-check the changes - was children={<LocationDetailsRoutes .../>} on path without /*; changed to element= and added trailing /* so LocationDetailsRoutes' own nested <Routes> receives the remaining path */}
           {allLocationTypes.map((type) => (
             <Route
               key={type}
@@ -612,7 +610,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/tasks/:task_id/harvest_uses" element={<HarvestUses />} />
           <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
           <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
-          {/* TODO: Double-check the changes - was children={<PostLocationDetailForm .../>}, changed to element= since v6's <Routes> requires literal <Route> children */}
           {allLocationTypes.map((type) => (
             <Route
               key={type}
@@ -624,7 +621,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
             path={ADD_SENSORS_URL}
             element={<AddSensorsForm isCompactSideMenu={isCompactSideMenu} />}
           />
-          {/* TODO: Double-check the changes - was children={<LocationDetailsRoutes .../>} on path without /*; changed to element= and added trailing /* so LocationDetailsRoutes' own nested <Routes> receives the remaining path */}
           {allLocationTypes.map((type) => (
             <Route
               key={type}
@@ -725,7 +721,6 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
             element={<ManagementDetails />}
           />
           <Route path="/map" element={<Map isCompactSideMenu={isCompactSideMenu} />} />
-          {/* TODO: Double-check the changes - was children={<LocationDetailsRoutes .../>} on path without /*; changed to element= and added trailing /* so LocationDetailsRoutes' own nested <Routes> receives the remaining path */}
           {allLocationTypes.map((type) => (
             <Route
               key={type}

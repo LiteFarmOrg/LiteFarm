@@ -16,8 +16,12 @@ import useCropLocations from '../../../hooks/location/useCropLocations';
 export default function ManagementPlanSelector() {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
-  if (isTransplantTask) return <TransplantManagementPlansSelector />;
-  if (isCustomTask) return <CustomTaskManagementPlansSelector />;
+  if (isTransplantTask) {
+    return <TransplantManagementPlansSelector />;
+  }
+  if (isCustomTask) {
+    return <CustomTaskManagementPlansSelector />;
+  }
   return <TaskCrops />;
 }
 

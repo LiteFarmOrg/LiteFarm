@@ -119,6 +119,23 @@ describe('Task tests', () => {
       .catch((_err) => callback(_err));
   }
 
+  async function getIrrigationTaskTypesRequest({ user_id, farm_id }) {
+    return chai
+      .request(server)
+      .get(`/task/irrigation_task_types/${farm_id}`)
+      .set('content-type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  }
+
+  async function getFieldWorkTypesRequest({ user_id, farm_id }) {
+    return chai
+      .request(server)
+      .get(`/task/get_field_work_types/${farm_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  }
+
   async function assignAllTasksOnDateRequest({ user_id, farm_id }, data, task_id, callback) {
     return chai
       .request(server)
@@ -1001,6 +1018,14 @@ describe('Task tests', () => {
         },
       );
     });
+
+    test('should not get harvest uses for a farm the user does not belong to', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ farm_id: otherFarmId }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      await getHarvestUsesRequest({ user_id, farm_id: otherFarmId }, async (_err, res) => {
+        expect(res.status).toBe(403);
+      });
+    });
   });
 
   describe('GET tasks', () => {
@@ -1087,6 +1112,44 @@ describe('Task tests', () => {
           expect(res.body.length).toBe(10);
         },
       );
+    });
+
+    test('should not get tasks for a farm the user does not belong to', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ farm_id: otherFarmId }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      await getTasksRequest({ user_id, farm_id: otherFarmId }, (_err, res) => {
+        expect(res.status).toBe(403);
+      });
+    });
+  });
+
+  describe('GET irrigation task types', () => {
+    test('should get irrigation task types for the user farm', async () => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const res = await getIrrigationTaskTypesRequest({ user_id, farm_id });
+      expect(res.status).toBe(200);
+    });
+
+    test('should not get irrigation task types for a farm the user does not belong to', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ farm_id: otherFarmId }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const res = await getIrrigationTaskTypesRequest({ user_id, farm_id: otherFarmId });
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe('GET field work types', () => {
+    test('should get field work types for the user farm', async () => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const res = await getFieldWorkTypesRequest({ user_id, farm_id });
+      expect(res.status).toBe(200);
+    });
+
+    test('should not get field work types for a farm the user does not belong to', async () => {
+      const [{ user_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ farm_id: otherFarmId }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const res = await getFieldWorkTypesRequest({ user_id, farm_id: otherFarmId });
+      expect(res.status).toBe(403);
     });
   });
 

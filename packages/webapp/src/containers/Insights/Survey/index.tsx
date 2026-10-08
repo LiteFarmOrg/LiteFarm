@@ -13,24 +13,37 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
+import * as Sentry from '@sentry/react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSurveyPrepopulatedData } from './useSurveyPrepopulatedData';
 import { useSurveyTitle } from './useSurveyTitle';
 import { saveSurveyProgress, clearSurvey } from './surveyDraftSlice';
-import { SURVEY_INFO, getSurveyCdnPath, getSurveyVersion } from './surveyConfig';
+import {
+  SURVEY_INFO,
+  getSurveyCdnPath,
+  getPostSubmitRoute,
+  getSurveyBackUrl,
+  getAvailableModuleIds,
+  hasNewSurveyVersion,
+  getLatestSurveyVersion,
+} from './surveyConfig';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import SurveyComponent from '../../../components/SurveyComponent';
 import PageTitle from '../../../components/PageTitle';
 import Spinner from '../../../components/Spinner';
+import { Main } from '../../../components/Typography';
 import {
   usePrefetch,
   useGetSurveyJsonQuery,
+  useGetLatestSurveyResponsesQuery,
+  useGetSurveyVersionManifestQuery,
   useAddSurveyResponseMutation,
+  SurveyResponseRecord,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
@@ -38,10 +51,30 @@ import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import useSurveyDraftSync from './useSurveyDraftSync';
 import useInitialDraft from './useInitialDraft';
+import { getSurveyVersion } from './utils';
+import { isNetworkError } from '../../../util/apiUtils';
+import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 interface SurveyProps {
   isCompactSideMenu: boolean;
 }
+
+const getSurveyInitialData = (
+  draftSurveyData: Record<string, any> | undefined,
+  surveyResponse: SurveyResponseRecord | undefined,
+  prepopulatedData: Record<string, any>,
+  hasNewVersion: boolean,
+): Record<string, any> => {
+  if (draftSurveyData) {
+    return draftSurveyData;
+  }
+  if (surveyResponse && !hasNewVersion) {
+    return surveyResponse.survey_response;
+  }
+
+  return prepopulatedData;
+};
 
 function Survey({ isCompactSideMenu }: SurveyProps) {
   const { t } = useTranslation();
@@ -53,6 +86,28 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const { farm_id, country_code } = useSelector(userFarmSelector);
 
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
+  const parentSurveyId = SURVEY_INFO[surveyId]?.parentSurveyId;
+
+  const { data: responses, isLoading: isResponsesLoading } = useGetLatestSurveyResponsesQuery();
+  const parentResponse = parentSurveyId ? responses?.[parentSurveyId] : undefined;
+  const ownResponse = responses?.[surveyId];
+
+  const isGuardPending = !!parentSurveyId && isResponsesLoading;
+
+  const isUnauthorizedModule =
+    !!parentSurveyId &&
+    !isResponsesLoading &&
+    !getAvailableModuleIds(parentSurveyId, parentResponse?.survey_response).includes(surveyId);
+
+  const isBlockedModule = isGuardPending || isUnauthorizedModule;
+
+  const language = getLanguageFromLocalStorage() || 'en';
+
+  const { data: versionManifest, isLoading: isVersionManifestLoading } =
+    useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
+      skip: !cdnDirectory || !SURVEY_INFO[surveyId]?.hasArchivedVersions,
+    });
+  const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
 
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
@@ -62,7 +117,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       getSurveyCdnPath(
         surveyId,
         country_code,
-        getLanguageFromLocalStorage() || 'en',
+        language,
         draftState.initialDraft.surveyVersion,
         hasDraft,
       )) ||
@@ -71,14 +126,17 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const {
     data: surveyJson,
     isLoading: isSurveyJsonLoading,
+    isFetching: isSurveyJsonFetching,
     isError: isSurveyJsonError,
+    refetch: refetchSurveyJson,
+    error: surveyJsonError,
   } = useGetSurveyJsonQuery(
     {
       cdnDirectory: cdnDirectory ?? '',
       version: cdnPath ?? '',
       fallbackVersion: cdnFallbackPath,
     },
-    { skip: !cdnDirectory || !cdnPath },
+    { skip: !cdnDirectory || !cdnPath || isBlockedModule },
   );
 
   const { prepopulatedData, isLoading: isPrepopulatedDataLoading } = useSurveyPrepopulatedData(
@@ -90,19 +148,23 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const prefetchLatestResponse = usePrefetch('getLatestSurveyResponse');
 
   const notifications: { message: string }[] = useSelector(snackbarSelector);
+  const isOffline = useIsOffline();
+  usePrefetchModuleDefinitions(surveyId, country_code);
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
-  const { onCurrentPageChanged, recordLatestDraft } = useSurveyDraftSync({
+  const { onCurrentPageChanged, recordLatestDraft, markSurveyCompleted } = useSurveyDraftSync({
     surveyId,
     surveyVersion,
     ...draftState,
   });
 
-  const initialData = {
-    ...prepopulatedData,
-    ...(!draftState.isDraftLoading ? draftState.initialDraft.surveyData : {}),
-  };
+  const initialData = getSurveyInitialData(
+    hasDraft ? draftState.initialDraft.surveyData : undefined,
+    ownResponse,
+    prepopulatedData,
+    hasNewSurveyVersion(ownResponse?.survey_version, latestVersion),
+  );
 
   const handleDataChange = useCallback(
     (currentPageNo: number, surveyData: Record<string, any>) => {
@@ -120,60 +182,97 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
           survey_response: surveyData,
           farm_id,
         }).unwrap();
-        prefetchLatestResponse({ surveyKey: surveyId });
-        dispatch(clearSurvey({ surveyId }));
-        // Replace instead of push so the submitted survey is not left in the history stack
-        history.replace(`/insights/survey/${surveyId}/results`);
-      } catch {
-        // Display the default "An error occurred and we could not save the results." message.
-        options.showSaveError();
+      } catch (error) {
+        if (!isNetworkError(error)) {
+          // Display the default "An error occurred and we could not save the results." message.
+          options.showSaveError();
+          return;
+        }
       }
+      prefetchLatestResponse({ surveyKey: surveyId });
+      dispatch(clearSurvey({ surveyId }));
+      markSurveyCompleted();
+      // Replace instead of push so the submitted survey is not left in the history stack
+      history.replace(getPostSubmitRoute(surveyId));
     },
-    [addSurveyResponse, prefetchLatestResponse, dispatch, history, surveyId, farm_id],
+    [
+      addSurveyResponse,
+      prefetchLatestResponse,
+      markSurveyCompleted,
+      dispatch,
+      history,
+      surveyId,
+      farm_id,
+    ],
   );
 
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
-    if (!draftState.isDraftLoading && !cdnPath) {
+    if ((!draftState.isDraftLoading && !cdnPath) || isUnauthorizedModule) {
       history.replace('/Insights');
     }
-  }, [draftState.isDraftLoading, cdnPath, history]);
+  }, [draftState.isDraftLoading, cdnPath, isUnauthorizedModule, history]);
 
-  // TODO: LF-5192 Remove useEffect once retake is supported.
-  useEffect(() => {
-    // The draft has already been completed on the server. Send the user to the results page
-    // instead of showing an empty form they can't actually save progress on.
-    if (
-      !draftState.isDraftLoading &&
-      draftState.initialDraft.needsLocalSync &&
-      !draftState.initialDraft.submissionId
-    ) {
-      history.replace(`/insights/survey/${surveyId}/results`);
-    }
-  }, [draftState.isDraftLoading, draftState.initialDraft, surveyId, history]);
+  const prevFetchingRef = useRef(false);
 
   useEffect(() => {
-    if (isSurveyJsonError) {
+    const fetchCompleted = prevFetchingRef.current && !isSurveyJsonFetching;
+
+    // Record current fetching state for next effect run
+    prevFetchingRef.current = isSurveyJsonFetching;
+
+    if (fetchCompleted && isSurveyJsonError && !surveyJson && !isOffline) {
       const activeError = notifications.find(
         ({ message }) => message === t('INSIGHTS.TAPE.LOAD_ERROR'),
       );
       if (!activeError) {
         dispatch(enqueueErrorSnackbar(t('INSIGHTS.TAPE.LOAD_ERROR')));
       }
+      // Surfaces a missing/unreachable survey file (e.g. an archived version that should exist but
+      // doesn't) so it gets noticed operationally, not just silently retried by one farmer.
+      Sentry.captureException('Failed to fetch survey JSON', {
+        tags: { surveyId },
+        extra: {
+          cdnDirectory,
+          version: cdnPath,
+          fallbackVersion: cdnFallbackPath,
+          error: surveyJsonError,
+        },
+      });
     }
-  }, [isSurveyJsonError]);
+  }, [isSurveyJsonFetching, isSurveyJsonError, surveyJson, isOffline]);
 
-  const isLoading = isPrepopulatedDataLoading || isSurveyJsonLoading;
+  useEffect(() => {
+    if (!isOffline && isSurveyJsonError && !surveyJson) {
+      refetchSurveyJson();
+    }
+  }, [isOffline]);
+
+  const isUnavailableOffline = isOffline && isSurveyJsonError && !surveyJson;
+
+  const isLoading =
+    (!isUnavailableOffline &&
+      (isPrepopulatedDataLoading || isSurveyJsonLoading || isBlockedModule)) ||
+    isVersionManifestLoading;
 
   return (
     <div className={insightStyles.insightContainer}>
-      <PageTitle title={surveyTitle} backUrl="/Insights" />
+      {!isBlockedModule && (
+        <PageTitle
+          title={surveyTitle}
+          backUrl={getSurveyBackUrl(surveyId)}
+          classNames={{ container: styles.pageTitle, title: styles.pageTitleText }}
+        />
+      )}
       <div className={clsx(styles.surveyContainer, isCompactSideMenu && styles.compactSideMenu)}>
         {/* wait for prepopulated data and survey JSON to load */}
         {isLoading && (
           <div className={styles.spinner}>
             <Spinner />
           </div>
+        )}
+        {isUnavailableOffline && (
+          <Main className={styles.offlineMessage}>{t('INSIGHTS.TAPE.NOT_AVAILABLE_OFFLINE')}</Main>
         )}
         {!isLoading && surveyJson && (
           <SurveyComponent

@@ -30,6 +30,7 @@ import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowS
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import useDashboardHandoff from '../containers/hooks/useDashboardHandoff';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
+import SurveyUnavailableOffline from '../containers/Insights/Survey/SurveyUnavailableOffline';
 
 import {
   ADD_SENSORS_URL,
@@ -57,11 +58,14 @@ const JoinFarmSuccessScreen = React.lazy(() => import('../containers/JoinFarmSuc
 const InviteUser = React.lazy(() => import('../containers/InviteUser'));
 // Insights imports
 const Insights = React.lazy(() => import('../containers/Insights'));
-const SoilOM = React.lazy(() => import('../containers/Insights/SoilOM'));
-const LabourHappiness = React.lazy(() => import('../containers/Insights/LabourHappiness'));
-const Biodiversity = React.lazy(() => import('../containers/Insights/Biodiversity'));
-const Prices = React.lazy(() => import('../containers/Insights/Prices'));
-const SurveyRoutes = React.lazy(() => import('./SurveyRoutes'));
+const SurveyRoutes = React.lazy(() =>
+  import('./SurveyRoutes').catch((error) => {
+    if (navigator.onLine) {
+      throw error;
+    }
+    return { default: SurveyUnavailableOffline };
+  }),
+);
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('../containers/Map'));
 
@@ -488,10 +492,6 @@ const Routes = ({ isCompactSideMenu }) => {
                       <SensorReadings type={'sensor_array'} />
                     </Route>
                     <Route path="/insights" exact children={<Insights />} />
-                    <Route path="/insights/soilom" exact children={<SoilOM />} />
-                    <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
-                    <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
-                    <Route path="/insights/prices" exact children={<Prices />} />
                     <Route path="/insights/*" exact>
                       <SurveyRoutes isCompactSideMenu={isCompactSideMenu} />
                     </Route>
@@ -806,10 +806,6 @@ const Routes = ({ isCompactSideMenu }) => {
                       children={<ComplianceInfo />}
                     />
                     <Route path="/insights" exact children={<Insights />} />
-                    <Route path="/insights/soilom" exact children={<SoilOM />} />
-                    <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
-                    <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
-                    <Route path="/insights/prices" exact children={<Prices />} />
                     <Route path="/insights/*" exact>
                       <SurveyRoutes isCompactSideMenu={isCompactSideMenu} />
                     </Route>
@@ -970,11 +966,6 @@ const Routes = ({ isCompactSideMenu }) => {
                       <SensorReadings type={'sensor_array'} />
                     </Route>
                     <Route path="/farm_selection" exact children={<ChooseFarm />} />
-                    <Route path="/insights" exact children={<Insights />} />
-                    <Route path="/insights/soilom" exact children={<SoilOM />} />
-                    <Route path="/insights/labourhappiness" exact children={<LabourHappiness />} />
-                    <Route path="/insights/biodiversity" exact children={<Biodiversity />} />
-                    <Route path="/insights/prices" exact children={<Prices />} />
                     <Route path="/callback" children={<Callback />} />
                     <Route path="/accept_invitation/sign_up" children={<InviteSignUp />} />
                     <Route

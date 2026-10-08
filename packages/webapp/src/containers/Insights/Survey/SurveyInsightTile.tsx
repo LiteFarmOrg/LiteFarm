@@ -22,6 +22,7 @@ import { useGetLatestSurveyResponseQuery } from '../../../store/api/surveyApi';
 import { useSurveyTitle } from './useSurveyTitle';
 import useInitialDraft from './useInitialDraft';
 import { surveyHasResultsPage } from './surveyConfig';
+import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
 interface SurveyInsightTileProps {
   surveyId: string;
@@ -48,7 +49,8 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
   const { isDraftLoading, initialDraft } = useInitialDraft(surveyId);
   const inProgress = Object.keys(initialDraft.surveyData || {}).length > 0;
 
-  const isCompleted = !isError && !!surveyResponse?.id;
+  const isOffline = useIsOffline();
+  const isCompleted = !!surveyResponse?.id && (!isError || isOffline);
 
   let currentData = t('INSIGHTS.TAPE.NOT_FILLED');
   if (isFetching || isDraftLoading) {
@@ -62,9 +64,10 @@ function SurveyInsightTile({ surveyId, image, index }: SurveyInsightTileProps) {
   }
 
   const isLoading = currentData === t('common:LOADING');
-  const route = isCompleted
-    ? `/insights/survey/${surveyId}/results`
-    : `/insights/survey/${surveyId}`;
+  const route =
+    isCompleted && !inProgress
+      ? `/insights/survey/${surveyId}/results`
+      : `/insights/survey/${surveyId}`;
 
   return (
     <div className={`insightItem item-${index} ${insightStyles.insightItem}`}>

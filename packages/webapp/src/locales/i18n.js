@@ -10,7 +10,7 @@ import { APP_VERSION } from '../util/constants';
 
 // TODO: LF-5430 Revert to re-add Khmer
 // Explicit language list to exclude km
-const offlineLocales = import.meta.glob('../../public/locales/{en,es,de,fr,pt,hi,pa,ml}/*.json');
+const offlineLocales = import.meta.glob('../../public/locales/{en,es,de,fr,pt,hi,pa,ml,it}/*.json');
 
 i18n
   .use(ChainedBackend)
@@ -21,8 +21,8 @@ i18n
     nsSeparator: ':',
     fallbackLng: 'en',
     // TODO: LF-5430 Re-add Khmer
-    supportedLngs: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'], // i18n allow list
-    locales: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'],
+    supportedLngs: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml', 'it'], // i18n allow list
+    locales: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml', 'it'],
     debug: false,
     detection: {
       order: ['localStorage', 'navigator', 'querystring'],

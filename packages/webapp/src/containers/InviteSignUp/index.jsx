@@ -16,17 +16,13 @@ function InviteSignUp() {
   const [selectedKey, setSelectedKey] = useState(0);
   const { i18n, t } = useTranslation(['translation', 'common']);
   const [email, setEmail] = useState();
-  const [gender, setGender] = useState();
-  const [birth_year, setBirthYear] = useState();
   const [showError, setShowError] = useState();
   useEffect(() => {
     if (!invite_token) {
       history.push('/');
     } else {
-      const { email, gender, birth_year } = getTokenContent(invite_token);
+      const { email } = getTokenContent(invite_token);
       setEmail(email);
-      setGender(gender);
-      setBirthYear(birth_year);
     }
   }, []);
 
@@ -46,8 +42,6 @@ function InviteSignUp() {
         google_id_token: token.access_token,
         invite_token,
         name: data.name,
-        gender,
-        birth_year,
       });
     } else {
       setShowError(true);
@@ -63,8 +57,6 @@ function InviteSignUp() {
         invite_token,
         email,
         name: `${first_name} ${last_name}`,
-        gender,
-        birth_year,
       });
     }
   };

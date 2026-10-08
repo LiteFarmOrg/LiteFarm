@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "Tout effacer",
     "CLEAR_ALL_PLANS": "Effacer tous les plans",
-    "CUSTOM_TASK": "Tâche personnalisée",
+    "CUSTOM_TASK": "Type de tâche personnalisée",
     "CUSTOM_TASK_CHAR_LIMIT": "Le nom du type de tâche personnalisée ne peut pas dépasser 25 caractères",
     "CUSTOM_TASK_NAME": "Nom de la tâche personnalisée",
     "CUSTOM_TASK_TYPE": "Type de tâche personnalisée",
@@ -543,8 +543,13 @@
     }
   },
   "CONSENT": {
+    "AGREE_AND_CONTINUE": "Accepter et continuer",
+    "CHECKBOX_LABEL": "J'ai lu et j'accepte la politique de données de LiteFarm et le formulaire de consentement éclairé.",
     "DATA_POLICY": "Notre politique de données",
-    "LABEL": "Accepter"
+    "END_OF_POLICY": "Fin",
+    "FULL_POLICY": "Police complète",
+    "LABEL": "Accepter",
+    "SHORT_VERSION": "La version courte"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Année de naissance",
@@ -1189,7 +1194,12 @@
     "WHATSAPP_NUMBER_LABEL": "Numéro Whatsapp"
   },
   "HOME": {
-    "GREETING": "Bonjour, "
+    "GREETING": "Bonjour, ",
+    "TAPE_WIDGET": {
+      "DESCRIPTION": "Complétez l'évaluation TAPE de la FAO et marquez votre exploitation sur 10 dimensions, du sol à la diversité de votre exploitation agricole avec votre communauté.",
+      "START_ASSESSMENT": "Commencer l'évaluation",
+      "TITLE": "Dans quelle mesure votre ferme est-elle écologique?"
+    }
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} autre",
@@ -1254,6 +1264,35 @@
       "TITLE": "Matière organique du Sol"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "Élevé",
+        "LOW": "Faible",
+        "MEDIUM": "Moyenne",
+        "VERY_HIGH": "Très élevé",
+        "VERY_LOW": "Très faible"
+      },
+      "BAND_RANGE": {
+        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%",
+        "INCLUSIVE": "{{min}} – {{max}}%"
+      },
+      "CARD": {
+        "COMPLETED_ON": "Complété · {{date}}",
+        "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HIGH_RISK": "Risque Élevé",
+        "IN_PROGRESS": "En cours",
+        "LAST_UPDATED": "Dernière mise à jour à {{date}}",
+        "LOW_RISK": "Risque Faible",
+        "MODERATE_RISK": "Risque modéré",
+        "NEW_VERSION": "Nouvelle version",
+        "RESUME": "Reprendre",
+        "RETAKE_SURVEY": "Recommencer l'enquête",
+        "STARTED": "Démarré {{date}}",
+        "TAKE_SURVEY": "Recommencer l'enquête",
+        "UPDATE": "Mettre à Jour",
+        "VERY_HIGH_RISK": "Risque Très élevé",
+        "VERY_LOW_RISK": "Risque très faible"
+      },
+      "NO_SCORE_YET": "Pas encore de score",
       "THANK_YOU": "Merci, vos réponses ont été enregistrées.",
       "TITLE": "Sondage"
     },
@@ -1273,11 +1312,36 @@
       },
       "IN_PROGRESS": "En cours",
       "LOAD_ERROR": "Impossible de charger l'enquête. Veuillez réessayer plus tard.",
+      "NOT_AVAILABLE_OFFLINE": "Ce sondage sera disponible hors ligne une fois que vous l'aurez ouvert en ligne.",
       "NOT_FILLED": "Non rempli",
       "RESULTS_LOAD_ERROR": "Impossible de charger les résultats. Veuillez réessayer plus tard.",
       "RESULTS_TITLE": "Caractéristiques des transitions agroécologiques (CAET)",
       "TITLE": "TAPE (Évaluation de la performance de l'Agroécologie)",
       "UPDATE_ANSWERS": "Mettre à jour vos réponses"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": "Diversité alimentaire"
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": "Indicateur économique qualitatif"
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": "Sécurité alimentaire"
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": "Terres foncières"
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": "Exposition aux pesticides"
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": "Productivité, revenu et valeur ajoutée"
+    },
+    "TAPE_SOIL": {
+      "TITLE": "Santé du sol"
+    },
+    "TAPE_YOUTH": {
+      "TITLE": "Opportunités d'emploi et émigration des jeunes"
     },
     "TITLE": "Mesures additionnelles",
     "UNAVAILABLE": "Indisponible"
@@ -1646,6 +1710,7 @@
     "CROPS": "Cultures",
     "DOCUMENTS": "Documents",
     "ESTIMATED_REVENUES": "Recettes estimées",
+    "FARM_INSIGHTS": "Aperçus de la ferme",
     "FARM_SETTINGS": "Configuration",
     "FINANCES": "Finances",
     "INSIGHTS": "Infos clés",

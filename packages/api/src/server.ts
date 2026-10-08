@@ -31,7 +31,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.13.2',
+    release: '3.13.3',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -75,7 +75,6 @@ expressOasGenerator.handleResponses(app, {
     'fertilizer',
     'field',
     'fieldCrop',
-    'insight',
     'location',
     'log',
     'management_plan',
@@ -150,7 +149,6 @@ import diseaseRoutes from './routes/diseaseRoute.js';
 import pesticideRoutes from './routes/pesticideRoute.js';
 import yieldRoutes from './routes/yieldRoute.js';
 import priceRoutes from './routes/priceRoute.js';
-import insightRoutes from './routes/insightRoute.js';
 import locationRoute from './routes/locationRoute.js';
 import userFarmDataRoute from './routes/userFarmDataRoute.js';
 import userFarmRoute from './routes/userFarmRoute.js';
@@ -347,7 +345,6 @@ app
   .use('/pesticide', pesticideRoutes)
   .use('/yield', yieldRoutes)
   .use('/price', priceRoutes)
-  .use('/insight', insightRoutes)
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)

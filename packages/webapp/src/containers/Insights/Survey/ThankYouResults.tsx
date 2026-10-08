@@ -14,11 +14,11 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import { Semibold } from '../../../components/Typography';
 import PageTitle from '../../../components/PageTitle';
 import { useSurveyTitle } from './useSurveyTitle';
+import { getSurveyBackUrl } from './surveyConfig';
 
 /**
  * Default results component for surveys that do not need a custom visualization. Rendered by the
@@ -30,12 +30,8 @@ function ThankYouResults({ surveyId }: { surveyId: string }) {
 
   return (
     <div className={insightStyles.insightContainer}>
-      <PageTitle title={surveyTitle} backUrl="/Insights" />
-      <div className={styles.resultsContainer}>
-        <div className={styles.sectionContainer}>
-          <Semibold className={styles.titleText}>{t('INSIGHTS.SURVEY.THANK_YOU')}</Semibold>
-        </div>
-      </div>
+      <PageTitle title={surveyTitle} backUrl={getSurveyBackUrl(surveyId)} />
+      <Semibold>{t('INSIGHTS.SURVEY.THANK_YOU')}</Semibold>
     </div>
   );
 }

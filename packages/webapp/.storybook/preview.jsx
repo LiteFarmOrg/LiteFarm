@@ -95,6 +95,7 @@ export const globalTypes = {
         { value: 'hi', title: 'Hindi' },
         { value: 'pa', title: 'Punjabi' },
         { value: 'ml', title: 'Malayalam' },
+        { value: 'it', title: 'Italian' },
         // { value: 'km', title: 'Khmer' }, TODO: LF-5430 Re-add Khmer
       ],
       showName: true,

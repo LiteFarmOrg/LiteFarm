@@ -12,7 +12,7 @@ export const APP_VERSION = '3.13.0';
 export const VERSION_RELEASE_NOTES_LINK =
   'https://www.litefarm.org/post/certifications-rebuilt-for-how-farms-actually-certify';
 
-export const CONSENT_VERSION = '7.1';
+export const CONSENT_VERSION = '8.0';
 
 export const BETA_BADGE_LINK =
   'https://www.litefarm.org/post/beta-features-on-litefarm-your-feedback-matters';

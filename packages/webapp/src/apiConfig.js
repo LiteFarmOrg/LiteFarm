@@ -51,7 +51,6 @@ export const managementPlanURL = `${URI}/management_plan`;
 export const taskTypeUrl = `${URI}/task_type`;
 //export const priceURL = `${URI}/price`;
 //export const yieldURL = `${URI}/yield`;
-export const insightUrl = `${URI}/insight`;
 export const documentUrl = `${URI}/document`;
 export const salesURL = URI + '/sale';
 //export const cropSalesURL = URI + '/crop_sale';
@@ -103,6 +102,8 @@ export const supportTicketUrl = `${URI}/support_ticket`;
 export const logUserInfoUrl = `${URI}/userLog`;
 export const offlineEventLogUrl = `${URI}/offline_event_log`;
 export const surveyResponseUrl = `${URI}/survey_response`;
+export const latestSurveyResponsesUrl = `${URI}/survey_response/latest`;
+export const surveyDraftsUrl = `${URI}/survey_drafts`;
 export const getSurveyDraftUrl = (surveyKey) => `${URI}/survey_drafts/${surveyKey}`;
 export const farmNoteUrl = `${URI}/farm_notes`;
 export const farmNotesReadUrl = `${URI}/farm_notes_read`;
@@ -129,7 +130,6 @@ export default {
   taskTypeUrl,
   //priceURL,
   //yieldURL,
-  insightUrl,
   documentUrl,
   salesURL,
   //cropSalesURL,

@@ -22,6 +22,7 @@ const supportedLanguages = [
   ['hi', 'हिंदी'],
   ['ml', 'മലയാളം'],
   ['pa', 'ਪੰਜਾਬੀ'],
+  ['it', 'Italiano'],
   // ['km', 'ខ្មែរ'], TODO: LF-5430 Re-add Khmer
 ];
 

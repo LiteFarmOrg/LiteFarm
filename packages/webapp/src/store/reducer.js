@@ -17,7 +17,6 @@ import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
 import { PURGE } from 'redux-persist';
 import { api } from './api/apiSlice';
-import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
@@ -140,7 +139,6 @@ const appReducer = combineReducers({
   persistedStateReducer,
   tempStateReducer,
   baseReducer,
-  insightReducer,
   financeReducer,
 });
 

@@ -32,6 +32,7 @@ interface SurveyPrepopulatedData {
   gps_lat?: number;
   gps_lon?: number;
   region?: string;
+  country_code?: string;
   location1?: string;
   location2?: string;
   latitude?: number;
@@ -71,7 +72,7 @@ export const useSurveyPrepopulatedData = (
   surveyId: string,
   surveyJson: Record<string, any> | undefined,
 ) => {
-  const { isLoaded } = useGoogleMapsLoader(['geocoding']);
+  const { isLoaded, loadError } = useGoogleMapsLoader(['geocoding']);
 
   // @ts-expect-error -- userFarmSelector issue
   const userFarm: UserFarm = useSelector(userFarmSelector);
@@ -86,7 +87,16 @@ export const useSurveyPrepopulatedData = (
     }
 
     const fetchGeocodedData = async () => {
-      if (!isLoaded || !surveyJson) {
+      if (!surveyJson) {
+        return;
+      }
+
+      if (loadError) {
+        setIsLoading(false);
+        return;
+      }
+
+      if (!isLoaded) {
         return;
       }
 
@@ -107,7 +117,7 @@ export const useSurveyPrepopulatedData = (
     };
 
     fetchGeocodedData();
-  }, [surveyId, isLoaded, surveyJson, userFarm?.address, userFarm?.grid_points]);
+  }, [surveyId, isLoaded, loadError, surveyJson, userFarm?.address, userFarm?.grid_points]);
 
   return { prepopulatedData, isLoading };
 };

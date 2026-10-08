@@ -106,11 +106,15 @@ export default function PurePeople({ users, history, isAdmin }) {
   };
   return (
     <ProfileLayout
-      onSubmit={() => history.push('/invite_user')}
       history={history}
       buttonGroup={
         isAdmin && (
-          <Button data-cy="people-inviteUser" fullLength type={'submit'}>
+          <Button
+            data-cy="people-inviteUser"
+            fullLength
+            type={'button'}
+            onClick={() => history.push('/invite_user')}
+          >
             {t('PROFILE.PEOPLE.INVITE_USER')}
           </Button>
         )
@@ -128,8 +132,8 @@ export default function PurePeople({ users, history, isAdmin }) {
         columns={summaryColumns}
         data={getFilteredUsers()}
         showPagination={true}
-        pageSizeOptions={[5, 10, 20, 50]}
-        defaultPageSize={5}
+        pageSizeOptions={[50]}
+        defaultPageSize={50}
         className="-striped -highlight"
         getTdProps={onRowEdit}
         orderDesc={false}

@@ -10,6 +10,11 @@
 .closedContainer {
   height: 44px;
   overflow-y: hidden;
+
+  .pillContainer {
+    height: 26px;
+    overflow: hidden;
+  }
 }
 
 .pillContainer {

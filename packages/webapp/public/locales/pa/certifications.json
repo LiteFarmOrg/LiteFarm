@@ -1,4 +1,8 @@
 {
   "PGS": "ਭਾਗੀਦਾਰੀ ਗਾਰੰਟੀ ਸਿਸਟਮ",
-  "THIRD_PARTY_ORGANIC": "ਤੀਜੀ-ਧਿਰ ਜੈਵਿਕ"
+  "THIRD_PARTY_ORGANIC": "ਤੀਜੀ-ਧਿਰ ਜੈਵਿਕ",
+  "TYPES": {
+    "CERTIFIED_HUMANE": "Certified Humane",
+    "REGENERATIVE": "ਪੁਨਰਜਨਕ"
+  }
 }

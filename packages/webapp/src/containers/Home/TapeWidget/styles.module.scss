@@ -1,0 +1,127 @@
+/*
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@use '../../../assets/mixin' as *;
+
+.container {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  background: var(--White);
+  border-radius: 4px;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+  padding: 12px 20px 12px 210px;
+
+  background-image: url('../../../assets/images/home/tape-widget-motif.svg'),
+    linear-gradient(to right, #d9ede8, #fcfffe);
+  background-repeat: no-repeat, no-repeat;
+  background-position: 12px center, 0 center;
+  background-size: auto, 190px 120px;
+
+  @include md-breakpoint {
+    height: fit-content;
+    padding: 0;
+    flex-direction: column;
+
+    background-image: url('../../../assets/images/home/tape-widget-motif.svg'),
+      linear-gradient(to bottom, #d9ede8, #f6fcf9);
+    background-repeat: no-repeat, no-repeat;
+    background-position: center top, center top;
+    background-size: auto 96px, 100% 96px;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  @include md-breakpoint {
+    padding: 12px 16px 16px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  align-items: flex-start;
+
+  @include md-breakpoint {
+    gap: 8px;
+  }
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 8px;
+  color: #016157;
+  background: #e8f3f1;
+  font-size: 8.5px;
+  font-weight: 700;
+
+  @include md-breakpoint {
+    margin: 0 0 64px -4px;
+    height: 18px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.title {
+  color: #213330;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.description {
+  color: #6b7878;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.button {
+  display: flex;
+  gap: 8px;
+  @include truncateText();
+
+  @include md-breakpoint {
+    min-height: 12.5px;
+    border: none;
+    padding: 0;
+    color: #028577;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: normal;
+
+    > svg {
+      display: none;
+    }
+
+    &::after {
+      content: ' →';
+    }
+
+    &:hover:enabled {
+      border: none;
+      box-shadow: none;
+      color: #028577;
+    }
+  }
+}

@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "O que você vai aplicar?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "Adicione uma tarefa personalizada",
+    "ADD_A_CUSTOM_TASK": "Adicionar um tipo de tarefa personalizada",
     "ADD_A_TASK": "Adicione uma tarefa",
-    "ADD_CUSTOM_TASK": "Adicionar tarefa personalizada",
+    "ADD_CUSTOM_TASK": "Adicionar tipo de tarefa personalizada",
     "AFFECT_PLANS": "Esta tarefa influenciará em algum plano?",
     "ASSIGN_ALL_TO_PERSON": "Atribuir todas as tarefas neste dia para {{name}}",
     "ASSIGN_DATE": "Atribuir data de vencimento",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "Limpar tudo",
     "CLEAR_ALL_PLANS": "Limpar todos os planos",
-    "CUSTOM_TASK": "Tarefa personalizada",
+    "CUSTOM_TASK": "Tipo de tarefa personalizada",
     "CUSTOM_TASK_CHAR_LIMIT": "Nome do tipo de tarefa personalizada não pode exceder 25 caractéres",
     "CUSTOM_TASK_NAME": "Nome da tarefa personalizada",
     "CUSTOM_TASK_TYPE": "Tipo de tarefa personalizada",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "Qual o tipo de irrigação?"
     },
-    "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
+    "MANAGE_CUSTOM_TASKS": "Gerencie seus tipos de tarefa personalizada",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "Qual é a finalidade deste movimento?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "Selecione a finalidade deste movimento",
@@ -543,8 +543,13 @@
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "Nossa Política de Dados",
-    "LABEL": "Aceito"
+    "AGREE_AND_CONTINUE": "Concordar e continuar",
+    "CHECKBOX_LABEL": "Li e concordo com a política de dados e o formulário de consentimento informado da LiteFarm.",
+    "DATA_POLICY": "Nossa política de dados",
+    "END_OF_POLICY": "Fim da política",
+    "FULL_POLICY": "Política completa",
+    "LABEL": "Aceito",
+    "SHORT_VERSION": "A versão resumida"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Ano de nascimento",
@@ -1189,7 +1194,12 @@
     "WHATSAPP_NUMBER_LABEL": "Número do WhatsApp"
   },
   "HOME": {
-    "GREETING": "Bom dia, "
+    "GREETING": "Bom dia, ",
+    "TAPE_WIDGET": {
+      "DESCRIPTION": "Faça a avaliação TAPE da FAO e pontue sua fazenda em 10 dimensões, desde o solo e a diversidade até como você cultiva com sua comunidade.",
+      "START_ASSESSMENT": "Iniciar a avaliação",
+      "TITLE": "Quão agroecológica é sua fazenda?"
+    }
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} outro",
@@ -1254,6 +1264,35 @@
       "TITLE": "Matéria Orgânica do Solo"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "Alto",
+        "LOW": "Baixo",
+        "MEDIUM": "Médio",
+        "VERY_HIGH": "Muito alto",
+        "VERY_LOW": "Muito baixo"
+      },
+      "BAND_RANGE": {
+        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%",
+        "INCLUSIVE": "{{min}} – {{max}}%"
+      },
+      "CARD": {
+        "COMPLETED_ON": "Concluído · {{date}}",
+        "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HIGH_RISK": "Risco alto",
+        "IN_PROGRESS": "Em progresso",
+        "LAST_UPDATED": "Última atualização {{date}}",
+        "LOW_RISK": "Risco baixo",
+        "MODERATE_RISK": "Risco moderado",
+        "NEW_VERSION": "Nova versão",
+        "RESUME": "Retomar",
+        "RETAKE_SURVEY": "Refazer pesquisa",
+        "STARTED": "Iniciado em {{date}}",
+        "TAKE_SURVEY": "Responder pesquisa",
+        "UPDATE": "Atualizar",
+        "VERY_HIGH_RISK": "Risco muito alto",
+        "VERY_LOW_RISK": "Risco muito baixo"
+      },
+      "NO_SCORE_YET": "Sem pontuação ainda",
       "THANK_YOU": "Obrigado. Suas respostas foram gravadas.",
       "TITLE": "Questionário"
     },
@@ -1273,11 +1312,36 @@
       },
       "IN_PROGRESS": "Em progresso",
       "LOAD_ERROR": "Falha ao carregar questionário. Tente novamente mais tarde.",
+      "NOT_AVAILABLE_OFFLINE": "Esta pesquisa estará disponível off-line depois que você a abrir uma vez enquanto estiver on-line.",
       "NOT_FILLED": "Não preenchido",
       "RESULTS_LOAD_ERROR": "Não foi possível carregar os resultados. Tente novamente mais tarde.",
       "RESULTS_TITLE": "Caracterização das Pontuações das Transições Agroecológicas (CAET)",
       "TITLE": "Levantamento TAPE (Ferramenta para Avaliação do Desempenho em Agroecologia)",
       "UPDATE_ANSWERS": "Atualizar as suas respostas"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": "Diversidade alimentar"
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": "Indicador econômico qualitativo"
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": "Segurança alimentar"
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": "Posse de terra"
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": "Exposição a agrotóxicos"
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": "Produtividade, renda e valor agregado"
+    },
+    "TAPE_SOIL": {
+      "TITLE": "Saúde do solo"
+    },
+    "TAPE_YOUTH": {
+      "TITLE": "Oportunidades de emprego para jovens e emigração"
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"
@@ -1646,6 +1710,7 @@
     "CROPS": "Cultivos",
     "DOCUMENTS": "Documentos",
     "ESTIMATED_REVENUES": "Receitas estimadas",
+    "FARM_INSIGHTS": "Insights da Fazenda",
     "FARM_SETTINGS": "Configurações",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",

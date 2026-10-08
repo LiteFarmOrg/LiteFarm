@@ -260,6 +260,16 @@
       "UPDATE": "Venda atualizada com sucesso"
     }
   },
+  "SURVEY": {
+    "SYNC": {
+      "SUBMIT": {
+        "FAILED": "Falha ao salvar o envio da pesquisa",
+        "NETWORK_ERROR": "Desculpe, estamos fora do ar momentaneamente. Tentaremos novamente o envio da sua pesquisa automaticamente",
+        "ONLINE": "Pesquisa enviada. Será salva quando estiver online",
+        "SUCCESS": "Pesquisa enviada offline foi salva com sucesso"
+      }
+    }
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Erro ao completar tarefa",

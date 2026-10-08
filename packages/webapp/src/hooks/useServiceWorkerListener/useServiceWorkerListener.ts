@@ -131,6 +131,9 @@ export function useServiceWorkerListener() {
       'farm_notes.edit': { refresh: () => refreshFarmNotes() },
       'farm_notes.delete': { refresh: () => refreshFarmNotes() },
       'farm_notes.patch': { refresh: () => dispatch(invalidateTags(['FarmNotesRead'])) },
+      'surveys.submit': {
+        refresh: () => dispatch(invalidateTags(['SurveyResponse', 'SurveyDraft'])),
+      },
     }),
     [dispatch],
   );

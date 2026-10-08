@@ -16,7 +16,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import axiosWithoutInterceptors from 'axios';
 import produce from 'immer';
-import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, delay, fork, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import i18n from '../locales/i18n';
@@ -66,7 +66,13 @@ import {
   onLoadingDocumentFail,
   onLoadingDocumentStart,
 } from './documentSlice';
-import { resetTasksFilter } from './filterSlice';
+import {
+  resetAnimalsFilter,
+  resetTasksFilter,
+  resetCropCatalogueFilter,
+  resetDocumentsFilter,
+  resetInventoryFilter,
+} from './filterSlice';
 import { resetDateRange, setIsFetchingData } from './Finances/actions.js';
 import { fetchAllData as fetchAllFinanceData } from './Finances/saga';
 import {
@@ -87,6 +93,7 @@ import {
 } from './rowMethodSlice';
 import { resetTasks } from './taskSlice';
 import {
+  isAdminSelector,
   loginSelector,
   patchFarmSuccess,
   putUserSuccess,
@@ -99,6 +106,7 @@ import { resetFarmStateReducer } from '../store/actionTypes';
 import { api, invalidateTags } from '../store/api/apiSlice';
 import { locationApi } from '../store/api/locationApi';
 import { certificationsApi } from '../store/api/certificationsApi';
+import { surveyApi } from '../store/api/surveyApi';
 import { FarmLibraryTags, FarmTags } from '../store/api/apiTags';
 import { getFieldWorkTypes } from './Task/FieldWorkTask/saga';
 import { getIrrigationTaskTypes } from './Task/IrrigationTaskTypes/saga';
@@ -488,11 +496,45 @@ function* openFarmScopedQuery(initiateThunk) {
   // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#removing-a-subscription
   const subscription = yield put(initiateThunk);
   farmScopedQuerySubscriptions.push(subscription);
+  return subscription;
 }
 
 function releaseFarmScopedQuerySubscriptions() {
   farmScopedQuerySubscriptions.forEach((subscription) => subscription?.unsubscribe?.());
   farmScopedQuerySubscriptions = [];
+}
+
+function* prefetchSurveyDataSaga() {
+  try {
+    const isAdmin = yield select(isAdminSelector);
+    if (!isAdmin) {
+      return;
+    }
+
+    const [responsesSubscription, draftsSubscription] = yield all([
+      call(openFarmScopedQuery, surveyApi.endpoints.getLatestSurveyResponses.initiate()),
+      call(openFarmScopedQuery, surveyApi.endpoints.getSurveyDrafts.initiate()),
+    ]);
+    // initiate()'s returned subscription handles are also promises that resolve to { data }
+    const [{ data: responses }, { data: drafts }] = yield all([
+      responsesSubscription,
+      draftsSubscription,
+    ]);
+
+    // Seed the individual response query caches from the bulk response
+    for (const [surveyKey, response] of Object.entries(responses ?? {})) {
+      yield put(surveyApi.util.upsertQueryData('getLatestSurveyResponse', { surveyKey }, response));
+    }
+
+    // Draft summaries don't contain the full draft, so fetch those where required
+    for (const [surveyKey, draft] of Object.entries(drafts ?? {})) {
+      if (draft.has_data) {
+        yield call(openFarmScopedQuery, surveyApi.endpoints.getSurveyDraft.initiate({ surveyKey }));
+      }
+    }
+  } catch (e) {
+    console.error('failed to prefetch survey data', e);
+  }
 }
 
 export function* fetchAllSaga() {
@@ -514,6 +556,8 @@ export function* fetchAllSaga() {
     put(api.endpoints.getAnimalMovementPurposes.initiate()),
     call(openFarmScopedQuery, locationApi.endpoints.getLocations.initiate()),
   ]);
+
+  yield fork(prefetchSurveyDataSaga);
 
   yield put(fetchAllFinanceData());
 
@@ -545,6 +589,10 @@ export function* fetchAllSaga() {
 export function* clearOldFarmStateSaga() {
   yield put(resetFarmStateReducer());
   yield put(resetTasks());
+  yield put(resetAnimalsFilter());
+  yield put(resetCropCatalogueFilter());
+  yield put(resetDocumentsFilter());
+  yield put(resetInventoryFilter());
   yield put(resetDateRange());
   releaseFarmScopedQuerySubscriptions();
   // RTK Query tracks subscriptions in two places: a live copy that `unsubscribe` updates right
@@ -582,7 +630,7 @@ export function* selectFarmAndFetchAllSaga({ payload: farm }) {
     yield call(clearOldFarmStateSaga);
     if (!userFarm.has_consent) {
       // has_consent is derived in the userFarmSelector from DB has_consent && consent_version === CONSENT_VERSION
-      // Reachable when CONSENT_VERSION was bumped and the user hasn't re-accepted, or when an admin has changed the user's role (userFarmController.updateRole resets has_consent but leaves status='Active')
+      // Reachable when CONSENT_VERSION was bumped and the user hasn't re-accepted
       // Status 'Invited' farms do not use selectFarmAndFetchAllSaga, but instead use patchUserFarmStatusWithIdTokenUrl
       return history.push('/consent');
     }

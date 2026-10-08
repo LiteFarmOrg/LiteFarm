@@ -72,6 +72,14 @@ describe('Survey draft endpoint tests', () => {
       .send({ farm_id, survey_version, survey_data, current_page_no, submission_id });
   }
 
+  async function getDraftsRequest({ user_id = owner.user_id, farm_id = farm.farm_id } = {}) {
+    return chai
+      .request(server)
+      .get('/survey_drafts')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  }
+
   async function postSurveyResponse(survey_key = 'tape') {
     return chai
       .request(server)
@@ -162,6 +170,93 @@ describe('Survey draft endpoint tests', () => {
     });
   });
 
+  describe('GET /survey_drafts', () => {
+    test('Should return an empty result when the farm has no drafts', async () => {
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test('Should return one entry per survey_key the farm has a live draft for', async () => {
+      const promisedUserFarm = [{ farm_id: farm.farm_id, user_id: owner.user_id }];
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape', current_page_no: 7 }),
+      );
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape_economic', current_page_no: 2 }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(Object.keys(res.body).sort()).toEqual(['tape', 'tape_economic']);
+      expect(res.body.tape.current_page_no).toBe(7);
+      expect(res.body.tape_economic.current_page_no).toBe(2);
+    });
+
+    test('Should return created_at and submission_id, and leave out survey_data and survey_key', async () => {
+      const [draft] = await mocks.survey_draftFactory(
+        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape' }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body.tape.created_at).toBeDefined();
+      expect(res.body.tape.submission_id).toBe(draft.submission_id);
+      expect(res.body.tape.survey_data).toBeUndefined();
+      expect(res.body.tape.survey_key).toBeUndefined();
+    });
+
+    test('Should report has_data false for a draft holding no answers', async () => {
+      const promisedUserFarm = [{ farm_id: farm.farm_id, user_id: owner.user_id }];
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape', survey_data: {} }),
+      );
+      await mocks.survey_draftFactory(
+        { promisedUserFarm },
+        mocks.fakeSurveyDraft({ survey_key: 'tape_economic' }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body.tape.has_data).toBe(false);
+      expect(res.body.tape_economic.has_data).toBe(true);
+    });
+
+    test('Should not return a soft-deleted draft', async () => {
+      await mocks.survey_draftFactory(
+        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape' }),
+      );
+      await postSurveyResponse('tape');
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test("Should not return another farm's drafts", async () => {
+      const otherFarm = await createUserFarmIds(1);
+      await mocks.survey_draftFactory(
+        { promisedUserFarm: [otherFarm] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape' }),
+      );
+
+      const res = await getDraftsRequest();
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({});
+    });
+
+    test('Worker should not be able to get the drafts', async () => {
+      const userFarmIds = await createUserFarmIds(3);
+      const res = await getDraftsRequest(userFarmIds);
+      expect(res.status).toBe(403);
+    });
+  });
+
   describe('PUT /survey_drafts/:survey_key', () => {
     test('Admin roles should be able to create a draft', async () => {
       const adminRoles = [1, 2, 5];
@@ -220,21 +315,18 @@ describe('Survey draft endpoint tests', () => {
         expect(rows.length).toBe(0);
       });
 
-      // TODO: LF-5192 Delete once we support retake/update
-      test('A draft write is rejected regardless of which submission_id is sent, once the survey is completed', async () => {
-        await postSurveyResponse();
-        const unrelatedId = '11111111-1111-1111-1111-111111111111';
-
-        const res = await putRequest({ q1: 'too late' }, {}, { submission_id: unrelatedId });
-        expect(res.status).toBe(409);
-      });
-
-      // TODO: LF-5192 Enable
-      xtest('A draft write is unaffected by a completed survey under a different submission_id', async () => {
+      test('A draft write is unaffected by a completed survey under a different submission_id', async () => {
         await postSurveyResponse();
         const unrelatedId = '11111111-1111-1111-1111-111111111111';
 
         const res = await putRequest({ q1: 'answer' }, {}, { submission_id: unrelatedId });
+        expect(res.status).toBe(201);
+      });
+
+      test('A draft write with no submission_id succeeds after the survey is completed', async () => {
+        await postSurveyResponse();
+
+        const res = await putRequest({ q1: 'answer' });
         expect(res.status).toBe(201);
       });
     });

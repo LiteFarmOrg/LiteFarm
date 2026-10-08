@@ -112,7 +112,7 @@ export const customCreateUser = createAction(`customCreateUserSaga`);
 
 export function* customCreateUserSaga({ payload: data }) {
   try {
-    const { name, email, password, gender, birth_year } = data;
+    const { name, email, password } = data;
     const { first_name, last_name } = getFirstNameLastName(name);
     const selectedLanguage = getLanguageFromLocalStorage();
     const language_preference = selectedLanguage.includes('-')
@@ -123,12 +123,8 @@ export function* customCreateUserSaga({ payload: data }) {
       first_name,
       last_name,
       password,
-      gender,
-      birth_year,
       language_preference,
     };
-
-    !reqBody.birth_year && delete reqBody.birth_year;
 
     const result = yield call(axios.post, userUrl(), reqBody);
 

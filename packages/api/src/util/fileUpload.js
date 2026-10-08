@@ -10,6 +10,7 @@ function multerDiskUpload(req, res, next) {
       files: 1,
       fields: 10,
       fieldNestingDepth: 2,
+      fieldArrayIndexLimit: 0,
     },
   }).single('_file_');
   upload(req, res, (error) => {

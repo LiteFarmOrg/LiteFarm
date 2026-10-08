@@ -9,6 +9,7 @@ import {
   location_area,
   area_total_area,
   getDefaultUnit,
+  seedWeight,
   seedYield,
 } from '../../../util/convert-units/unit';
 import clsx from 'clsx';
@@ -196,7 +197,7 @@ export function PureBroadcastForm({
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
             name={ESTIMATED_SEED}
             displayUnitName={ESTIMATED_SEED_UNIT}
-            unitType={seedYield}
+            unitType={seedWeight}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}

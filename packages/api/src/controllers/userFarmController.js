@@ -317,11 +317,9 @@ const userFarmController = {
             return res.status(404).send('Cannot update last admin of farm to worker');
         }
 
-        const updateData = {
-          role_id,
-          has_consent: false,
-        };
-        const isPatched = await UserFarmModel.query().where({ farm_id, user_id }).patch(updateData);
+        const isPatched = await UserFarmModel.query()
+          .where({ farm_id, user_id })
+          .patch({ role_id });
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
       } catch (error) {
         console.log(error);

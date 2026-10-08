@@ -23,6 +23,8 @@ import surveyDraftController from '../controllers/surveyDraftController.js';
 
 const router = express.Router();
 
+router.get('/', checkScope(['get:survey_draft']), surveyDraftController.getDrafts());
+
 // One live draft per farm_id + survey_key
 router.get(
   '/:survey_key',

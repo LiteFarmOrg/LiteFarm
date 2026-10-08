@@ -16,7 +16,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-interface SurveyDraft {
+export interface SurveyDraft {
   currentPageNo: number;
   surveyData: Record<string, any>;
   surveyVersion?: string;
@@ -48,6 +48,7 @@ const surveyDraftSlice = createSlice({
         // Defaults to now; callers adopting server content should pass the server's own
         // updated_at, not when it was merely copied into this store.
         updatedAt?: number;
+        submissionId?: string;
       }>,
     ) => {
       const {
@@ -56,6 +57,7 @@ const surveyDraftSlice = createSlice({
         surveyData,
         surveyVersion,
         updatedAt = Date.now(),
+        submissionId,
       } = action.payload;
       state.bySurveyId[surveyId] = {
         ...state.bySurveyId[surveyId],
@@ -63,6 +65,7 @@ const surveyDraftSlice = createSlice({
         surveyData,
         surveyVersion,
         updatedAt,
+        ...(submissionId ? { submissionId } : {}),
       };
     },
     setDraftSubmissionId: (
@@ -87,6 +90,11 @@ export default surveyDraftSlice.reducer;
 // Selectors
 const surveyDraftStateSelector = (state: any): SurveyDraftState =>
   state.farmStateReducer[surveyDraftSlice.name] || initialState;
+
+export const allSurveyDraftsSelector = createSelector(
+  [surveyDraftStateSelector],
+  (draftState) => draftState.bySurveyId,
+);
 
 export const surveyDraftSelector = (surveyId: string) =>
   createSelector(

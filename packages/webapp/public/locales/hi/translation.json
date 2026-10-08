@@ -108,9 +108,9 @@
     "WHAT_YOU_WILL_BE_APPLYING": "आप क्या लागू करेंगे?"
   },
   "ADD_TASK": {
-    "ADD_A_CUSTOM_TASK": "एक कस्टम टास्क जोड़ें",
+    "ADD_A_CUSTOM_TASK": "एक कस्टम कार्य प्रकार जोड़ें",
     "ADD_A_TASK": "एक टास्क जोड़ें",
-    "ADD_CUSTOM_TASK": "कस्टम टास्क जोड़ें",
+    "ADD_CUSTOM_TASK": "कस्टम कार्य प्रकार जोड़ें",
     "AFFECT_PLANS": "क्या यह टास्क किसी योजना को प्रभावित करेगा?",
     "ASSIGN_ALL_TO_PERSON": "इस तारीख के सभी कार्य {{name}} को सौंपें",
     "ASSIGN_DATE": "टास्क की तारीख बदलें",
@@ -125,7 +125,7 @@
     },
     "CLEAR_ALL": "सभी साफ करें",
     "CLEAR_ALL_PLANS": "सभी योजनाएं साफ करें",
-    "CUSTOM_TASK": "कस्टम टास्क",
+    "CUSTOM_TASK": "कस्टम कार्य प्रकार",
     "CUSTOM_TASK_CHAR_LIMIT": "कस्टम टास्क प्रकार का नाम 25 अक्षरों से अधिक नहीं हो सकता",
     "CUSTOM_TASK_NAME": "कस्टम टास्क का नाम",
     "CUSTOM_TASK_TYPE": "कस्टम टास्क प्रकार",
@@ -203,7 +203,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "सिंचाई का कौन सा प्रकार?"
     },
-    "MANAGE_CUSTOM_TASKS": "अपने कस्टम कार्यों का प्रबंधन करें",
+    "MANAGE_CUSTOM_TASKS": "अपने कस्टम कार्य प्रकारों का प्रबंधन करें",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "इस स्थानांतरण का उद्देश्य क्या है?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "इस स्थानांतरण के उद्देश्य का चयन करें",
@@ -543,8 +543,13 @@
     }
   },
   "CONSENT": {
+    "AGREE_AND_CONTINUE": "सहमत हों और आगे बढ़ें",
+    "CHECKBOX_LABEL": "मैंने पढ़ लिया है और मैं LiteFarm डेटा नीति और सूचित सहमति प्रपत्र से सहमत हूँ।",
     "DATA_POLICY": "हमारी डेटा नीति",
-    "LABEL": "मैं सहमत हूँ"
+    "END_OF_POLICY": "नीति का अंत",
+    "FULL_POLICY": "पूरी नीति",
+    "LABEL": "मैं सहमत हूँ",
+    "SHORT_VERSION": "संक्षिप्त संस्करण"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "जन्म वर्ष",
@@ -1189,7 +1194,12 @@
     "WHATSAPP_NUMBER_LABEL": "व्हाट्सएप नंबर"
   },
   "HOME": {
-    "GREETING": "नमस्ते, "
+    "GREETING": "नमस्ते, ",
+    "TAPE_WIDGET": {
+      "DESCRIPTION": "FAO TAPE मूल्यांकन पूरा करें और 10 आयामों में अपने खेत का आकलन करें, मिट्टी और विविधता से लेकर इस बात तक कि आप अपने समुदाय के साथ कैसे खेती करते हैं।",
+      "START_ASSESSMENT": "मूल्यांकन शुरू करें",
+      "TITLE": "आपका खेत कितना कृषि-पारिस्थितिक है?"
+    }
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} अन्य",
@@ -1254,18 +1264,84 @@
       "TITLE": "मृदा ओएम"
     },
     "SURVEY": {
+      "BAND": {
+        "HIGH": "उच्च",
+        "LOW": "कम",
+        "MEDIUM": "मध्यम",
+        "VERY_HIGH": "बहुत उच्च",
+        "VERY_LOW": "बहुत कम"
+      },
+      "BAND_RANGE": {
+        "GREATER_THAN_MIN": "> {{min}}% से {{max}}%",
+        "INCLUSIVE": "{{min}} से {{max}}%"
+      },
+      "CARD": {
+        "COMPLETED_ON": "पूर्ण · {{date}}",
+        "ESTIMATED_MINUTES": "~{{minutes}} मिनट",
+        "HIGH_RISK": "उच्च जोखिम",
+        "IN_PROGRESS": "प्रगति पर",
+        "LAST_UPDATED": "अंतिम अपडेट {{date}}",
+        "LOW_RISK": "कम जोखिम",
+        "MODERATE_RISK": "मध्यम जोखिम",
+        "NEW_VERSION": "नया संस्करण",
+        "RESUME": "फिर से शुरू करें",
+        "RETAKE_SURVEY": "सर्वेक्षण दोबारा भरें",
+        "STARTED": "{{date}} को शुरू किया गया",
+        "TAKE_SURVEY": "सर्वेक्षण भरें",
+        "UPDATE": "अपडेट करें",
+        "VERY_HIGH_RISK": "बहुत उच्च जोखिम",
+        "VERY_LOW_RISK": "बहुत कम जोखिम"
+      },
+      "NO_SCORE_YET": "अभी कोई स्कोर नहीं",
       "THANK_YOU": "धन्यवाद। आपके उत्तर दर्ज कर लिए गए हैं।",
       "TITLE": "सर्वेक्षण"
     },
     "TAPE": {
       "COMPLETED": "पूर्ण — अपने परिणाम देखें",
+      "DIMENSIONS": {
+        "CIRCULAR_ECONOMY": "चक्रीय अर्थव्यवस्था और एकजुटता",
+        "COCREATION_AND_KNOWLEDGE": "ज्ञान का सह-निर्माण और साझाकरण",
+        "CULTURE_AND_FOOD": "संस्कृति और खाद्य परंपराएं",
+        "DIVERSITY": "विविधता",
+        "EFFICIENCY": "दक्षता",
+        "HUMAN_AND_SOCIAL": "मानवीय और सामाजिक मूल्य",
+        "RECYCLING": "पुनर्चक्रण",
+        "RESILIENCE": "लचीलापन",
+        "RESPONSIBLE_GOVERNANCE": "उत्तरदायी शासन",
+        "SYNERGY": "तालमेल"
+      },
       "IN_PROGRESS": "प्रगति में",
       "LOAD_ERROR": "सर्वे लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
+      "NOT_AVAILABLE_OFFLINE": "ऑनलाइन रहते हुए एक बार खोलने के बाद यह सर्वेक्षण ऑफ़लाइन उपलब्ध होगा।",
       "NOT_FILLED": "भरा नहीं गया",
       "RESULTS_LOAD_ERROR": "परिणाम लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "RESULTS_TITLE": "कृषि-पारिस्थितिक संक्रमणों का चरित्रांकन (CAET) स्कोर",
       "TITLE": "TAPE सर्वेक्षण (कृषि-पारिस्थितिकी प्रदर्शन मूल्यांकन उपकरण)",
       "UPDATE_ANSWERS": "अपने उत्तर अपडेट करें"
+    },
+    "TAPE_DIETARY_DIVERSITY": {
+      "TITLE": "आहार विविधता"
+    },
+    "TAPE_ECONOMIC": {
+      "TITLE": "गुणात्मक आर्थिक संकेतक"
+    },
+    "TAPE_FOOD_SECURITY": {
+      "TITLE": "खाद्य सुरक्षा"
+    },
+    "TAPE_LAND_AWEAI": {
+      "TITLE": "ज़मीन पर अधिकार"
+    },
+    "TAPE_PESTICIDES": {
+      "TITLE": "कीटनाशकों के संपर्क में आना"
+    },
+    "TAPE_PRODUCTIVITY_BIODIVERSITY": {
+      "TITLE": "उत्पादकता, आय और मूल्य संवर्धन"
+    },
+    "TAPE_SOIL": {
+      "TITLE": "मृदा स्वास्थ्य"
+    },
+    "TAPE_YOUTH": {
+      "TITLE": "युवा रोजगार के अवसर और उत्प्रवास"
     },
     "TITLE": "इनसाइट्स",
     "UNAVAILABLE": "अनुपलब्ध"
@@ -1634,6 +1710,7 @@
     "CROPS": "फसलें",
     "DOCUMENTS": "इन्वेंटरी",
     "ESTIMATED_REVENUES": "अनुमानित राजस्व",
+    "FARM_INSIGHTS": "फ़ार्म अंतर्दृष्टि",
     "FARM_SETTINGS": "फार्म सेटिंग्स",
     "FINANCES": "वित्त",
     "INSIGHTS": "अंतर्दृष्टि",

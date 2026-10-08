@@ -260,6 +260,16 @@
       "UPDATE": "Venta actualizada exitosamente"
     }
   },
+  "SURVEY": {
+    "SYNC": {
+      "SUBMIT": {
+        "FAILED": "No se pudo guardar el envío de la encuesta",
+        "NETWORK_ERROR": "Lo sentimos, estamos desconectados momentáneamente. Volveremos a intentar enviar la encuesta automáticamente",
+        "ONLINE": "Encuesta enviada. Se guardará cuando te vuelvas a conectar",
+        "SUCCESS": "La encuesta enviada sin conexión se ha guardado correctamente"
+      }
+    }
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "No se pudo abandonar la tarea",

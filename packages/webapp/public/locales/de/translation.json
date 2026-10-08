@@ -449,8 +449,13 @@
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "Unsere Datenpolitik",
-    "LABEL": "Ich stimme zu"
+    "AGREE_AND_CONTINUE": "Zustimmen und weiter",
+    "CHECKBOX_LABEL": "Ich habe die Datenschutzerklärung und die Einverständniserklärung von LiteFarm gelesen und stimme ihnen zu.",
+    "DATA_POLICY": "Unsere Datenschutzerklärung",
+    "END_OF_POLICY": "Ende der Datenschutzerklärung",
+    "FULL_POLICY": "Vollständige Datenschutzerklärung",
+    "LABEL": "Ich stimme zu",
+    "SHORT_VERSION": "Die Kurzfassung"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Geburtsjahr",
@@ -1360,9 +1365,11 @@
     "CROPS": "Kulturpflanzen",
     "DOCUMENTS": "Dokumente",
     "ESTIMATED_REVENUES": "Geschätzte Einnahmen",
+    "FARM_INSIGHTS": "Betriebsanalysen",
     "FARM_SETTINGS": "Einstellungen",
     "FINANCES": "Finanzen",
     "INSIGHTS": "Analysen",
+    "INVENTORY": "Bestand",
     "LABOUR_EXPENSES": "Arbeitskosten",
     "MAP": "Karte",
     "OTHER_EXPENSES": "Andere Ausgaben",

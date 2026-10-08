@@ -260,6 +260,16 @@
       "UPDATE": "Vente mise à jour"
     }
   },
+  "SURVEY": {
+    "SYNC": {
+      "SUBMIT": {
+        "FAILED": "L'envoi de l'enquête n'a pas pu être enregistré",
+        "NETWORK_ERROR": "Désolé, nous sommes momentanément injoignable. Nous allons recommencer la suppression de votre note automatiquement",
+        "ONLINE": "Enquête envoyée. Sauvegardera lorsque vous serez de retour en ligne",
+        "SUCCESS": "La note créée hors ligne a été enregistrée avec succès"
+      }
+    }
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Impossible d'abandonner une tâche",

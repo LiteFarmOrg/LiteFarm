@@ -497,8 +497,13 @@
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "ഞങ്ങളുടെ ഡാറ്റ നയം",
-    "LABEL": "ഞാൻ അംഗീകരിക്കുന്നു"
+    "AGREE_AND_CONTINUE": "സമ്മതിച്ച് തുടരുക",
+    "CHECKBOX_LABEL": "ഞാൻ LiteFarm ഡാറ്റാ പോളിസിയും ഇൻഫോംഡ് കൺസെന്റ് ഫോമും വായിച്ചു, അംഗീകരിക്കുന്നു.",
+    "DATA_POLICY": "ഞങ്ങളുടെ ഡാറ്റാ നയം",
+    "END_OF_POLICY": "നയത്തിന്റെ അവസാനം",
+    "FULL_POLICY": "മുഴുവൻ നയം",
+    "LABEL": "ഞാൻ അംഗീകരിക്കുന്നു",
+    "SHORT_VERSION": "ചുരുക്കരൂപം"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "ജനിച്ച വർഷം",
@@ -1535,6 +1540,7 @@
     "CROPS": "വിളകൾ",
     "DOCUMENTS": "പ്രമാണങ്ങൾ",
     "ESTIMATED_REVENUES": "കണക്കാക്കിയ വരുമാനം",
+    "FARM_INSIGHTS": "ഫാം ഉൾക്കാഴ്ചകൾ",
     "FARM_SETTINGS": "ഫാം ക്രമീകരണങ്ങൾ",
     "FINANCES": "സാമ്പത്തികം",
     "INSIGHTS": "ഉൾക്കാഴ്ചകൾ",

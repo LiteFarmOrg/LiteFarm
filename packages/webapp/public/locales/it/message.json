@@ -260,6 +260,16 @@
       "UPDATE": "Vendita aggiornata correttamente"
     }
   },
+  "SURVEY": {
+    "SYNC": {
+      "SUBMIT": {
+        "FAILED": "Impossibile salvare l'invio del sondaggio",
+        "NETWORK_ERROR": "Spiacenti, il servizio è momentaneamente non disponibile. Riproveremo automaticamente l'invio del sondaggio",
+        "ONLINE": "Sondaggio inviato. Verrà salvato quando tornerai online",
+        "SUCCESS": "L'invio del sondaggio effettuato offline è stato salvato correttamente"
+      }
+    }
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Impossibile abbandonare l'attività",

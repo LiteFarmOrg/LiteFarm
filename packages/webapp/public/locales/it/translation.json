@@ -543,8 +543,13 @@
     }
   },
   "CONSENT": {
+    "AGREE_AND_CONTINUE": "Accetta e continua",
+    "CHECKBOX_LABEL": "Ho letto e accetto la politica sui dati di LiteFarm e il modulo di consenso informato.",
     "DATA_POLICY": "La nostra politica sui dati",
-    "LABEL": "Accetto"
+    "END_OF_POLICY": "Fine della nota informativa",
+    "FULL_POLICY": "Nota informativa integrale",
+    "LABEL": "Accetto",
+    "SHORT_VERSION": "Versione breve"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Anno di nascita",
@@ -1189,7 +1194,12 @@
     "WHATSAPP_NUMBER_LABEL": "Numero WhatsApp"
   },
   "HOME": {
-    "GREETING": "Buongiorno, "
+    "GREETING": "Buongiorno, ",
+    "TAPE_WIDGET": {
+      "DESCRIPTION": "Esegui la valutazione TAPE della FAO e valuta la tua azienda agricola basandoti su 10 aspetti, dal suolo e dalla diversità al modo in cui coltivi insieme alla tua comunità.",
+      "START_ASSESSMENT": "Avvia la valutazione",
+      "TITLE": "Quanto è agroecologica la tua azienda agricola?"
+    }
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} altro",
@@ -1262,20 +1272,25 @@
         "VERY_LOW": "Molto Basso"
       },
       "BAND_RANGE": {
-        "INCLUSIVE": "{{min}} – {{max}}%",
-        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%"
+        "GREATER_THAN_MIN": "> {{min}}% – {{max}}%",
+        "INCLUSIVE": "{{min}} – {{max}}%"
       },
       "CARD": {
         "COMPLETED_ON": "Completato · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HIGH_RISK": "Rischio alto",
         "IN_PROGRESS": "In corso",
         "LAST_UPDATED": "Ultimo aggiornamento {{date}}",
+        "LOW_RISK": "Rischio basso",
+        "MODERATE_RISK": "Rischio moderato",
         "NEW_VERSION": "Nuova versione",
         "RESUME": "Riprendi",
-        "RETAKE_SURVEY": "Rileva sondaggio",
+        "RETAKE_SURVEY": "Ripeti questionario",
         "STARTED": "Inizio {{date}}",
-        "TAKE_SURVEY": "Partecipa al questionario",
-        "UPDATE": "Aggiorna"
+        "TAKE_SURVEY": "Inizia questionario",
+        "UPDATE": "Aggiorna",
+        "VERY_HIGH_RISK": "Rischio molto alto",
+        "VERY_LOW_RISK": "Rischio molto basso"
       },
       "NO_SCORE_YET": "Nessun risultato",
       "THANK_YOU": "Grazie. Le tue risposte sono state registrate.",
@@ -1297,6 +1312,7 @@
       },
       "IN_PROGRESS": "In corso",
       "LOAD_ERROR": "Impossibile caricare il questionario. Riprova più tardi.",
+      "NOT_AVAILABLE_OFFLINE": "Questo sondaggio sarà disponibile offline dopo averlo aperto una volta mentre sei online.",
       "NOT_FILLED": "Non compilato",
       "RESULTS_LOAD_ERROR": "Impossibile caricare i risultati. Riprova più tardi.",
       "RESULTS_TITLE": "Punteggi di caratterizzazione delle transizioni agroecologiche (CAET)",
@@ -1310,7 +1326,7 @@
       "TITLE": "Indicatore economico qualitativo"
     },
     "TAPE_FOOD_SECURITY": {
-      "TITLE": "Sicurezza degli alimenti"
+      "TITLE": "Sicurezza alimentare"
     },
     "TAPE_LAND_AWEAI": {
       "TITLE": "Proprietà fondiaria"
@@ -1694,6 +1710,7 @@
     "CROPS": "Colture",
     "DOCUMENTS": "Documenti",
     "ESTIMATED_REVENUES": "Entrate stimate",
+    "FARM_INSIGHTS": "Analisi dell'azienda",
     "FARM_SETTINGS": "Impostazioni dell'azienda agricola",
     "FINANCES": "Finanze",
     "INSIGHTS": "Analisi",

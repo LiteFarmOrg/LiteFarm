@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
@@ -39,7 +39,6 @@ const getPaths = (typeId) => ({
 });
 
 export default function ManageRevenueTypes() {
-  const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -56,8 +55,9 @@ export default function ManageRevenueTypes() {
     // Manipulate page navigation by pushing REVENUE_TYPES_URL on top of FINANCES_HOME_URL.
     // When browser's back button or form's back button is clicked, we want to
     // navigate the user to REVENUE_TYPES_URL not FINANCES_HOME_URL.
+    // ⚠️ Read action/location from `history`, not router hooks: this listener outlives the component, so hook values would be stale.
     const unlisten = history.listen(() => {
-      if (history.action === 'POP' && location.pathname === FINANCES_HOME_URL) {
+      if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
         dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
         unlisten();
         navigate(REVENUE_TYPES_URL);
@@ -65,8 +65,8 @@ export default function ManageRevenueTypes() {
         // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_revenue" happens when the user lands on this page.
         !(
-          location.pathname === MANAGE_CUSTOM_REVENUES_URL ||
-          (history.action === 'POP' && location.pathname === FINANCES_HOME_URL)
+          history.location.pathname === MANAGE_CUSTOM_REVENUES_URL ||
+          (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL)
         )
       ) {
         unlisten();

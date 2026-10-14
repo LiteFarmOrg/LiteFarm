@@ -57,7 +57,7 @@ export function onLoadingSuccess(state: UserFarmState) {
   state.loaded = true;
 }
 
-const adminRoles = [1, 2, 5];
+export const adminRoles = [1, 2, 5];
 
 export const initialState: UserFarmState = {
   byFarmIdUserId: {},

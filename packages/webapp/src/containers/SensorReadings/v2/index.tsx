@@ -53,11 +53,7 @@ const generateSensorArrayColorMap = (sensors: Sensor[]) => {
   }));
 };
 
-const filterSensors = (
-  id: string | undefined,
-  type: SensorType,
-  sensors?: Sensor[],
-): Sensor[] | undefined => {
+const filterSensors = (id: string, type: SensorType, sensors?: Sensor[]): Sensor[] | undefined => {
   return type === SensorType.SENSOR_ARRAY
     ? sensors
         ?.filter(({ sensor_array_id }) => sensor_array_id == id)
@@ -106,7 +102,7 @@ const PAGE_TITLE_KEY = {
 
 const SensorReadings = ({ type }: SensorReadingsProps) => {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams();
   const { t } = useTranslation();
 
   const { startDate, endDate, dateRange, updateDateRange } = useSensorsDateRange({});
@@ -129,7 +125,7 @@ const SensorReadings = ({ type }: SensorReadingsProps) => {
     if (!isFetching && !sensors?.length) {
       navigate('/unknown_record', { replace: true });
     }
-  }, [isFetching, sensors?.length]);
+  }, [isFetching, sensors?.length, navigate]);
 
   const label = sensorArray ? sensorArray.label : sensors?.[0]?.label;
 

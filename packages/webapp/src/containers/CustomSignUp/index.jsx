@@ -101,7 +101,7 @@ function CustomSignUp() {
   useEffect(() => {
     if (!componentToShow) {
       navigate(
-        { pathname: '/' }, // TOOD: verify if pathname should be '/'
+        { pathname: '/' },
         { replace: true, state: { user: { email }, component: CUSTOM_SIGN_UP } },
       );
     }
@@ -121,22 +121,11 @@ function CustomSignUp() {
     dispatch(customLoginWithPassword({ email, password, showPasswordError }));
   };
 
-  const enterPasswordOnGoBack = () => {
+  const onGoBack = () => {
     navigate(
+      { pathname: '/' },
       {
-        pathname: '/',
-      },
-      { user: { email }, component: CUSTOM_SIGN_UP },
-    );
-  };
-  const createUserAccountOnGoBack = () => {
-    navigate(
-      {
-        pathname: '/',
-      },
-      {
-        component: CUSTOM_SIGN_UP,
-        user: { email },
+        state: { user: { email }, component: CUSTOM_SIGN_UP },
       },
     );
   };
@@ -149,7 +138,7 @@ function CustomSignUp() {
           <PureEnterPasswordPage
             onLogin={onLogin}
             title={`${t('SIGNUP.WELCOME_BACK')} ${user?.first_name}!`}
-            onGoBack={enterPasswordOnGoBack}
+            onGoBack={onGoBack}
             forgotPassword={forgotPassword}
             isChrome={isChrome()}
             isVisible={showPureEnterPasswordPage}
@@ -158,11 +147,7 @@ function CustomSignUp() {
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>
         <Hidden isVisible={showPureCreateUserAccount}>
-          <PureCreateUserAccount
-            onSignUp={onSignUp}
-            onGoBack={createUserAccountOnGoBack}
-            email={submittedEmail}
-          />
+          <PureCreateUserAccount onSignUp={onSignUp} onGoBack={onGoBack} email={submittedEmail} />
         </Hidden>
       </Suspense>
       <Hidden isVisible={showPureCustomSignUp}>

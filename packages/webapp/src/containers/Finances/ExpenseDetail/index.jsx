@@ -85,6 +85,7 @@ const ExpenseDetail = ({ isEditing }) => {
   return (
     expense && (
       <PureExpenseDetail
+        key={isEditing ? 'editing' : 'readonly'} // remount the component
         pageTitle={isEditing ? t('EXPENSE.EDIT_EXPENSE.TITLE') : t('SALE.EXPENSE_DETAIL.TITLE')}
         expense={expense}
         handleGoBack={handleGoBack}

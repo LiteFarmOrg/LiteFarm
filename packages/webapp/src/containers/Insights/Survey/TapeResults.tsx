@@ -77,9 +77,9 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     (Object.keys(localDraft.surveyData).length > 0 && !isLocalDraftStale(localDraft, serverDraft));
 
   useEffect(() => {
-    if (isSuccess && !surveyData) {
-      // No saved survey for this farm: send the user to fill it in (e.g. if they open the results
-      // page directly without completing the survey).
+    if ((isSuccess && !surveyData) || hasDraftInProgress) {
+      // No saved survey for this farm (e.g. if they open the results page directly without
+      // completing the survey) or a retake is already in progress: send the user to fill it in.
       navigate(`/insights/survey/${surveyId}`, { replace: true });
     }
   }, [isSuccess, surveyData, hasDraftInProgress]);

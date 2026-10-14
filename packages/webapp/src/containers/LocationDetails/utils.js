@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
 import {
   areaProperties,
   fieldEnum,
@@ -10,28 +8,8 @@ import {
 } from '../constants';
 import moment from 'moment';
 import { pick } from '../../util/pick';
-import { FigureType, InternalMapLocationType } from '../../store/api/types';
+import { InternalMapLocationType } from '../../store/api/types';
 import { getDateInputFormat } from '../../util/moment';
-
-const isCreateLocationPage = (pathname) => pathname.includes('/create_location/');
-
-// React Router v6: Check route pattern using pathname instead of match.path
-const isLocationPage = (pathname, locationId, suffix) =>
-  new RegExp(`\\w*/${locationId}/${suffix}`).test(pathname);
-
-export const useLocationPageType = () => {
-  const { pathname } = useLocation();
-  const { location_id } = useParams();
-
-  return useMemo(
-    () => ({
-      isCreateLocationPage: isCreateLocationPage(pathname),
-      isViewLocationPage: isLocationPage(pathname, location_id, 'details'),
-      isEditLocationPage: isLocationPage(pathname, location_id, 'edit'),
-    }),
-    [pathname, location_id],
-  );
-};
 
 export const getFormData = (location) => {
   const result = { ...location };

@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, loginSelector, measurementSelector } from '../userFarmSlice';
 import {
@@ -25,17 +25,24 @@ import {
 import useLocationsById from '../../hooks/location/useLocationsById';
 import UnableToRetireModal from '../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../components/Modals/RetireConfirmationModal';
-import { formatLocationTypeToLocationForDB, useLocationPageType } from './utils';
+import { formatLocationTypeToLocationForDB } from './utils';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { useTranslation } from 'react-i18next';
 import { setMapCache } from '../Map/mapCacheSlice';
 import PureLocationFormWrapper from '../../components/LocationDetailLayout/PureLocationFormWrapper';
 
-function EditLocationDetailForm({ locationType }: { locationType: InternalMapLocationType }) {
+function EditLocationDetailForm({
+  locationType,
+  isViewLocationPage = false,
+  isEditLocationPage = false,
+}: {
+  locationType: InternalMapLocationType;
+  isViewLocationPage?: boolean;
+  isEditLocationPage?: boolean;
+}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
   const { location_id = '' } = params;
@@ -48,8 +55,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
   const [updateLocationByType] = useUpdateLocationByTypeMutation();
   const [deleteLocation] = useDeleteLocationMutation();
   const [checkDeleteLocation] = useCheckDeleteLocationMutation();
-
-  const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);

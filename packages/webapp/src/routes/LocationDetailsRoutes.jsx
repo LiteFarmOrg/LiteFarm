@@ -33,9 +33,15 @@ export default function LocationDetailsRoutes({ locationType }) {
 
   return (
     <Routes>
-      <Route path="details" element={<EditLocationDetailForm locationType={locationType} />} />
+      <Route
+        path="details"
+        element={<EditLocationDetailForm locationType={locationType} isViewLocationPage />}
+      />
       {isAdmin && (
-        <Route path="edit" element={<EditLocationDetailForm locationType={locationType} />} />
+        <Route
+          path="edit"
+          element={<EditLocationDetailForm locationType={locationType} isEditLocationPage />}
+        />
       )}
 
       {config.enabledTabs.includes('tasks') && <Route path="tasks" element={<LocationTasks />} />}

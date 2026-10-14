@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
 import CardLayout from '../Layout/CardLayout';
@@ -21,11 +21,11 @@ export default function PureCropList({
   plannedCrops,
   isAdmin,
   title,
-  location,
   routerTabs,
 }) {
   const isSearchable = true;
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
   const {
@@ -83,7 +83,7 @@ export default function PureCropList({
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
                     navigate(`/crop/${fc.crop_variety_id}/management`, {
-                      returnPath: location?.pathname,
+                      state: { returnPath: location?.pathname },
                     })
                   }
                 />
@@ -106,7 +106,7 @@ export default function PureCropList({
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
                     navigate(`/crop/${fc.crop_variety_id}/management`, {
-                      returnPath: location?.pathname,
+                      state: { returnPath: location?.pathname },
                     })
                   }
                 />
@@ -128,7 +128,7 @@ export default function PureCropList({
                   style={{ width: `${cardWidth}px` }}
                   onClick={() =>
                     navigate(`/crop/${fc.crop_variety_id}/management`, {
-                      returnPath: location?.pathname,
+                      state: { returnPath: location?.pathname },
                     })
                   }
                 />

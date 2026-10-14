@@ -77,7 +77,7 @@ export default function CropVarieties() {
   const onGoBack = () => navigate('/crop_catalogue');
 
   const goToVarietyManagement = (varietyId) => {
-    navigate(`/crop/${varietyId}/management`, { returnPath: location.pathname });
+    navigate(`/crop/${varietyId}/management`, { state: { returnPath: location.pathname } });
   };
 
   const { onAddCropVariety } = useStartAddCropVarietyFlow();

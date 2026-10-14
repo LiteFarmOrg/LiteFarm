@@ -37,7 +37,6 @@ function LocationManagementPlan() {
         plannedCrops={filteredManagementPlans(filter, plannedCrops, t)}
         isAdmin={isAdmin}
         title={name}
-        location={location}
         routerTabs={routerTabs}
       />
     </>

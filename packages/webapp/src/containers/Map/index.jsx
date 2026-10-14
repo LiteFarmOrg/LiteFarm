@@ -65,6 +65,7 @@ import {
 } from '../../util/google-maps/cleanupListeners';
 import useAvailableFilterSettings from './useAvailableFilterSettings';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import history from '../../history';
 
 export default function Map({ isCompactSideMenu }) {
   const location = useLocation();
@@ -110,8 +111,10 @@ export default function Map({ isCompactSideMenu }) {
   const persistedPathsSet = useSelector(hookFormPersistedPathsSetSelector);
   useEffect(() => {
     return () => {
+      // ⚠️ Read the destination from `history`, not useLocation: this cleanup runs
+      // after navigation, so the hook's location would be the map's own path.
       persistedPathsSet.size &&
-        !persistedPathsSet.has(location.pathname) &&
+        !persistedPathsSet.has(history.location.pathname) &&
         dispatch(resetAndUnLockFormData());
     };
   }, [persistedPathsSet]);

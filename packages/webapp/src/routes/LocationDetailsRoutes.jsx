@@ -35,12 +35,16 @@ export default function LocationDetailsRoutes({ locationType }) {
     <Routes>
       <Route
         path="details"
-        element={<EditLocationDetailForm locationType={locationType} isViewLocationPage />}
+        element={
+          <EditLocationDetailForm key="view" locationType={locationType} isViewLocationPage />
+        }
       />
       {isAdmin && (
         <Route
           path="edit"
-          element={<EditLocationDetailForm locationType={locationType} isEditLocationPage />}
+          element={
+            <EditLocationDetailForm key="edit" locationType={locationType} isEditLocationPage />
+          }
         />
       )}
 

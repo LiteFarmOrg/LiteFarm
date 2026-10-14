@@ -85,6 +85,7 @@ function RevenueDetail({ isEditing }) {
 
   return (
     <RevenueForm
+      key={isEditing ? 'editing' : 'readonly'}
       onSubmit={isEditing ? onSubmit : undefined}
       title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}

@@ -30,7 +30,15 @@
     "years": "anni",
     "year": "anno"
   },
-  "dayNames": ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"],
+  "dayNames": [
+    "domenica",
+    "lunedì",
+    "martedì",
+    "mercoledì",
+    "giovedì",
+    "venerdì",
+    "sabato"
+  ],
   "monthNames": [
     "gennaio",
     "febbraio",

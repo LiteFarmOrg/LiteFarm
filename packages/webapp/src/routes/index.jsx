@@ -231,19 +231,10 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
     if (isInvitationFlow) {
       return (
         <Routes>
-          <Route
-            path="/farm_selection"
-            element={has_consent ? <ChooseFarm /> : <Navigate to="/consent" replace />}
-          />
+          <Route path="/farm_selection" element={<ChooseFarm />} />
           <Route path="/consent" element={<ConsentForm goForwardTo="/outro" goBackTo={null} />} />
-          <Route
-            path="/outro"
-            element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" replace />}
-          />
-          <Route
-            path="*"
-            element={<Navigate to={has_consent ? '/farm_selection' : '/consent'} replace />}
-          />
+          <Route path="/outro" element={<JoinFarmSuccessScreen />} />
+          <Route path="*" element={has_consent ? null : <Navigate to="/consent" replace />} />
         </Routes>
       );
     } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {

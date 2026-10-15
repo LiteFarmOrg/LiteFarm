@@ -68,7 +68,7 @@ const TopMenu = ({ isMobile, showNavActions, onClickBurger, showNav }) => {
     if (location.pathname === url) {
       // TODO click should update contents; is there better way than full page refresh?
       closeMenu();
-      navigate(url, { replace: true });
+      navigate(0);
     } else {
       handleClick(url);
     }

@@ -78,8 +78,8 @@ const getCardConfig = (
         metaText: isDatedByRiskBar
           ? null
           : survey.score === undefined && survey.riskLevel === undefined
-            ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
-            : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
+          ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
+          : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
       };
     }
   }

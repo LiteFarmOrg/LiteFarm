@@ -13,7 +13,7 @@ const Template = (args) => <PureCropDetail {...args} />;
 export const Detail = Template.bind({});
 Detail.args = {
   variety: {
-    cropName: 'Carrot',
+    crop_variety_name: 'Carrot',
     varietyName: 'Nantes',
     supplierName: 'Buckerfields',
     supplier: 'Supplier 1',

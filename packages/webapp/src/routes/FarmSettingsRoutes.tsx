@@ -24,36 +24,17 @@ const MarketDirectory = React.lazy(
 const FarmAddons = React.lazy(() => import('../containers/Profile/FarmSettings/Addons'));
 
 const FarmSettingsRoutes = () => (
-  <Routes>
-    <Route
-      path="/basic_profile"
-      element={
-        <FarmSettingsProvider>
-          <BasicProfile />
-        </FarmSettingsProvider>
-      }
-    />
-    <Route
-      path="/market_directory"
-      element={
-        <FarmSettingsProvider>
-          <MarketDirectory />
-        </FarmSettingsProvider>
-      }
-    />
-    <Route
-      path="/addons"
-      element={
-        <FarmSettingsProvider>
-          <FarmAddons />
-        </FarmSettingsProvider>
-      }
-    />
-    {/* Load on basic_profile */}
-    <Route path="/" element={<Navigate to="basic_profile" replace />} />
-    {/* Redirect on non-matches */}
-    <Route path="*" element={<Navigate to={'/'} replace />} />
-  </Routes>
+  <FarmSettingsProvider>
+    <Routes>
+      <Route path="basic_profile" element={<BasicProfile />} />
+      <Route path="market_directory" element={<MarketDirectory />} />
+      <Route path="addons" element={<FarmAddons />} />
+      {/* Load on basic_profile */}
+      <Route index element={<Navigate to="basic_profile" replace />} />
+      {/* Redirect on non-matches */}
+      <Route path="*" element={<Navigate to={'/'} replace />} />
+    </Routes>
+  </FarmSettingsProvider>
 );
 
 export default FarmSettingsRoutes;

@@ -190,36 +190,28 @@ const createStoryArgs = (locationType, mode) => {
   const base = {
     system: 'metric',
     isAdmin: true,
-    history: () => {},
     submitForm: (data) => {},
     locationType,
     persistedFormData: config[locationType].persistedFormData,
   };
-
-  const location_id = config[locationType].locationAPIData.location_id;
 
   if (mode === 'post') {
     return {
       ...base,
       isCreateLocationPage: true,
       areaType: locationType,
-      match: { params: {} },
     };
   }
   if (mode === 'view') {
     return {
       ...base,
       isViewLocationPage: true,
-      match: { params: { location_id } },
-      history: { location: { pathname: `/${locationType.toLowerCase()}/${location_id}/details` } },
     };
   }
   if (mode === 'workerView') {
     return {
       ...base,
       isViewLocationPage: true,
-      match: { params: { location_id } },
-      history: { location: { pathname: `/${locationType.toLowerCase()}/${location_id}/details` } },
       isAdmin: false,
     };
   }
@@ -227,7 +219,6 @@ const createStoryArgs = (locationType, mode) => {
     return {
       ...base,
       isEditLocationPage: true,
-      match: { params: { location_id } },
     };
   }
 };

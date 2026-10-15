@@ -33,11 +33,6 @@ Primary.args = {
     crop_subgroup: 'Pome fruits and stone fruits',
     crop_translation_key: 'APRICOT',
   },
-  match: {
-    params: {
-      crop_id: '31',
-    },
-  },
   useHookFormPersist: () => ({}),
   imageUploader: (
     <ImagePickerWrapper>

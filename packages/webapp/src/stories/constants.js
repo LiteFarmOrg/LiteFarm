@@ -14,14 +14,6 @@
  */
 
 export const managementPlanCardCommonArgs = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',

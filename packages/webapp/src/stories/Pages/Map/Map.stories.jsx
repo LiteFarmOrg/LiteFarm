@@ -13,9 +13,6 @@ export default {
 const Template = (args) => <Map {...args} />;
 
 export const AdminMap = Template.bind({});
-AdminMap.args = {
-  history: { location: {} },
-};
 AdminMap.parameters = {
   ...chromaticSmallScreen,
 };

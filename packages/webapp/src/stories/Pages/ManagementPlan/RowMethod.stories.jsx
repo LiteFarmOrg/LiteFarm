@@ -13,7 +13,6 @@ const Template = (args) => <PureRowMethod {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
@@ -32,7 +31,6 @@ Primary.parameters = {
 
 export const HistoricalInitial = Template.bind({});
 HistoricalInitial.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
@@ -53,7 +51,6 @@ HistoricalInitial.parameters = {
 
 export const HistoricalFinal = Template.bind({});
 HistoricalFinal.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
@@ -74,7 +71,6 @@ HistoricalFinal.parameters = {
 
 export const FinalSameLength = Template.bind({});
 FinalSameLength.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
@@ -100,7 +96,6 @@ FinalSameLength.parameters = {
 
 export const InitialDifferentLength = Template.bind({});
 InitialDifferentLength.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),

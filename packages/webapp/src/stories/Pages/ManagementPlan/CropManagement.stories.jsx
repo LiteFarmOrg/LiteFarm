@@ -21,14 +21,6 @@ const getManagementPlanCardContents = (numberOfCards) =>
 
 export const Management = Template.bind({});
 Management.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',
@@ -43,14 +35,6 @@ Management.parameters = {
 
 export const ManagementWithOneCard = Template.bind({});
 ManagementWithOneCard.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',
@@ -66,14 +50,6 @@ ManagementWithOneCard.parameters = {
 
 export const ManagementWithManyCards = Template.bind({});
 ManagementWithManyCards.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',

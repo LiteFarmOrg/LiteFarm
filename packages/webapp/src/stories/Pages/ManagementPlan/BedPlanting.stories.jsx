@@ -13,7 +13,6 @@ const Template = (args) => <PureBedPlan {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
@@ -32,7 +31,6 @@ Primary.parameters = {
 
 export const Final = Template.bind({});
 Final.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),
@@ -58,7 +56,6 @@ Final.parameters = {
 
 export const Historical = Template.bind({});
 Historical.args = {
-  history: {},
   system: 'metric',
   crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
   useHookFormPersist: () => ({}),

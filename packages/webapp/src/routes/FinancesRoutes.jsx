@@ -69,12 +69,12 @@ const FinancesRoutes = () => (
     <Route path="add_revenue" element={<AddSale />} />
     <Route path="manage_custom_revenues" element={<ManageRevenueTypes />} />
     <Route path="revenue/:sale_id" element={<RevenueDetail />} />
-    <Route path="revenue/:sale_id/edit" element={<RevenueDetail isEditing={true} />} />
+    <Route path="revenue/:sale_id/edit" element={<RevenueDetail isEditing />} />
     <Route path="estimated_revenue" element={<EstimatedRevenue />} />
     <Route path="labour" element={<Labour />} />
     <Route path="other_expense" element={<OtherExpense />} />
     <Route path="expense/:expense_id" element={<ExpenseDetail />} />
-    <Route path="expense/:expense_id/edit" element={<ExpenseDetail isEditing={true} />} />
+    <Route path="expense/:expense_id/edit" element={<ExpenseDetail isEditing />} />
     <Route path="expense_categories" element={<WithNavigation component={ExpenseCategories} />} />
     <Route path="add_expense" element={<WithNavigation component={AddExpense} />} />
     <Route path="manage_custom_expenses" element={<ManageExpenseTypes />} />

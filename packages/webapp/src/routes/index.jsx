@@ -216,7 +216,7 @@ function AdminOnly({ roleId }) {
 }
 
 const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
-  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
+  let { step_five, has_consent, role_id, step_one, farm_id } = userFarm;
   const isSignedIn = useAuthenticatedSession();
   const isHandingOffToDashboard = useDashboardHandoff(isSignedIn);
   const hasSelectedFarm = !!farm_id;
@@ -235,7 +235,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
             path="/farm_selection"
             element={has_consent ? <ChooseFarm /> : <Navigate to="/consent" replace />}
           />
-          <Route path="/consent" element={<ConsentForm goForwardTo={'/outro'} goBackTo={null} />} />
+          <Route path="/consent" element={<ConsentForm goForwardTo="/outro" goBackTo={null} />} />
           <Route
             path="/outro"
             element={has_consent ? <JoinFarmSuccessScreen /> : <Navigate to="/consent" replace />}
@@ -252,14 +252,14 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
       return (
         <Routes>
           <Route path="/farm_selection" element={<ChooseFarm />} />
-          <Route path="/consent" element={<ConsentForm goForwardTo={'/'} goBackTo={null} />} />
+          <Route path="/consent" element={<ConsentForm goForwardTo="/" goBackTo={null} />} />
           <Route path="*" element={<Navigate to="/consent" replace />} />
         </Routes>
       );
     } else {
       return (
         <Routes>
-          {/* Common routes */}
+          {/* Routes for all roles */}
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Account />} />
@@ -291,7 +291,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
           <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
           <Route path="/password_reset" element={<PasswordResetAccount />} />
-          <Route path={'/expired'} element={<ExpiredTokenScreen />} />
+          <Route path="/expired" element={<ExpiredTokenScreen />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/tasks/:task_id/read_only" element={<TaskReadOnly />} />
           <Route path="/tasks/:task_id/abandon" element={<TaskAbandon />} />
@@ -342,7 +342,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           />
           <Route path="/unknown_record" element={<UnknownRecord />} />
 
-          {/* Admin routes */}
+          {/* Admin-only routes */}
           <Route element={<AdminOnly roleId={role_id} />}>
             <Route path="/people" element={<People />} />
             <Route path="/farm_settings/*" element={<FarmSettings />} />
@@ -487,7 +487,7 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
           <Route
             path="*"
             //TODO change to 404
-            element={<Navigate to={'/'} replace />}
+            element={<Navigate to="/" replace />}
           />
         </Routes>
       );
@@ -495,17 +495,17 @@ const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
   } else {
     return (
       <Routes>
-        <Route path={'/render_survey'} element={<RenderSurvey />} />
+        <Route path="/render_survey" element={<RenderSurvey />} />
         <Route path="/callback" element={<Callback />} />
         <Route path="/accept_invitation/sign_up" element={<InviteSignUp />} />
         <Route path="/accept_invitation/create_account" element={<InvitedUserCreateAccount />} />
         <Route path="/password_reset" element={<PasswordResetAccount />} />
-        <Route path={'/expired'} element={<ExpiredTokenScreen />} />
+        <Route path="/expired" element={<ExpiredTokenScreen />} />
         <Route path="/" element={<CustomSignUp />} />
         <Route
           path="*"
           //TODO change to 404
-          element={<Navigate to={'/'} replace />}
+          element={<Navigate to="/" replace />}
         />
       </Routes>
     );

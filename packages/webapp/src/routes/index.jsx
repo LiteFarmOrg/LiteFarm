@@ -215,7 +215,7 @@ function AdminOnly({ roleId }) {
   return <Navigate to="/" replace />;
 }
 
-const Element = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
+const AppRouteGate = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
   let { step_five, has_consent, role_id, step_one, farm_id } = userFarm;
   const isSignedIn = useAuthenticatedSession();
   const isHandingOffToDashboard = useDashboardHandoff(isSignedIn);
@@ -524,18 +524,11 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Routes>
-        <Route
-          path="*"
-          element={
-            <Element
-              userFarm={userFarm}
-              isInvitationFlow={isInvitationFlow}
-              isCompactSideMenu={isCompactSideMenu}
-            />
-          }
-        />
-      </Routes>
+      <AppRouteGate
+        userFarm={userFarm}
+        isInvitationFlow={isInvitationFlow}
+        isCompactSideMenu={isCompactSideMenu}
+      />
     </Suspense>
   );
 };

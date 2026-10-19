@@ -13,7 +13,7 @@ function BroadcastPlan() {
   const cropVariety = useSelector(cropVarietySelector(variety_id));
   const yieldPerArea = cropVariety.yield_per_area || 0;
   const system = useSelector(measurementSelector);
-  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/broadcast_method');
+  const isFinalPage = !!useMatch('/crop/:variety_id/add_management_plan/broadcast_method');
   const { locations: planLocation } = useLocationsById(
     persistedFormData.crop_management_plan.planting_management_plans[
       isFinalPage ? 'final' : 'initial'

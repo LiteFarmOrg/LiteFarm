@@ -9,7 +9,7 @@ import { getRowGuidancePaths } from '../../../../components/Crop/getAddManagemen
 export default function RowGuidance() {
   const { variety_id } = useParams();
   const system = useSelector(measurementSelector);
-  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/row_guidance');
+  const isFinalPage = !!useMatch('/crop/:variety_id/add_management_plan/row_guidance');
   const { submitPath } = useMemo(() => getRowGuidancePaths(variety_id, isFinalPage), []);
   return (
     <HookFormPersistProvider>

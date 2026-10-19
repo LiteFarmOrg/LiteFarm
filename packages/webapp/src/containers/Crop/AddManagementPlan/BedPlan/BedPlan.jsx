@@ -11,7 +11,7 @@ export default function BedPlan() {
   const { variety_id } = useParams();
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(variety_id));
-  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/bed_method');
+  const isFinalPage = !!useMatch('/crop/:variety_id/add_management_plan/bed_method');
   const { submitPath } = useMemo(
     () => getBedMethodPaths(crop_variety.crop_variety_id, isFinalPage),
     [],

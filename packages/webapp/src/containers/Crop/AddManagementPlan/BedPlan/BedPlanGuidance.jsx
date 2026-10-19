@@ -9,7 +9,7 @@ import { getBedGuidancePaths } from '../../../../components/Crop/getAddManagemen
 export default function BedPlan() {
   const { variety_id } = useParams();
   const system = useSelector(measurementSelector);
-  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/bed_guidance');
+  const isFinalPage = !!useMatch('/crop/:variety_id/add_management_plan/bed_guidance');
   const { submitPath } = useMemo(() => getBedGuidancePaths(variety_id, isFinalPage), []);
   return (
     <HookFormPersistProvider>

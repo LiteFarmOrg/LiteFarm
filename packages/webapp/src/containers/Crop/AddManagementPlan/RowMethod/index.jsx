@@ -13,7 +13,7 @@ export default function RowMethod() {
   const { variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(variety_id));
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/row_method');
+  const isFinalPage = !!useMatch('/crop/:variety_id/add_management_plan/row_method');
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =
     already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);

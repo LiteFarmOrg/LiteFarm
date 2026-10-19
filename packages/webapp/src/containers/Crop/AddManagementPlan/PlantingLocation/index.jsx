@@ -11,7 +11,7 @@ import { cropVarietySelector } from '../../../cropVarietySlice.js';
 import useCropLocations from '../../../../hooks/location/useCropLocations';
 
 export default function PlantingLocation() {
-  const isFinalLocationPage = useMatch(
+  const isFinalLocationPage = !!useMatch(
     '/crop/:variety_id/add_management_plan/choose_final_planting_location',
   );
   const { variety_id } = useParams();

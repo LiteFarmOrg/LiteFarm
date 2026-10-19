@@ -6,7 +6,7 @@ import { measurementSelector } from '../../../userFarmSlice';
 
 export default function PlantingMethod() {
   const system = useSelector(measurementSelector);
-  const isFinalPlantingMethod = useMatch(
+  const isFinalPlantingMethod = !!useMatch(
     '/crop/:variety_id/add_management_plan/final_planting_method',
   );
   return (

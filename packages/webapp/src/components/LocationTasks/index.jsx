@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import CardLayout from '../Layout/CardLayout';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
@@ -11,16 +12,9 @@ import { Variant } from '../RouterTab/Tab';
 import FloatingActionButton from '../Button/FloatingActionButton';
 import styles from './styles.module.scss';
 
-export default function PureLocationTasks({
-  location,
-  history,
-  match,
-  tasks,
-  count,
-  routerTabs,
-  handleAddTask,
-}) {
+export default function PureLocationTasks({ location, tasks, count, routerTabs, handleAddTask }) {
   const language = getLanguageFromLocalStorage();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const renderTasksForDay = (dateString, tasksForDate) => (
@@ -32,7 +26,7 @@ export default function PureLocationTasks({
       {tasksForDate.map((t) => (
         <TaskCard
           key={t.task_id}
-          onClick={() => history.push(`/tasks/${t.task_id}/read_only`)}
+          onClick={() => navigate(`/tasks/${t.task_id}/read_only`)}
           style={{ marginBottom: '14px' }}
           {...t}
         />
@@ -59,11 +53,9 @@ export default function PureLocationTasks({
   return (
     <>
       <CardLayout>
-        <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
+        <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
         <RouterTab
           classes={{ container: { margin: '30px 0 26px 0' } }}
-          history={history}
-          match={match}
           tabs={routerTabs}
           variant={Variant.UNDERLINE}
         />

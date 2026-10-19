@@ -2,6 +2,7 @@ import Layout from '../Layout';
 import CropHeader from './CropHeader';
 import RouterTab from '../RouterTab';
 import { useMemo, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -14,16 +15,16 @@ import navStyles from '@navStyles';
 import useCropLocations from '../../hooks/location/useCropLocations';
 
 export default function PureCropManagement({
-  history,
-  match,
   onBack,
   variety,
   onAddManagementPlan,
   managementPlanCardContents,
   isAdmin,
-  location,
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
+  const { variety_id } = useParams();
   const [searchString, setSearchString] = useState('');
   const [plansForModal, setPlansForModal] = useState([]);
   const searchStringOnChange = (e) => setSearchString(e.target.value);
@@ -68,18 +69,16 @@ export default function PureCropManagement({
       <CropHeader variety={variety} onBackClick={onBack} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
-        match={match}
         tabs={[
           {
             label: t('CROP_DETAIL.MANAGEMENT_TAB'),
-            path: `/crop/${match.params.variety_id}/management`,
-            state: location?.state,
+            path: `/crop/${variety_id}/management`,
+            state: location.state,
           },
           {
             label: t('CROP_DETAIL.DETAIL_TAB'),
-            path: `/crop/${match.params.variety_id}/detail`,
-            state: location?.state,
+            path: `/crop/${variety_id}/detail`,
+            state: location.state,
           },
         ]}
       />
@@ -125,9 +124,9 @@ export default function PureCropManagement({
             return (
               <ManagementPlanCard
                 onClick={() =>
-                  history.push(
+                  navigate(
                     `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
-                    location.state,
+                    { state: location.state },
                   )
                 }
                 {...managementPlan}
@@ -141,7 +140,6 @@ export default function PureCropManagement({
       )}
       {!!plansForModal.length && (
         <CropPlansModal
-          history={history}
           variety={variety}
           managementPlanCardContents={plansForModal}
           dismissModal={dismissCropPlansModal}
@@ -167,8 +165,6 @@ PureCropManagement.propTypes = {
       repetition_number: PropTypes.number,
     }),
   ),
-  history: PropTypes.object,
-  match: PropTypes.object,
   onBack: PropTypes.func,
   variety: PropTypes.object,
   onAddManagementPlan: PropTypes.func,

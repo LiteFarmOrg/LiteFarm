@@ -10,6 +10,7 @@ export default {
   component: PureCustomSignUp,
 };
 
+// TODO: LF-5222 Address 'Google OAuth components must be used within GoogleOAuthProvider' error
 const Template = (args) => <PureCustomSignUp {...args} />;
 
 export const Primary = Template.bind({});

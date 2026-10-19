@@ -31,6 +31,7 @@ const data = [
     note: 'Expense 2',
   },
   {
+    icon: 'INFRASTRUCTURE',
     date: '2023-10-24T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
     amount: -60,
@@ -40,6 +41,7 @@ const data = [
     },
   },
   {
+    icon: 'INFRASTRUCTURE',
     date: '2023-10-20T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
     amount: -19.9,
@@ -95,6 +97,7 @@ const data = [
     items: [{ key: 18, title: 'Custom type', amount: 200 }],
   },
   {
+    icon: 'INFRASTRUCTURE',
     date: '2023-10-14T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
     amount: -80,

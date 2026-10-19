@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCertificationSurveyPage from '../../../components/CertificationSurvey';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -12,7 +12,7 @@ import { useGetSupportedCertifiersQuery } from '../../../store/api/certifiersApi
 import { parseCertifierKey } from '../utils';
 
 function CertificationSurveyPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { email } = useSelector(userFarmSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -52,8 +52,8 @@ function CertificationSurveyPage() {
     <HookFormPersistProvider>
       <PureCertificationSurveyPage
         onExport={onExport}
-        handleGoBack={() => history.back()}
-        handleCancel={() => history.push('/certification')}
+        handleGoBack={() => navigate(-1)}
+        handleCancel={() => navigate('/certifications')}
         certifier={certifier}
         requested_certifier={requested_certifier}
         onSurveyComplete={onSurveyComplete}

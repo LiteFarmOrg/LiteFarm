@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRouteMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useFieldTechnology from './LocationFieldTechnology/useFieldTechnology';
 import { locationEnum } from '../Map/constants';
@@ -34,7 +34,7 @@ const fieldTechnologyLocations = [
 const irrigationPrescriptionLocations = fieldTechnologyLocations;
 
 export default function useLocationRouterTabs(location) {
-  const match = useRouteMatch();
+  const { pathname } = useLocation();
   const { t } = useTranslation();
 
   if (!location) {
@@ -45,7 +45,7 @@ export default function useLocationRouterTabs(location) {
 
   const TABS = ['details', 'tasks', 'crops', 'field_technology', 'irrigation'];
 
-  const currentTab = TABS.find((tab) => match.path.includes(`/${tab}`));
+  const currentTab = TABS.find((tab) => pathname.includes(`/${tab}`));
 
   const fieldTechnology = useFieldTechnology(location);
   const hasLocationFieldTechnology = Object.values(fieldTechnology).some((value) => !!value.length);
@@ -56,11 +56,11 @@ export default function useLocationRouterTabs(location) {
   const routerTabs = [
     {
       label: t('FARM_MAP.TAB.DETAILS'),
-      path: match.url.replace(currentTab, 'details'),
+      path: pathname.replace(currentTab, 'details'),
     },
     {
       label: t('FARM_MAP.TAB.TASKS'),
-      path: match.url.replace(currentTab, 'tasks'),
+      path: pathname.replace(currentTab, 'tasks'),
     },
   ];
 
@@ -68,19 +68,19 @@ export default function useLocationRouterTabs(location) {
   if (cropLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.CROPS'),
-      path: match.url.replace(currentTab, 'crops'),
+      path: pathname.replace(currentTab, 'crops'),
     });
   }
   if (hasLocationFieldTechnology && fieldTechnologyLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.FIELD_TECHNOLOGY'),
-      path: match.url.replace(currentTab, 'field_technology'),
+      path: pathname.replace(currentTab, 'field_technology'),
     });
   }
   if (hasLocationIrrigationPrescriptions && irrigationPrescriptionLocations.includes(type)) {
     routerTabs.push({
       label: t('FARM_MAP.TAB.IRRIGATION'),
-      path: match.url.replace(currentTab, 'irrigation'),
+      path: pathname.replace(currentTab, 'irrigation'),
     });
   }
 

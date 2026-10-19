@@ -13,22 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import PureLocationFieldTechnology from '../../../components/LocationFieldTechnology';
 import useFieldTechnology from './useFieldTechnology';
 import useLocationRouterTabs from '../useLocationRouterTabs';
-import { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
 import useLocationsById from '../../../hooks/location/useLocationsById';
 
 function LocationFieldTechnology() {
-  const history = useHistory();
-  const match = useRouteMatch();
-  const { location_id } = match.params;
+  const navigate = useNavigate();
+  const { location_id } = useParams();
   const { locations: location } = useLocationsById(location_id);
 
   useEffect(() => {
     if (location === undefined) {
-      history.replace('/unknown_record');
+      navigate('/unknown_record', { replace: true });
     }
   }, [location]);
 
@@ -39,8 +38,6 @@ function LocationFieldTechnology() {
     location && (
       <PureLocationFieldTechnology
         fieldTechnology={fieldTechnology}
-        history={history}
-        match={match}
         location={location}
         routerTabs={routerTabs}
       />

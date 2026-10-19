@@ -373,6 +373,18 @@ export default {
         },
       ],
     },
+    animalMovementTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      loaded: false,
+    },
+    soilSampleTaskReducer: {
+      ids: [],
+      entities: {},
+      loading: false,
+      loaded: false,
+    },
     productReducer: {
       ids: [],
       entities: {},

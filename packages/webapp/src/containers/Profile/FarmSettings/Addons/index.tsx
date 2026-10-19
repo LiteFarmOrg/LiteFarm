@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
@@ -25,7 +25,7 @@ import { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
 import { useFarmSettingsRouterTabs } from '../useFarmSettingsRouterTabs';
 
 const FarmAddons = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const routerTabs = useFarmSettingsRouterTabs();
 
   const { data: esciDataArray = [] } = useGetFarmAddonQuery(
@@ -58,7 +58,7 @@ const FarmAddons = () => {
 
       // If no active addons, the Addon tab will not render; redirect off it
       if (!remainingConnections) {
-        history.push('/farm_settings');
+        navigate('/farm_settings');
       }
     } catch (error) {
       dispatch(enqueueErrorSnackbar(t('FARM_ADDON.FAILED_DISCONNECT_ADDON')));
@@ -71,7 +71,7 @@ const FarmAddons = () => {
 
   return (
     <CardLayout>
-      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
+      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} />
       <PureFarmAddons
         hasActiveConnection={hasActiveConnection}
         organizationIds={organizationIds}

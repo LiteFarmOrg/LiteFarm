@@ -16,7 +16,6 @@
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
@@ -50,7 +49,6 @@ import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 const moment = extendMoment(Moment);
 
 const Finances = () => {
-  const history = useHistory();
   const { t } = useTranslation();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
@@ -153,7 +151,6 @@ const Finances = () => {
           otherExpense={otherExpense}
           estimatedRevenue={estimatedRevenue}
           currencySymbol={currencySymbol}
-          history={history}
           isOffline={isOffline}
         />
         <AddTransactionButton disabled={isOffline} />

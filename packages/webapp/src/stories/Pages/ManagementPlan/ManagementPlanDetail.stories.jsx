@@ -26,8 +26,6 @@ IsAdmin.args = {
     notes: 'notes',
   },
   isAdmin: true,
-  match: { params: { variety_id: 'variety_id', management_plan_id: 'management_plan_id' } },
-  history: { location: { pathname: '/crop/variety_id/management_plan/management_plan_id/tasks' } },
 };
 IsAdmin.parameters = {
   ...chromaticSmallScreen,
@@ -48,8 +46,6 @@ IsNotAdmin.args = {
     notes: 'notes',
   },
   isAdmin: false,
-  match: { params: { variety_id: 'variety_id', management_plan_id: 'management_plan_id' } },
-  history: { location: { pathname: '/crop/variety_id/management_plan/management_plan_id/tasks' } },
 };
 IsNotAdmin.parameters = {
   ...chromaticSmallScreen,
@@ -71,8 +67,6 @@ Completed.args = {
     complete_date: '2020-01-01',
   },
   isAdmin: true,
-  match: { params: { variety_id: 'variety_id', management_plan_id: 'management_plan_id' } },
-  history: { location: { pathname: '/crop/variety_id/management_plan/management_plan_id/tasks' } },
 };
 Completed.parameters = {
   ...chromaticSmallScreen,
@@ -94,8 +88,6 @@ Abandoned.args = {
     abandon_date: '2020-01-01',
   },
   isAdmin: true,
-  match: { params: { variety_id: 'variety_id', management_plan_id: 'management_plan_id' } },
-  history: { location: { pathname: '/crop/variety_id/management_plan/management_plan_id/tasks' } },
 };
 Abandoned.parameters = {
   ...chromaticSmallScreen,

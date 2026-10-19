@@ -21,7 +21,6 @@ const Template = (args) => <PureSelectionHandler {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   locations: locations,
-  history: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

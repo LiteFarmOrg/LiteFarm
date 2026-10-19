@@ -17,7 +17,6 @@ export default function ComplianceInfo({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
-  match,
   crop,
   isNewCrop,
 }) {
@@ -207,5 +206,4 @@ ComplianceInfo.prototype = {
   onCancel: PropTypes.func,
   persistedFormData: PropTypes.func,
   useHookFormPersist: PropTypes.func,
-  match: PropTypes.object,
 };

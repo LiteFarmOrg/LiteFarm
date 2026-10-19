@@ -14,7 +14,7 @@
  */
 
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toCertificationItems } from '../../../../Certifications/utils';
 import CertificationsEmptyState from '../../../../../components/Certifications/CertificationsEmptyState';
 import CertificationCard from '../../../../../components/Certifications/CertificationCard';
@@ -36,14 +36,14 @@ export default function MarketDirectoryCertifications({
   systemTypes,
   certifiers,
 }: MarketDirectoryCertificationsProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const certificationItems = toCertificationItems(certifications, systemTypes, certifiers);
 
   return certificationItems.length === 0 ? (
     <CertificationsEmptyState
       className={styles.emptyState}
-      onAddCertification={() => history.push('/certifications/add_certification')}
+      onAddCertification={() => navigate('/certifications/add_certification')}
     />
   ) : (
     <div className={clsx(certificationStyles.listCards, certificationStyles.active, styles.list)}>
@@ -51,7 +51,7 @@ export default function MarketDirectoryCertifications({
         <CertificationCard
           key={cert.id}
           {...cert}
-          onEdit={() => history.push(`/certifications/${cert.id}/edit_certification`)}
+          onEdit={() => navigate(`/certifications/${cert.id}/edit_certification`)}
         />
       ))}
     </div>

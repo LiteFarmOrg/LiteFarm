@@ -1,5 +1,6 @@
 import Button from '../../Form/Button';
 import React, { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Info, Main } from '../../Typography';
@@ -25,11 +26,11 @@ export default function PurePlantingDate({
   useHookFormPersist,
   persistedFormData,
   crop_variety,
-  history,
   system,
   language,
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const SEED_DATE = 'crop_management_plan.seed_date';
   const PLANT_DATE = 'crop_management_plan.plant_date';
@@ -233,8 +234,8 @@ export default function PurePlantingDate({
     () => getPlantingDatePaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
-  const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.back();
+  const onSubmit = () => navigate(submitPath);
+  const onGoBack = () => navigate(-1);
 
   const onError = () => {};
 
@@ -414,7 +415,6 @@ export default function PurePlantingDate({
 }
 
 PurePlantingDate.prototype = {
-  history: PropTypes.object,
   crop_variety: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.shape({

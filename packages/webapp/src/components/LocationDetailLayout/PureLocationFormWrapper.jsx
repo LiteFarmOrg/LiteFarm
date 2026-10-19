@@ -14,6 +14,7 @@
  */
 
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PersistedFormWrapper } from './PersistedFormWrapper';
 import { getFormDataWithoutNulls } from '../../containers/hooks/useHookFormPersist/utils';
 import { PureLocationDetailLayout } from './PureLocationDetailLayout';
@@ -69,8 +70,6 @@ const getAreaConfig = (persistedFormData) => ({
 });
 
 export default function PureLocationFormWrapper({
-  history,
-  match,
   submitForm,
   system,
   isCreateLocationPage = false,
@@ -82,6 +81,7 @@ export default function PureLocationFormWrapper({
   isAdmin = false,
   locationType,
 }) {
+  const navigate = useNavigate();
   const geometryKey = { area: 'grid_points', line: 'line_points', point: 'point' }[
     getFigureType(locationType)
   ];
@@ -89,9 +89,9 @@ export default function PureLocationFormWrapper({
 
   useEffect(() => {
     if (!hasGeometry) {
-      history.replace({ pathname: '/map' });
+      navigate('/map', { replace: true });
     }
-  }, [hasGeometry, history]);
+  }, [hasGeometry, navigate]);
 
   if (!hasGeometry) {
     return null;
@@ -137,8 +137,6 @@ export default function PureLocationFormWrapper({
   return (
     <PersistedFormWrapper>
       <PureLocationDetailLayout
-        history={history}
-        match={match}
         system={system}
         locationType={locationType}
         locationCategory={figureType}

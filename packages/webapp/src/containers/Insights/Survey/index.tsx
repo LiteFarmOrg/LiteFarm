@@ -15,7 +15,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CompleteEvent } from 'survey-core';
 import * as Sentry from '@sentry/react';
 import clsx from 'clsx';
@@ -78,9 +78,9 @@ const getSurveyInitialData = (
 
 function Survey({ isCompactSideMenu }: SurveyProps) {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { surveyId } = useParams<{ surveyId: string }>();
+  const { surveyId = '' } = useParams();
   const surveyTitle = useSurveyTitle(surveyId);
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
@@ -193,14 +193,14 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
       dispatch(clearSurvey({ surveyId }));
       markSurveyCompleted();
       // Replace instead of push so the submitted survey is not left in the history stack
-      history.replace(getPostSubmitRoute(surveyId));
+      navigate(getPostSubmitRoute(surveyId), { replace: true });
     },
     [
       addSurveyResponse,
       prefetchLatestResponse,
       markSurveyCompleted,
       dispatch,
-      history,
+      navigate,
       surveyId,
       farm_id,
     ],
@@ -209,9 +209,9 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   // Redirect to Insights if this survey is unknown or not available to the farm's country
   useEffect(() => {
     if ((!draftState.isDraftLoading && !cdnPath) || isUnauthorizedModule) {
-      history.replace('/Insights');
+      navigate('/Insights', { replace: true });
     }
-  }, [draftState.isDraftLoading, cdnPath, isUnauthorizedModule, history]);
+  }, [draftState.isDraftLoading, cdnPath, isUnauthorizedModule, navigate]);
 
   const prevFetchingRef = useRef(false);
 

@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, loginSelector, measurementSelector } from '../userFarmSlice';
 import {
@@ -25,21 +25,27 @@ import {
 import useLocationsById from '../../hooks/location/useLocationsById';
 import UnableToRetireModal from '../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../components/Modals/RetireConfirmationModal';
-import { formatLocationTypeToLocationForDB, useLocationPageType } from './utils';
+import { formatLocationTypeToLocationForDB } from './utils';
 import { FigureType, InternalMapLocation, InternalMapLocationType } from '../../store/api/types';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { useTranslation } from 'react-i18next';
 import { setMapCache } from '../Map/mapCacheSlice';
 import PureLocationFormWrapper from '../../components/LocationDetailLayout/PureLocationFormWrapper';
 
-function EditLocationDetailForm({ locationType }: { locationType: InternalMapLocationType }) {
+function EditLocationDetailForm({
+  locationType,
+  isViewLocationPage = false,
+  isEditLocationPage = false,
+}: {
+  locationType: InternalMapLocationType;
+  isViewLocationPage?: boolean;
+  isEditLocationPage?: boolean;
+}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
-  // @ts-expect-error match not typed
-  const { location_id } = match.params;
+  const navigate = useNavigate();
+  const params = useParams();
+  const { location_id = '' } = params;
   const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const { farm_id } = useSelector(loginSelector);
@@ -49,8 +55,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
   const [updateLocationByType] = useUpdateLocationByTypeMutation();
   const [deleteLocation] = useDeleteLocationMutation();
   const [checkDeleteLocation] = useCheckDeleteLocationMutation();
-
-  const { isViewLocationPage, isEditLocationPage } = useLocationPageType();
 
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
@@ -64,7 +68,7 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
         data: formatLocationTypeToLocationForDB(
           {
             ...formData,
-            ...match.params,
+            ...params,
             figure_id: locationData?.figure_id,
           },
           locationType,
@@ -72,7 +76,7 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
         type: locationType,
         location_id: location_id,
       }).unwrap();
-      history.push({ pathname: '/map' });
+      navigate({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(
           `${t(`FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`)} ${t(
@@ -110,7 +114,7 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
       if (locationData?.figure_type === FigureType.POINT) {
         dispatch(setMapCache({ maxZoom: undefined, farm_id }));
       }
-      history.push({ pathname: '/map' });
+      navigate({ pathname: '/map' });
       dispatch(
         enqueueSuccessSnackbar(
           `${t(`FARM_MAP.MAP_FILTER.${locationType.toUpperCase()}`)} ${t(
@@ -137,8 +141,6 @@ function EditLocationDetailForm({ locationType }: { locationType: InternalMapLoc
     <>
       <PureLocationFormWrapper
         locationType={locationType}
-        history={history}
-        match={match}
         submitForm={submitForm}
         system={system}
         persistedFormData={locationData}

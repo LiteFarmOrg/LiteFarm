@@ -12,16 +12,8 @@ const Template = (args) => <PureCropDetail {...args} />;
 
 export const Detail = Template.bind({});
 Detail.args = {
-  history: {
-    location: { pathname: '/crop/2/detail' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
-    cropName: 'Carrot',
+    crop_variety_name: 'Carrot',
     varietyName: 'Nantes',
     supplierName: 'Buckerfields',
     supplier: 'Supplier 1',

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from '../../../components/Form/Button';
 import SurveyIcon from '../../../assets/images/survey.svg?react';
@@ -21,7 +21,7 @@ import styles from './styles.module.scss';
 
 const TapeWidget = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
@@ -36,7 +36,7 @@ const TapeWidget = () => {
           className={styles.button}
           color="secondary-2"
           type="button"
-          onClick={() => history.push('/insights')}
+          onClick={() => navigate('/insights')}
         >
           <SurveyIcon />
           {t('HOME.TAPE_WIDGET.START_ASSESSMENT')}

@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import produce from 'immer';
 import PureEditManagementPlanDetail from '../../../components/Crop/ManagementDetail/EditManagementPlanDetail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
@@ -6,31 +9,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { patchManagementPlan } from '../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
-import produce from 'immer';
-import { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
 
 export default function ManagementDetails() {
-  const history = useHistory();
-  const match = useRouteMatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const variety_id = match.params.variety_id;
+  const { variety_id, management_plan_id } = useParams();
+
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
   useEffect(() => {
     if (!plan || plan.deleted) {
-      history.replace(`/crop/${variety_id}/management`);
+      navigate(`/crop/${variety_id}/management`, { replace: true });
     }
-  }, [plan, history]);
+  }, [plan]);
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/management_plan/${match.params.management_plan_id}/details`);
+    navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/details`);
   };
 
-  const showSpotlight = history.location.state?.fromCreation;
+  const showSpotlight = location.state?.fromCreation;
 
   const system = useSelector(measurementSelector);
   const onSubmit = (data) => {

@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-/* eslint-disable react/no-children-prop */
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import LocationTasks from '../containers/LocationDetails/LocationTasks';
@@ -32,38 +31,36 @@ export default function LocationDetailsRoutes({ locationType }) {
     return null;
   }
 
-  const prefix = `/${locationType}/:location_id`;
-
   return (
-    <>
+    <Routes>
       <Route
-        path={`${prefix}/details`}
-        exact
-        children={<EditLocationDetailForm locationType={locationType} />}
+        path="details"
+        element={
+          <EditLocationDetailForm key="view" locationType={locationType} isViewLocationPage />
+        }
       />
       {isAdmin && (
         <Route
-          path={`${prefix}/edit`}
-          exact
-          children={<EditLocationDetailForm locationType={locationType} />}
+          path="edit"
+          element={
+            <EditLocationDetailForm key="edit" locationType={locationType} isEditLocationPage />
+          }
         />
       )}
 
-      {config.enabledTabs.includes('tasks') && (
-        <Route path={`${prefix}/tasks`} exact children={<LocationTasks />} />
-      )}
+      {config.enabledTabs.includes('tasks') && <Route path="tasks" element={<LocationTasks />} />}
 
       {config.enabledTabs.includes('crops') && (
-        <Route path={`${prefix}/crops`} exact children={<LocationManagementPlan />} />
+        <Route path="crops" element={<LocationManagementPlan />} />
       )}
 
       {config.enabledTabs.includes('field_technology') && (
-        <Route path={`${prefix}/field_technology`} exact children={<LocationFieldTechnology />} />
+        <Route path="field_technology" element={<LocationFieldTechnology />} />
       )}
 
       {config.enabledTabs.includes('irrigation') && (
-        <Route path={`${prefix}/irrigation`} exact children={<LocationIrrigation />} />
+        <Route path="irrigation" element={<LocationIrrigation />} />
       )}
-    </>
+    </Routes>
   );
 }

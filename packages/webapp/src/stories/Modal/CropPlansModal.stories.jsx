@@ -15,7 +15,7 @@
 import CropPlansModal from '../../components/Modals/CropModals/CropPlansModal';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';
-import { commonArgs, planBaseContents } from './constants';
+import { managementPlanCardCommonArgs, planBaseContents } from '../constants';
 
 export default {
   title: 'Components/Modals/CropPlansModal',
@@ -27,7 +27,7 @@ const Template = (args) => <CropPlansModal {...args} />;
 
 export const ModalWithTwoCard = Template.bind({});
 ModalWithTwoCard.args = {
-  ...commonArgs,
+  ...managementPlanCardCommonArgs,
   managementPlanCardContents: [...Array(2)].map((item, index) => {
     return {
       ...planBaseContents,
@@ -45,7 +45,7 @@ ModalWithTwoCard.parameters = {
 
 export const ModalWithManyCards = Template.bind({});
 ModalWithManyCards.args = {
-  ...commonArgs,
+  ...managementPlanCardCommonArgs,
   managementPlanCardContents: [...Array(20)].map((item, index) => {
     return {
       ...planBaseContents,
@@ -62,7 +62,7 @@ ModalWithManyCards.parameters = {
 
 export const ModalWithDeletedIteration = Template.bind({});
 ModalWithDeletedIteration.args = {
-  ...commonArgs,
+  ...managementPlanCardCommonArgs,
   managementPlanCardContents: [...Array(4)].map((item, index) => {
     return {
       ...planBaseContents,

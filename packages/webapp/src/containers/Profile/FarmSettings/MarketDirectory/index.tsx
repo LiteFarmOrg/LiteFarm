@@ -14,7 +14,6 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import clsx from 'clsx';
@@ -47,7 +46,6 @@ enum FormCards {
 const farmCardsLength = 2;
 
 const MarketDirectory = () => {
-  const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
   const { t } = useTranslation();
   const { expandedIds, toggleExpanded, unExpand } = useExpandable({ isSingleExpandable: true });
@@ -130,7 +128,7 @@ const MarketDirectory = () => {
 
   return (
     <CardLayout>
-      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
+      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} />
 
       <div className={styles.container}>
         <DirectoryCallout t={t} />

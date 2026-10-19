@@ -37,7 +37,7 @@ export const locationRouteConfig = {
     enabledTabs: ['details', 'tasks'],
   },
   buffer_zone: {
-    enabledTabs: ['details', 'crops', 'tasks', 'field_technology', 'irrigation'],
+    enabledTabs: ['details', 'crops', 'tasks'],
   },
   watercourse: {
     enabledTabs: ['details', 'tasks'],

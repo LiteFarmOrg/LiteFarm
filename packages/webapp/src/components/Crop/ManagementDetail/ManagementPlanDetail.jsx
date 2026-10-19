@@ -1,4 +1,4 @@
-import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import CropHeader from '../CropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
@@ -15,17 +15,10 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
 import navStyles from '@navStyles';
 
-export default function PureManagementDetail({
-  onBack,
-  variety,
-  plan,
-  isAdmin,
-  history,
-  match,
-  system,
-}) {
+export default function PureManagementDetail({ onBack, variety, plan, isAdmin, system }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
-
+  const { variety_id, management_plan_id } = useParams();
   const title = plan?.name;
   const isValidDate =
     getDateInputFormat(plan?.abandon_date) !== 'Invalid date' ||
@@ -86,9 +79,7 @@ export default function PureManagementDetail({
             <Button
               fullLength
               onClick={() =>
-                history.push(
-                  `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/edit`,
-                )
+                navigate(`/crop/${variety_id}/management_plan/${management_plan_id}/edit`)
               }
               className={navStyles.hideWhenOffline}
             >
@@ -108,15 +99,14 @@ export default function PureManagementDetail({
 
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
-        history={history}
         tabs={[
           {
             label: t('MANAGEMENT_DETAIL.TASKS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
           },
           {
             label: t('MANAGEMENT_DETAIL.DETAILS'),
-            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+            path: `/crop/${variety_id}/management_plan/${management_plan_id}/details`,
           },
         ]}
       />
@@ -223,7 +213,5 @@ PureManagementDetail.prototype = {
   variety: PropTypes.object,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
-  history: PropTypes.object,
-  match: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

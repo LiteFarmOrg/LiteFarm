@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureConsent from '../../components/Consent';
@@ -23,7 +23,7 @@ const getLocalizedFile = (files, language, fileName) => {
 };
 
 function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const language = getLanguageFromLocalStorage();
   const dispatch = useDispatch();
   const {
@@ -43,7 +43,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
     },
   });
   const goBack = () => {
-    history.push(goBackTo);
+    navigate(goBackTo);
   };
 
   const updateConsent = () => {

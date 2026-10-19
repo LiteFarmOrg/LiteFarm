@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-import { useRouteMatch } from 'react-router-dom';
 import {
   areaProperties,
   fieldEnum,
@@ -10,23 +8,8 @@ import {
 } from '../constants';
 import moment from 'moment';
 import { pick } from '../../util/pick';
-import { FigureType, InternalMapLocationType } from '../../store/api/types';
+import { InternalMapLocationType } from '../../store/api/types';
 import { getDateInputFormat } from '../../util/moment';
-
-const isCreateLocationPage = (match) => match.path.includes('/create_location/');
-const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
-const isEditLocationPage = (match) => /\w*\/:location_id\/edit/.test(match.path);
-export const useLocationPageType = () => {
-  const match = useRouteMatch();
-  return useMemo(
-    () => ({
-      isCreateLocationPage: isCreateLocationPage(match),
-      isViewLocationPage: isViewLocationPage(match) || false,
-      isEditLocationPage: isEditLocationPage(match) || false,
-    }),
-    [match],
-  );
-};
 
 export const getFormData = (location) => {
   const result = { ...location };

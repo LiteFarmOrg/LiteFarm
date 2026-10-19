@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import layoutStyles from '../Layout/layout.module.scss';
+import { useNavigate } from 'react-router-dom';
 import PageTitle from '../PageTitle/v2';
 import RouterTab from '../RouterTab';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +35,6 @@ import { createESciReportLink } from '../../util/smartIrrigation';
 
 type LocationIrrigationProps = {
   location: Location;
-  history: History;
   irrigationPrescriptions: IrrigationPrescription[];
   routerTabs: LocationTab[];
   isCompact: boolean;
@@ -43,11 +42,11 @@ type LocationIrrigationProps = {
 
 export default function PureLocationIrrigation({
   location,
-  history,
   irrigationPrescriptions,
   routerTabs,
   isCompact,
 }: LocationIrrigationProps) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const getPartnerName = (id: number) => {
@@ -117,10 +116,9 @@ export default function PureLocationIrrigation({
 
   return (
     <CardLayout>
-      <PageTitle title={location.name} onGoBack={() => history.push('/map')} />
+      <PageTitle title={location.name} onGoBack={() => navigate('/map')} />
       <RouterTab
         classes={{ container: { margin: '30px 0 26px 0' } }}
-        history={history}
         tabs={routerTabs}
         variant={Variant.UNDERLINE}
       />

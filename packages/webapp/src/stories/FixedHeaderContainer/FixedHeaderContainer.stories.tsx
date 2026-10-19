@@ -17,14 +17,14 @@ import { Meta, StoryObj } from '@storybook/react';
 import FixedHeaderContainer, { ContainerKind } from '../../components/Animals/FixedHeaderContainer';
 import PureSideMenu from '../../components/Navigation/SideMenu';
 import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
+import { navMenuControlDecorator as decorator } from '../../stories/Pages/config/Decorators';
 
 const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
   return (
     <div style={{ display: 'flex' }}>
-      <PureSideMenu history={{ location: { pathname: '' } }} isMobile={false} />
+      <PureSideMenu isMobile={false} />
       <div style={{ width: '100%' }}>
         <TopMenu
-          history={{ location: { pathname: '' } }}
           isMobile={undefined}
           showNavActions={undefined}
           onClickBurger={undefined}
@@ -47,6 +47,7 @@ const ComponentWithNav = ({ kind }: { kind: ContainerKind }) => {
 const meta: Meta<typeof FixedHeaderContainer> = {
   title: 'Components/FixedHeaderContainer',
   component: FixedHeaderContainer,
+  decorators: decorator,
 };
 
 export default meta;

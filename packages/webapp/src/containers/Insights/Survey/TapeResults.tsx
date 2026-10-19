@@ -16,7 +16,7 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.scss';
 import insightStyles from '../styles.module.scss';
 import { Semibold } from '../../../components/Typography';
@@ -46,7 +46,7 @@ import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 
 function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const {
@@ -80,7 +80,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     if ((isSuccess && !surveyData) || hasDraftInProgress) {
       // No saved survey for this farm (e.g. if they open the results page directly without
       // completing the survey) or a retake is already in progress: send the user to fill it in.
-      history.replace(`/insights/survey/${surveyId}`);
+      navigate(`/insights/survey/${surveyId}`, { replace: true });
     }
   }, [isSuccess, surveyData, hasDraftInProgress]);
 
@@ -113,7 +113,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
 
   const hasModules = modules.length > 0;
 
-  const openModule = (moduleSurveyId: string) => history.push(`/insights/survey/${moduleSurveyId}`);
+  const openModule = (moduleSurveyId: string) => navigate(`/insights/survey/${moduleSurveyId}`);
 
   const hasNewVersion = checkHasNewVersion(surveyId, surveyData?.survey_version);
 
@@ -126,7 +126,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
       <div className={styles.header}>
         <div className={styles.headerMain}>
           <div className={styles.headerTitle}>
-            <button className={styles.backButton} onClick={() => history.push('/Insights')}>
+            <button className={styles.backButton} onClick={() => navigate('/Insights')}>
               <GreyHeaderChevron />
             </button>
             <span className={styles.title}>{t('INSIGHTS.TAPE.TITLE')}</span>

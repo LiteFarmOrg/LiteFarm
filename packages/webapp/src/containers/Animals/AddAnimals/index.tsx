@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
@@ -44,7 +44,7 @@ interface AddAnimalsProps {
 }
 
 function AddAnimals({ isCompactSideMenu }: AddAnimalsProps) {
-  const history = useHistory();
+  const location = useLocation();
   const { t } = useTranslation(['translation', 'common', 'message']);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -125,7 +125,7 @@ function AddAnimals({ isCompactSideMenu }: AddAnimalsProps) {
     [STEPS.DETAILS]: [],
   };
 
-  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+  const animalInventoryTitle = useSectionHeader(location.pathname) || '';
 
   return (
     <ContextForm
@@ -135,7 +135,6 @@ function AddAnimals({ isCompactSideMenu }: AddAnimalsProps) {
       hasSummaryWithinForm={true}
       isCompactSideMenu={isCompactSideMenu}
       variant={Variant.STEPPER_PROGRESS_BAR}
-      history={history}
       getSteps={getFormSteps}
       defaultFormValues={defaultFormValues}
     />

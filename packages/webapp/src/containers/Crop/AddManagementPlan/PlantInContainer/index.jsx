@@ -12,7 +12,7 @@ export default function PlantInContainer() {
   const system = useSelector(measurementSelector);
   const { variety_id } = useParams();
   const crop_variety = useSelector(cropVarietySelector(variety_id));
-  const isFinalPage = useMatch('/crop/:variety_id/add_management_plan/container_method');
+  const isFinalPage = !!useMatch('/crop/:variety_id/add_management_plan/container_method');
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { submitPath } = useMemo(
     () => getContainerMethodPaths(variety_id, persistedFormData, isFinalPage),

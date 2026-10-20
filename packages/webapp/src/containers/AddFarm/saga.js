@@ -24,6 +24,7 @@ import {
   setLoadingStart,
   userFarmSelector,
 } from '../userFarmSlice';
+import { fetchConsentSuccess } from '../consentSlice';
 import { axios, clearOldFarmStateSaga, getHeader, selectFarmSaga } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
@@ -59,6 +60,7 @@ export function* postFarmSaga({ payload: { showFarmNameCharacterLimitExceededErr
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
 
     const user = getUserResult?.data;
+    yield put(fetchConsentSuccess(user?.consent));
     yield put(
       postFarmSuccess({
         ...user,

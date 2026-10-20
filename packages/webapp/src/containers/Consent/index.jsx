@@ -41,7 +41,7 @@ function ConsentForm({ goForwardTo = '/add_farm' }) {
     },
   });
   const updateConsent = () => {
-    dispatch(patchConsent({ has_consent: true, consent_version: CONSENT_VERSION, goForwardTo }));
+    dispatch(patchConsent({ consent_version: CONSENT_VERSION, goForwardTo }));
   };
 
   return (

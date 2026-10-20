@@ -19,6 +19,7 @@ import { url } from '../../apiConfig';
 import history from '../../history';
 import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { loginSuccess } from '../userFarmSlice';
+import { fetchConsentSuccess } from '../consentSlice';
 import i18n from '../../locales/i18n';
 import { getFirstNameLastName } from '../../util';
 import { axios } from '../saga';
@@ -89,11 +90,12 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
 
     const {
       id_token,
-      user: { user_id },
+      user: { user_id, consent },
     } = result.data;
     localStorage.setItem('id_token', id_token);
 
     yield put(loginSuccess({ user_id }));
+    yield put(fetchConsentSuccess(consent));
     const handedOff = yield call(handOffToDashboardIfRequested);
     if (!handedOff) {
       history.push('/farm_selection');
@@ -131,12 +133,13 @@ export function* customCreateUserSaga({ payload: data }) {
     if (result) {
       const {
         id_token,
-        user: { user_id, language_preference },
+        user: { user_id, language_preference, consent },
       } = result.data;
       localStorage.setItem('id_token', id_token);
 
       localStorage.setItem('litefarm_lang', language_preference);
       yield put(loginSuccess({ user_id }));
+      yield put(fetchConsentSuccess(consent));
       const handedOff = yield call(handOffToDashboardIfRequested);
       if (!handedOff) {
         history.push('/farm_selection');

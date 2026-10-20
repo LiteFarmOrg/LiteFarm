@@ -18,6 +18,7 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
+import { fetchConsentSuccess } from '../consentSlice';
 import { decodeToken } from 'react-jwt';
 import i18n from '../../locales/i18n';
 import { logout } from '../../util/jwt';
@@ -72,6 +73,7 @@ export function* patchUserFarmStatusSaga({ payload }) {
     }
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
+    yield put(fetchConsentSuccess(userFarm.consent));
     yield put(startInvitationFlow(userFarm.farm_id));
     history.push('/consent');
   } catch (e) {

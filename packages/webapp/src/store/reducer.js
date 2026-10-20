@@ -25,6 +25,7 @@ import alertReducer from '../containers/Navigation/Alert/alertSlice';
 import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import offlineReadinessReducer from '../hooks/useOfflineReadiness/offlineReadinessSlice';
+import consentReducer from '../containers/consentSlice';
 
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
@@ -137,6 +138,7 @@ const appReducer = combineReducers({
   entitiesReducer,
   farmStateReducer,
   persistedStateReducer,
+  consentReducer,
   tempStateReducer,
   baseReducer,
   financeReducer,

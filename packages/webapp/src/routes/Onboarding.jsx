@@ -18,6 +18,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../containers/userFarmSlice';
+import { hasConsentedSelector } from '../containers/consentSlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -27,12 +28,13 @@ const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 
 function OnboardingFlow(props) {
-  const { step_one, step_two, step_three, step_five, has_consent } = props;
+  const { step_one, step_two, step_three, step_five } = props;
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
   const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
+  const hasConsented = useSelector(hasConsentedSelector);
 
-  const requireConditionProps = { ...props, hasUserFarms, farmsLoaded };
+  const requireConditionProps = { ...props, hasUserFarms, farmsLoaded, hasConsented };
 
   return (
     <Routes>
@@ -58,7 +60,7 @@ function OnboardingFlow(props) {
       <Route
         path="/consent"
         element={
-          <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
+          <RequireCondition condition={step_five && !hasConsented} {...requireConditionProps}>
             <ConsentForm goForwardTo={'/'} />
           </RequireCondition>
         }
@@ -85,7 +87,7 @@ const RequireCondition = ({
   step_two,
   step_three,
   step_five,
-  has_consent,
+  hasConsented,
   farm_id,
   hasUserFarms,
   farmsLoaded,
@@ -118,7 +120,7 @@ const RequireCondition = ({
     return <Navigate to="/farm_selection" replace />;
   }
 
-  if (step_three && !has_consent) {
+  if (step_three && !hasConsented) {
     return <Navigate to="/consent" replace />;
   }
 

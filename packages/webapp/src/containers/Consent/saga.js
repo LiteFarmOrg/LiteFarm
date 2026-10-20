@@ -21,6 +21,7 @@ import {
   userFarmSelector,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
+import { patchConsentSuccess } from '../consentSlice';
 import { axios, fetchAllSaga, getHeader } from '../saga';
 import history from '../../history';
 import i18n from '../../locales/i18n';
@@ -35,36 +36,32 @@ export function* patchConsentSaga({ payload }) {
   const patchStepUrl = (farm_id, user_id) =>
     `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
   const header = getHeader(user_id, farm_id);
-  let data = {
-    has_consent: payload.has_consent,
-    consent_version: payload.consent_version,
-  };
   try {
     const step = {
       step_three: true,
       step_three_end: step_three_end || new Date(),
     };
 
-    yield call(
-      axios.patch,
-      userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id,
-      data,
-      header,
+    yield put(
+      patchConsentSuccess({
+        consent_version: payload.consent_version,
+        consented_at: new Date().toISOString(),
+      }),
     );
 
     if (!step_three) yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
 
     const { isInvitationFlow } = yield select(chooseFarmFlowSelector);
     if (isInvitationFlow) {
-      yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
+      yield put(patchStatusConsentSuccess({ ...userFarm, status: 'Active' }));
       yield call(fetchAllSaga);
       history.push('/outro', { farm_id, farm_name });
     } else if (payload.goForwardTo === '/') {
-      yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
+      yield put(patchStatusConsentSuccess({ ...userFarm, status: 'Active' }));
       yield call(fetchAllSaga);
       history.push(payload.goForwardTo);
     } else {
-      yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
+      yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step }));
       history.push(payload.goForwardTo);
     }
   } catch (e) {

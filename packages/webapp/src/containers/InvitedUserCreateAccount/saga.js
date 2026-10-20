@@ -14,6 +14,7 @@ import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSl
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { purgeState } from '../../store/store';
+import { fetchConsentSuccess } from '../consentSlice';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
@@ -49,6 +50,7 @@ export function* acceptInvitationWithSSOSaga({
     localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
+    yield put(fetchConsentSuccess(resUserFarm.consent));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
     history.push('/consent');
   } catch (e) {
@@ -93,6 +95,7 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
 
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
+    yield put(fetchConsentSuccess(resUserFarm.consent));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
     history.push('/consent');
   } catch (e) {

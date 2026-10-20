@@ -13,7 +13,7 @@ function RoleSelection() {
   const dispatch = useDispatch();
 
   const onSubmit = ({ role, owner_operated }) => {
-    const callback = () => navigate('/consent');
+    const callback = () => navigate('/outro');
 
     dispatch(patchRole({ role, owner_operated, role_id: roleToId[role], callback }));
   };

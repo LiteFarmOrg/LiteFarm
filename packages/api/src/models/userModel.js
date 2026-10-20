@@ -14,6 +14,7 @@
  */
 
 import Model from './baseFormatModel.js';
+import UserConsentModel from './userConsentModel.js';
 
 class User extends Model {
   // Returned Date-time object from db is not compatible with ajv format types
@@ -142,6 +143,19 @@ class User extends Model {
         updated_at: { type: 'string', format: 'date-time' },
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      consent: {
+        modelClass: UserConsentModel,
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'users.user_id',
+          to: 'user_consent.user_id',
+        },
+      },
     };
   }
 

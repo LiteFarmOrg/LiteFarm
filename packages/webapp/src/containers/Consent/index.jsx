@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureConsent from '../../components/Consent';
@@ -22,8 +21,7 @@ const getLocalizedFile = (files, language, fileName) => {
   return mdxModule.default;
 };
 
-function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
-  const navigate = useNavigate();
+function ConsentForm({ goForwardTo = '/add_farm' }) {
   const language = getLanguageFromLocalStorage();
   const dispatch = useDispatch();
   const {
@@ -42,10 +40,6 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
       message: 'You must accept terms and conditions to use the app',
     },
   });
-  const goBack = () => {
-    navigate(goBackTo);
-  };
-
   const updateConsent = () => {
     dispatch(patchConsent({ has_consent: true, consent_version: CONSENT_VERSION, goForwardTo }));
   };
@@ -57,7 +51,6 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
         errors: errors[checkboxName] && errors[checkboxName].message,
       }}
       onSubmit={handleSubmit(updateConsent)}
-      onGoBack={goBackTo ? goBack : null}
       shortVersion={<ShortVersion />}
       consent={<Consent />}
       disabled={!hasConsent}
@@ -68,6 +61,5 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/outro' }) {
 export default ConsentForm;
 
 ConsentForm.propTypes = {
-  goBackTo: PropTypes.string,
   goForwardTo: PropTypes.string,
 };

@@ -59,7 +59,7 @@ function OnboardingFlow(props) {
         path="/consent"
         element={
           <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
-            <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
+            <ConsentForm goForwardTo={'/'} />
           </RequireCondition>
         }
       />

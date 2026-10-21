@@ -22,14 +22,14 @@ import {
   onLoadingUserFarmsFail,
   onLoadingUserFarmsStart,
 } from '../userFarmSlice';
-import { fetchConsentSuccess } from '../consentSlice';
+import { fetchConsentSuccess, hasConsentedSelector } from '../consentSlice';
 import {
   getSpotlightFlagsFailure,
   getSpotlightFlagsSuccess,
   spotlightLoading,
 } from '../showedSpotlightSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { axios, clearOldFarmStateSaga, getHeader } from '../saga';
+import { axios, clearOldFarmStateSaga, getHeader, joinInvitedFarmSaga } from '../saga';
 import history from '../../history';
 import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
 
@@ -67,7 +67,12 @@ export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(fetchConsentSuccess(resUserFarm.consent));
     yield put(startInvitationFlowOnChooseFarmScreen(resUserFarm.farm_id));
-    history.push('/consent');
+    const hasConsented = yield select(hasConsentedSelector);
+    if (hasConsented) {
+      yield call(joinInvitedFarmSaga);
+    } else {
+      history.push('/consent');
+    }
   } catch (e) {
     console.log(e);
   }

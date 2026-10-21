@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import {
   acceptInvitationSuccess,
@@ -9,12 +9,12 @@ import {
 import history from '../../history';
 import { getFirstNameLastName } from '../../util';
 import i18n from '../../locales/i18n';
-import { axios } from '../saga';
+import { axios, joinInvitedFarmSaga } from '../saga';
 import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { purgeState } from '../../store/store';
-import { fetchConsentSuccess } from '../consentSlice';
+import { fetchConsentSuccess, hasConsentedSelector } from '../consentSlice';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
@@ -52,7 +52,12 @@ export function* acceptInvitationWithSSOSaga({
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(fetchConsentSuccess(resUserFarm.consent));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
-    history.push('/consent');
+    const hasConsented = yield select(hasConsentedSelector);
+    if (hasConsented) {
+      yield call(joinInvitedFarmSaga);
+    } else {
+      history.push('/consent');
+    }
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response?.status === 401) {
@@ -97,7 +102,12 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(fetchConsentSuccess(resUserFarm.consent));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
-    history.push('/consent');
+    const hasConsented = yield select(hasConsentedSelector);
+    if (hasConsented) {
+      yield call(joinInvitedFarmSaga);
+    } else {
+      history.push('/consent');
+    }
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response?.status === 401) {

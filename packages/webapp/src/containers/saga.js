@@ -96,6 +96,7 @@ import {
   isAdminSelector,
   loginSelector,
   patchFarmSuccess,
+  patchStatusConsentSuccess,
   putUserSuccess,
   selectFarmSuccess,
   userFarmSelector,
@@ -621,6 +622,14 @@ export function* selectFarmSaga({ payload: { farm_id } }) {
   } catch (e) {
     console.error('failed to fetch farm token', e);
   }
+}
+
+export function* joinInvitedFarmSaga() {
+  const userFarm = yield select(userFarmSelector);
+  const { farm_id, farm_name } = userFarm;
+  yield put(patchStatusConsentSuccess({ ...userFarm, status: 'Active' }));
+  yield call(fetchAllSaga);
+  history.push('/outro', { farm_id, farm_name });
 }
 
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');

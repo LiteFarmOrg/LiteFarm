@@ -17,7 +17,7 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { patchStatusConsentSuccess, userFarmSelector } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { patchConsentSuccess } from '../consentSlice';
-import { fetchAllSaga } from '../saga';
+import { fetchAllSaga, joinInvitedFarmSaga } from '../saga';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -26,8 +26,6 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 export const patchConsent = createAction('patchConsentSaga');
 
 export function* patchConsentSaga({ payload }) {
-  const userFarm = yield select(userFarmSelector);
-  const { farm_id, farm_name } = userFarm;
   try {
     yield put(
       patchConsentSuccess({
@@ -38,10 +36,9 @@ export function* patchConsentSaga({ payload }) {
 
     const { isInvitationFlow } = yield select(chooseFarmFlowSelector);
     if (isInvitationFlow) {
-      yield put(patchStatusConsentSuccess({ ...userFarm, status: 'Active' }));
-      yield call(fetchAllSaga);
-      history.push('/outro', { farm_id, farm_name });
+      yield call(joinInvitedFarmSaga);
     } else if (payload.goForwardTo === '/') {
+      const userFarm = yield select(userFarmSelector);
       yield put(patchStatusConsentSuccess({ ...userFarm, status: 'Active' }));
       yield call(fetchAllSaga);
       history.push(payload.goForwardTo);

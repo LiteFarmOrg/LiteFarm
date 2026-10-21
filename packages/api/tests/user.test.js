@@ -193,6 +193,11 @@ describe('User Tests', () => {
             validate({ ...owner, ...ownerFarm }, res, 200);
             expect(res.body.gender).toBe(owner.gender);
             expect(res.body.birth_year).toBe(owner.birth_year);
+            expect(res.body.consent).toEqual({
+              user_id: owner.user_id,
+              consent_version: '1.0',
+              consented_at: null,
+            });
           });
         });
 
@@ -213,6 +218,16 @@ describe('User Tests', () => {
               expect(res.status).toBe(403);
             },
           );
+        });
+      });
+
+      test('Should return null consent when the user has not consented', async () => {
+        // User without consent
+        const [user] = await mocks.usersFactory(mocks.fakeUser(), null);
+
+        await getRequest({ user_id: user.user_id }, (_err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.consent).toBeNull();
         });
       });
     });

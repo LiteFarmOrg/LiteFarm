@@ -427,7 +427,7 @@ const userFarmController = {
         })
         .patch({ status: 'Active' });
       result = await UserFarmModel.query()
-        .withGraphFetched('[role, farm, user]')
+        .withGraphFetched('[role, farm, user.consent]')
         .findById([user_id, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
       delete result.farm;

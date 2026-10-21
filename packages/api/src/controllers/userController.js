@@ -82,7 +82,7 @@ const userController = {
       // send token and user data (sans password hash)
       return res.status(201).send({
         id_token,
-        user: userResult,
+        user: { ...userResult, consent: null },
       });
     } catch (error) {
       // handle more exceptions
@@ -316,7 +316,8 @@ const userController = {
           'gender',
           'birth_year',
           'language_preference',
-        );
+        )
+        .withGraphFetched('consent');
 
       if (!data) {
         res.sendStatus(404);
@@ -392,10 +393,7 @@ const userController = {
         return savedConsent;
       });
 
-      res.status(200).send({
-        consent_version: consent.consent_version,
-        consented_at: consent.consented_at,
-      });
+      res.status(200).send(consent);
     } catch (error) {
       console.error(error);
       res.status(400).send(error);
@@ -452,7 +450,7 @@ const userController = {
       });
 
       result = await UserFarmModel.query()
-        .withGraphFetched('[role, farm, user]')
+        .withGraphFetched('[role, farm, user.consent]')
         .findById([user_id, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
       delete result.farm;
@@ -526,7 +524,7 @@ const userController = {
         await UserModel.query(trx).findById(user_id).delete();
       });
       result = await UserFarmModel.query()
-        .withGraphFetched('[role, farm, user]')
+        .withGraphFetched('[role, farm, user.consent]')
         .findById([sub, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
       delete result.farm;

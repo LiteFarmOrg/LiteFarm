@@ -16,6 +16,7 @@
 import UserFarmModel from '../models/userFarmModel.js';
 
 import UserModel from '../models/userModel.js';
+import UserConsentModel from '../models/userConsentModel.js';
 import UserLogModel from '../models/userLogModel.js';
 import PasswordModel from '../models/passwordModel.js';
 import RoleModel from '../models/roleModel.js';
@@ -202,9 +203,22 @@ const userFarmController = {
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
           .first();
-        await UserFarmModel.query()
-          .where({ user_id, farm_id })
-          .patch({ has_consent, consent_version });
+        // TODO: LF-5530 Remove this endpoint once cached frontends no longer call it
+        await UserFarmModel.transaction(async (trx) => {
+          if (has_consent) {
+            await UserFarmModel.query(trx)
+              .where({ user_id })
+              .patch({ has_consent, consent_version });
+            await UserConsentModel.query(trx)
+              .insert({ user_id, consent_version })
+              .onConflict('user_id')
+              .merge();
+          } else {
+            await UserFarmModel.query(trx)
+              .where({ user_id, farm_id })
+              .patch({ has_consent, consent_version });
+          }
+        });
         res.sendStatus(200);
         const { step_two_end, step_three_end, step_five_end } = userFarm;
         const isWelcomeEmailSent = !!step_two_end && !!step_three_end && !step_five_end;

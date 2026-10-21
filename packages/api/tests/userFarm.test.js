@@ -36,6 +36,7 @@ import mocks from './mock.factories.js';
 import { faker } from '@faker-js/faker';
 import userFarmModel from '../src/models/userFarmModel.js';
 import userModel from '../src/models/userModel.js';
+import userConsentModel from '../src/models/userConsentModel.js';
 
 describe('User Farm Tests', () => {
   // let middleware;
@@ -249,6 +250,38 @@ describe('User Farm Tests', () => {
         expect(targetUser.has_consent).toBe(true);
       },
     );
+  });
+
+  // TODO: LF-5530 Remove with the per-farm consent endpoint
+  test('Should also save the consent on the user and all of their farms when updating consent for a user farm', async () => {
+    const [farm] = await mocks.farmFactory();
+    // User without consent
+    const [user] = await mocks.usersFactory(mocks.fakeUser(), null);
+    await mocks.userFarmFactory(
+      { promisedUser: [user], promisedFarm: [farm] },
+      { role_id: 3, status: 'Active', has_consent: false },
+    );
+    await mocks.userFarmFactory(
+      { promisedUser: [user] },
+      { role_id: 3, status: 'Active', has_consent: false },
+    );
+
+    const res = await chai
+      .request(server)
+      .patch(`/user_farm/consent/farm/${farm.farm_id}/user/${user.user_id}`)
+      .set('user_id', user.user_id)
+      .set('farm_id', farm.farm_id)
+      .send({ has_consent: true, consent_version: '9.0' });
+
+    expect(res.status).toBe(200);
+    const consent = await userConsentModel.query().findById(user.user_id);
+    expect(consent.consent_version).toBe('9.0');
+    const userFarms = await userFarmModel.query().where({ user_id: user.user_id });
+    expect(userFarms).toHaveLength(2);
+    for (const userFarm of userFarms) {
+      expect(userFarm.has_consent).toBe(true);
+      expect(userFarm.consent_version).toBe('9.0');
+    }
   });
 
   test('Invited user should not update userFarm', async () => {

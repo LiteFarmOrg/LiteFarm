@@ -458,7 +458,8 @@ describe('User Tests', () => {
     }
 
     async function createUserWithFarms(farmCount = 1) {
-      const [user] = await mocks.usersFactory();
+      // User without consent
+      const [user] = await mocks.usersFactory(mocks.fakeUser(), null);
       for (let i = 0; i < farmCount; i++) {
         await mocks.userFarmFactory(
           { promisedUser: [user] },

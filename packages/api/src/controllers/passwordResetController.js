@@ -86,7 +86,7 @@ const passwordResetController = {
   },
 
   validateToken() {
-    return async (req, res) => {
+    return async (_req, res) => {
       return res.status(200).json({ isValid: true });
     };
   },

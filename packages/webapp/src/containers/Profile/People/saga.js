@@ -1,7 +1,6 @@
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl } from '../../../apiConfig';
 import {
-  getUserFarmSelector,
   getUserFarmsSuccess,
   invitePseudoUserSuccess,
   loginSelector,
@@ -66,11 +65,10 @@ export const reactivateUser = createAction('reactivateUserSaga');
 export function* reactivateUserSaga({ payload: target_user_id }) {
   const { userFarmUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
-  const user = yield select(getUserFarmSelector(farm_id, target_user_id));
   const header = getHeader(user_id, farm_id);
 
   const body = {
-    status: user.has_consent ? 'Active' : 'Invited',
+    status: 'Active',
   };
 
   try {
@@ -80,7 +78,9 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
       body,
       header,
     );
-    yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
+    yield put(
+      patchUserStatusSuccess({ farm_id, user_id: target_user_id, status: result.data.status }),
+    );
     yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.RESTORE')));
     history.back();
   } catch (e) {

@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import { loginSuccess } from '../userFarmSlice';
-import { fetchConsentSuccess } from '../consentSlice';
+import { fetchConsentSuccess, hasConsentedSelector } from '../consentSlice';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
@@ -55,7 +55,8 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       const handedOff = yield call(handOffToDashboardIfRequested);
       if (!handedOff) {
         if (isSignUp) {
-          history.push('/welcome');
+          const hasConsented = yield select(hasConsentedSelector);
+          history.push(hasConsented ? '/add_farm' : '/consent');
         } else {
           history.push('/farm_selection');
         }

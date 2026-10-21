@@ -23,7 +23,6 @@ import { hasConsentedSelector } from '../containers/consentSlice';
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
-const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 
@@ -39,7 +38,6 @@ function OnboardingFlow(props) {
   return (
     <Routes>
       <Route path="/farm_selection" element={<ChooseFarm />} />
-      <Route path="/welcome" element={<WelcomeScreen />} />
       <Route path="/add_farm" element={<AddFarm />} />
       <Route
         path="/role_selection"
@@ -52,7 +50,10 @@ function OnboardingFlow(props) {
       <Route
         path="/consent"
         element={
-          <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
+          <RequireCondition
+            condition={(step_two && !step_five) || !hasConsented}
+            {...requireConditionProps}
+          >
             <ConsentForm />
           </RequireCondition>
         }
@@ -111,8 +112,9 @@ const RequireCondition = ({
   if ((!farm_id || !step_one) && !hasUserFarms) {
     // hasUserFarms === 0 is ambiguous ("no farms" vs "list not fetched yet");
     // only treat it as "no farms" once the list has loaded, else route to /farm_selection,
-    // where ChooseFarm owns the "no farms -> /welcome" decision.
-    const target = farmsLoaded ? '/welcome' : '/farm_selection';
+    // where ChooseFarm owns the "no farms -> /consent or /add_farm" decision.
+    const farmlessTarget = hasConsented ? '/add_farm' : '/consent';
+    const target = farmsLoaded ? farmlessTarget : '/farm_selection';
     return <Navigate to={target} replace />;
   }
 

@@ -5,6 +5,7 @@ import { patchConsent } from './saga';
 import PropTypes from 'prop-types';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
+import useFarmListRecovery from '../../hooks/useFarmListRecovery';
 
 const consentFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml,it}/consent.md', {
   eager: true,
@@ -24,6 +25,7 @@ const getLocalizedFile = (files, language, fileName) => {
 function ConsentForm({ goForwardTo = '/add_farm' }) {
   const language = getLanguageFromLocalStorage();
   const dispatch = useDispatch();
+  useFarmListRecovery();
   const {
     register,
     handleSubmit,

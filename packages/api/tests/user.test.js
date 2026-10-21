@@ -34,6 +34,7 @@ import userModel from '../src/models/userModel.js';
 import passwordModel from '../src/models/passwordModel.js';
 import userFarmModel from '../src/models/userFarmModel.js';
 import showedSpotlightModel from '../src/models/showedSpotlightModel.js';
+import userConsentModel from '../src/models/userConsentModel.js';
 
 describe('User Tests', () => {
   let _token;
@@ -443,6 +444,100 @@ describe('User Tests', () => {
           expect(res.status).toBe(400);
         });
       });
+    });
+  });
+
+  describe('Update user consent', () => {
+    function patchConsentRequest(data, { user_id, params_user_id = user_id }) {
+      return chai
+        .request(server)
+        .patch(`/user/${params_user_id}/consent`)
+        .set('Content-Type', 'application/json')
+        .set('user_id', user_id)
+        .send(data);
+    }
+
+    async function createUserWithFarms(farmCount = 1) {
+      const [user] = await mocks.usersFactory();
+      for (let i = 0; i < farmCount; i++) {
+        await mocks.userFarmFactory(
+          { promisedUser: [user] },
+          // TODO: LF-5530 Remove the consent fields once userFarm's consent columns are dropped
+          { ...fakeUserFarm(3), has_consent: false, consent_version: '1.0' },
+        );
+      }
+      return user;
+    }
+
+    test('Should save the consent and return it', async () => {
+      const user = await createUserWithFarms();
+
+      const res = await patchConsentRequest({ consent_version: '9.0' }, { user_id: user.user_id });
+      expect(res.status).toBe(200);
+      expect(res.body.consent_version).toBe('9.0');
+      expect(res.body.consented_at).toBeTruthy();
+
+      const consent = await userConsentModel.query().findById(user.user_id);
+      expect(consent.consent_version).toBe('9.0');
+      expect(new Date(consent.consented_at).toISOString()).toBe(res.body.consented_at);
+    });
+
+    test('Should update the consent and its date when the user consents again', async () => {
+      const user = await createUserWithFarms();
+      await knex('user_consent').insert({
+        user_id: user.user_id,
+        consent_version: '7.1',
+        consented_at: '2020-01-01T00:00:00.000Z',
+      });
+
+      const res = await patchConsentRequest({ consent_version: '9.0' }, { user_id: user.user_id });
+
+      expect(res.status).toBe(200);
+      const consents = await userConsentModel.query().where({ user_id: user.user_id });
+      expect(consents).toHaveLength(1);
+      expect(consents[0].consent_version).toBe('9.0');
+      expect(new Date(consents[0].consented_at) > new Date('2020-01-01')).toBe(true);
+    });
+
+    // TODO: LF-5530 Remove once cached frontends no longer read consent from userFarm
+    test('Should also update consent on all of the user farms', async () => {
+      const user = await createUserWithFarms(2);
+
+      await patchConsentRequest({ consent_version: '9.0' }, { user_id: user.user_id });
+      const userFarms = await userFarmModel.query().where({ user_id: user.user_id });
+      expect(userFarms).toHaveLength(2);
+      for (const userFarm of userFarms) {
+        expect(userFarm.has_consent).toBe(true);
+        expect(userFarm.consent_version).toBe('9.0');
+      }
+    });
+
+    test('Should return 403 when updating another user consent', async () => {
+      const user = await createUserWithFarms();
+      const otherUser = await createUserWithFarms();
+
+      const res = await patchConsentRequest(
+        { consent_version: '9.0' },
+        { user_id: otherUser.user_id, params_user_id: user.user_id },
+      );
+
+      expect(res.status).toBe(403);
+      const consent = await userConsentModel.query().findById(user.user_id);
+      expect(consent).toBeUndefined();
+    });
+
+    test.each([
+      ['missing', {}],
+      ['empty', { consent_version: '' }],
+      ['blank', { consent_version: '   ' }],
+      ['not a string', { consent_version: 8 }],
+    ])('Should return 400 when consent_version is %s', async (_label, body) => {
+      const user = await createUserWithFarms();
+
+      const res = await patchConsentRequest(body, { user_id: user.user_id });
+      expect(res.status).toBe(400);
+      const consent = await userConsentModel.query().findById(user.user_id);
+      expect(consent).toBeUndefined();
     });
   });
 });

@@ -27,18 +27,12 @@ import bcrypt from 'bcryptjs';
 import { createToken } from '../util/jwt.js';
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import ShowedSpotlightModel from '../models/showedSpotlightModel.js';
+import UserConsentModel from '../models/userConsentModel.js';
 
 const userController = {
   async addUser(req, res) {
-    const {
-      email,
-      first_name,
-      last_name,
-      password,
-      gender,
-      birth_year,
-      language_preference,
-    } = req.body;
+    const { email, first_name, last_name, password, gender, birth_year, language_preference } =
+      req.body;
     const userData = {
       email,
       first_name,
@@ -380,20 +374,30 @@ const userController = {
   },
 
   async updateConsent(req, res) {
-    const trx = await transaction.start(Model.knex());
-    const user_id = req.params.id;
+    const { user_id } = req.params;
+    const { consent_version } = req.body;
+
     try {
-      const updated = await UserModel.query(trx).where('user_id', user_id).patch({
-        has_consent: true,
+      const consent = await UserConsentModel.transaction(async (trx) => {
+        const savedConsent = await UserConsentModel.query(trx)
+          .insert({ user_id, consent_version })
+          .onConflict('user_id')
+          .merge()
+          .returning('*');
+
+        // TODO: LF-5530 Remove once cached frontends no longer read consent from userFarm
+        await UserFarmModel.query(trx)
+          .where({ user_id })
+          .patch({ has_consent: true, consent_version });
+        return savedConsent;
       });
-      await trx.commit();
-      if (!updated) {
-        res.status(409).send('Update failed');
-      } else {
-        res.sendStatus(200);
-      }
+
+      res.status(200).send({
+        consent_version: consent.consent_version,
+        consented_at: consent.consented_at,
+      });
     } catch (error) {
-      await trx.rollback();
+      console.error(error);
       res.status(400).send(error);
     }
   },

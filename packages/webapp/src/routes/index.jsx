@@ -515,8 +515,7 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
       pre.step_two === next.step_two &&
       pre.role_id === next.role_id &&
       pre.step_one === next.step_one &&
-      pre.farm_id === next.farm_id &&
-      pre.step_three === next.step_three,
+      pre.farm_id === next.farm_id,
   );
   const { isInvitationFlow } = useSelector(
     chooseFarmFlowSelector,

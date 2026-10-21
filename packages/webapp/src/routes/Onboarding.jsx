@@ -27,7 +27,7 @@ const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 
 function OnboardingFlow(props) {
-  const { step_one, step_two, step_three, step_five } = props;
+  const { step_one, step_two, step_five } = props;
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
   const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
@@ -38,7 +38,14 @@ function OnboardingFlow(props) {
   return (
     <Routes>
       <Route path="/farm_selection" element={<ChooseFarm />} />
-      <Route path="/add_farm" element={<AddFarm />} />
+      <Route
+        path="/add_farm"
+        element={
+          <RequireCondition condition={hasConsented} {...requireConditionProps}>
+            <AddFarm />
+          </RequireCondition>
+        }
+      />
       <Route
         path="/role_selection"
         element={
@@ -50,26 +57,15 @@ function OnboardingFlow(props) {
       <Route
         path="/consent"
         element={
-          <RequireCondition
-            condition={(step_two && !step_five) || !hasConsented}
-            {...requireConditionProps}
-          >
+          <RequireCondition condition={!hasConsented} {...requireConditionProps}>
             <ConsentForm />
-          </RequireCondition>
-        }
-      />
-      <Route
-        path="/consent"
-        element={
-          <RequireCondition condition={step_five && !hasConsented} {...requireConditionProps}>
-            <ConsentForm goForwardTo={'/'} />
           </RequireCondition>
         }
       />
       <Route
         path="/outro"
         element={
-          <RequireCondition condition={step_three} {...requireConditionProps}>
+          <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
             <Outro />
           </RequireCondition>
         }
@@ -86,7 +82,6 @@ const RequireCondition = ({
   children,
   step_one,
   step_two,
-  step_three,
   step_five,
   hasConsented,
   farm_id,
@@ -97,12 +92,12 @@ const RequireCondition = ({
     return children;
   }
 
-  if (step_one && step_three && !step_five) {
-    return <Navigate to="/outro" replace />;
+  if (!hasConsented) {
+    return <Navigate to="/consent" replace />;
   }
 
-  if (step_two && !step_three) {
-    return <Navigate to="/consent" replace />;
+  if (step_two && !step_five) {
+    return <Navigate to="/outro" replace />;
   }
 
   if (step_one && !step_two) {
@@ -113,17 +108,12 @@ const RequireCondition = ({
     // hasUserFarms === 0 is ambiguous ("no farms" vs "list not fetched yet");
     // only treat it as "no farms" once the list has loaded, else route to /farm_selection,
     // where ChooseFarm owns the "no farms -> /consent or /add_farm" decision.
-    const farmlessTarget = hasConsented ? '/add_farm' : '/consent';
-    const target = farmsLoaded ? farmlessTarget : '/farm_selection';
+    const target = farmsLoaded ? '/add_farm' : '/farm_selection';
     return <Navigate to={target} replace />;
   }
 
   if (!farm_id && hasUserFarms) {
     return <Navigate to="/farm_selection" replace />;
-  }
-
-  if (step_three && !hasConsented) {
-    return <Navigate to="/consent" replace />;
   }
 
   if (!step_one) {

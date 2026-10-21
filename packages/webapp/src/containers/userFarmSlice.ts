@@ -135,14 +135,6 @@ const userFarmSlice = createSlice({
         consent_version,
       });
     },
-    patchStatusConsentSuccess: (state, { payload }) => {
-      const { has_consent, consent_version, status, farm_id, user_id } = payload;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
-        has_consent,
-        consent_version,
-        status,
-      });
-    },
     patchStepFiveSuccess: (state, { payload: { step_five, step_five_end, farm_id, user_id } }) => {
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_five,
@@ -196,7 +188,6 @@ export const {
   postUserSuccess,
   patchUserStatusSuccess,
   patchFarmSuccess,
-  patchStatusConsentSuccess,
   deselectFarmSuccess,
   loginSuccess,
   logoutSuccess,

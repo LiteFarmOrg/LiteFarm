@@ -14,7 +14,6 @@
  */
 
 import { call, put, select, takeLeading } from 'redux-saga/effects';
-import { patchStatusConsentSuccess, userFarmSelector } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { patchConsentSuccess } from '../consentSlice';
 import { fetchAllSaga, joinInvitedFarmSaga } from '../saga';
@@ -38,8 +37,6 @@ export function* patchConsentSaga({ payload }) {
     if (isInvitationFlow) {
       yield call(joinInvitedFarmSaga);
     } else if (payload.goForwardTo === '/') {
-      const userFarm = yield select(userFarmSelector);
-      yield put(patchStatusConsentSuccess({ ...userFarm, status: 'Active' }));
       yield call(fetchAllSaga);
       history.push(payload.goForwardTo);
     } else {

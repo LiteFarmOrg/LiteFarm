@@ -96,7 +96,6 @@ import {
   isAdminSelector,
   loginSelector,
   patchFarmSuccess,
-  patchStatusConsentSuccess,
   putUserSuccess,
   selectFarmSuccess,
   userFarmSelector,
@@ -625,9 +624,7 @@ export function* selectFarmSaga({ payload: { farm_id } }) {
 }
 
 export function* joinInvitedFarmSaga() {
-  const userFarm = yield select(userFarmSelector);
-  const { farm_id, farm_name } = userFarm;
-  yield put(patchStatusConsentSuccess({ ...userFarm, status: 'Active' }));
+  const { farm_id, farm_name } = yield select(userFarmSelector);
   yield call(fetchAllSaga);
   history.push('/outro', { farm_id, farm_name });
 }

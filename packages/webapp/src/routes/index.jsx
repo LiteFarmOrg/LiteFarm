@@ -233,7 +233,10 @@ const AppRouteGate = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
     if (isInvitationFlow) {
       return (
         <Routes>
-          <Route path="/farm_selection" element={<ChooseFarm />} />
+          <Route
+            path="/farm_selection"
+            element={hasConsented ? <ChooseFarm /> : <Navigate to="/consent" replace />}
+          />
           <Route path="/consent" element={<ConsentForm goForwardTo="/outro" />} />
           <Route path="/outro" element={<JoinFarmSuccessScreen />} />
           <Route path="*" element={hasConsented ? null : <Navigate to="/consent" replace />} />
@@ -244,7 +247,6 @@ const AppRouteGate = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
     } else if (!hasConsented) {
       return (
         <Routes>
-          <Route path="/farm_selection" element={<ChooseFarm />} />
           <Route path="/consent" element={<ConsentForm goForwardTo="/" />} />
           <Route path="*" element={<Navigate to="/consent" replace />} />
         </Routes>

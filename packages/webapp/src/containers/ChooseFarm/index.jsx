@@ -22,7 +22,6 @@ import {
   userFarmsByUserSelector,
   userFarmStatusSelector,
 } from '../userFarmSlice';
-import { hasConsentedSelector } from '../consentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
 import { getSpotlightFlags, getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
@@ -56,10 +55,9 @@ function ChooseFarm() {
   }, [farms]);
   // TODO: move redirect to login with google saga
   const { loaded } = useSelector(userFarmStatusSelector);
-  const hasConsented = useSelector(hasConsentedSelector);
   useEffect(() => {
-    loaded && farms.length === 0 && navigate(hasConsented ? '/add_farm' : '/consent');
-  }, [farms, loaded, hasConsented]);
+    loaded && farms.length === 0 && navigate('/add_farm');
+  }, [farms, loaded]);
 
   const onGoBack = () => {
     navigate(-1);

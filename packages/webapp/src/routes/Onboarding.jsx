@@ -37,7 +37,14 @@ function OnboardingFlow(props) {
 
   return (
     <Routes>
-      <Route path="/farm_selection" element={<ChooseFarm />} />
+      <Route
+        path="/farm_selection"
+        element={
+          <RequireCondition condition={hasConsented} {...requireConditionProps}>
+            <ChooseFarm />
+          </RequireCondition>
+        }
+      />
       <Route
         path="/add_farm"
         element={
@@ -107,7 +114,7 @@ const RequireCondition = ({
   if ((!farm_id || !step_one) && !hasUserFarms) {
     // hasUserFarms === 0 is ambiguous ("no farms" vs "list not fetched yet");
     // only treat it as "no farms" once the list has loaded, else route to /farm_selection,
-    // where ChooseFarm owns the "no farms -> /consent or /add_farm" decision.
+    // where ChooseFarm owns the "no farms -> /add_farm" decision.
     const target = farmsLoaded ? '/add_farm' : '/farm_selection';
     return <Navigate to={target} replace />;
   }

@@ -358,6 +358,7 @@ const userFarmController = {
             'users.last_name',
             'farm.farm_name',
             'userFarm.status',
+            'userFarm.status_before_revoke',
             'users.email',
             'users.language_preference',
           )
@@ -384,6 +385,8 @@ const userFarmController = {
         const admins = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
         // check if access is revoked or restored: update email info based on this
+        let updatedStatus = status;
+        let statusBeforeRevoke = null;
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
           if (admins.length <= 1 && admins[0].user_id === user_id && currentStatus === 'Active') {
             return res
@@ -391,17 +394,21 @@ const userFarmController = {
               .send("You cannot revoke the last active admin's access on this farm");
           }
           template_path = emails.ACCESS_REVOKE;
+          statusBeforeRevoke = currentStatus;
         } else if (currentStatus === 'Inactive') {
           template_path = emails.ACCESS_RESTORE;
+          // A restore sets the status saved at revoke time and ignores the requested one
+          updatedStatus = targetUser.status_before_revoke ?? 'Invited';
         }
         const isPatched = await UserFarmModel.query()
           .where('farm_id', farm_id)
           .andWhere('user_id', user_id)
           .patch({
-            status,
+            status: updatedStatus,
+            status_before_revoke: statusBeforeRevoke,
           });
         if (isPatched) {
-          res.sendStatus(200);
+          res.status(200).send({ status: updatedStatus });
           try {
             if (targetUser.email && template_path) {
               sendEmail(template_path, replacements, targetUser.email, { sender });

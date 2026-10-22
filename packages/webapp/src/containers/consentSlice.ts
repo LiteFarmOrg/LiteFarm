@@ -49,7 +49,7 @@ const consentSlice = createSlice({
 export const { fetchConsentSuccess, patchConsentSuccess } = consentSlice.actions;
 export default consentSlice.reducer;
 
-export const consentSelector = (state: RootState) => state.consentReducer.consent;
+export const consentSelector = (state: RootState) => state.entitiesReducer.consentReducer.consent;
 
 export const hasConsentedSelector = (state: RootState) =>
   consentSelector(state)?.consent_version === CONSENT_VERSION;

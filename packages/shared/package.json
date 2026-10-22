@@ -2,7 +2,7 @@
   "name": "shared",
   "type": "module",
   "engines": {
-    "node": "22.21"
+    "node": "22.23"
   },
   "dependencies": {
     "core-js": "^3.24.1"

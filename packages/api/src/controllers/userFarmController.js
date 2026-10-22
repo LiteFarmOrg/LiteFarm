@@ -193,16 +193,6 @@ const userFarmController = {
       try {
         const { user_id, farm_id } = req.params;
         const { has_consent, consent_version } = req.body;
-        const userFarm = await UserFarmModel.query()
-          .select('*')
-          .where({
-            'userFarm.user_id': user_id,
-            'userFarm.farm_id': farm_id,
-          })
-          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
-          .first();
         // TODO: LF-5530 Remove this endpoint once cached frontends no longer call it
         await UserFarmModel.transaction(async (trx) => {
           if (has_consent) {
@@ -219,29 +209,7 @@ const userFarmController = {
               .patch({ has_consent, consent_version });
           }
         });
-        res.sendStatus(200);
-        const { step_two_end, step_three_end, step_five_end } = userFarm;
-        const isWelcomeEmailSent = !!step_two_end && !!step_three_end && !step_five_end;
-        if (isWelcomeEmailSent) return;
-        try {
-          let template_path;
-          const sender = 'system@litefarm.org';
-          const replacements = {
-            first_name: userFarm.first_name,
-            farm: userFarm.farm_name,
-            locale: userFarm.language_preference,
-            farm_name: userFarm.farm_name,
-          };
-          if (has_consent === false) {
-            template_path = emails.WITHHELD_CONSENT;
-          } else {
-            template_path = emails.CONFIRMATION;
-            replacements['role'] = userFarm.role.toUpperCase().replace(' ', '_');
-          }
-          return sendEmail(template_path, replacements, userFarm.email, { sender });
-        } catch (e) {
-          console.log(e);
-        }
+        return res.sendStatus(200);
       } catch (error) {
         return res.status(400).send(error);
       }

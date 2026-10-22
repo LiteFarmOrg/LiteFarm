@@ -29,7 +29,6 @@ export const CREATE_USER_NAME = '[data-cy=createUser-fullName]';
 export const CREATE_USER_PASSWORD = '[data-cy=createUser-password]';
 export const CREATE_USER_SUBMIT = '[data-cy=createUser-create]';
 
-export const WELCOME_GET_STARTED = '[data-cy=getStarted]';
 export const CHOOSE_FARM_PROCEED = '[data-cy=chooseFarm-proceed]';
 
 export const ADD_FARM_CONTINUE = '[data-cy=addFarm-continue]';

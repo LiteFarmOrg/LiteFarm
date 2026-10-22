@@ -69,7 +69,7 @@ Cypress.Commands.add(
         cy.get(Selectors.CREATE_USER_SUBMIT).should('exist').and('be.enabled').click();
 
         cy.intercept('POST', '**/user').as('createUser');
-        cy.get(Selectors.WELCOME_GET_STARTED).should('exist').and('not.be.disabled').click();
+        giveConsent();
 
         addFarm('UBC FARM', '49.250833, -123.2410777');
 
@@ -94,6 +94,14 @@ Cypress.Commands.add(
     });
   },
 );
+
+const giveConsent = () => {
+  cy.url().should('include', '/consent');
+  cy.get(Selectors.CONSENT_CONTENT, { timeout: 180 * 1000 }).should('exist');
+  cy.get(Selectors.CONSENT_CONTINUE).should('exist').and('be.disabled');
+  cy.get(Selectors.CHECKBOX).should('exist').click();
+  cy.get(Selectors.CONSENT_CONTINUE).should('not.be.disabled').click();
+};
 
 const addFarm = (farmName, location) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/js/GeocodeService.*').as(
@@ -121,13 +129,6 @@ const onboardCompleteQuestions = (role) => {
   // cy.clock().then((clock) => {
   //   clock.restore();
   // });
-
-  // Give consent
-  cy.url().should('include', '/consent');
-  cy.get(Selectors.CONSENT_CONTENT, { timeout: 180 * 1000 }).should('exist');
-  cy.get(Selectors.CONSENT_CONTINUE).should('exist').and('be.disabled');
-  cy.get(Selectors.CHECKBOX).should('exist').click();
-  cy.get(Selectors.CONSENT_CONTINUE).should('not.be.disabled').click();
 
   // Outro
   cy.url().should('include', '/outro');

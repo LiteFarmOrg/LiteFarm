@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": ">=22.21"
+    "node": ">=22.23"
   },
   "devDependencies": {
     "husky": "^7.0.4",

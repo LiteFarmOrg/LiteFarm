@@ -43,9 +43,9 @@ router.get(
   userFarmController.getActiveUserFarmsByFarmID(),
 );
 
-// Update consent status for a userFarm referenced by user_id
-// If userFarm status is Inactive or Invited, status will be set to Active
+// Update consent for the user, from one of their Active farms
 // no permission limits
+// TODO: LF-5530 Remove once cached frontends save consent through PATCH /user/:user_id/consent
 router.patch(
   '/consent/farm/:farm_id/user/:user_id',
   isSelf,

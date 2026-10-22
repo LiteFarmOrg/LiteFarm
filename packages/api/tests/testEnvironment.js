@@ -45,6 +45,7 @@ async function tableCleanup(knex) {
     DELETE FROM "certification";
     DELETE FROM "password";
     DELETE FROM "showedSpotlight";
+    DELETE FROM "user_consent";
     DELETE FROM "userLog";
     DELETE FROM "location_tasks";
     DELETE FROM "field_work_task";

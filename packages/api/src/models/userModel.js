@@ -14,6 +14,7 @@
  */
 
 import Model from './baseFormatModel.js';
+import UserConsentModel from './userConsentModel.js';
 
 class User extends Model {
   // Returned Date-time object from db is not compatible with ajv format types
@@ -31,19 +32,29 @@ class User extends Model {
   async $beforeUpdate(opt, queryContext) {
     await super.$beforeUpdate(opt, queryContext);
     this.updated_at = new Date().toISOString();
-    !queryContext.shouldUpdateEmail && delete this.email;
+    if (!queryContext.shouldUpdateEmail) {
+      delete this.email;
+    }
   }
 
   async $beforeInsert(context) {
     await super.$beforeInsert(context);
-    this.email && (this.email = this.email.toLowerCase());
-    this.first_name && (this.first_name = this.first_name.trim());
-    this.last_name && (this.last_name = this.last_name.trim());
+    if (this.email) {
+      this.email = this.email.toLowerCase();
+    }
+    if (this.first_name) {
+      this.first_name = this.first_name.trim();
+    }
+    if (this.last_name) {
+      this.last_name = this.last_name.trim();
+    }
   }
 
   static async beforeFind(args) {
     await super.beforeFind(args);
-    this.email && (this.email = this.email.toLowerCase());
+    if (this.email) {
+      this.email = this.email.toLowerCase();
+    }
   }
 
   static get tableName() {
@@ -132,6 +143,19 @@ class User extends Model {
         updated_at: { type: 'string', format: 'date-time' },
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      consent: {
+        modelClass: UserConsentModel,
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'users.user_id',
+          to: 'user_consent.user_id',
+        },
+      },
     };
   }
 

@@ -6,7 +6,7 @@
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "22.21"
+      "version": "22.23"
     },
     "packageManager": {
       "name": "pnpm",
@@ -14,7 +14,7 @@
     }
   },
   "engines": {
-    "node": "22.21",
+    "node": "22.23",
     "pnpm": ">=9.7.0"
   },
   "packageManager": "pnpm@10.6.5",

@@ -27,8 +27,8 @@ type StateBeforeConsentSlice = PersistedState & {
       user_id?: string;
       byFarmIdUserId?: Record<string, Record<string, PersistedUserFarm>>;
     };
+    consentReducer?: { consent: UserConsent | null };
   };
-  consentReducer?: { consent: UserConsent | null };
 };
 
 const compareVersions = (a: string, b: string) => {
@@ -45,11 +45,12 @@ const compareVersions = (a: string, b: string) => {
 
 const seedConsentFromUserFarms = (state: PersistedState): PersistedState => {
   const persisted = state as StateBeforeConsentSlice;
-  if (persisted.consentReducer) {
+  const entities = persisted.entitiesReducer;
+  if (!entities || entities.consentReducer) {
     return state;
   }
 
-  const { user_id, byFarmIdUserId = {} } = persisted.entitiesReducer?.userFarmReducer ?? {};
+  const { user_id, byFarmIdUserId = {} } = entities.userFarmReducer ?? {};
   const consentedVersions = user_id
     ? Object.values(byFarmIdUserId)
         .map((byUserId) => byUserId[user_id])
@@ -61,8 +62,11 @@ const seedConsentFromUserFarms = (state: PersistedState): PersistedState => {
 
   return {
     ...persisted,
-    consentReducer: {
-      consent: highestVersion ? { consent_version: highestVersion, consented_at: null } : null,
+    entitiesReducer: {
+      ...entities,
+      consentReducer: {
+        consent: highestVersion ? { consent_version: highestVersion, consented_at: null } : null,
+      },
     },
   } as PersistedState;
 };

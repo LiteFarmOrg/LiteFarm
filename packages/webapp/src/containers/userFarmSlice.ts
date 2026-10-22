@@ -125,16 +125,6 @@ const userFarmSlice = createSlice({
         owner_operated,
       });
     },
-    patchConsentStepThreeSuccess: (state, { payload }) => {
-      const { step_three, step_three_end, has_consent, consent_version, farm_id, user_id } =
-        payload;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
-        step_three,
-        step_three_end,
-        has_consent,
-        consent_version,
-      });
-    },
     patchStepFiveSuccess: (state, { payload: { step_five, step_five_end, farm_id, user_id } }) => {
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_five,
@@ -182,7 +172,6 @@ export const {
   getUserFarmsSuccess,
   postFarmSuccess,
   patchRoleStepTwoSuccess,
-  patchConsentStepThreeSuccess,
   patchStepFiveSuccess,
   putUserSuccess,
   postUserSuccess,

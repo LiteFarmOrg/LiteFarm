@@ -105,6 +105,7 @@ const entitiesReducer = combineReducers({
   irrigationTaskReducer,
   irrigationTaskTypesReducer,
   revenueTypeReducer,
+  consentReducer,
 });
 
 const farmStateReducer = combineReducers({
@@ -138,7 +139,6 @@ const appReducer = combineReducers({
   entitiesReducer,
   farmStateReducer,
   persistedStateReducer,
-  consentReducer,
   tempStateReducer,
   baseReducer,
   financeReducer,

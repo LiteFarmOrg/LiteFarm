@@ -22,7 +22,6 @@ import {
   onLoadingUserFarmsFail,
   onLoadingUserFarmsStart,
 } from '../userFarmSlice';
-import { fetchConsentSuccess } from '../consentSlice';
 import {
   getSpotlightFlagsFailure,
   getSpotlightFlagsSuccess,
@@ -64,7 +63,6 @@ export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
     const { user: resUserFarm } = result.data;
     yield call(clearOldFarmStateSaga);
     yield put(acceptInvitationSuccess(resUserFarm));
-    yield put(fetchConsentSuccess(resUserFarm.consent));
     yield put(startInvitationFlowOnChooseFarmScreen(resUserFarm.farm_id));
     yield call(joinInvitedFarmSaga);
   } catch (e) {

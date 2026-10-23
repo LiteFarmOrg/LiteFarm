@@ -15,6 +15,7 @@
 
 import type { MigrationManifest, PersistedState } from 'redux-persist';
 import type { UserConsent } from '../containers/consentSlice';
+import { CONSENT_VERSION } from '../util/constants';
 
 interface PersistedUserFarm {
   has_consent?: boolean | null;
@@ -31,18 +32,6 @@ type StateBeforeConsentSlice = PersistedState & {
   };
 };
 
-const compareVersions = (a: string, b: string) => {
-  const partsA = a.split('.').map(Number);
-  const partsB = b.split('.').map(Number);
-  for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
-    const difference = (partsA[i] ?? 0) - (partsB[i] ?? 0);
-    if (difference !== 0) {
-      return difference;
-    }
-  }
-  return 0;
-};
-
 const seedConsentFromUserFarms = (state: PersistedState): PersistedState => {
   const persisted = state as StateBeforeConsentSlice;
   const entities = persisted.entitiesReducer;
@@ -51,21 +40,19 @@ const seedConsentFromUserFarms = (state: PersistedState): PersistedState => {
   }
 
   const { user_id, byFarmIdUserId = {} } = entities.userFarmReducer ?? {};
-  const consentedVersions = user_id
-    ? Object.values(byFarmIdUserId)
-        .map((byUserId) => byUserId[user_id])
-        .filter((row) => row?.has_consent && row.consent_version)
-        .map((row) => row.consent_version as string)
-        .sort(compareVersions)
-    : [];
-  const highestVersion = consentedVersions[consentedVersions.length - 1];
+  const hasConsented =
+    !!user_id &&
+    Object.values(byFarmIdUserId).some(
+      (byUserId) =>
+        byUserId[user_id]?.has_consent && byUserId[user_id]?.consent_version === CONSENT_VERSION,
+    );
 
   return {
     ...persisted,
     entitiesReducer: {
       ...entities,
       consentReducer: {
-        consent: highestVersion ? { consent_version: highestVersion, consented_at: null } : null,
+        consent: hasConsented ? { consent_version: CONSENT_VERSION, consented_at: null } : null,
       },
     },
   } as PersistedState;

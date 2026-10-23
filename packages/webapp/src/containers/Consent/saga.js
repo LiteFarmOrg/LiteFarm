@@ -14,9 +14,11 @@
  */
 
 import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { userUrl } from '../../apiConfig';
+import { loginSelector } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { patchConsentSuccess } from '../consentSlice';
-import { fetchAllSaga, joinInvitedFarmSaga } from '../saga';
+import { axios, fetchAllSaga, getHeader, joinInvitedFarmSaga } from '../saga';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -25,13 +27,16 @@ import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 export const patchConsent = createAction('patchConsentSaga');
 
 export function* patchConsentSaga({ payload }) {
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
   try {
-    yield put(
-      patchConsentSuccess({
-        consent_version: payload.consent_version,
-        consented_at: new Date().toISOString(),
-      }),
+    const result = yield call(
+      axios.patch,
+      `${userUrl}/${user_id}/consent`,
+      { consent_version: payload.consent_version },
+      header,
     );
+    yield put(patchConsentSuccess(result.data));
 
     const { isInvitationFlow } = yield select(chooseFarmFlowSelector);
     if (isInvitationFlow) {

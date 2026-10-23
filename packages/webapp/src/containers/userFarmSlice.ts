@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import type { RootState } from '../store/store';
 import { AxiosError } from 'axios';
-import { CONSENT_VERSION } from '../util/constants';
 import { getFirstNameWithLastInitial } from '../util/getFirstNameWithLastInitial';
 
 export interface Units {
@@ -126,24 +125,6 @@ const userFarmSlice = createSlice({
         owner_operated,
       });
     },
-    patchConsentStepThreeSuccess: (state, { payload }) => {
-      const { step_three, step_three_end, has_consent, consent_version, farm_id, user_id } =
-        payload;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
-        step_three,
-        step_three_end,
-        has_consent,
-        consent_version,
-      });
-    },
-    patchStatusConsentSuccess: (state, { payload }) => {
-      const { has_consent, consent_version, status, farm_id, user_id } = payload;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
-        has_consent,
-        consent_version,
-        status,
-      });
-    },
     patchStepFiveSuccess: (state, { payload: { step_five, step_five_end, farm_id, user_id } }) => {
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_five,
@@ -191,13 +172,11 @@ export const {
   getUserFarmsSuccess,
   postFarmSuccess,
   patchRoleStepTwoSuccess,
-  patchConsentStepThreeSuccess,
   patchStepFiveSuccess,
   putUserSuccess,
   postUserSuccess,
   patchUserStatusSuccess,
   patchFarmSuccess,
-  patchStatusConsentSuccess,
   deselectFarmSuccess,
   loginSuccess,
   logoutSuccess,
@@ -235,9 +214,6 @@ export const userFarmSelector = createSelector(
       ? {
           is_admin: adminRoles.includes(byFarmIdUserId[farm_id][user_id].role_id),
           ...byFarmIdUserId[farm_id][user_id],
-          has_consent:
-            byFarmIdUserId[farm_id][user_id].has_consent &&
-            byFarmIdUserId[farm_id][user_id].consent_version === CONSENT_VERSION,
         }
       : {};
   },

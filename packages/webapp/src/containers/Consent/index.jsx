@@ -1,11 +1,12 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
 import { patchConsent } from './saga';
+import { getUserFarms } from '../ChooseFarm/saga';
 import PropTypes from 'prop-types';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
-import useFarmListRecovery from '../../hooks/useFarmListRecovery';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../userFarmSlice';
 
 const consentFiles = import.meta.glob('./locales/{en,es,de,fr,pt,hi,pa,ml,it}/consent.md', {
@@ -27,9 +28,14 @@ function ConsentForm({ goForwardTo }) {
   const language = getLanguageFromLocalStorage();
   const dispatch = useDispatch();
   const hasUserFarms = useSelector(userFarmLengthSelector);
-  const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
+  const { loaded: farmsLoaded, loading: farmsLoading } = useSelector(userFarmStatusSelector);
   const forwardTo = goForwardTo ?? (!farmsLoaded || hasUserFarms ? '/farm_selection' : '/add_farm');
-  useFarmListRecovery();
+  useEffect(() => {
+    // Load the farm list so a user with no farms goes straight to /add_farm
+    if (!hasUserFarms && !farmsLoading) {
+      dispatch(getUserFarms());
+    }
+  }, []);
   const {
     register,
     handleSubmit,

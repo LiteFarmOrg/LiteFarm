@@ -16,13 +16,8 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  loginSelector,
-  userFarmLengthSelector,
-  userFarmStatusSelector,
-} from '../containers/userFarmSlice';
-import { getUserFarms } from '../containers/ChooseFarm/saga';
-import { hasConsentedSelector } from '../containers/consentSlice';
+import { loginSelector, userFarmLengthSelector, userFarmStatusSelector } from '../userFarmSlice';
+import { getUserFarms } from '../ChooseFarm/saga';
 
 export default function useFarmListRecovery() {
   const navigate = useNavigate();
@@ -30,7 +25,6 @@ export default function useFarmListRecovery() {
   const hasUserFarm = useSelector(userFarmLengthSelector);
   const { loaded, loading } = useSelector(userFarmStatusSelector);
   const { farm_id } = useSelector(loginSelector);
-  const hasConsented = useSelector(hasConsentedSelector);
   const wasFarmlessOnMount = useRef(!hasUserFarm);
 
   useEffect(() => {
@@ -40,8 +34,8 @@ export default function useFarmListRecovery() {
   }, []);
 
   useEffect(() => {
-    if (wasFarmlessOnMount.current && hasConsented && loaded && hasUserFarm && !farm_id) {
+    if (wasFarmlessOnMount.current && loaded && hasUserFarm && !farm_id) {
       navigate('/farm_selection');
     }
-  }, [hasConsented, loaded, hasUserFarm, farm_id]);
+  }, [loaded, hasUserFarm, farm_id]);
 }

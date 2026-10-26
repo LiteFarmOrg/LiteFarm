@@ -10,7 +10,7 @@ import {
   userFarmSelector,
 } from '../userFarmSlice';
 import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
-import useFarmListRecovery from '../../hooks/useFarmListRecovery';
+import useFarmListRecovery from './useFarmListRecovery';
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
 import MapPin from '../../assets/images/signUp/map_pin.svg?react';

@@ -15,8 +15,16 @@ function fakeStation(defaultData = {}) {
   };
 }
 
-async function usersFactory(userObject = fakeUser()) {
-  return await knex('users').insert(userObject).returning('*');
+async function usersFactory(userObject = fakeUser(), consent = fakeUserConsent()) {
+  const users = await knex('users').insert(userObject).returning('*');
+  if (consent) {
+    await knex('user_consent').insert({ user_id: users[0].user_id, ...consent });
+  }
+  return users;
+}
+
+function fakeUserConsent(defaultData = {}) {
+  return { consent_version: '1.0', ...defaultData };
 }
 
 function fakeUser(defaultData = {}) {
@@ -3025,6 +3033,7 @@ export default {
   fakeStation,
   usersFactory,
   fakeUser,
+  fakeUserConsent,
   fakeSSOUser,
   farmFactory,
   fakeFarm,

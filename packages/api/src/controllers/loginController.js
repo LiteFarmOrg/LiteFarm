@@ -45,7 +45,11 @@ const loginController = {
       const { ip } = req;
 
       try {
-        const userData = await UserModel.query().select('*').where('email', email).first();
+        const userData = await UserModel.query()
+          .select('*')
+          .where('email', email)
+          .withGraphFetched('consent')
+          .first();
         if (!userData || !userData?.user_id) {
           await UserLogModel.query().insert({
             user_id: null,
@@ -120,8 +124,11 @@ const loginController = {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.auth;
         const { language_preference } = req.body;
         // TODO optimize this query
-        const ssoUser = await UserModel.query().findById(user_id);
-        const passwordUser = await UserModel.query().where({ email }).first();
+        const ssoUser = await UserModel.query().findById(user_id).withGraphFetched('consent');
+        const passwordUser = await UserModel.query()
+          .where({ email })
+          .withGraphFetched('consent')
+          .first();
         const user = ssoUser || passwordUser;
         const isUserNew = !user;
         if (isUserNew) {
@@ -149,6 +156,7 @@ const loginController = {
             full_name: isPasswordNeeded
               ? `${passwordUser.first_name} ${passwordUser.last_name}`
               : `${first_name} ${last_name}`,
+            consent: user?.consent ?? null,
           },
           isSignUp: isUserNew,
           isInvited: user?.status_id === 2,

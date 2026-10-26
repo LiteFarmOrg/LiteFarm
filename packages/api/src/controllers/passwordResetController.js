@@ -15,6 +15,7 @@
 
 import UserModel from '../models/userModel.js';
 import PasswordModel from '../models/passwordModel.js';
+import UserConsentModel from '../models/userConsentModel.js';
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import bcrypt from 'bcryptjs';
 import { createToken } from '../util/jwt.js';
@@ -86,7 +87,7 @@ const passwordResetController = {
   },
 
   validateToken() {
-    return async (req, res) => {
+    return async (_req, res) => {
       return res.status(200).json({ isValid: true });
     };
   },
@@ -120,7 +121,8 @@ const passwordResetController = {
         });
         await UserModel.query().findById(user_id).patch({ status_id: 1 });
 
-        return res.status(200).send({ id_token });
+        const consent = await UserConsentModel.query().findById(user_id);
+        return res.status(200).send({ id_token, consent: consent ?? null });
       } catch (error) {
         return res.status(400).json({
           error,

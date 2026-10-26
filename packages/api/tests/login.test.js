@@ -29,13 +29,16 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 jest.mock('../src/jobs/station_sync/mapping.js');
+jest.mock('../src/middleware/acl/checkGoogleJwt.js');
 jest.mock('../src/templates/sendEmailTemplate.js', () => ({
   sendEmail: jest.fn(),
   emails: { INVITATION: { path: 'invitation_to_farm_email' } },
 }));
 import mocks from './mock.factories.js';
 import { faker } from '@faker-js/faker';
+import bcrypt from 'bcryptjs';
 import * as emailMiddleware from '../src/templates/sendEmailTemplate.js';
+import checkGoogleJwt from '../src/middleware/acl/checkGoogleJwt.js';
 
 describe('Sign Up Tests', () => {
   let _token;
@@ -218,6 +221,92 @@ describe('Sign Up Tests', () => {
           });
         });
       });
+    });
+  });
+
+  describe('Login with password', () => {
+    const password = 'Password1!';
+
+    async function createUserWithPassword(consent) {
+      const [user] = await mocks.usersFactory(mocks.fakeUser(), consent);
+      const passwordHash = await bcrypt.hash(password, 10);
+      await knex('password').insert({ user_id: user.user_id, password_hash: passwordHash });
+      return user;
+    }
+
+    function postLoginRequest(email) {
+      return chai
+        .request(server)
+        .post('/login')
+        .send({
+          user: { email, password },
+          screenSize: { screen_width: 1440, screen_height: 900 },
+        });
+    }
+
+    test('Should return the user consent', async () => {
+      const user = await createUserWithPassword(mocks.fakeUserConsent({ consent_version: '9.0' }));
+
+      const res = await postLoginRequest(user.email);
+      expect(res.status).toBe(200);
+      expect(res.body.user.consent).toEqual({
+        user_id: user.user_id,
+        consent_version: '9.0',
+        consented_at: null,
+      });
+    });
+
+    test('Should return null consent when the user has not consented', async () => {
+      // User without consent
+      const user = await createUserWithPassword(null);
+
+      const res = await postLoginRequest(user.email);
+      expect(res.status).toBe(200);
+      expect(res.body.user.consent).toBeNull();
+    });
+  });
+
+  describe('Login with Google', () => {
+    let googleUser;
+
+    beforeEach(() => {
+      // Mocks the payload of a verified Google ID token
+      googleUser = {
+        sub: faker.datatype.number({ min: 100000000, max: 999999999 }).toString(),
+        email: faker.internet.email().toLowerCase(),
+        given_name: faker.name.firstName(),
+        family_name: faker.name.lastName(),
+      };
+      checkGoogleJwt.mockImplementation(async (req, _res, next) => {
+        req.auth = { ...googleUser };
+        return next();
+      });
+    });
+
+    function postGoogleLoginRequest() {
+      return chai.request(server).post('/login/google').send({ language_preference: 'en' });
+    }
+
+    test('Should return the consent of an existing Google user', async () => {
+      await mocks.usersFactory(
+        { ...mocks.fakeUser(), user_id: googleUser.sub, email: googleUser.email },
+        mocks.fakeUserConsent({ consent_version: '9.0' }),
+      );
+
+      const res = await postGoogleLoginRequest();
+      expect(res.status).toBe(201);
+      expect(res.body.user.consent).toEqual({
+        user_id: googleUser.sub,
+        consent_version: '9.0',
+        consented_at: null,
+      });
+    });
+
+    test('Should return null consent for a new Google user', async () => {
+      const res = await postGoogleLoginRequest();
+      expect(res.status).toBe(201);
+      expect(res.body.isSignUp).toBe(true);
+      expect(res.body.user.consent).toBeNull();
     });
   });
 });

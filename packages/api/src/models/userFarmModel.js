@@ -95,6 +95,10 @@ class userFarm extends Model {
           type: 'string',
           enum: ['Active', 'Inactive', 'Invited'],
         },
+        status_before_revoke: {
+          type: ['string', 'null'],
+          enum: ['Active', 'Invited', null],
+        },
         created_at: { type: 'string' },
         consent_version: { type: 'string' },
         wage: {

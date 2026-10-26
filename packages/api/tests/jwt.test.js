@@ -321,6 +321,11 @@ describe('JWT Tests', () => {
           },
           async (_err, res) => {
             expect(res.status).toBe(200);
+            expect(res.body.consent).toEqual({
+              user_id: newUser.user_id,
+              consent_version: '1.0',
+              consented_at: null,
+            });
             const { reset_token_version, created_at, password_hash } = await knex('password')
               .where({ user_id: newUser.user_id })
               .first();
@@ -458,6 +463,40 @@ describe('JWT Tests', () => {
       expect(user.user_id).toEqual(newUser.user_id);
     });
 
+    test('Should activate the membership and return consent when an existing user accepts', async () => {
+      const [user] = await mocks.usersFactory();
+      await insertPasswordRow({ user_id: user.user_id });
+      const [userFarm] = await mocks.userFarmFactory(
+        { promisedUser: [user] },
+        { ...mocks.fakeUserFarm(), status: 'Invited' },
+      );
+      const [emailToken] = await knex('emailToken')
+        .insert({
+          user_id: user.user_id,
+          farm_id: userFarm.farm_id,
+          invitation_id: faker.datatype.uuid(),
+          times_sent: 1,
+        })
+        .returning('*');
+      const token = sign({ invitation_id: emailToken.invitation_id }, tokenType.invite, {
+        expiresIn: '7d',
+        algorithm: 'HS256',
+      });
+
+      const res = await chai
+        .request(server)
+        .patch('/user_farm/accept_invitation')
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(res.status).toBe(200);
+      expect(res.body.user.status).toBe('Active');
+      expect(res.body.user.consent).toEqual({
+        user_id: user.user_id,
+        consent_version: '1.0',
+        consented_at: null,
+      });
+    });
+
     test('Should create password and spotlight when user status is invited', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
       const [userFarm] = await mocks.userFarmFactory(
@@ -474,6 +513,11 @@ describe('JWT Tests', () => {
         await postAcceptInvitationWithPasswordRequest(invitationToken, async (_err, res) => {
           const [resUser] = await userModel.query().where({ user_id: user.user_id });
           validate({ ...user, ...reqBody, status_id: 1 }, res, 201, resUser);
+          expect(res.body.user.consent).toEqual({
+            user_id: user.user_id,
+            consent_version: '1.0',
+            consented_at: null,
+          });
           const { password_hash } = await knex('password').where({ user_id: user.user_id }).first();
           const isMatch = await bcrypt.compare(reqBody.password, password_hash);
           expect(isMatch).toBeTruthy();
@@ -502,6 +546,11 @@ describe('JWT Tests', () => {
         await postAcceptInvitationWithPasswordRequest(invitationToken, async (_err, res) => {
           const [resUser] = await userModel.query().where({ user_id: user.user_id });
           validate({ ...user, ...reqBody, status_id: 1 }, res, 201, resUser);
+          expect(res.body.user.consent).toEqual({
+            user_id: user.user_id,
+            consent_version: '1.0',
+            consented_at: null,
+          });
         });
       });
     });
@@ -586,6 +635,7 @@ describe('JWT Tests', () => {
             200,
             resUser,
           );
+          expect(res.body.user.consent).toBeNull();
           const oldUserFarms = await knex('userFarm').where({ user_id });
           expect(oldUserFarms.length).toBe(0);
           const [resUserFarm] = await knex('userFarm').where({ user_id: googleUser.sub, farm_id });

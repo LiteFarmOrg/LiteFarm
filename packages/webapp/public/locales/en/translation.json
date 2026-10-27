@@ -740,7 +740,7 @@
       "TYPE": "Type",
       "VALID_UNTIL": "Valid until"
     },
-    "ADD_DOCUMENT": "Add a new document",
+    "ADD_DOCUMENT": "Add document",
     "ARCHIVE": "Archive",
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
@@ -1366,6 +1366,7 @@
     "TITLE": "We've updated farm maps!"
   },
   "INVENTORY": {
+    "ADD_PRODUCT": "Add product",
     "PRODUCT_NAME": "Product name",
     "PRODUCT_TYPE": "Product type",
     "REMOVE_CONFIRMATION": {
@@ -2303,7 +2304,7 @@
     "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",
-    "ADD_TASK": "Create a task",
+    "ADD_TASK": "Add task",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animals in this task",
     "ANIMAL_MOVING_TO_LOCATION": "Moving to:",

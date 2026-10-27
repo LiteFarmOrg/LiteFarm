@@ -46,8 +46,6 @@ import { getAllUserFarmsByFarmId } from '../Profile/People/saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskTypeSlice';
 import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
 import Drawer from '../../components/Drawer';
-import FloatingActionButton from '../../components/Button/FloatingActionButton';
-import styles from './styles.module.scss';
 import LocationCreationModal from '../../components/LocationCreationModal';
 import useLocations from '../../hooks/location/useLocations';
 
@@ -199,6 +197,7 @@ export default function TaskPage() {
           assigneeValue={assigneeValue}
           onFilterOpen={onFilterOpen}
           isFilterActive={isFilterCurrentlyActive}
+          onAddTask={handleAddTask}
         />
         <TaskCount count={taskCardContents.length} />
         <Drawer title={t('TASK.FILTER.TITLE')} isOpen={isFilterOpen} onClose={onFilterClose}>
@@ -239,14 +238,6 @@ export default function TaskPage() {
           isAdmin={isAdmin}
         />
       )}
-
-      <div className={styles.ctaButtonWrapper}>
-        <FloatingActionButton
-          type={'add'}
-          onClick={handleAddTask}
-          aria-label={t('TASK.ADD_TASK')}
-        />
-      </div>
     </>
   );
 }

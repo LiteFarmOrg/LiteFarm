@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
+import AddButton from '../../components/Button/AddButton';
 import { useDispatch, useSelector } from 'react-redux';
 import PureDocumentTile from './DocumentTile';
 import PureDocumentTileContainer from './DocumentTile/DocumentTileContainer';
@@ -86,6 +87,14 @@ export default function Documents() {
         value={filterString}
         onChange={filterStringOnChange}
         isFilterActive={isFilterCurrentlyActive}
+        addButton={
+          <DocumentUploader
+            onUpload={onUpload}
+            renderTrigger={(Picker) => (
+              <AddButton label={t('DOCUMENTS.ADD_DOCUMENT')} Wrapper={Picker} />
+            )}
+          />
+        }
       />
       <DocumentsSpotlight />
 
@@ -106,11 +115,6 @@ export default function Documents() {
 
       <div ref={containerRef}>
         <>
-          <DocumentUploader
-            style={{ marginBottom: '24px' }}
-            linkText={t('DOCUMENTS.ADD_DOCUMENT')}
-            onUpload={onUpload}
-          />
           {!!validDocuments.length && (
             <>
               <PageBreak

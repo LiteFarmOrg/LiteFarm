@@ -4,23 +4,12 @@ import Checkbox from '../Form/Checkbox';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
 
-export default function PureConsent({
-  onSubmit,
-  checkboxArgs,
-  onGoBack,
-  shortVersion,
-  consent,
-  disabled,
-}) {
+export default function PureConsent({ onSubmit, checkboxArgs, shortVersion, consent, disabled }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
     <form onSubmit={onSubmit} noValidate={true}>
       <div className={styles.card}>
-        <PageTitle
-          title={t('CONSENT.DATA_POLICY')}
-          onGoBack={onGoBack}
-          classNames={{ wrapper: styles.titleWrapper }}
-        />
+        <PageTitle title={t('CONSENT.DATA_POLICY')} classNames={{ wrapper: styles.titleWrapper }} />
         <section className={styles.shortVersion}>
           <h4 className={styles.shortVersionHeading}>{t('CONSENT.SHORT_VERSION')}</h4>
           <div className={styles.shortVersionText}>{shortVersion}</div>

@@ -24,7 +24,6 @@ export const I18Lazyload = ({ ...args }) => (
 
 I18Lazyload.args = {
   onSubmit: () => {},
-  onGoBack: () => {},
   checkboxArgs: { label: 'I Agree' },
   // TODO: import consent when https://github.com/storybookjs/storybook/issues/11981#issuecomment-673562202 is fixed
   // consent: <ConsentEnglish />,

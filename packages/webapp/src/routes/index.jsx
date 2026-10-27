@@ -25,6 +25,7 @@ import useAuthenticatedSession from '../hooks/useAuthenticatedSession';
 
 // action
 import { adminRoles, userFarmSelector } from '../containers/userFarmSlice';
+import { hasConsentedSelector } from '../containers/consentSlice';
 import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import useDashboardHandoff from '../containers/hooks/useDashboardHandoff';
@@ -216,7 +217,8 @@ function AdminOnly({ roleId }) {
 }
 
 const AppRouteGate = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
-  let { step_five, has_consent, role_id, step_one, farm_id } = userFarm;
+  let { step_five, role_id, step_one, farm_id } = userFarm;
+  const hasConsented = useSelector(hasConsentedSelector);
   const isSignedIn = useAuthenticatedSession();
   const isHandingOffToDashboard = useDashboardHandoff(isSignedIn);
   const hasSelectedFarm = !!farm_id;
@@ -231,19 +233,21 @@ const AppRouteGate = ({ userFarm, isInvitationFlow, isCompactSideMenu }) => {
     if (isInvitationFlow) {
       return (
         <Routes>
-          <Route path="/farm_selection" element={<ChooseFarm />} />
-          <Route path="/consent" element={<ConsentForm goForwardTo="/outro" goBackTo={null} />} />
+          <Route
+            path="/farm_selection"
+            element={hasConsented ? <ChooseFarm /> : <Navigate to="/consent" replace />}
+          />
+          <Route path="/consent" element={<ConsentForm goForwardTo="/outro" />} />
           <Route path="/outro" element={<JoinFarmSuccessScreen />} />
-          <Route path="*" element={has_consent ? null : <Navigate to="/consent" replace />} />
+          <Route path="*" element={hasConsented ? null : <Navigate to="/consent" replace />} />
         </Routes>
       );
     } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
       return <OnboardingFlow {...userFarm} />;
-    } else if (!has_consent) {
+    } else if (!hasConsented) {
       return (
         <Routes>
-          <Route path="/farm_selection" element={<ChooseFarm />} />
-          <Route path="/consent" element={<ConsentForm goForwardTo="/" goBackTo={null} />} />
+          <Route path="/consent" element={<ConsentForm goForwardTo="/" />} />
           <Route path="*" element={<Navigate to="/consent" replace />} />
         </Routes>
       );
@@ -511,11 +515,9 @@ const RoutesComponent = ({ isCompactSideMenu }) => {
     (pre, next) =>
       pre.step_five === next.step_five &&
       pre.step_two === next.step_two &&
-      pre.has_consent === next.has_consent &&
       pre.role_id === next.role_id &&
       pre.step_one === next.step_one &&
-      pre.farm_id === next.farm_id &&
-      pre.step_three === next.step_three,
+      pre.farm_id === next.farm_id,
   );
   const { isInvitationFlow } = useSelector(
     chooseFarmFlowSelector,

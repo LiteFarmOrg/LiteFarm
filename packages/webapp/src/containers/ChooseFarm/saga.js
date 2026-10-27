@@ -28,8 +28,7 @@ import {
   spotlightLoading,
 } from '../showedSpotlightSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { axios, clearOldFarmStateSaga, getHeader } from '../saga';
-import history from '../../history';
+import { axios, clearOldFarmStateSaga, getHeader, joinInvitedFarmSaga } from '../saga';
 import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
 
 const patchUserFarmStatusWithIdTokenUrl = (farm_id) =>
@@ -65,7 +64,7 @@ export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
     yield call(clearOldFarmStateSaga);
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowOnChooseFarmScreen(resUserFarm.farm_id));
-    history.push('/consent');
+    yield call(joinInvitedFarmSaga);
   } catch (e) {
     console.log(e);
   }

@@ -10,6 +10,7 @@ import {
   userFarmSelector,
 } from '../userFarmSlice';
 import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
+import useFarmListRecovery from './useFarmListRecovery';
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
 import MapPin from '../../assets/images/signUp/map_pin.svg?react';
@@ -27,6 +28,7 @@ const AddFarm = () => {
   const farm = useSelector(userFarmSelector);
   const farms = useSelector(userFarmsByUserSelector);
   const isFirstFarm = !farms.length;
+  useFarmListRecovery();
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
   const FARMNAME = 'farm_name';
   const ADDRESS = 'address';

@@ -56,7 +56,7 @@ function ChooseFarm() {
   // TODO: move redirect to login with google saga
   const { loaded } = useSelector(userFarmStatusSelector);
   useEffect(() => {
-    loaded && farms.length === 0 && navigate('/welcome');
+    loaded && farms.length === 0 && navigate('/add_farm');
   }, [farms, loaded]);
 
   const onGoBack = () => {

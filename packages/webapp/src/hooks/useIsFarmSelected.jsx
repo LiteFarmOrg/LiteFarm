@@ -17,18 +17,20 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import { userFarmSelector } from '../containers/userFarmSlice';
+import { hasConsentedSelector } from '../containers/consentSlice';
 import { isAuthenticated } from '../util/jwt';
 
 const useIsFarmSelected = () => {
   const userFarm = useSelector(userFarmSelector);
-  const { has_consent, step_five } = userFarm || {};
+  const { step_five } = userFarm || {};
+  const hasConsented = useSelector(hasConsentedSelector);
   const farmState = useSelector(chooseFarmFlowSelector);
   const { isInvitationFlow } = farmState;
   const isUserAuthenticated = isAuthenticated();
 
   const isFarmSelected = useMemo(() => {
-    return isUserAuthenticated && has_consent && step_five === true && !isInvitationFlow;
-  }, [isUserAuthenticated, has_consent, step_five, isInvitationFlow]);
+    return isUserAuthenticated && hasConsented && step_five === true && !isInvitationFlow;
+  }, [isUserAuthenticated, hasConsented, step_five, isInvitationFlow]);
 
   return isFarmSelected;
 };

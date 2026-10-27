@@ -10,7 +10,7 @@ function Outro() {
   const { navigation } = useSelector(showedSpotlightSelector);
   const toShowSpotlight = !navigation;
   const onGoBack = () => {
-    navigate('/consent');
+    navigate('/role_selection');
   };
   const onContinue = () => {
     dispatch(patchOutroStep());

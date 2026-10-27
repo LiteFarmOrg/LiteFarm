@@ -3,12 +3,19 @@ import { AddLink } from '../../../components/Typography';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { uploadDocument } from './saga';
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import FileSizeExceedModal from '../../../components/Modals/FileSizeExceedModal';
 import i18n from '../../../locales/i18n';
 import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
-export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploadEnd }) {
+export function DocumentUploader({
+  style,
+  linkstyle,
+  onUpload,
+  linkText,
+  onUploadEnd,
+  renderTrigger,
+}) {
   const dispatch = useDispatch();
   const [showErrorModal, setShowErrorModal] = useState(false);
   const onChange = (e) => {
@@ -25,15 +32,35 @@ export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploa
     }
   };
 
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  const Picker = useMemo(
+    () =>
+      function DocumentPicker({ className, style: pickerStyle, children }) {
+        return (
+          <PureFilePickerWrapper
+            onChange={(e) => onChangeRef.current(e)}
+            className={className}
+            style={pickerStyle}
+            accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
+          >
+            {children}
+          </PureFilePickerWrapper>
+        );
+      },
+    [],
+  );
+
   return (
     <>
-      <PureFilePickerWrapper
-        onChange={onChange}
-        style={style}
-        accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
-      >
-        <AddLink style={linkstyle}>{linkText}</AddLink>
-      </PureFilePickerWrapper>
+      {renderTrigger ? (
+        renderTrigger(Picker)
+      ) : (
+        <Picker style={style}>
+          <AddLink style={linkstyle}>{linkText}</AddLink>
+        </Picker>
+      )}
       {showErrorModal && (
         <FileSizeExceedModal
           dismissModal={() => {
@@ -51,6 +78,7 @@ export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploa
 DocumentUploader.propTypes = {
   style: PropTypes.object,
   onUpload: PropTypes.func,
+  renderTrigger: PropTypes.func,
 };
 const allowedDocumentFormatArray = [
   '.csv',

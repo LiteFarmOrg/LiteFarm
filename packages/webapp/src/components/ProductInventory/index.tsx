@@ -24,7 +24,7 @@ import ClearFiltersButton, {
   ClearFiltersButtonType,
 } from '../../components/Button/ClearFiltersButton';
 import ProductInventoryFilter from '../../containers/ProductInventory/ProductFilter';
-import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
+import AddButton from '../Button/AddButton';
 import FloatingMenu from '../Menu/FloatingButtonMenu/FloatingMenu';
 import type { SearchProps } from '../Animals/Inventory';
 import Table from '../Table';
@@ -70,6 +70,7 @@ const PureProductInventory = ({
   onAddMenuItemClick,
   sectionHeaderTitle,
 }: PureProductInventory) => {
+  const { t } = useTranslation();
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
@@ -113,10 +114,10 @@ const PureProductInventory = ({
           />
         </div>
         {showActionFloaterButton && (
-          <FloatingButtonMenu
-            classes={{ button: navStyles.hideWhenOffline }}
-            type={'add'}
+          <AddButton
+            label={t('INVENTORY.ADD_PRODUCT')}
             Menu={AddProductMenuItems}
+            className={navStyles.hideWhenOffline}
           />
         )}
       </div>

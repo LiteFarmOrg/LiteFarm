@@ -139,6 +139,7 @@ const AddFarm = () => {
   // and a newer lookup cancels an older one.
   const reverseTimerRef = useRef();
   const reverseControllerRef = useRef();
+  const geolocationRequestIdRef = useRef(0);
   const cancelReverseLookup = useCallback(() => {
     clearTimeout(reverseTimerRef.current);
     reverseTimerRef.current = undefined;
@@ -168,6 +169,7 @@ const AddFarm = () => {
   };
 
   const handleAddressChange = (e) => {
+    geolocationRequestIdRef.current += 1;
     cancelReverseLookup();
     setIsGettingLocation(false);
     const value = e.target.value;
@@ -198,6 +200,7 @@ const AddFarm = () => {
   };
 
   const selectSuggestion = (suggestion) => {
+    geolocationRequestIdRef.current += 1;
     cancelReverseLookup();
     setIsGettingLocation(false);
     clear();
@@ -260,8 +263,19 @@ const AddFarm = () => {
   };
 
   const getGeoLocation = () => {
+    const requestId = ++geolocationRequestIdRef.current;
     setIsGettingLocation(true);
-    navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        if (requestId !== geolocationRequestIdRef.current) return;
+        handleGetGeoSuccess(position);
+      },
+      () => {
+        if (requestId !== geolocationRequestIdRef.current) return;
+        handleGetGeoError();
+      },
+      getGeoOptions,
+    );
   };
 
   const showList = listOpen && (suggestions.length || isLoading || hasError || hasSearched);

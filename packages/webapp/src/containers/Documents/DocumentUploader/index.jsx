@@ -3,7 +3,7 @@ import { AddLink } from '../../../components/Typography';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { uploadDocument } from './saga';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import FileSizeExceedModal from '../../../components/Modals/FileSizeExceedModal';
 import i18n from '../../../locales/i18n';
 import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
@@ -18,6 +18,7 @@ export function DocumentUploader({
 }) {
   const dispatch = useDispatch();
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const inputRef = useRef(null);
   const onChange = (e) => {
     const file = e?.target?.files?.[0];
     if (!isValidFile(file)) {
@@ -32,34 +33,27 @@ export function DocumentUploader({
     }
   };
 
-  const onChangeRef = useRef(onChange);
-  onChangeRef.current = onChange;
-
-  const Picker = useMemo(
-    () =>
-      function DocumentPicker({ className, style: pickerStyle, children }) {
-        return (
-          <PureFilePickerWrapper
-            onChange={(e) => onChangeRef.current(e)}
-            className={className}
-            style={pickerStyle}
-            accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
-          >
-            {children}
-          </PureFilePickerWrapper>
-        );
-      },
-    [],
-  );
-
   return (
     <>
       {renderTrigger ? (
-        renderTrigger(Picker)
+        <>
+          <input
+            type="file"
+            ref={inputRef}
+            onChange={onChange}
+            accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
+            hidden
+          />
+          {renderTrigger(() => inputRef.current.click())}
+        </>
       ) : (
-        <Picker style={style}>
+        <PureFilePickerWrapper
+          onChange={onChange}
+          style={style}
+          accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
+        >
           <AddLink style={linkstyle}>{linkText}</AddLink>
-        </Picker>
+        </PureFilePickerWrapper>
       )}
       {showErrorModal && (
         <FileSizeExceedModal

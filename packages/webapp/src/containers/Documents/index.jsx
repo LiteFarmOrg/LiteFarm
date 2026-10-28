@@ -90,8 +90,8 @@ export default function Documents() {
         addButton={
           <DocumentUploader
             onUpload={onUpload}
-            renderTrigger={(Picker) => (
-              <AddButton label={t('DOCUMENTS.ADD_DOCUMENT')} Wrapper={Picker} />
+            renderTrigger={(openFilePicker) => (
+              <AddButton label={t('DOCUMENTS.ADD_DOCUMENT')} onClick={openFilePicker} />
             )}
           />
         }

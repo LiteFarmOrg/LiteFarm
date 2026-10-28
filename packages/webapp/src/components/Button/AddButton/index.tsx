@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { ComponentType, ElementType, ReactNode } from 'react';
+import { ElementType } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '../../Form/Button';
 import DropdownButton from '../../Form/DropDownButton';
@@ -27,10 +27,9 @@ export type AddButtonProps = {
   Menu?: ElementType;
   disabled?: boolean;
   className?: string;
-  Wrapper?: ComponentType<{ children?: ReactNode }>;
 };
 
-const AddButton = ({ label, onClick, Menu, disabled, className, Wrapper }: AddButtonProps) => {
+const AddButton = ({ label, onClick, Menu, disabled, className }: AddButtonProps) => {
   const theme = useTheme();
   const isAboveBreakPoint = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -57,28 +56,24 @@ const AddButton = ({ label, onClick, Menu, disabled, className, Wrapper }: AddBu
   }
 
   if (isAboveBreakPoint) {
-    const button = (
+    return (
       <Button color="primary" md onClick={onClick} disabled={disabled} className={className}>
         <PlusCircleIcon />
         {label}
       </Button>
     );
-    return Wrapper ? <Wrapper>{button}</Wrapper> : button;
   }
 
-  const floatingButton = (
-    <FloatingActionButton
-      // @ts-expect-error
-      type={'add'}
-      onClick={onClick}
-      aria-label={label}
-      disabled={disabled}
-      className={className}
-    />
-  );
   return (
     <div className={styles.floatingWrapper}>
-      {Wrapper ? <Wrapper>{floatingButton}</Wrapper> : floatingButton}
+      <FloatingActionButton
+        // @ts-expect-error
+        type={'add'}
+        onClick={onClick}
+        aria-label={label}
+        disabled={disabled}
+        className={className}
+      />
     </div>
   );
 };

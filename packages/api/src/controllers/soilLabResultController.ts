@@ -21,6 +21,7 @@ import { handleObjectionError } from '../util/errorCodes.js';
 import { LiteFarmRequest } from '../types.js';
 import {
   SoilLabResultBody,
+  SoilLabResultParams,
   SoilLabResultRow,
 } from '../middleware/validation/checkSoilLabResult.js';
 
@@ -137,6 +138,43 @@ const soilLabResultController = {
           console.error(lookupError);
           return res.status(500).json({ error: lookupError });
         }
+      }
+    };
+  },
+
+  replaceSoilLabResults() {
+    return async (
+      req: LiteFarmRequest<unknown, SoilLabResultParams, unknown, SoilLabResultBody>,
+      res: Response,
+    ) => {
+      const { farm_id } = req.headers;
+      const user_id = req.auth!.user_id!;
+      const submission_id = req.params.submission_id!;
+
+      const trx = await transaction.start(Model.knex());
+      try {
+        const stored = await getLiveBatch(submission_id, trx);
+        if (!stored.length) {
+          await trx.rollback();
+          return res.status(404).json({ error: 'No saved batch with this submission_id' });
+        }
+        if (isOnOtherFarm(stored, farm_id)) {
+          await trx.rollback();
+          return res.status(409).json({ error: 'submission_id belongs to another farm' });
+        }
+
+        /* @ts-expect-error known issue with models */
+        await SoilLabResultModel.query(trx)
+          .context({ user_id })
+          .whereNotDeleted()
+          .where({ submission_id, farm_id })
+          .delete();
+
+        const inserted = await insertRows(res.locals.soilLabResultRows, user_id, trx);
+        await trx.commit();
+        return res.status(200).json(toBatchResponse(submission_id, inserted));
+      } catch (error) {
+        return await handleObjectionError(error as Error, res, trx);
       }
     };
   },

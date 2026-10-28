@@ -50,6 +50,10 @@ export interface SoilLabResultRow extends SoilLabResultSample {
   source_sha256: string;
 }
 
+export interface SoilLabResultParams {
+  submission_id?: string;
+}
+
 interface RowError {
   row?: number;
   message: string;
@@ -65,10 +69,12 @@ const getLatestAllowedSampleDate = () => {
   return tomorrow.toISOString().slice(0, 10);
 };
 
-const getBatchErrors = (body: Partial<SoilLabResultBody>) => {
+const getBatchErrors = (body: Partial<SoilLabResultBody>, params: SoilLabResultParams) => {
   const errors: string[] = [];
   if (typeof body.submission_id !== 'string' || !isUuid(body.submission_id)) {
     errors.push('submission_id must be a uuid');
+  } else if (params.submission_id !== undefined && params.submission_id !== body.submission_id) {
+    errors.push('submission_id in the body must match the URL');
   }
   if (body.lab_name != null && typeof body.lab_name !== 'string') {
     errors.push('lab_name must be a string or null');
@@ -148,13 +154,13 @@ const getLocationErrors = async (rows: SoilLabResultRow[], farm_id: string) => {
 
 export function checkSoilLabResultBatch() {
   return async (
-    req: LiteFarmRequest<unknown, unknown, unknown, Partial<SoilLabResultBody>>,
+    req: LiteFarmRequest<unknown, SoilLabResultParams, unknown, Partial<SoilLabResultBody>>,
     res: Response,
     next: NextFunction,
   ) => {
     const farm_id = req.headers.farm_id!;
 
-    const batchErrors = getBatchErrors(req.body);
+    const batchErrors = getBatchErrors(req.body, req.params);
     if (batchErrors.length) {
       return res.status(400).json({ errors: batchErrors.map((message) => ({ message })) });
     }

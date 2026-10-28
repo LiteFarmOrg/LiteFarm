@@ -32,4 +32,11 @@ router.post(
   soilLabResultController.addSoilLabResults(),
 );
 
+router.put(
+  '/:submission_id',
+  checkScope(['edit:soil_lab_result']),
+  checkSoilLabResultBatch(),
+  soilLabResultController.replaceSoilLabResults(),
+);
+
 export default router;

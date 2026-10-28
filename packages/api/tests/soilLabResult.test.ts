@@ -134,6 +134,9 @@ describe('Soil lab result routes', () => {
   const postBatch = (body: object | string, user: User = owner, farm_id = farm.farm_id) =>
     send('post', PATH, { token: saveToken(user.user_id), farm_id, body });
 
+  const putBatch = (submission_id: string, body: object, user: User = owner) =>
+    send('put', `${PATH}/${submission_id}`, { token: saveToken(user.user_id), body });
+
   const liveRowCount = async (submission_id: string) =>
     Number(
       (
@@ -460,6 +463,70 @@ describe('Soil lab result routes', () => {
       const res = await postBatch(body);
       expect(res.status).toBe(400);
       expect(await liveRowCount(body.submission_id)).toBe(0);
+    });
+  });
+
+  describe('PUT', () => {
+    test('replaces the batch with new ids', async () => {
+      const body = batch();
+      const first = await postBatch(body);
+
+      const replacement = { ...body, samples: [sample({ row: 4, values: { ph: 7.1 } })] };
+      const res = await putBatch(body.submission_id, replacement);
+
+      expect(res.status).toBe(200);
+      expect(res.body.soil_lab_results).toEqual([{ row: 4, id: expect.any(String) }]);
+      const oldIds = first.body.soil_lab_results!.map(({ id }) => id);
+      expect(oldIds).not.toContain(res.body.soil_lab_results![0].id);
+
+      const oldRows = await knex('soil_lab_result').whereIn('id', oldIds);
+      expect(oldRows.every((row) => row.deleted)).toBe(true);
+      expect(await liveRowCount(body.submission_id)).toBe(1);
+    });
+
+    test('a replaced batch drops out of GET', async () => {
+      const body = batch();
+      await postBatch(body);
+      await putBatch(body.submission_id, { ...body, samples: [sample({ row: 9 })] });
+
+      const res = await send('get', PATH, { token: saveToken(owner.user_id) });
+      expect(
+        res.body.filter((row) => row.submission_id === body.submission_id).map((row) => row.row),
+      ).toEqual([9]);
+    });
+
+    test('returns 404 for an unknown submission_id', async () => {
+      const body = batch();
+      const res = await putBatch(body.submission_id, body);
+      expect(res.status).toBe(404);
+    });
+
+    test("returns 400 when the body's submission_id differs from the URL's", async () => {
+      const body = batch();
+      await postBatch(body);
+      const res = await putBatch(body.submission_id, { ...body, submission_id: randomUUID() });
+      expect(res.status).toBe(400);
+    });
+
+    test('returns 409 for a batch on another farm', async () => {
+      const otherFarmBatch = batch({
+        samples: [sample({ location_id: otherFarmLocation.location_id })],
+      });
+      await postBatch(otherFarmBatch, outsider, otherFarm.farm_id);
+
+      const res = await putBatch(otherFarmBatch.submission_id, {
+        ...batch(),
+        submission_id: otherFarmBatch.submission_id,
+      });
+      expect(res.status).toBe(409);
+      expect(await liveRowCount(otherFarmBatch.submission_id)).toBe(1);
+    });
+
+    test('a worker can correct a batch', async () => {
+      const body = batch();
+      await postBatch(body);
+      const res = await putBatch(body.submission_id, body, worker);
+      expect(res.status).toBe(200);
     });
   });
 

@@ -15,7 +15,7 @@
 
 export const up = async function (knex) {
   await knex.schema.createTable('soil_lab_result', (table) => {
-    table.uuid('soil_lab_result_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+    table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.uuid('farm_id').notNullable().references('farm_id').inTable('farm');
     table.uuid('submission_id').notNullable();
     table.integer('row').notNullable();

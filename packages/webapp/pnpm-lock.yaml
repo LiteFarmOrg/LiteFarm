@@ -1,3 +1,97 @@
+---
+lockfileVersion: '9.0'
+
+importers:
+
+  .:
+    configDependencies: {}
+    packageManagerDependencies:
+      '@pnpm/exe':
+        specifier: 10.6.5
+        version: 10.6.5
+      pnpm:
+        specifier: 10.6.5
+        version: 10.6.5
+
+packages:
+
+  '@pnpm/exe@10.6.5':
+    resolution: {integrity: sha512-bHOnsBBN2s5IqSGckibZTrBOhTl3b1fHqTSQA53M8WTt/bpVRX+6PoERUhVN+S3Sjop4hXksxxk6EvV1hWbzlg==}
+    hasBin: true
+
+  '@pnpm/linux-arm64@10.6.5':
+    resolution: {integrity: sha512-8jScYIAuxBHbfFPrJQOQWwYoKsm+inBcFesWygRPI1PD8oH9Th4KdtdENnw9se3C3cJt3N8dNtf8/HbhC28log==}
+    cpu: [arm64]
+    os: [linux]
+    hasBin: true
+
+  '@pnpm/linux-x64@10.6.5':
+    resolution: {integrity: sha512-gnoV1DGeWDmxLopbp3TW9/tRAHUxG28MBRuO5aPKVaxQhJko3r+VRbY00DL4qGqVqphBk5pm7gs8LBq0RGvk6w==}
+    cpu: [x64]
+    os: [linux]
+    hasBin: true
+
+  '@pnpm/macos-arm64@10.6.5':
+    resolution: {integrity: sha512-09axCfgZhnsEHXanj75JEciYlobnZY7krWGVI+dY5CipDgGPXEBPbFamJY4hIudGqDQhneVZHPcVGCx/Uu7FWQ==}
+    cpu: [arm64]
+    os: [darwin]
+    hasBin: true
+
+  '@pnpm/macos-x64@10.6.5':
+    resolution: {integrity: sha512-xQzQfGdDdkKlW++pm7DCr9N7Dwske7AvJ9RwHnVx/3QOh5E8BIuYue8DlPuXGLSeWaXhJOFsLyVekuxKPbWiPw==}
+    cpu: [x64]
+    os: [darwin]
+    hasBin: true
+
+  '@pnpm/win-arm64@10.6.5':
+    resolution: {integrity: sha512-ddAwCxoIgVHjpVnHRa5DCUD9O9hQckHoP5gLMK0lNDPdJS+Ibev3gVVluMxfB3KdolJtG9NxZEg9uUxpCmVRPw==}
+    cpu: [arm64]
+    os: [win32]
+    hasBin: true
+
+  '@pnpm/win-x64@10.6.5':
+    resolution: {integrity: sha512-nNnbcWUNtHrNRA4H2pUZqmI0YEHRD+tY4BjwEfbQiYK99UHaK879ZQNL99t8wxHRo18HDI9NjSOFqgqi1fsd0g==}
+    cpu: [x64]
+    os: [win32]
+    hasBin: true
+
+  pnpm@10.6.5:
+    resolution: {integrity: sha512-zfko/KIIMs1Z7FOCZJK33CXcUk1DcLa0rb9lgD0y76psHIgUfArk6NV5psnuxxV1e1DU+jXuoXnYaOraTtBDrw==}
+    engines: {node: '>=18.12'}
+    hasBin: true
+
+snapshots:
+
+  '@pnpm/exe@10.6.5':
+    optionalDependencies:
+      '@pnpm/linux-arm64': 10.6.5
+      '@pnpm/linux-x64': 10.6.5
+      '@pnpm/macos-arm64': 10.6.5
+      '@pnpm/macos-x64': 10.6.5
+      '@pnpm/win-arm64': 10.6.5
+      '@pnpm/win-x64': 10.6.5
+
+  '@pnpm/linux-arm64@10.6.5':
+    optional: true
+
+  '@pnpm/linux-x64@10.6.5':
+    optional: true
+
+  '@pnpm/macos-arm64@10.6.5':
+    optional: true
+
+  '@pnpm/macos-x64@10.6.5':
+    optional: true
+
+  '@pnpm/win-arm64@10.6.5':
+    optional: true
+
+  '@pnpm/win-x64@10.6.5':
+    optional: true
+
+  pnpm@10.6.5: {}
+
+---
 lockfileVersion: '9.0'
 
 settings:
@@ -222,6 +316,9 @@ importers:
       terra-draw-google-maps-adapter:
         specifier: ^1.3.1
         version: 1.3.1(@googlemaps/js-api-loader@2.0.2)(terra-draw@1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2))
+      terra-draw-maplibre-gl-adapter:
+        specifier: ^1.5.0
+        version: 1.5.0(maplibre-gl@5.24.0)(terra-draw@1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2))
       uuid:
         specifier: ^14.0.0
         version: 14.0.1
@@ -7088,6 +7185,12 @@ packages:
     resolution: {integrity: sha512-rpphAqLCvvX8rCiGXcwgF2VlVByoA+pVGYc1dw9lfl9rK1x2IVCVoN3Fnp3cnFaWVHmmdXR4TD3xyDi/jiBc6Q==}
     peerDependencies:
       '@googlemaps/js-api-loader': ^1.14.3 || ^2.0.0
+      terra-draw: ^1.0.0
+
+  terra-draw-maplibre-gl-adapter@1.5.0:
+    resolution: {integrity: sha512-wUv7WDIKln+cWkJOJZ68cOLwFhcBXlSN3GF56Dx8GLnmTTnQEZbIyzWRHjsxhn+TOXvxBOlCDl5JmCghIW3L4g==}
+    peerDependencies:
+      maplibre-gl: '>=4'
       terra-draw: ^1.0.0
 
   terra-draw@1.28.8:
@@ -16063,6 +16166,11 @@ snapshots:
   terra-draw-google-maps-adapter@1.3.1(@googlemaps/js-api-loader@2.0.2)(terra-draw@1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2)):
     dependencies:
       '@googlemaps/js-api-loader': 2.0.2
+      terra-draw: 1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2)
+
+  terra-draw-maplibre-gl-adapter@1.5.0(maplibre-gl@5.24.0)(terra-draw@1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2)):
+    dependencies:
+      maplibre-gl: 5.24.0
       terra-draw: 1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2)
 
   terra-draw@1.28.8(patch_hash=c526b1c765b2c0b13051b01551ec0d74488cf6850ad30db2e8b7667f159eb2d2): {}

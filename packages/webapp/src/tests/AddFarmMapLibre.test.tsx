@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 // Evaluate store/store first, see useAuthenticatedSession.test.tsx.
 import '../store/store';
@@ -61,7 +61,7 @@ const renderPage = () => {
     view.container.querySelector('input[name="farm_name"]') as HTMLInputElement;
   const submit = () =>
     view.container.querySelector('[data-cy="addFarm-continue"]') as HTMLButtonElement;
-  return { dispatch, addressInput, nameInput, submit };
+  return { dispatch, addressInput, nameInput, submit, ...view };
 };
 
 describe('MapLibre Add Farm page', () => {
@@ -69,7 +69,11 @@ describe('MapLibre Add Farm page', () => {
     vi.mocked(searchAddress).mockReset();
     vi.mocked(reverseCountry).mockReset();
   });
-  afterEach(cleanup);
+  afterEach(() => {
+    cleanup();
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
 
   it('searches while typing, selects a suggestion and submits its coordinates and country', async () => {
     vi.mocked(searchAddress).mockResolvedValue([bristol]);
@@ -164,5 +168,99 @@ describe('MapLibre Add Farm page', () => {
     expect(
       await screen.findByText('ADD_FARM.ADDRESS_SEARCH_UNAVAILABLE', {}, { timeout: 3000 }),
     ).toBeTruthy();
+  });
+
+  it.each(['edit', 'unmount'])('cancels a pending reverse lookup on %s', async (action) => {
+    vi.useFakeTimers();
+    vi.mocked(searchAddress).mockResolvedValue([]);
+    const { addressInput, unmount } = renderPage();
+    fireEvent.change(addressInput(), { target: { value: '48.0048, 3.6651' } });
+    if (action === 'edit') {
+      fireEvent.change(addressInput(), { target: { value: 'New address' } });
+    } else {
+      unmount();
+    }
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1000);
+    });
+    expect(reverseCountry).not.toHaveBeenCalled();
+  });
+
+  it.each(['edit', 'unmount'])('aborts an in-flight reverse lookup on %s', async (action) => {
+    vi.useFakeTimers();
+    vi.mocked(searchAddress).mockResolvedValue([]);
+    let resolveCountry: (country: string) => void = () => {};
+    vi.mocked(reverseCountry).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveCountry = resolve;
+        }),
+    );
+    const { addressInput, unmount } = renderPage();
+    fireEvent.change(addressInput(), { target: { value: '48.0048, 3.6651' } });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+    const signal = vi.mocked(reverseCountry).mock.calls[0][2]?.signal;
+    expect(signal?.aborted).toBe(false);
+    if (action === 'edit') {
+      fireEvent.change(addressInput(), { target: { value: 'New address' } });
+    } else {
+      unmount();
+    }
+    expect(signal?.aborted).toBe(true);
+    await act(async () => {
+      resolveCountry('FR');
+    });
+    if (action === 'edit') expect(screen.getByTestId('preview').textContent).toBe('{}');
+  });
+
+  it('keeps a selected suggestion when an older reverse response arrives', async () => {
+    vi.useFakeTimers();
+    vi.mocked(searchAddress).mockResolvedValue([bristol]);
+    let resolveCountry: (country: string) => void = () => {};
+    vi.mocked(reverseCountry).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveCountry = resolve;
+        }),
+    );
+    const { addressInput, nameInput, submit } = renderPage();
+    fireEvent.change(nameInput(), { target: { value: 'Test farm' } });
+    fireEvent.change(addressInput(), { target: { value: '48.0048, 3.6651' } });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(500);
+    });
+    fireEvent.change(addressInput(), { target: { value: 'Bristol' } });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(350);
+    });
+    fireEvent.mouseDown(screen.getAllByRole('option')[0]);
+    await act(async () => {
+      resolveCountry('FR');
+    });
+    expect(submit().disabled).toBe(false);
+    expect(screen.getByTestId('preview').textContent).toBe(
+      JSON.stringify({ lat: bristol.lat, lng: bristol.lng }),
+    );
+  });
+
+  it.each(['edit', 'select'])('resets the geolocation indicator on %s', async (action) => {
+    vi.useFakeTimers();
+    vi.mocked(searchAddress).mockResolvedValue([bristol]);
+    vi.stubGlobal('navigator', { geolocation: { getCurrentPosition: vi.fn() } });
+    const { addressInput, container } = renderPage();
+    fireEvent.change(addressInput(), { target: { value: 'Bristol' } });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(350);
+    });
+    fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
+    expect(screen.getByText('ADD_FARM.LOCATING')).toBeTruthy();
+    if (action === 'edit') {
+      fireEvent.change(addressInput(), { target: { value: 'New address' } });
+    } else {
+      fireEvent.mouseDown(screen.getAllByRole('option')[0]);
+    }
+    expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
   });
 });

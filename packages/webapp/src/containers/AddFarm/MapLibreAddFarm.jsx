@@ -18,7 +18,7 @@
 // The form behaviour mirrors ./index.jsx, which keeps the Google version.
 
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,6 @@ import useFarmListRecovery from './useFarmListRecovery';
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
 import MapLibrePreview from './MapLibrePreview';
-import { useThrottle } from '../hooks/useThrottle';
 import { pick } from '../../util/pick';
 import { useGeocodeSuggestions } from '../../hooks/useGeocodeSuggestions';
 import { parseLatLng, reverseCountry, SEARCH_AS_YOU_TYPE } from '../../util/geocoding/geocoder';
@@ -138,32 +137,39 @@ const AddFarm = () => {
 
   // Country lookup for a coordinate. Delayed so typing "49.25, -123.2" does not query per keystroke,
   // and a newer lookup cancels an older one.
-  const reverseDelay = useThrottle();
+  const reverseTimerRef = useRef();
   const reverseControllerRef = useRef();
-  useEffect(() => () => reverseControllerRef.current?.abort(), []);
-  const setCountryFromLatLng = (latlng, callback) => {
+  const cancelReverseLookup = useCallback(() => {
+    clearTimeout(reverseTimerRef.current);
+    reverseTimerRef.current = undefined;
+    reverseControllerRef.current?.abort();
+    reverseControllerRef.current = undefined;
+  }, []);
+  useEffect(() => cancelReverseLookup, [cancelReverseLookup]);
+
+  const setCountryFromLatLng = (latlng, callback, delay = 500) => {
+    cancelReverseLookup();
     const { lat, lng } = latlng;
-    reverseDelay(
-      async () => {
-        reverseControllerRef.current?.abort();
-        const controller = new AbortController();
-        reverseControllerRef.current = controller;
-        let country;
-        try {
-          country = await reverseCountry(lat, lng, { signal: controller.signal });
-        } catch (error) {
-          if (controller.signal.aborted) return;
-        }
+    reverseTimerRef.current = setTimeout(async () => {
+      reverseTimerRef.current = undefined;
+      const controller = new AbortController();
+      reverseControllerRef.current = controller;
+      let country;
+      try {
+        country = await reverseCountry(lat, lng, { signal: controller.signal });
+      } catch (error) {
         if (controller.signal.aborted) return;
-        setValue(GRID_POINTS, { lat, lng }, { shouldValidate: true });
-        setValue(COUNTRY, country, { shouldValidate: true });
-        callback?.();
-      },
-      isGettingLocation ? 0 : 500,
-    );
+      }
+      if (controller.signal.aborted) return;
+      setValue(GRID_POINTS, { lat, lng }, { shouldValidate: true });
+      setValue(COUNTRY, country, { shouldValidate: true });
+      callback?.();
+    }, delay);
   };
 
   const handleAddressChange = (e) => {
+    cancelReverseLookup();
+    setIsGettingLocation(false);
     const value = e.target.value;
     const latlng = parseLatLng(value);
     if (latlng) {
@@ -192,6 +198,8 @@ const AddFarm = () => {
   };
 
   const selectSuggestion = (suggestion) => {
+    cancelReverseLookup();
+    setIsGettingLocation(false);
     clear();
     setListOpen(false);
     setActiveIndex(-1);
@@ -248,9 +256,7 @@ const AddFarm = () => {
     clear();
     setListOpen(false);
     setValue(ADDRESS, `${lat}, ${lng}`, { shouldValidate: true });
-    setCountryFromLatLng({ lat, lng }, () => {
-      setIsGettingLocation(false);
-    });
+    setCountryFromLatLng({ lat, lng }, () => setIsGettingLocation(false), 0);
   };
 
   const getGeoLocation = () => {

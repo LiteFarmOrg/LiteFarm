@@ -30,9 +30,9 @@ export default function MapLibrePreview({ gridPoints, errors, isGettingLocation 
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markerRef = useRef(null);
-  const hasPoint = !!gridPoints?.lat && !isGettingLocation;
   const lat = gridPoints?.lat;
   const lng = gridPoints?.lng;
+  const hasPoint = Number.isFinite(lat) && Number.isFinite(lng) && !isGettingLocation;
 
   // Create the map when the first coordinate arrives and remove it when the coordinate goes away.
   useEffect(() => {

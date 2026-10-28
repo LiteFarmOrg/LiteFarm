@@ -3,14 +3,22 @@ import { AddLink } from '../../../components/Typography';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { uploadDocument } from './saga';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import FileSizeExceedModal from '../../../components/Modals/FileSizeExceedModal';
 import i18n from '../../../locales/i18n';
 import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
-export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploadEnd }) {
+export function DocumentUploader({
+  style,
+  linkstyle,
+  onUpload,
+  linkText,
+  onUploadEnd,
+  renderTrigger,
+}) {
   const dispatch = useDispatch();
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const inputRef = useRef(null);
   const onChange = (e) => {
     const file = e?.target?.files?.[0];
     if (!isValidFile(file)) {
@@ -27,13 +35,26 @@ export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploa
 
   return (
     <>
-      <PureFilePickerWrapper
-        onChange={onChange}
-        style={style}
-        accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
-      >
-        <AddLink style={linkstyle}>{linkText}</AddLink>
-      </PureFilePickerWrapper>
+      {renderTrigger ? (
+        <>
+          <input
+            type="file"
+            ref={inputRef}
+            onChange={onChange}
+            accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
+            hidden
+          />
+          {renderTrigger(() => inputRef.current.click())}
+        </>
+      ) : (
+        <PureFilePickerWrapper
+          onChange={onChange}
+          style={style}
+          accept={`image/*,${allowedDocumentFormatArray.join(',')}`}
+        >
+          <AddLink style={linkstyle}>{linkText}</AddLink>
+        </PureFilePickerWrapper>
+      )}
       {showErrorModal && (
         <FileSizeExceedModal
           dismissModal={() => {
@@ -51,6 +72,7 @@ export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploa
 DocumentUploader.propTypes = {
   style: PropTypes.object,
   onUpload: PropTypes.func,
+  renderTrigger: PropTypes.func,
 };
 const allowedDocumentFormatArray = [
   '.csv',

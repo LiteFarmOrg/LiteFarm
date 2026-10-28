@@ -13,10 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// Read-only MapLibre version of the farm map, used when VITE_MAP_PROVIDER=maplibre.
-// Drawing, editing and marker clustering are not ported yet, so the Add menu does nothing here.
+// MapLibre version of the farm map, used when VITE_MAP_PROVIDER=maplibre.
+// Drawing and editing of new locations is in ./useMapLibreDrawing. Marker clustering, dashed
+// outlines and road view are not ported yet.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import clsx from 'clsx';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -27,15 +29,34 @@ import { saveAs } from 'file-saver';
 import styles from '../Map/styles.module.scss';
 import { defaultColour } from '../Map/styles.module.scss';
 import { areaStyles, icons, lineStyles } from '../Map/mapStyles';
-import { DEFAULT_ZOOM, locationEnum } from '../Map/constants';
-import { userFarmSelector } from '../userFarmSlice';
+import { DEFAULT_ZOOM, isArea, isLine, locationEnum } from '../Map/constants';
+import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import {
   canShowSelection,
   canShowSuccessHeader,
   locations as setSelectionLocations,
   setPosition,
+  setShowSuccessHeaderSelector,
+  setSuccessMessageSelector,
   setZoomLevel,
 } from '../mapSlice';
+import {
+  hookFormPersistedPathsSetSelector,
+  hookFormPersistSelector,
+  hookFormPersistIsRedrawingSelector,
+  resetAndUnLockFormData,
+  setIsRedrawing,
+  setPersistedPaths,
+  upsertFormData,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import history from '../../history';
+import useMapLibreDrawing from './useMapLibreDrawing';
+import DrawingManager from '../../components/Map/DrawingManager';
+import DrawAreaModal from '../../components/Map/Modals/DrawArea';
+import DrawLineModal from '../../components/Map/Modals/DrawLine';
+import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
+import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
+import { PureSnackbarWithoutBorder } from '../../components/PureSnackbar';
 import {
   mapFilterSettingSelector,
   setMapFilterHideAll,
@@ -121,6 +142,78 @@ export default function MapLibreMap({ isCompactSideMenu }) {
   const domMarkersRef = useRef([]);
   const hasFittedRef = useRef(false);
   const hoveredIdRef = useRef(null);
+  const drawingActiveRef = useRef(false);
+  const hasRestoredRef = useRef(false);
+
+  const system = useSelector(measurementSelector);
+  const overlayData = useSelector(hookFormPersistSelector);
+  const isRedrawing = useSelector(hookFormPersistIsRedrawingSelector);
+  const persistedPathsSet = useSelector(hookFormPersistedPathsSetSelector);
+  const showHeader = useSelector(setShowSuccessHeaderSelector);
+  const successMessage = useSelector(setSuccessMessageSelector);
+  const [showSuccessHeader, setShowSuccessHeader] = useState(false);
+  const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
+  const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
+
+  const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
+  const initialLineData = {
+    [locationEnum.watercourse]: { width: 1, buffer_width: 15 },
+    [locationEnum.buffer_zone]: { width: 8 },
+  };
+
+  const [
+    drawingState,
+    {
+      startDrawing,
+      resetDrawing,
+      closeDrawer,
+      getOverlayInfo,
+      reconstructOverlay,
+      setLineWidth,
+      setShowAdjustAreaSpotlightModal,
+      setShowAdjustLineSpotlightModal,
+      setZeroAreaWarning,
+      setShowZeroLengthWarning,
+    },
+  ] = useMapLibreDrawing({ map: mapReady ? mapRef.current : null });
+  drawingActiveRef.current = !!drawingState.type;
+  const {
+    showAdjustAreaSpotlightModal,
+    showAdjustLineSpotlightModal,
+    showZeroAreaWarning,
+    showZeroLengthWarning,
+  } = drawingState;
+
+  // Form data persisted for the create-location page is dropped when leaving for anywhere else.
+  useEffect(() => {
+    return () => {
+      // Read the destination from history: this cleanup runs after navigation.
+      persistedPathsSet.size &&
+        !persistedPathsSet.has(history.location.pathname) &&
+        dispatch(resetAndUnLockFormData());
+    };
+  }, [persistedPathsSet]);
+  useEffect(() => {
+    if (!location.state?.isStepBack) dispatch(resetAndUnLockFormData());
+  }, []);
+  useEffect(() => {
+    if (drawingState.pointChanged) dispatch(setIsRedrawing(true));
+  }, [drawingState.pointChanged]);
+  useEffect(() => {
+    if (showHeader) setShowSuccessHeader(true);
+  }, [showHeader]);
+
+  // Coming back from the create-location form: restore the shape and the camera.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map || hasRestoredRef.current) return;
+    hasRestoredRef.current = true;
+    if (location.state?.isStepBack) reconstructOverlay();
+    const { zoom, location: cameraLocation } = location.state?.cameraInfo ?? {};
+    if (zoom && cameraLocation) {
+      map.jumpTo({ zoom, center: [cameraLocation.lng, cameraLocation.lat] });
+    }
+  }, [mapReady]);
 
   const { locations: internalLocations, isFetching: isFetchingInternalLocations } = useLocations({
     groupBy: GroupByOptions.FIGURE_AND_TYPE,
@@ -202,7 +295,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
 
       const clickable = [...AREA_LAYERS, ...LINE_LAYERS];
       map.on('click', (e) => {
-        if (e.defaultPrevented) return;
+        if (e.defaultPrevented || drawingActiveRef.current) return;
         const hits = map
           .queryRenderedFeatures(e.point, { layers: clickable })
           .map((f) => f.properties);
@@ -213,6 +306,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
         selectLocations(unique.map(toSelectionItem), map);
       });
       map.on('mousemove', 'areas-fill', (e) => {
+        if (drawingActiveRef.current) return;
         map.getCanvas().style.cursor = 'pointer';
         const id = e.features?.[0]?.id;
         if (id === undefined || id === hoveredIdRef.current) return;
@@ -287,6 +381,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
       img.style.cursor = 'pointer';
       img.addEventListener('click', (e) => {
         e.stopPropagation();
+        if (drawingActiveRef.current) return;
         selectLocations([toSelectionItem(feature.properties)], map);
       });
       addMarker(img, feature.geometry.coordinates);
@@ -376,12 +471,49 @@ export default function MapLibreMap({ isCompactSideMenu }) {
       dispatch(setMapFilterSetting({ [locationType]: !filterSettings[locationType], farm_id }));
     }
   };
+  const isLineWithWidth = (type = drawingState.type) => lineTypesWithWidth.includes(type);
+
   const handleAddMenuClick = (locationType) => {
-    if (locationType === locationEnum.sensor) {
-      dispatch(setMapAddDrawerHide(farm_id));
+    setZeroAreaWarning(false);
+    setShowZeroLengthWarning(false);
+    if (isArea(locationType) && !showedSpotlight.draw_area) {
+      setShowDrawAreaSpotlightModal(true);
+    } else if (isLine(locationType) && !showedSpotlight.draw_line) {
+      setShowDrawLineSpotlightModal(true);
+    } else if (locationType === locationEnum.sensor) {
+      dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
       navigate(ADD_SENSORS_URL);
+      return;
     }
-    // Drawing other location types is not ported to MapLibre yet.
+    isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
+    dispatch(setPersistedPaths([`/create_location/${locationType}`, '/map']));
+    startDrawing(locationType);
+  };
+
+  const handleConfirm = () => {
+    if (!isLineWithWidth()) {
+      const locationData = getOverlayInfo();
+      if (Object.keys(overlayData).length === 0 || isRedrawing === true) {
+        dispatch(upsertFormData(locationData));
+        dispatch(setIsRedrawing(false));
+      }
+      navigate(`/create_location/${drawingState.type}`);
+    }
+  };
+
+  const handleLineConfirm = (lineData) => {
+    if (!overlayData.hasOwnProperty('type') || isRedrawing === true) {
+      dispatch(upsertFormData({ ...lineData, ...getOverlayInfo() }));
+      dispatch(setIsRedrawing(false));
+    } else {
+      dispatch(upsertFormData({ ...lineData }));
+    }
+    navigate(`/create_location/${drawingState.type}`);
+  };
+
+  const resetFlags = () => {
+    setZeroAreaWarning(false);
+    setShowZeroLengthWarning(false);
   };
 
   const handleDownload = () => {
@@ -399,7 +531,17 @@ export default function MapLibreMap({ isCompactSideMenu }) {
 
   return (
     <>
-      <PureMapHeader farmName={farm_name} />
+      {!drawingState.type && !showSuccessHeader && <PureMapHeader farmName={farm_name} />}
+      {showSuccessHeader && (
+        <PureSnackbarWithoutBorder
+          className={styles.successSnackbar}
+          onDismiss={() => {
+            dispatch(canShowSuccessHeader(false));
+            setShowSuccessHeader(false);
+          }}
+          title={successMessage}
+        />
+      )}
       <div data-cy="map-selection" className={styles.pageWrapper}>
         <div className={styles.mapContainer}>
           <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
@@ -409,35 +551,104 @@ export default function MapLibreMap({ isCompactSideMenu }) {
               style={{ flexGrow: 1, height: '100%' }}
             />
           </div>
+          {drawingState.type && (
+            <div
+              className={clsx(
+                styles.drawingBar,
+                isCompactSideMenu && styles.drawingBarWithCompactMenu,
+              )}
+            >
+              <DrawingManager
+                drawingType={drawingState.type}
+                isDrawing={drawingState.isActive}
+                showLineModal={isLineWithWidth() && !drawingState.isActive}
+                onClickBack={() => {
+                  resetFlags();
+                  resetDrawing(true);
+                  dispatch(resetAndUnLockFormData());
+                  closeDrawer();
+                }}
+                onClickTryAgain={() => {
+                  resetFlags();
+                  resetDrawing();
+                  startDrawing(drawingState.type);
+                  dispatch(setIsRedrawing(true));
+                }}
+                onClickConfirm={handleConfirm}
+                showZeroAreaWarning={showZeroAreaWarning}
+                showZeroLengthWarning={showZeroLengthWarning}
+                confirmLine={handleLineConfirm}
+                updateLineWidth={setLineWidth}
+                system={system}
+                lineData={overlayData}
+                typeOfLine={drawingState.type}
+                onLineParameterChange={() => dispatch(setIsRedrawing(true))}
+              />
+            </div>
+          )}
         </div>
         <LocationSelectionModal />
-        <PureMapFooter
-          isAdmin={is_admin}
-          showSpotlight={!showedSpotlight.map}
-          resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
-          onClickAdd={handleClickAdd}
-          showModal={showExportModal}
-          onClickExport={handleClickExport}
-          setShowMapFilter={setShowMapFilter}
-          showMapFilter={showMapFilter}
-          setShowAddDrawer={(show) =>
-            dispatch(show ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id))
-          }
-          showAddDrawer={showAddDrawer}
-          handleClickFilter={handleClickFilter}
-          filterSettings={filterSettings}
-          onFilterMenuClick={handleFilterMenuClick}
-          onAddMenuClick={handleAddMenuClick}
-          availableFilterSettings={availableFilterSettings}
-          isMapFilterSettingActive={isMapFilterSettingActive}
-          isCompactSideMenu={isCompactSideMenu}
-          isOffline={isOffline}
-        />
+        {!drawingState.type && (
+          <PureMapFooter
+            isAdmin={is_admin}
+            showSpotlight={!showedSpotlight.map}
+            resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
+            onClickAdd={handleClickAdd}
+            showModal={showExportModal}
+            onClickExport={handleClickExport}
+            setShowMapFilter={setShowMapFilter}
+            showMapFilter={showMapFilter}
+            setShowAddDrawer={(show) =>
+              dispatch(show ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id))
+            }
+            showAddDrawer={showAddDrawer}
+            handleClickFilter={handleClickFilter}
+            filterSettings={filterSettings}
+            onFilterMenuClick={handleFilterMenuClick}
+            onAddMenuClick={handleAddMenuClick}
+            availableFilterSettings={availableFilterSettings}
+            isMapFilterSettingActive={isMapFilterSettingActive}
+            isCompactSideMenu={isCompactSideMenu}
+            isOffline={isOffline}
+          />
+        )}
         {showExportModal && (
           <ExportMapModal
             onClickDownload={handleDownload}
             onClickShare={handleShare}
             dismissModal={() => setShowExportModal(false)}
+          />
+        )}
+        {showDrawAreaSpotlightModal && (
+          <DrawAreaModal
+            dismissModal={() => {
+              setShowDrawAreaSpotlightModal(false);
+              dispatch(setSpotlightToShown('draw_area'));
+            }}
+          />
+        )}
+        {showDrawLineSpotlightModal && (
+          <DrawLineModal
+            dismissModal={() => {
+              setShowDrawLineSpotlightModal(false);
+              dispatch(setSpotlightToShown('draw_line'));
+            }}
+          />
+        )}
+        {showAdjustAreaSpotlightModal && (
+          <AdjustAreaModal
+            dismissModal={() => {
+              setShowAdjustAreaSpotlightModal(false);
+              dispatch(setSpotlightToShown('adjust_area'));
+            }}
+          />
+        )}
+        {showAdjustLineSpotlightModal && (
+          <AdjustLineModal
+            dismissModal={() => {
+              setShowAdjustLineSpotlightModal(false);
+              dispatch(setSpotlightToShown('adjust_line'));
+            }}
           />
         )}
       </div>

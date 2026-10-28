@@ -87,6 +87,7 @@ const AddFarm = () => {
   const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const geolocationRequestIdRef = useRef(0);
   const [listOpen, setListOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const { suggestions, isLoading, hasError, hasSearched, search, searchNow, clear } =
@@ -168,6 +169,7 @@ const AddFarm = () => {
   };
 
   const handleAddressChange = (e) => {
+    geolocationRequestIdRef.current += 1;
     cancelReverseLookup();
     setIsGettingLocation(false);
     const value = e.target.value;
@@ -198,6 +200,7 @@ const AddFarm = () => {
   };
 
   const selectSuggestion = (suggestion) => {
+    geolocationRequestIdRef.current += 1;
     cancelReverseLookup();
     setIsGettingLocation(false);
     clear();
@@ -260,8 +263,19 @@ const AddFarm = () => {
   };
 
   const getGeoLocation = () => {
+    const requestId = ++geolocationRequestIdRef.current;
     setIsGettingLocation(true);
-    navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        if (requestId !== geolocationRequestIdRef.current) return;
+        handleGetGeoSuccess(position);
+      },
+      () => {
+        if (requestId !== geolocationRequestIdRef.current) return;
+        handleGetGeoError();
+      },
+      getGeoOptions,
+    );
   };
 
   const showList = listOpen && (suggestions.length || isLoading || hasError || hasSearched);

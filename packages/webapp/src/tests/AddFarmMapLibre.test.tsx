@@ -249,11 +249,21 @@ describe('MapLibre Add Farm page', () => {
     );
   });
 
-  it.each(['edit', 'select'])('resets the geolocation indicator on %s', async (action) => {
+  it.each([
+    ['success', 'edit'],
+    ['error', 'edit'],
+    ['success', 'coordinates'],
+    ['error', 'coordinates'],
+    ['success', 'select'],
+    ['error', 'select'],
+  ])('ignores a stale geolocation %s after %s', async (outcome, action) => {
     vi.useFakeTimers();
     vi.mocked(searchAddress).mockResolvedValue([bristol]);
-    vi.stubGlobal('navigator', { geolocation: { getCurrentPosition: vi.fn() } });
-    const { addressInput, container } = renderPage();
+    vi.mocked(reverseCountry).mockResolvedValue('FR');
+    const getCurrentPosition = vi.fn();
+    vi.stubGlobal('navigator', { geolocation: { getCurrentPosition } });
+    const { addressInput, nameInput, submit, container } = renderPage();
+    fireEvent.change(nameInput(), { target: { value: 'Test farm' } });
     fireEvent.change(addressInput(), { target: { value: 'Bristol' } });
     await act(async () => {
       await vi.advanceTimersByTimeAsync(350);
@@ -262,10 +272,83 @@ describe('MapLibre Add Farm page', () => {
     expect(screen.getByText('ADD_FARM.LOCATING')).toBeTruthy();
     if (action === 'edit') {
       fireEvent.change(addressInput(), { target: { value: 'New address' } });
+    } else if (action === 'coordinates') {
+      fireEvent.change(addressInput(), { target: { value: '48.0048, 3.6651' } });
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(500);
+      });
     } else {
-      fireEvent.mouseDown(screen.getAllByRole('option')[0]);
+      await act(async () => {
+        fireEvent.mouseDown(screen.getAllByRole('option')[0]);
+      });
     }
     expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
+    expect(submit().disabled).toBe(action === 'edit');
+
+    const lateCallback = () => {
+      const [success, error] = getCurrentPosition.mock.calls[0];
+      if (outcome === 'success') {
+        success({ coords: { latitude: 50, longitude: 1 } });
+      } else {
+        error({ code: 1 });
+      }
+    };
+    const expectedAddress =
+      action === 'edit'
+        ? 'New address'
+        : action === 'coordinates'
+          ? '48.0048, 3.6651'
+          : bristol.label;
+    const expectedPoints =
+      action === 'edit'
+        ? {}
+        : action === 'coordinates'
+          ? { lat: 48.0048, lng: 3.6651 }
+          : { lat: bristol.lat, lng: bristol.lng };
+
+    await act(async () => {
+      lateCallback();
+      await vi.advanceTimersByTimeAsync(500);
+    });
+    expect(addressInput().value).toBe(expectedAddress);
+    expect(screen.getByTestId('preview').textContent).toBe(JSON.stringify(expectedPoints));
+    expect(reverseCountry).toHaveBeenCalledTimes(action === 'coordinates' ? 1 : 0);
+    expect(screen.queryByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeNull();
+    expect(submit().disabled).toBe(action === 'edit');
+
+    fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
+    await act(async () => {
+      lateCallback();
+      await vi.advanceTimersByTimeAsync(500);
+    });
+    expect(screen.getByText('ADD_FARM.LOCATING')).toBeTruthy();
+    expect(addressInput().value).toBe(expectedAddress);
+    expect(screen.getByTestId('preview').textContent).toBe(JSON.stringify(expectedPoints));
+    expect(screen.queryByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeNull();
+    expect(reverseCountry).toHaveBeenCalledTimes(action === 'coordinates' ? 1 : 0);
+    expect(submit().disabled).toBe(action === 'edit');
+
+    await act(async () => {
+      const [success, error] = getCurrentPosition.mock.calls[1];
+      if (outcome === 'success') {
+        success({ coords: { latitude: 48.0048, longitude: 3.6651 } });
+      } else {
+        error({ code: 1 });
+      }
+      await vi.advanceTimersByTimeAsync(0);
+    });
+    expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
+    if (outcome === 'success') {
+      expect(addressInput().value).toBe('48.0048, 3.6651');
+      expect(screen.getByTestId('preview').textContent).toBe(
+        JSON.stringify({ lat: 48.0048, lng: 3.6651 }),
+      );
+      expect(submit().disabled).toBe(false);
+    } else {
+      expect(addressInput().value).toBe(expectedAddress);
+      expect(screen.getByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeTruthy();
+      expect(submit().disabled).toBe(true);
+    }
   });
 
   it('shows no-results feedback without enabling submission', async () => {
@@ -378,4 +461,46 @@ describe('MapLibre Add Farm page', () => {
     expect(submit().disabled).toBe(false);
     expect(searchAddress).toHaveBeenCalledTimes(1);
   });
+
+  it.each(['success', 'error'])(
+    'ignores an older geolocation %s while the latest request is pending',
+    async (outcome) => {
+      vi.useFakeTimers();
+      vi.mocked(reverseCountry).mockResolvedValue('FR');
+      const getCurrentPosition = vi.fn();
+      vi.stubGlobal('navigator', { geolocation: { getCurrentPosition } });
+      const { addressInput, container } = renderPage();
+      fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
+      fireEvent.change(addressInput(), { target: { value: '48.0048, 3.6651' } });
+      fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
+      expect(getCurrentPosition).toHaveBeenCalledTimes(2);
+
+      await act(async () => {
+        if (outcome === 'success') {
+          getCurrentPosition.mock.calls[0][0]({ coords: { latitude: 50, longitude: 1 } });
+        } else {
+          getCurrentPosition.mock.calls[0][1]({ code: 1 });
+        }
+      });
+      expect(screen.getByText('ADD_FARM.LOCATING')).toBeTruthy();
+      expect(addressInput().value).toBe('48.0048, 3.6651');
+      expect(screen.queryByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeNull();
+
+      await act(async () => {
+        if (outcome === 'success') {
+          getCurrentPosition.mock.calls[1][0]({ coords: { latitude: 49, longitude: 2 } });
+        } else {
+          getCurrentPosition.mock.calls[1][1]({ code: 1 });
+        }
+        await vi.advanceTimersByTimeAsync(0);
+      });
+      expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
+      if (outcome === 'success') {
+        expect(addressInput().value).toBe('49, 2');
+        expect(screen.getByTestId('preview').textContent).toBe(JSON.stringify({ lat: 49, lng: 2 }));
+      } else {
+        expect(screen.getByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeTruthy();
+      }
+    },
+  );
 });

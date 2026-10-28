@@ -14,7 +14,6 @@
  */
 import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -140,6 +139,7 @@ const SelectedAnimalsSummaryInventory = ({
               alternatingRowColor={commonProps.isDesktop ? false : true}
               showTableHeader={false}
               extraRowSpacing={commonProps.isDesktop}
+              showActionFloaterButton={false}
               {...commonProps}
             />
           </div>
@@ -177,6 +177,7 @@ const TaskAnimalInventory = ({
         showSearchBarAndFilter={true}
         alternatingRowColor={true}
         showTableHeader={commonProps.isDesktop}
+        showActionFloaterButton={false}
         {...commonProps}
       />
     </FixedHeaderContainer>
@@ -201,14 +202,7 @@ const MainAnimalInventory = ({
   return (
     <BetaSpotlight spotlight={'animals_beta'}>
       <FixedHeaderContainer
-        header={
-          <KPI
-            onTypeClick={onTypeClick}
-            selectedTypeIds={selectedTypeIds}
-            onAddAnimals={isAdmin ? () => navigate(ADD_ANIMALS_URL) : undefined}
-            disableAddAnimals={isOffline}
-          />
-        }
+        header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
         kind={ContainerKind.PAPER}
       >
@@ -221,7 +215,9 @@ const MainAnimalInventory = ({
           showSearchBarAndFilter={true}
           alternatingRowColor={true}
           showTableHeader={commonProps.isDesktop}
+          showActionFloaterButton={isAdmin}
           showInventorySelection={!isOffline}
+          disableActionFloaterButton={isOffline}
         >
           {actionMenuAndRemoveModal}
         </BaseAnimalInventory>

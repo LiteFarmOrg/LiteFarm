@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { History } from 'history';
 import Table from '../../../components/Table';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
@@ -22,10 +23,13 @@ import ClearFiltersButton, {
 } from '../../../components/Button/ClearFiltersButton';
 import type { AnimalInventoryItem } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
+import AddButton from '../../Button/AddButton';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
 import { animalDescendingComparator } from '../../../util/sort';
 
 export type SearchProps = {
@@ -56,8 +60,10 @@ export type PureAnimalInventoryProps = {
   showSearchBarAndFilter?: boolean;
   alternatingRowColor?: boolean;
   showTableHeader: boolean;
+  showActionFloaterButton: boolean;
   extraRowSpacing?: boolean;
   hideNoResultsBlock?: boolean;
+  disableActionFloaterButton?: boolean;
 };
 
 const PureAnimalInventory = ({
@@ -80,9 +86,14 @@ const PureAnimalInventory = ({
   showSearchBarAndFilter = true,
   alternatingRowColor = true,
   showTableHeader,
+  showActionFloaterButton,
   extraRowSpacing,
   hideNoResultsBlock,
+  disableActionFloaterButton,
 }: PureAnimalInventoryProps) => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
@@ -120,6 +131,13 @@ const PureAnimalInventory = ({
               onClick={clearFilters}
             />
           </div>
+          {showActionFloaterButton && (
+            <AddButton
+              label={t('ADD_ANIMAL.ADD_ANIMALS')}
+              onClick={() => navigate(ADD_ANIMALS_URL)}
+              disabled={disableActionFloaterButton}
+            />
+          )}
         </div>
       )}
       <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>

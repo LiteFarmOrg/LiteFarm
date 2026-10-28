@@ -28,7 +28,6 @@ import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
 import { isAnimalTypeIconKey } from '../../../../components/Icons/icons';
 import { useSectionHeader } from '../../../../components/Navigation/useSectionHeaders';
-import AddButton from '../../../../components/Button/AddButton';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],
@@ -57,11 +56,9 @@ const formatAnimalTypes = (
 interface KPIProps {
   selectedTypeIds: string[];
   onTypeClick: (typeId: string) => void;
-  onAddAnimals?: () => void;
-  disableAddAnimals?: boolean;
 }
 
-function KPI({ selectedTypeIds, onTypeClick, onAddAnimals, disableAddAnimals }: KPIProps) {
+function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
   const location = useLocation();
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const { data, isLoading } = useQueries([
@@ -93,15 +90,6 @@ function KPI({ selectedTypeIds, onTypeClick, onAddAnimals, disableAddAnimals }: 
       dashboardTitle={animalInventoryTitle}
       categoryLabel={t('common:TYPES')}
       selectedFilterIds={selectedTypeIds}
-      addButton={
-        onAddAnimals && (
-          <AddButton
-            label={t('ADD_ANIMAL.ADD_ANIMALS')}
-            onClick={onAddAnimals}
-            disabled={disableAddAnimals}
-          />
-        )
-      }
     />
   );
 }

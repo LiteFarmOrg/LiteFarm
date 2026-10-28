@@ -38,7 +38,6 @@ export interface PureTileDashboardProps {
   dashboardTitle: string | React.ReactElement;
   categoryLabel: string;
   selectedFilterIds?: FilterId[];
-  addButton?: React.ReactNode;
 }
 
 export const PureTileDashboard = ({
@@ -46,7 +45,6 @@ export const PureTileDashboard = ({
   dashboardTitle,
   categoryLabel,
   selectedFilterIds,
-  addButton,
 }: PureTileDashboardProps) => {
   const totalCount = typeCountTiles.reduce((sum, element) => sum + element.count, 0);
   const categoryCount = typeCountTiles.length;
@@ -84,7 +82,6 @@ export const PureTileDashboard = ({
             />
           ) : null}
         </div>
-        {addButton && <div className={styles.addButton}>{addButton}</div>}
       </div>
     </div>
   );

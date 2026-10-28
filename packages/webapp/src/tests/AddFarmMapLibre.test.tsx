@@ -248,6 +248,8 @@ describe('MapLibre Add Farm page', () => {
   it.each([
     ['success', 'edit'],
     ['error', 'edit'],
+    ['success', 'coordinates'],
+    ['error', 'coordinates'],
     ['success', 'select'],
     ['error', 'select'],
   ])('ignores a stale geolocation %s after %s', async (outcome, action) => {
@@ -265,6 +267,8 @@ describe('MapLibre Add Farm page', () => {
     fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
     expect(screen.getByText('ADD_FARM.LOCATING')).toBeTruthy();
     if (action === 'edit') {
+      fireEvent.change(addressInput(), { target: { value: 'New address' } });
+    } else if (action === 'coordinates') {
       fireEvent.change(addressInput(), { target: { value: '48.0048, 3.6651' } });
       await act(async () => {
         await vi.advanceTimersByTimeAsync(500);
@@ -275,26 +279,72 @@ describe('MapLibre Add Farm page', () => {
       });
     }
     expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
-    expect(submit().disabled).toBe(false);
+    expect(submit().disabled).toBe(action === 'edit');
+
+    const lateCallback = () => {
+      const [success, error] = getCurrentPosition.mock.calls[0];
+      if (outcome === 'success') {
+        success({ coords: { latitude: 50, longitude: 1 } });
+      } else {
+        error({ code: 1 });
+      }
+    };
+    const expectedAddress =
+      action === 'edit'
+        ? 'New address'
+        : action === 'coordinates'
+          ? '48.0048, 3.6651'
+          : bristol.label;
+    const expectedPoints =
+      action === 'edit'
+        ? {}
+        : action === 'coordinates'
+          ? { lat: 48.0048, lng: 3.6651 }
+          : { lat: bristol.lat, lng: bristol.lng };
 
     await act(async () => {
+      lateCallback();
+      await vi.advanceTimersByTimeAsync(500);
+    });
+    expect(addressInput().value).toBe(expectedAddress);
+    expect(screen.getByTestId('preview').textContent).toBe(JSON.stringify(expectedPoints));
+    expect(reverseCountry).toHaveBeenCalledTimes(action === 'coordinates' ? 1 : 0);
+    expect(screen.queryByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeNull();
+    expect(submit().disabled).toBe(action === 'edit');
+
+    fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
+    await act(async () => {
+      lateCallback();
+      await vi.advanceTimersByTimeAsync(500);
+    });
+    expect(screen.getByText('ADD_FARM.LOCATING')).toBeTruthy();
+    expect(addressInput().value).toBe(expectedAddress);
+    expect(screen.getByTestId('preview').textContent).toBe(JSON.stringify(expectedPoints));
+    expect(screen.queryByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeNull();
+    expect(reverseCountry).toHaveBeenCalledTimes(action === 'coordinates' ? 1 : 0);
+    expect(submit().disabled).toBe(action === 'edit');
+
+    await act(async () => {
+      const [success, error] = getCurrentPosition.mock.calls[1];
       if (outcome === 'success') {
-        getCurrentPosition.mock.calls[0][0]({ coords: { latitude: 50, longitude: 1 } });
+        success({ coords: { latitude: 48.0048, longitude: 3.6651 } });
       } else {
-        getCurrentPosition.mock.calls[0][1]({ code: 1 });
+        error({ code: 1 });
       }
       await vi.advanceTimersByTimeAsync(0);
     });
-
-    expect(addressInput().value).toBe(action === 'edit' ? '48.0048, 3.6651' : bristol.label);
-    expect(screen.getByTestId('preview').textContent).toBe(
-      JSON.stringify(
-        action === 'edit' ? { lat: 48.0048, lng: 3.6651 } : { lat: bristol.lat, lng: bristol.lng },
-      ),
-    );
-    expect(reverseCountry).toHaveBeenCalledTimes(action === 'edit' ? 1 : 0);
-    expect(screen.queryByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeNull();
-    expect(submit().disabled).toBe(false);
+    expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
+    if (outcome === 'success') {
+      expect(addressInput().value).toBe('48.0048, 3.6651');
+      expect(screen.getByTestId('preview').textContent).toBe(
+        JSON.stringify({ lat: 48.0048, lng: 3.6651 }),
+      );
+      expect(submit().disabled).toBe(false);
+    } else {
+      expect(addressInput().value).toBe(expectedAddress);
+      expect(screen.getByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeTruthy();
+      expect(submit().disabled).toBe(true);
+    }
   });
 
   it.each(['success', 'error'])(

@@ -87,6 +87,7 @@ const AddFarm = () => {
   const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const geolocationRequestIdRef = useRef(0);
   const [listOpen, setListOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const { suggestions, isLoading, hasError, hasSearched, search, searchNow, clear } =
@@ -139,7 +140,6 @@ const AddFarm = () => {
   // and a newer lookup cancels an older one.
   const reverseTimerRef = useRef();
   const reverseControllerRef = useRef();
-  const geolocationRequestIdRef = useRef(0);
   const cancelReverseLookup = useCallback(() => {
     clearTimeout(reverseTimerRef.current);
     reverseTimerRef.current = undefined;

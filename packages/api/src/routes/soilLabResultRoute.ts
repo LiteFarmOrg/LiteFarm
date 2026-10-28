@@ -16,6 +16,7 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import checkSoilLabResultJwt from '../middleware/acl/checkSoilLabResultJwt.js';
+import { checkSoilLabResultBatch } from '../middleware/validation/checkSoilLabResult.js';
 import soilLabResultController from '../controllers/soilLabResultController.js';
 
 const router = express.Router();
@@ -23,5 +24,12 @@ const router = express.Router();
 router.use(checkSoilLabResultJwt);
 
 router.get('/', checkScope(['get:soil_lab_result']), soilLabResultController.getSoilLabResults());
+
+router.post(
+  '/',
+  checkScope(['add:soil_lab_result']),
+  checkSoilLabResultBatch(),
+  soilLabResultController.addSoilLabResults(),
+);
 
 export default router;

@@ -47,7 +47,7 @@ class SoilLabResultModel extends BaseModel {
         farm_id: { type: 'string' },
         submission_id: { type: 'string' },
         row: { type: 'integer' },
-        location_id: { type: 'string' },
+        location_id: { type: 'string', format: 'uuid' },
         match_method: { type: 'string', minLength: 1, maxLength: 32 },
         sample_label: { type: ['string', 'null'] },
         sampled_on: { type: ['string', 'null'], format: 'date' },

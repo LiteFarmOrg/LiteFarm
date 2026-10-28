@@ -33,36 +33,121 @@ jest.mock('../src/jobs/station_sync/mapping.js');
 
 const PATH = '/dashboard/soil_lab_results';
 
+interface Sample {
+  row: number;
+  sample_label: string | null;
+  location_id: string;
+  match_method: string;
+  sampled_on: string | null;
+  depth_top_cm: number;
+  depth_bottom_cm: number;
+  depth_assumed: boolean;
+  lat: number | null;
+  lng: number | null;
+  values: Record<string, unknown>;
+}
+
+interface Batch {
+  submission_id: string;
+  lab_name: string | null;
+  source_filename: string;
+  source_sha256: string;
+  samples: Sample[];
+}
+
+interface BatchResponseBody {
+  submission_id?: string;
+  soil_lab_results?: { row: number; id: string }[];
+  errors?: { row?: number; message: string }[];
+}
+
 type SoilLabResultResponse = Omit<Response, 'body'> & {
-  body: Record<string, unknown>[];
+  body: BatchResponseBody & Record<string, unknown>[];
 };
 
 const saveToken = (user_id: string) =>
   createToken('soilLabResult', { user_id, aud: 'soil_lab_result' });
 
+const utcDateFromToday = (days: number) => {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+};
+
 describe('Soil lab result routes', () => {
   let owner: User;
+  let worker: User;
   let removedMember: User;
   let outsider: User;
   let farm: Farm;
   let otherFarm: Farm;
   let location: Location;
   let otherFarmLocation: Location;
+  let deletedLocation: Location;
+
+  const sample = (overrides: Partial<Sample> = {}): Sample => ({
+    row: 2,
+    sample_label: 'N-01',
+    location_id: location.location_id,
+    match_method: 'inside',
+    sampled_on: '2026-04-18',
+    depth_top_cm: 0,
+    depth_bottom_cm: 15,
+    depth_assumed: false,
+    lat: 49.261234,
+    lng: -123.248765,
+    values: { ph: 6.4, clay: 23, phosphorus: 42 },
+    ...overrides,
+  });
+
+  const batch = (overrides: Partial<Batch> = {}): Batch => ({
+    submission_id: randomUUID(),
+    lab_name: 'Test Lab',
+    source_filename: 'results.csv',
+    source_sha256: 'abc123',
+    samples: [sample(), sample({ row: 3, sample_label: 'N-02' })],
+    ...overrides,
+  });
 
   const send = (
     method: 'get' | 'post' | 'put',
     path: string,
-    { token, farm_id = farm.farm_id }: { token?: string; farm_id?: string } = {},
+    {
+      token,
+      farm_id = farm.farm_id,
+      body,
+    }: { token?: string; farm_id?: string; body?: object | string } = {},
   ): Promise<SoilLabResultResponse> => {
     let request = chai.request(server)[method](path).set('farm_id', farm_id);
     if (token) {
       request = request.set('Authorization', `Bearer ${token}`);
+    }
+    if (body !== undefined) {
+      request = request.set('content-type', 'application/json').send(body);
     }
     return request as unknown as Promise<SoilLabResultResponse>;
   };
 
   const getResults = (user: User = owner, farm_id = farm.farm_id) =>
     send('get', PATH, { token: saveToken(user.user_id), farm_id });
+
+  const postBatch = (body: object | string, user: User = owner, farm_id = farm.farm_id) =>
+    send('post', PATH, { token: saveToken(user.user_id), farm_id, body });
+
+  const liveRowCount = async (submission_id: string) =>
+    Number(
+      (
+        await knex('soil_lab_result')
+          .where({ submission_id, deleted: false })
+          .count('* as count')
+          .first()
+      )?.count,
+    );
+
+  const expectRowError = (res: SoilLabResultResponse, row: number) => {
+    expect(res.status).toBe(400);
+    expect(res.body.errors).toEqual(expect.arrayContaining([expect.objectContaining({ row })]));
+  };
 
   const seedRow = async (overrides: Record<string, unknown> = {}) => {
     const [row] = await knex('soil_lab_result')
@@ -95,12 +180,17 @@ describe('Soil lab result routes', () => {
     [farm] = await mocks.farmFactory();
     [otherFarm] = await mocks.farmFactory();
     [owner] = await mocks.usersFactory();
+    [worker] = await mocks.usersFactory();
     [removedMember] = await mocks.usersFactory();
     [outsider] = await mocks.usersFactory();
 
     await mocks.userFarmFactory(
       { promisedUser: Promise.resolve([owner]), promisedFarm: Promise.resolve([farm]) },
       mocks.fakeUserFarm({ role_id: 1 }),
+    );
+    await mocks.userFarmFactory(
+      { promisedUser: Promise.resolve([worker]), promisedFarm: Promise.resolve([farm]) },
+      mocks.fakeUserFarm({ role_id: 3 }),
     );
     await mocks.userFarmFactory(
       { promisedUser: Promise.resolve([removedMember]), promisedFarm: Promise.resolve([farm]) },
@@ -115,6 +205,10 @@ describe('Soil lab result routes', () => {
     [otherFarmLocation] = await mocks.locationFactory({
       promisedFarm: Promise.resolve([otherFarm]),
     });
+    [deletedLocation] = await mocks.locationFactory({ promisedFarm: Promise.resolve([farm]) });
+    await knex('location')
+      .update({ deleted: true })
+      .where({ location_id: deletedLocation.location_id });
   });
 
   afterAll(async () => {
@@ -173,8 +267,10 @@ describe('Soil lab result routes', () => {
 
     test('refuses the LiteFarm access token', async () => {
       const token = createToken('access', { user_id: owner.user_id });
-      const res = await send('get', PATH, { token });
-      expect(res.status).toBe(401);
+      const getRes = await send('get', PATH, { token });
+      const postRes = await send('post', PATH, { token, body: batch() });
+      expect(getRes.status).toBe(401);
+      expect(postRes.status).toBe(401);
     });
 
     test('the save token is refused on an ordinary route', async () => {
@@ -203,14 +299,167 @@ describe('Soil lab result routes', () => {
   });
 
   describe('Membership', () => {
+    test('a worker can save', async () => {
+      const res = await postBatch(batch(), worker);
+      expect(res.status).toBe(201);
+    });
+
     test('refuses a user who is not a member of the farm', async () => {
-      const res = await getResults(outsider);
-      expect(res.status).toBe(403);
+      const getRes = await getResults(outsider);
+      const postRes = await postBatch(batch(), outsider);
+      expect(getRes.status).toBe(403);
+      expect(postRes.status).toBe(403);
     });
 
     test('refuses a removed member', async () => {
-      const res = await getResults(removedMember);
-      expect(res.status).toBe(403);
+      const getRes = await getResults(removedMember);
+      const postRes = await postBatch(batch(), removedMember);
+      expect(getRes.status).toBe(403);
+      expect(postRes.status).toBe(403);
+    });
+  });
+
+  describe('POST', () => {
+    test('saves a batch and returns the row and id pairs', async () => {
+      const body = batch();
+      const res = await postBatch(body);
+
+      expect(res.status).toBe(201);
+      expect(res.body.submission_id).toBe(body.submission_id);
+      expect(res.body.soil_lab_results).toEqual([
+        { row: 2, id: expect.any(String) },
+        { row: 3, id: expect.any(String) },
+      ]);
+
+      const stored = await knex('soil_lab_result').where({ submission_id: body.submission_id });
+      expect(stored).toHaveLength(2);
+      for (const row of stored) {
+        expect(row.farm_id).toBe(farm.farm_id);
+        expect(row.created_by_user_id).toBe(owner.user_id);
+      }
+    });
+
+    test('a retry with the same submission_id returns the stored batch and inserts nothing', async () => {
+      const body = batch();
+      const first = await postBatch(body);
+      const retry = await postBatch(body);
+
+      expect(first.status).toBe(201);
+      expect(retry.status).toBe(200);
+      expect(retry.body).toEqual(first.body);
+      expect(await liveRowCount(body.submission_id)).toBe(2);
+    });
+
+    test('two POSTs with one submission_id sent at once store one batch', async () => {
+      const body = batch();
+      const [a, b] = await Promise.all([postBatch(body), postBatch(body)]);
+
+      expect([a.status, b.status].sort()).toEqual([200, 201]);
+      expect(a.body.soil_lab_results).toEqual(b.body.soil_lab_results);
+      expect(await liveRowCount(body.submission_id)).toBe(2);
+    });
+
+    test('refuses a submission_id stored on another farm with 409', async () => {
+      const otherFarmBatch = batch({
+        samples: [sample({ location_id: otherFarmLocation.location_id })],
+      });
+      const stored = await postBatch(otherFarmBatch, outsider, otherFarm.farm_id);
+      expect(stored.status).toBe(201);
+
+      const res = await postBatch({ ...batch(), submission_id: otherFarmBatch.submission_id });
+      expect(res.status).toBe(409);
+      expect(res.body.soil_lab_results).toBeUndefined();
+    });
+
+    test("refuses another farm's location", async () => {
+      const res = await postBatch(
+        batch({ samples: [sample({ row: 5, location_id: otherFarmLocation.location_id })] }),
+      );
+      expectRowError(res, 5);
+    });
+
+    test('refuses a deleted location', async () => {
+      const res = await postBatch(
+        batch({ samples: [sample({ row: 6, location_id: deletedLocation.location_id })] }),
+      );
+      expectRowError(res, 6);
+    });
+
+    test('refuses a location_id that is not a uuid', async () => {
+      const res = await postBatch(batch({ samples: [sample({ row: 7, location_id: 'north' })] }));
+      expectRowError(res, 7);
+    });
+
+    test('refuses a depth_top_cm that is not less than depth_bottom_cm', async () => {
+      const res = await postBatch(
+        batch({ samples: [sample({ row: 8, depth_top_cm: 15, depth_bottom_cm: 15 })] }),
+      );
+      expectRowError(res, 8);
+    });
+
+    test('refuses a sampled_on two days ahead', async () => {
+      const res = await postBatch(
+        batch({ samples: [sample({ row: 9, sampled_on: utcDateFromToday(2) })] }),
+      );
+      expectRowError(res, 9);
+    });
+
+    test('accepts a sampled_on one day ahead', async () => {
+      const res = await postBatch(
+        batch({ samples: [sample({ sampled_on: utcDateFromToday(1) })] }),
+      );
+      expect(res.status).toBe(201);
+    });
+
+    test('refuses a sampled_on that is not an ISO date', async () => {
+      const res = await postBatch(
+        batch({ samples: [sample({ row: 10, sampled_on: '18/04/2026' })] }),
+      );
+      expectRowError(res, 10);
+    });
+
+    test('refuses empty values', async () => {
+      const res = await postBatch(batch({ samples: [sample({ row: 11, values: {} })] }));
+      expectRowError(res, 11);
+    });
+
+    test('refuses a value of 1e400', async () => {
+      const body = JSON.stringify(
+        batch({ samples: [sample({ row: 12, values: { ph: '__INFINITY__' } })] }),
+      ).replace('"__INFINITY__"', '1e400');
+      const res = await postBatch(body);
+      expectRowError(res, 12);
+    });
+
+    test('refuses a text value', async () => {
+      const res = await postBatch(batch({ samples: [sample({ row: 13, values: { ph: '6.4' } })] }));
+      expectRowError(res, 13);
+    });
+
+    test('refuses a values key over 64 characters', async () => {
+      const res = await postBatch(
+        batch({ samples: [sample({ row: 14, values: { ['k'.repeat(65)]: 1 } })] }),
+      );
+      expectRowError(res, 14);
+    });
+
+    test('refuses a row number used twice in one batch', async () => {
+      const res = await postBatch(batch({ samples: [sample({ row: 15 }), sample({ row: 15 })] }));
+      expectRowError(res, 15);
+    });
+
+    test('refuses a batch with no samples', async () => {
+      const res = await postBatch(batch({ samples: [] }));
+      expect(res.status).toBe(400);
+    });
+
+    test('stores nothing when one sample is invalid', async () => {
+      const body = batch({
+        samples: [sample(), sample({ row: 3, location_id: otherFarmLocation.location_id })],
+      });
+      const res = await postBatch(body);
+      expect(res.status).toBe(400);
+      expect(await liveRowCount(body.submission_id)).toBe(0);
     });
   });
 

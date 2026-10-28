@@ -62,11 +62,7 @@ import ExportMapModal from '../../components/Modals/ExportMapModal';
 import { LoadingBackdrop } from '../../components/Loading/LoadingV2';
 import MapPin from '../../assets/images/map/map_pin.svg';
 import { ADD_SENSORS_URL } from '../../util/siteMapConstants';
-import {
-  IMAGERY_ATTRIBUTION,
-  IMAGERY_MAX_ZOOM,
-  IMAGERY_TILE_URL,
-} from '../../util/mapProvider';
+import { buildImageryStyle, IMAGERY_MAX_ZOOM } from '../../util/mapProvider';
 import { buildLocationCollections } from '../../util/mapLibre/locationsToGeoJSON';
 
 const FALLBACK_COLOUR = '#666666';
@@ -85,28 +81,14 @@ const LINE_LAYERS = ['lines-hit', 'line-buffers-fill'];
 const colourExpression = (stylesByType) => [
   'match',
   ['get', 'type'],
-  ...Object.entries(stylesByType).flatMap(([type, style]) => [type, style.colour || FALLBACK_COLOUR]),
+  ...Object.entries(stylesByType).flatMap(([type, style]) => [
+    type,
+    style.colour || FALLBACK_COLOUR,
+  ]),
   FALLBACK_COLOUR,
 ];
 
 const emptyCollection = { type: 'FeatureCollection', features: [] };
-
-const buildStyle = () => ({
-  version: 8,
-  sources: {
-    imagery: {
-      type: 'raster',
-      tiles: [IMAGERY_TILE_URL],
-      tileSize: 256,
-      maxzoom: IMAGERY_MAX_ZOOM,
-      attribution: IMAGERY_ATTRIBUTION,
-    },
-  },
-  layers: [
-    { id: 'background', type: 'background', paint: { 'background-color': '#e8e8e8' } },
-    { id: 'imagery', type: 'raster', source: 'imagery' },
-  ],
-});
 
 const toSelectionItem = (properties) => ({
   id: properties.location_id,
@@ -140,14 +122,11 @@ export default function MapLibreMap({ isCompactSideMenu }) {
   const hasFittedRef = useRef(false);
   const hoveredIdRef = useRef(null);
 
-  const {
-    locations: internalLocations,
-    isFetching: isFetchingInternalLocations,
-  } = useLocations({ groupBy: GroupByOptions.FIGURE_AND_TYPE });
-  const {
-    locations: externalLocations,
-    isLoading: isLoadingExternalLocations,
-  } = useExternalLocations({ groupBy: GroupByOptions.FIGURE_AND_TYPE });
+  const { locations: internalLocations, isFetching: isFetchingInternalLocations } = useLocations({
+    groupBy: GroupByOptions.FIGURE_AND_TYPE,
+  });
+  const { locations: externalLocations, isLoading: isLoadingExternalLocations } =
+    useExternalLocations({ groupBy: GroupByOptions.FIGURE_AND_TYPE });
 
   const collections = useMemo(
     () =>
@@ -163,7 +142,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
   useEffect(() => {
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: buildStyle(),
+      style: buildImageryStyle(),
       center: [grid_points.lng, grid_points.lat],
       zoom: DEFAULT_ZOOM,
       minZoom: 1,
@@ -394,9 +373,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
     if (locationType === 'show_all') dispatch(setMapFilterShowAll(farm_id));
     else if (locationType === 'hide_all') dispatch(setMapFilterHideAll(farm_id));
     else {
-      dispatch(
-        setMapFilterSetting({ [locationType]: !filterSettings[locationType], farm_id }),
-      );
+      dispatch(setMapFilterSetting({ [locationType]: !filterSettings[locationType], farm_id }));
     }
   };
   const handleAddMenuClick = (locationType) => {
@@ -426,7 +403,11 @@ export default function MapLibreMap({ isCompactSideMenu }) {
       <div data-cy="map-selection" className={styles.pageWrapper}>
         <div className={styles.mapContainer}>
           <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
-            <div data-cy="maplibre-map" ref={containerRef} style={{ flexGrow: 1, height: '100%' }} />
+            <div
+              data-cy="maplibre-map"
+              ref={containerRef}
+              style={{ flexGrow: 1, height: '100%' }}
+            />
           </div>
         </div>
         <LocationSelectionModal />

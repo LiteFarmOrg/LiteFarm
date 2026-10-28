@@ -21,7 +21,8 @@ export type MapProvider = 'google' | 'maplibre';
 
 const env = import.meta.env;
 
-export const MAP_PROVIDER: MapProvider = env.VITE_MAP_PROVIDER === 'maplibre' ? 'maplibre' : 'google';
+export const MAP_PROVIDER: MapProvider =
+  env.VITE_MAP_PROVIDER === 'maplibre' ? 'maplibre' : 'google';
 
 export const isMapLibreProvider = MAP_PROVIDER === 'maplibre';
 
@@ -34,3 +35,21 @@ export const IMAGERY_TILE_URL: string =
 export const IMAGERY_ATTRIBUTION: string = env.VITE_MAP_IMAGERY_ATTRIBUTION || 'Esri';
 
 export const IMAGERY_MAX_ZOOM: number = Number(env.VITE_MAP_IMAGERY_MAXZOOM) || 19;
+
+/** MapLibre style with the configured raster imagery over a plain background. */
+export const buildImageryStyle = () => ({
+  version: 8 as const,
+  sources: {
+    imagery: {
+      type: 'raster' as const,
+      tiles: [IMAGERY_TILE_URL],
+      tileSize: 256,
+      maxzoom: IMAGERY_MAX_ZOOM,
+      attribution: IMAGERY_ATTRIBUTION,
+    },
+  },
+  layers: [
+    { id: 'background', type: 'background' as const, paint: { 'background-color': '#e8e8e8' } },
+    { id: 'imagery', type: 'raster' as const, source: 'imagery' },
+  ],
+});

@@ -150,3 +150,179 @@ describe('geocoder', () => {
     ).rejects.toBeInstanceOf(GeocoderError);
   });
 });
+
+describe('geocoder boundaries and request contracts', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
+
+  it.each([
+    ['90, 180', { lat: 90, lng: 180 }],
+    ['-90 -180', { lat: -90, lng: -180 }],
+    ['0, 0', { lat: 0, lng: 0 }],
+    ['  -0.25,   0.5  ', { lat: -0.25, lng: 0.5 }],
+  ])('accepts coordinate boundary %j', (input, expected) => {
+    expect(parseLatLng(input)).toEqual(expected);
+  });
+
+  it.each([
+    '',
+    '1',
+    '1, 2, 3',
+    '1.2.3, 4',
+    '1, 2 trailing',
+    'NaN, 0',
+    'Infinity, 0',
+    '-90.001, 0',
+    '0, -180.001',
+  ])('rejects malformed or out-of-range coordinates %j', (input) =>
+    expect(parseLatLng(input)).toBeNull(),
+  );
+
+  it('trims and deduplicates address parts while retaining their order', () => {
+    expect(
+      photonLabel({
+        name: '  Farm ',
+        street: 'Farm',
+        district: ' ',
+        city: ' Bristol ',
+        state: 'Bristol',
+        country: 'UK',
+      }),
+    ).toBe('Farm, Bristol, UK');
+    expect(photonLabel({})).toBe('');
+  });
+
+  it.each(['photon', 'nominatim'] as const)(
+    'encodes queries, limits and cancellation for %s',
+    async (provider) => {
+      const fetchFn = mockFetch(provider === 'photon' ? { features: [] } : []);
+      const signal = new AbortController().signal;
+      await searchAddress('  São Paulo & farm/field?  ', {
+        provider,
+        baseUrl: 'https://geo.example',
+        limit: 2,
+        signal,
+      });
+      expect(fetchFn).toHaveBeenCalledTimes(1);
+      const [request, options] = fetchFn.mock.calls[0];
+      const url = new URL(request);
+      expect(url.origin).toBe('https://geo.example');
+      expect(url.pathname).toBe(provider === 'photon' ? '/api/' : '/search');
+      expect(url.searchParams.get('q')).toBe('São Paulo & farm/field?');
+      expect(url.searchParams.get('limit')).toBe('2');
+      expect(options).toEqual({ signal, headers: { Accept: 'application/json' } });
+    },
+  );
+
+  it('filters unusable Photon features and preserves valid numeric strings and zero coordinates', async () => {
+    mockFetch({
+      features: [
+        null,
+        {},
+        { geometry: { coordinates: [1] } },
+        { geometry: { coordinates: [1, 2] }, properties: {} },
+        { geometry: { coordinates: ['bad', 2] }, properties: { name: 'Bad' } },
+        { geometry: { coordinates: [1, Infinity] }, properties: { name: 'Infinite' } },
+        {
+          geometry: { coordinates: ['0', '0'] },
+          properties: { name: 'Origin', countrycode: 'gb' },
+        },
+        { geometry: { coordinates: [3, 4] }, properties: { name: 'No country' } },
+      ],
+    });
+    expect(await searchAddress('farm', { provider: 'photon' })).toEqual([
+      { label: 'Origin', lat: 0, lng: 0, country: 'GB' },
+      { label: 'No country', lat: 4, lng: 3, country: undefined },
+    ]);
+  });
+
+  it('filters unusable Nominatim results', async () => {
+    mockFetch([
+      null,
+      {},
+      { display_name: '', lat: 1, lon: 2 },
+      { display_name: 'Bad', lat: 'bad', lon: '2' },
+      { display_name: 'Infinite', lat: 1, lon: Infinity },
+      { display_name: 'Origin', lat: '0', lon: '0' },
+    ]);
+    expect(await searchAddress('farm', { provider: 'nominatim' })).toEqual([
+      { label: 'Origin', lat: 0, lng: 0, country: undefined },
+    ]);
+  });
+
+  it.each(['photon', 'nominatim'] as const)(
+    'treats absent %s result collections as empty',
+    async (provider) => {
+      mockFetch(null);
+      expect(await searchAddress('farm', { provider })).toEqual([]);
+      mockFetch({});
+      expect(await searchAddress('farm', { provider })).toEqual([]);
+    },
+  );
+
+  it.each(['photon', 'nominatim'] as const)(
+    'requests country-level reverse lookup and forwards aborts for %s',
+    async (provider) => {
+      const fetchFn = mockFetch({});
+      const signal = new AbortController().signal;
+      expect(
+        await reverseCountry(0, -30, { provider, baseUrl: 'https://geo.example', signal }),
+      ).toBeUndefined();
+      const [request, options] = fetchFn.mock.calls[0];
+      const url = new URL(request);
+      expect(url.pathname).toBe('/reverse');
+      expect(url.searchParams.get('lat')).toBe('0');
+      expect(url.searchParams.get('lon')).toBe('-30');
+      if (provider === 'nominatim') {
+        expect(url.searchParams.get('zoom')).toBe('3');
+        expect(url.searchParams.get('format')).toBe('jsonv2');
+        expect(url.searchParams.get('addressdetails')).toBe('1');
+      }
+      expect(options.signal).toBe(signal);
+    },
+  );
+
+  it.each(['photon', 'nominatim'] as const)(
+    'reports HTTP status and preserves network failures for %s',
+    async (provider) => {
+      mockFetch({}, false, 503);
+      await expect(reverseCountry(1, 2, { provider })).rejects.toMatchObject({
+        name: 'GeocoderError',
+        message: 'Geocoder request failed with status 503',
+      });
+      const error = new DOMException('Cancelled', 'AbortError');
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(error));
+      await expect(searchAddress('farm', { provider })).rejects.toBe(error);
+      await expect(reverseCountry(1, 2, { provider })).rejects.toBe(error);
+    },
+  );
+
+  it.each([
+    ['', 'photon', 'https://photon.komoot.io', true],
+    ['nominatim', 'nominatim', 'https://nominatim.openstreetmap.org', false],
+    ['unknown', 'photon', 'https://photon.komoot.io', true],
+  ])('selects documented provider defaults for %j', async (value, provider, baseUrl, asYouType) => {
+    vi.resetModules();
+    vi.stubEnv('VITE_GEOCODER', value);
+    vi.stubEnv('VITE_GEOCODER_URL', '');
+    const config = await import('../../util/geocoding/geocoder');
+    expect(config.GEOCODER_PROVIDER).toBe(provider);
+    expect(config.GEOCODER_BASE_URL).toBe(baseUrl);
+    expect(config.SEARCH_AS_YOU_TYPE).toBe(asYouType);
+    const fetchFn = mockFetch({});
+    await config.searchAddress('farm');
+    expect(new URL(fetchFn.mock.calls[0][0]).origin).toBe(baseUrl);
+  });
+
+  it('removes trailing slashes from a configured geocoder URL', async () => {
+    vi.resetModules();
+    vi.stubEnv('VITE_GEOCODER', 'photon');
+    vi.stubEnv('VITE_GEOCODER_URL', 'https://geo.example/service///');
+    const config = await import('../../util/geocoding/geocoder');
+    const fetchFn = mockFetch({});
+    await config.searchAddress('farm');
+    expect(fetchFn.mock.calls[0][0]).toBe('https://geo.example/service/api/?q=farm&limit=5');
+  });
+});

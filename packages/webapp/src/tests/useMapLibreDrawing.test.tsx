@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { act, renderHook, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 // Evaluate store/store first, see useAuthenticatedSession.test.tsx.
 import '../store/store';
 import rootReducer from '../store/reducer';
@@ -22,8 +22,8 @@ vi.mock('terra-draw', () => {
     constructor() {
       fake.draws.push(this);
     }
-    start() {}
-    stop() {}
+    start = vi.fn();
+    stop = vi.fn();
     on(event: string, cb: Function) {
       (this.listeners[event] ||= []).push(cb);
     }
@@ -71,14 +71,15 @@ import useMapLibreDrawing from '../containers/MapLibre/useMapLibreDrawing';
 
 const makeMap = () => {
   const sources: Record<string, { setData: ReturnType<typeof vi.fn> }> = {};
+  const layers = new Set<string>();
   return {
     sources,
     getSource: (id: string) => sources[id],
     addSource: (id: string) => {
       sources[id] = { setData: vi.fn() };
     },
-    addLayer: vi.fn(),
-    getLayer: () => undefined,
+    addLayer: vi.fn(({ id }) => layers.add(id)),
+    getLayer: (id: string) => layers.has(id),
     removeLayer: vi.fn(),
     removeSource: vi.fn(),
     setPaintProperty: vi.fn(),
@@ -118,13 +119,14 @@ const setup = () => {
     },
   };
   const draw = () => fake.draws[fake.draws.length - 1];
-  return { store, map, view, draw };
+  return { store, map, view, draw, unmount: hook.unmount };
 };
 
 describe('useMapLibreDrawing', () => {
   beforeEach(() => {
     fake.draws.length = 0;
   });
+  afterEach(cleanup);
 
   it('draws an area, goes to editing and reports area, perimeter and vertices', async () => {
     const { view, draw } = setup();
@@ -243,5 +245,172 @@ describe('useMapLibreDrawing', () => {
     act(() => view.result.current[1].closeDrawer());
     expect(view.result.current[0]).toMatchObject({ type: null, drawingToCheck: null });
     expect(draw().features.size).toBe(0);
+  });
+
+  it('reports an ordinary line without a width polygon', () => {
+    const { view, draw, map } = setup();
+    expect(view.result.current[1].getOverlayInfo()).toBeUndefined();
+    act(() => view.result.current[1].startDrawing('fence'));
+    act(() => view.result.current[1].setLineWidth(10));
+    act(() =>
+      draw().finishDrawing(
+        'f',
+        {
+          type: 'LineString',
+          coordinates: [
+            [0, 0],
+            [0.001, 0],
+          ],
+        },
+        { mode: 'linestring', action: 'draw' },
+      ),
+    );
+    expect(view.result.current[1].getOverlayInfo()).toEqual({
+      type: 'fence',
+      line_points: [
+        { lat: 0, lng: 0 },
+        { lat: 0, lng: 0.001 },
+      ],
+      length: 111,
+      total_area: null,
+    });
+    expect(map.sources['draw-width'].setData).toHaveBeenLastCalledWith({
+      type: 'FeatureCollection',
+      features: [],
+    });
+  });
+
+  it('recomputes a buffer-zone width preview when the width changes and clears it on reset', () => {
+    const { view, draw, map } = setup();
+    act(() => view.result.current[1].startDrawing('buffer_zone'));
+    act(() =>
+      draw().finishDrawing('b', {
+        type: 'LineString',
+        coordinates: [
+          [0, 0],
+          [0.001, 0],
+        ],
+      }),
+    );
+    expect(view.result.current[1].getOverlayInfo().total_area).toBeNull();
+    act(() => view.result.current[1].setLineWidth('10'));
+    expect(view.result.current[1].getOverlayInfo().total_area).toBe(1113);
+    act(() => view.result.current[1].setLineWidth(20));
+    expect(view.result.current[1].getOverlayInfo().total_area).toBe(2226);
+    expect(map.sources['draw-width'].setData.mock.calls.at(-1)![0].geometry.type).toBe('Polygon');
+    act(() => view.result.current[1].resetDrawing());
+    expect(view.result.current[1].getOverlayInfo()).toBeUndefined();
+    expect(map.sources['draw-width'].setData).toHaveBeenLastCalledWith({
+      type: 'FeatureCollection',
+      features: [],
+    });
+  });
+
+  it('warns for a zero-length line, suppresses adjustment help, and recovers after editing', () => {
+    const { view, draw } = setup();
+    act(() => view.result.current[1].startDrawing('fence'));
+    act(() =>
+      draw().finishDrawing('f', {
+        type: 'LineString',
+        coordinates: [
+          [0, 0],
+          [0, 0],
+        ],
+      }),
+    );
+    expect(view.result.current[0]).toMatchObject({
+      showZeroLengthWarning: true,
+      showAdjustLineSpotlightModal: false,
+    });
+    act(() =>
+      draw().finishDrawing(
+        'f',
+        {
+          type: 'LineString',
+          coordinates: [
+            [0, 0],
+            [0.001, 0],
+          ],
+        },
+        { mode: 'select', action: 'dragCoordinate' },
+      ),
+    );
+    expect(view.result.current[0]).toMatchObject({
+      showZeroLengthWarning: false,
+      pointChanged: true,
+    });
+    expect(view.result.current[1].getOverlayInfo().length).toBe(111);
+  });
+
+  it('starts a fresh drawing after editing an earlier shape', () => {
+    const { view, draw } = setup();
+    act(() => view.result.current[1].startDrawing('field'));
+    act(() => draw().finishDrawing('a', square(), { mode: 'select' }));
+    expect(view.result.current[0].pointChanged).toBe(true);
+    act(() => view.result.current[1].startDrawing('gate'));
+    expect(view.result.current[0]).toMatchObject({
+      type: 'gate',
+      isActive: true,
+      drawingToCheck: null,
+      pointChanged: false,
+    });
+    expect(draw().features.size).toBe(0);
+    expect(draw().mode).toBe('marker');
+  });
+
+  it.each([
+    { type: 'gate', point: { lat: 51, lng: -2 } },
+    {
+      type: 'buffer_zone',
+      width: 8,
+      line_points: [
+        { lat: 51, lng: -2 },
+        { lat: 51.001, lng: -1.999 },
+      ],
+    },
+  ])('restores a persisted $type with its coordinates, measurement, and camera', (data) => {
+    const { view, draw, store, map } = setup();
+    act(() => store.dispatch(upsertFormData(data)));
+    act(() => view.result.current[1].reconstructOverlay());
+    expect(draw().mode).toBe('select');
+    expect(draw().selected).toBeDefined();
+    expect(view.result.current[1].getOverlayInfo()).toMatchObject(
+      data.type === 'gate'
+        ? data
+        : { type: data.type, line_points: data.line_points, total_area: expect.any(Number) },
+    );
+    expect(map.fitBounds).toHaveBeenCalledWith(
+      data.type === 'gate'
+        ? [
+            [-2, 51],
+            [-2, 51],
+          ]
+        : [
+            [-2, 51],
+            [-1.999, 51.001],
+          ],
+      { padding: 60, maxZoom: 19, duration: 0 },
+    );
+  });
+
+  it('does not restore an absent or invalid persisted feature', () => {
+    const { view, draw, store, map } = setup();
+    act(() => view.result.current[1].reconstructOverlay());
+    expect(view.result.current[0].drawingToCheck).toBeNull();
+    expect(map.fitBounds).not.toHaveBeenCalled();
+    act(() => store.dispatch(upsertFormData({ type: 'gate', point: { lat: 1, lng: 2 } })));
+    vi.spyOn(draw(), 'addFeatures').mockReturnValue([{ valid: false }]);
+    act(() => view.result.current[1].reconstructOverlay());
+    expect(view.result.current[0].drawingToCheck).toBeNull();
+    expect(map.fitBounds).not.toHaveBeenCalled();
+  });
+
+  it('stops Terra Draw and removes its width layers and source on unmount', () => {
+    const { draw, map, unmount } = setup();
+    const instance = draw();
+    unmount();
+    expect(instance.stop).toHaveBeenCalledTimes(1);
+    expect(map.removeLayer.mock.calls).toEqual([['draw-width-fill'], ['draw-width-outline']]);
+    expect(map.removeSource).toHaveBeenCalledWith('draw-width');
   });
 });

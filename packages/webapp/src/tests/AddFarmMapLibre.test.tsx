@@ -26,9 +26,12 @@ vi.mock('../containers/AddFarm/MapLibrePreview', () => ({
     <div data-testid="preview">{JSON.stringify(gridPoints)}</div>
   ),
 }));
+const geocoderConfig = vi.hoisted(() => ({ searchAsYouType: true }));
 vi.mock('../util/geocoding/geocoder', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../util/geocoding/geocoder')>()),
-  SEARCH_AS_YOU_TYPE: true,
+  get SEARCH_AS_YOU_TYPE() {
+    return geocoderConfig.searchAsYouType;
+  },
   searchAddress: vi.fn(),
   reverseCountry: vi.fn(),
 }));
@@ -66,6 +69,7 @@ const renderPage = () => {
 
 describe('MapLibre Add Farm page', () => {
   beforeEach(() => {
+    geocoderConfig.searchAsYouType = true;
     vi.mocked(searchAddress).mockReset();
     vi.mocked(reverseCountry).mockReset();
   });
@@ -262,5 +266,116 @@ describe('MapLibre Add Farm page', () => {
       fireEvent.mouseDown(screen.getAllByRole('option')[0]);
     }
     expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
+  });
+
+  it('shows no-results feedback without enabling submission', async () => {
+    vi.mocked(searchAddress).mockResolvedValue([]);
+    const { addressInput, nameInput, submit } = renderPage();
+    fireEvent.change(nameInput(), { target: { value: 'Test farm' } });
+    fireEvent.change(addressInput(), { target: { value: 'Unknown farm' } });
+    expect(await screen.findByText('ADD_FARM.NO_ADDRESS_RESULTS')).toBeTruthy();
+    expect(submit().disabled).toBe(true);
+  });
+
+  it('wraps keyboard selection, closes on Escape, and selects the active result on Enter', async () => {
+    const second = { ...bristol, label: 'Second farm', lat: 52 };
+    vi.mocked(searchAddress).mockResolvedValue([bristol, second]);
+    const { addressInput } = renderPage();
+    fireEvent.change(addressInput(), { target: { value: 'Bristol' } });
+    await screen.findAllByRole('option');
+    fireEvent.keyDown(addressInput(), { key: 'ArrowUp' });
+    expect(screen.getAllByRole('option')[1].getAttribute('aria-selected')).toBe('true');
+    fireEvent.keyDown(addressInput(), { key: 'ArrowDown' });
+    expect(screen.getAllByRole('option')[0].getAttribute('aria-selected')).toBe('true');
+    fireEvent.keyDown(addressInput(), { key: 'Escape' });
+    expect(screen.queryByRole('listbox')).toBeNull();
+    expect(addressInput().getAttribute('aria-expanded')).toBe('false');
+    fireEvent.keyDown(addressInput(), { key: 'ArrowUp' });
+    fireEvent.keyDown(addressInput(), { key: 'Enter' });
+    expect(addressInput().value).toBe(second.label);
+    expect(screen.getByTestId('preview').textContent).toBe(
+      JSON.stringify({ lat: 52, lng: bristol.lng }),
+    );
+    expect(reverseCountry).not.toHaveBeenCalled();
+  });
+
+  it('looks up the country for a suggestion that does not contain one', async () => {
+    vi.mocked(searchAddress).mockResolvedValue([{ ...bristol, country: undefined }]);
+    vi.mocked(reverseCountry).mockResolvedValue('GB');
+    const { addressInput, nameInput, submit } = renderPage();
+    fireEvent.change(nameInput(), { target: { value: 'Test farm' } });
+    fireEvent.change(addressInput(), { target: { value: 'Bristol' } });
+    fireEvent.mouseDown((await screen.findAllByRole('option'))[0]);
+    expect(submit().disabled).toBe(true);
+    await waitFor(() => expect(submit().disabled).toBe(false));
+    expect(reverseCountry).toHaveBeenCalledWith(bristol.lat, bristol.lng, {
+      signal: expect.any(AbortSignal),
+    });
+  });
+
+  it('keeps submission disabled and displays a validation error if reverse geocoding fails', async () => {
+    vi.mocked(reverseCountry).mockRejectedValue(new Error('offline'));
+    const { addressInput, nameInput, submit } = renderPage();
+    fireEvent.change(nameInput(), { target: { value: 'Test farm' } });
+    fireEvent.change(addressInput(), { target: { value: '48, 3' } });
+    expect(await screen.findByText('ADD_FARM.INVALID_FARM_LOCATION')).toBeTruthy();
+    expect(screen.getByTestId('preview').textContent).toBe(JSON.stringify({ lat: 48, lng: 3 }));
+    expect(submit().disabled).toBe(true);
+  });
+
+  it('requests browser location and resolves its country before allowing submission', async () => {
+    const getCurrentPosition = vi.fn((success: (position: unknown) => void) =>
+      success({ coords: { latitude: 0, longitude: 0 } }),
+    );
+    vi.stubGlobal('navigator', { geolocation: { getCurrentPosition } });
+    vi.mocked(reverseCountry).mockResolvedValue('GB');
+    const { container, nameInput, addressInput, submit } = renderPage();
+    fireEvent.change(nameInput(), { target: { value: 'Test farm' } });
+    fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
+    expect(getCurrentPosition).toHaveBeenCalledWith(expect.any(Function), expect.any(Function), {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 10000,
+    });
+    await waitFor(() => expect(submit().disabled).toBe(false));
+    expect(addressInput().value).toBe('0, 0');
+    expect(reverseCountry).toHaveBeenCalledWith(0, 0, { signal: expect.any(AbortSignal) });
+    expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
+    expect(searchAddress).not.toHaveBeenCalled();
+  });
+
+  it('shows a geolocation error and resets the locating indicator on browser denial', async () => {
+    const getCurrentPosition = vi.fn(
+      (_success: (position: unknown) => void, failure: (error: unknown) => void) =>
+        failure({ code: 1 }),
+    );
+    vi.stubGlobal('navigator', { geolocation: { getCurrentPosition } });
+    const { container, submit } = renderPage();
+    fireEvent.click(container.querySelector('[data-cy="addFarm-mapPin"]')!);
+    expect(await screen.findByText('ADD_FARM.DISABLE_GEO_LOCATION')).toBeTruthy();
+    expect(screen.queryByText('ADD_FARM.LOCATING')).toBeNull();
+    expect(submit().disabled).toBe(true);
+    expect(reverseCountry).not.toHaveBeenCalled();
+  });
+
+  it('uses explicit Enter search for Nominatim and selects the first suggestion on a second Enter', async () => {
+    geocoderConfig.searchAsYouType = false;
+    vi.useFakeTimers();
+    vi.mocked(searchAddress).mockResolvedValue([bristol]);
+    const { addressInput, nameInput, submit } = renderPage();
+    fireEvent.change(nameInput(), { target: { value: 'Test farm' } });
+    fireEvent.change(addressInput(), { target: { value: 'Bristol' } });
+    await act(async () => vi.advanceTimersByTimeAsync(1000));
+    expect(searchAddress).not.toHaveBeenCalled();
+    fireEvent.keyDown(addressInput(), { key: 'Enter' });
+    await act(async () => {});
+    expect(searchAddress).toHaveBeenCalledTimes(1);
+    expect(searchAddress).toHaveBeenCalledWith('Bristol', { signal: expect.any(AbortSignal) });
+    expect(screen.getAllByRole('option')).toHaveLength(1);
+    fireEvent.keyDown(addressInput(), { key: 'Enter' });
+    await act(async () => {});
+    expect(addressInput().value).toBe(bristol.label);
+    expect(submit().disabled).toBe(false);
+    expect(searchAddress).toHaveBeenCalledTimes(1);
   });
 });

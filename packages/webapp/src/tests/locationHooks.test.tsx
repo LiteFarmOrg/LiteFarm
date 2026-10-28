@@ -133,4 +133,112 @@ describe('memoized location results', () => {
     rerender({ groupBy: GroupByOptions.FIGURE_AND_TYPE });
     expect(result.current.locations).toBe(empty);
   });
+
+  it('recomputes internal locations when loading ends without a new data reference', () => {
+    queries.internal.isLoading = true;
+    const raw = queries.internal.data;
+    const { result, rerender } = renderHook(() =>
+      useLocations({ groupBy: GroupByOptions.FIGURE_AND_TYPE }),
+    );
+    expect(result.current.isLoading).toBe(true);
+    expect(result.current.locations).toEqual(raw);
+    expect(result.current.locations).not.toBe(raw);
+    queries.internal.isLoading = false;
+    rerender();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.locations).toEqual({
+      point: { gate: [expect.objectContaining({ location_id: 'gate', lat: 0, lng: 10 })] },
+    });
+    expect(queries.internal.data).toBe(raw);
+  });
+
+  it('recomputes external locations when loading ends without a new data reference', () => {
+    queries.external.isLoading = true;
+    const raw = queries.external.data;
+    const { result, rerender } = renderHook(() =>
+      useExternalLocations({ groupBy: GroupByOptions.TYPE }),
+    );
+    expect(result.current.isLoading).toBe(true);
+    expect(result.current.locations).toEqual(raw);
+    expect(result.current.locations).not.toBe(raw);
+    queries.external.isLoading = false;
+    rerender();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.locations).toEqual({
+      sensor_array: [expect.objectContaining({ name: 'Array', figure_type: FigureType.POINT })],
+      sensor: [expect.objectContaining({ sensor_id: 'standalone', figure_type: FigureType.POINT })],
+    });
+    expect(queries.external.data).toBe(raw);
+  });
+
+  it('invalidates memoized data when nonempty query data is replaced', () => {
+    const { result, rerender } = renderHook(() => ({
+      internal: useLocations(),
+      external: useExternalLocations(),
+    }));
+    const oldInternal = result.current.internal.locations;
+    const oldExternal = result.current.external.locations;
+    queries.internal.data = [
+      {
+        location_id: 'new-gate',
+        deleted: false,
+        figure: { type: InternalMapLocationType.GATE, point: { lat: 3, lng: 4 } },
+      },
+    ];
+    queries.external.data = {
+      sensors: [{ sensor_id: 'new-sensor', sensor_array_id: null }],
+      sensor_arrays: [],
+    };
+    rerender();
+    expect(result.current.internal.locations).not.toBe(oldInternal);
+    expect(result.current.external.locations).not.toBe(oldExternal);
+    expect(result.current.internal.locations).toEqual([
+      expect.objectContaining({ location_id: 'new-gate', lat: 3, lng: 4 }),
+    ]);
+    expect(result.current.external.locations).toEqual([
+      expect.objectContaining({ sensor_id: 'new-sensor' }),
+    ]);
+  });
+
+  it('keeps memoized output isolated from nested RTK Query cache data', () => {
+    queries.internal.data = [
+      {
+        location_id: 'f',
+        deleted: false,
+        figure: {
+          type: InternalMapLocationType.FIELD,
+          area: { grid_points: [{ lat: 1, lng: 2 }] },
+        },
+      },
+    ];
+    queries.external.data = {
+      sensors: [{ sensor_id: 's', sensor_array_id: null, point: { lat: 3, lng: 4 } }],
+      sensor_arrays: [],
+    };
+    const internalBefore = structuredClone(queries.internal.data);
+    const externalBefore = structuredClone(queries.external.data);
+    const { result } = renderHook(() => ({
+      internal: useLocations(),
+      external: useExternalLocations(),
+    }));
+    (result.current.internal.locations![0] as any).grid_points[0].lat = 99;
+    (result.current.external.locations![0] as any).point.lng = 99;
+    expect(queries.internal.data).toEqual(internalBefore);
+    expect(queries.external.data).toEqual(externalBefore);
+  });
+
+  it('preserves result identity with a stable filter and invalidates it when the filter changes', () => {
+    const filter = [InternalMapLocationType.GATE];
+    const { result, rerender } = renderHook(
+      (filterBy: InternalMapLocationType[]) => useLocations({ filterBy, deleted: true }),
+      { initialProps: filter },
+    );
+    const initial = result.current.locations;
+    rerender(filter);
+    expect(result.current.locations).toBe(initial);
+    rerender([InternalMapLocationType.FIELD]);
+    expect(result.current.locations).toEqual([expect.objectContaining({ location_id: 'field' })]);
+    rerender([]);
+    expect(result.current.locations).toEqual([]);
+  });
 });

@@ -22,7 +22,7 @@ import clsx from 'clsx';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';

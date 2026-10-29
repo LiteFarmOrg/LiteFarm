@@ -8,7 +8,6 @@ const { createMap, maps, markers } = vi.hoisted(() => ({
   markers: [] as any[],
 }));
 vi.mock('maplibre-gl', () => ({
-  default: {
     Map: function (options: unknown) {
       createMap(options);
       const map = {
@@ -35,7 +34,6 @@ vi.mock('maplibre-gl', () => ({
     },
     NavigationControl: vi.fn(),
     ScaleControl: vi.fn(),
-  },
 }));
 
 beforeEach(() => {

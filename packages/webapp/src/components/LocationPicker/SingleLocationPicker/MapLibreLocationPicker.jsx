@@ -21,7 +21,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import buffer from '@turf/buffer';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { DEFAULT_ZOOM, isArea, isCircle, isLine, isPoint } from '../../../containers/Map/constants';
 import {

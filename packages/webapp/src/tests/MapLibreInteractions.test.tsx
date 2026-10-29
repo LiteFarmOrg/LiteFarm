@@ -36,7 +36,6 @@ const harness = vi.hoisted(() => ({
 }));
 
 vi.mock('maplibre-gl', () => ({
-  default: {
     Map: class {
       sources: Record<string, any> = {};
       handlers: Record<string, Function> = {};
@@ -101,7 +100,6 @@ vi.mock('maplibre-gl', () => ({
       }
     },
     NavigationControl: class {},
-  },
 }));
 vi.mock('../store/getFromReduxStore', () => ({
   getMeasurementFromStore: () => 'metric',

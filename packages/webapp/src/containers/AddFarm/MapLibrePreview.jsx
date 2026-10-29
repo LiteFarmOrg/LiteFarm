@@ -16,7 +16,7 @@
 // MapLibre version of the small satellite preview on the Add Farm page.
 
 import { useEffect, useRef } from 'react';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import MapPin from '../../assets/images/signUp/map_pin.svg?react';
 import MapPinUrl from '../../assets/images/signUp/map_pin.svg';

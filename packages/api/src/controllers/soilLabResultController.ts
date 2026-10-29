@@ -18,7 +18,7 @@ import { Model, transaction, Transaction, UniqueViolationError } from 'objection
 import knex from '../util/knex.js';
 import SoilLabResultModel from '../models/soilLabResultModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
-import { LiteFarmRequest } from '../types.js';
+import { HttpError, LiteFarmRequest } from '../types.js';
 import {
   SoilLabResultBody,
   SoilLabResultParams,
@@ -41,7 +41,7 @@ const getLiveBatch = async (submission_id: string, trx?: Transaction): Promise<S
 const isOnOtherFarm = (rows: StoredRow[], farm_id?: string) =>
   rows.some((row) => row.farm_id !== farm_id);
 
-const toBatchResponse = (submission_id: string, rows: StoredRow[]) => ({
+const formatBatchResponse = (submission_id: string, rows: StoredRow[]) => ({
   submission_id,
   soil_lab_results: [...rows].sort((a, b) => a.row - b.row).map(({ row, id }) => ({ row, id })),
 });
@@ -89,9 +89,11 @@ const soilLabResultController = {
           .orderBy([{ column: 'submission_id' }, { column: 'row' }]);
 
         return res.status(200).json(results);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
-        return res.status(500).json({ error });
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
     };
   },
@@ -109,7 +111,7 @@ const soilLabResultController = {
         if (isOnOtherFarm(stored, farm_id)) {
           return res.status(409).json({ error: 'submission_id belongs to another farm' });
         }
-        return res.status(200).json(toBatchResponse(submission_id, stored));
+        return res.status(200).json(formatBatchResponse(submission_id, stored));
       };
 
       try {
@@ -117,16 +119,18 @@ const soilLabResultController = {
         if (stored.length) {
           return await respondWithStoredBatch(stored);
         }
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
-        return res.status(500).json({ error });
+        const err = error as HttpError;
+        const status = err.status || err.code || 500;
+        return res.status(status).json({ error: err.message || err });
       }
 
       const trx = await transaction.start(Model.knex());
       try {
-        const inserted = await insertRows(res.locals.soilLabResultRows, user_id, trx);
+        const inserted = await insertRows(res.locals.soilLabResults, user_id, trx);
         await trx.commit();
-        return res.status(201).json(toBatchResponse(submission_id, inserted));
+        return res.status(201).json(formatBatchResponse(submission_id, inserted));
       } catch (error) {
         if (!(error instanceof UniqueViolationError)) {
           return await handleObjectionError(error as Error, res, trx);
@@ -134,9 +138,11 @@ const soilLabResultController = {
         await trx.rollback();
         try {
           return await respondWithStoredBatch(await getLiveBatch(submission_id));
-        } catch (lookupError) {
+        } catch (lookupError: unknown) {
           console.error(lookupError);
-          return res.status(500).json({ error: lookupError });
+          const err = lookupError as HttpError;
+          const status = err.status || err.code || 500;
+          return res.status(status).json({ error: err.message || err });
         }
       }
     };
@@ -149,7 +155,7 @@ const soilLabResultController = {
     ) => {
       const { farm_id } = req.headers;
       const user_id = req.auth!.user_id!;
-      const submission_id = req.params.submission_id!;
+      const { submission_id } = req.params;
 
       const trx = await transaction.start(Model.knex());
       try {
@@ -170,9 +176,9 @@ const soilLabResultController = {
           .where({ submission_id, farm_id })
           .delete();
 
-        const inserted = await insertRows(res.locals.soilLabResultRows, user_id, trx);
+        const inserted = await insertRows(res.locals.soilLabResults, user_id, trx);
         await trx.commit();
-        return res.status(200).json(toBatchResponse(submission_id, inserted));
+        return res.status(200).json(formatBatchResponse(submission_id, inserted));
       } catch (error) {
         return await handleObjectionError(error as Error, res, trx);
       }

@@ -451,6 +451,18 @@ describe('Soil lab result routes', () => {
       expectRowError(res, 15);
     });
 
+    test('refuses a sample without an integer row, by its index', async () => {
+      const res = await postBatch({
+        ...batch(),
+        samples: [sample(), null, { ...sample(), row: '4' }],
+      });
+      expect(res.status).toBe(400);
+      expect(res.body.errors).toEqual([
+        { message: 'samples[1] must have an integer row' },
+        { message: 'samples[2] must have an integer row' },
+      ]);
+    });
+
     test('refuses a batch with no samples', async () => {
       const res = await postBatch(batch({ samples: [] }));
       expect(res.status).toBe(400);

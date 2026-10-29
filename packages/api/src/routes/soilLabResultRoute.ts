@@ -16,7 +16,10 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import checkSoilLabResultJwt from '../middleware/acl/checkSoilLabResultJwt.js';
-import { checkSoilLabResultBatch } from '../middleware/validation/checkSoilLabResult.js';
+import {
+  checkSoilLabResultBatch,
+  checkSubmissionIdMatchesUrl,
+} from '../middleware/validation/checkSoilLabResult.js';
 import soilLabResultController from '../controllers/soilLabResultController.js';
 
 const router = express.Router();
@@ -35,6 +38,7 @@ router.post(
 router.put(
   '/:submission_id',
   checkScope(['edit:soil_lab_result']),
+  checkSubmissionIdMatchesUrl(),
   checkSoilLabResultBatch(),
   soilLabResultController.replaceSoilLabResults(),
 );

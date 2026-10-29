@@ -14,11 +14,14 @@
  */
 
 import { NextFunction, Response } from 'express';
-import { ValidationError } from 'objection';
+import { ErrorHash, ValidationError } from 'objection';
 import { validate as isUuid } from 'uuid';
 import LocationModel from '../../models/locationModel.js';
 import SoilLabResultModel from '../../models/soilLabResultModel.js';
-import { LiteFarmRequest } from '../../types.js';
+import { BaseProperties, SoilLabResult } from '../../models/types.js';
+import { HttpError, LiteFarmRequest } from '../../types.js';
+import { checkAndTrimString } from '../../util/util.js';
+import { isSimpleDateFormat } from '../../util/validation.js';
 
 export interface SoilLabResultSample {
   row: number;
@@ -42,16 +45,10 @@ export interface SoilLabResultBody {
   samples: SoilLabResultSample[];
 }
 
-export interface SoilLabResultRow extends SoilLabResultSample {
-  farm_id: string;
-  submission_id: string;
-  lab_name: string | null;
-  source_filename: string;
-  source_sha256: string;
-}
+export type SoilLabResultRow = Omit<SoilLabResult, 'id' | keyof BaseProperties>;
 
 export interface SoilLabResultParams {
-  submission_id?: string;
+  submission_id: string;
 }
 
 interface RowError {
@@ -59,39 +56,38 @@ interface RowError {
   message: string;
 }
 
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
-const isNonEmptyString = (value: unknown) => typeof value === 'string' && value.trim().length > 0;
-
 const getLatestAllowedSampleDate = () => {
   const tomorrow = new Date();
   tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
   return tomorrow.toISOString().slice(0, 10);
 };
 
-const getBatchErrors = (body: Partial<SoilLabResultBody>, params: SoilLabResultParams) => {
-  const errors: string[] = [];
-  if (typeof body.submission_id !== 'string' || !isUuid(body.submission_id)) {
-    errors.push('submission_id must be a uuid');
-  } else if (params.submission_id !== undefined && params.submission_id !== body.submission_id) {
-    errors.push('submission_id in the body must match the URL');
+const getBatchError = ({
+  submission_id,
+  lab_name,
+  source_filename,
+  source_sha256,
+  samples,
+}: Partial<SoilLabResultBody>) => {
+  if (!isUuid(submission_id as string)) {
+    return 'submission_id must be a uuid';
   }
-  if (body.lab_name != null && typeof body.lab_name !== 'string') {
-    errors.push('lab_name must be a string or null');
+  if (lab_name != null && typeof lab_name !== 'string') {
+    return 'lab_name must be a string or null';
   }
-  if (!isNonEmptyString(body.source_filename)) {
-    errors.push('source_filename is required');
+  if (!checkAndTrimString(source_filename)) {
+    return 'source_filename is required';
   }
-  if (!isNonEmptyString(body.source_sha256)) {
-    errors.push('source_sha256 is required');
+  if (!checkAndTrimString(source_sha256)) {
+    return 'source_sha256 is required';
   }
-  if (!Array.isArray(body.samples) || !body.samples.length) {
-    errors.push('samples must be a non-empty array');
+  if (!Array.isArray(samples) || !samples.length) {
+    return 'samples must be a non-empty array';
   }
-  return errors;
+  return null;
 };
 
-const toRow = (
+const mapSampleToSoilLabResult = (
   sample: SoilLabResultSample,
   body: SoilLabResultBody,
   farm_id: string,
@@ -114,95 +110,123 @@ const toRow = (
   source_sha256: body.source_sha256,
 });
 
-const getRowErrors = (row: SoilLabResultRow, latestAllowedDate: string) => {
+const getSampleErrors = (result: SoilLabResultRow, latestAllowedDate: string) => {
   const messages: string[] = [];
   try {
+    // Validated against the model's jsonSchema here, in addition to at insert,
+    // because insert-time validation would return only the first bad sample, and the
+    // dashboard requests per-row errors ({ row, message })
     /* @ts-expect-error known issue with models */
-    SoilLabResultModel.fromJson(row);
+    SoilLabResultModel.fromJson(result);
   } catch (error) {
     if (!(error instanceof ValidationError)) {
       throw error;
     }
-    for (const [field, issues] of Object.entries(
-      error.data as Record<string, { message: string }[]>,
-    )) {
+    const issuesByField: ErrorHash = error.data;
+    for (const [field, issues] of Object.entries(issuesByField)) {
       messages.push(...issues.map(({ message }) => `${field} ${message}`));
     }
   }
-  if (row.depth_top_cm >= row.depth_bottom_cm) {
+  if (result.depth_top_cm >= result.depth_bottom_cm) {
     messages.push('depth_top_cm must be less than depth_bottom_cm');
   }
-  if (row.sampled_on && ISO_DATE.test(row.sampled_on) && row.sampled_on > latestAllowedDate) {
+  if (isSimpleDateFormat(result.sampled_on) && result.sampled_on! > latestAllowedDate) {
     messages.push('sampled_on must not be in the future');
   }
   return messages;
 };
 
-const getLocationErrors = async (rows: SoilLabResultRow[], farm_id: string) => {
-  const locationIds = [...new Set(rows.map(({ location_id }) => location_id))];
+const getLocationErrors = async (results: SoilLabResultRow[], farm_id: string) => {
+  const locationIds = [...new Set(results.map(({ location_id }) => location_id))];
+
   /* @ts-expect-error known issue with models */
   const locations: { location_id: string }[] = await LocationModel.query()
     .whereNotDeleted()
     .where({ farm_id })
     .whereIn('location_id', locationIds)
     .select('location_id');
-  const farmLocationIds = new Set(locations.map(({ location_id }) => location_id));
-  return rows
-    .filter(({ location_id }) => !farmLocationIds.has(location_id))
+
+  const farmLocationIds = locations.map(({ location_id }) => location_id);
+
+  const locationErrors = results
+    .filter(({ location_id }) => !farmLocationIds.includes(location_id))
     .map(({ row }) => ({ row, message: 'location_id is not a location on this farm' }));
+
+  return locationErrors;
 };
+
+export function checkSubmissionIdMatchesUrl() {
+  return (
+    req: LiteFarmRequest<unknown, SoilLabResultParams, unknown, Partial<SoilLabResultBody>>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    if (req.body.submission_id !== req.params.submission_id) {
+      return res
+        .status(400)
+        .json({ errors: [{ message: 'submission_id in the body must match the URL' }] });
+    }
+    next();
+  };
+}
 
 export function checkSoilLabResultBatch() {
   return async (
-    req: LiteFarmRequest<unknown, SoilLabResultParams, unknown, Partial<SoilLabResultBody>>,
+    req: LiteFarmRequest<unknown, unknown, unknown, Partial<SoilLabResultBody>>,
     res: Response,
     next: NextFunction,
   ) => {
     const farm_id = req.headers.farm_id!;
 
-    const batchErrors = getBatchErrors(req.body, req.params);
-    if (batchErrors.length) {
-      return res.status(400).json({ errors: batchErrors.map((message) => ({ message })) });
+    const batchError = getBatchError(req.body);
+    if (batchError) {
+      return res.status(400).json({ errors: [{ message: batchError }] });
     }
 
     const body = req.body as SoilLabResultBody;
     const latestAllowedDate = getLatestAllowedSampleDate();
     const seenRows = new Set<number>();
     const errors: RowError[] = [];
-    const rows: SoilLabResultRow[] = [];
+    const results: SoilLabResultRow[] = [];
 
     try {
-      body.samples.forEach((sample, index) => {
-        if (typeof sample !== 'object' || sample === null || !Number.isInteger(sample.row)) {
-          errors.push({ message: `samples[${index}] must be an object with an integer row` });
-          return;
+      for (const [index, sample] of body.samples.entries()) {
+        if (!Number.isInteger(sample?.row)) {
+          errors.push({ message: `samples[${index}] must have an integer row` });
+          continue;
         }
         if (seenRows.has(sample.row)) {
           errors.push({ row: sample.row, message: 'row appears more than once in samples' });
         }
         seenRows.add(sample.row);
 
-        const row = toRow(sample, body, farm_id);
+        const result = mapSampleToSoilLabResult(sample, body, farm_id);
+
         errors.push(
-          ...getRowErrors(row, latestAllowedDate).map((message) => ({ row: sample.row, message })),
+          ...getSampleErrors(result, latestAllowedDate).map((message) => ({
+            row: sample.row,
+            message,
+          })),
         );
-        rows.push(row);
-      });
+        results.push(result);
+      }
 
       if (errors.length) {
         return res.status(400).json({ errors });
       }
 
-      const locationErrors = await getLocationErrors(rows, farm_id);
+      const locationErrors = await getLocationErrors(results, farm_id);
       if (locationErrors.length) {
         return res.status(400).json({ errors: locationErrors });
       }
 
-      res.locals.soilLabResultRows = rows;
+      res.locals.soilLabResults = results;
       next();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
-      return res.status(500).json({ error });
+      const err = error as HttpError;
+      const status = err.status || err.code || 500;
+      return res.status(status).json({ error: err.message || err });
     }
   };
 }

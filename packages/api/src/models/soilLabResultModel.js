@@ -91,6 +91,13 @@ class SoilLabResultModel extends BaseModel {
       },
     };
   }
+
+  static async getFarmBatch(submission_id, farm_id, trx) {
+    return SoilLabResultModel.query(trx)
+      .whereNotDeleted()
+      .where({ submission_id, farm_id })
+      .select('id', 'row');
+  }
 }
 
 export default SoilLabResultModel;

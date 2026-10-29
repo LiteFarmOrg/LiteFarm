@@ -19,6 +19,7 @@ import checkSoilLabResultJwt from '../middleware/acl/checkSoilLabResultJwt.js';
 import {
   checkSoilLabResultBatch,
   checkSubmissionIdMatchesUrl,
+  checkSubmissionIdNotOnOtherFarm,
 } from '../middleware/validation/checkSoilLabResult.js';
 import soilLabResultController from '../controllers/soilLabResultController.js';
 
@@ -32,6 +33,7 @@ router.post(
   '/',
   checkScope(['add:soil_lab_result']),
   checkSoilLabResultBatch(),
+  checkSubmissionIdNotOnOtherFarm(),
   soilLabResultController.addSoilLabResults(),
 );
 
@@ -40,6 +42,7 @@ router.put(
   checkScope(['edit:soil_lab_result']),
   checkSubmissionIdMatchesUrl(),
   checkSoilLabResultBatch(),
+  checkSubmissionIdNotOnOtherFarm(),
   soilLabResultController.replaceSoilLabResults(),
 );
 

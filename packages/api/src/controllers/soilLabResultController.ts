@@ -14,7 +14,7 @@
  */
 
 import { Response } from 'express';
-import { Model, transaction, Transaction, UniqueViolationError } from 'objection';
+import { Model, transaction, UniqueViolationError } from 'objection';
 import knex from '../util/knex.js';
 import SoilLabResultModel from '../models/soilLabResultModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
@@ -22,40 +22,17 @@ import { HttpError, LiteFarmRequest } from '../types.js';
 import {
   SoilLabResultBody,
   SoilLabResultParams,
-  SoilLabResultRow,
 } from '../middleware/validation/checkSoilLabResult.js';
 
 interface StoredRow {
   id: string;
   row: number;
-  farm_id: string;
 }
-
-const getLiveBatch = async (submission_id: string, trx?: Transaction): Promise<StoredRow[]> =>
-  /* @ts-expect-error known issue with models */
-  SoilLabResultModel.query(trx)
-    .whereNotDeleted()
-    .where({ submission_id })
-    .select('id', 'row', 'farm_id');
-
-const isOnOtherFarm = (rows: StoredRow[], farm_id?: string) =>
-  rows.some((row) => row.farm_id !== farm_id);
 
 const formatBatchResponse = (submission_id: string, rows: StoredRow[]) => ({
   submission_id,
   soil_lab_results: [...rows].sort((a, b) => a.row - b.row).map(({ row, id }) => ({ row, id })),
 });
-
-const insertRows = async (
-  rows: SoilLabResultRow[],
-  user_id: string,
-  trx: Transaction,
-): Promise<StoredRow[]> =>
-  /* @ts-expect-error known issue with models */
-  SoilLabResultModel.query(trx)
-    .context({ user_id })
-    .insert(rows)
-    .returning(['id', 'row', 'farm_id']);
 
 const soilLabResultController = {
   getSoilLabResults() {
@@ -104,46 +81,44 @@ const soilLabResultController = {
       res: Response,
     ) => {
       const { farm_id } = req.headers;
-      const user_id = req.auth!.user_id!;
+      const { user_id } = req.auth!;
       const { submission_id } = req.body;
 
-      const respondWithStoredBatch = async (stored: StoredRow[]) => {
-        if (isOnOtherFarm(stored, farm_id)) {
-          return res.status(409).json({ error: 'submission_id belongs to another farm' });
-        }
-        return res.status(200).json(formatBatchResponse(submission_id, stored));
-      };
-
       try {
-        const stored = await getLiveBatch(submission_id);
+        const stored = await SoilLabResultModel.getFarmBatch(submission_id, farm_id);
+
+        // A repeated save of a stored batch (e.g. a retry) -- return the stored ids
         if (stored.length) {
-          return await respondWithStoredBatch(stored);
+          return res.status(200).json(formatBatchResponse(submission_id, stored));
+        }
+
+        try {
+          /* @ts-expect-error known issue with models */
+          const inserted: StoredRow[] = await SoilLabResultModel.query()
+            .context({ user_id })
+            .insert(res.locals.soilLabResults)
+            .returning(['id', 'row']);
+
+          return res.status(201).json(formatBatchResponse(submission_id, inserted));
+        } catch (error) {
+          if (!(error instanceof UniqueViolationError)) {
+            throw error;
+          }
+          // A unique violation means a concurrent save of this batch inserted first; return its ids
+          const concurrent = await SoilLabResultModel.getFarmBatch(submission_id, farm_id);
+
+          if (!concurrent.length) {
+            // Conflicting rows exist, but they don't belong to this farm
+            return res.status(409).json({ error: 'submission_id belongs to another farm' });
+          }
+
+          return res.status(200).json(formatBatchResponse(submission_id, concurrent));
         }
       } catch (error: unknown) {
         console.error(error);
         const err = error as HttpError;
         const status = err.status || err.code || 500;
         return res.status(status).json({ error: err.message || err });
-      }
-
-      const trx = await transaction.start(Model.knex());
-      try {
-        const inserted = await insertRows(res.locals.soilLabResults, user_id, trx);
-        await trx.commit();
-        return res.status(201).json(formatBatchResponse(submission_id, inserted));
-      } catch (error) {
-        if (!(error instanceof UniqueViolationError)) {
-          return await handleObjectionError(error as Error, res, trx);
-        }
-        await trx.rollback();
-        try {
-          return await respondWithStoredBatch(await getLiveBatch(submission_id));
-        } catch (lookupError: unknown) {
-          console.error(lookupError);
-          const err = lookupError as HttpError;
-          const status = err.status || err.code || 500;
-          return res.status(status).json({ error: err.message || err });
-        }
       }
     };
   },
@@ -154,19 +129,16 @@ const soilLabResultController = {
       res: Response,
     ) => {
       const { farm_id } = req.headers;
-      const user_id = req.auth!.user_id!;
+      const { user_id } = req.auth!;
       const { submission_id } = req.params;
 
       const trx = await transaction.start(Model.knex());
       try {
-        const stored = await getLiveBatch(submission_id, trx);
+        const stored = await SoilLabResultModel.getFarmBatch(submission_id, farm_id, trx);
+
         if (!stored.length) {
           await trx.rollback();
           return res.status(404).json({ error: 'No saved batch with this submission_id' });
-        }
-        if (isOnOtherFarm(stored, farm_id)) {
-          await trx.rollback();
-          return res.status(409).json({ error: 'submission_id belongs to another farm' });
         }
 
         /* @ts-expect-error known issue with models */
@@ -176,8 +148,14 @@ const soilLabResultController = {
           .where({ submission_id, farm_id })
           .delete();
 
-        const inserted = await insertRows(res.locals.soilLabResults, user_id, trx);
+        /* @ts-expect-error known issue with models */
+        const inserted: StoredRow[] = await SoilLabResultModel.query(trx)
+          .context({ user_id })
+          .insert(res.locals.soilLabResults)
+          .returning(['id', 'row']);
+
         await trx.commit();
+
         return res.status(200).json(formatBatchResponse(submission_id, inserted));
       } catch (error) {
         return await handleObjectionError(error as Error, res, trx);

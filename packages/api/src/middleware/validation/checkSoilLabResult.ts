@@ -170,6 +170,37 @@ export function checkSubmissionIdMatchesUrl() {
   };
 }
 
+export function checkSubmissionIdNotOnOtherFarm() {
+  return async (
+    req: LiteFarmRequest<unknown, unknown, unknown, SoilLabResultBody>,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const farm_id = req.headers.farm_id!;
+      const { submission_id } = req.body;
+
+      /* @ts-expect-error known issue with models */
+      const otherFarmResult = await SoilLabResultModel.query()
+        .whereNotDeleted()
+        .where({ submission_id })
+        .whereNot({ farm_id })
+        .first();
+
+      if (otherFarmResult) {
+        return res.status(409).json({ error: 'submission_id belongs to another farm' });
+      }
+
+      next();
+    } catch (error: unknown) {
+      console.error(error);
+      const err = error as HttpError;
+      const status = err.status || err.code || 500;
+      return res.status(status).json({ error: err.message || err });
+    }
+  };
+}
+
 export function checkSoilLabResultBatch() {
   return async (
     req: LiteFarmRequest<unknown, unknown, unknown, Partial<SoilLabResultBody>>,

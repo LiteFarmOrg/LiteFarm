@@ -42,6 +42,7 @@ const soilLabResultController = {
 
         /* @ts-expect-error known issue with models */
         const results = await SoilLabResultModel.query()
+          .context({ showHidden: true })
           .whereNotDeleted()
           .where({ farm_id })
           .select(
@@ -62,6 +63,7 @@ const soilLabResultController = {
             'lab_name',
             'source_filename',
             'source_sha256',
+            'created_at',
           )
           .orderBy([{ column: 'submission_id' }, { column: 'row' }]);
 

@@ -634,6 +634,7 @@ describe('Soil lab result routes', () => {
         lab_name: 'Test Lab',
         source_filename: 'results.csv',
         source_sha256: 'abc123',
+        created_at: new Date(kept.created_at).toISOString(),
       });
     });
   });

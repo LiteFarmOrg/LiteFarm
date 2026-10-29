@@ -1,0 +1,87 @@
+@use '@assets/mixin' as *;
+
+.control {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  @include fontFamily();
+}
+
+.toggle {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #fff;
+  color: #282b36;
+  font-size: 14px;
+  cursor: pointer;
+  @include midShadow();
+}
+
+.panel {
+  width: 260px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding: 12px;
+  border-radius: 4px;
+  background: #fff;
+  color: #282b36;
+  font-size: 14px;
+  @include midShadow();
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.button {
+  padding: 6px 10px;
+  border: 1px solid #66738a;
+  border-radius: 4px;
+  background: #fff;
+  color: #282b36;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.error {
+  margin: 8px 0 0;
+  color: #d02620;
+}
+
+.result,
+.note {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+}
+
+.note {
+  font-size: 12px;
+  color: #66738a;
+}

@@ -991,6 +991,44 @@
       "NAME": "Residence name",
       "TITLE": "Add residence"
     },
+    "ROW_PLANNER": {
+      "ANGLE": "Angle (degrees)",
+      "CLEAR": "Clear",
+      "CONTOUR": "Contour rows (needs a survey; angle is ignored)",
+      "CONTOUR_USED": "Contour rows used.",
+      "DOWNLOAD": "GeoJSON",
+      "ERRORS": {
+        "ANGLE": "Enter an angle.",
+        "GRID": "Survey grid cell must be at least 0.25 m.",
+        "NEEDS_SURVEY": "Contour rows need a survey file first.",
+        "NEGATIVE": "Headland cannot be negative.",
+        "SURVEY_COLUMNS": "The survey needs lat, lon and alt columns.",
+        "SURVEY_POINTS": "The survey needs at least 3 valid points.",
+        "TOOL_WIDTH": "Row spacing must be at least 0.5 m."
+      },
+      "FAILED": "Planning failed: {{message}}",
+      "FELL_BACK": "No usable contour (field too flat or outside the survey): straight rows used.",
+      "FIELD": "Field",
+      "GRID": "Survey grid cell (m)",
+      "HEADLAND": "Headland (m)",
+      "NO_FIELDS": "Draw a field or garden on the map to plan rows for it.",
+      "NO_ROWS": "No rows fit in this field with these settings.",
+      "NOTE": "Planning runs in your browser; the field and survey are not uploaded. The first run downloads the planner (contour rows download more).",
+      "PATH": "Path {{path}} km in {{passes}} pass(es)",
+      "PLAN": "Plan",
+      "PLANNING": "Planning…",
+      "RESULT": "{{rows}} rows, {{swath}} km of rows",
+      "SNAKE": "Join rows into one path",
+      "STATUS": {
+        "LOADING_CONTOUR": "Loading scipy and scikit-image (first contour run only, large download)…",
+        "LOADING_PYTHON": "Loading the planner…",
+        "PLANNING": "Planning… contour rows can take a minute."
+      },
+      "SURVEY": "Survey CSV (lat, lon, alt columns)",
+      "SURVEY_LOADED": "Survey: {{count}} points",
+      "TITLE": "Plan rows",
+      "TOOL_WIDTH": "Row spacing (m)"
+    },
     "SOIL_LAYERS": {
       "CLAY": "Clay content (0–5 cm)",
       "HUTTON_LCA": "Land capability for agriculture (Scotland)",

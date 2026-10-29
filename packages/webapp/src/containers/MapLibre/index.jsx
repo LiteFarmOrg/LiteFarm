@@ -88,6 +88,20 @@ import { buildLocationCollections } from '../../util/mapLibre/locationsToGeoJSON
 import { DEFAULT_SOIL_OPACITY, getSoilLayersForLocation } from '../../util/soilLayers';
 import useSoilLayers from './useSoilLayers';
 import SoilLayerControl from '../../components/Map/SoilLayerControl';
+import {
+  buildDownloadGeoJSON,
+  buildPlanRequest,
+  checkSurveyCsv,
+  createPlannerClient,
+  DEFAULT_PLAN_SETTINGS,
+  findObstacles,
+  listPlannableAreas,
+  planToFeatureCollection,
+  summarisePlan,
+  validateSettings,
+} from '../../util/rowPlanner';
+import useRowPlan from './useRowPlan';
+import RowPlannerControl from '../../components/Map/RowPlannerControl';
 
 const FALLBACK_COLOUR = '#666666';
 const AREA_TYPES_WITH_FILL = Object.keys(areaStyles);
@@ -140,6 +154,16 @@ export default function MapLibreMap({ isCompactSideMenu }) {
   const [mapReady, setMapReady] = useState(false);
   const [soilLayerId, setSoilLayerId] = useState(null);
   const [soilOpacity, setSoilOpacity] = useState(DEFAULT_SOIL_OPACITY);
+  const [planFieldId, setPlanFieldId] = useState(null);
+  const [planSettings, setPlanSettings] = useState(DEFAULT_PLAN_SETTINGS);
+  const [survey, setSurvey] = useState({ csv: '', count: 0 });
+  const [plan, setPlan] = useState(null);
+  const [planBusy, setPlanBusy] = useState(false);
+  const [planStatus, setPlanStatus] = useState('');
+  const [planErrorKey, setPlanErrorKey] = useState(null);
+  const [planErrorMessage, setPlanErrorMessage] = useState(null);
+  const plannerRef = useRef(null);
+  const planTokenRef = useRef(0);
 
   const mapWrapperRef = useRef(null);
   const containerRef = useRef(null);
@@ -247,6 +271,78 @@ export default function MapLibreMap({ isCompactSideMenu }) {
     layer: selectedSoilLayer,
     opacity: soilOpacity,
   });
+
+  // Row planning: Sowbot's contour and swath planner, run in a web worker (see util/rowPlanner).
+  const plannableAreas = useMemo(
+    () => listPlannableAreas(internalLocations?.area),
+    [internalLocations],
+  );
+  const planField = plannableAreas.find((area) => area.id === planFieldId) ?? plannableAreas[0];
+  const planCollection = useMemo(
+    () => (plan ? planToFeatureCollection(plan.result) : null),
+    [plan],
+  );
+  const planSummary = useMemo(() => (plan ? summarisePlan(plan.result) : null), [plan]);
+  useRowPlan({ map: mapReady ? mapRef.current : null, collection: planCollection });
+  useEffect(() => () => plannerRef.current?.terminate(), []);
+
+  const handlePlanFieldChange = (id) => {
+    setPlanFieldId(id);
+    setPlan(null);
+    setPlanErrorKey(null);
+    setPlanErrorMessage(null);
+  };
+
+  const handleSurveyFile = async (file) => {
+    setPlanErrorKey(null);
+    setPlanErrorMessage(null);
+    if (!file) return setSurvey({ csv: '', count: 0 });
+    const csv = await file.text();
+    const { count, errorKey } = checkSurveyCsv(csv);
+    if (errorKey) {
+      setSurvey({ csv: '', count: 0 });
+      return setPlanErrorKey(errorKey);
+    }
+    setSurvey({ csv, count });
+  };
+
+  const handlePlan = async () => {
+    if (!planField) return;
+    const errorKey = validateSettings(planSettings, survey.count);
+    setPlanErrorKey(errorKey);
+    setPlanErrorMessage(null);
+    if (errorKey) return;
+    const request = buildPlanRequest(
+      planField.ring,
+      findObstacles(internalLocations?.area, planField.ring),
+      planSettings,
+    );
+    const token = ++planTokenRef.current;
+    setPlan(null);
+    setPlanBusy(true);
+    try {
+      plannerRef.current ??= createPlannerClient();
+      const result = await plannerRef.current.plan(
+        request,
+        request.c ? survey.csv : '',
+        setPlanStatus,
+      );
+      if (token === planTokenRef.current) setPlan({ request, result });
+    } catch (error) {
+      if (token === planTokenRef.current) setPlanErrorMessage(error.message);
+    } finally {
+      if (token === planTokenRef.current) {
+        setPlanBusy(false);
+        setPlanStatus('');
+      }
+    }
+  };
+
+  const handleDownloadPlan = () => {
+    if (!plan) return;
+    const geojson = buildDownloadGeoJSON(plan.request, plan.result);
+    saveAs(new Blob([JSON.stringify(geojson)], { type: 'application/geo+json' }), 'swaths.geojson');
+  };
 
   // Create the map once.
   useEffect(() => {
@@ -575,6 +671,30 @@ export default function MapLibreMap({ isCompactSideMenu }) {
               opacity={soilOpacity}
               onSelect={setSoilLayerId}
               onOpacityChange={setSoilOpacity}
+            />
+          )}
+          {!drawingState.type && !isOffline && (
+            <RowPlannerControl
+              fields={plannableAreas}
+              fieldId={planField?.id ?? null}
+              settings={planSettings}
+              surveyCount={survey.count}
+              isBusy={planBusy}
+              statusKey={planStatus}
+              summary={planSummary}
+              errorKey={planErrorKey}
+              errorMessage={planErrorMessage}
+              hasPlan={!!plan}
+              onFieldChange={handlePlanFieldChange}
+              onSettingsChange={setPlanSettings}
+              onSurveyFile={handleSurveyFile}
+              onPlan={handlePlan}
+              onClear={() => {
+                setPlan(null);
+                setPlanErrorKey(null);
+                setPlanErrorMessage(null);
+              }}
+              onDownload={handleDownloadPlan}
             />
           )}
           {drawingState.type && (

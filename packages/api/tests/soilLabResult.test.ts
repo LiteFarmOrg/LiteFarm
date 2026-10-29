@@ -468,6 +468,59 @@ describe('Soil lab result routes', () => {
       expect(res.status).toBe(400);
     });
 
+    describe('Batch size', () => {
+      const allParameterValues = Object.fromEntries(
+        [
+          'ph',
+          'soc',
+          'organic_matter',
+          'ocs',
+          'clay',
+          'sand',
+          'silt',
+          'cfvo',
+          'bulk_density',
+          'nitrogen',
+          'phosphorus',
+          'potassium',
+          'cec',
+          'salinity',
+          'awc',
+        ].map((key, index) => [key, 123.456789 + index]),
+      );
+
+      const largeBatch = (sampleCount: number) =>
+        batch({
+          samples: Array.from({ length: sampleCount }, (_, index) =>
+            sample({ row: index + 2, values: allParameterValues }),
+          ),
+        });
+
+      test('saves a body over the default 100kB limit', async () => {
+        const body = largeBatch(300);
+        expect(Buffer.byteLength(JSON.stringify(body))).toBeGreaterThan(100 * 1024);
+
+        const res = await postBatch(body);
+        expect(res.status).toBe(201);
+        expect(await liveRowCount(body.submission_id)).toBe(300);
+      });
+
+      test('refuses a body over 256kB with 413', async () => {
+        const res = await postBatch(batch({ source_filename: 'x'.repeat(300 * 1024) }));
+        expect(res.status).toBe(413);
+      });
+
+      test('other routes keep the 100kB limit', async () => {
+        const res = await chai
+          .request(server)
+          .post('/farm')
+          .set('content-type', 'application/json')
+          .set('Authorization', `Bearer ${createToken('access', { user_id: owner.user_id })}`)
+          .send({ farm_name: 'x'.repeat(150 * 1024) });
+        expect(res.status).toBe(413);
+      });
+    });
+
     test('stores nothing when one sample is invalid', async () => {
       const body = batch({
         samples: [sample(), sample({ row: 3, location_id: otherFarmLocation.location_id })],

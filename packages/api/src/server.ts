@@ -239,9 +239,11 @@ app.set('json replacer', (key: string, value: string) => {
   return value;
 });
 
-// Apply default express.json() request size limit to all routes except sensor webhook
+const SOIL_LAB_RESULT_PATH = /^\/dashboard\/soil_lab_results(\/|$)/;
+
 const applyExpressJSON: RequestHandler = (req, res, next) => {
-  const jsonMiddleware = express.json({ limit: '100kB' });
+  const limit = SOIL_LAB_RESULT_PATH.test(req.path) ? '256kB' : '100kB';
+  const jsonMiddleware = express.json({ limit });
   jsonMiddleware(req, res, next);
 };
 

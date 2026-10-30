@@ -2423,6 +2423,26 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
+    "ROWS": {
+      "ABORTED": "{{count}} aborted",
+      "DONE": "{{count}} done",
+      "EMPTY": "Enter the rows to work, for example 12-18,21",
+      "ERRORS": {
+        "BACKWARDS": "\"{{part}}\" runs backwards",
+        "EMPTY": "Enter at least one row",
+        "NOT_IN_PLAN": "Rows not in the field's row plan: {{rows}}",
+        "SAVE_FAILED": "Rows could not be saved",
+        "TOO_MANY": "Too many rows selected",
+        "UNREADABLE": "Cannot read \"{{part}}\" as a row or range"
+      },
+      "INPUT_LABEL": "Rows",
+      "LOCKED": "Some rows already have a result, so the rows can no longer be changed.",
+      "NONE": "No rows selected",
+      "PENDING": "{{count}} to do",
+      "SAVE": "Save rows",
+      "SUMMARY": "Rows {{rows}} ({{count}})",
+      "TITLE": "Rows"
+    },
     "SELECT_ANIMALS": "Select animals",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",

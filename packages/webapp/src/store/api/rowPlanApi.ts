@@ -42,11 +42,50 @@ export interface GetFieldRowPlanArgs {
 
 export interface FieldRowPlanGeoJSON {
   type: 'FeatureCollection';
+  properties?: { row_plan_id?: string; [key: string]: unknown };
   features: object[];
+}
+
+export type TaskRowStatusValue = 'pending' | 'done' | 'aborted';
+
+// A row on a task. A row split by an obstacle has one entry per fragment.
+export interface TaskRow {
+  row_plan_id: string;
+  map_id: string | null;
+  row_id: string;
+  row_number: number;
+  frag: number;
+  status: TaskRowStatusValue;
+  completed_at: string | null;
+  note: string | null;
+}
+
+export interface SetTaskRowsArgs {
+  task_id: number | string;
+  row_plan_id: string;
+  row_numbers: number[];
 }
 
 export const rowPlanApi = api.injectEndpoints({
   endpoints: (build) => ({
+    getTaskRows: build.query<TaskRow[], { task_id: number | string }>({
+      query: ({ task_id }) => `${rowPlanUrl}/task/${task_id}/rows`,
+      providesTags: (_result, _error, { task_id }) => [{ type: 'TaskRows', id: String(task_id) }],
+    }),
+    // Replaces the rows on a task. The api refuses it once any row has a result.
+    setTaskRows: build.mutation<
+      { task_id: number; row_plan_id: string; row_numbers: number[] },
+      SetTaskRowsArgs
+    >({
+      query: ({ task_id, row_plan_id, row_numbers }) => ({
+        url: `${rowPlanUrl}/task/${task_id}/rows`,
+        method: 'PUT',
+        body: { row_plan_id, row_numbers },
+      }),
+      invalidatesTags: (_result, _error, { task_id }) => [
+        { type: 'TaskRows', id: String(task_id) },
+      ],
+    }),
     // The field's current (not superseded) plan as map features, or null when it has none.
     getFieldRowPlan: build.query<FieldRowPlanGeoJSON | null, GetFieldRowPlanArgs>({
       async queryFn({ farm_id, location_id }, _api, _extraOptions, baseQuery) {
@@ -85,4 +124,9 @@ export const rowPlanApi = api.injectEndpoints({
   }),
 });
 
-export const { useImportRowPlanMutation, useGetFieldRowPlanQuery } = rowPlanApi;
+export const {
+  useImportRowPlanMutation,
+  useGetFieldRowPlanQuery,
+  useGetTaskRowsQuery,
+  useSetTaskRowsMutation,
+} = rowPlanApi;

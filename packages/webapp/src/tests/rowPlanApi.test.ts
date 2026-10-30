@@ -71,3 +71,61 @@ describe('getFieldRowPlan', () => {
     expect(result.data).toBeNull();
   });
 });
+
+describe('task rows', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('reads the rows on a task', async () => {
+    const rows = [
+      { row_plan_id: 'plan-1', row_id: 'r1', row_number: 12, frag: 0, status: 'pending' },
+    ];
+    const urls: string[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (request: Request) => {
+        urls.push(request.url);
+        return json(rows, 'application/json');
+      }),
+    );
+    const store = makeStore();
+    const result = await store.dispatch(rowPlanApi.endpoints.getTaskRows.initiate({ task_id: 7 }));
+    expect(result.data).toEqual(rows);
+    expect(urls[0]).toContain('/row_plan/task/7/rows');
+  });
+
+  it('puts the row numbers on a task and reads them again afterwards', async () => {
+    const calls: { method: string; url: string; body: string }[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (request: Request) => {
+        calls.push({
+          method: request.method,
+          url: request.url,
+          body: await request.clone().text(),
+        });
+        return request.method === 'PUT'
+          ? json({ task_id: 7, row_plan_id: 'plan-1', row_numbers: [12, 13] }, 'application/json')
+          : json([], 'application/json');
+      }),
+    );
+    const store = makeStore();
+    // Subscribed, so the save has a cached read to invalidate.
+    const subscription = store.dispatch(rowPlanApi.endpoints.getTaskRows.initiate({ task_id: 7 }));
+    await subscription;
+    const saved = await store.dispatch(
+      rowPlanApi.endpoints.setTaskRows.initiate({
+        task_id: 7,
+        row_plan_id: 'plan-1',
+        row_numbers: [12, 13],
+      }),
+    );
+    expect('error' in saved).toBe(false);
+    const put = calls.find((call) => call.method === 'PUT');
+    expect(put?.url).toContain('/row_plan/task/7/rows');
+    expect(JSON.parse(put?.body ?? '{}')).toEqual({ row_plan_id: 'plan-1', row_numbers: [12, 13] });
+    await vi.waitFor(() => expect(calls.filter((c) => c.method === 'GET')).toHaveLength(2));
+    subscription.unsubscribe();
+  });
+});

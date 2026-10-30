@@ -37,6 +37,10 @@ describe('parseRowSpec', () => {
     ['1,,2', 'UNREADABLE'],
     ['-3', 'UNREADABLE'],
     ['1.5', 'UNREADABLE'],
+    ['9007199254740992', 'UNREADABLE'],
+    ['1-9007199254740992', 'UNREADABLE'],
+    ['9007199254740992-9007199254740992', 'UNREADABLE'],
+    ['9'.repeat(400), 'UNREADABLE'],
     ['18-12', 'BACKWARDS'],
     ['0-2000', 'TOO_MANY'],
     ['0-1000,1001-2001', 'TOO_MANY'],
@@ -51,6 +55,10 @@ describe('parseRowSpec', () => {
 
   it('allows the most rows the api allows', () => {
     expect(parseRowSpec('0-1999')).toHaveLength(2000);
+    expect(parseRowSpec('9007199254740990-9007199254740991')).toEqual([
+      Number.MAX_SAFE_INTEGER - 1,
+      Number.MAX_SAFE_INTEGER,
+    ]);
   });
 
   it('names the part it cannot read', () => {

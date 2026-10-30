@@ -2431,11 +2431,13 @@
         "BACKWARDS": "\"{{part}}\" runs backwards",
         "EMPTY": "Enter at least one row",
         "NOT_IN_PLAN": "Rows not in the field's row plan: {{rows}}",
+        "READ_FAILED": "Rows could not be loaded",
         "SAVE_FAILED": "Rows could not be saved",
         "TOO_MANY": "Too many rows selected",
         "UNREADABLE": "Cannot read \"{{part}}\" as a row or range"
       },
       "INPUT_LABEL": "Rows",
+      "LOADING": "Loading rows...",
       "LOCKED": "Some rows already have a result, so the rows can no longer be changed.",
       "NONE": "No rows selected",
       "PENDING": "{{count}} to do",

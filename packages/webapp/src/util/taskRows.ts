@@ -35,6 +35,8 @@ export const parseRowSpec = (text: string): number[] => {
     if (!match) throw new RowSpecError('UNREADABLE', part.trim());
     const from = Number(match[1]);
     const to = match[2] === undefined ? from : Number(match[2]);
+    if (!Number.isSafeInteger(from) || !Number.isSafeInteger(to))
+      throw new RowSpecError('UNREADABLE', part.trim());
     if (to < from) throw new RowSpecError('BACKWARDS', part.trim());
     if (to - from >= MAX_TASK_ROWS) throw new RowSpecError('TOO_MANY');
     for (let n = from; n <= to; n++) numbers.add(n);

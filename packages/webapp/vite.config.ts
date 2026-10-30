@@ -120,6 +120,12 @@ export default defineConfig({
     port: 3000,
     allowedHosts: ['.local'],
   },
+  optimizeDeps: {
+    // maplibre-gl 6 starts its GeoJSON/vector worker from a file next to the module. When Vite
+    // pre-bundles it the worker file is not copied, so layers fed by GeoJSON sources (areas,
+    // lines, row plans) silently never draw while raster imagery and DOM markers still do.
+    exclude: ['maplibre-gl'],
+  },
   resolve: {
     alias: {
       '@shared': path.resolve(__dirname, '../shared'),

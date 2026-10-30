@@ -64,6 +64,7 @@
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
+    "ADDRESS_SEARCH_UNAVAILABLE": "Address search is unavailable. Enter latitude and longitude instead.",
     "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
     "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
     "ENTER_LOCATION_PLACEHOLDER": "Enter Location",
@@ -74,6 +75,7 @@
     "FARM_NAME_ERROR": "Farm name character limit exceeded",
     "INVALID_FARM_LOCATION": "No country for this location",
     "LOCATING": "Locating...",
+    "NO_ADDRESS_RESULTS": "No matching addresses",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {

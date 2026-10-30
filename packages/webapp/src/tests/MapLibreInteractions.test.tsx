@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Exercise React's data/event wiring without WebGL, tiles, or a backend.
@@ -253,9 +253,60 @@ beforeEach(() => {
     },
   };
 });
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
 
 describe('MapLibre farm map', () => {
+  it('clears a completed plan when settings or the survey file change', async () => {
+    class FakeWorker {
+      listeners = new Set<(event: any) => void>();
+      addEventListener(type: string, listener: (event: any) => void) {
+        if (type === 'message') this.listeners.add(listener);
+      }
+      removeEventListener(type: string, listener: (event: any) => void) {
+        if (type === 'message') this.listeners.delete(listener);
+      }
+      postMessage({ id, req }: any) {
+        queueMicrotask(() =>
+          this.listeners.forEach((listener) =>
+            listener({
+              data: { id, ok: true, result: { rows: [], tags: [], contour: req.c, asked: req.c } },
+            }),
+          ),
+        );
+      }
+      terminate() {}
+    }
+    vi.stubGlobal('Worker', FakeWorker);
+    harness.internal.locations = { area: { field: [field] } };
+    render(<MapLibreMap isCompactSideMenu={false} />);
+    loadMap();
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.TITLE'));
+    const plan = () => fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.PLAN'));
+    const download = () => screen.getByText('FARM_MAP.ROW_PLANNER.DOWNLOAD') as HTMLButtonElement;
+    plan();
+    await waitFor(() => expect(download().disabled).toBe(false));
+    fireEvent.change(screen.getByDisplayValue('5'), { target: { value: '3' } });
+    expect(download().disabled).toBe(true);
+
+    fireEvent.click(screen.getByLabelText('FARM_MAP.ROW_PLANNER.CONTOUR'));
+    const csv = 'x,y,lat,lon,alt\n0,0,51,-2,1\n1,0,51,-2,2\n0,1,51,-2,3';
+    const survey = screen.getByLabelText('FARM_MAP.ROW_PLANNER.SURVEY');
+    fireEvent.change(survey, { target: { files: [new File([csv], 'survey.csv')] } });
+    await waitFor(() =>
+      expect(screen.getByText('FARM_MAP.ROW_PLANNER.SURVEY_LOADED')).toBeTruthy(),
+    );
+    plan();
+    await waitFor(() => expect(download().disabled).toBe(false));
+    fireEvent.change(survey, { target: { files: [new File(['invalid'], 'invalid.csv')] } });
+    expect(download().disabled).toBe(true);
+    await waitFor(() =>
+      expect(screen.getByText('FARM_MAP.ROW_PLANNER.ERRORS.SURVEY_COLUMNS')).toBeTruthy(),
+    );
+  });
+
   it('pushes internal and external assets into map sources, fits once, and cleans up all markers', () => {
     harness.internal.locations = { area: { field: [field] }, point: { gate: [gate] } };
     harness.external.locations = {

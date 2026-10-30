@@ -6,8 +6,6 @@
 const PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
 const BASE = new URL('.', self.location.href).href;
 
-importScripts(PYODIDE_URL + 'pyodide.js');
-
 let pyPromise = null;
 let contourPromise = null;
 
@@ -21,6 +19,7 @@ const loadPython = (say) => {
   if (!pyPromise) {
     pyPromise = (async () => {
       say('LOADING_PYTHON');
+      importScripts(PYODIDE_URL + 'pyodide.js');
       const py = await loadPyodide({ indexURL: PYODIDE_URL });
       await py.loadPackage(['numpy', 'shapely']);
       py.FS.mkdirTree('/lib/devkit_f2c_planner');

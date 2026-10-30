@@ -75,9 +75,17 @@ describe('listPlannableAreas and findObstacles', () => {
   it('accepts a single object per type', () => {
     expect(listPlannableAreas({ field })).toHaveLength(1);
   });
-  it('returns only obstacles whose centre is inside the field', () => {
-    const ring = listPlannableAreas(areas)[0].ring;
-    expect(findObstacles(areas, ring)).toHaveLength(1);
+  it('returns intersecting obstacles, including crossings and containment', () => {
+    const ring = areaToRing({ grid_points: square(0, 0, 10) })!;
+    const crossing = { type: 'barn', grid_points: pts([4, -1], [4, 11], [6, 11], [6, -1]) };
+    const partial = { type: 'greenhouse', grid_points: square(9, 9, 3) };
+    const enclosing = { type: 'residence', grid_points: square(-1, -1, 12) };
+    const inside = { type: 'barn', grid_points: square(1, 1, 1) };
+    const outside = { type: 'barn', grid_points: square(20, 20, 1) };
+    const ignored = { type: 'field', grid_points: square(1, 1, 1) };
+    expect(
+      findObstacles({ areas: [crossing, partial, enclosing, inside, outside, ignored] }, ring),
+    ).toEqual([crossing, partial, enclosing, inside].map(areaToRing));
   });
 });
 
@@ -102,20 +110,42 @@ describe('validateSettings', () => {
 });
 
 describe('checkSurveyCsv', () => {
-  it('counts valid points', () => {
-    const csv = 'stamp,lat,lon,alt\n1,48,3,99\n2,48,3.1,98\n3,48,3.2,97\n4,x,3,1\n';
-    expect(checkSurveyCsv(csv)).toEqual({ count: 3, errorKey: null });
+  const header = 'stamp,x,y,lat,lon,alt';
+  const rows = ['1,0,1,48,3,99', '2,1,2,48,3.1,98', '3,2,3,48,3.2,97'];
+  it('counts valid points, including zero and a byte order mark', () => {
+    expect(checkSurveyCsv(`\uFEFF${header}\n${rows.join('\n')}\n`)).toEqual({
+      count: 3,
+      errorKey: null,
+    });
   });
-  it('rejects missing columns and too few points', () => {
-    expect(checkSurveyCsv('a,b\n1,2').errorKey).toBe('SURVEY_COLUMNS');
-    expect(checkSurveyCsv('lat,lon,alt\n1,2,3\n').errorKey).toBe('SURVEY_POINTS');
-  });
-  it('does not count blank cells as zero', () => {
-    expect(checkSurveyCsv('lat,lon,alt\n1,2,\n1,2,\n1,2,\n').count).toBe(0);
-  });
-  it('copes with a byte order mark and an empty file', () => {
-    expect(checkSurveyCsv('\uFEFFlat,lon,alt\n1,2,3\n1,2,3\n1,2,3').errorKey).toBeNull();
+  it('requires all five columns and at least three points', () => {
+    expect(checkSurveyCsv('lat,lon,alt\n1,2,3').errorKey).toBe('SURVEY_COLUMNS');
     expect(checkSurveyCsv('').errorKey).toBe('SURVEY_COLUMNS');
+    expect(checkSurveyCsv(`${header}\n${rows[0]}`).errorKey).toBe('SURVEY_POINTS');
+  });
+  it.each([1, 2, 3, 4, 5])('rejects a missing or non-numeric value in column %i', (column) => {
+    for (const invalid of ['', 'abc', '0x10']) {
+      const cells = rows[0].split(',');
+      cells[column] = invalid;
+      expect(checkSurveyCsv(`${header}\n${rows.join('\n')}\n${cells.join(',')}`)).toEqual({
+        count: 0,
+        errorKey: 'SURVEY_INVALID',
+      });
+    }
+  });
+  it('parses quoted CSV values without shifting required columns', () => {
+    const csv =
+      'note,x,y,lat,lon,alt\n"first, point","0",1,48,3,99\nsecond,1,2,48,3,98\nthird,2,3,48,3,97';
+    expect(checkSurveyCsv(csv)).toEqual({ count: 3, errorKey: null });
+    expect(checkSurveyCsv(csv.replace('third,2,3,48,3,97', '"third, point",2,3,48,3,bad'))).toEqual(
+      { count: 0, errorKey: 'SURVEY_INVALID' },
+    );
+  });
+  it('rejects rows with too few cells', () => {
+    expect(checkSurveyCsv(`${header}\n${rows.join('\n')}\n4,1,2,3`)).toEqual({
+      count: 0,
+      errorKey: 'SURVEY_INVALID',
+    });
   });
 });
 
@@ -215,13 +245,17 @@ describe('plan output', () => {
 
 describe('createPlannerClient', () => {
   const makeFakeWorker = (reply: (msg: any, emit: (data: any) => void) => void) => {
-    const listeners = new Set<(e: MessageEvent) => void>();
-    const emit = (data: any) => listeners.forEach((l) => l({ data } as MessageEvent));
+    const listeners = {
+      message: new Set<(e: any) => void>(),
+      error: new Set<(e: any) => void>(),
+    };
+    const emit = (data: any) => listeners.message.forEach((l) => l({ data }));
     return {
-      addEventListener: (_: string, l: any) => listeners.add(l),
-      removeEventListener: (_: string, l: any) => listeners.delete(l),
+      addEventListener: (type: 'message' | 'error', l: any) => listeners[type].add(l),
+      removeEventListener: (type: 'message' | 'error', l: any) => listeners[type].delete(l),
       postMessage: vi.fn((msg: any) => reply(msg, emit)),
       terminate: vi.fn(),
+      emitError: (message: string) => listeners.error.forEach((l) => l({ message })),
       listeners,
     };
   };
@@ -237,12 +271,30 @@ describe('createPlannerClient', () => {
     const onStatus = vi.fn();
     await expect(client.plan(request, '', onStatus)).resolves.toEqual({ rows: [] });
     expect(onStatus).toHaveBeenCalledWith('PLANNING');
-    expect(worker.listeners.size).toBe(0);
+    expect(worker.listeners.message.size).toBe(0);
+    expect(worker.listeners.error.size).toBe(0);
   });
   it('rejects with the worker error', async () => {
     const worker = makeFakeWorker((msg, emit) => emit({ id: msg.id, ok: false, error: 'boom' }));
     const client = createPlannerClient(() => worker as unknown as Worker);
     await expect(client.plan(request, '')).rejects.toThrow('boom');
+    expect(worker.terminate).toHaveBeenCalled();
+    expect(worker.listeners.message.size).toBe(0);
+    expect(worker.listeners.error.size).toBe(0);
+  });
+  it('rejects and discards a failed worker, then creates another for a retry', async () => {
+    const failed = makeFakeWorker(() => {});
+    const replacement = makeFakeWorker((msg, emit) => emit({ id: msg.id, ok: true, result: {} }));
+    const make = vi.fn().mockReturnValueOnce(failed).mockReturnValueOnce(replacement);
+    const client = createPlannerClient(make);
+    const pending = client.plan(request, '');
+    failed.emitError('worker failed to load');
+    await expect(pending).rejects.toThrow('worker failed to load');
+    expect(failed.terminate).toHaveBeenCalled();
+    expect(failed.listeners.message.size).toBe(0);
+    expect(failed.listeners.error.size).toBe(0);
+    await expect(client.plan(request, '')).resolves.toEqual({});
+    expect(make).toHaveBeenCalledTimes(2);
   });
   it('creates the worker once and terminates it', async () => {
     const worker = makeFakeWorker((msg, emit) => emit({ id: msg.id, ok: true, result: {} }));

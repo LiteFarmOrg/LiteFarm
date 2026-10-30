@@ -293,7 +293,13 @@ export default function MapLibreMap({ isCompactSideMenu }) {
     setPlanErrorMessage(null);
   };
 
+  const handlePlanSettingsChange = (settings) => {
+    setPlan(null);
+    setPlanSettings(settings);
+  };
+
   const handleSurveyFile = async (file) => {
+    setPlan(null);
     setPlanErrorKey(null);
     setPlanErrorMessage(null);
     if (!file) return setSurvey({ csv: '', count: 0 });
@@ -686,7 +692,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
               errorMessage={planErrorMessage}
               hasPlan={!!plan}
               onFieldChange={handlePlanFieldChange}
-              onSettingsChange={setPlanSettings}
+              onSettingsChange={handlePlanSettingsChange}
               onSurveyFile={handleSurveyFile}
               onPlan={handlePlan}
               onClear={() => {

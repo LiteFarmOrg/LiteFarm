@@ -17,8 +17,8 @@
 // (Agroecology-Lab/Sowbot), run in the browser by public/sowbot-planner/planner.worker.js. This file builds
 // requests from LiteFarm locations, validates input, and turns results into GeoJSON.
 
-import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
-import centroid from '@turf/centroid';
+import booleanIntersects from '@turf/boolean-intersects';
+import { csvParseRows } from 'd3';
 import { distanceBetween } from './mapLibre/geodesy';
 
 export type Ring = [number, number][]; // [lat, lng]
@@ -101,14 +101,14 @@ export const listPlannableAreas = (areas: Record<string, any> = {}): PlannableAr
       ring,
     }));
 
-/** Obstacle areas whose centre lies inside the field. */
+/** Obstacle areas that intersect the field. */
 export const findObstacles = (areas: Record<string, any> = {}, field: Ring): Ring[] => {
   const fieldPolygon = toLngLatPolygon(field);
   return flatten(areas)
     .filter((location) => OBSTACLE_AREA_TYPES.includes(location?.type))
     .map(areaToRing)
     .filter((ring): ring is Ring => ring !== null)
-    .filter((ring) => booleanPointInPolygon(centroid(toLngLatPolygon(ring)), fieldPolygon));
+    .filter((ring) => booleanIntersects(toLngLatPolygon(ring), fieldPolygon));
 };
 
 /** Returns a key under FARM_MAP.ROW_PLANNER.ERRORS, or null when the settings are usable. */
@@ -124,19 +124,22 @@ export const validateSettings = (settings: PlanSettings, surveyCount: number): s
   return null;
 };
 
-/** Counts usable points in a survey CSV (lat, lon, alt columns). */
+/** Validates and counts points in a survey CSV. */
 export const checkSurveyCsv = (text: string): { count: number; errorKey: string | null } => {
-  const lines = text
-    .replace(/^\uFEFF/, '')
-    .trim()
-    .split(/\r?\n/);
-  const header = lines[0].split(',').map((h) => h.trim());
-  const index = ['lat', 'lon', 'alt'].map((name) => header.indexOf(name));
+  const [header = [], ...rows] = csvParseRows(text.replace(/^\uFEFF/, ''));
+  const index = ['x', 'y', 'lat', 'lon', 'alt'].map((name) =>
+    header.findIndex((column) => column.trim() === name),
+  );
   if (index.includes(-1)) return { count: 0, errorKey: 'SURVEY_COLUMNS' };
-  const count = lines.slice(1).filter((line) => {
-    const cells = line.split(',');
-    return index.every((i) => cells[i]?.trim() !== '' && Number.isFinite(Number(cells[i])));
-  }).length;
+  const decimal = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i;
+  const invalid = rows.some((cells) =>
+    index.some((i) => {
+      const value = cells[i]?.trim();
+      return !value || !decimal.test(value) || !Number.isFinite(Number(value));
+    }),
+  );
+  if (invalid) return { count: 0, errorKey: 'SURVEY_INVALID' };
+  const count = rows.length;
   return count < 3 ? { count, errorKey: 'SURVEY_POINTS' } : { count, errorKey: null };
 };
 
@@ -249,15 +252,35 @@ export const createPlannerClient = (
       const id = ++counter;
       const w = get();
       return new Promise((resolve, reject) => {
+        const cleanup = () => {
+          w.removeEventListener('message', handler);
+          w.removeEventListener('error', onError);
+        };
+        const fail = (error: Error) => {
+          cleanup();
+          if (worker === w) worker = null;
+          w.terminate();
+          reject(error);
+        };
         const handler = ({ data }: MessageEvent) => {
           if (data.id !== id) return;
           if (data.status) return onStatus(data.status);
-          w.removeEventListener('message', handler);
-          if (data.ok) resolve(data.result);
-          else reject(new Error(data.error));
+          if (data.ok) {
+            cleanup();
+            resolve(data.result);
+          } else {
+            fail(new Error(data.error));
+          }
         };
+        const onError = (event: ErrorEvent) =>
+          fail(new Error(event.message || 'Planner worker failed'));
         w.addEventListener('message', handler);
-        w.postMessage({ id, req, csv });
+        w.addEventListener('error', onError);
+        try {
+          w.postMessage({ id, req, csv });
+        } catch (error) {
+          fail(error instanceof Error ? error : new Error(String(error)));
+        }
       });
     },
     terminate() {

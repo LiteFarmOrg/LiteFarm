@@ -1002,7 +1002,8 @@
         "GRID": "Survey grid cell must be at least 0.25 m.",
         "NEEDS_SURVEY": "Contour rows need a survey file first.",
         "NEGATIVE": "Headland cannot be negative.",
-        "SURVEY_COLUMNS": "The survey needs lat, lon and alt columns.",
+        "SURVEY_COLUMNS": "The survey needs x, y, lat, lon and alt columns.",
+        "SURVEY_INVALID": "Every survey point needs numeric x, y, lat, lon and alt values.",
         "SURVEY_POINTS": "The survey needs at least 3 valid points.",
         "TOOL_WIDTH": "Row spacing must be at least 0.5 m."
       },
@@ -1024,7 +1025,7 @@
         "LOADING_PYTHON": "Loading the planner…",
         "PLANNING": "Planning… contour rows can take a minute."
       },
-      "SURVEY": "Survey CSV (lat, lon, alt columns)",
+      "SURVEY": "Survey CSV (x, y, lat, lon, alt columns)",
       "SURVEY_LOADED": "Survey: {{count}} points",
       "TITLE": "Plan rows",
       "TOOL_WIDTH": "Row spacing (m)"

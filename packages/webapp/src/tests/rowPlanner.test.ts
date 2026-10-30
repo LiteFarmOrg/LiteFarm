@@ -238,6 +238,7 @@ describe('plan output', () => {
     expect(geojson.features[0].geometry.coordinates[0].at(-1)).toEqual([-2, 51]);
     expect(geojson.properties).toMatchObject({
       generator: 'litefarm-row-planner',
+      source: 'in_app',
       origin: [51, -2],
     });
   });

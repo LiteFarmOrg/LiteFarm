@@ -216,6 +216,8 @@ export const buildDownloadGeoJSON = (request: PlanRequest, result: PlanResult) =
     properties: {
       version: 1,
       generator: 'litefarm-row-planner',
+      // In-app plans have no map_id, so the station ignores them. See the row_plan import in the API.
+      source: 'in_app' as const,
       origin: request.field[0],
       tool_width: request.w,
       angle: request.a,

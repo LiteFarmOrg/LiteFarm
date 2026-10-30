@@ -166,6 +166,7 @@ import exportRoute from './routes/exportRoute.js';
 import farmTokenRoute from './routes/farmTokenRoute.js';
 import documentRoute from './routes/documentRoute.js';
 import taskRoute from './routes/taskRoute.js';
+import rowPlanRoute from './routes/rowPlanRoute.js';
 import productRoute from './routes/productRoute.js';
 import notificationUserRoute from './routes/notificationUserRoute.js';
 import timeNotificationRoute from './routes/timeNotificationRoute.js';
@@ -239,7 +240,10 @@ app.set('json replacer', (key: string, value: string) => {
 });
 
 // Apply default express.json() request size limit to all routes except sensor webhook
+// Row plan imports carry a GeoJSON file of up to 5MB (see MAX_BYTES in util/rowPlan.js). Their larger
+// limit is applied after checkJwt, so unauthenticated requests never get it.
 const applyExpressJSON: RequestHandler = (req, res, next) => {
+  if (req.path.startsWith('/row_plan')) return next();
   const jsonMiddleware = express.json({ limit: '100kB' });
   jsonMiddleware(req, res, next);
 };
@@ -357,6 +361,7 @@ app
   .use('/farm_token', farmTokenRoute)
   .use('/document', documentRoute)
   .use('/task', taskRoute)
+  .use('/row_plan', express.json({ limit: '5MB' }), rowPlanRoute)
   .use('/product', productRoute)
   .use('/nomination', nominationRoutes)
   .use('/notification_user', notificationUserRoute)

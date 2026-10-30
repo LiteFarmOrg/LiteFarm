@@ -34,6 +34,9 @@ const harness = vi.hoisted(() => ({
   navigate: vi.fn(),
   dispatch: vi.fn(),
   importRowPlan: vi.fn(),
+  savedPlan: null as any,
+  refetchSavedPlan: vi.fn(),
+  savedPlanArgs: vi.fn(),
 }));
 
 vi.mock('maplibre-gl', () => ({
@@ -117,6 +120,10 @@ vi.mock('../store/api/rowPlanApi', () => ({
     (args: any) => ({ unwrap: () => harness.importRowPlan(args) }),
     { isLoading: false },
   ],
+  useGetFieldRowPlanQuery: (args: any, options: any) => {
+    harness.savedPlanArgs(args, options);
+    return { data: options?.skip ? undefined : harness.savedPlan, refetch: harness.refetchSavedPlan };
+  },
 }));
 vi.mock('react-router-dom', () => ({
   useNavigate: () => harness.navigate,
@@ -215,6 +222,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   harness.maps.length = 0;
   harness.markers.length = 0;
+  harness.savedPlan = null;
   harness.internal = { locations: {}, isFetching: false };
   harness.external = { locations: {}, isLoading: false };
   harness.route = { state: undefined };
@@ -348,6 +356,48 @@ describe('MapLibre farm map', () => {
     expect(screen.queryByText('FARM_MAP.ROW_PLANNER.SAVED')).toBeNull();
     fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.PLAN'));
     await waitFor(() => expect(save().disabled).toBe(false));
+  });
+
+  it('draws the saved plan of the field on load, without planning again', () => {
+    harness.internal.locations = { area: { field: [field] } };
+    harness.savedPlan = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: { role: 'field' },
+          geometry: { type: 'Polygon', coordinates: [[[0, 0], [0, 1], [1, 1], [0, 0]]] },
+        },
+        {
+          type: 'Feature',
+          properties: { role: 'row', row: 0, frag: 0 },
+          geometry: { type: 'LineString', coordinates: [[0, 0], [1, 1]] },
+        },
+      ],
+    };
+    render(<MapLibreMap isCompactSideMenu={false} />);
+    loadMap();
+    expect(harness.savedPlanArgs).toHaveBeenCalledWith(
+      { farm_id: 'farm', location_id: field.location_id },
+      expect.objectContaining({ skip: false, refetchOnMountOrArgChange: true }),
+    );
+    const map = harness.maps[0];
+    expect(map.sources['row-plan'].options.data.features).toHaveLength(1);
+    expect(map.sources['row-plan'].options.data.features[0].properties.role).toBe('row');
+  });
+
+  it('refetches the saved plan after a successful save', async () => {
+    stubPlannerWorker();
+    harness.importRowPlan.mockResolvedValue({ row_plan: {}, row_count: 1, warnings: [] });
+    harness.internal.locations = { area: { field: [field] } };
+    render(<MapLibreMap isCompactSideMenu={false} />);
+    loadMap();
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.TITLE'));
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.PLAN'));
+    const save = () => screen.getByText(/^FARM_MAP\.ROW_PLANNER\.SAVE(D)?$/) as HTMLButtonElement;
+    await waitFor(() => expect(save().disabled).toBe(false));
+    fireEvent.click(save());
+    await waitFor(() => expect(harness.refetchSavedPlan).toHaveBeenCalledTimes(1));
   });
 
   it('shows the API error and lets the user retry when saving fails', async () => {

@@ -109,7 +109,7 @@ describe('RowPlannerControl', () => {
   });
   it('saves only when there is a plan that is not already saved or saving', () => {
     const save = () =>
-      screen.getByText(/^FARM_MAP\.ROW_PLANNER\.SAVE(D|ING)?$/) as HTMLButtonElement;
+      screen.getByText(/^FARM_MAP\.ROW_PLANNER\.(SAVE|SAVED|SAVING)$/) as HTMLButtonElement;
     setup();
     expect(save().disabled).toBe(true);
     cleanup();

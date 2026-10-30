@@ -33,6 +33,7 @@ const harness = vi.hoisted(() => ({
   saveAs: vi.fn(),
   navigate: vi.fn(),
   dispatch: vi.fn(),
+  importRowPlan: vi.fn(),
 }));
 
 vi.mock('maplibre-gl', () => ({
@@ -110,6 +111,12 @@ vi.mock('file-saver', () => ({ saveAs: harness.saveAs }));
 vi.mock('react-redux', () => ({
   useSelector: (selector: Function) => selector(harness.state),
   useDispatch: () => harness.dispatch,
+}));
+vi.mock('../store/api/rowPlanApi', () => ({
+  useImportRowPlanMutation: () => [
+    (args: any) => ({ unwrap: () => harness.importRowPlan(args) }),
+    { isLoading: false },
+  ],
 }));
 vi.mock('react-router-dom', () => ({
   useNavigate: () => harness.navigate,
@@ -258,28 +265,32 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+const stubPlannerWorker = () => {
+  class FakeWorker {
+    listeners = new Set<(event: any) => void>();
+    addEventListener(type: string, listener: (event: any) => void) {
+      if (type === 'message') this.listeners.add(listener);
+    }
+    removeEventListener(type: string, listener: (event: any) => void) {
+      if (type === 'message') this.listeners.delete(listener);
+    }
+    postMessage({ id, req }: any) {
+      queueMicrotask(() =>
+        this.listeners.forEach((listener) =>
+          listener({
+            data: { id, ok: true, result: { rows: [], tags: [], contour: req.c, asked: req.c } },
+          }),
+        ),
+      );
+    }
+    terminate() {}
+  }
+  vi.stubGlobal('Worker', FakeWorker);
+};
+
 describe('MapLibre farm map', () => {
   it('clears a completed plan when settings or the survey file change', async () => {
-    class FakeWorker {
-      listeners = new Set<(event: any) => void>();
-      addEventListener(type: string, listener: (event: any) => void) {
-        if (type === 'message') this.listeners.add(listener);
-      }
-      removeEventListener(type: string, listener: (event: any) => void) {
-        if (type === 'message') this.listeners.delete(listener);
-      }
-      postMessage({ id, req }: any) {
-        queueMicrotask(() =>
-          this.listeners.forEach((listener) =>
-            listener({
-              data: { id, ok: true, result: { rows: [], tags: [], contour: req.c, asked: req.c } },
-            }),
-          ),
-        );
-      }
-      terminate() {}
-    }
-    vi.stubGlobal('Worker', FakeWorker);
+    stubPlannerWorker();
     harness.internal.locations = { area: { field: [field] } };
     render(<MapLibreMap isCompactSideMenu={false} />);
     loadMap();
@@ -305,6 +316,57 @@ describe('MapLibre farm map', () => {
     await waitFor(() =>
       expect(screen.getByText('FARM_MAP.ROW_PLANNER.ERRORS.SURVEY_COLUMNS')).toBeTruthy(),
     );
+  });
+
+  it('saves the plan as in-app GeoJSON, then un-saves it when the plan is replaced', async () => {
+    stubPlannerWorker();
+    harness.importRowPlan.mockResolvedValue({
+      row_plan: {},
+      row_count: 0,
+      warnings: ['one row is outside'],
+    });
+    harness.internal.locations = { area: { field: [field] } };
+    render(<MapLibreMap isCompactSideMenu={false} />);
+    loadMap();
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.TITLE'));
+    const save = () => screen.getByText(/^FARM_MAP\.ROW_PLANNER\.SAVE(D)?$/) as HTMLButtonElement;
+    expect(save().disabled).toBe(true);
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.PLAN'));
+    await waitFor(() => expect(save().disabled).toBe(false));
+
+    fireEvent.click(save());
+    await waitFor(() => expect(screen.getByText('FARM_MAP.ROW_PLANNER.SAVED')).toBeTruthy());
+    expect(harness.importRowPlan).toHaveBeenCalledTimes(1);
+    const args = harness.importRowPlan.mock.calls[0][0];
+    expect(args.farm_id).toBe('farm');
+    expect(args.location_id).toBe(field.location_id);
+    expect(args.geojson.properties.source).toBe('in_app');
+    expect((save() as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.getByText('FARM_MAP.ROW_PLANNER.SAVE_WARNINGS')).toBeTruthy();
+
+    fireEvent.change(screen.getByDisplayValue('5'), { target: { value: '3' } });
+    expect(screen.queryByText('FARM_MAP.ROW_PLANNER.SAVED')).toBeNull();
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.PLAN'));
+    await waitFor(() => expect(save().disabled).toBe(false));
+  });
+
+  it('shows the API error and lets the user retry when saving fails', async () => {
+    stubPlannerWorker();
+    harness.importRowPlan.mockRejectedValueOnce({ data: { error: 'no rows in plan' } });
+    harness.importRowPlan.mockResolvedValueOnce({ row_plan: {}, row_count: 1, warnings: [] });
+    harness.internal.locations = { area: { field: [field] } };
+    render(<MapLibreMap isCompactSideMenu={false} />);
+    loadMap();
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.TITLE'));
+    fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.PLAN'));
+    const save = () => screen.getByText('FARM_MAP.ROW_PLANNER.SAVE') as HTMLButtonElement;
+    await waitFor(() => expect(save().disabled).toBe(false));
+    fireEvent.click(save());
+    await waitFor(() => expect(screen.getByText('FARM_MAP.ROW_PLANNER.SAVE_FAILED')).toBeTruthy());
+    expect(save().disabled).toBe(false);
+    fireEvent.click(save());
+    await waitFor(() => expect(screen.getByText('FARM_MAP.ROW_PLANNER.SAVED')).toBeTruthy());
+    expect(screen.queryByText('FARM_MAP.ROW_PLANNER.SAVE_FAILED')).toBeNull();
   });
 
   it('pushes internal and external assets into map sources, fits once, and cleans up all markers', () => {

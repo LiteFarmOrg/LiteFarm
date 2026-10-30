@@ -29,12 +29,17 @@ export default function RowPlannerControl({
   errorKey,
   errorMessage,
   hasPlan,
+  isSaving,
+  isSaved,
+  saveError,
+  saveWarnings,
   onFieldChange,
   onSettingsChange,
   onSurveyFile,
   onPlan,
   onClear,
   onDownload,
+  onSave,
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -145,6 +150,18 @@ export default function RowPlannerControl({
                 >
                   {t(prefix + 'DOWNLOAD')}
                 </button>
+                <button
+                  type="button"
+                  className={styles.button}
+                  disabled={isBusy || isSaving || isSaved || !hasPlan}
+                  onClick={onSave}
+                >
+                  {isSaving
+                    ? t(prefix + 'SAVING')
+                    : isSaved
+                      ? t(prefix + 'SAVED')
+                      : t(prefix + 'SAVE')}
+                </button>
               </div>
               {isBusy && statusKey && (
                 <p className={styles.result} role="status">
@@ -159,6 +176,16 @@ export default function RowPlannerControl({
               {errorMessage && (
                 <p className={styles.error} role="alert">
                   {t(prefix + 'FAILED', { message: errorMessage })}
+                </p>
+              )}
+              {saveError && (
+                <p className={styles.error} role="alert">
+                  {t(prefix + 'SAVE_FAILED', { message: saveError })}
+                </p>
+              )}
+              {isSaved && saveWarnings?.length > 0 && (
+                <p className={styles.result} role="status">
+                  {t(prefix + 'SAVE_WARNINGS', { message: saveWarnings.join('; ') })}
                 </p>
               )}
               {summary && !isBusy && (
@@ -204,10 +231,15 @@ RowPlannerControl.propTypes = {
   errorKey: PropTypes.string,
   errorMessage: PropTypes.string,
   hasPlan: PropTypes.bool,
+  isSaving: PropTypes.bool,
+  isSaved: PropTypes.bool,
+  saveError: PropTypes.string,
+  saveWarnings: PropTypes.arrayOf(PropTypes.string),
   onFieldChange: PropTypes.func.isRequired,
   onSettingsChange: PropTypes.func.isRequired,
   onSurveyFile: PropTypes.func.isRequired,
   onPlan: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onDownload: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };

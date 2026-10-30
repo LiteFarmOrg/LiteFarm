@@ -39,6 +39,7 @@ const setup = (props = {}) => {
     onPlan: vi.fn(),
     onClear: vi.fn(),
     onDownload: vi.fn(),
+    onSave: vi.fn(),
   };
   render(
     <RowPlannerControl
@@ -70,6 +71,7 @@ describe('RowPlannerControl', () => {
         onPlan={vi.fn()}
         onClear={vi.fn()}
         onDownload={vi.fn()}
+        onSave={vi.fn()}
       />,
     );
     expect(screen.queryByRole('combobox')).toBeNull();
@@ -104,6 +106,30 @@ describe('RowPlannerControl', () => {
     fireEvent.click(screen.getByText('FARM_MAP.ROW_PLANNER.DOWNLOAD'));
     expect(h2.onClear).toHaveBeenCalled();
     expect(h2.onDownload).toHaveBeenCalled();
+  });
+  it('saves only when there is a plan that is not already saved or saving', () => {
+    const save = () =>
+      screen.getByText(/^FARM_MAP\.ROW_PLANNER\.SAVE(D|ING)?$/) as HTMLButtonElement;
+    setup();
+    expect(save().disabled).toBe(true);
+    cleanup();
+    const h = setup({ hasPlan: true });
+    expect(save().disabled).toBe(false);
+    fireEvent.click(save());
+    expect(h.onSave).toHaveBeenCalledTimes(1);
+    cleanup();
+    setup({ hasPlan: true, isSaving: true });
+    expect(save().textContent).toBe('FARM_MAP.ROW_PLANNER.SAVING');
+    expect(save().disabled).toBe(true);
+    cleanup();
+    setup({ hasPlan: true, isSaved: true, saveWarnings: ['a', 'b'] });
+    expect(save().textContent).toBe('FARM_MAP.ROW_PLANNER.SAVED');
+    expect(save().disabled).toBe(true);
+    expect(screen.getByRole('status').textContent).toContain('a; b');
+  });
+  it('shows a save error', () => {
+    setup({ hasPlan: true, saveError: 'no rows in plan' });
+    expect(screen.getByRole('alert').textContent).toContain('no rows in plan');
   });
   it('disables inputs and shows the status while busy', () => {
     setup({ isBusy: true, statusKey: 'LOADING_PYTHON' });

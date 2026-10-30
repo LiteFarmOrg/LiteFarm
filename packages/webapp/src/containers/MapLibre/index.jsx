@@ -100,7 +100,7 @@ import {
   summarisePlan,
   validateSettings,
 } from '../../util/rowPlanner';
-import { useGetFieldRowPlanQuery, useImportRowPlanMutation } from '../../store/api/rowPlanApi';
+import { useImportRowPlanMutation } from '../../store/api/rowPlanApi';
 import useRowPlan from './useRowPlan';
 import RowPlannerControl from '../../components/Map/RowPlannerControl';
 
@@ -287,29 +287,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
     [plan],
   );
   const planSummary = useMemo(() => (plan ? summarisePlan(plan.result) : null), [plan]);
-  // The saved plan for the field, shown until a new plan is made. Always refetched so a plan
-  // saved earlier (or superseded elsewhere) is never served from a stale cache.
-  const { data: savedPlan, refetch: refetchSavedPlan } = useGetFieldRowPlanQuery(
-    { farm_id, location_id: planField?.id },
-    {
-      skip: !farm_id || !planField?.id || isOffline,
-      refetchOnMountOrArgChange: true,
-    },
-  );
-  const savedCollection = useMemo(
-    () =>
-      savedPlan
-        ? {
-            type: 'FeatureCollection',
-            features: savedPlan.features.filter((f) => f.properties?.role === 'row'),
-          }
-        : null,
-    [savedPlan],
-  );
-  useRowPlan({
-    map: mapReady ? mapRef.current : null,
-    collection: planCollection ?? savedCollection,
-  });
+  useRowPlan({ map: mapReady ? mapRef.current : null, collection: planCollection });
   useEffect(() => () => plannerRef.current?.terminate(), []);
 
   const handlePlanFieldChange = (id) => {
@@ -387,7 +365,6 @@ export default function MapLibreMap({ isCompactSideMenu }) {
         geojson: buildDownloadGeoJSON(saving.request, saving.result),
       }).unwrap();
       setSave({ plan: saving, saved: true, error: null, warnings: saved.warnings ?? [] });
-      refetchSavedPlan();
     } catch (error) {
       setSave({
         plan: saving,

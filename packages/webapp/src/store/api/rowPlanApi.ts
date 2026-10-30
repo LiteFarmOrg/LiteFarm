@@ -35,30 +35,8 @@ export interface ImportRowPlanResponse {
   warnings: string[];
 }
 
-export interface GetFieldRowPlanArgs {
-  farm_id: string;
-  location_id: string;
-}
-
-export interface FieldRowPlanGeoJSON {
-  type: 'FeatureCollection';
-  features: object[];
-}
-
 export const rowPlanApi = api.injectEndpoints({
   endpoints: (build) => ({
-    // The field's current (not superseded) plan as map features, or null when it has none.
-    getFieldRowPlan: build.query<FieldRowPlanGeoJSON | null, GetFieldRowPlanArgs>({
-      async queryFn({ farm_id, location_id }, _api, _extraOptions, baseQuery) {
-        const list = await baseQuery(`${rowPlanUrl}/farm/${farm_id}?location_id=${location_id}`);
-        if (list.error) return { error: list.error };
-        const [current] = list.data as RowPlanSummary[]; // newest first, superseded plans excluded
-        if (!current) return { data: null };
-        const geojson = await baseQuery(`${rowPlanUrl}/${current.row_plan_id}/geojson`);
-        if (geojson.error) return { error: geojson.error };
-        return { data: geojson.data as FieldRowPlanGeoJSON };
-      },
-    }),
     // Saves a plan for a field. The field's current in-app plan, if any, is superseded so the
     // field keeps one current plan. A robot plan is never superseded from here.
     importRowPlan: build.mutation<ImportRowPlanResponse, ImportRowPlanArgs>({
@@ -80,4 +58,4 @@ export const rowPlanApi = api.injectEndpoints({
   }),
 });
 
-export const { useImportRowPlanMutation, useGetFieldRowPlanQuery } = rowPlanApi;
+export const { useImportRowPlanMutation } = rowPlanApi;

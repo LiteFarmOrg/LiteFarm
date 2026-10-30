@@ -54,7 +54,12 @@ export const rowPlanApi = api.injectEndpoints({
         if (list.error) return { error: list.error };
         const [current] = list.data as RowPlanSummary[]; // newest first, superseded plans excluded
         if (!current) return { data: null };
-        const geojson = await baseQuery(`${rowPlanUrl}/${current.row_plan_id}/geojson`);
+        // The export is application/geo+json, which the api's 'content-type' response handler would
+        // return as plain text, so ask for JSON explicitly.
+        const geojson = await baseQuery({
+          url: `${rowPlanUrl}/${current.row_plan_id}/geojson`,
+          responseHandler: 'json',
+        });
         if (geojson.error) return { error: geojson.error };
         return { data: geojson.data as FieldRowPlanGeoJSON };
       },

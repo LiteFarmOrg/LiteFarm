@@ -298,7 +298,7 @@ export default function MapLibreMap({ isCompactSideMenu }) {
   );
   const savedCollection = useMemo(
     () =>
-      savedPlan
+      Array.isArray(savedPlan?.features)
         ? {
             type: 'FeatureCollection',
             features: savedPlan.features.filter((f) => f.properties?.role === 'row'),

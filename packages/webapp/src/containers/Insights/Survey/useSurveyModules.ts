@@ -175,16 +175,21 @@ export const useSurveyModules = (
   });
   const { data: serverDrafts } = useGetSurveyDraftsQuery(undefined, { skip: !moduleIds.length });
 
-  return moduleIds.map((surveyId) => ({
-    surveyId,
-    title: titleBySurveyId[surveyId],
-    scoreDisplay: SURVEY_INFO[surveyId].scoreDisplay,
-    survey: getSurveyState(
+  return moduleIds.map((surveyId) => {
+    const survey = getSurveyState(
       surveyId,
       responses?.[surveyId],
       serverDrafts?.[surveyId],
       localDrafts[surveyId],
       checkHasNewVersion,
-    ),
-  }));
+    );
+
+    return {
+      surveyId,
+      title: titleBySurveyId[surveyId],
+      scoreDisplay: SURVEY_INFO[surveyId].scoreDisplay,
+      isJoint: survey.type === 'completed' && !!survey.halves,
+      survey,
+    };
+  });
 };

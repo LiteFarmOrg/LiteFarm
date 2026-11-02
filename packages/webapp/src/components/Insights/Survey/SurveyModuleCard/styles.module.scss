@@ -131,6 +131,11 @@
 .halves {
   display: flex;
   width: 100%;
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .half {
@@ -145,6 +150,12 @@
 
 .half + .half {
   border-left: 1px solid var(--Colors-Neutral-Neutral-50);
+
+  @include xs-breakpoint {
+    padding-top: 16px;
+    border-top: 1px solid var(--Colors-Neutral-Neutral-50);
+    border-left: none;
+  }
 }
 
 .halfLabel {

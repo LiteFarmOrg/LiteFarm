@@ -14,6 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import type { TFunction } from 'i18next';
 import Button, { ButtonProps } from '../../../Form/Button';
 import SurveyIcon from '../../../../assets/images/survey.svg?react';
@@ -42,6 +43,7 @@ export type SurveyState =
     };
 
 export interface SurveyModuleCardProps {
+  className?: string;
   title: string;
   onAction: () => void;
   survey: SurveyState;
@@ -92,12 +94,18 @@ const getCardConfig = (
   }
 };
 
-const SurveyModuleCard = ({ title, onAction, survey, scoreDisplay }: SurveyModuleCardProps) => {
+const SurveyModuleCard = ({
+  className,
+  title,
+  onAction,
+  survey,
+  scoreDisplay,
+}: SurveyModuleCardProps) => {
   const { t } = useTranslation();
   const { actionColor, actionLabel, metaText } = getCardConfig(survey, t, scoreDisplay);
 
   return (
-    <div className={styles.card}>
+    <div className={clsx(styles.card, className)}>
       <div className={styles.titleRow}>
         {survey.type === 'completed' && survey.hasNewVersion && (
           <NewVersionBadge className={styles.newVersionBadge} />

@@ -22,6 +22,7 @@ export interface SurveyModule {
   surveyId: string;
   title: string;
   scoreDisplay?: SurveyScoreDisplay;
+  isJoint?: boolean;
   survey: SurveyState;
 }
 
@@ -33,9 +34,10 @@ export interface SurveyModuleSectionProps {
 const SurveyModuleSection = ({ modules, onModuleAction }: SurveyModuleSectionProps) => {
   return (
     <div className={styles.grid}>
-      {modules.map(({ surveyId, title, scoreDisplay, survey }) => (
+      {modules.map(({ surveyId, title, scoreDisplay, isJoint, survey }) => (
         <SurveyModuleCard
           key={surveyId}
+          className={isJoint ? styles.jointCard : undefined}
           title={title}
           scoreDisplay={scoreDisplay}
           survey={survey}

@@ -20,25 +20,39 @@ import {
   SurveyResponseRecord,
   SurveyDraftSummary,
 } from '../../../store/api/surveyApi';
-import { SURVEY_INFO, getAvailableModuleIds } from './surveyConfig';
+import {
+  SURVEY_INFO,
+  SurveyGaugeHalf,
+  SurveyHalf,
+  getAvailableModuleIds,
+  hasNoWomen,
+} from './surveyConfig';
 import { allSurveyDraftsSelector, SurveyDraft } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
 import { useSurveyTitles } from './useSurveyTitle';
 import type { SurveyModule } from '../../../components/Insights/Survey/SurveyModuleSection';
 import type { SurveyState } from '../../../components/Insights/Survey/SurveyModuleCard';
-import { RISK_LEVELS, RiskLevel } from '../../../components/Insights/Survey/utils';
+import {
+  RISK_LEVELS,
+  RiskLevel,
+  SURVEY_SCORE_MAX,
+  SurveyHalfResult,
+} from '../../../components/Insights/Survey/utils';
 
 const DEFAULT_ESTIMATED_MINUTES = 10;
 const DEFAULT_PAGE_COUNT = 1;
 
-const readScore = (response: SurveyResponseRecord, scoreField?: string): number | undefined => {
-  if (!scoreField) {
+const toFiniteNumber = (value: unknown): number | undefined => {
+  if (value === null || value === undefined || value === '') {
     return undefined;
   }
-  const score = Number(response.survey_response?.[scoreField]);
+  const numeric = Number(value);
 
-  return Number.isFinite(score) ? score : undefined;
+  return Number.isFinite(numeric) ? numeric : undefined;
 };
+
+const readScore = (response: SurveyResponseRecord, scoreField?: string): number | undefined =>
+  scoreField ? toFiniteNumber(response.survey_response?.[scoreField]) : undefined;
 
 const isRiskLevel = (value: unknown): value is RiskLevel =>
   (RISK_LEVELS as readonly unknown[]).includes(value);
@@ -55,6 +69,44 @@ const readRiskLevel = (
   return isRiskLevel(value) ? value : undefined;
 };
 
+const NO_ANIMALS = '-97';
+const SECTION_FIELD = 'Step2_recommended';
+
+const toAnswerList = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
+
+const hasNoAnimals = (answers: Record<string, any>): boolean =>
+  ['aname', 'animal_species'].some((field) => toAnswerList(answers[field]).includes(NO_ANIMALS));
+
+const readRawScore = (answers: Record<string, any>, half: SurveyGaugeHalf): number | undefined => {
+  const score = toFiniteNumber(answers[half.scoreField]);
+
+  if (score === undefined && half.fallback === 'crops-only' && hasNoAnimals(answers)) {
+    return toFiniteNumber(answers.GSIndex_crops);
+  }
+  return score;
+};
+
+const toPercent = (raw: number, scale: number): number => (raw * SURVEY_SCORE_MAX) / scale;
+
+const getHalfResult = (answers: Record<string, any>, half: SurveyHalf): SurveyHalfResult => {
+  const base = { id: half.id, display: half.display };
+
+  if (half.section && !toAnswerList(answers[SECTION_FIELD]).includes(half.section)) {
+    return { ...base, status: 'not-applicable' };
+  }
+  if (half.display === 'dashboard-link') {
+    return { ...base, status: 'completed' };
+  }
+  const raw = readRawScore(answers, half);
+
+  if (raw === undefined) {
+    return half.id === 'aweai'
+      ? { ...base, status: 'not-applicable', hasNoWomen: hasNoWomen(answers) }
+      : { ...base, status: 'not-applicable' };
+  }
+  return { ...base, status: 'scored', score: toPercent(raw, half.scale) };
+};
+
 const getProgress = (currentPageNo: number, pages: number): number =>
   // Use + 0.5 offset to place progress halfway through the active page
   Math.min(Math.round((100 * (currentPageNo + 0.5)) / pages), 100);
@@ -66,7 +118,12 @@ const getSurveyState = (
   localDraft: SurveyDraft | undefined,
   checkHasNewVersion: (surveyId: string, recordedVersion: string | undefined) => boolean,
 ): SurveyState => {
-  const { scoreField, pages = DEFAULT_PAGE_COUNT, estimatedMinutes } = SURVEY_INFO[surveyId];
+  const {
+    scoreField,
+    halves,
+    pages = DEFAULT_PAGE_COUNT,
+    estimatedMinutes,
+  } = SURVEY_INFO[surveyId];
 
   const hasLocalDraft =
     !!localDraft &&
@@ -93,6 +150,7 @@ const getSurveyState = (
       completedAt: new Date(response.created_at),
       score: readScore(response, scoreField),
       riskLevel: readRiskLevel(response, scoreField),
+      halves: halves?.map((half) => getHalfResult(response.survey_response ?? {}, half)),
       hasNewVersion,
     };
   }

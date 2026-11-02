@@ -43,6 +43,14 @@ export type RiskLevel = (typeof RISK_LEVELS)[number];
 
 export type SurveyScoreDisplay = 'gauge' | 'risk';
 
+export type SurveyHalfDisplay = 'gauge' | 'dashboard-link';
+
+export type SurveyHalfResult = { id: string; display: SurveyHalfDisplay } & (
+  | { status: 'scored'; score: number }
+  | { status: 'completed' }
+  | { status: 'not-applicable'; hasNoWomen?: boolean }
+);
+
 export const COMPLETED_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   month: 'short',

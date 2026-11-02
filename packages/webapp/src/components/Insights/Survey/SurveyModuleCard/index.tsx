@@ -20,7 +20,12 @@ import SurveyIcon from '../../../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
 import NewVersionBadge from '../../../SimpleBadges/NewVersionBadge';
 import { getLocalizedDateString } from '../../../../util/moment';
-import { COMPLETED_DATE_OPTIONS, type RiskLevel, type SurveyScoreDisplay } from '../utils';
+import {
+  COMPLETED_DATE_OPTIONS,
+  type RiskLevel,
+  type SurveyHalfResult,
+  type SurveyScoreDisplay,
+} from '../utils';
 import styles from './styles.module.scss';
 
 export type SurveyState =
@@ -31,6 +36,7 @@ export type SurveyState =
       completedAt: Date;
       score?: number;
       riskLevel?: RiskLevel;
+      halves?: SurveyHalfResult[];
       hasNewVersion?: boolean;
     };
 
@@ -78,8 +84,8 @@ const getCardConfig = (
         metaText: isDatedByRiskBar
           ? null
           : survey.score === undefined && survey.riskLevel === undefined
-          ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
-          : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
+            ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
+            : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
       };
     }
   }

@@ -19,6 +19,23 @@ import TapeResults from './TapeResults';
 import ThankYouResults from './ThankYouResults';
 import type { SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
 
+export interface SurveyGaugeHalf {
+  id: string;
+  display: 'gauge';
+  scoreField: string;
+  scale: number;
+  fallback?: 'crops-only';
+  section?: string;
+}
+
+export interface SurveyDashboardLinkHalf {
+  id: string;
+  display: 'dashboard-link';
+  section?: string;
+}
+
+export type SurveyHalf = SurveyGaugeHalf | SurveyDashboardLinkHalf;
+
 interface SurveyInfo {
   image?: string;
   ResultsComponent?: ComponentType<{ surveyId: string }>;
@@ -42,6 +59,7 @@ interface SurveyInfo {
   isAvailable?: (parentResponse: Record<string, any>) => boolean;
   scoreField?: string;
   scoreDisplay?: SurveyScoreDisplay;
+  halves?: SurveyHalf[];
   pages?: number;
   estimatedMinutes?: number;
 }
@@ -65,6 +83,11 @@ const toHouseholdCount = (value: unknown): number => {
   }
   return numeric;
 };
+
+export const hasNoWomen = (answers: Record<string, any>): boolean =>
+  answers.hh_women !== undefined &&
+  answers.hh_fyoung !== undefined &&
+  toHouseholdCount(answers.hh_women) + toHouseholdCount(answers.hh_fyoung) === 0;
 
 /**
  * The catalog of surveys, keyed by survey `key` (the same string stored in survey_response.survey_key).
@@ -169,6 +192,20 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'aweai',
+    halves: [
+      {
+        id: 'land_tenure',
+        display: 'gauge',
+        scoreField: 'landtenure_score_household',
+        scale: 1,
+      },
+      {
+        id: 'aweai',
+        display: 'gauge',
+        scoreField: 'aweai',
+        scale: 100,
+      },
+    ],
     pages: 9,
     estimatedMinutes: 15,
   },
@@ -179,6 +216,17 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'GSI_overall',
+    halves: [
+      {
+        id: 'biodiversity',
+        display: 'gauge',
+        scoreField: 'GSI_overall',
+        scale: 100,
+        fallback: 'crops-only',
+        section: '5',
+      },
+      { id: 'productivity', display: 'dashboard-link', section: '1' },
+    ],
     pages: 13,
     estimatedMinutes: 15,
   },

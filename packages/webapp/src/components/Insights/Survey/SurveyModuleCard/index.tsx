@@ -18,6 +18,7 @@ import type { TFunction } from 'i18next';
 import Button, { ButtonProps } from '../../../Form/Button';
 import SurveyIcon from '../../../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
+import JointSurveyDisplay from './JointSurveyDisplay';
 import NewVersionBadge from '../../../SimpleBadges/NewVersionBadge';
 import { getLocalizedDateString } from '../../../../util/moment';
 import {
@@ -83,7 +84,7 @@ const getCardConfig = (
           : t('INSIGHTS.SURVEY.CARD.UPDATE'),
         metaText: isDatedByRiskBar
           ? null
-          : survey.score === undefined && survey.riskLevel === undefined
+          : survey.score === undefined && survey.riskLevel === undefined && !survey.halves
             ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
             : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
       };
@@ -103,9 +104,13 @@ const SurveyModuleCard = ({ title, onAction, survey, scoreDisplay }: SurveyModul
         )}
         {title}
       </div>
-      <div className={styles.body}>
-        <SurveyStatusDisplay survey={survey} scoreDisplay={scoreDisplay} />
-      </div>
+      {survey.type === 'completed' && survey.halves ? (
+        <JointSurveyDisplay halves={survey.halves} />
+      ) : (
+        <div className={styles.body}>
+          <SurveyStatusDisplay survey={survey} scoreDisplay={scoreDisplay} />
+        </div>
+      )}
       <span className={styles.meta}>{metaText}</span>
       <Button sm color={actionColor} className={styles.action} onClick={onAction}>
         <SurveyIcon />

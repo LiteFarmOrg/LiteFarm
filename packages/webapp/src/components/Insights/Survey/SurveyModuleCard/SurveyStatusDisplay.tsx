@@ -28,6 +28,13 @@ interface SurveyStatusDisplayProps {
 
 const STARTED_DATE_FORMAT: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
 
+export const CompletedCheck = () => (
+  <svg className={styles.check} viewBox="0 0 120 86" aria-hidden="true">
+    <circle className={styles.checkCircle} cx="60" cy="40" r="32" />
+    <path className={styles.checkMark} d="M51 41L57 47L69 33" />
+  </svg>
+);
+
 const SurveyStatusDisplay = ({ survey, scoreDisplay }: SurveyStatusDisplayProps) => {
   const { t } = useTranslation();
   const isRiskDisplay = scoreDisplay === 'risk';
@@ -67,12 +74,7 @@ const SurveyStatusDisplay = ({ survey, scoreDisplay }: SurveyStatusDisplayProps)
       }
 
       if (survey.score === undefined) {
-        return (
-          <svg className={styles.check} viewBox="0 0 120 86" aria-hidden="true">
-            <circle className={styles.checkCircle} cx="60" cy="40" r="32" />
-            <path className={styles.checkMark} d="M51 41L57 47L69 33" />
-          </svg>
-        );
+        return <CompletedCheck />;
       }
 
       return <Gauge score={survey.score} />;

@@ -1278,6 +1278,15 @@
       "CARD": {
         "COMPLETED_ON": "Completed · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HALF": {
+          "AWEAI": "Women's empowerment (A-WEAI)",
+          "BIODIVERSITY": "Biodiversity",
+          "DASHBOARD_LINK": "Final scores for the economic indicators are available on the <a>LiteFarm Data Dashboard</a>",
+          "LAND_TENURE": "Land tenure (household)",
+          "NOT_APPLICABLE": "Not applicable",
+          "NO_WOMEN": "No women in the household",
+          "PRODUCTIVITY": "Productivity and income"
+        },
         "HIGH_RISK": "High Risk",
         "IN_PROGRESS": "In progress",
         "LAST_UPDATED": "Last updated {{date}}",

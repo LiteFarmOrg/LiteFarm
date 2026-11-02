@@ -51,6 +51,11 @@ export type SurveyHalfResult = { id: string; display: SurveyHalfDisplay } & (
   | { status: 'not-applicable'; hasNoWomen?: boolean }
 );
 
+export const DATA_DASHBOARD_TAPE_URL =
+  import.meta.env.VITE_ENV === 'production'
+    ? 'https://data.litefarm.org/tape-scores'
+    : 'https://r9-kdd.math.ubc.ca/tape-scores';
+
 export const COMPLETED_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   month: 'short',

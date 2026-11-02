@@ -48,6 +48,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
+    "@turf/boolean-intersects": "7.2.0",
     "@turf/boolean-point-in-polygon": "7.2.0",
     "@turf/buffer": "^7.2.0",
     "@turf/centroid": "^7.2.0",

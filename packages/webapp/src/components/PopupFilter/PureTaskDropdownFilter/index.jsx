@@ -1,4 +1,3 @@
-import { FiFilter } from 'react-icons/fi';
 import { colors } from '../../../assets/theme';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +11,8 @@ import CalendarUp from '../../../assets/images/taskFilter/CalendarUp.svg?react';
 import clsx from 'clsx';
 import PageBreak from '../../PageBreak';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import AddButton from '../../Button/AddButton';
+import FilterButton from '../../Filter/FilterButton';
 
 export default function PureTaskDropdownFilter({
   isDropDownOpen,
@@ -21,6 +22,7 @@ export default function PureTaskDropdownFilter({
   onAssigneeChange,
   isFilterActive,
   onFilterOpen,
+  onAddTask,
 }) {
   const { t } = useTranslation();
   const [isDropdownOpen, setDropdownOpen] = useState(isDropDownOpen);
@@ -116,8 +118,8 @@ export default function PureTaskDropdownFilter({
             </div>
           )}
         </div>
-        {isFilterActive && <div className={styles.circle} />}
-        <FiFilter className={styles.filter} onClick={onFilterOpen} />
+        <FilterButton isFilterActive={isFilterActive} onClick={onFilterOpen} />
+        {onAddTask && <AddButton label={t('TASK.ADD_TASK')} onClick={onAddTask} />}
       </div>
     </ClickAwayListener>
   );
@@ -128,4 +130,5 @@ PureTaskDropdownFilter.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   isFilterActive: PropTypes.bool,
+  onAddTask: PropTypes.func,
 };

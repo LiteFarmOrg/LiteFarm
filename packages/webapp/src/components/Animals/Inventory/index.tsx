@@ -23,7 +23,7 @@ import ClearFiltersButton, {
 } from '../../../components/Button/ClearFiltersButton';
 import type { AnimalInventoryItem } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
-import FloatingActionButton from '../../Button/FloatingActionButton';
+import AddButton from '../../Button/AddButton';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
@@ -131,6 +131,13 @@ const PureAnimalInventory = ({
               onClick={clearFilters}
             />
           </div>
+          {showActionFloaterButton && (
+            <AddButton
+              label={t('ADD_ANIMAL.ADD_ANIMALS')}
+              onClick={() => navigate(ADD_ANIMALS_URL)}
+              disabled={disableActionFloaterButton}
+            />
+          )}
         </div>
       )}
       <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>
@@ -163,17 +170,6 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      {showActionFloaterButton && (
-        <div className={styles.ctaButtonWrapper}>
-          <FloatingActionButton
-            // @ts-expect-error
-            type={'add'}
-            onClick={() => navigate(ADD_ANIMALS_URL)}
-            aria-label={t('ADD_ANIMAL.ADD_ANIMALS')}
-            disabled={disableActionFloaterButton}
-          />
-        </div>
-      )}
     </>
   );
 };

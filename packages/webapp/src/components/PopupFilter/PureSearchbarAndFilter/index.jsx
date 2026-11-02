@@ -28,6 +28,9 @@ const useStyles = makeStyles({
     color: colors.grey600,
     cursor: 'pointer',
   },
+  addButton: {
+    marginLeft: '8px',
+  },
 });
 
 export default function PureSearchbarAndFilter({
@@ -38,6 +41,7 @@ export default function PureSearchbarAndFilter({
   disableFilter = false,
   placeholderText,
   className = '',
+  addButton,
 }) {
   const classes = useStyles();
   return (
@@ -51,6 +55,7 @@ export default function PureSearchbarAndFilter({
           placeholder={placeholderText}
         />
         {!disableFilter && <FilterButton isFilterActive={isFilterActive} onClick={onFilterOpen} />}
+        {addButton && <div className={classes.addButton}>{addButton}</div>}
       </div>
     </>
   );
@@ -64,4 +69,5 @@ PureSearchbarAndFilter.propTypes = {
   disableFilter: PropTypes.bool,
   placeholderText: PropTypes.string, // if not supplied, isSearchbar default is common:SEARCH
   className: PropTypes.string,
+  addButton: PropTypes.node,
 };

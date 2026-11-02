@@ -775,3 +775,23 @@ export type SurveyDraftSummary = Pick<
   SurveyDraft,
   'survey_key' | 'submission_id' | 'current_page_no' | 'created_at'
 > & { has_data: boolean };
+
+export interface SoilLabResult extends BaseProperties {
+  id: string;
+  farm_id: Farm['farm_id'];
+  submission_id: string;
+  row: number;
+  location_id: Location['location_id'];
+  match_method: string;
+  sample_label: string | null;
+  sampled_on: string | null;
+  depth_top_cm: number;
+  depth_bottom_cm: number;
+  depth_assumed: boolean;
+  lat: number | null;
+  lng: number | null;
+  values: Record<string, number>;
+  lab_name: string | null;
+  source_filename: string;
+  source_sha256: string;
+}

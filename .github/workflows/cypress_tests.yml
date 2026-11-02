@@ -42,6 +42,7 @@ jobs:
       JWT_RESET_SECRET: Production_is_secured_with_a_long_random_string
       JWT_FARM_SECRET: Here_we_can_use_friendly_explanations
       JWT_SCHEDULER_SECRET: Another_token_was_needed_for_the_scheduler
+      JWT_DASHBOARD_API_SECRET: Dashboard_API_tokens_get_their_own_secret
       GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}

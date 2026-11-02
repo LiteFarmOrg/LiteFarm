@@ -23,7 +23,7 @@ import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import parser from 'ua-parser-js';
 import UserLogModel from '../models/userLogModel.js';
 import EmailModel from '../models/emailTokenModel.js';
-import { createToken } from '../util/jwt.js';
+import { createToken, tokenType } from '../util/jwt.js';
 import { randomUUID } from 'crypto';
 import jwt from 'jsonwebtoken';
 import knex from '../util/knex.js';
@@ -353,6 +353,9 @@ const loginController = {
           first_name: user.first_name,
           farm_id: farm_id ?? null,
           farms,
+          soil_lab_result_token: tokenType.soilLabResult
+            ? createToken('soilLabResult', { user_id: user.user_id, aud: 'soil_lab_result' })
+            : null,
         });
       } catch (error) {
         console.error(error);

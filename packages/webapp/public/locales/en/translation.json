@@ -991,6 +991,19 @@
       "NAME": "Residence name",
       "TITLE": "Add residence"
     },
+    "SOIL_LAYERS": {
+      "CLAY": "Clay content (0–5 cm)",
+      "HUTTON_LCA": "Land capability for agriculture (Scotland)",
+      "HUTTON_WRB": "Soil type, WRB classification (Scotland)",
+      "NONE": "None",
+      "NOTE": "Soil maps are modelled or coarse. Use them as a guide, not as a field survey.",
+      "OPACITY": "Opacity",
+      "ORGANIC_CARBON": "Organic carbon (0–5 cm)",
+      "PH": "Soil pH (0–5 cm)",
+      "SAND": "Sand content (0–5 cm)",
+      "SSURGO": "Soil map units (USDA SSURGO)",
+      "TITLE": "Soil layers"
+    },
     "SOIL_SAMPLE_LOCATION": {
       "EDIT_TITLE": "Edit soil sample location",
       "LATITUDE": "Latitude",

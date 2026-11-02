@@ -85,6 +85,9 @@ import MapPin from '../../assets/images/map/map_pin.svg';
 import { ADD_SENSORS_URL } from '../../util/siteMapConstants';
 import { buildImageryStyle, IMAGERY_MAX_ZOOM } from '../../util/mapProvider';
 import { buildLocationCollections } from '../../util/mapLibre/locationsToGeoJSON';
+import { DEFAULT_SOIL_OPACITY, getSoilLayersForLocation } from '../../util/soilLayers';
+import useSoilLayers from './useSoilLayers';
+import SoilLayerControl from '../../components/Map/SoilLayerControl';
 
 const FALLBACK_COLOUR = '#666666';
 const AREA_TYPES_WITH_FILL = Object.keys(areaStyles);
@@ -135,6 +138,8 @@ export default function MapLibreMap({ isCompactSideMenu }) {
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [mapReady, setMapReady] = useState(false);
+  const [soilLayerId, setSoilLayerId] = useState(null);
+  const [soilOpacity, setSoilOpacity] = useState(DEFAULT_SOIL_OPACITY);
 
   const mapWrapperRef = useRef(null);
   const containerRef = useRef(null);
@@ -230,6 +235,18 @@ export default function MapLibreMap({ isCompactSideMenu }) {
       }),
     [internalLocations, externalLocations],
   );
+
+  // Soil overlays offered for where the farm is; the overlay is a live WMS, so it needs a connection.
+  const soilLayers = useMemo(
+    () => (isOffline ? [] : getSoilLayersForLocation(grid_points.lat, grid_points.lng)),
+    [isOffline, grid_points.lat, grid_points.lng],
+  );
+  const selectedSoilLayer = soilLayers.find((layer) => layer.id === soilLayerId) ?? null;
+  useSoilLayers({
+    map: mapReady ? mapRef.current : null,
+    layer: selectedSoilLayer,
+    opacity: soilOpacity,
+  });
 
   // Create the map once.
   useEffect(() => {
@@ -551,6 +568,15 @@ export default function MapLibreMap({ isCompactSideMenu }) {
               style={{ flexGrow: 1, height: '100%' }}
             />
           </div>
+          {!drawingState.type && (
+            <SoilLayerControl
+              layers={soilLayers}
+              selectedId={selectedSoilLayer?.id ?? null}
+              opacity={soilOpacity}
+              onSelect={setSoilLayerId}
+              onOpacityChange={setSoilOpacity}
+            />
+          )}
           {drawingState.type && (
             <div
               className={clsx(

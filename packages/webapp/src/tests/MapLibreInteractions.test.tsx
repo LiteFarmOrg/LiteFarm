@@ -293,6 +293,22 @@ describe('MapLibre farm map', () => {
     expect(lastMap().fitBounds).not.toHaveBeenCalled();
   });
 
+  it('adds and removes a soil overlay from the soil layer control, below the locations', () => {
+    render(<MapLibreMap isCompactSideMenu={false} />);
+    loadMap();
+    const map = lastMap();
+    fireEvent.click(screen.getByRole('button', { name: 'FARM_MAP.SOIL_LAYERS.TITLE' }));
+    // Farm at 51, -2 is outside the regional datasets, so only SoilGrids layers are offered.
+    expect(screen.getAllByRole('radio')).toHaveLength(5);
+    expect(map.sources['soil-overlay']).toBeUndefined();
+    fireEvent.click(screen.getByLabelText('FARM_MAP.SOIL_LAYERS.PH'));
+    expect(map.sources['soil-overlay'].options.tiles[0]).toContain('phh2o_0-5cm_mean');
+    expect(map.addLayer).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'soil-overlay-raster', type: 'raster' }),
+      undefined,
+    );
+  });
+
   it('deduplicates hits from line and buffer layers before navigating and preserves the camera', () => {
     render(<MapLibreMap isCompactSideMenu={false} />);
     loadMap();

@@ -137,6 +137,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_myoung) > 0 ||
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
+    scoreField: 'youth_score',
     pages: 1,
     estimatedMinutes: 3,
   },

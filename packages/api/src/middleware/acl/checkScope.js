@@ -27,7 +27,9 @@ const getScopes = async (user_id, farm_id, { checkConsent }) => {
       .where('userFarm.user_id', user_id)
       .where('userFarm.status', 'Active');
 
-    return checkConsent ? permissionQuery.where('userFarm.has_consent', true) : permissionQuery;
+    return checkConsent
+      ? permissionQuery.join('user_consent', 'user_consent.user_id', 'userFarm.user_id')
+      : permissionQuery;
   } catch (error) {
     console.log('getScopes query error', error);
     return [];

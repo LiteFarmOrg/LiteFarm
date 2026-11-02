@@ -25,6 +25,7 @@ import checkInvitationTokenContent from '../middleware/acl/checkInviteTokenConte
 import checkInvitationAndGoogleJwtContent from '../middleware/acl/checkInviteAndGoogleJwtContent.js';
 import checkPasswordCreated from '../middleware/acl/checkPasswordCreated.js';
 import checkGoogleAccessToken from '../middleware/acl/checkGoogleAccessToken.js';
+import { checkUserConsent } from '../middleware/validation/checkUserConsent.js';
 
 router.post('/', userController.addUser);
 
@@ -61,5 +62,7 @@ router.put(
 router.get('/:user_id', isSelf, userController.getUserByID);
 
 router.put('/:user_id', isSelf, userController.updateUser);
+
+router.patch('/:user_id/consent', isSelf, checkUserConsent(), userController.updateConsent);
 
 export default router;

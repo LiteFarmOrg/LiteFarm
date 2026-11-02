@@ -16,6 +16,7 @@
 import UserFarmModel from '../models/userFarmModel.js';
 
 import UserModel from '../models/userModel.js';
+import UserConsentModel from '../models/userConsentModel.js';
 import UserLogModel from '../models/userLogModel.js';
 import PasswordModel from '../models/passwordModel.js';
 import RoleModel from '../models/roleModel.js';
@@ -192,42 +193,23 @@ const userFarmController = {
       try {
         const { user_id, farm_id } = req.params;
         const { has_consent, consent_version } = req.body;
-        const userFarm = await UserFarmModel.query()
-          .select('*')
-          .where({
-            'userFarm.user_id': user_id,
-            'userFarm.farm_id': farm_id,
-          })
-          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
-          .first();
-        await UserFarmModel.query()
-          .where({ user_id, farm_id })
-          .patch({ has_consent, consent_version });
-        res.sendStatus(200);
-        const { step_two_end, step_three_end, step_five_end } = userFarm;
-        const isWelcomeEmailSent = !!step_two_end && !!step_three_end && !step_five_end;
-        if (isWelcomeEmailSent) return;
-        try {
-          let template_path;
-          const sender = 'system@litefarm.org';
-          const replacements = {
-            first_name: userFarm.first_name,
-            farm: userFarm.farm_name,
-            locale: userFarm.language_preference,
-            farm_name: userFarm.farm_name,
-          };
-          if (has_consent === false) {
-            template_path = emails.WITHHELD_CONSENT;
+        // TODO: LF-5530 Remove this endpoint once cached frontends no longer call it
+        await UserFarmModel.transaction(async (trx) => {
+          if (has_consent) {
+            await UserFarmModel.query(trx)
+              .where({ user_id })
+              .patch({ has_consent, consent_version });
+            await UserConsentModel.query(trx)
+              .insert({ user_id, consent_version })
+              .onConflict('user_id')
+              .merge();
           } else {
-            template_path = emails.CONFIRMATION;
-            replacements['role'] = userFarm.role.toUpperCase().replace(' ', '_');
+            await UserFarmModel.query(trx)
+              .where({ user_id, farm_id })
+              .patch({ has_consent, consent_version });
           }
-          return sendEmail(template_path, replacements, userFarm.email, { sender });
-        } catch (e) {
-          console.log(e);
-        }
+        });
+        return res.sendStatus(200);
       } catch (error) {
         return res.status(400).send(error);
       }
@@ -344,6 +326,7 @@ const userFarmController = {
             'users.last_name',
             'farm.farm_name',
             'userFarm.status',
+            'userFarm.status_before_revoke',
             'users.email',
             'users.language_preference',
           )
@@ -370,6 +353,8 @@ const userFarmController = {
         const admins = await UserFarmModel.getFarmManagementByFarmId(farm_id);
 
         // check if access is revoked or restored: update email info based on this
+        let updatedStatus = status;
+        let statusBeforeRevoke = null;
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
           if (admins.length <= 1 && admins[0].user_id === user_id && currentStatus === 'Active') {
             return res
@@ -377,17 +362,21 @@ const userFarmController = {
               .send("You cannot revoke the last active admin's access on this farm");
           }
           template_path = emails.ACCESS_REVOKE;
+          statusBeforeRevoke = currentStatus;
         } else if (currentStatus === 'Inactive') {
           template_path = emails.ACCESS_RESTORE;
+          // A restore sets the status saved at revoke time and ignores the requested one
+          updatedStatus = targetUser.status_before_revoke ?? 'Invited';
         }
         const isPatched = await UserFarmModel.query()
           .where('farm_id', farm_id)
           .andWhere('user_id', user_id)
           .patch({
-            status,
+            status: updatedStatus,
+            status_before_revoke: statusBeforeRevoke,
           });
         if (isPatched) {
-          res.sendStatus(200);
+          res.status(200).send({ status: updatedStatus });
           try {
             if (targetUser.email && template_path) {
               sendEmail(template_path, replacements, targetUser.email, { sender });
@@ -427,7 +416,7 @@ const userFarmController = {
         })
         .patch({ status: 'Active' });
       result = await UserFarmModel.query()
-        .withGraphFetched('[role, farm, user]')
+        .withGraphFetched('[role, farm, user.consent]')
         .findById([user_id, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
       delete result.farm;

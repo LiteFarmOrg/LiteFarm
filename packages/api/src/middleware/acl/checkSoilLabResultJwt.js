@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (styles.scss) is part of LiteFarm.
+ *  Copyright 2026 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,25 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.logContainer {
-  width: 100%;
-  max-width: 1024px;
-  min-height: 100vh;
-  height: auto;
-  padding: 24px 24px 0 24px;
-  display: flex;
-  flex-direction: column;
-}
+import { expressjwt, UnauthorizedError } from 'express-jwt';
+import { tokenType } from '../../util/jwt.js';
 
-.noteContainer {
-  textarea {
-    width: 100%;
-    height: 15vh;
-    min-height: 80px;
-    max-height: 400px;
-    background: #efefef;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 5%;
-  }
-}
+const checkSoilLabResultJwt = expressjwt({
+  secret: () => {
+    const secret = tokenType.soilLabResult;
+    if (!secret) {
+      throw new UnauthorizedError('invalid_token', {
+        message: 'Soil lab result tokens are disabled.',
+      });
+    }
+    return secret;
+  },
+  algorithms: ['HS256'],
+  audience: 'soil_lab_result',
+});
+
+export default checkSoilLabResultJwt;

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useNavigate } from 'react-router-dom';
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
@@ -50,9 +51,9 @@ const FinancesCarrousel = ({
   otherExpense,
   estimatedRevenue,
   currencySymbol,
-  history,
   isOffline,
 }) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const expenseChartData = {
@@ -91,7 +92,7 @@ const FinancesCarrousel = ({
             <TextButtonWrapper
               isOffline={isOffline}
               className={clsx([styles.revenueContainer, styles.clickableContainer])}
-              onClick={() => history.push(ACTUAL_REVENUE_URL)}
+              onClick={() => navigate(ACTUAL_REVENUE_URL)}
             >
               <span>
                 <span className={styles.revenueTitle}>{t('SALE.FINANCES.TOTAL_REVENUE')}</span>
@@ -172,7 +173,7 @@ const FinancesCarrousel = ({
             <TextButtonWrapper
               isOffline={isOffline}
               className={clsx([styles.labourExpensesContainer, styles.clickableContainer])}
-              onClick={() => history.push(LABOUR_URL)}
+              onClick={() => navigate(LABOUR_URL)}
             >
               <span>
                 <span className={styles.labourExpensesTitle}>
@@ -189,7 +190,7 @@ const FinancesCarrousel = ({
             <TextButtonWrapper
               isOffline={isOffline}
               className={clsx([styles.otherExpensesContainer, styles.clickableContainer])}
-              onClick={() => history.push(OTHER_EXPENSE_URL)}
+              onClick={() => navigate(OTHER_EXPENSE_URL)}
             >
               <span>
                 <span className={styles.otherExpensesTitle}>{t('SALE.FINANCES.TOTAL_OTHER')}</span>
@@ -232,7 +233,7 @@ const FinancesCarrousel = ({
           <TextButtonWrapper
             isOffline={isOffline}
             className={clsx([styles.estimatedRevenueContainer, styles.clickableContainer])}
-            onClick={() => history.push(ESTIMATED_REVENUE_URL)}
+            onClick={() => navigate(ESTIMATED_REVENUE_URL)}
           >
             <span>
               <span className={styles.estimatedRevenueTitle}>
@@ -263,7 +264,6 @@ FinancesCarrousel.propTypes = {
   otherExpense: PropTypes.string.isRequired,
   estimatedRevenue: PropTypes.string.isRequired,
   currencySymbol: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 export default FinancesCarrousel;

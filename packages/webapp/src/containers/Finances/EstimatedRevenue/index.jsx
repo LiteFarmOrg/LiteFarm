@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,9 +19,9 @@ import { getManagementPlans, getManagementPlansAndTasks } from '../../saga';
 import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 export default function EstimatedRevenue() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const onGoBack = () => history.push(FINANCES_HOME_URL);
+  const onGoBack = () => navigate(FINANCES_HOME_URL);
   const managementPlans = useSelector(managementPlansSelector);
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate: fromDate, endDate: toDate } = useFinancesDateRange({ weekStartDate: SUNDAY });
@@ -94,7 +94,6 @@ export default function EstimatedRevenue() {
               key={crop_variety_id}
               cropVarietyId={crop_variety_id}
               managementPlans={plans}
-              history={history}
               style={{ marginBottom: '16px' }}
             />
           ),

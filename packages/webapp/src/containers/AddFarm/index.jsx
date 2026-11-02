@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import {
   userFarmSelector,
 } from '../userFarmSlice';
 import { useGoogleMapsLoader } from '../../hooks/useGoogleMapsLoader';
+import useFarmListRecovery from './useFarmListRecovery';
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
 import MapPin from '../../assets/images/signUp/map_pin.svg?react';
@@ -21,12 +22,13 @@ import { useThrottle } from '../hooks/useThrottle';
 import { pick } from '../../util/pick';
 
 const AddFarm = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
   const farms = useSelector(userFarmsByUserSelector);
   const isFirstFarm = !farms.length;
+  useFarmListRecovery();
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
   const FARMNAME = 'farm_name';
   const ADDRESS = 'address';
@@ -91,7 +93,7 @@ const AddFarm = () => {
   };
 
   const onGoBack = () => {
-    history.push('/farm_selection');
+    navigate('/farm_selection');
   };
 
   const placesAutocompleteRef = useRef();

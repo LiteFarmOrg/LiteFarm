@@ -14,6 +14,7 @@
  */
 
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm, ValidationMode } from 'react-hook-form';
 import { WithPageTitle } from './WithPageTitle';
 import { WithStepperProgressBar } from './WithStepperProgressBar';
@@ -29,7 +30,6 @@ const COMPONENTS = {
 };
 
 interface ContextFormProps {
-  history: any; // mocking in Storybook prevents more specific type
   getSteps: (data?: any) => any;
   defaultFormValues: any;
   variant?: Variant;
@@ -40,7 +40,6 @@ interface ContextFormProps {
 }
 
 export const ContextForm = ({
-  history,
   getSteps,
   defaultFormValues,
   variant = Variant.PAGE_TITLE,
@@ -53,6 +52,8 @@ export const ContextForm = ({
   const [formData, setFormData] = useState({});
   const [formResultData, setFormResultData] = useState();
   const [showCancelFlow, setShowCancelFlow] = useState(false);
+
+  const navigate = useNavigate();
 
   const form = useForm({
     mode: formMode,
@@ -89,7 +90,7 @@ export const ContextForm = ({
       }
       return;
     }
-    history.back();
+    navigate(-1);
   };
 
   const { FormContent } = steps[activeStepIndex];
@@ -98,7 +99,6 @@ export const ContextForm = ({
 
   return (
     <Component
-      history={history}
       steps={steps}
       activeStepIndex={activeStepIndex}
       onGoBack={onGoBack}
@@ -117,7 +117,6 @@ export const ContextForm = ({
           onGoForward={onGoForward}
           form={form}
           formResultData={formResultData}
-          history={history}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
         />

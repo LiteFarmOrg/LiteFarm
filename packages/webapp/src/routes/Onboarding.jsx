@@ -15,35 +15,47 @@
 
 /* eslint-disable react/no-children-prop */
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../containers/userFarmSlice';
+import { hasConsentedSelector } from '../containers/consentSlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
-const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 
 function OnboardingFlow(props) {
-  const { step_one, step_two, step_three, step_five, has_consent } = props;
+  const { step_one, step_two, step_five } = props;
 
   const hasUserFarms = useSelector(userFarmLengthSelector);
   const { loaded: farmsLoaded } = useSelector(userFarmStatusSelector);
+  const hasConsented = useSelector(hasConsentedSelector);
 
-  const requireConditionProps = { ...props, hasUserFarms, farmsLoaded };
+  const requireConditionProps = { ...props, hasUserFarms, farmsLoaded, hasConsented };
 
   return (
-    <Switch>
-      <Route path="/farm_selection" exact children={<ChooseFarm />} />
-      <Route path="/welcome" exact children={<WelcomeScreen />} />
-      <Route path="/add_farm" exact children={<AddFarm />} />
-
+    <Routes>
+      <Route
+        path="/farm_selection"
+        element={
+          <RequireCondition condition={hasConsented} {...requireConditionProps}>
+            <ChooseFarm />
+          </RequireCondition>
+        }
+      />
+      <Route
+        path="/add_farm"
+        element={
+          <RequireCondition condition={hasConsented} {...requireConditionProps}>
+            <AddFarm />
+          </RequireCondition>
+        }
+      />
       <Route
         path="/role_selection"
-        exact
-        children={
+        element={
           <RequireCondition condition={step_one} {...requireConditionProps}>
             <RoleSelection />
           </RequireCondition>
@@ -51,35 +63,23 @@ function OnboardingFlow(props) {
       />
       <Route
         path="/consent"
-        exact
-        children={
-          <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
+        element={
+          <RequireCondition condition={!hasConsented} {...requireConditionProps}>
             <ConsentForm />
           </RequireCondition>
         }
       />
       <Route
-        path="/consent"
-        exact
-        children={
-          <RequireCondition condition={step_five && !has_consent} {...requireConditionProps}>
-            <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />
-          </RequireCondition>
-        }
-      />
-
-      <Route
         path="/outro"
-        exact
-        children={
-          <RequireCondition condition={step_three} {...requireConditionProps}>
+        element={
+          <RequireCondition condition={step_two && !step_five} {...requireConditionProps}>
             <Outro />
           </RequireCondition>
         }
       />
       {/* Fallback route - handles redirects when no other routes match */}
-      <Route render={() => <RequireCondition {...requireConditionProps} />} />
-    </Switch>
+      <Route path="*" element={<RequireCondition {...requireConditionProps} />} />
+    </Routes>
   );
 }
 
@@ -89,9 +89,8 @@ const RequireCondition = ({
   children,
   step_one,
   step_two,
-  step_three,
   step_five,
-  has_consent,
+  hasConsented,
   farm_id,
   hasUserFarms,
   farmsLoaded,
@@ -100,36 +99,32 @@ const RequireCondition = ({
     return children;
   }
 
-  if (step_one && step_three && !step_five) {
-    return <Redirect to="/outro" />;
+  if (!hasConsented) {
+    return <Navigate to="/consent" replace />;
   }
 
-  if (step_two && !step_three) {
-    return <Redirect to="/consent" />;
+  if (step_two && !step_five) {
+    return <Navigate to="/outro" replace />;
   }
 
   if (step_one && !step_two) {
-    return <Redirect to="/role_selection" />;
+    return <Navigate to="/role_selection" replace />;
   }
 
   if ((!farm_id || !step_one) && !hasUserFarms) {
     // hasUserFarms === 0 is ambiguous ("no farms" vs "list not fetched yet");
     // only treat it as "no farms" once the list has loaded, else route to /farm_selection,
-    // where ChooseFarm owns the "no farms -> /welcome" decision.
-    const target = farmsLoaded ? '/welcome' : '/farm_selection';
-    return <Redirect to={target} />;
+    // where ChooseFarm owns the "no farms -> /add_farm" decision.
+    const target = farmsLoaded ? '/add_farm' : '/farm_selection';
+    return <Navigate to={target} replace />;
   }
 
   if (!farm_id && hasUserFarms) {
-    return <Redirect to="/farm_selection" />;
-  }
-
-  if (step_three && !has_consent) {
-    return <Redirect to="/consent" />;
+    return <Navigate to="/farm_selection" replace />;
   }
 
   if (!step_one) {
-    return <Redirect to="/add_farm" />;
+    return <Navigate to="/add_farm" replace />;
   }
 
   return null;

@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory } from 'react-router-dom';
+import { useNavigationType } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import Button from '../../../components/Form/Button';
@@ -31,15 +32,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UnknownRecord() {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const navigationType = useNavigationType();
   const { t } = useTranslation();
   const classes = useStyles();
   const goBack = () => {
-    if (history.action === 'POP') {
-      history.push('/home');
+    if (navigationType === 'POP') {
+      navigate('/home');
       return;
     } else {
-      history.back();
+      navigate(-1);
     }
   };
 

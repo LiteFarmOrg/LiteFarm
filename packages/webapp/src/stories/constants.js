@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 LiteFarm.org
+ *  Copyright 2026 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,15 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const commonArgs = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
+export const managementPlanCardCommonArgs = {
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',

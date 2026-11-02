@@ -23,115 +23,60 @@ import { pick } from '../../../util/pick';
 import { areaProperties, lineProperties, pointProperties } from '../../../containers/constants';
 import state from '../../../../.storybook/state';
 
+const getConfig = (locationType, figureProperties) => {
+  const location = fakeDBLocation(locationType);
+  return {
+    persistedFormData: pick({ ...location, ...location.figure }, ['name', ...figureProperties]),
+    locationAPIData: location,
+  };
+};
+
 const config = {
   // areas
-  [InternalMapLocationType.BARN]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.BARN), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.BARN),
-  },
-  [InternalMapLocationType.CEREMONIAL_AREA]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.CEREMONIAL_AREA), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.CEREMONIAL_AREA),
-  },
-  [InternalMapLocationType.FARM_SITE_BOUNDARY]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.FARM_SITE_BOUNDARY), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.FARM_SITE_BOUNDARY),
-  },
-  [InternalMapLocationType.FIELD]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.FIELD), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.FIELD),
-  },
-  [InternalMapLocationType.GARDEN]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.GARDEN), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.GARDEN),
-  },
-  [InternalMapLocationType.GREENHOUSE]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.GREENHOUSE), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.GREENHOUSE),
-  },
-  [InternalMapLocationType.NATURAL_AREA]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.NATURAL_AREA), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.NATURAL_AREA),
-  },
-  [InternalMapLocationType.RESIDENCE]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.RESIDENCE), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.RESIDENCE),
-  },
-  [InternalMapLocationType.SURFACE_WATER]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.SURFACE_WATER), [
-      'name',
-      ...areaProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.SURFACE_WATER),
-  },
+  [InternalMapLocationType.BARN]: getConfig(InternalMapLocationType.BARN, areaProperties),
+  [InternalMapLocationType.CEREMONIAL_AREA]: getConfig(
+    InternalMapLocationType.CEREMONIAL_AREA,
+    areaProperties,
+  ),
+  [InternalMapLocationType.FARM_SITE_BOUNDARY]: getConfig(
+    InternalMapLocationType.FARM_SITE_BOUNDARY,
+    areaProperties,
+  ),
+  [InternalMapLocationType.FIELD]: getConfig(InternalMapLocationType.FIELD, areaProperties),
+  [InternalMapLocationType.GARDEN]: getConfig(InternalMapLocationType.GARDEN, areaProperties),
+  [InternalMapLocationType.GREENHOUSE]: getConfig(
+    InternalMapLocationType.GREENHOUSE,
+    areaProperties,
+  ),
+  [InternalMapLocationType.NATURAL_AREA]: getConfig(
+    InternalMapLocationType.NATURAL_AREA,
+    areaProperties,
+  ),
+  [InternalMapLocationType.RESIDENCE]: getConfig(InternalMapLocationType.RESIDENCE, areaProperties),
+  [InternalMapLocationType.SURFACE_WATER]: getConfig(
+    InternalMapLocationType.SURFACE_WATER,
+    areaProperties,
+  ),
   // lines
-  [InternalMapLocationType.BUFFER_ZONE]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.BUFFER_ZONE), [
-      'name',
-      ...lineProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.BUFFER_ZONE),
-  },
-  [InternalMapLocationType.FENCE]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.FENCE), [
-      'name',
-      ...lineProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.FENCE),
-  },
-  [InternalMapLocationType.WATERCOURSE]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.WATERCOURSE), [
-      'name',
-      ...lineProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.WATERCOURSE),
-  },
+  [InternalMapLocationType.BUFFER_ZONE]: getConfig(
+    InternalMapLocationType.BUFFER_ZONE,
+    lineProperties,
+  ),
+  [InternalMapLocationType.FENCE]: getConfig(InternalMapLocationType.FENCE, lineProperties),
+  [InternalMapLocationType.WATERCOURSE]: getConfig(
+    InternalMapLocationType.WATERCOURSE,
+    lineProperties,
+  ),
   // points
-  [InternalMapLocationType.GATE]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.GATE), [
-      'name',
-      ...pointProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.GATE),
-  },
-  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.SOIL_SAMPLE_LOCATION), [
-      'name',
-      ...pointProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.SOIL_SAMPLE_LOCATION),
-  },
-  [InternalMapLocationType.WATER_VALVE]: {
-    persistedFormData: pick(fakeDBLocation(InternalMapLocationType.WATER_VALVE), [
-      'name',
-      ...pointProperties,
-    ]),
-    locationAPIData: fakeDBLocation(InternalMapLocationType.WATER_VALVE),
-  },
+  [InternalMapLocationType.GATE]: getConfig(InternalMapLocationType.GATE, pointProperties),
+  [InternalMapLocationType.SOIL_SAMPLE_LOCATION]: getConfig(
+    InternalMapLocationType.SOIL_SAMPLE_LOCATION,
+    pointProperties,
+  ),
+  [InternalMapLocationType.WATER_VALVE]: getConfig(
+    InternalMapLocationType.WATER_VALVE,
+    pointProperties,
+  ),
 };
 
 const getStore = (locationType) => ({
@@ -190,36 +135,28 @@ const createStoryArgs = (locationType, mode) => {
   const base = {
     system: 'metric',
     isAdmin: true,
-    history: () => {},
     submitForm: (data) => {},
     locationType,
     persistedFormData: config[locationType].persistedFormData,
   };
-
-  const location_id = config[locationType].locationAPIData.location_id;
 
   if (mode === 'post') {
     return {
       ...base,
       isCreateLocationPage: true,
       areaType: locationType,
-      match: { params: {} },
     };
   }
   if (mode === 'view') {
     return {
       ...base,
       isViewLocationPage: true,
-      match: { params: { location_id } },
-      history: { location: { pathname: `/${locationType.toLowerCase()}/${location_id}/details` } },
     };
   }
   if (mode === 'workerView') {
     return {
       ...base,
       isViewLocationPage: true,
-      match: { params: { location_id } },
-      history: { location: { pathname: `/${locationType.toLowerCase()}/${location_id}/details` } },
       isAdmin: false,
     };
   }
@@ -227,7 +164,6 @@ const createStoryArgs = (locationType, mode) => {
     return {
       ...base,
       isEditLocationPage: true,
-      match: { params: { location_id } },
     };
   }
 };

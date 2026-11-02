@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useNavigate } from 'react-router-dom';
 import RevenueForm from '../../../components/Forms/RevenueForm';
 import { addSale } from '../actions';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -26,6 +27,7 @@ import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat 
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 
 function AddSale() {
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
 
@@ -45,7 +47,7 @@ function AddSale() {
   };
 
   const handleGoBack = () => {
-    history.back();
+    navigate(-1);
   };
 
   return (

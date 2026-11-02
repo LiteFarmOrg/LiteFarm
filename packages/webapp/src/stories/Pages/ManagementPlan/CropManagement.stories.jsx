@@ -2,7 +2,7 @@ import PureCropManagement from '../../../components/Crop/Management';
 import decorator from '../config/Decorators';
 import { Abandoned, Active, Completed, Planned } from '../../Card/ManagementPlanCard.stories';
 import { chromaticSmallScreen } from '../config/chromatic';
-import { commonArgs, planBaseContents } from '../../Modal/constants';
+import { managementPlanCardCommonArgs, planBaseContents } from '../../constants';
 
 export default {
   title: 'Form/Crop/Management',
@@ -21,14 +21,6 @@ const getManagementPlanCardContents = (numberOfCards) =>
 
 export const Management = Template.bind({});
 Management.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',
@@ -43,14 +35,6 @@ Management.parameters = {
 
 export const ManagementWithOneCard = Template.bind({});
 ManagementWithOneCard.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',
@@ -66,14 +50,6 @@ ManagementWithOneCard.parameters = {
 
 export const ManagementWithManyCards = Template.bind({});
 ManagementWithManyCards.args = {
-  history: {
-    location: { pathname: '/crop/variety_id/management' },
-  },
-  match: {
-    params: {
-      variety_id: 'variety_id',
-    },
-  },
   variety: {
     crop_translation_key: 'Blueberry',
     crop_variety_name: 'Nantes',
@@ -89,7 +65,7 @@ ManagementWithManyCards.parameters = {
 
 export const ManagementWithRepeatPlanCards = Template.bind({});
 ManagementWithRepeatPlanCards.args = {
-  ...commonArgs,
+  ...managementPlanCardCommonArgs,
   managementPlanCardContents: [
     ...getManagementPlanCardContents(2),
     ...[...Array(5)].map((item, index) => {

@@ -538,8 +538,7 @@ function* prefetchSurveyDataSaga() {
 }
 
 export function* fetchAllSaga() {
-  const { has_consent, user_id } = yield select(userFarmSelector);
-  if (!has_consent) return history.push('/consent');
+  const { user_id } = yield select(userFarmSelector);
 
   yield call(openFarmScopedQuery, api.endpoints.getSensors.initiate());
   yield call(openFarmScopedQuery, certificationsApi.endpoints.getHasCertifications.initiate());
@@ -621,19 +620,18 @@ export function* selectFarmSaga({ payload: { farm_id } }) {
   }
 }
 
+export function* joinInvitedFarmSaga() {
+  const { farm_id, farm_name } = yield select(userFarmSelector);
+  yield call(fetchAllSaga);
+  history.push('/outro', { farm_id, farm_name });
+}
+
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: farm }) {
   try {
     yield call(selectFarmSaga, { payload: farm });
-    const userFarm = yield select(userFarmSelector);
     yield call(clearOldFarmStateSaga);
-    if (!userFarm.has_consent) {
-      // has_consent is derived in the userFarmSelector from DB has_consent && consent_version === CONSENT_VERSION
-      // Reachable when CONSENT_VERSION was bumped and the user hasn't re-accepted
-      // Status 'Invited' farms do not use selectFarmAndFetchAllSaga, but instead use patchUserFarmStatusWithIdTokenUrl
-      return history.push('/consent');
-    }
     history.push({ pathname: '/' });
     yield call(fetchAllSaga);
   } catch (e) {

@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import PureAccount from '../../../components/Profile/Account';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -6,7 +5,6 @@ import { updateUser } from '../../saga';
 import { getProcessedFormData } from '../../hooks/useHookFormPersist/utils';
 
 export default function Account() {
-  const history = useHistory();
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const onSubmit = (data) => {
@@ -18,5 +16,5 @@ export default function Account() {
 
     dispatch(updateUser(getProcessedFormData(parsedData)));
   };
-  return <PureAccount history={history} userFarm={userFarm} onSubmit={onSubmit} />;
+  return <PureAccount userFarm={userFarm} onSubmit={onSubmit} />;
 }

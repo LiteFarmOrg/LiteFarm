@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -65,9 +65,11 @@ import {
 } from '../../util/google-maps/cleanupListeners';
 import useAvailableFilterSettings from './useAvailableFilterSettings';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
+import history from '../../history';
 
 export default function Map({ isCompactSideMenu }) {
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const {
     maps: { isLoaded },
@@ -92,7 +94,7 @@ export default function Map({ isCompactSideMenu }) {
   const successMessage = useSelector(setSuccessMessageSelector);
 
   const [showingConfirmButtons, setShowingConfirmButtons] = useState(
-    history?.location?.state?.hideLocationPin ?? false,
+    location.state?.hideLocationPin ?? false,
   );
 
   const isOffline = useIsOffline();
@@ -109,13 +111,15 @@ export default function Map({ isCompactSideMenu }) {
   const persistedPathsSet = useSelector(hookFormPersistedPathsSetSelector);
   useEffect(() => {
     return () => {
+      // ⚠️ Read the destination from `history`, not useLocation: this cleanup runs
+      // after navigation, so the hook's location would be the map's own path.
       persistedPathsSet.size &&
         !persistedPathsSet.has(history.location.pathname) &&
         dispatch(resetAndUnLockFormData());
     };
   }, [persistedPathsSet]);
   useEffect(() => {
-    if (!history.location.state?.isStepBack) {
+    if (!location.state?.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
     return () => {
@@ -234,15 +238,15 @@ export default function Map({ isCompactSideMenu }) {
     const mapBounds = new gMaps.LatLngBounds();
     drawAssets(gMap, gMaps, mapBounds);
 
-    if (history.location.state?.isStepBack) {
+    if (location.state?.isStepBack) {
       reconstructOverlay();
     }
 
-    if (history.location.state?.cameraInfo) {
-      const { zoom, location } = history.location.state.cameraInfo;
-      if (zoom && location) {
+    if (location.state?.cameraInfo) {
+      const { zoom, location: cameraLocation } = location.state.cameraInfo;
+      if (zoom && cameraLocation) {
         gMap.setZoom(zoom);
-        gMap.setCenter(location);
+        gMap.setCenter(cameraLocation);
       }
     }
   }, [gMap, gMaps, isFetchingInternalLocations, isLoadingExternalLocations]);
@@ -377,7 +381,7 @@ export default function Map({ isCompactSideMenu }) {
       setShowDrawLineSpotlightModal(true);
     } else if (locationType === locationEnum.sensor) {
       dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
-      history.push(ADD_SENSORS_URL);
+      navigate(ADD_SENSORS_URL);
       return;
     }
     isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
@@ -416,7 +420,7 @@ export default function Map({ isCompactSideMenu }) {
         dispatch(upsertFormData(locationData));
         dispatch(setIsRedrawing(false));
       }
-      history.push(`/create_location/${drawingState.type}`);
+      navigate(`/create_location/${drawingState.type}`);
     }
   };
 
@@ -428,7 +432,7 @@ export default function Map({ isCompactSideMenu }) {
     } else {
       dispatch(upsertFormData({ ...lineData }));
     }
-    history.push(`/create_location/${drawingState.type}`);
+    navigate(`/create_location/${drawingState.type}`);
   };
 
   const isLineWithWidth = (type = drawingState.type) => {
@@ -509,7 +513,7 @@ export default function Map({ isCompactSideMenu }) {
                 </div>
               )}
             </div>
-            <LocationSelectionModal history={history} />
+            <LocationSelectionModal />
 
             {!drawingState.type && (
               <PureMapFooter

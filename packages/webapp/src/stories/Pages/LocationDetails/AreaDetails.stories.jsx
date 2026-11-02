@@ -55,7 +55,6 @@ Post.args = {
   getValues: (data) => {},
   setError: (data) => {},
   control: (data) => {},
-  match: { params: { location_id: 1 } },
   children: (data) => {},
   errors: (data) => {},
   areaType: (data) => {},

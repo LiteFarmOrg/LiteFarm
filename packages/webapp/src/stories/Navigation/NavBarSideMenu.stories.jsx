@@ -100,11 +100,6 @@ export default {
   decorators: [...componentDecoratorsWithoutPadding, ...navMenuControlDecorator],
   component: SideMenu,
   args: {
-    history: {
-      push: () => {},
-      location: { pathname: '/home' },
-      replace: () => {},
-    },
     isMobile: false,
     isDrawerOpen: true,
     onDrawerClose: () => {},

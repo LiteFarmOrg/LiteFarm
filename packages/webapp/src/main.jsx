@@ -18,7 +18,7 @@ import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Router } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import history from './history';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
@@ -68,7 +68,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.13.4',
+    release: '3.13.5',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -117,11 +117,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GoogleOAuthProvider clientId={clientId}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <ErrorBoundary FallbackComponent={ReactErrorFallback}>
-                  <Router history={history}>
+                  {/* https://reactrouter.com/api/declarative-routers/HistoryRouter */}
+                  <HistoryRouter history={history}>
                     <Suspense fallback={null}>
                       <App />
                     </Suspense>
-                  </Router>
+                  </HistoryRouter>
                 </ErrorBoundary>
               </LocalizationProvider>
             </GoogleOAuthProvider>

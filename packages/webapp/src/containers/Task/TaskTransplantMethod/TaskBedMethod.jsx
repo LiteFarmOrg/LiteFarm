@@ -1,4 +1,3 @@
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PureBedPlan from '../../../components/Crop/BedPlan/PureBedPlan';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
@@ -8,9 +7,6 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskBedPlan() {
-  const location = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { crop_variety_id } = useSelector(
@@ -21,14 +17,11 @@ export default function TaskBedPlan() {
   return (
     <HookFormPersistProvider>
       <PureBedPlan
-        match={match}
-        history={history}
         system={system}
         crop_variety={crop_variety}
         isFinalPage={true}
         submitPath={'/add_task/bed_guidance'}
         prefix={'transplant_task.planting_management_plan'}
-        location={location}
       />
     </HookFormPersistProvider>
   );

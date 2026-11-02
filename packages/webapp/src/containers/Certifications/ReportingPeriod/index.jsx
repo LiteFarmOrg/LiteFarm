@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertificationReportingPeriod from '../../../components/CertificationReportingPeriod';
@@ -13,7 +13,7 @@ import {
 import { getCertifierOptions } from '../utils';
 
 function CertificationReportingPeriod() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation', 'certifications']);
   const { email } = useSelector(userFarmSelector);
   const { data: certifications = [] } = useGetCertificationsQuery();
@@ -24,12 +24,12 @@ function CertificationReportingPeriod() {
     console.log(error);
   };
   const onContinue = (data) => {
-    history.push('/certification/survey');
+    navigate('/certification/survey');
   };
 
   useEffect(() => {
     if (certifications.length === 0) {
-      history.push('/certifications');
+      navigate('/certifications');
     }
   }, [certifications]);
 
@@ -40,7 +40,7 @@ function CertificationReportingPeriod() {
       <PureCertificationReportingPeriod
         onSubmit={onContinue}
         onError={onError}
-        handleGoBack={() => history.back()}
+        handleGoBack={() => navigate(-1)}
         defaultEmail={email}
         certifierOptions={certifierOptions}
       />

@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { putFarm } from '../../../saga';
 import { isAdminSelector, userFarmSelector } from '../../../userFarmSlice';
@@ -25,7 +24,6 @@ import { Variant as TabVariants } from '../../../../components/RouterTab/Tab';
 import { useFarmSettingsRouterTabs } from '../useFarmSettingsRouterTabs';
 
 const BasicProfile = () => {
-  const history = useHistory();
   const routerTabs = useFarmSettingsRouterTabs();
 
   const isAdmin = useSelector(isAdminSelector);
@@ -37,13 +35,8 @@ const BasicProfile = () => {
 
   return (
     <CardLayout>
-      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} history={history} />
-      <PureBasicProfile
-        isAdmin={isAdmin}
-        userFarm={userFarm}
-        onSubmit={onSubmit}
-        history={history}
-      />
+      <RouterTab tabs={routerTabs} variant={TabVariants.UNDERLINE} />
+      <PureBasicProfile isAdmin={isAdmin} userFarm={userFarm} onSubmit={onSubmit} />
     </CardLayout>
   );
 };

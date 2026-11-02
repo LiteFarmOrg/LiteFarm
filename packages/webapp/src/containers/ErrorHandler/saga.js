@@ -16,6 +16,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, select, takeLeading } from 'redux-saga/effects';
 import { userFarmSelector } from '../userFarmSlice';
+import { hasConsentedSelector } from '../consentSlice';
 import { getUserFarmsSaga } from '../ChooseFarm/saga';
 import { logout } from '../../util/jwt';
 
@@ -23,8 +24,9 @@ export const handle403 = createAction(`handle403Saga`);
 
 export function* handle403Saga() {
   yield call(getUserFarmsSaga);
-  const { has_consent, status } = yield select(userFarmSelector);
-  if (has_consent || status !== 'Active') {
+  const { status } = yield select(userFarmSelector);
+  const hasConsented = yield select(hasConsentedSelector);
+  if (hasConsented || status !== 'Active') {
     logout();
   }
 }

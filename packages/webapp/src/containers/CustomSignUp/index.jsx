@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState, useLayoutEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
@@ -35,7 +35,7 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const {
     register,
@@ -47,7 +47,7 @@ function CustomSignUp() {
   } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = location?.state || {};
+  const { user, component: componentToShow } = location.state || {};
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: VALID_EMAIL_REGEX });
   const dispatch = useDispatch();
@@ -100,11 +100,9 @@ function CustomSignUp() {
 
   useEffect(() => {
     if (!componentToShow) {
-      history.replace(
-        {
-          pathname: '/',
-        },
-        { user: { email }, component: CUSTOM_SIGN_UP },
+      navigate(
+        { pathname: '/' },
+        { replace: true, state: { user: { email }, component: CUSTOM_SIGN_UP } },
       );
     }
   }, [componentToShow, email]);
@@ -123,22 +121,11 @@ function CustomSignUp() {
     dispatch(customLoginWithPassword({ email, password, showPasswordError }));
   };
 
-  const enterPasswordOnGoBack = () => {
-    history.push(
+  const onGoBack = () => {
+    navigate(
+      { pathname: '/' },
       {
-        pathname: '/',
-      },
-      { user: { email }, component: CUSTOM_SIGN_UP },
-    );
-  };
-  const createUserAccountOnGoBack = () => {
-    history.push(
-      {
-        pathname: '/',
-      },
-      {
-        component: CUSTOM_SIGN_UP,
-        user: { email },
+        state: { user: { email }, component: CUSTOM_SIGN_UP },
       },
     );
   };
@@ -151,7 +138,7 @@ function CustomSignUp() {
           <PureEnterPasswordPage
             onLogin={onLogin}
             title={`${t('SIGNUP.WELCOME_BACK')} ${user?.first_name}!`}
-            onGoBack={enterPasswordOnGoBack}
+            onGoBack={onGoBack}
             forgotPassword={forgotPassword}
             isChrome={isChrome()}
             isVisible={showPureEnterPasswordPage}
@@ -160,11 +147,7 @@ function CustomSignUp() {
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>
         <Hidden isVisible={showPureCreateUserAccount}>
-          <PureCreateUserAccount
-            onSignUp={onSignUp}
-            onGoBack={createUserAccountOnGoBack}
-            email={submittedEmail}
-          />
+          <PureCreateUserAccount onSignUp={onSignUp} onGoBack={onGoBack} email={submittedEmail} />
         </Hidden>
       </Suspense>
       <Hidden isVisible={showPureCustomSignUp}>

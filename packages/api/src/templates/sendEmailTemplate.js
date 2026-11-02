@@ -23,8 +23,6 @@ import { fileURLToPath } from 'url';
 
 const emails = {
   INVITATION: { path: 'invitation_to_farm_email' },
-  CONFIRMATION: { path: 'send_confirmation_email' },
-  WITHHELD_CONSENT: { path: 'withheld_consent_email' },
   ACCESS_RESTORE: { path: 'restoration_of_access_to_farm_email' },
   ACCESS_REVOKE: { path: 'revocation_of_access_to_farm_email' },
   WELCOME: { path: 'welcome_email' },

@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PureAddNewCrop from '../../components/AddNewCrop';
 import ImagePickerWrapper from '../ImagePickerWrapper';
 import { AddLink } from '../../components/Typography';
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function AddNewCrop() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation(['translation']);
   const onError = (error) => {
     console.log(error);
@@ -15,8 +15,8 @@ function AddNewCrop() {
   return (
     <HookFormPersistProvider>
       <PureAddNewCrop
-        handleContinue={() => history.push(`/crop/new/add_crop_variety`)}
-        handleGoBack={() => history.back()}
+        handleContinue={() => navigate(`/crop/new/add_crop_variety`)}
+        handleGoBack={() => navigate(-1)}
         imageUploader={
           <ImagePickerWrapper>
             <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>

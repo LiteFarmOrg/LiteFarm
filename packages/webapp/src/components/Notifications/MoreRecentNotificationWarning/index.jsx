@@ -1,11 +1,11 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Text } from '../../Typography';
 import PureWarningBox from '../../WarningBox';
-import history from '../../../history';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 
 function MoreRecentNotificationWarning({ notificationId, entityType }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const translatedEntityType = t(`ENTITY_TYPES.${entityType.toUpperCase()}`);
   return (
@@ -15,7 +15,7 @@ function MoreRecentNotificationWarning({ notificationId, entityType }) {
       </Text>
       <a
         className={styles.viewNowLink}
-        onClick={() => history.push(`/notifications/${notificationId}/read_only`)}
+        onClick={() => navigate(`/notifications/${notificationId}/read_only`)}
       >
         {t('NOTIFICATION.TIMELINE.VIEW_NOW')}
       </a>

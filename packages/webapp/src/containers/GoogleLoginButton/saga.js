@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import { loginSuccess } from '../userFarmSlice';
+import { fetchConsentSuccess } from '../consentSlice';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
@@ -50,10 +51,11 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       );
     } else {
       yield put(loginSuccess(user));
+      yield put(fetchConsentSuccess(user.consent));
       const handedOff = yield call(handOffToDashboardIfRequested);
       if (!handedOff) {
         if (isSignUp) {
-          history.push('/welcome');
+          history.push('/consent');
         } else {
           history.push('/farm_selection');
         }

@@ -11,7 +11,7 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getCropsAndManagementPlans } from '../saga';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
@@ -34,7 +34,7 @@ import Drawer from '../../components/Drawer';
 import navStyles from '@navStyles';
 
 export default function CropCatalogue() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ export default function CropCatalogue() {
         '/crop/new/add_crop_variety/compliance',
       ]),
     );
-    history.push('/crop/new');
+    navigate('/crop/new');
   };
   const resetFilter = () => dispatch(resetCropCatalogueFilter());
   return (
@@ -138,7 +138,7 @@ export default function CropCatalogue() {
                     src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
+                    onClick={() => navigate(`/crop_varieties/crop/${cropVariety.crop_id}`)}
                     cropCount={{
                       noPlans: noPlansCount,
                     }}
@@ -173,7 +173,7 @@ export default function CropCatalogue() {
                     src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
+                    onClick={() => navigate(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
                   />
                 );
               })}

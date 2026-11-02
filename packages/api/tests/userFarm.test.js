@@ -36,6 +36,7 @@ import mocks from './mock.factories.js';
 import { faker } from '@faker-js/faker';
 import userFarmModel from '../src/models/userFarmModel.js';
 import userModel from '../src/models/userModel.js';
+import userConsentModel from '../src/models/userConsentModel.js';
 
 describe('User Farm Tests', () => {
   // let middleware;
@@ -142,18 +143,13 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
-  function invitePseudoUserRequest(
-    data,
-    { user_id, farm_id, params_user_id, params_farm_id },
-    callback,
-  ) {
-    chai
+  function invitePseudoUserRequest(data, { user_id, farm_id, params_user_id, params_farm_id }) {
+    return chai
       .request(server)
       .post(`/user_farm/invite/farm/${params_farm_id || farm_id}/user/${params_user_id || user_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
   // initialize a user and a farm
@@ -254,6 +250,38 @@ describe('User Farm Tests', () => {
         expect(targetUser.has_consent).toBe(true);
       },
     );
+  });
+
+  // TODO: LF-5530 Remove with the per-farm consent endpoint
+  test('Should also save the consent on the user and all of their farms when updating consent for a user farm', async () => {
+    const [farm] = await mocks.farmFactory();
+    // User without consent
+    const [user] = await mocks.usersFactory(mocks.fakeUser(), null);
+    await mocks.userFarmFactory(
+      { promisedUser: [user], promisedFarm: [farm] },
+      { role_id: 3, status: 'Active', has_consent: false },
+    );
+    await mocks.userFarmFactory(
+      { promisedUser: [user] },
+      { role_id: 3, status: 'Active', has_consent: false },
+    );
+
+    const res = await chai
+      .request(server)
+      .patch(`/user_farm/consent/farm/${farm.farm_id}/user/${user.user_id}`)
+      .set('user_id', user.user_id)
+      .set('farm_id', farm.farm_id)
+      .send({ has_consent: true, consent_version: '9.0' });
+
+    expect(res.status).toBe(200);
+    const consent = await userConsentModel.query().findById(user.user_id);
+    expect(consent.consent_version).toBe('9.0');
+    const userFarms = await userFarmModel.query().where({ user_id: user.user_id });
+    expect(userFarms).toHaveLength(2);
+    for (const userFarm of userFarms) {
+      expect(userFarm.has_consent).toBe(true);
+      expect(userFarm.consent_version).toBe('9.0');
+    }
   });
 
   test('Invited user should not update userFarm', async () => {
@@ -473,6 +501,25 @@ describe('User Farm Tests', () => {
             expect(res.status).toBe(403);
           },
         );
+      });
+
+      test('Return 403 if the user has not consented', async () => {
+        const [farm] = await mocks.farmFactory();
+        // User without consent
+        const [user] = await mocks.usersFactory(mocks.fakeUser(), null);
+        await mocks.userFarmFactory(
+          { promisedUser: [user], promisedFarm: [farm] },
+          // TODO: LF-5530 Remove has_consent once userFarm's consent columns are dropped
+          { role_id: 1, status: 'Active', has_consent: true },
+        );
+
+        const res = await chai
+          .request(server)
+          .get(`/user_farm/farm/${farm.farm_id}`)
+          .set('user_id', user.user_id)
+          .set('farm_id', farm.farm_id);
+
+        expect(res.status).toBe(403);
       });
     });
 
@@ -902,6 +949,69 @@ describe('User Farm Tests', () => {
       );
     });
 
+    describe('Revoke and restore a member', () => {
+      function patchStatusRequest(status, { user_id, farm_id }, target_user_id) {
+        return chai
+          .request(server)
+          .patch(`/user_farm/status/farm/${farm_id}/user/${target_user_id}`)
+          .set('user_id', user_id)
+          .set('farm_id', farm_id)
+          .send({ status });
+      }
+
+      function getUserFarm(user_id, farm_id) {
+        return userFarmModel.query().findById([user_id, farm_id]);
+      }
+
+      test('Should save the status on revoke and bring it back on restore', async () => {
+        const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
+        const member = await createUserFarmAtFarm({ role_id: 3, status: 'Active' }, farm);
+
+        const headers = { user_id: owner.user_id, farm_id: farm.farm_id };
+
+        const revokeRes = await patchStatusRequest('Inactive', headers, member.user_id);
+        expect(revokeRes.status).toBe(200);
+        expect(revokeRes.body).toEqual({ status: 'Inactive' });
+        const revoked = await getUserFarm(member.user_id, farm.farm_id);
+        expect(revoked.status).toBe('Inactive');
+        expect(revoked.status_before_revoke).toBe('Active');
+
+        const restoreRes = await patchStatusRequest('Active', headers, member.user_id);
+        expect(restoreRes.status).toBe(200);
+        expect(restoreRes.body).toEqual({ status: 'Active' });
+        const restored = await getUserFarm(member.user_id, farm.farm_id);
+        expect(restored.status).toBe('Active');
+        expect(restored.status_before_revoke).toBeNull();
+      });
+
+      test('A restore sets the status saved at revoke time and ignores the requested one', async () => {
+        const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
+        const member = await createUserFarmAtFarm({ role_id: 3, status: 'Invited' }, farm);
+        const headers = { user_id: owner.user_id, farm_id: farm.farm_id };
+        await patchStatusRequest('Inactive', headers, member.user_id);
+
+        const res = await patchStatusRequest('Active', headers, member.user_id);
+        expect(res.status).toBe(200);
+        expect(res.body).toEqual({ status: 'Invited' });
+        const restored = await getUserFarm(member.user_id, farm.farm_id);
+        expect(restored.status).toBe('Invited');
+      });
+
+      test('Should restore an active member as Active even when "Invited" is requested', async () => {
+        const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
+        const member = await createUserFarmAtFarm({ role_id: 3, status: 'Active' }, farm);
+        const headers = { user_id: owner.user_id, farm_id: farm.farm_id };
+        await patchStatusRequest('Inactive', headers, member.user_id);
+
+        const res = await patchStatusRequest('Invited', headers, member.user_id);
+
+        expect(res.status).toBe(200);
+        expect(res.body).toEqual({ status: 'Active' });
+        const restored = await getUserFarm(member.user_id, farm.farm_id);
+        expect(restored.status).toBe('Active');
+      });
+    });
+
     describe('Update user farm wage', () => {
       test('Owner should update user farm wage', async () => {
         const { user: owner, farm } = await setupUserFarm({ role_id: 1 });
@@ -1047,22 +1157,19 @@ describe('User Farm Tests', () => {
         );
         const email = faker.internet.email().toLowerCase();
         const { wage, role_id } = mocks.fakeUserFarm();
-        invitePseudoUserRequest(
+        const res = await invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: psedoUserFarm.user_id },
-          async (_err, res) => {
-            expect(_err).toEqual(null);
-            expect(res.status).toBe(201);
-            const updatedUserFarm = await userFarmModel
-              .query()
-              .findById([psedoUserFarm.user_id, psedoUserFarm.farm_id]);
-            const updatedUser = await userModel.query().findById(psedoUserFarm.user_id);
-            expect(updatedUser.email).toBe(email);
-            expect(updatedUser.status_id).toBe(2);
-            expect(updatedUserFarm.wage).toEqual(wage);
-            expect(updatedUserFarm.role_id).toBe(role_id);
-          },
         );
+        expect(res.status).toBe(201);
+        const updatedUserFarm = await userFarmModel
+          .query()
+          .findById([psedoUserFarm.user_id, psedoUserFarm.farm_id]);
+        const updatedUser = await userModel.query().findById(psedoUserFarm.user_id);
+        expect(updatedUser.email).toBe(email);
+        expect(updatedUser.status_id).toBe(2);
+        expect(updatedUserFarm.wage).toEqual(wage);
+        expect(updatedUserFarm.role_id).toBe(role_id);
       });
 
       test('Should give access of a pseudo farm to an account when email exists in user table', async () => {
@@ -1078,30 +1185,27 @@ describe('User Farm Tests', () => {
           user_id: `existing user ${psedoUserFarm.user_id}`,
         });
         const { wage, role_id } = mocks.fakeUserFarm();
-        invitePseudoUserRequest(
+        const res = await invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: psedoUserFarm.user_id },
-          async (_err, res) => {
-            expect(_err).toEqual(null);
-            expect(res.status).toBe(201);
-            const oldUserFarm = await userFarmModel
-              .query()
-              .findById([psedoUserFarm.user_id, psedoUserFarm.farm_id]);
-            const oldUser = await userModel.query().findById(psedoUserFarm.user_id);
-            expect(oldUser).toBeUndefined();
-            expect(oldUserFarm).toBeUndefined();
-            const updatedUserFarm = await userModel
-              .query()
-              .join('userFarm', 'userFarm.user_id', 'users.user_id')
-              .where({ 'users.user_id': existingUser.user_id, 'userFarm.farm_id': farm.farm_id })
-              .first()
-              .select('*');
-            expect(updatedUserFarm.email).toBe(email);
-            expect(updatedUserFarm.status_id).toBe(1);
-            expect(updatedUserFarm.wage).toEqual(wage);
-            expect(updatedUserFarm.role_id).toBe(role_id);
-          },
         );
+        expect(res.status).toBe(201);
+        const oldUserFarm = await userFarmModel
+          .query()
+          .findById([psedoUserFarm.user_id, psedoUserFarm.farm_id]);
+        const oldUser = await userModel.query().findById(psedoUserFarm.user_id);
+        expect(oldUser).toBeUndefined();
+        expect(oldUserFarm).toBeUndefined();
+        const updatedUserFarm = await userModel
+          .query()
+          .join('userFarm', 'userFarm.user_id', 'users.user_id')
+          .where({ 'users.user_id': existingUser.user_id, 'userFarm.farm_id': farm.farm_id })
+          .first()
+          .select('*');
+        expect(updatedUserFarm.email).toBe(email);
+        expect(updatedUserFarm.status_id).toBe(1);
+        expect(updatedUserFarm.wage).toEqual(wage);
+        expect(updatedUserFarm.role_id).toBe(role_id);
       });
 
       test('Should return 400 on attempt to convert pseudo user with email already in use', async () => {
@@ -1117,14 +1221,11 @@ describe('User Farm Tests', () => {
           promisedUser: [existingUser],
         });
         const { wage, role_id } = mocks.fakeUserFarm();
-        invitePseudoUserRequest(
+        const res = await invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: psedoUserFarm.user_id },
-          async (_err, res) => {
-            expect(_err).toEqual(null);
-            expect(res.status).toBe(400);
-          },
         );
+        expect(res.status).toBe(400);
       });
 
       test('Should return 400 if user is not a pseudo User', async () => {
@@ -1135,20 +1236,17 @@ describe('User Farm Tests', () => {
         );
         const { email } = await userModel.query().findById(managerFarm.user_id);
         const { wage, role_id } = mocks.fakeUserFarm();
-        invitePseudoUserRequest(
+        const res = await invitePseudoUserRequest(
           { email, role_id, wage },
           { user_id: owner.user_id, farm_id: farm.farm_id, params_user_id: managerFarm.user_id },
-          async (_err, res) => {
-            expect(_err).toEqual(null);
-            expect(res.status).toBe(400);
-            const userFarm = await userFarmModel
-              .query()
-              .findById([managerFarm.user_id, managerFarm.farm_id]);
-            delete userFarm.created_at;
-            delete managerFarm.created_at;
-            expect(userFarm).toEqual(managerFarm);
-          },
         );
+        expect(res.status).toBe(400);
+        const userFarm = await userFarmModel
+          .query()
+          .findById([managerFarm.user_id, managerFarm.farm_id]);
+        delete userFarm.created_at;
+        delete managerFarm.created_at;
+        expect(userFarm).toEqual(managerFarm);
       });
     });
   });

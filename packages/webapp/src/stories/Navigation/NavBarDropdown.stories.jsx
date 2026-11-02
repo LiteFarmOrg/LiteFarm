@@ -12,11 +12,6 @@ export default {
   decorators: [...componentDecoratorsGreyBackground, ...navMenuControlDecorator],
   component: TopMenu,
   args: {
-    history: {
-      push: () => {},
-      location: { pathname: '/home' },
-      replace: () => {},
-    },
     isMobile: false,
     showNavActions: true,
     onClickBurger: () => {},

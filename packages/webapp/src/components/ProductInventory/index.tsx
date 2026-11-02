@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { forwardRef, ChangeEvent, useMemo } from 'react';
-import { History } from 'history';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from '../Animals/Inventory/styles.module.scss';
@@ -25,7 +24,7 @@ import ClearFiltersButton, {
   ClearFiltersButtonType,
 } from '../../components/Button/ClearFiltersButton';
 import ProductInventoryFilter from '../../containers/ProductInventory/ProductFilter';
-import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
+import AddButton from '../Button/AddButton';
 import FloatingMenu from '../Menu/FloatingButtonMenu/FloatingMenu';
 import type { SearchProps } from '../Animals/Inventory';
 import Table from '../Table';
@@ -47,7 +46,6 @@ export type PureProductInventory = {
   totalInventoryCount: number;
   isFilterActive: boolean;
   clearFilters: () => void;
-  history: History;
   showActionFloaterButton: boolean;
   productColumns?: any;
   selectedIds: number[];
@@ -72,6 +70,7 @@ const PureProductInventory = ({
   onAddMenuItemClick,
   sectionHeaderTitle,
 }: PureProductInventory) => {
+  const { t } = useTranslation();
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
@@ -115,10 +114,10 @@ const PureProductInventory = ({
           />
         </div>
         {showActionFloaterButton && (
-          <FloatingButtonMenu
-            classes={{ button: navStyles.hideWhenOffline }}
-            type={'add'}
+          <AddButton
+            label={t('INVENTORY.ADD_PRODUCT')}
             Menu={AddProductMenuItems}
+            className={navStyles.hideWhenOffline}
           />
         )}
       </div>

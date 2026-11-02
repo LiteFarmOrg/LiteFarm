@@ -45,6 +45,7 @@ async function tableCleanup(knex) {
     DELETE FROM "certification";
     DELETE FROM "password";
     DELETE FROM "showedSpotlight";
+    DELETE FROM "user_consent";
     DELETE FROM "userLog";
     DELETE FROM "location_tasks";
     DELETE FROM "field_work_task";
@@ -160,6 +161,7 @@ async function tableCleanup(knex) {
     DELETE FROM "survey_draft";
     DELETE FROM "farm_notes_read";
     DELETE FROM "farm_note";
+    DELETE FROM "soil_lab_result";
     DELETE FROM "location";
     DELETE FROM "userFarm";
     DELETE FROM "farm";

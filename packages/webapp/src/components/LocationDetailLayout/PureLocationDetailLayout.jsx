@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, FormProvider } from 'react-hook-form';
 import LocationButtons from './LocationButtons';
@@ -7,15 +7,11 @@ import Form from '../Form';
 import AreaDetails from './AreaDetails';
 import LineDetails from './LineDetails';
 import PointDetails from './PointDetails';
-import RouterTab from '../RouterTab';
-import useLocationRouterTabs from '../../containers/LocationDetails/useLocationRouterTabs';
-import { Variant } from '../RouterTab/Tab';
 import CardLayout from '../Layout/CardLayout';
+import LocationRouterTab from './LocationRouterTab';
 import useLocationsById from '../../hooks/location/useLocationsById';
 
 export function PureLocationDetailLayout({
-  history,
-  match,
   system,
   locationType,
   locationCategory,
@@ -30,6 +26,7 @@ export function PureLocationDetailLayout({
   detailsChildren,
   showPerimeter,
 }) {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const formMethods = useForm({
     mode: 'onChange',
@@ -37,7 +34,7 @@ export function PureLocationDetailLayout({
     defaultValues: persistedFormData,
   });
   const historyCancel = () => {
-    history.push('/map', { hideLocationPin: true });
+    navigate('/map', { state: { hideLocationPin: true } });
   };
 
   const onError = (data) => {};
@@ -49,50 +46,24 @@ export function PureLocationDetailLayout({
     (isViewLocationPage && persistedFormData.name);
 
   // TODO: Move this up to container when just 1 container exists for locations
-  const { location_id } = match.params;
+  const { location_id } = useParams();
   const { locations: locationById } = useLocationsById(location_id);
   const location = isViewLocationPage && location_id && locationById;
 
-  const routerTabs = location && useLocationRouterTabs(location);
+  const DetailsComponent =
+    locationCategory === 'area'
+      ? AreaDetails
+      : locationCategory === 'line'
+        ? LineDetails
+        : PointDetails;
 
-  const details = useMemo(() => {
-    if (locationCategory === 'area') {
-      return (
-        <AreaDetails
-          name={t(`FARM_MAP.${translationKey}.NAME`)}
-          isCreateLocationPage={isCreateLocationPage}
-          isViewLocationPage={isViewLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          system={system}
-          showPerimeter={showPerimeter}
-        >
-          {detailsChildren && detailsChildren}
-        </AreaDetails>
-      );
-    } else if (locationCategory === 'line') {
-      return (
-        <LineDetails
-          name={t(`FARM_MAP.${translationKey}.NAME`)}
-          isCreateLocationPage={isCreateLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          isViewLocationPage={isViewLocationPage}
-        >
-          {detailsChildren && detailsChildren}
-        </LineDetails>
-      );
-    } else if (locationCategory === 'point') {
-      return (
-        <PointDetails
-          name={t(`FARM_MAP.${translationKey}.NAME`)}
-          isCreateLocationPage={isCreateLocationPage}
-          isEditLocationPage={isEditLocationPage}
-          isViewLocationPage={isViewLocationPage}
-        >
-          {detailsChildren && detailsChildren}
-        </PointDetails>
-      );
-    }
-  }, [locationCategory]);
+  const detailsProps = {
+    name: t(`FARM_MAP.${translationKey}.NAME`),
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+    ...(locationCategory === 'area' ? { system, showPerimeter } : {}),
+  };
 
   return (
     <CardLayout>
@@ -104,7 +75,7 @@ export function PureLocationDetailLayout({
               isCreateLocationPage={isCreateLocationPage}
               isViewLocationPage={isViewLocationPage}
               isEditLocationPage={isEditLocationPage}
-              onEdit={() => history.push(`/${locationType}/${match.params.location_id}/edit`)}
+              onEdit={() => navigate(`/${locationType}/${location_id}/edit`)}
               onRetire={handleRetire}
               isAdmin={isAdmin}
             />
@@ -117,21 +88,11 @@ export function PureLocationDetailLayout({
             isCreateLocationPage={isCreateLocationPage}
             isViewLocationPage={isViewLocationPage}
             isEditLocationPage={isEditLocationPage}
-            history={history}
-            match={match}
             onCancel={historyCancel}
             formMethods={formMethods}
           />
-          {isViewLocationPage && (
-            <RouterTab
-              classes={{ container: { margin: '6px 0 26px 0' } }}
-              history={history}
-              match={match}
-              tabs={routerTabs}
-              variant={Variant.UNDERLINE}
-            />
-          )}
-          {details}
+          {isViewLocationPage && location_id && <LocationRouterTab location={location} />}
+          <DetailsComponent {...detailsProps}>{detailsChildren}</DetailsComponent>
         </Form>
       </FormProvider>
     </CardLayout>

@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useRef } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertifications from '../../components/Certifications';
@@ -39,7 +39,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const { t } = useTranslation(['translation', 'common', 'certifications']);
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { data: rawCertifications = [], isLoading: isCertificationsLoading } =
     useGetCertificationsQuery();
   const { data: certifiers = [], isLoading: isCertifiersLoading } =
@@ -59,7 +59,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   // even though nothing was just saved.
   useEffect(() => {
     if ((location.state as any)?.certificationSaved) {
-      history.replace(location.pathname);
+      navigate(location.pathname, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -67,7 +67,7 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
   const certifications = toCertificationItems(rawCertifications, systemTypes, certifiers);
 
   const onExport = () => {
-    history.push('/certification/report_period');
+    navigate('/certification/report_period');
   };
 
   const onDeleteCertification = async (id: string) => {
@@ -97,8 +97,8 @@ export default function Certifications({ isCompactSideMenu }: CertificationsProp
         marketDirectoryProfileLink="/farm_settings/market_directory"
         isCompactSideMenu={isCompactSideMenu}
         onExport={onExport}
-        onAddCertification={() => history.push('/certifications/add_certification')}
-        onEditCertification={(id) => history.push(`/certifications/${id}/edit_certification`)}
+        onAddCertification={() => navigate('/certifications/add_certification')}
+        onEditCertification={(id) => navigate(`/certifications/${id}/edit_certification`)}
         onDeleteCertification={onDeleteCertification}
         isSaving={isDeleting}
       />

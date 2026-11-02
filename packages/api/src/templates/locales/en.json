@@ -51,33 +51,10 @@
     "SUBJECT0": "You've lost access to",
     "SUBJECT1": "on LiteFarm!"
   },
-  "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Congrats on becoming the newest",
-    "AT": "at",
-    "CLICK_BELOW": "You can log-in (on any device) using the button below",
-    "SUBJECT": "You've successfully joined"
-  },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
     "CLICK_BELOW": "You can also log-in (on any device) using the button below",
     "SUBJECT": "Welcome to LiteFarm!"
-  },
-  "WITHHOLD_CONSENT": {
-    "RECENT": "Recently, while joining",
-    "WITHHOLD": "on the LiteFarm application, you decided to withhold your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you won't be able to access the application. We're very sorry about this.",
-    "DEACTIVATE": "We've de-activated your association to",
-    "HOWEVER": "However, we still have the basic information you shared with us while setting up your user account. If you're associated with other farms, we also have any information you entered while working with those farms as well.",
-    "RIGHT": "You have the following rights regarding your data",
-    "COPY": "To know what data we have about you and request a copy of it",
-    "UPDATE": "To update or correct any data we have about you",
-    "STOP": "Request that we stop collecting your data (you've just done this)",
-    "TRANSFER": "Request a transfer of your data",
-    "DELETE": "Request that we delete your data",
-    "TO_REQUEST": "To request any of these actions, send an email to",
-    "SUPPORT": "with your request and we'll take care of you.",
-    "OTHERWISE": "Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below",
-    "RESTORE": "If you do so, you'll once again be able to access the LiteFarm system.",
-    "SUBJECT": "You didnt agree with the LiteFarm privacy policy – here are your options"
   },
   "EXPORT_MAP": {
     "EXPORT": "Here’s the farm map export for",

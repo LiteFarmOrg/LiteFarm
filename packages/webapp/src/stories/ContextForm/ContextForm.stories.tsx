@@ -56,7 +56,6 @@ const stepperFormCommonProps = {
   },
   isCompactSideMenu: true,
   variant: Variant.STEPPER_PROGRESS_BAR,
-  history: { block: () => () => ({}) },
   getSteps: () => [
     {
       title: 'Page 1',

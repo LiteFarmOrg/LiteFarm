@@ -21,7 +21,6 @@ const Template = (args) => <PureEditUser {...args} />;
 export const Admin = Template.bind({});
 Admin.args = {
   userFarm,
-  history: {},
   isAdmin: true,
 };
 Admin.parameters = {
@@ -31,7 +30,6 @@ Admin.parameters = {
 export const Worker = Template.bind({});
 Worker.args = {
   userFarm,
-  history: {},
   isAdmin: false,
 };
 Worker.parameters = {

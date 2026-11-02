@@ -18,6 +18,7 @@ import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { loginSuccess } from '../userFarmSlice';
+import { fetchConsentSuccess } from '../consentSlice';
 import { decodeToken } from 'react-jwt';
 import { axios } from '../saga';
 
@@ -40,13 +41,14 @@ export function* resetPasswordSaga({
       },
     );
 
-    const { id_token } = result.data;
+    const { id_token, consent } = result.data;
     localStorage.setItem('id_token', id_token);
 
     const decoded = decodeToken(id_token);
     const { user_id } = decoded;
 
     yield put(loginSuccess({ user_id }));
+    yield put(fetchConsentSuccess(consent));
     onPasswordResetSuccess();
   } catch (e) {
     history.push('/expired', { translation_key: 'RESET_PASSWORD', email });

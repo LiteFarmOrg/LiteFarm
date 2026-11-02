@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
+import AddButton from '../../components/Button/AddButton';
 import { useDispatch, useSelector } from 'react-redux';
 import PureDocumentTile from './DocumentTile';
 import PureDocumentTileContainer from './DocumentTile/DocumentTileContainer';
@@ -25,7 +26,7 @@ import { resetDocumentsFilter } from '../filterSlice';
 import Drawer from '../../components/Drawer';
 
 export default function Documents() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const lang = getLanguageFromLocalStorage();
@@ -70,12 +71,12 @@ export default function Documents() {
   } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
 
   const tileClick = (document_id) => {
-    history.push(`/documents/${document_id}`);
+    navigate(`/documents/${document_id}`);
   };
 
   const onUpload = () => {
     dispatch(setPersistedPaths(['/documents/add_document']));
-    history.push('/documents/add_document');
+    navigate('/documents/add_document');
   };
   const resetFilter = () => dispatch(resetDocumentsFilter());
   return (
@@ -86,6 +87,14 @@ export default function Documents() {
         value={filterString}
         onChange={filterStringOnChange}
         isFilterActive={isFilterCurrentlyActive}
+        addButton={
+          <DocumentUploader
+            onUpload={onUpload}
+            renderTrigger={(openFilePicker) => (
+              <AddButton label={t('DOCUMENTS.ADD_DOCUMENT')} onClick={openFilePicker} />
+            )}
+          />
+        }
       />
       <DocumentsSpotlight />
 
@@ -106,11 +115,6 @@ export default function Documents() {
 
       <div ref={containerRef}>
         <>
-          <DocumentUploader
-            style={{ marginBottom: '24px' }}
-            linkText={t('DOCUMENTS.ADD_DOCUMENT')}
-            onUpload={onUpload}
-          />
           {!!validDocuments.length && (
             <>
               <PageBreak

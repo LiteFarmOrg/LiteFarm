@@ -15,7 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { getExpense, getFarmExpenseType } from '../../Finances/actions';
 import { getRevenueTypes, getSales } from '../../Finances/saga';
@@ -29,7 +29,7 @@ import useProfitabilityDateRange from './useProfitabilityDateRange';
 
 const ProfitabilityWidget = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const currencySymbol = useCurrencySymbol();
 
   const [entityTab, setEntityTab] = useState<EntityTab>(EntityTab.CROPS);
@@ -82,7 +82,7 @@ const ProfitabilityWidget = () => {
       updateDateRange={updateDateRange}
       entityTab={entityTab}
       onTabChange={setEntityTab}
-      onAddTransactions={() => history.push(FINANCES_HOME_URL)}
+      onAddTransactions={() => navigate(FINANCES_HOME_URL)}
     />
   );
 };

@@ -18,10 +18,11 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
+import { fetchConsentSuccess, hasConsentedSelector } from '../consentSlice';
 import { decodeToken } from 'react-jwt';
 import i18n from '../../locales/i18n';
 import { logout } from '../../util/jwt';
-import { axios } from '../saga';
+import { axios, joinInvitedFarmSaga } from '../saga';
 
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
@@ -72,8 +73,14 @@ export function* patchUserFarmStatusSaga({ payload }) {
     }
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
+    yield put(fetchConsentSuccess(userFarm.consent));
     yield put(startInvitationFlow(userFarm.farm_id));
-    history.push('/consent');
+    const hasConsented = yield select(hasConsentedSelector);
+    if (hasConsented) {
+      yield call(joinInvitedFarmSaga);
+    } else {
+      history.push('/consent');
+    }
   } catch (e) {
     if (e?.response?.status === 404) {
       // user does not exist yet; the invite token carries the sender's selected language

@@ -26,11 +26,6 @@ export default {
 
 export const SignupNavbar = ((args) => <PureNavigation {...args} justLogo />).bind({});
 SignupNavbar.args = {
-  history: {
-    push: () => {},
-    location: { pathname: '/home' },
-    replace: () => {},
-  },
   showNavigationSpotlight: false,
   showNotificationSpotlight: false,
   resetSpotlight: () => {},
@@ -46,11 +41,6 @@ const Template = (args) => <PureNavigation {...args} />;
 export const HomeNavbar = Template.bind({});
 
 HomeNavbar.args = {
-  history: {
-    push: () => {},
-    location: { pathname: '/home' },
-    replace: () => {},
-  },
   showNavigationSpotlight: false,
   showNotificationSpotlight: false,
   resetSpotlight: () => {},
@@ -64,11 +54,6 @@ HomeNavbar.args = {
 export const HomeNavbarWithSpotlight = Template.bind({});
 
 HomeNavbarWithSpotlight.args = {
-  history: {
-    push: () => {},
-    location: { pathname: '/home' },
-    replace: () => {},
-  },
   showNavigationSpotlight: true,
   resetSpotlight: () => {},
   showNav: true,

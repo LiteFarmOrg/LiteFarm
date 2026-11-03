@@ -20,6 +20,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   padding: 16px 16px 12px;
   border: 1px solid var(--Colors-Neutral-Neutral-50);
@@ -222,6 +223,13 @@
   height: 14px;
   margin-left: 2px;
   vertical-align: text-bottom;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .action {

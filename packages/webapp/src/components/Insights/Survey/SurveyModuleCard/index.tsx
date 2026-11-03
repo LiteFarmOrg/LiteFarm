@@ -119,11 +119,13 @@ const SurveyModuleCard = ({
           <SurveyStatusDisplay survey={survey} scoreDisplay={scoreDisplay} />
         </div>
       )}
-      <span className={styles.meta}>{metaText}</span>
-      <Button sm color={actionColor} className={styles.action} onClick={onAction}>
-        <SurveyIcon />
-        {actionLabel}
-      </Button>
+      <div className={styles.footer}>
+        <span className={styles.meta}>{metaText}</span>
+        <Button sm color={actionColor} className={styles.action} onClick={onAction}>
+          <SurveyIcon />
+          {actionLabel}
+        </Button>
+      </div>
     </div>
   );
 };

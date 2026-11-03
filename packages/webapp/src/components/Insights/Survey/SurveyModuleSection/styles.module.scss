@@ -19,6 +19,7 @@
   --card-max-width: 235px;
 
   display: grid;
+  grid-auto-flow: row dense;
   grid-template-columns: repeat(2, minmax(min-content, var(--card-max-width)));
   gap: 16px;
   justify-content: center;

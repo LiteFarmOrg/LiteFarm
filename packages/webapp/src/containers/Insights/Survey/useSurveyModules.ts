@@ -69,21 +69,27 @@ const readRiskLevel = (
   return isRiskLevel(value) ? value : undefined;
 };
 
-const NO_ANIMALS = '-97';
+const NONE_ANSWER = '-97';
 const SECTION_FIELD = 'Step2_recommended';
 
 const toAnswerList = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
 
-const hasNoAnimals = (answers: Record<string, any>): boolean =>
-  ['aname', 'animal_species'].some((field) => toAnswerList(answers[field]).includes(NO_ANIMALS));
+const answeredNone = (answers: Record<string, any>, fields: string[]): boolean =>
+  fields.some((field) => toAnswerList(answers[field]).includes(NONE_ANSWER));
 
 const readRawScore = (answers: Record<string, any>, half: SurveyGaugeHalf): number | undefined => {
   const score = toFiniteNumber(answers[half.scoreField]);
 
-  if (score === undefined && half.fallback === 'crops-only' && hasNoAnimals(answers)) {
+  if (score !== undefined || half.fallback !== 'single-index') {
+    return score;
+  }
+  if (answeredNone(answers, ['cname', 'bio_crops'])) {
+    return toFiniteNumber(answers.GSIndex_animals);
+  }
+  if (answeredNone(answers, ['aname', 'animal_species'])) {
     return toFiniteNumber(answers.GSIndex_crops);
   }
-  return score;
+  return undefined;
 };
 
 const toPercent = (raw: number, scale: number): number => (raw * SURVEY_SCORE_MAX) / scale;

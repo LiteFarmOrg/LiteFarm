@@ -24,7 +24,7 @@ export interface SurveyGaugeHalf {
   display: 'gauge';
   scoreField: string;
   scale: number;
-  fallback?: 'crops-only';
+  fallback?: 'single-index';
   section?: string;
 }
 
@@ -222,7 +222,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
         display: 'gauge',
         scoreField: 'GSI_overall',
         scale: 100,
-        fallback: 'crops-only',
+        fallback: 'single-index',
         section: '5',
       },
       { id: 'productivity', display: 'dashboard-link', section: '1' },

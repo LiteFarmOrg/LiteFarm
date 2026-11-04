@@ -181,7 +181,7 @@ const WaterUseDepthCalculator = ({
       getUnitOptionMap()[getDefaultUnit(location_area, irrigatedArea, system).displayUnit],
       { shouldValidate: true },
     );
-  }, [location, percentage_location_irrigated]);
+  }, [location.total_area, percentage_location_irrigated]);
 
   useEffect(() => {
     if (irrigated_area && application_depth) {

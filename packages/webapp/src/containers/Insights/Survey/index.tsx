@@ -112,20 +112,14 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
       skip: !cdnDirectory || !SURVEY_INFO[surveyId]?.hasArchivedVersions,
     });
-  const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
+  const latestVersion = getLatestSurveyVersion(surveyId, language, versionManifest);
 
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
   const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
     (!draftState.isDraftLoading &&
-      getSurveyCdnPath(
-        surveyId,
-        country_code,
-        language,
-        draftState.initialDraft.surveyVersion,
-        hasDraft,
-      )) ||
+      getSurveyCdnPath(surveyId, language, draftState.initialDraft.surveyVersion, hasDraft)) ||
     {};
 
   const {
@@ -154,7 +148,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const notifications: { message: string }[] = useSelector(snackbarSelector);
   const isOffline = useIsOffline();
-  usePrefetchModuleDefinitions(surveyId, country_code);
+  usePrefetchModuleDefinitions(surveyId);
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 

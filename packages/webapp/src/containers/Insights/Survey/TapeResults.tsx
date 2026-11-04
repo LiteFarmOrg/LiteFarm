@@ -40,7 +40,6 @@ import {
   useGetSurveyVersionManifestQuery,
 } from '../../../store/api/surveyApi';
 import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarSlice';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 import { useSurveyTitle } from './useSurveyTitle';
@@ -61,14 +60,12 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { survey_response } = surveyData || {};
   const notifications: { message: string }[] = useSelector(snackbarSelector);
 
-  // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
-  const { country_code } = useSelector(userFarmSelector);
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
   const { data: versionManifest } = useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
     skip: !cdnDirectory,
   });
   const isOffline = useIsOffline();
-  usePrefetchModuleDefinitions(surveyId, country_code);
+  usePrefetchModuleDefinitions(surveyId);
 
   const localDraft = useSelector(surveyDraftSelector(surveyId));
   const { data: serverDrafts } = useGetSurveyDraftsQuery();
@@ -105,7 +102,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
 
   const checkHasNewVersion = (surveyId: string, recordedVersion: string | undefined) => {
     const language = getLanguageFromLocalStorage() || 'en';
-    const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
+    const latestVersion = getLatestSurveyVersion(surveyId, language, versionManifest);
     return hasNewSurveyVersion(recordedVersion, latestVersion);
   };
 

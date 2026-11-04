@@ -213,7 +213,6 @@ export const getLatestCdnPath = (
 
 export const getSurveyCdnPath = (
   surveyId: string,
-  countryCode?: string,
   language: string = 'en',
   draftSurveyVersion?: string,
   hasDraft = false,
@@ -304,7 +303,6 @@ export const hasNewSurveyVersion = (recordedVersion?: string, latestVersion?: st
 
 export const getLatestSurveyVersion = (
   surveyId: string,
-  countryCode: string | undefined,
   language: string,
   manifest: Record<string, string> | undefined,
 ): string | undefined => {

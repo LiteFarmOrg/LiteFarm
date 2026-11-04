@@ -34,7 +34,7 @@ const prefetchDefinition = async (
   }
 };
 
-export default function usePrefetchModuleDefinitions(parentSurveyId: string, countryCode?: string) {
+export default function usePrefetchModuleDefinitions(parentSurveyId: string) {
   const isOffline = useIsOffline();
 
   useEffect(() => {
@@ -56,5 +56,5 @@ export default function usePrefetchModuleDefinitions(parentSurveyId: string, cou
           .catch(() => undefined);
       }
     }
-  }, [parentSurveyId, countryCode, isOffline]);
+  }, [parentSurveyId, isOffline]);
 }

@@ -31,6 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
+import { MORNINGTON_SURVEY_VERSION_PREFIX } from '../src/middleware/mapMorningtonSurveyKey.js';
 
 describe('Survey response endpoint tests', () => {
   let owner;
@@ -149,6 +150,37 @@ describe('Survey response endpoint tests', () => {
       const { survey_key: _omitted, ...payloadWithoutKey } = fakeSurveyPayload(farm.farm_id);
       const res = await postRequest(payloadWithoutKey);
       expect(res.status).toBe(400);
+    });
+
+    // TODO: LF-5545 remove once no frontend sends Mornington surveys as `tape`
+    describe('Mornington responses sent under tape', () => {
+      function payloadWithVersion(surveyVersion) {
+        const payload = fakeSurveyPayload(farm.farm_id, 'tape');
+        return {
+          ...payload,
+          survey_response: { ...payload.survey_response, survey_version: surveyVersion },
+        };
+      }
+
+      test('Should store a Mornington response as tape_au', async () => {
+        const res = await postRequest(
+          payloadWithVersion(`${MORNINGTON_SURVEY_VERSION_PREFIX}STEP1_20260101_000000`),
+        );
+        expect(res.status).toBe(201);
+
+        const rows = await knex('survey_response').where({ farm_id: farm.farm_id });
+        expect(rows.length).toBe(1);
+        expect(rows[0].survey_key).toBe('tape_au');
+      });
+
+      test('Should keep an FAO response as tape', async () => {
+        const res = await postRequest(payloadWithVersion('TAPE_FAO_STEP1_20260101_000000'));
+        expect(res.status).toBe(201);
+
+        const rows = await knex('survey_response').where({ farm_id: farm.farm_id });
+        expect(rows.length).toBe(1);
+        expect(rows[0].survey_key).toBe('tape');
+      });
     });
   });
 

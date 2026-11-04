@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from 'react';
 import { groupBy as lodashGroupBy } from 'lodash-es';
 import { useGetSensorsQuery } from '../../store/api/apiSlice';
 import { FigureType } from '../../store/api/types';
@@ -82,88 +83,88 @@ function useExternalLocations({ filterBy, groupBy }: UseExternalLocationProps = 
     isFetching: isFetchingSensors,
   } = useGetSensorsQuery();
 
-  // Deep clone to prevent mutating original data from cache
-  const sensorData = structuredClone(rawSensorData);
-
   const isLoading = isLoadingSensors;
   const isFetching = isFetchingSensors;
 
-  if (isLoading) {
-    return { locations: sensorData, isLoading, isFetching };
-  }
+  const locations = useMemo(() => {
+    // Deep clone to prevent mutating original data from cache
+    const sensorData = structuredClone(rawSensorData);
 
-  const allSensors =
-    sensorData?.sensors.map((sensor) => ({
-      ...sensor,
-      isAddonSensor: true,
-      type: ExternalMapLocationType.SENSOR,
-      figure_type: FigureType.POINT,
-    })) || [];
-
-  const sensorArrays =
-    sensorData?.sensor_arrays.map((sensorArray) => ({
-      ...sensorArray,
-      isAddonSensor: true,
-      type: ExternalMapLocationType.SENSOR_ARRAY,
-      figure_type: FigureType.POINT,
-      name: sensorArray.label,
-    })) || [];
-
-  const standaloneSensors = allSensors?.filter((sensor) => sensor.sensor_array_id === null) || [];
-
-  const locations = [...sensorArrays, ...standaloneSensors];
-
-  if (locations.length && (filterBy || groupBy)) {
-    if (Array.isArray(filterBy)) {
-      const filteredLocations = locations.filter(({ type }) => filterBy.includes(type));
-      return { locations: filteredLocations, isLoading, isFetching };
+    if (isLoading) {
+      return sensorData;
     }
 
-    if (filterBy && allLocationTypes.includes(filterBy)) {
-      const filteredLocations = locations.filter(({ type }) => type === filterBy);
-      return { locations: filteredLocations, isLoading, isFetching };
+    const allSensors =
+      sensorData?.sensors.map((sensor) => ({
+        ...sensor,
+        isAddonSensor: true,
+        type: ExternalMapLocationType.SENSOR,
+        figure_type: FigureType.POINT,
+      })) || [];
+
+    const sensorArrays =
+      sensorData?.sensor_arrays.map((sensorArray) => ({
+        ...sensorArray,
+        isAddonSensor: true,
+        type: ExternalMapLocationType.SENSOR_ARRAY,
+        figure_type: FigureType.POINT,
+        name: sensorArray.label,
+      })) || [];
+
+    const standaloneSensors = allSensors?.filter((sensor) => sensor.sensor_array_id === null) || [];
+
+    const locations = [...sensorArrays, ...standaloneSensors];
+
+    if (locations.length && (filterBy || groupBy)) {
+      if (Array.isArray(filterBy)) {
+        const filteredLocations = locations.filter(({ type }) => filterBy.includes(type));
+        return filteredLocations;
+      }
+
+      if (filterBy && allLocationTypes.includes(filterBy)) {
+        const filteredLocations = locations.filter(({ type }) => type === filterBy);
+        return filteredLocations;
+      }
+
+      if (filterBy && allFigureTypes.includes(filterBy)) {
+        const filteredLocations = locations.filter(({ figure_type }) => figure_type === filterBy);
+        return filteredLocations;
+      }
+
+      if (groupBy === GroupByOptions.TYPE) {
+        // @ts-expect-error - todo - fix type inference for groupByFn
+        const groupedLocations = groupByFn(locations, ({ type }) => type);
+        return groupedLocations;
+      }
+
+      if (groupBy === GroupByOptions.FIGURE) {
+        // @ts-expect-error - todo - fix type inference for groupByFn
+        const groupedLocations = groupByFn(locations, ({ figure_type }) => figure_type);
+        return groupedLocations;
+      }
+
+      if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
+        // First: group by figure type (area, line, point)
+        // @ts-expect-error - todo - fix type inference for groupByFn
+        const groupedByFigure = groupByFn(locations, ({ figure_type }) => figure_type);
+
+        // Second: for each figure group, group by location type
+        const groupedLocations = Object.fromEntries(
+          Object.entries(groupedByFigure).map(([figureType, locations]) => {
+            // @ts-expect-error - todo - fix type inference for groupByFn
+            const groupedByLocationType = groupByFn(locations, ({ type }) => type);
+            return [figureType, groupedByLocationType];
+          }),
+        );
+
+        return groupedLocations;
+      }
     }
 
-    if (filterBy && allFigureTypes.includes(filterBy)) {
-      const filteredLocations = locations.filter(({ figure_type }) => figure_type === filterBy);
-      return { locations: filteredLocations, isLoading, isFetching };
-    }
+    return locations;
+  }, [rawSensorData, groupBy, filterBy, isLoading]);
 
-    if (groupBy === GroupByOptions.TYPE) {
-      // @ts-expect-error - todo - fix type inference for groupByFn
-      const groupedLocations = groupByFn(locations, ({ type }) => type);
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.FIGURE) {
-      // @ts-expect-error - todo - fix type inference for groupByFn
-      const groupedLocations = groupByFn(locations, ({ figure_type }) => figure_type);
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-
-    if (groupBy === GroupByOptions.FIGURE_AND_TYPE) {
-      // First: group by figure type (area, line, point)
-      // @ts-expect-error - todo - fix type inference for groupByFn
-      const groupedByFigure = groupByFn(locations, ({ figure_type }) => figure_type);
-
-      // Second: for each figure group, group by location type
-      const groupedLocations = Object.fromEntries(
-        Object.entries(groupedByFigure).map(([figureType, locations]) => {
-          // @ts-expect-error - todo - fix type inference for groupByFn
-          const groupedByLocationType = groupByFn(locations, ({ type }) => type);
-          return [figureType, groupedByLocationType];
-        }),
-      );
-
-      return { locations: groupedLocations, isLoading, isFetching };
-    }
-  }
-
-  return {
-    locations,
-    isLoading,
-    isFetching,
-  };
+  return { locations, isLoading, isFetching };
 }
 
 export default useExternalLocations;

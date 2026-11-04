@@ -1,0 +1,22 @@
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.title {
+  margin-bottom: 4px;
+}
+
+.counts,
+.note {
+  color: var(--grey600);
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}

@@ -16,6 +16,7 @@ export default function PureAddFarm({
   onGoBack,
   onSubmit,
   map,
+  belowLocationInput,
   loading,
   disabled,
 }) {
@@ -38,6 +39,7 @@ export default function PureAddFarm({
       <PageTitle onGoBack={onGoBack} title={title} style={{ marginBottom: '20px' }} />
       <Input data-cy="addFarm-farmName" style={style} {...inputs[0]} />
       <Input data-cy="addFarm-location" style={style} {...inputs[1]} />
+      {belowLocationInput}
       {map}
     </Form>
   );
@@ -47,6 +49,7 @@ PureAddFarm.prototype = {
   title: PropTypes.string,
   onSubmit: PropTypes.func,
   map: PropTypes.node,
+  belowLocationInput: PropTypes.node,
   inputs: PropTypes.arrayOf(
     PropTypes.exact({
       label: PropTypes.string,

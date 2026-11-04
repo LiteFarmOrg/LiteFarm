@@ -19,11 +19,16 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { userFarmLengthSelector, userFarmStatusSelector } from '../containers/userFarmSlice';
 import { hasConsentedSelector } from '../containers/consentSlice';
+import { isMapLibreProvider } from '../util/mapProvider';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
-const AddFarm = React.lazy(() => import('../containers/AddFarm'));
+const AddFarm = React.lazy(() =>
+  isMapLibreProvider
+    ? import('../containers/AddFarm/MapLibreAddFarm')
+    : import('../containers/AddFarm'),
+);
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 
 function OnboardingFlow(props) {

@@ -78,6 +78,7 @@ export default function PureTaskReadOnly({
   onGoToCropPlan,
   onDelete,
   task,
+  taskRows,
   users,
   user,
   isAdmin,
@@ -536,6 +537,7 @@ export default function PureTaskReadOnly({
           task,
           isCompleted,
         })}
+      {taskRows}
       {showTaskNotes && (
         <InputAutoSize
           style={{ marginBottom: '40px' }}

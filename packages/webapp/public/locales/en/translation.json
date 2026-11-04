@@ -64,6 +64,7 @@
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
+    "ADDRESS_SEARCH_UNAVAILABLE": "Address search is unavailable. Enter latitude and longitude instead.",
     "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
     "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
     "ENTER_LOCATION_PLACEHOLDER": "Enter Location",
@@ -74,6 +75,7 @@
     "FARM_NAME_ERROR": "Farm name character limit exceeded",
     "INVALID_FARM_LOCATION": "No country for this location",
     "LOCATING": "Locating...",
+    "NO_ADDRESS_RESULTS": "No matching addresses",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
@@ -988,6 +990,63 @@
       "EDIT_TITLE": "Edit residence",
       "NAME": "Residence name",
       "TITLE": "Add residence"
+    },
+    "ROW_PLANNER": {
+      "ANGLE": "Angle (degrees)",
+      "CLEAR": "Clear",
+      "CONTOUR": "Contour rows (needs a survey; angle is ignored)",
+      "CONTOUR_USED": "Contour rows used.",
+      "DOWNLOAD": "GeoJSON",
+      "ERRORS": {
+        "ANGLE": "Enter an angle.",
+        "GRID": "Survey grid cell must be at least 0.25 m.",
+        "NEEDS_SURVEY": "Contour rows need a survey file first.",
+        "NEGATIVE": "Headland cannot be negative.",
+        "SURVEY_COLUMNS": "The survey needs x, y, lat, lon and alt columns.",
+        "SURVEY_INVALID": "Every survey point needs numeric x, y, lat, lon and alt values.",
+        "SURVEY_POINTS": "The survey needs at least 3 valid points.",
+        "TOOL_WIDTH": "Row spacing must be at least 0.5 m."
+      },
+      "FAILED": "Planning failed: {{message}}",
+      "FELL_BACK": "No usable contour (field too flat or outside the survey): straight rows used.",
+      "FIELD": "Field",
+      "GRID": "Survey grid cell (m)",
+      "HEADLAND": "Headland (m)",
+      "NO_FIELDS": "Draw a field or garden on the map to plan rows for it.",
+      "NO_ROWS": "No rows fit in this field with these settings.",
+      "NOTE": "Planning runs in your browser and the survey is never uploaded. Press Save to store the rows with your farm. The first run downloads the planner (contour rows download more).",
+      "PATH": "Path {{path}} km in {{passes}} pass(es)",
+      "PLAN": "Plan",
+      "PLANNING": "Planning…",
+      "RESULT": "{{rows}} rows, {{swath}} km of rows",
+      "SAVE": "Save",
+      "SAVED": "Saved",
+      "SAVE_FAILED": "Could not save the plan: {{message}}",
+      "SAVE_WARNINGS": "Saved with warnings: {{message}}",
+      "SAVING": "Saving…",
+      "SNAKE": "Join rows into one path",
+      "STATUS": {
+        "LOADING_CONTOUR": "Loading scipy and scikit-image (first contour run only, large download)…",
+        "LOADING_PYTHON": "Loading the planner…",
+        "PLANNING": "Planning… contour rows can take a minute."
+      },
+      "SURVEY": "Survey CSV (x, y, lat, lon, alt columns)",
+      "SURVEY_LOADED": "Survey: {{count}} points",
+      "TITLE": "Plan rows",
+      "TOOL_WIDTH": "Row spacing (m)"
+    },
+    "SOIL_LAYERS": {
+      "CLAY": "Clay content (0–5 cm)",
+      "HUTTON_LCA": "Land capability for agriculture (Scotland)",
+      "HUTTON_WRB": "Soil type, WRB classification (Scotland)",
+      "NONE": "None",
+      "NOTE": "Soil maps are modelled or coarse. Use them as a guide, not as a field survey.",
+      "OPACITY": "Opacity",
+      "ORGANIC_CARBON": "Organic carbon (0–5 cm)",
+      "PH": "Soil pH (0–5 cm)",
+      "SAND": "Sand content (0–5 cm)",
+      "SSURGO": "Soil map units (USDA SSURGO)",
+      "TITLE": "Soil layers"
     },
     "SOIL_SAMPLE_LOCATION": {
       "EDIT_TITLE": "Edit soil sample location",
@@ -2364,6 +2423,28 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
+    "ROWS": {
+      "ABORTED": "{{count}} aborted",
+      "DONE": "{{count}} done",
+      "EMPTY": "Enter the rows to work, for example 12-18,21",
+      "ERRORS": {
+        "BACKWARDS": "\"{{part}}\" runs backwards",
+        "EMPTY": "Enter at least one row",
+        "NOT_IN_PLAN": "Rows not in the field's row plan: {{rows}}",
+        "READ_FAILED": "Rows could not be loaded",
+        "SAVE_FAILED": "Rows could not be saved",
+        "TOO_MANY": "Too many rows selected",
+        "UNREADABLE": "Cannot read \"{{part}}\" as a row or range"
+      },
+      "INPUT_LABEL": "Rows",
+      "LOADING": "Loading rows...",
+      "LOCKED": "Some rows already have a result, so the rows can no longer be changed.",
+      "NONE": "No rows selected",
+      "PENDING": "{{count}} to do",
+      "SAVE": "Save rows",
+      "SUMMARY": "Rows {{rows}} ({{count}})",
+      "TITLE": "Rows"
+    },
     "SELECT_ANIMALS": "Select animals",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",

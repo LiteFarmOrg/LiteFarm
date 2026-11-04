@@ -43,6 +43,7 @@ import { enqueueErrorSnackbar, snackbarSelector } from '../../Snackbar/snackbarS
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
+import { useSurveyTitle } from './useSurveyTitle';
 
 function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const { t } = useTranslation();
@@ -121,6 +122,8 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
     ? getLocalizedDateString(surveyData.created_at, COMPLETED_DATE_OPTIONS)
     : '';
 
+  const title = useSurveyTitle(surveyId);
+
   return (
     <div className={insightStyles.insightContainer}>
       <div className={styles.header}>
@@ -129,7 +132,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
             <button className={styles.backButton} onClick={() => navigate('/Insights')}>
               <GreyHeaderChevron />
             </button>
-            <span className={styles.title}>{t('INSIGHTS.TAPE.TITLE')}</span>
+            <span className={styles.title}>{title}</span>
           </div>
           <div className={styles.completionText}>
             {t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date: completedDate })}

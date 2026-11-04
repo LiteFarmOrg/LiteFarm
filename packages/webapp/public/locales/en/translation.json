@@ -1319,6 +1319,9 @@
       "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
       "UPDATE_ANSWERS": "Update your answers"
     },
+    "TAPE_AU": {
+      "TITLE": "TAPE Survey (Mornington)"
+    },
     "TAPE_DIETARY_DIVERSITY": {
       "TITLE": "Dietary diversity"
     },

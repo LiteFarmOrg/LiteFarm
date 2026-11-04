@@ -180,6 +180,13 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     pages: 13,
     estimatedMinutes: 15,
   },
+  tape_au: {
+    image: tape_survey,
+    ResultsComponent: TapeResults,
+    cdnDirectory: 'tape_surveys',
+    fileStem: 'au/au',
+    isAvailableForFarm: ({ countryCode }) => countryCode === 'AU',
+  },
   cathi_gao: {
     image: tape_survey,
     cdnDirectory: 'idems_surveys',

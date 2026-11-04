@@ -16,7 +16,6 @@
 import { useTranslation } from 'react-i18next';
 import Gauge from './Gauge';
 import RiskBar from './RiskBar';
-import { getLocalizedDateString } from '../../../../util/moment';
 import type { SurveyState } from './index';
 import type { SurveyScoreDisplay } from '../utils';
 import styles from './styles.module.scss';
@@ -25,8 +24,6 @@ interface SurveyStatusDisplayProps {
   survey: SurveyState;
   scoreDisplay?: SurveyScoreDisplay;
 }
-
-const STARTED_DATE_FORMAT: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
 
 export const CompletedCheck = () => (
   <svg className={styles.check} viewBox="0 0 120 86" aria-hidden="true">
@@ -59,18 +56,13 @@ const SurveyStatusDisplay = ({ survey, scoreDisplay }: SurveyStatusDisplayProps)
           >
             <div className={styles.progressFill} style={{ width: `${filled}%` }} />
           </div>
-          <span className={styles.progressStarted}>
-            {t('INSIGHTS.SURVEY.CARD.STARTED', {
-              date: getLocalizedDateString(survey.startedAt, STARTED_DATE_FORMAT),
-            })}
-          </span>
         </div>
       );
     }
 
     case 'completed':
       if (isRiskDisplay && survey.riskLevel) {
-        return <RiskBar riskLevel={survey.riskLevel} completedAt={survey.completedAt} />;
+        return <RiskBar riskLevel={survey.riskLevel} />;
       }
 
       if (survey.score === undefined) {

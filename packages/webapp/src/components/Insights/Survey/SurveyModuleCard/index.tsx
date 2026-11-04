@@ -56,11 +56,9 @@ interface CardActionConfig {
   metaText: string | null;
 }
 
-const getCardConfig = (
-  survey: SurveyState,
-  t: TFunction,
-  scoreDisplay?: SurveyScoreDisplay,
-): CardActionConfig => {
+const STARTED_DATE_FORMAT: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
+
+const getCardConfig = (survey: SurveyState, t: TFunction): CardActionConfig => {
   switch (survey.type) {
     case 'not-started':
       return {
@@ -73,20 +71,20 @@ const getCardConfig = (
       return {
         actionColor: 'secondary-2',
         actionLabel: t('INSIGHTS.SURVEY.CARD.RESUME'),
-        metaText: null,
+        metaText: t('INSIGHTS.SURVEY.CARD.STARTED', {
+          date: getLocalizedDateString(survey.startedAt, STARTED_DATE_FORMAT),
+        }),
       };
 
     case 'completed': {
       const date = getLocalizedDateString(survey.completedAt, COMPLETED_DATE_OPTIONS);
-      const isDatedByRiskBar = scoreDisplay === 'risk' && survey.riskLevel !== undefined;
       return {
         actionColor: 'secondary',
         actionLabel: survey.hasNewVersion
           ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
           : t('INSIGHTS.SURVEY.CARD.UPDATE'),
-        metaText: isDatedByRiskBar
-          ? null
-          : survey.score === undefined && survey.riskLevel === undefined && !survey.halves
+        metaText:
+          survey.score === undefined && survey.riskLevel === undefined && !survey.halves
             ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
             : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
       };
@@ -102,7 +100,7 @@ const SurveyModuleCard = ({
   scoreDisplay,
 }: SurveyModuleCardProps) => {
   const { t } = useTranslation();
-  const { actionColor, actionLabel, metaText } = getCardConfig(survey, t, scoreDisplay);
+  const { actionColor, actionLabel, metaText } = getCardConfig(survey, t);
 
   return (
     <div className={clsx(styles.card, className)}>
@@ -120,11 +118,11 @@ const SurveyModuleCard = ({
         </div>
       )}
       <div className={styles.footer}>
-        <span className={styles.meta}>{metaText}</span>
         <Button sm color={actionColor} className={styles.action} onClick={onAction}>
           <SurveyIcon />
           {actionLabel}
         </Button>
+        <span className={styles.meta}>{metaText}</span>
       </div>
     </div>
   );

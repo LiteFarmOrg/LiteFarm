@@ -19,11 +19,13 @@ import { SurveyDraftParams } from './validation/checkSurveyDraft.js';
 import { CreateSurveyResponseReqBody } from '../controllers/surveyResponseController.js';
 import { UpsertDraftReqBody } from '../controllers/surveyDraftController.js';
 
+export const MORNINGTON_SURVEY_VERSION_PREFIX = 'TAPE_Mornington_';
+
 // Older frontends still send Mornington surveys under the FAO `tape` key; store them under `tape_au`.
 const isMorningtonAsTape = (surveyKey?: string, surveyVersion?: string) =>
   surveyKey === 'tape' &&
   typeof surveyVersion === 'string' &&
-  surveyVersion.startsWith('TAPE_Mornington_');
+  surveyVersion.startsWith(MORNINGTON_SURVEY_VERSION_PREFIX);
 
 // TODO: LF-5545 remove once no frontend sends Mornington surveys as `tape`
 export function mapMorningtonSurveyResponseKey() {

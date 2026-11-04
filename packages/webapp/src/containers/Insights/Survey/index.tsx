@@ -88,6 +88,11 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
   const parentSurveyId = SURVEY_INFO[surveyId]?.parentSurveyId;
 
+  const isAvailableForFarm =
+    SURVEY_INFO[surveyId]?.isAvailableForFarm?.({
+      countryCode: country_code,
+    }) !== false;
+
   const { data: responses, isLoading: isResponsesLoading } = useGetLatestSurveyResponsesQuery();
   const parentResponse = parentSurveyId ? responses?.[parentSurveyId] : undefined;
   const ownResponse = responses?.[surveyId];
@@ -206,12 +211,12 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     ],
   );
 
-  // Redirect to Insights if this survey is unknown or not available to the farm's country
+  // Redirect to Insights if this survey is unknown or not available to the farm
   useEffect(() => {
-    if ((!draftState.isDraftLoading && !cdnPath) || isUnauthorizedModule) {
+    if (!isAvailableForFarm || (!draftState.isDraftLoading && !cdnPath) || isUnauthorizedModule) {
       navigate('/Insights', { replace: true });
     }
-  }, [draftState.isDraftLoading, cdnPath, isUnauthorizedModule, navigate]);
+  }, [isAvailableForFarm, draftState.isDraftLoading, cdnPath, isUnauthorizedModule, navigate]);
 
   const prevFetchingRef = useRef(false);
 

@@ -25,19 +25,19 @@ interface SurveyInfo {
   // CDN directory under DO_CDN_URL holding the survey's file(s), optionally nested under a per-language
   // subfolder (see resolveVersion below).
   cdnDirectory: string;
-  // Uppercase ISO-2 country code -> CDN version to load. The 'default' key is the global fallback;
-  // a survey with no 'default' is available only in the countries it lists explicitly.
-  versionsByCountry: Record<string, string>;
-  // Called only for the survey's 'default' version. Resolves the version to request for a language,
-  // plus a fallbackVersion for the untranslated default if that's missing. Omit if the default version
-  // has no per-language content (e.g. cathi_gao).
+  // File name (without .json) of the latest survey definition in cdnDirectory. resolveVersion, if set,
+  // turns it into a per-language path (e.g. 'step01-survey' -> 'fao_fr/step01-survey_fr').
+  fileStem: string;
+  // Whether a farm can see this survey (Insights tile + direct URL). Omit if available everywhere.
+  isAvailableForFarm?: (location: { countryCode?: string }) => boolean;
+  // Resolves the version to request for a language, plus a fallbackVersion for the untranslated default
+  // if that's missing. Omit if the fileStem has no per-language content (e.g. cathi_gao).
   resolveVersion?: (
-    defaultVersion: string,
+    fileStem: string,
     language: string,
   ) => { version: string; fallbackVersion?: string };
-  // Whether this survey has archived per-version copies on the CDN. A function lets one survey vary it
-  // by country override, e.g. tape's global path is archived but its AU is not.
-  hasArchivedVersions?: boolean | ((countryCode?: string) => boolean);
+  // Whether this survey has archived per-version copies on the CDN.
+  hasArchivedVersions?: boolean;
   parentSurveyId?: string;
   isAvailable?: (parentResponse: Record<string, any>) => boolean;
   scoreField?: string;
@@ -69,19 +69,19 @@ const toHouseholdCount = (value: unknown): number => {
 /**
  * The catalog of surveys, keyed by survey `key` (the same string stored in survey_response.survey_key).
  * This is the single source of truth for the frontend: which surveys exist, the tile image and
- * results component, the CDN directory, and the per-country version/availability. The database holds
- * only the responses.
+ * results component, the CDN directory, the file stem, and the per-farm availability.
+ * The database holds only the responses.
  *
  * Adding a survey:
  *  1. Add a SURVEY_INFO entry here: image, ResultsComponent (omit for the generic thank-you page),
- *     cdnDirectory, versionsByCountry, and resolveVersion if the default version has localized files.
+ *     cdnDirectory, fileStem, isAvailableForFarm if the survey is only available for certain farms,
+ *     and resolveVersion if the default version has localized files.
  *     For a child module, set parentSurveyId (and optionally isAvailable) and omit image/ResultsComponent.
  *  2. Add the title in useSurveyTitle.ts by calling t() with the key INSIGHTS.<KEY>.TITLE.
  *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
- *  4. Upload the survey's <version>.json to its CDN directory. A translatable default version goes
+ *  4. Upload the survey's <fileStem>.json to its CDN directory. A translatable default version goes
  *     in a per-language subfolder (e.g. fao/step01-survey.json for English, fao_fr/step01-survey_fr.json
- *     for French); a non-translatable, country-specific version (e.g. au) stays flat at the CDN
- *     directory root, no subfolder.
+ *     for French).
  *  5. If the CDN directory is new, add it to SURVEY_DEFINITION_DIRECTORIES in src/sw.js so its
  *     definitions are cached for offline use.
  */
@@ -90,15 +90,14 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     image: tape_survey,
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step01-survey', AU: 'au' },
+    fileStem: 'step01-survey',
     resolveVersion: resolveFaoVersion,
-    // Archived, except for a country override (AU)
-    hasArchivedVersions: (countryCode) => !countryCode || countryCode !== 'AU',
+    hasArchivedVersions: true,
   },
   tape_economic: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-economic' },
+    fileStem: 'step2-economic',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'econ_index',
@@ -108,7 +107,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape_food_security: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-food-security' },
+    fileStem: 'step2-food-security',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'fies_score',
@@ -118,7 +117,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape_dietary_diversity: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-dietary-diversity' },
+    fileStem: 'step2-dietary-diversity',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     isAvailable: (parentResponse) =>
@@ -131,7 +130,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape_youth: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-youth' },
+    fileStem: 'step2-youth',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     isAvailable: (parentResponse) =>
@@ -143,7 +142,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape_soil: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-soil-health' },
+    fileStem: 'step2-soil-health',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'soilhealth_score',
@@ -153,7 +152,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape_pesticides: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-pesticides' },
+    fileStem: 'step2-pesticides',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'final_exposure',
@@ -164,7 +163,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape_land_aweai: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-land-tenure-aweai' },
+    fileStem: 'step2-land-tenure-aweai',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'aweai',
@@ -174,7 +173,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   tape_productivity_biodiversity: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
-    versionsByCountry: { default: 'step2-productivity-biodiversity' },
+    fileStem: 'step2-productivity-biodiversity',
     resolveVersion: resolveFaoVersion,
     hasArchivedVersions: true,
     scoreField: 'GSI_overall',
@@ -184,34 +183,25 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
   cathi_gao: {
     image: tape_survey,
     cdnDirectory: 'idems_surveys',
-    versionsByCountry: { NE: 'cathi_gao' }, // Niger only research project
+    fileStem: 'cathi_gao',
+    isAvailableForFarm: ({ countryCode }) => countryCode === 'NE',
   },
 };
 
 const LEGACY_FAO_SURVEY_VERSION = 'TAPE_CAET_STEP1_2025_V1';
 
 /**
- * The CDN version of a survey for a given country, or undefined when the survey does not exist or is
- * not available in that country. A country-specific entry wins over the global 'default'.
+ * The CDN version of a survey or undefined when the survey does not exist.
  */
 export const getLatestCdnPath = (
   surveyId: string,
-  countryCode?: string,
   language: string = 'en',
 ): { version: string; fallbackVersion?: string } | undefined => {
   const info = SURVEY_INFO[surveyId];
   if (!info) {
     return undefined;
   }
-  const countryOverride = countryCode && info.versionsByCountry[countryCode];
-  if (countryOverride) {
-    return { version: countryOverride };
-  }
-  const defaultVersion = info.versionsByCountry.default;
-  if (!defaultVersion) {
-    return undefined;
-  }
-  return info.resolveVersion?.(defaultVersion, language) ?? { version: defaultVersion };
+  return info.resolveVersion?.(info.fileStem, language) ?? { version: info.fileStem };
 };
 
 export const getSurveyCdnPath = (
@@ -226,12 +216,9 @@ export const getSurveyCdnPath = (
     return undefined;
   }
 
-  const usesGlobalSurvey = !countryCode || !info.versionsByCountry[countryCode];
-
   const isLegacyFaoDraft =
     surveyId === 'tape' &&
     hasDraft &&
-    usesGlobalSurvey &&
     (draftSurveyVersion === undefined || draftSurveyVersion === LEGACY_FAO_SURVEY_VERSION);
 
   if (isLegacyFaoDraft) {
@@ -242,17 +229,12 @@ export const getSurveyCdnPath = (
   // the latest survey JSON by appending '.json' to it (e.g. 'fao/step01-survey.json'). An archived
   // version is fetched by appending the version instead (e.g.
   // 'fao/step01-survey/TAPE_FAO_STEP1_20260714_132600.json').
-  const latest = getLatestCdnPath(surveyId, countryCode, language);
+  const latest = getLatestCdnPath(surveyId, language);
   if (!latest) {
     return undefined;
   }
 
-  const hasArchivedVersions =
-    typeof info.hasArchivedVersions === 'function'
-      ? info.hasArchivedVersions(countryCode)
-      : !!info.hasArchivedVersions;
-
-  if (hasDraft && draftSurveyVersion && hasArchivedVersions) {
+  if (hasDraft && draftSurveyVersion && info.hasArchivedVersions) {
     return {
       version: `${latest.version}/${draftSurveyVersion}`,
       fallbackVersion: latest.fallbackVersion
@@ -265,15 +247,14 @@ export const getSurveyCdnPath = (
 };
 
 /**
- * The survey ids available to a farm in the given country: those with a country-specific or global
- * version. Drives the Insights tile list.
+ * The survey ids available to a farm in the given location. Drives the Insights tile list.
  */
-export const getAvailableSurveyIds = (countryCode?: string): string[] =>
+export const getAvailableSurveyIds = (location: { countryCode?: string }): string[] =>
   Object.keys(SURVEY_INFO).filter(
     (surveyId) =>
       // Hide child modules from the Insight tile list
       !SURVEY_INFO[surveyId].parentSurveyId &&
-      getLatestCdnPath(surveyId, countryCode) !== undefined,
+      SURVEY_INFO[surveyId].isAvailableForFarm?.(location) !== false,
   );
 
 export const CAET_SCORE_FIELD = 'caet_score';
@@ -323,7 +304,7 @@ export const getLatestSurveyVersion = (
   if (!manifest) {
     return undefined;
   }
-  const latest = getLatestCdnPath(surveyId, countryCode, language);
+  const latest = getLatestCdnPath(surveyId, language);
   if (!latest) {
     return undefined;
   }

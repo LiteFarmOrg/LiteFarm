@@ -38,9 +38,7 @@ export default function usePrefetchModuleDefinitions(parentSurveyId: string, cou
   const isOffline = useIsOffline();
 
   useEffect(() => {
-    const hasCountryOverride =
-      !!countryCode && !!SURVEY_INFO[parentSurveyId]?.versionsByCountry[countryCode];
-    if (isOffline || hasCountryOverride) {
+    if (isOffline) {
       return;
     }
     const language = getLanguageFromLocalStorage() || 'en';
@@ -51,7 +49,7 @@ export default function usePrefetchModuleDefinitions(parentSurveyId: string, cou
       (surveyId) => SURVEY_INFO[surveyId].parentSurveyId === parentSurveyId,
     );
     for (const moduleId of moduleIds) {
-      const path = getLatestCdnPath(moduleId, countryCode, language);
+      const path = getLatestCdnPath(moduleId, language);
       if (path) {
         prefetchDefinition(SURVEY_INFO[moduleId].cdnDirectory, path.version, path.fallbackVersion)
           // Ignore errors; prefetch is best-effort

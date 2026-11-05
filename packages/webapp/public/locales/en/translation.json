@@ -1316,11 +1316,11 @@
       "NOT_FILLED": "Not filled",
       "RESULTS_LOAD_ERROR": "Failed to load results. Please try again later.",
       "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
-      "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
+      "TITLE": "FAO TAPE Survey (Tool for Agroecology Performance Evaluation)",
       "UPDATE_ANSWERS": "Update your answers"
     },
     "TAPE_AU": {
-      "TITLE": "TAPE Survey (Mornington)"
+      "TITLE": "TAPE Australia (Mornington Project)"
     },
     "TAPE_DIETARY_DIVERSITY": {
       "TITLE": "Dietary diversity"

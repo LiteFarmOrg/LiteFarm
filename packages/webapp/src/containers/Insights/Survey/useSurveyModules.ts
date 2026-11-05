@@ -21,6 +21,7 @@ import {
   SurveyDraftSummary,
 } from '../../../store/api/surveyApi';
 import {
+  PRODUCTIVITY_BIODIVERSITY_SECTION_QUESTION,
   SURVEY_INFO,
   SurveyGaugeHalf,
   SurveyHalf,
@@ -70,17 +71,23 @@ const readRiskLevel = (
 };
 
 const NONE_ANSWER = '-97';
-const CHOSEN_SECTIONS_FIELD = 'Step2_recommended';
 const CROPS_QUESTIONS = ['cname', 'bio_crops'];
 const ANIMALS_QUESTIONS = ['aname', 'animal_species'];
 
-const toAnswerList = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
+const readSelectedValues = (answers: Record<string, any>, question: string): unknown[] =>
+  Array.isArray(answers[question]) ? answers[question] : [];
 
 const answeredNone = (answers: Record<string, any>, questions: string[]): boolean =>
-  questions.some((question) => toAnswerList(answers[question]).includes(NONE_ANSWER));
+  questions.some((question) => readSelectedValues(answers, question).includes(NONE_ANSWER));
 
-const isSectionChosen = (answers: Record<string, any>, half: SurveyHalf): boolean =>
-  !half.section || toAnswerList(answers[CHOSEN_SECTIONS_FIELD]).includes(half.section);
+const isSectionChosen = (answers: Record<string, any>, half: SurveyHalf): boolean => {
+  if (!half.section) {
+    return true;
+  }
+  return readSelectedValues(answers, PRODUCTIVITY_BIODIVERSITY_SECTION_QUESTION).includes(
+    half.section,
+  );
+};
 
 const hasNoWomen = (answers: Record<string, any>): boolean =>
   answers.hh_women !== undefined &&

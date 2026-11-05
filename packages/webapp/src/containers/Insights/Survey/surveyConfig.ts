@@ -19,12 +19,12 @@ import TapeResults from './TapeResults';
 import ThankYouResults from './ThankYouResults';
 import type { SurveyHalfId, SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
 
-export const STEP2_SECTION = {
-  PRODUCTIVITY: '1',
-  BIODIVERSITY: '5',
-} as const;
+export const PRODUCTIVITY_BIODIVERSITY_SECTION_QUESTION = 'Step2_recommended';
 
-export type Step2Section = (typeof STEP2_SECTION)[keyof typeof STEP2_SECTION];
+export enum ProductivityBiodiversitySection {
+  PRODUCTIVITY = '1',
+  BIODIVERSITY = '5',
+}
 
 export interface SurveyGaugeHalf {
   id: SurveyHalfId;
@@ -32,13 +32,13 @@ export interface SurveyGaugeHalf {
   scoreField: string;
   maxStoredScore: number;
   fallback?: 'crops-or-animals-index';
-  section?: Step2Section;
+  section?: ProductivityBiodiversitySection;
 }
 
 export interface SurveyDashboardLinkHalf {
   id: SurveyHalfId;
   display: 'dashboard-link';
-  section?: Step2Section;
+  section?: ProductivityBiodiversitySection;
 }
 
 export type SurveyHalf = SurveyGaugeHalf | SurveyDashboardLinkHalf;
@@ -158,9 +158,13 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
         scoreField: 'GSI_overall',
         maxStoredScore: 100,
         fallback: 'crops-or-animals-index',
-        section: STEP2_SECTION.BIODIVERSITY,
+        section: ProductivityBiodiversitySection.BIODIVERSITY,
       },
-      { id: 'productivity', display: 'dashboard-link', section: STEP2_SECTION.PRODUCTIVITY },
+      {
+        id: 'productivity',
+        display: 'dashboard-link',
+        section: ProductivityBiodiversitySection.PRODUCTIVITY,
+      },
     ],
     pages: 13,
     estimatedMinutes: 15,

@@ -56,13 +56,24 @@ const getReqWithFilter = async (farmId: Farm['farm_id'], userId: User['user_id']
   return getRequest({ farm_id: farmId, user_id: userId }, '?filter=country');
 };
 
+// Migrations seed their own rows into market_directory_partner, so assert
+// only against the partners that this file creates.
+const createdPartnerIds = new Set<number>();
+
+const createPartner = async (): Promise<Partner> => {
+  const [partner] = await mocks.market_directory_partnerFactory();
+  createdPartnerIds.add(partner.id);
+  return partner;
+};
+
 const expectSuccessResponse = (
   res: Omit<Response, 'body'> & { body: Partner[] },
   expectedPartners: Partner[],
 ) => {
   expect(res.status).toBe(200);
-  expect(res.body.length).toBe(expectedPartners.length);
-  expect(res.body.map(({ id }) => id).sort()).toEqual(expectedPartners.map(({ id }) => id).sort());
+  const ids = res.body.map(({ id }) => id).filter((id) => createdPartnerIds.has(id));
+  expect(ids.length).toBe(expectedPartners.length);
+  expect(ids.sort()).toEqual(expectedPartners.map(({ id }) => id).sort());
 };
 
 describe('GET Market Directory Partner Tests', () => {
@@ -98,8 +109,8 @@ describe('GET Market Directory Partner Tests', () => {
       ),
     );
     [farmWithoutCountryId] = await mocks.farmFactory();
-    [[partner1], [partner2], [_partnerWithoutCountryRecord]] = await Promise.all(
-      new Array(3).fill('').map(() => mocks.market_directory_partnerFactory()),
+    [partner1, partner2, _partnerWithoutCountryRecord] = await Promise.all(
+      new Array(3).fill('').map(createPartner),
     );
 
     // Associate partner1 with canada and us
@@ -151,8 +162,8 @@ describe('GET Market Directory Partner Tests', () => {
     let globalPartner2: Partner;
 
     beforeAll(async () => {
-      [[globalPartner1], [globalPartner2]] = await Promise.all(
-        new Array(2).fill('').map(() => mocks.market_directory_partnerFactory()),
+      [globalPartner1, globalPartner2] = await Promise.all(
+        new Array(2).fill('').map(createPartner),
       );
 
       // Associate global partners with all countries

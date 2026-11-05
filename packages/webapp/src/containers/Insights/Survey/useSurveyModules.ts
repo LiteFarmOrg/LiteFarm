@@ -25,7 +25,7 @@ import {
   SurveyGaugeHalf,
   SurveyHalf,
   getAvailableModuleIds,
-  hasNoWomen,
+  toHouseholdCount,
 } from './surveyConfig';
 import { allSurveyDraftsSelector, SurveyDraft } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
@@ -70,47 +70,64 @@ const readRiskLevel = (
 };
 
 const NONE_ANSWER = '-97';
-const SECTION_FIELD = 'Step2_recommended';
+const CHOSEN_SECTIONS_FIELD = 'Step2_recommended';
+const CROPS_QUESTIONS = ['cname', 'bio_crops'];
+const ANIMALS_QUESTIONS = ['aname', 'animal_species'];
 
 const toAnswerList = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
 
-const answeredNone = (answers: Record<string, any>, fields: string[]): boolean =>
-  fields.some((field) => toAnswerList(answers[field]).includes(NONE_ANSWER));
+const answeredNone = (answers: Record<string, any>, questions: string[]): boolean =>
+  questions.some((question) => toAnswerList(answers[question]).includes(NONE_ANSWER));
 
-const readRawScore = (answers: Record<string, any>, half: SurveyGaugeHalf): number | undefined => {
-  const score = toFiniteNumber(answers[half.scoreField]);
+const isSectionChosen = (answers: Record<string, any>, half: SurveyHalf): boolean =>
+  !half.section || toAnswerList(answers[CHOSEN_SECTIONS_FIELD]).includes(half.section);
 
-  if (score !== undefined || half.fallback !== 'single-index') {
-    return score;
-  }
-  if (answeredNone(answers, ['cname', 'bio_crops'])) {
+const hasNoWomen = (answers: Record<string, any>): boolean =>
+  answers.hh_women !== undefined &&
+  answers.hh_fyoung !== undefined &&
+  toHouseholdCount(answers.hh_women) + toHouseholdCount(answers.hh_fyoung) === 0;
+
+const readCropsOrAnimalsIndex = (answers: Record<string, any>): number | undefined => {
+  if (answeredNone(answers, CROPS_QUESTIONS)) {
     return toFiniteNumber(answers.GSIndex_animals);
   }
-  if (answeredNone(answers, ['aname', 'animal_species'])) {
+  if (answeredNone(answers, ANIMALS_QUESTIONS)) {
     return toFiniteNumber(answers.GSIndex_crops);
   }
   return undefined;
 };
 
-const toPercent = (raw: number, scale: number): number => (raw * SURVEY_SCORE_MAX) / scale;
+const readHalfScore = (answers: Record<string, any>, half: SurveyGaugeHalf): number | undefined => {
+  const score = toFiniteNumber(answers[half.scoreField]);
+
+  if (score === undefined && half.fallback === 'crops-or-animals-index') {
+    return readCropsOrAnimalsIndex(answers);
+  }
+  return score;
+};
+
+const toPercent = (score: number, maxStoredScore: number): number =>
+  (score * SURVEY_SCORE_MAX) / maxStoredScore;
 
 const getHalfResult = (answers: Record<string, any>, half: SurveyHalf): SurveyHalfResult => {
   const base = { id: half.id, display: half.display };
 
-  if (half.section && !toAnswerList(answers[SECTION_FIELD]).includes(half.section)) {
+  if (!isSectionChosen(answers, half)) {
     return { ...base, status: 'not-applicable' };
   }
   if (half.display === 'dashboard-link') {
     return { ...base, status: 'completed' };
   }
-  const raw = readRawScore(answers, half);
+  const score = readHalfScore(answers, half);
 
-  if (raw === undefined) {
-    return half.id === 'aweai'
-      ? { ...base, status: 'not-applicable', hasNoWomen: hasNoWomen(answers) }
-      : { ...base, status: 'not-applicable' };
+  if (score === undefined) {
+    return {
+      ...base,
+      status: 'not-applicable',
+      hasNoWomen: half.id === 'aweai' && hasNoWomen(answers),
+    };
   }
-  return { ...base, status: 'scored', score: toPercent(raw, half.scale) };
+  return { ...base, status: 'scored', score: toPercent(score, half.maxStoredScore) };
 };
 
 const getProgress = (currentPageNo: number, pages: number): number =>

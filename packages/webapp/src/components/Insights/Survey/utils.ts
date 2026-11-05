@@ -45,7 +45,9 @@ export type SurveyScoreDisplay = 'gauge' | 'risk';
 
 export type SurveyHalfDisplay = 'gauge' | 'dashboard-link';
 
-export type SurveyHalfResult = { id: string; display: SurveyHalfDisplay } & (
+export type SurveyHalfId = 'land_tenure' | 'aweai' | 'biodiversity' | 'productivity';
+
+export type SurveyHalfResult = { id: SurveyHalfId; display: SurveyHalfDisplay } & (
   | { status: 'scored'; score: number }
   | { status: 'completed' }
   | { status: 'not-applicable'; hasNoWomen?: boolean }

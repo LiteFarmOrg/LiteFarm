@@ -17,21 +17,28 @@ import { ComponentType } from 'react';
 import tape_survey from '../../../assets/images/insights/tape_survey.svg';
 import TapeResults from './TapeResults';
 import ThankYouResults from './ThankYouResults';
-import type { SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
+import type { SurveyHalfId, SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
+
+export const STEP2_SECTION = {
+  PRODUCTIVITY: '1',
+  BIODIVERSITY: '5',
+} as const;
+
+export type Step2Section = (typeof STEP2_SECTION)[keyof typeof STEP2_SECTION];
 
 export interface SurveyGaugeHalf {
-  id: string;
+  id: SurveyHalfId;
   display: 'gauge';
   scoreField: string;
-  scale: number;
-  fallback?: 'single-index';
-  section?: string;
+  maxStoredScore: number;
+  fallback?: 'crops-or-animals-index';
+  section?: Step2Section;
 }
 
 export interface SurveyDashboardLinkHalf {
-  id: string;
+  id: SurveyHalfId;
   display: 'dashboard-link';
-  section?: string;
+  section?: Step2Section;
 }
 
 export type SurveyHalf = SurveyGaugeHalf | SurveyDashboardLinkHalf;
@@ -74,7 +81,7 @@ const resolveFaoVersion = (defaultVersion: string, language: string) =>
 
 const UNKNOWN_COUNT = -99;
 
-const toHouseholdCount = (value: unknown): number => {
+export const toHouseholdCount = (value: unknown): number => {
   // Current JSONs lack inputType: number on these questions and return a string
   const numeric = typeof value === 'string' ? Number(value.trim()) : Number(value);
 
@@ -83,11 +90,6 @@ const toHouseholdCount = (value: unknown): number => {
   }
   return numeric;
 };
-
-export const hasNoWomen = (answers: Record<string, any>): boolean =>
-  answers.hh_women !== undefined &&
-  answers.hh_fyoung !== undefined &&
-  toHouseholdCount(answers.hh_women) + toHouseholdCount(answers.hh_fyoung) === 0;
 
 /**
  * The catalog of surveys, keyed by survey `key` (the same string stored in survey_response.survey_key).
@@ -130,13 +132,13 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
         id: 'land_tenure',
         display: 'gauge',
         scoreField: 'landtenure_score_household',
-        scale: 1,
+        maxStoredScore: 1,
       },
       {
         id: 'aweai',
         display: 'gauge',
         scoreField: 'aweai',
-        scale: 100,
+        maxStoredScore: 100,
       },
     ],
     pages: 9,
@@ -154,11 +156,11 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
         id: 'biodiversity',
         display: 'gauge',
         scoreField: 'GSI_overall',
-        scale: 100,
-        fallback: 'single-index',
-        section: '5',
+        maxStoredScore: 100,
+        fallback: 'crops-or-animals-index',
+        section: STEP2_SECTION.BIODIVERSITY,
       },
-      { id: 'productivity', display: 'dashboard-link', section: '1' },
+      { id: 'productivity', display: 'dashboard-link', section: STEP2_SECTION.PRODUCTIVITY },
     ],
     pages: 13,
     estimatedMinutes: 15,

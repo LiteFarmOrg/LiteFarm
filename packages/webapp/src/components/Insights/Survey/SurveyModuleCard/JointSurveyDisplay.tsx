@@ -18,7 +18,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import Gauge from './Gauge';
 import { CompletedCheck } from './SurveyStatusDisplay';
 import ExternalLinkIcon from '../../../../assets/images/icon_external_link.svg?react';
-import { DATA_DASHBOARD_TAPE_URL, type SurveyHalfResult } from '../utils';
+import { DATA_DASHBOARD_TAPE_URL, type SurveyHalfId, type SurveyHalfResult } from '../utils';
 import styles from './styles.module.scss';
 
 interface JointSurveyDisplayProps {
@@ -78,7 +78,7 @@ const HalfResult = ({ half }: { half: SurveyHalfResult }) => {
 const JointSurveyDisplay = ({ halves }: JointSurveyDisplayProps) => {
   const { t } = useTranslation();
 
-  const labels: Record<string, string> = {
+  const labels: Record<SurveyHalfId, string> = {
     land_tenure: t('INSIGHTS.SURVEY.CARD.HALF.LAND_TENURE'),
     aweai: t('INSIGHTS.SURVEY.CARD.HALF.AWEAI'),
     biodiversity: t('INSIGHTS.SURVEY.CARD.HALF.BIODIVERSITY'),

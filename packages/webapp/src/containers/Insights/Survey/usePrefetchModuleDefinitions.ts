@@ -19,18 +19,14 @@ import { DO_CDN_URL } from '../../../util/constants';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
 
-const prefetchDefinition = async (
-  cdnDirectory: string,
-  version: string,
-  fallbackVersion?: string,
-) => {
-  const url = `${DO_CDN_URL}/${cdnDirectory}/${version}.json`;
+const prefetchDefinition = async (cdnDirectory: string, path: string, fallbackPath?: string) => {
+  const url = `${DO_CDN_URL}/${cdnDirectory}/${path}.json`;
   if (await caches.match(url)) {
     return;
   }
   const response = await fetch(url);
-  if (!response.ok && fallbackVersion) {
-    await prefetchDefinition(cdnDirectory, fallbackVersion);
+  if (!response.ok && fallbackPath) {
+    await prefetchDefinition(cdnDirectory, fallbackPath);
   }
 };
 
@@ -49,9 +45,9 @@ export default function usePrefetchModuleDefinitions(parentSurveyId: string) {
       (surveyId) => SURVEY_INFO[surveyId].parentSurveyId === parentSurveyId,
     );
     for (const moduleId of moduleIds) {
-      const path = getLatestCdnPath(moduleId, language);
-      if (path) {
-        prefetchDefinition(SURVEY_INFO[moduleId].cdnDirectory, path.version, path.fallbackVersion)
+      const latest = getLatestCdnPath(moduleId, language);
+      if (latest) {
+        prefetchDefinition(SURVEY_INFO[moduleId].cdnDirectory, latest.path, latest.fallbackPath)
           // Ignore errors; prefetch is best-effort
           .catch(() => undefined);
       }

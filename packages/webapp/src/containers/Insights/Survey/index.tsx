@@ -117,7 +117,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
-  const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
+  const { path: cdnPath, fallbackPath: cdnFallbackPath } =
     (!draftState.isDraftLoading &&
       getSurveyCdnPath(surveyId, language, draftState.initialDraft.surveyVersion, hasDraft)) ||
     {};
@@ -132,8 +132,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   } = useGetSurveyJsonQuery(
     {
       cdnDirectory: cdnDirectory ?? '',
-      version: cdnPath ?? '',
-      fallbackVersion: cdnFallbackPath,
+      path: cdnPath ?? '',
+      fallbackPath: cdnFallbackPath,
     },
     { skip: !cdnDirectory || !cdnPath || isBlockedModule },
   );
@@ -233,8 +233,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         tags: { surveyId },
         extra: {
           cdnDirectory,
-          version: cdnPath,
-          fallbackVersion: cdnFallbackPath,
+          path: cdnPath,
+          fallbackPath: cdnFallbackPath,
           error: surveyJsonError,
         },
       });

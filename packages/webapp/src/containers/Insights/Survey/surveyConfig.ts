@@ -19,23 +19,26 @@ import TapeResults from './TapeResults';
 import ThankYouResults from './ThankYouResults';
 import type { SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
 
+// A CDN path without .json, relative to cdnDirectory, plus a fallback to try if it's missing.
+export interface SurveyCdnPath {
+  path: string;
+  fallbackPath?: string;
+}
+
 interface SurveyInfo {
   image?: string;
   ResultsComponent?: ComponentType<{ surveyId: string }>;
   // CDN directory under DO_CDN_URL holding the survey's file(s), optionally nested under a per-language
-  // subfolder (see resolveVersion below).
+  // subfolder (see resolvePath below).
   cdnDirectory: string;
-  // File name (without .json) of the latest survey definition in cdnDirectory. resolveVersion, if set,
-  // turns it into a per-language path (e.g. 'step01-survey' -> 'fao_fr/step01-survey_fr').
+  // Path (without .json) of the latest definition, relative to cdnDirectory. If resolvePath is set,
+  // it is used as the input to resolvePath instead (e.g. 'step01-survey' -> 'fao_fr/step01-survey_fr').
   fileStem: string;
   // Whether a farm can see this survey (Insights tile + direct URL). Omit if available everywhere.
   isAvailableForFarm?: (location: { countryCode?: string }) => boolean;
-  // Resolves the version to request for a language, plus a fallbackVersion for the untranslated default
+  // Resolves the path to request for a language, plus a fallbackPath for the untranslated default
   // if that's missing. Omit if the fileStem has no per-language content (e.g. cathi_gao).
-  resolveVersion?: (
-    fileStem: string,
-    language: string,
-  ) => { version: string; fallbackVersion?: string };
+  resolvePath?: (fileStem: string, language: string) => SurveyCdnPath;
   // Whether this survey has archived per-version copies on the CDN.
   hasArchivedVersions?: boolean;
   parentSurveyId?: string;
@@ -46,12 +49,12 @@ interface SurveyInfo {
   estimatedMinutes?: number;
 }
 
-const resolveFaoVersion = (defaultVersion: string, language: string) =>
+const resolveFaoPath = (fileStem: string, language: string) =>
   language === 'en'
-    ? { version: `fao/${defaultVersion}` }
+    ? { path: `fao/${fileStem}` }
     : {
-        version: `fao_${language}/${defaultVersion}_${language}`,
-        fallbackVersion: `fao/${defaultVersion}`,
+        path: `fao_${language}/${fileStem}_${language}`,
+        fallbackPath: `fao/${fileStem}`,
       };
 
 const UNKNOWN_COUNT = -99;
@@ -75,13 +78,12 @@ const toHouseholdCount = (value: unknown): number => {
  * Adding a survey:
  *  1. Add a SURVEY_INFO entry here: image, ResultsComponent (omit for the generic thank-you page),
  *     cdnDirectory, fileStem, isAvailableForFarm if the survey is only available for certain farms,
- *     and resolveVersion if the default version has localized files.
+ *     and resolvePath if the survey has localized files.
  *     For a child module, set parentSurveyId (and optionally isAvailable) and omit image/ResultsComponent.
  *  2. Add the title in useSurveyTitle.ts by calling t() with the key INSIGHTS.<KEY>.TITLE.
  *  3. Add that title string to public/locales/en/translation.json (English only; Crowdin propagates).
- *  4. Upload the survey's <fileStem>.json to its CDN directory. A translatable default version goes
- *     in a per-language subfolder (e.g. fao/step01-survey.json for English, fao_fr/step01-survey_fr.json
- *     for French).
+ *  4. Upload the survey's JSON to its CDN directory at <fileStem>.json, or at the paths resolvePath
+ *     returns if set (e.g. fao/step01-survey.json for English, fao_fr/step01-survey_fr.json for French).
  *  5. If the CDN directory is new, add it to SURVEY_DEFINITION_DIRECTORIES in src/sw.js so its
  *     definitions are cached for offline use.
  */
@@ -91,14 +93,14 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
     fileStem: 'step01-survey',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
   },
   tape_economic: {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-economic',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     scoreField: 'econ_index',
     pages: 1,
@@ -108,7 +110,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-food-security',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     scoreField: 'fies_score',
     pages: 1,
@@ -118,7 +120,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-dietary-diversity',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_women) > 0 ||
@@ -131,7 +133,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-youth',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_myoung) > 0 ||
@@ -143,7 +145,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-soil-health',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     scoreField: 'soilhealth_score',
     pages: 1,
@@ -153,7 +155,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-pesticides',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     scoreField: 'final_exposure',
     scoreDisplay: 'risk',
@@ -164,7 +166,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-land-tenure-aweai',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     scoreField: 'aweai',
     pages: 9,
@@ -174,7 +176,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     parentSurveyId: 'tape',
     cdnDirectory: 'tape_surveys',
     fileStem: 'step2-productivity-biodiversity',
-    resolveVersion: resolveFaoVersion,
+    resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
     scoreField: 'GSI_overall',
     pages: 13,
@@ -198,17 +200,18 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
 const LEGACY_FAO_SURVEY_VERSION = 'TAPE_CAET_STEP1_2025_V1';
 
 /**
- * The CDN version of a survey or undefined when the survey does not exist.
+ * The CDN path (without .json) of a survey's latest definition, or undefined when the survey
+ * does not exist.
  */
 export const getLatestCdnPath = (
   surveyId: string,
   language: string = 'en',
-): { version: string; fallbackVersion?: string } | undefined => {
+): SurveyCdnPath | undefined => {
   const info = SURVEY_INFO[surveyId];
   if (!info) {
     return undefined;
   }
-  return info.resolveVersion?.(info.fileStem, language) ?? { version: info.fileStem };
+  return info.resolvePath?.(info.fileStem, language) ?? { path: info.fileStem };
 };
 
 export const getSurveyCdnPath = (
@@ -216,7 +219,7 @@ export const getSurveyCdnPath = (
   language: string = 'en',
   draftSurveyVersion?: string,
   hasDraft = false,
-): { version: string; fallbackVersion?: string } | undefined => {
+): SurveyCdnPath | undefined => {
   const info = SURVEY_INFO[surveyId];
   if (!info) {
     return undefined;
@@ -228,13 +231,12 @@ export const getSurveyCdnPath = (
     (draftSurveyVersion === undefined || draftSurveyVersion === LEGACY_FAO_SURVEY_VERSION);
 
   if (isLegacyFaoDraft) {
-    return { version: 'fao' };
+    return { path: 'fao' };
   }
 
-  // latest.version is the resolved path stem (e.g. 'fao/step01-survey') and can be used to fetch
-  // the latest survey JSON by appending '.json' to it (e.g. 'fao/step01-survey.json'). An archived
-  // version is fetched by appending the version instead (e.g.
-  // 'fao/step01-survey/TAPE_FAO_STEP1_20260714_132600.json').
+  // Latest: `${latest.path}.json` (e.g. 'fao/step01-survey.json').
+  // Archived: `${latest.path}/<survey_version>.json`
+  // (e.g. 'fao/step01-survey/TAPE_FAO_STEP1_20260714_132600.json').
   const latest = getLatestCdnPath(surveyId, language);
   if (!latest) {
     return undefined;
@@ -242,9 +244,9 @@ export const getSurveyCdnPath = (
 
   if (hasDraft && draftSurveyVersion && info.hasArchivedVersions) {
     return {
-      version: `${latest.version}/${draftSurveyVersion}`,
-      fallbackVersion: latest.fallbackVersion
-        ? `${latest.fallbackVersion}/${draftSurveyVersion}`
+      path: `${latest.path}/${draftSurveyVersion}`,
+      fallbackPath: latest.fallbackPath
+        ? `${latest.fallbackPath}/${draftSurveyVersion}`
         : undefined,
     };
   }
@@ -313,10 +315,7 @@ export const getLatestSurveyVersion = (
   if (!latest) {
     return undefined;
   }
-  return (
-    manifest[latest.version] ??
-    (latest.fallbackVersion ? manifest[latest.fallbackVersion] : undefined)
-  );
+  return manifest[latest.path] ?? (latest.fallbackPath ? manifest[latest.fallbackPath] : undefined);
 };
 
 export const TAPE_NEW_SCHEMA_MARKER = 'location1';

@@ -26,6 +26,7 @@ import { DO_CDN_URL } from '../../util/constants';
 import { getSurveyVersion } from '../../containers/Insights/Survey/utils';
 import { enqueueSuccessSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import { isOfflineSelector } from '../../containers/hooks/useOfflineDetector/offlineDetectorSlice';
+import type { SurveyCdnPath } from '../../containers/Insights/Survey/surveyConfig';
 import { isNetworkError } from '../../util/apiUtils';
 import { RootState } from '../store';
 
@@ -78,24 +79,21 @@ export const surveyApi = api.injectEndpoints({
   endpoints: (build) => ({
     // Fetches the SurveyJS JSON definition from DO CDN.
     // Uses queryFn (not query) because this bypasses the LiteFarm API base URL and auth headers.
-    getSurveyJson: build.query<
-      Record<string, any>,
-      { cdnDirectory: string; version: string; fallbackVersion?: string }
-    >({
-      queryFn: async ({ cdnDirectory, version, fallbackVersion }) => {
+    getSurveyJson: build.query<Record<string, any>, { cdnDirectory: string } & SurveyCdnPath>({
+      queryFn: async ({ cdnDirectory, path, fallbackPath }) => {
         const fetchSurvey = (filename: string) =>
           fetch(`${DO_CDN_URL}/${cdnDirectory}/${filename}.json`);
         try {
-          let response = await fetchSurvey(version).catch((error) => {
-            if (!fallbackVersion) {
+          let response = await fetchSurvey(path).catch((error) => {
+            if (!fallbackPath) {
               throw error;
             }
-            return fetchSurvey(fallbackVersion);
+            return fetchSurvey(fallbackPath);
           });
           // DO Spaces returns 403 (not 404) for a file that doesn't exist, since the bucket
           // won't confirm or deny what files exist to unauthenticated requests like this one.
-          if (!response.ok && [403, 404].includes(response.status) && fallbackVersion) {
-            response = await fetchSurvey(fallbackVersion);
+          if (!response.ok && [403, 404].includes(response.status) && fallbackPath) {
+            response = await fetchSurvey(fallbackPath);
           }
           if (!response.ok) {
             return {
@@ -106,13 +104,13 @@ export const surveyApi = api.injectEndpoints({
           return { data };
         } catch (error) {
           // Request failed with no response (usually offline)
-          // A pinned draft's version is e.g. `fao/step01-survey/TAPE_FAO_STEP1_20260714_132600`: try the
+          // A pinned draft's path is e.g. `fao/step01-survey/TAPE_FAO_STEP1_20260714_132600`: try the
           // cached latest file or its English fallback, and use it only if the survey_version matches
-          const pinnedVersion = version.split('/')[2];
+          const pinnedVersion = path.split('/')[2];
           if (pinnedVersion) {
-            const toLatest = (path: string) => path.replace(`/${pinnedVersion}`, '');
-            const response = await fetchSurvey(toLatest(version))
-              .catch(() => (fallbackVersion ? fetchSurvey(toLatest(fallbackVersion)) : undefined))
+            const toLatest = (pinnedPath: string) => pinnedPath.replace(`/${pinnedVersion}`, '');
+            const response = await fetchSurvey(toLatest(path))
+              .catch(() => (fallbackPath ? fetchSurvey(toLatest(fallbackPath)) : undefined))
               .catch(() => undefined);
             const data = response?.ok ? await response.json().catch(() => undefined) : undefined;
             if (getSurveyVersion(data) === pinnedVersion) {

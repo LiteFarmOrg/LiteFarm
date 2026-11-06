@@ -28,12 +28,12 @@ const Insights = () => {
   const { t } = useTranslation();
 
   // Surveys are shown only to admins. getAvailableSurveyIds gates the list to
-  // surveys available in the farm's country (see SURVEY_INFO).
+  // surveys available in the farm's location (see SURVEY_INFO).
   const surveyTiles = useMemo(() => {
     if (!isAdmin) {
       return [];
     }
-    return getAvailableSurveyIds(farm?.country_code).map((surveyId, index) => (
+    return getAvailableSurveyIds({ countryCode: farm?.country_code }).map((surveyId, index) => (
       <SurveyInsightTile
         key={surveyId}
         surveyId={surveyId}

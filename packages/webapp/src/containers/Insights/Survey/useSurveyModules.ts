@@ -20,25 +20,40 @@ import {
   SurveyResponseRecord,
   SurveyDraftSummary,
 } from '../../../store/api/surveyApi';
-import { SURVEY_INFO, getAvailableModuleIds } from './surveyConfig';
+import {
+  PRODUCTIVITY_BIODIVERSITY_SECTION_QUESTION,
+  SURVEY_INFO,
+  SurveyGaugeHalf,
+  SurveyHalf,
+  getAvailableModuleIds,
+  toHouseholdCount,
+} from './surveyConfig';
 import { allSurveyDraftsSelector, SurveyDraft } from './surveyDraftSlice';
 import { isLocalDraftStale } from './utils';
 import { useSurveyTitles } from './useSurveyTitle';
 import type { SurveyModule } from '../../../components/Insights/Survey/SurveyModuleSection';
 import type { SurveyState } from '../../../components/Insights/Survey/SurveyModuleCard';
-import { RISK_LEVELS, RiskLevel } from '../../../components/Insights/Survey/utils';
+import {
+  RISK_LEVELS,
+  RiskLevel,
+  SURVEY_SCORE_MAX,
+  SurveyHalfResult,
+} from '../../../components/Insights/Survey/utils';
 
 const DEFAULT_ESTIMATED_MINUTES = 10;
 const DEFAULT_PAGE_COUNT = 1;
 
-const readScore = (response: SurveyResponseRecord, scoreField?: string): number | undefined => {
-  if (!scoreField) {
+const toFiniteNumber = (value: unknown): number | undefined => {
+  if (value === null || value === undefined || value === '') {
     return undefined;
   }
-  const score = Number(response.survey_response?.[scoreField]);
+  const numeric = Number(value);
 
-  return Number.isFinite(score) ? score : undefined;
+  return Number.isFinite(numeric) ? numeric : undefined;
 };
+
+const readScore = (response: SurveyResponseRecord, scoreField?: string): number | undefined =>
+  scoreField ? toFiniteNumber(response.survey_response?.[scoreField]) : undefined;
 
 const isRiskLevel = (value: unknown): value is RiskLevel =>
   (RISK_LEVELS as readonly unknown[]).includes(value);
@@ -55,6 +70,73 @@ const readRiskLevel = (
   return isRiskLevel(value) ? value : undefined;
 };
 
+const NONE_ANSWER = '-97';
+const CROPS_QUESTIONS = ['cname', 'bio_crops'];
+const ANIMALS_QUESTIONS = ['aname', 'animal_species'];
+
+const readSelectedValues = (answers: Record<string, any>, question: string): unknown[] =>
+  Array.isArray(answers[question]) ? answers[question] : [];
+
+const answeredNone = (answers: Record<string, any>, questions: string[]): boolean =>
+  questions.some((question) => readSelectedValues(answers, question).includes(NONE_ANSWER));
+
+const isSectionChosen = (answers: Record<string, any>, half: SurveyHalf): boolean => {
+  if (!half.section) {
+    return true;
+  }
+  return readSelectedValues(answers, PRODUCTIVITY_BIODIVERSITY_SECTION_QUESTION).includes(
+    half.section,
+  );
+};
+
+const hasNoWomen = (answers: Record<string, any>): boolean =>
+  answers.hh_women !== undefined &&
+  answers.hh_fyoung !== undefined &&
+  toHouseholdCount(answers.hh_women) + toHouseholdCount(answers.hh_fyoung) === 0;
+
+const readCropsOrAnimalsIndex = (answers: Record<string, any>): number | undefined => {
+  if (answeredNone(answers, CROPS_QUESTIONS)) {
+    return toFiniteNumber(answers.GSIndex_animals);
+  }
+  if (answeredNone(answers, ANIMALS_QUESTIONS)) {
+    return toFiniteNumber(answers.GSIndex_crops);
+  }
+  return undefined;
+};
+
+const readHalfScore = (answers: Record<string, any>, half: SurveyGaugeHalf): number | undefined => {
+  const score = toFiniteNumber(answers[half.scoreField]);
+
+  if (score === undefined && half.fallback === 'crops-or-animals-index') {
+    return readCropsOrAnimalsIndex(answers);
+  }
+  return score;
+};
+
+const toPercent = (score: number, maxStoredScore: number): number =>
+  (score * SURVEY_SCORE_MAX) / maxStoredScore;
+
+const getHalfResult = (answers: Record<string, any>, half: SurveyHalf): SurveyHalfResult => {
+  const base = { id: half.id, display: half.display };
+
+  if (!isSectionChosen(answers, half)) {
+    return { ...base, status: 'not-applicable' };
+  }
+  if (half.display === 'dashboard-link') {
+    return { ...base, status: 'completed' };
+  }
+  const score = readHalfScore(answers, half);
+
+  if (score === undefined) {
+    return {
+      ...base,
+      status: 'not-applicable',
+      hasNoWomen: half.id === 'aweai' && hasNoWomen(answers),
+    };
+  }
+  return { ...base, status: 'scored', score: toPercent(score, half.maxStoredScore) };
+};
+
 const getProgress = (currentPageNo: number, pages: number): number =>
   // Use + 0.5 offset to place progress halfway through the active page
   Math.min(Math.round((100 * (currentPageNo + 0.5)) / pages), 100);
@@ -66,7 +148,12 @@ const getSurveyState = (
   localDraft: SurveyDraft | undefined,
   checkHasNewVersion: (surveyId: string, recordedVersion: string | undefined) => boolean,
 ): SurveyState => {
-  const { scoreField, pages = DEFAULT_PAGE_COUNT, estimatedMinutes } = SURVEY_INFO[surveyId];
+  const {
+    scoreField,
+    halves,
+    pages = DEFAULT_PAGE_COUNT,
+    estimatedMinutes,
+  } = SURVEY_INFO[surveyId];
 
   const hasLocalDraft =
     !!localDraft &&
@@ -93,6 +180,7 @@ const getSurveyState = (
       completedAt: new Date(response.created_at),
       score: readScore(response, scoreField),
       riskLevel: readRiskLevel(response, scoreField),
+      halves: halves?.map((half) => getHalfResult(response.survey_response ?? {}, half)),
       hasNewVersion,
     };
   }
@@ -117,16 +205,21 @@ export const useSurveyModules = (
   });
   const { data: serverDrafts } = useGetSurveyDraftsQuery(undefined, { skip: !moduleIds.length });
 
-  return moduleIds.map((surveyId) => ({
-    surveyId,
-    title: titleBySurveyId[surveyId],
-    scoreDisplay: SURVEY_INFO[surveyId].scoreDisplay,
-    survey: getSurveyState(
+  return moduleIds.map((surveyId) => {
+    const survey = getSurveyState(
       surveyId,
       responses?.[surveyId],
       serverDrafts?.[surveyId],
       localDrafts[surveyId],
       checkHasNewVersion,
-    ),
-  }));
+    );
+
+    return {
+      surveyId,
+      title: titleBySurveyId[surveyId],
+      scoreDisplay: SURVEY_INFO[surveyId].scoreDisplay,
+      isJoint: survey.type === 'completed' && !!survey.halves,
+      survey,
+    };
+  });
 };

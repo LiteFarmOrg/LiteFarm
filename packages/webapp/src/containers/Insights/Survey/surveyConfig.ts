@@ -17,7 +17,31 @@ import { ComponentType } from 'react';
 import tape_survey from '../../../assets/images/insights/tape_survey.svg';
 import TapeResults from './TapeResults';
 import ThankYouResults from './ThankYouResults';
-import type { SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
+import type { SurveyHalfId, SurveyScoreDisplay } from '../../../components/Insights/Survey/utils';
+
+export const PRODUCTIVITY_BIODIVERSITY_SECTION_QUESTION = 'Step2_recommended';
+
+export enum ProductivityBiodiversitySection {
+  PRODUCTIVITY = '1',
+  BIODIVERSITY = '5',
+}
+
+export interface SurveyGaugeHalf {
+  id: SurveyHalfId;
+  display: 'gauge';
+  scoreField: string;
+  maxStoredScore: number;
+  fallback?: 'crops-or-animals-index';
+  section?: ProductivityBiodiversitySection;
+}
+
+export interface SurveyDashboardLinkHalf {
+  id: SurveyHalfId;
+  display: 'dashboard-link';
+  section?: ProductivityBiodiversitySection;
+}
+
+export type SurveyHalf = SurveyGaugeHalf | SurveyDashboardLinkHalf;
 
 // A CDN path without .json, relative to cdnDirectory, plus a fallback to try if it's missing.
 export interface SurveyCdnPath {
@@ -45,6 +69,7 @@ interface SurveyInfo {
   isAvailable?: (parentResponse: Record<string, any>) => boolean;
   scoreField?: string;
   scoreDisplay?: SurveyScoreDisplay;
+  halves?: SurveyHalf[];
   pages?: number;
   estimatedMinutes?: number;
 }
@@ -59,7 +84,7 @@ const resolveFaoPath = (fileStem: string, language: string) =>
 
 const UNKNOWN_COUNT = -99;
 
-const toHouseholdCount = (value: unknown): number => {
+export const toHouseholdCount = (value: unknown): number => {
   // Current JSONs lack inputType: number on these questions and return a string
   const numeric = typeof value === 'string' ? Number(value.trim()) : Number(value);
 
@@ -95,6 +120,55 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     fileStem: 'step01-survey',
     resolvePath: resolveFaoPath,
     hasArchivedVersions: true,
+  },
+  tape_land_aweai: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    fileStem: 'step2-land-tenure-aweai',
+    resolvePath: resolveFaoPath,
+    hasArchivedVersions: true,
+    scoreField: 'aweai',
+    halves: [
+      {
+        id: 'land_tenure',
+        display: 'gauge',
+        scoreField: 'landtenure_score_household',
+        maxStoredScore: 1,
+      },
+      {
+        id: 'aweai',
+        display: 'gauge',
+        scoreField: 'aweai',
+        maxStoredScore: 100,
+      },
+    ],
+    pages: 9,
+    estimatedMinutes: 15,
+  },
+  tape_productivity_biodiversity: {
+    parentSurveyId: 'tape',
+    cdnDirectory: 'tape_surveys',
+    fileStem: 'step2-productivity-biodiversity',
+    resolvePath: resolveFaoPath,
+    hasArchivedVersions: true,
+    scoreField: 'GSI_overall',
+    halves: [
+      {
+        id: 'biodiversity',
+        display: 'gauge',
+        scoreField: 'GSI_overall',
+        maxStoredScore: 100,
+        fallback: 'crops-or-animals-index',
+        section: ProductivityBiodiversitySection.BIODIVERSITY,
+      },
+      {
+        id: 'productivity',
+        display: 'dashboard-link',
+        section: ProductivityBiodiversitySection.PRODUCTIVITY,
+      },
+    ],
+    pages: 13,
+    estimatedMinutes: 15,
   },
   tape_economic: {
     parentSurveyId: 'tape',
@@ -138,6 +212,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     isAvailable: (parentResponse) =>
       toHouseholdCount(parentResponse.people?.hh_myoung) > 0 ||
       toHouseholdCount(parentResponse.people?.hh_fyoung) > 0,
+    scoreField: 'youth_score',
     pages: 1,
     estimatedMinutes: 3,
   },
@@ -161,26 +236,6 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     scoreDisplay: 'risk',
     pages: 1,
     estimatedMinutes: 4,
-  },
-  tape_land_aweai: {
-    parentSurveyId: 'tape',
-    cdnDirectory: 'tape_surveys',
-    fileStem: 'step2-land-tenure-aweai',
-    resolvePath: resolveFaoPath,
-    hasArchivedVersions: true,
-    scoreField: 'aweai',
-    pages: 9,
-    estimatedMinutes: 15,
-  },
-  tape_productivity_biodiversity: {
-    parentSurveyId: 'tape',
-    cdnDirectory: 'tape_surveys',
-    fileStem: 'step2-productivity-biodiversity',
-    resolvePath: resolveFaoPath,
-    hasArchivedVersions: true,
-    scoreField: 'GSI_overall',
-    pages: 13,
-    estimatedMinutes: 15,
   },
   tape_au: {
     image: tape_survey,

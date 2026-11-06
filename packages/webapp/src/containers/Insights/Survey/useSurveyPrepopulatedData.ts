@@ -81,7 +81,7 @@ export const useSurveyPrepopulatedData = (
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (surveyId !== 'tape') {
+    if (!['tape', 'tape_au'].includes(surveyId)) {
       setIsLoading(false);
       return;
     }

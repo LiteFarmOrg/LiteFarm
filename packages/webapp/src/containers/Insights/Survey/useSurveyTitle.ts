@@ -42,5 +42,10 @@ export const useSurveyTitle = (surveyId: string): string => {
   const { t } = useTranslation();
   const titleBySurveyId = useSurveyTitles();
 
+  // Exception: shows a different title on the module card vs. survey page
+  if (surveyId === 'tape_dietary_diversity') {
+    return t('INSIGHTS.TAPE_DIETARY_DIVERSITY.SURVEY_TITLE');
+  }
+
   return titleBySurveyId[surveyId] ?? t('INSIGHTS.SURVEY.TITLE');
 };

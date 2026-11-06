@@ -81,11 +81,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { surveyId = '' } = useParams();
-  const moduleTitle = useSurveyTitle(surveyId);
-  const surveyTitle =
-    surveyId === 'tape_dietary_diversity'
-      ? t('INSIGHTS.TAPE_DIETARY_DIVERSITY.SURVEY_TITLE')
-      : moduleTitle;
+  const surveyTitle = useSurveyTitle(surveyId);
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
   const { farm_id, country_code } = useSelector(userFarmSelector);
 

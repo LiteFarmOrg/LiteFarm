@@ -6,7 +6,6 @@ import ProfitabilityWidget from './ProfitabilityWidget';
 import TapeWidget from './TapeWidget';
 import PureHome from '../../components/Home';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
-import { getAvailableSurveyIds } from '../Insights/Survey/surveyConfig';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import {
   chooseFarmFlowSelector,
@@ -33,8 +32,7 @@ export default function Home() {
     fileUrls: [userFarm.farm_image_url],
   });
   const isAdmin = useSelector(isAdminSelector);
-  const showTapeWidget =
-    userFarm && isAdmin && getAvailableSurveyIds(userFarm.country_code).includes('tape');
+  const showTapeWidget = userFarm && isAdmin;
 
   const { refetch: refetchSensors } = useGetSensorsQuery();
 

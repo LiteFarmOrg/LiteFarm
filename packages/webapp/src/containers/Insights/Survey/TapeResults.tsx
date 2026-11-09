@@ -110,6 +110,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
   const modules = useSurveyModules(surveyId, checkHasNewVersion, survey_response);
 
   const hasModules = modules.length > 0;
+  const allowsUpdate = !!SURVEY_INFO[surveyId]?.allowsUpdate;
 
   const openModule = (moduleSurveyId: string) => navigate(`/insights/survey/${moduleSurveyId}`);
 
@@ -135,7 +136,7 @@ function TAPEResults({ surveyId = 'tape' }: { surveyId?: string }) {
             {t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date: completedDate })}
           </div>
         </div>
-        {(hasModules || hasNewVersion) && (
+        {(hasModules || hasNewVersion || allowsUpdate) && (
           <div className={styles.headerAction}>
             {hasNewVersion && <NewVersionBadge className={styles.newVersionBadge} />}
             <Button sm color="secondary" onClick={() => openModule(surveyId)}>

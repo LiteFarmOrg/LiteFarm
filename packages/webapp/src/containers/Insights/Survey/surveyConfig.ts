@@ -65,6 +65,7 @@ interface SurveyInfo {
   resolvePath?: (fileStem: string, language: string) => SurveyCdnPath;
   // Whether this survey has archived per-version copies on the CDN.
   hasArchivedVersions?: boolean;
+  allowsUpdate?: boolean;
   parentSurveyId?: string;
   isAvailable?: (parentResponse: Record<string, any>) => boolean;
   scoreField?: string;
@@ -243,6 +244,14 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     cdnDirectory: 'tape_surveys',
     fileStem: 'au/au',
     isAvailableForFarm: ({ countryCode }) => countryCode === 'AU',
+  },
+  tape_bc: {
+    image: tape_survey,
+    ResultsComponent: TapeResults,
+    cdnDirectory: 'tape_surveys',
+    fileStem: 'ca-bc/ca-bc',
+    isAvailableForFarm: ({ countryCode }) => countryCode === 'CA',
+    allowsUpdate: true,
   },
   cathi_gao: {
     image: tape_survey,

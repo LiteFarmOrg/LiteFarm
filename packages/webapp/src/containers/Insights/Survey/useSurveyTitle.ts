@@ -35,6 +35,7 @@ export const useSurveyTitles = (): Record<string, string> => {
     tape_land_aweai: t('INSIGHTS.TAPE_LAND_AWEAI.TITLE'),
     tape_productivity_biodiversity: t('INSIGHTS.TAPE_PRODUCTIVITY_BIODIVERSITY.TITLE'),
     tape_au: t('INSIGHTS.TAPE_AU.TITLE'),
+    tape_bc: t('INSIGHTS.TAPE_BC.TITLE'),
     cathi_gao: t('INSIGHTS.CATHI_GAO.TITLE'),
   };
 };

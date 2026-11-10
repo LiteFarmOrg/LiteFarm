@@ -25,6 +25,8 @@ import styles from './styles.module.scss';
 import { icons, selectedIcons } from '../../../containers/Map/mapStyles';
 import clsx from 'clsx';
 import { GestureHandling } from './types';
+import MapLibreLocationPicker from './MapLibreLocationPicker';
+import { isMapLibreProvider } from '../../../util/mapProvider';
 import {
   cleanupGeometryListeners,
   cleanupInstanceListeners,
@@ -389,4 +391,4 @@ LocationPicker.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default LocationPicker;
+export default isMapLibreProvider ? MapLibreLocationPicker : LocationPicker;

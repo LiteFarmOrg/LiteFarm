@@ -14,6 +14,7 @@
  */
 
 import React, { Suspense } from 'react';
+import { isMapLibreProvider } from '../util/mapProvider';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 
@@ -67,7 +68,9 @@ const SurveyRoutes = React.lazy(() =>
   }),
 );
 const ExpiredTokenScreen = React.lazy(() => import('../containers/ExpiredTokenScreen'));
-const Map = React.lazy(() => import('../containers/Map'));
+const Map = React.lazy(() =>
+  isMapLibreProvider ? import('../containers/MapLibre') : import('../containers/Map'),
+);
 
 const LocationDetailsRoutes = React.lazy(() => import('./LocationDetailsRoutes'));
 

@@ -1,10 +1,11 @@
-import { persistReducer, persistStore } from 'redux-persist';
+import { createMigrate, persistReducer, persistStore } from 'redux-persist';
 import { AnyAction, Middleware, configureStore } from '@reduxjs/toolkit';
 import { sagaMiddleware } from './sagaMiddleware';
 import { api } from './api/apiSlice';
 import rootReducer from './reducer';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
+import { persistMigrations } from './migrations';
 
 export type RootReducer = ReturnType<typeof rootReducer>;
 
@@ -12,6 +13,8 @@ const persistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel2,
+  version: 0,
+  migrate: createMigrate(persistMigrations, { debug: false }),
 };
 
 // https://github.com/rt2zz/redux-persist/issues/1140#issuecomment-1208523633

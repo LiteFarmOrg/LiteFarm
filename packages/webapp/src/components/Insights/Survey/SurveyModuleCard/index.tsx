@@ -14,13 +14,20 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import type { TFunction } from 'i18next';
 import Button, { ButtonProps } from '../../../Form/Button';
 import SurveyIcon from '../../../../assets/images/survey.svg?react';
 import SurveyStatusDisplay from './SurveyStatusDisplay';
+import JointSurveyDisplay from './JointSurveyDisplay';
 import NewVersionBadge from '../../../SimpleBadges/NewVersionBadge';
 import { getLocalizedDateString } from '../../../../util/moment';
-import { COMPLETED_DATE_OPTIONS, type RiskLevel, type SurveyScoreDisplay } from '../utils';
+import {
+  COMPLETED_DATE_OPTIONS,
+  type RiskLevel,
+  type SurveyHalfResult,
+  type SurveyScoreDisplay,
+} from '../utils';
 import styles from './styles.module.scss';
 
 export type SurveyState =
@@ -31,10 +38,12 @@ export type SurveyState =
       completedAt: Date;
       score?: number;
       riskLevel?: RiskLevel;
+      halves?: SurveyHalfResult[];
       hasNewVersion?: boolean;
     };
 
 export interface SurveyModuleCardProps {
+  className?: string;
   title: string;
   onAction: () => void;
   survey: SurveyState;
@@ -47,11 +56,9 @@ interface CardActionConfig {
   metaText: string | null;
 }
 
-const getCardConfig = (
-  survey: SurveyState,
-  t: TFunction,
-  scoreDisplay?: SurveyScoreDisplay,
-): CardActionConfig => {
+const STARTED_DATE_FORMAT: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
+
+const getCardConfig = (survey: SurveyState, t: TFunction): CardActionConfig => {
   switch (survey.type) {
     case 'not-started':
       return {
@@ -64,47 +71,59 @@ const getCardConfig = (
       return {
         actionColor: 'secondary-2',
         actionLabel: t('INSIGHTS.SURVEY.CARD.RESUME'),
-        metaText: null,
+        metaText: t('INSIGHTS.SURVEY.CARD.STARTED', {
+          date: getLocalizedDateString(survey.startedAt, STARTED_DATE_FORMAT),
+        }),
       };
 
     case 'completed': {
       const date = getLocalizedDateString(survey.completedAt, COMPLETED_DATE_OPTIONS);
-      const isDatedByRiskBar = scoreDisplay === 'risk' && survey.riskLevel !== undefined;
       return {
         actionColor: 'secondary',
         actionLabel: survey.hasNewVersion
           ? t('INSIGHTS.SURVEY.CARD.RETAKE_SURVEY')
           : t('INSIGHTS.SURVEY.CARD.UPDATE'),
-        metaText: isDatedByRiskBar
-          ? null
-          : survey.score === undefined && survey.riskLevel === undefined
-          ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
-          : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
+        metaText:
+          survey.score === undefined && survey.riskLevel === undefined && !survey.halves
+            ? t('INSIGHTS.SURVEY.CARD.COMPLETED_ON', { date })
+            : t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', { date }),
       };
     }
   }
 };
 
-const SurveyModuleCard = ({ title, onAction, survey, scoreDisplay }: SurveyModuleCardProps) => {
+const SurveyModuleCard = ({
+  className,
+  title,
+  onAction,
+  survey,
+  scoreDisplay,
+}: SurveyModuleCardProps) => {
   const { t } = useTranslation();
-  const { actionColor, actionLabel, metaText } = getCardConfig(survey, t, scoreDisplay);
+  const { actionColor, actionLabel, metaText } = getCardConfig(survey, t);
 
   return (
-    <div className={styles.card}>
+    <div className={clsx(styles.card, className)}>
       <div className={styles.titleRow}>
         {survey.type === 'completed' && survey.hasNewVersion && (
           <NewVersionBadge className={styles.newVersionBadge} />
         )}
         {title}
       </div>
-      <div className={styles.body}>
-        <SurveyStatusDisplay survey={survey} scoreDisplay={scoreDisplay} />
+      {survey.type === 'completed' && survey.halves ? (
+        <JointSurveyDisplay halves={survey.halves} />
+      ) : (
+        <div className={styles.body}>
+          <SurveyStatusDisplay survey={survey} scoreDisplay={scoreDisplay} />
+        </div>
+      )}
+      <div className={styles.footer}>
+        <Button sm color={actionColor} className={styles.action} onClick={onAction}>
+          <SurveyIcon />
+          {actionLabel}
+        </Button>
+        <span className={styles.meta}>{metaText}</span>
       </div>
-      <span className={styles.meta}>{metaText}</span>
-      <Button sm color={actionColor} className={styles.action} onClick={onAction}>
-        <SurveyIcon />
-        {actionLabel}
-      </Button>
     </div>
   );
 };

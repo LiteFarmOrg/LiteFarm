@@ -15,9 +15,8 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import { COMPLETED_DATE_OPTIONS, RiskLevel } from '../../utils';
+import { RiskLevel } from '../../utils';
 import useRiskLevelLabels from '../../useRiskLevelLabels';
-import { getLocalizedDateString } from '../../../../../util/moment';
 import styles from './styles.module.scss';
 
 const RISK_LEVEL_DISPLAY: Record<RiskLevel, { fill: number; className: string }> = {
@@ -30,10 +29,9 @@ const RISK_LEVEL_DISPLAY: Record<RiskLevel, { fill: number; className: string }>
 
 export interface RiskBarProps {
   riskLevel?: RiskLevel;
-  completedAt?: Date;
 }
 
-const RiskBar = ({ riskLevel, completedAt }: RiskBarProps) => {
+const RiskBar = ({ riskLevel }: RiskBarProps) => {
   const { t } = useTranslation();
   const riskLabels = useRiskLevelLabels();
 
@@ -62,13 +60,6 @@ const RiskBar = ({ riskLevel, completedAt }: RiskBarProps) => {
       >
         <div className={styles.fill} style={{ width: `${fill}%` }} />
       </div>
-      {completedAt && (
-        <span className={styles.date}>
-          {t('INSIGHTS.SURVEY.CARD.LAST_UPDATED', {
-            date: getLocalizedDateString(completedAt, COMPLETED_DATE_OPTIONS),
-          })}
-        </span>
-      )}
     </div>
   );
 };

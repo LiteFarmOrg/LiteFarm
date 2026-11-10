@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.13.4",
+  "version": "3.13.5",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -138,6 +138,9 @@
     "typescript-eslint": "^8.5.0"
   },
   "overrides": {
-    "glob-parent@<5.1.2": ">=5.1.2"
+    "glob-parent@<5.1.2": ">=5.1.2",
+    "juice": {
+      "cheerio": "1.0.0-rc.12"
+    }
   }
 }

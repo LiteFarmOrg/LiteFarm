@@ -43,6 +43,21 @@ export type RiskLevel = (typeof RISK_LEVELS)[number];
 
 export type SurveyScoreDisplay = 'gauge' | 'risk';
 
+export type SurveyHalfDisplay = 'gauge' | 'dashboard-link';
+
+export type SurveyHalfId = 'land_tenure' | 'aweai' | 'biodiversity' | 'productivity';
+
+export type SurveyHalfResult = { id: SurveyHalfId; display: SurveyHalfDisplay } & (
+  | { status: 'scored'; score: number }
+  | { status: 'completed' }
+  | { status: 'not-applicable'; hasNoWomen?: boolean }
+);
+
+export const DATA_DASHBOARD_TAPE_URL =
+  import.meta.env.VITE_ENV === 'production'
+    ? 'https://data.litefarm.org/tape-scores'
+    : 'https://r9-kdd.math.ubc.ca/tape-scores';
+
 export const COMPLETED_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   month: 'short',

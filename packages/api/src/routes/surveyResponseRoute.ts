@@ -16,6 +16,7 @@
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import { mapMorningtonSurveyResponseKey } from '../middleware/mapMorningtonSurveyKey.js';
 import surveyResponseController from '../controllers/surveyResponseController.js';
 
 const router = express.Router();
@@ -24,6 +25,7 @@ router.post(
   '/',
   checkScope(['add:survey_response']),
   hasFarmAccess({ body: 'farm_id' }),
+  mapMorningtonSurveyResponseKey(),
   surveyResponseController.createSurveyResponse(),
 );
 

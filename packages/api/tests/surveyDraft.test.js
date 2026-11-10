@@ -32,6 +32,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 
 import mocks from './mock.factories.js';
 import { createUserFarmIds } from './utils/testDataSetup.js';
+import { MORNINGTON_SURVEY_VERSION_PREFIX } from '../src/middleware/mapMorningtonSurveyKey.js';
 
 describe('Survey draft endpoint tests', () => {
   let owner;
@@ -80,7 +81,7 @@ describe('Survey draft endpoint tests', () => {
       .set('farm_id', farm_id);
   }
 
-  async function postSurveyResponse(survey_key = 'tape') {
+  async function postSurveyResponse(survey_key = 'tape', survey_version = 'v1') {
     return chai
       .request(server)
       .post('/survey_response')
@@ -90,7 +91,7 @@ describe('Survey draft endpoint tests', () => {
       .send({
         farm_id: farm.farm_id,
         survey_key,
-        survey_response: { survey_version: 'v1', project_id: 'project-1', survey_step: 'step-1' },
+        survey_response: { survey_version, project_id: 'project-1', survey_step: 'step-1' },
       });
   }
 
@@ -361,6 +362,73 @@ describe('Survey draft endpoint tests', () => {
         .where({ farm_id: farm.farm_id, survey_key: 'tape' })
         .first();
       expect(responseRow.submission_id).toBeTruthy();
+    });
+  });
+
+  // TODO: LF-5545 remove once no frontend sends Mornington surveys as `tape`
+  describe('Mornington surveys sent under tape', () => {
+    const MORNINGTON_VERSION = `${MORNINGTON_SURVEY_VERSION_PREFIX}STEP1_20260101_000000`;
+
+    test('Should store a Mornington draft as tape_au', async () => {
+      const res = await putRequest(
+        { q1: 'answer' },
+        { survey_key: 'tape' },
+        { survey_version: MORNINGTON_VERSION },
+      );
+      expect(res.status).toBe(201);
+
+      const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
+      expect(rows.length).toBe(1);
+      expect(rows[0].survey_key).toBe('tape_au');
+    });
+
+    test('Should update the existing tape_au draft rather than creating a new one', async () => {
+      const [existing] = await mocks.survey_draftFactory(
+        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape_au', survey_version: MORNINGTON_VERSION }),
+      );
+
+      const res = await putRequest(
+        { q1: 'second' },
+        { survey_key: 'tape' },
+        { survey_version: MORNINGTON_VERSION, submission_id: existing.submission_id },
+      );
+      expect(res.status).toBe(200);
+
+      const rows = await knex('survey_draft').where({ farm_id: farm.farm_id });
+      expect(rows.length).toBe(1);
+      expect(rows[0].survey_data).toEqual({ q1: 'second' });
+    });
+
+    test('Should reject the draft once its tape_au submission has been completed', async () => {
+      await postSurveyResponse('tape_au', MORNINGTON_VERSION);
+      const { submission_id } = await knex('survey_response')
+        .where({ farm_id: farm.farm_id, survey_key: 'tape_au' })
+        .first();
+
+      const res = await putRequest(
+        { q1: 'too late' },
+        { survey_key: 'tape' },
+        { survey_version: MORNINGTON_VERSION, submission_id },
+      );
+      expect(res.status).toBe(409);
+    });
+
+    test('Submitting a Mornington survey under tape soft-deletes the live tape_au draft', async () => {
+      const [draft] = await mocks.survey_draftFactory(
+        { promisedUserFarm: [{ farm_id: farm.farm_id, user_id: owner.user_id }] },
+        mocks.fakeSurveyDraft({ survey_key: 'tape_au', survey_version: MORNINGTON_VERSION }),
+      );
+
+      await postSurveyResponse('tape', MORNINGTON_VERSION);
+
+      const draftRow = await knex('survey_draft').where({ id: draft.id }).first();
+      expect(draftRow.deleted).toBe(true);
+
+      const responseRow = await knex('survey_response')
+        .where({ farm_id: farm.farm_id, survey_key: 'tape_au' })
+        .first();
+      expect(responseRow.submission_id).toBe(draft.submission_id);
     });
   });
 });

@@ -1337,6 +1337,15 @@
       "CARD": {
         "COMPLETED_ON": "Completed · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HALF": {
+          "AWEAI": "Women's empowerment (A-WEAI)",
+          "BIODIVERSITY": "Biodiversity",
+          "DASHBOARD_LINK": "Final scores for the economic indicators are available on the <a>LiteFarm Data Dashboard</a>",
+          "LAND_TENURE": "Land tenure (household)",
+          "NOT_APPLICABLE": "Not applicable",
+          "NO_WOMEN": "No women in the household",
+          "PRODUCTIVITY": "Productivity and income"
+        },
         "HIGH_RISK": "High Risk",
         "IN_PROGRESS": "In progress",
         "LAST_UPDATED": "Last updated {{date}}",
@@ -1375,11 +1384,18 @@
       "NOT_FILLED": "Not filled",
       "RESULTS_LOAD_ERROR": "Failed to load results. Please try again later.",
       "RESULTS_TITLE": "Characterization of the Agroecological Transitions (CAET) Scores",
-      "TITLE": "TAPE Survey (Tool for Agroecology Performance Evaluation)",
+      "TITLE": "FAO TAPE Survey (Tool for Agroecology Performance Evaluation)",
       "UPDATE_ANSWERS": "Update your answers"
     },
+    "TAPE_AU": {
+      "TITLE": "TAPE Australia (Mornington Project)"
+    },
+    "TAPE_BC": {
+      "TITLE": "Agroecology 4 Climate BC TAPE"
+    },
     "TAPE_DIETARY_DIVERSITY": {
-      "TITLE": "Dietary diversity"
+      "SURVEY_TITLE": "Minimum dietary diversity for women (MDD-W)",
+      "TITLE": "Dietary diversity (MDD-W)"
     },
     "TAPE_ECONOMIC": {
       "TITLE": "Qualitative economic indicator"
@@ -1388,19 +1404,19 @@
       "TITLE": "Food security"
     },
     "TAPE_LAND_AWEAI": {
-      "TITLE": "Land tenure"
+      "TITLE": "Land tenure & women's empowerment (A-WEAI)"
     },
     "TAPE_PESTICIDES": {
-      "TITLE": "Exposure to pesticides"
+      "TITLE": "Pesticide management and exposure"
     },
     "TAPE_PRODUCTIVITY_BIODIVERSITY": {
-      "TITLE": "Productivity, income and value added"
+      "TITLE": "Productivity and agrobiodiversity"
     },
     "TAPE_SOIL": {
       "TITLE": "Soil health"
     },
     "TAPE_YOUTH": {
-      "TITLE": "Youth employment opportunity and emigration"
+      "TITLE": "Youth employment and emigration"
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable"

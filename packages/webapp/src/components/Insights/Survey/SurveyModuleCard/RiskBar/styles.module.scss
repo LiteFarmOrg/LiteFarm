@@ -17,26 +17,22 @@
 @use '../../surveyColors' as *;
 
 .riskBar {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 86px;
 }
 
 .label,
-.placeholder,
-.date {
+.placeholder {
   @include fontFamily();
 
-  position: absolute;
-  left: 0;
-  width: 100%;
   margin: 0;
   text-align: center;
   white-space: nowrap;
 }
 
 .label {
-  top: 8px;
+  margin-bottom: 5px;
   font-size: 11px;
   font-weight: 700;
   line-height: 15px;
@@ -44,7 +40,7 @@
 }
 
 .placeholder {
-  top: 48px;
+  margin-top: 8px;
   font-size: 13px;
   font-weight: 400;
   line-height: 20px;
@@ -52,19 +48,8 @@
   opacity: 0.7;
 }
 
-.date {
-  top: 45px;
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 16px;
-  color: $text-muted;
-}
-
 .track {
-  position: absolute;
-  top: 28px;
-  left: 6px;
-  right: 6px;
+  margin: 0 6px;
   height: 12px;
   border-radius: 3px;
   background-color: $gauge-track;

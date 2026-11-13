@@ -15,9 +15,14 @@
 
 /*
  *  British Columbia boundary from Statistics Canada, 2021 Census, Provinces/Territories digital
- *  boundary file (lpr_000a21a_e). Simplified so the line stays within 100 m of the original, and
- *  converted to latitude and longitude (WGS 84).
- *  Contains information licensed under the Open Government Licence – Canada.
+ *  boundary file (lpr_000a21a_e). Points were removed with GDAL 3.5.3 (`ogr2ogr -simplify 100`),
+ *  so no original point is more than 100m from the simplified line.
+ *  Then converted from Statistics Canada Lambert (EPSG:3347, in metres) to latitude and longitude
+ *  (WGS 84).
+ *  Downloaded from:
+ *  https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/index2021-eng.cfm?year=21
+ *  Contains information licensed under the Open Government Licence – Canada:
+ *  https://open.canada.ca/en/open-government-licence-canada
  */
 
 import { polygon } from '@turf/helpers';

@@ -55,6 +55,7 @@ import { getSurveyVersion } from './utils';
 import { isNetworkError } from '../../../util/apiUtils';
 import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
+import useFarmLocationCodes from './useFarmLocationCodes';
 
 interface SurveyProps {
   isCompactSideMenu: boolean;
@@ -83,15 +84,14 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const { surveyId = '' } = useParams();
   const surveyTitle = useSurveyTitle(surveyId);
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
-  const { farm_id, country_code } = useSelector(userFarmSelector);
+  const { farm_id } = useSelector(userFarmSelector);
+  const farmLocationCodes = useFarmLocationCodes();
 
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
   const parentSurveyId = SURVEY_INFO[surveyId]?.parentSurveyId;
 
   const isAvailableForFarm =
-    SURVEY_INFO[surveyId]?.isAvailableForFarm?.({
-      countryCode: country_code,
-    }) !== false;
+    SURVEY_INFO[surveyId]?.isAvailableForFarm?.(farmLocationCodes) !== false;
 
   const { data: responses, isLoading: isResponsesLoading } = useGetLatestSurveyResponsesQuery();
   const parentResponse = parentSurveyId ? responses?.[parentSurveyId] : undefined;

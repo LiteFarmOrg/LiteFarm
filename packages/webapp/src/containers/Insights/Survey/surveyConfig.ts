@@ -49,6 +49,11 @@ export interface SurveyCdnPath {
   fallbackPath?: string;
 }
 
+export interface FarmLocationCodes {
+  countryCode?: string;
+  subdivisionCode?: string;
+}
+
 interface SurveyInfo {
   image?: string;
   ResultsComponent?: ComponentType<{ surveyId: string }>;
@@ -59,7 +64,7 @@ interface SurveyInfo {
   // it is used as the input to resolvePath instead (e.g. 'step01-survey' -> 'fao_fr/step01-survey_fr').
   fileStem: string;
   // Whether a farm can see this survey (Insights tile + direct URL). Omit if available everywhere.
-  isAvailableForFarm?: (location: { countryCode?: string }) => boolean;
+  isAvailableForFarm?: (location: FarmLocationCodes) => boolean;
   // Resolves the path to request for a language, plus a fallbackPath for the untranslated default
   // if that's missing. Omit if the fileStem has no per-language content (e.g. cathi_gao).
   resolvePath?: (fileStem: string, language: string) => SurveyCdnPath;
@@ -250,7 +255,7 @@ export const SURVEY_INFO: Record<string, SurveyInfo> = {
     ResultsComponent: TapeResults,
     cdnDirectory: 'tape_surveys',
     fileStem: 'ca-bc/ca-bc',
-    isAvailableForFarm: ({ countryCode }) => countryCode === 'CA',
+    isAvailableForFarm: ({ subdivisionCode }) => subdivisionCode === 'CA-BC',
     allowsUpdate: true,
   },
   cathi_gao: {
@@ -321,7 +326,7 @@ export const getSurveyCdnPath = (
 /**
  * The survey ids available to a farm in the given location. Drives the Insights tile list.
  */
-export const getAvailableSurveyIds = (location: { countryCode?: string }): string[] =>
+export const getAvailableSurveyIds = (location: FarmLocationCodes): string[] =>
   Object.keys(SURVEY_INFO).filter(
     (surveyId) =>
       // Hide child modules from the Insight tile list

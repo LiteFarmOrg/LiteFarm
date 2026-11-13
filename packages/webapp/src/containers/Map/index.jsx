@@ -66,7 +66,6 @@ import {
 import useAvailableFilterSettings from './useAvailableFilterSettings';
 import { useIsOffline } from '../hooks/useOfflineDetector/useIsOffline';
 import history from '../../history';
-import { BC_BOUNDARY } from '../Insights/Survey/bcBoundary';
 
 export default function Map({ isCompactSideMenu }) {
   const location = useLocation();
@@ -254,8 +253,6 @@ export default function Map({ isCompactSideMenu }) {
 
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = async ({ map, maps }) => {
-    map.data.addGeoJson(BC_BOUNDARY);
-    map.data.setStyle({ fillColor: 'red', fillOpacity: 0.2, strokeColor: 'red', strokeWeight: 1 });
     await getMaxZoom(maps, map);
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();

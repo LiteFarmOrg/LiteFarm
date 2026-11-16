@@ -188,7 +188,12 @@ export default function PureCompleteStepOne({
       />
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_CHANGES')}</Main>
-      <RadioGroup hookFormControl={control} required name={CHANGES_NEEDED} />
+      <RadioGroup
+        hookFormControl={control}
+        required
+        name={CHANGES_NEEDED}
+        style={taskType === 'CLEANING_TASK' ? undefined : { marginBottom: '24px' }}
+      />
 
       {hasAnimals ? (
         <div className={styles.animalInventorySection}>

@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Button from '../Form/Button';
-import FloatingActionButton from '../Button/FloatingActionButton';
+import FloatingButtonMenu from '../Menu/FloatingButtonMenu';
 import FloatingContainer from '../FloatingContainer';
 import CertificationBanner from './CertificationBanner';
 import CertificationsEmptyState from './CertificationsEmptyState';
@@ -90,11 +90,12 @@ export default function Certifications({
           />
           {isMobile ? (
             <div className={styles.pageFabWrapper}>
-              <FloatingActionButton
-                // @ts-expect-error known issue with the JS component's props
+              <FloatingButtonMenu
                 type="add"
-                onClick={onAddCertification}
-                aria-label={t('CERTIFICATION.ADD_CERTIFICATIONS')}
+                options={[
+                  { label: t('CERTIFICATION.ADD_CERTIFICATIONS'), onClick: onAddCertification },
+                  { label: t('CERTIFICATIONS.EXPORT'), onClick: onExport },
+                ]}
               />
             </div>
           ) : (

@@ -4,14 +4,7 @@ import { getTaskStatus } from './taskCardContentSelector';
 import { ASSIGNEE, CROP, FROM_DATE, LOCATION, STATUS, TO_DATE, TYPE } from '../Filter/constants';
 
 const getActiveCriteria = (filter) => {
-  const filterKeys = Object.keys(filter);
-  const countActive = filterKeys.filter((k) => filter[k].active).length;
-  let selected = [];
-
-  if (countActive > 0) selected = filterKeys.filter((key) => filter[key].active);
-  else selected = filterKeys;
-
-  return new Set(selected);
+  return new Set(Object.keys(filter).filter((key) => filter[key].active));
 };
 
 const filterByAssignee = (task, activeAssignees) => {
@@ -51,7 +44,7 @@ export function filterTasks(tasks, filters) {
       (t) =>
         !activeLocations.size ||
         t.locations.find(({ location_id }) => activeLocations.has(location_id)) ||
-        !t.locations.length
+        !t.locations.length,
     )
     .filter(
       (t) =>

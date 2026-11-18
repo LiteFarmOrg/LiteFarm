@@ -34,6 +34,7 @@ function createToken(type, payload) {
 
 const DASHBOARD_AUDIENCES = {
   soilLabResult: 'soil_lab_result',
+  tape: 'tape',
 };
 
 export { createToken, expireTime, tokenType, DASHBOARD_AUDIENCES };

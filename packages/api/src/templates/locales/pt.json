@@ -51,33 +51,10 @@
     "SUBJECT0": "Você perdeu o acesso a",
     "SUBJECT1": "em LiteFarm!"
   },
-  "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Parabéns por ser o(a) mais novo(a)",
-    "AT": "em",
-    "CLICK_BELOW": "Você pode fazer login (em qualquer dispositivo) usando o botão abaixo",
-    "SUBJECT": "Você juntou com sucesso a"
-  },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Te damos as boas-vindas ao LiteFarm! LiteFarm é um software de código aberto e uma ferramenta para ajudar agricultores(as) a manejar seus sítios. Você pode ler mais sobre o LiteFarm em",
     "CLICK_BELOW": "Você também pode entrar (em qualquer dispositivo) clicando no botão abaixo",
     "SUBJECT": "Te damos as boas-vindas ao LiteFarm!"
-  },
-  "WITHHOLD_CONSENT": {
-    "RECENT": "Recentemente, ao iniciar o processo de cadastro junto a",
-    "WITHHOLD": "no aplicativo LiteFarm, você decidiu não conceder seu consentimento em relação à política de privacidade do LiteFarm. Este é absolutamento seu direito, porém isto significa que você não poderá acessar o aplicativo. Sentimos muito por isso.",
-    "DEACTIVATE": "Nós desativamos sua associação com",
-    "HOWEVER": "Entratanto, nós ainda temos as informações básicas que você compartilhou conosco enquanto configurava sua conta de usuário. Se você é associado a outros, sítios, nós também temos qualquer informação que você inseriu enquanto trabalhavo com eles.",
-    "RIGHT": "Você tem os seguintes direitos em relação aos seus dados",
-    "COPY": "Saber quais dados nós temos sobre você e requisitar uma cópia",
-    "UPDATE": "Atualizar ou corrigir quaisquer dados que temos sobre você",
-    "STOP": "Requisitar que paremos de coletar quaisquer dados seus (você acabou de fazê-lo)",
-    "TRANSFER": "Requisitar uma transferência dos seus dados",
-    "DELETE": "Requisitar que deletemos os seus dados",
-    "TO_REQUEST": "Para requisitar qualquer uma destas ações, envie um email para",
-    "SUPPORT": "com sua solicitação e cuidaremos disto para você.",
-    "OTHERWISE": "No entanto, se você mudar de ideia, pode fazer login (em qualquer dispositivo) a qualquer momento e aceitar nossa política de privacidade usando o botão abaio",
-    "RESTORE": "Se você o fizer, mais uma vez será capaz de acessar o sistema do LiteFarm.",
-    "SUBJECT": "Você não concordou com a política de privacidade da LiteFarm - aqui estão suas opções"
   },
   "EXPORT_MAP": {
     "EXPORT": "Aqui está a exportação do mapa de ",

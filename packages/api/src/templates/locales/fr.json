@@ -51,33 +51,10 @@
     "SUBJECT0": "Vous avez perdu l'accès à",
     "SUBJECT1": "sur LiteFarm!"
   },
-  "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Félicitations d'être devenu le plus récent",
-    "AT": "à",
-    "CLICK_BELOW": "Vous pouvez vous connecter (sur n'importe quel appareil) en utilisant le bouton ci-dessous",
-    "SUBJECT": "Vous avez rejoint avec succès"
-  },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Bienvenue à LiteFarm ! LiteFarm est un outil logiciel open source pour aider les agriculteurs à gérer leurs fermes. Vous pouvez en savoir plus sur LiteFarm à",
     "CLICK_BELOW": "Vous pouvez également vous connecter (sur n'importe quel appareil) en utilisant le bouton ci-dessous",
     "SUBJECT": "Bienvenue à  LiteFarm !"
-  },
-  "WITHHOLD_CONSENT": {
-    "RECENT": "Récemment, en rejoignant",
-    "WITHHOLD": "sur l'application LiteFarm, vous avez décidé de refuser votre consentement concernant la politique de confidentialité de LiteFarm. C'est tout à fait votre droit, cependant, cela signifie que vous ne pourrez pas accéder à l'application. Nous en sommes vraiment désolés.",
-    "DEACTIVATE": "Nous avons désactivé votre association pour",
-    "HOWEVER": "Cependant, nous avons toujours les informations de base que vous avez partagées avec nous lors de la configuration de votre compte utilisateur. Si vous êtes associé à d'autres fermes, nous avons également toutes les informations que vous avez saisies lorsque vous travaillez avec ces fermes.",
-    "RIGHT": "Vous disposez des droits suivants concernant vos données",
-    "COPY": "Le droit de savoir quelles données nous avons sur vous et d'en demander une copie",
-    "UPDATE": "Le droit de mettre à jour ou de corriger les données que nous possédons à votre sujet",
-    "STOP": "le droit de demander que nous arrêtions de collecter vos données (vous venez de le faire)",
-    "TRANSFER": "Le droit de demander un transfert de vos données",
-    "DELETE": "Le droit de demander que nous supprimions vos données",
-    "TO_REQUEST": "le droit de demander l'une de ces actions, envoyer un courriel à",
-    "SUPPORT": "avec votre demande et nous nous occuperons de vous.",
-    "OTHERWISE": "Sinon, si vous changez d'avis, vous pouvez vous connecter (sur n'importe quel appareil) à tout moment et accepter notre politique de confidentialité en utilisant le bouton ci-dessous.",
-    "RESTORE": "Si vous le faites, vous pourrez à nouveau accéder au système LiteFarm.",
-    "SUBJECT": "Vous n'êtes pas d'accord avec la politique de confidentialité de LiteFarm - voici vos options"
   },
   "EXPORT_MAP": {
     "EXPORT": "Voici l'exportation de la carte de la ferme pour",

@@ -738,7 +738,7 @@
       "TYPE": "Type",
       "VALID_UNTIL": "Valable jusqu'au"
     },
-    "ADD_DOCUMENT": "",
+    "ADD_DOCUMENT": "Ajouter un nouveau document",
     "ARCHIVE": "Archiver",
     "ARCHIVE_DOCUMENT": "Archiver document ?",
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer ?",
@@ -1278,15 +1278,6 @@
       "CARD": {
         "COMPLETED_ON": "Complété · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} min",
-        "HALF": {
-          "AWEAI": "",
-          "BIODIVERSITY": "",
-          "DASHBOARD_LINK": "",
-          "LAND_TENURE": "",
-          "NOT_APPLICABLE": "",
-          "NO_WOMEN": "",
-          "PRODUCTIVITY": ""
-        },
         "HIGH_RISK": "Risque Élevé",
         "IN_PROGRESS": "En cours",
         "LAST_UPDATED": "Dernière mise à jour à {{date}}",
@@ -1325,18 +1316,11 @@
       "NOT_FILLED": "Non rempli",
       "RESULTS_LOAD_ERROR": "Impossible de charger les résultats. Veuillez réessayer plus tard.",
       "RESULTS_TITLE": "Caractéristiques des transitions agroécologiques (CAET)",
-      "TITLE": "",
+      "TITLE": "TAPE (Évaluation de la performance de l'Agroécologie)",
       "UPDATE_ANSWERS": "Mettre à jour vos réponses"
     },
-    "TAPE_AU": {
-      "TITLE": ""
-    },
-    "TAPE_BC": {
-      "TITLE": ""
-    },
     "TAPE_DIETARY_DIVERSITY": {
-      "SURVEY_TITLE": "",
-      "TITLE": ""
+      "TITLE": "Diversité alimentaire"
     },
     "TAPE_ECONOMIC": {
       "TITLE": "Indicateur économique qualitatif"
@@ -1345,19 +1329,19 @@
       "TITLE": "Sécurité alimentaire"
     },
     "TAPE_LAND_AWEAI": {
-      "TITLE": ""
+      "TITLE": "Terres foncières"
     },
     "TAPE_PESTICIDES": {
-      "TITLE": ""
+      "TITLE": "Exposition aux pesticides"
     },
     "TAPE_PRODUCTIVITY_BIODIVERSITY": {
-      "TITLE": ""
+      "TITLE": "Productivité, revenu et valeur ajoutée"
     },
     "TAPE_SOIL": {
       "TITLE": "Santé du sol"
     },
     "TAPE_YOUTH": {
-      "TITLE": ""
+      "TITLE": "Opportunités d'emploi et émigration des jeunes"
     },
     "TITLE": "Mesures additionnelles",
     "UNAVAILABLE": "Indisponible"
@@ -1367,7 +1351,6 @@
     "TITLE": "La carte de l'exploitation a été mise à jour !"
   },
   "INVENTORY": {
-    "ADD_PRODUCT": "",
     "PRODUCT_NAME": "Nom du produit",
     "PRODUCT_TYPE": "Type de produit",
     "REMOVE_CONFIRMATION": {
@@ -2305,7 +2288,7 @@
     "ABANDONMENT_DETAILS": "Détails de l'abandon de tâche",
     "ADD_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
-    "ADD_TASK": "",
+    "ADD_TASK": "Créer une tâche",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animaux dans cette tâche",
     "ANIMAL_MOVING_TO_LOCATION": "Déplacement vers :",

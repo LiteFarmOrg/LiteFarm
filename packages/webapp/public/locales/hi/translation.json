@@ -738,7 +738,7 @@
       "TYPE": "प्रकार",
       "VALID_UNTIL": "वैधता समाप्ति तक"
     },
-    "ADD_DOCUMENT": "नया दस्तावेज़ जोड़ें",
+    "ADD_DOCUMENT": "",
     "ARCHIVE": "संग्रहीत करें",
     "ARCHIVE_DOCUMENT": "दस्तावेज़ को संग्रहीत करें?",
     "ARCHIVE_DOCUMENT_TEXT": "इस दस्तावेज़ को संग्रहीत करने से यह आपके दस्तावेज़ों के संग्रहित खंड में चला जाएगा, लेकिन इसे हटाया नहीं जाएगा। संग्रहीत दस्तावेज़ आपके प्रमाणपत्रों के लिए निर्यात नहीं किए जाएंगे। क्या आप आगे बढ़ना चाहते हैं?",
@@ -1278,6 +1278,15 @@
       "CARD": {
         "COMPLETED_ON": "पूर्ण · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} मिनट",
+        "HALF": {
+          "AWEAI": "",
+          "BIODIVERSITY": "",
+          "DASHBOARD_LINK": "",
+          "LAND_TENURE": "",
+          "NOT_APPLICABLE": "",
+          "NO_WOMEN": "",
+          "PRODUCTIVITY": ""
+        },
         "HIGH_RISK": "उच्च जोखिम",
         "IN_PROGRESS": "प्रगति पर",
         "LAST_UPDATED": "अंतिम अपडेट {{date}}",
@@ -1316,11 +1325,18 @@
       "NOT_FILLED": "भरा नहीं गया",
       "RESULTS_LOAD_ERROR": "परिणाम लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "RESULTS_TITLE": "कृषि-पारिस्थितिक संक्रमणों का चरित्रांकन (CAET) स्कोर",
-      "TITLE": "TAPE सर्वेक्षण (कृषि-पारिस्थितिकी प्रदर्शन मूल्यांकन उपकरण)",
+      "TITLE": "",
       "UPDATE_ANSWERS": "अपने उत्तर अपडेट करें"
     },
+    "TAPE_AU": {
+      "TITLE": ""
+    },
+    "TAPE_BC": {
+      "TITLE": ""
+    },
     "TAPE_DIETARY_DIVERSITY": {
-      "TITLE": "आहार विविधता"
+      "SURVEY_TITLE": "",
+      "TITLE": ""
     },
     "TAPE_ECONOMIC": {
       "TITLE": "गुणात्मक आर्थिक संकेतक"
@@ -1329,19 +1345,19 @@
       "TITLE": "खाद्य सुरक्षा"
     },
     "TAPE_LAND_AWEAI": {
-      "TITLE": "ज़मीन पर अधिकार"
+      "TITLE": ""
     },
     "TAPE_PESTICIDES": {
-      "TITLE": "कीटनाशकों के संपर्क में आना"
+      "TITLE": ""
     },
     "TAPE_PRODUCTIVITY_BIODIVERSITY": {
-      "TITLE": "उत्पादकता, आय और मूल्य संवर्धन"
+      "TITLE": ""
     },
     "TAPE_SOIL": {
       "TITLE": "मृदा स्वास्थ्य"
     },
     "TAPE_YOUTH": {
-      "TITLE": "युवा रोजगार के अवसर और उत्प्रवास"
+      "TITLE": ""
     },
     "TITLE": "इनसाइट्स",
     "UNAVAILABLE": "अनुपलब्ध"
@@ -1351,6 +1367,7 @@
     "TITLE": "हमने फार्म मानचित्र को अपडेट किया है!"
   },
   "INVENTORY": {
+    "ADD_PRODUCT": "",
     "PRODUCT_NAME": "उत्पाद का नाम",
     "PRODUCT_TYPE": "उत्पाद का प्रकार",
     "REMOVE_CONFIRMATION": {
@@ -2288,7 +2305,7 @@
     "ABANDONMENT_DETAILS": "कार्य परित्याग विवरण",
     "ADD_CUSTOM_HARVEST_USE": "एक कस्टम फसल उपयोग बनाएँ",
     "ADD_HARVEST_USE": "एक और फसल उपयोग जोड़ें",
-    "ADD_TASK": "एक कार्य बनाएँ",
+    "ADD_TASK": "",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "इस कार्य में शामिल जानवर।",
     "ANIMAL_MOVING_TO_LOCATION": "स्थानांतरित कर रहे हैं:",

@@ -237,6 +237,21 @@ class userFarm extends Model {
       .where('userFarm.farm_id', farmId)
       .andWhere('users.status_id', 1);
   }
+
+  static getActiveFarmsByUserId(userId, farmIds) {
+    return userFarm
+      .query()
+      .select('userFarm.farm_id', 'farm.farm_name', 'userFarm.role_id')
+      .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+      .where('farm.deleted', false)
+      .where('userFarm.status', 'Active')
+      .where('userFarm.user_id', userId)
+      .modify((query) => {
+        if (farmIds) {
+          query.whereIn('userFarm.farm_id', farmIds);
+        }
+      });
+  }
 }
 
 export default userFarm;

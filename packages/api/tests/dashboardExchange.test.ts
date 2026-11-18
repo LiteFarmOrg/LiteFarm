@@ -50,6 +50,7 @@ interface ExchangeResponseBody {
   id_token?: string;
   token?: string;
   access_token?: string;
+  soil_lab_result_token?: string | null;
 }
 
 type ExchangeResponse = Omit<Response, 'body'> & { body: ExchangeResponseBody };

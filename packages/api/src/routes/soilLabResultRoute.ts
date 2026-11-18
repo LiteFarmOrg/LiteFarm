@@ -15,7 +15,7 @@
 
 import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
-import checkSoilLabResultJwt from '../middleware/acl/checkSoilLabResultJwt.js';
+import checkDashboardApiJwt from '../middleware/acl/checkDashboardApiJwt.js';
 import {
   checkSoilLabResultBatch,
   checkSubmissionIdMatchesUrl,
@@ -25,7 +25,7 @@ import soilLabResultController from '../controllers/soilLabResultController.js';
 
 const router = express.Router();
 
-router.use(checkSoilLabResultJwt);
+router.use(checkDashboardApiJwt('soilLabResult'));
 
 router.get('/', checkScope(['get:soil_lab_result']), soilLabResultController.getSoilLabResults());
 

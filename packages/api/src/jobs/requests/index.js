@@ -22,15 +22,15 @@ const apiUrl = process.env.API_URL || 'http://localhost:5001';
 const mockTimer = !!process.env.MOCK_TIMER;
 
 const endpointSchedules = [
-  {
-    type: 'IrrigationPrescriptionRequest',
-    cron: '30 10 * * *', // 04:30 MDT (10:30 UTC)
-    method: 'post',
-    path: '/irrigation_prescription_request/scheduler',
-    params: {
-      shouldSend: true,
-    },
-  },
+  // {
+  //   type: 'IrrigationPrescriptionRequest',
+  //   cron: '30 10 * * *', // 04:30 MDT (10:30 UTC)
+  //   method: 'post',
+  //   path: '/irrigation_prescription_request/scheduler',
+  //   params: {
+  //     shouldSend: true,
+  //   },
+  // },
 ];
 
 export default function scheduleApiRequests() {

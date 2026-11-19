@@ -19,8 +19,6 @@ import SurveyResponseModel from '../models/surveyResponseModel.js';
 import { LiteFarmRequest } from '../types.js';
 import { SurveyResponse } from '../models/types.js';
 
-type FarmProjectRow = Pick<SurveyResponse, 'farm_id' | 'project_id'>;
-
 const dashboardFarmController = {
   getFarmsByUserId() {
     return async (req: LiteFarmRequest, res: Response) => {
@@ -37,7 +35,7 @@ const dashboardFarmController = {
             farms.map((farm) => farm.farm_id),
           )
           .distinct('farm_id', 'project_id')
-          .castTo<FarmProjectRow[]>();
+          .castTo<Pick<SurveyResponse, 'farm_id' | 'project_id'>[]>();
 
         const projectIdsByFarm: Record<string, string[]> = {};
         farmProjectRows.forEach(({ farm_id, project_id }) => {

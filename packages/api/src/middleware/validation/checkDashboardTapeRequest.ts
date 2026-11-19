@@ -17,7 +17,7 @@ import { NextFunction, Response } from 'express';
 import { validate as isUuid } from 'uuid';
 import type { ParsedQs } from 'qs';
 import { LiteFarmRequest } from '../../types.js';
-import { isSimpleDateFormat } from '../../util/validation.js';
+import { isValidSimpleDate } from '../../util/validation.js';
 import UserFarmModel from '../../models/userFarmModel.js';
 
 export function checkDashboardTapeRequest() {
@@ -32,12 +32,16 @@ export function checkDashboardTapeRequest() {
           .json({ error: 'farm_ids must be a comma-separated list of farm ids' });
       }
 
-      if (date_from && !isSimpleDateFormat(date_from)) {
-        return res.status(400).json({ error: 'Please provide date_from in YYYY-MM-DD format' });
+      if (date_from && !isValidSimpleDate(date_from)) {
+        return res
+          .status(400)
+          .json({ error: 'Please provide date_from as a valid date in YYYY-MM-DD format' });
       }
 
-      if (date_to && !isSimpleDateFormat(date_to)) {
-        return res.status(400).json({ error: 'Please provide date_to in YYYY-MM-DD format' });
+      if (date_to && !isValidSimpleDate(date_to)) {
+        return res
+          .status(400)
+          .json({ error: 'Please provide date_to as a valid date in YYYY-MM-DD format' });
       }
 
       const farmIds = [...new Set(farm_ids.split(','))];

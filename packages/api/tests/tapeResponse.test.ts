@@ -307,6 +307,17 @@ describe('Dashboard TAPE response endpoint tests', () => {
         const res = await getRequest({ query: { farm_ids: farm.farm_id, date_from: '2026-4-1' } });
         expect(res.status).toBe(400);
       });
+
+      test('Should return 400 when a date does not exist', async () => {
+        const monthOutOfRange = await getRequest({
+          query: { farm_ids: farm.farm_id, date_from: '2026-13-01' },
+        });
+        const dayOutOfRange = await getRequest({
+          query: { farm_ids: farm.farm_id, date_to: '2026-02-30' },
+        });
+        expect(monthOutOfRange.status).toBe(400);
+        expect(dayOutOfRange.status).toBe(400);
+      });
     });
   });
 });

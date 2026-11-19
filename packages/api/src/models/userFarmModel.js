@@ -238,6 +238,16 @@ class userFarm extends Model {
       .andWhere('users.status_id', 1);
   }
 
+  /**
+   * @typedef {Pick<import('./types.js').UserFarm, 'farm_id' | 'role_id'>
+   *   & Pick<import('./types.js').Farm, 'farm_name'>} ActiveFarm
+   */
+
+  /**
+   * @param {string} userId
+   * @param {string[]} [farmIds]
+   * @returns {import('objection').QueryBuilder<userFarm, ActiveFarm[]>}
+   */
   static getActiveFarmsByUserId(userId, farmIds) {
     return userFarm
       .query()

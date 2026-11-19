@@ -46,7 +46,7 @@ export function checkDashboardTapeRequest() {
         return res.status(400).json({ error: 'farm_ids must contain only farm ids (uuids)' });
       }
 
-      const userFarms = await UserFarmModel.getActiveFarmsByUserId(user_id, farmIds);
+      const userFarms = await UserFarmModel.getActiveFarmsByUserId(user_id!, farmIds);
 
       if (userFarms.length !== farmIds.length) {
         return res.status(403).json({ error: 'User does not have access to all requested farms' });

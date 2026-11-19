@@ -66,7 +66,7 @@ type SoilLabResultResponse = Omit<Response, 'body'> & {
 };
 
 const saveToken = (user_id: string) =>
-  createToken('soilLabResult', { user_id, aud: 'soil_lab_result' });
+  createToken('dashboardApi', { user_id, aud: 'soil_lab_result' });
 
 const utcDateFromToday = (days: number) => {
   const date = new Date();
@@ -232,7 +232,7 @@ describe('Soil lab result routes', () => {
           aud: 'soil_lab_result',
           exp: Math.floor(Date.now() / 1000) - 60,
         },
-        tokenType.soilLabResult!,
+        tokenType.dashboardApi!,
         { algorithm: 'HS256' },
       );
       const res = await send('get', PATH, { token });
@@ -250,7 +250,7 @@ describe('Soil lab result routes', () => {
     });
 
     test('refuses a token with the right secret but no aud', async () => {
-      const token = jwt.sign({ user_id: owner.user_id }, tokenType.soilLabResult!, {
+      const token = jwt.sign({ user_id: owner.user_id }, tokenType.dashboardApi!, {
         algorithm: 'HS256',
         expiresIn: '8h',
       });
@@ -261,7 +261,7 @@ describe('Soil lab result routes', () => {
     test('refuses a token with the right secret but another aud', async () => {
       const token = jwt.sign(
         { user_id: owner.user_id, aud: 'another_dashboard_feature' },
-        tokenType.soilLabResult!,
+        tokenType.dashboardApi!,
         { algorithm: 'HS256', expiresIn: '8h' },
       );
       const res = await send('get', PATH, { token });
@@ -290,13 +290,13 @@ describe('Soil lab result routes', () => {
 
     test('refuses every request when the secret is unset', async () => {
       const token = saveToken(owner.user_id);
-      const secret = tokenType.soilLabResult;
-      tokenType.soilLabResult = undefined;
+      const secret = tokenType.dashboardApi;
+      tokenType.dashboardApi = undefined;
       try {
         const res = await send('get', PATH, { token });
         expect(res.status).toBe(401);
       } finally {
-        tokenType.soilLabResult = secret;
+        tokenType.dashboardApi = secret;
       }
     });
   });

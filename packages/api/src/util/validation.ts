@@ -54,6 +54,17 @@ export function isSimpleDateFormat(value: unknown): boolean {
   return typeof value === 'string' && simpleDateRegex.test(value);
 }
 
+/**
+ * Checks that the value is a YYYY-MM-DD date that exists, e.g. rejects 2026-02-30 and 2026-13-01.
+ */
+export function isValidSimpleDate(value: unknown): boolean {
+  if (typeof value !== 'string' || !isSimpleDateFormat(value)) {
+    return false;
+  }
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
 const VALID_EMAIL_REGEX = /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i;
 
 export const isValidEmail = (email: string): boolean => {

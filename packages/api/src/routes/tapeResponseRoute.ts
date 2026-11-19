@@ -13,21 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { expressjwt, UnauthorizedError } from 'express-jwt';
-import { tokenType } from '../../util/jwt.js';
+import express from 'express';
+import checkDashboardApiJwt from '../middleware/acl/checkDashboardApiJwt.js';
+import tapeResponseController from '../controllers/tapeResponseController.js';
+import { checkDashboardTapeRequest } from '../middleware/validation/checkDashboardTapeRequest.js';
+import checkHasUserConsent from '../middleware/acl/checkHasUserConsent.js';
 
-const checkSoilLabResultJwt = expressjwt({
-  secret: () => {
-    const secret = tokenType.soilLabResult;
-    if (!secret) {
-      throw new UnauthorizedError('invalid_token', {
-        message: 'Soil lab result tokens are disabled.',
-      });
-    }
-    return secret;
-  },
-  algorithms: ['HS256'],
-  audience: 'soil_lab_result',
-});
+const router = express.Router();
 
-export default checkSoilLabResultJwt;
+router.use(checkDashboardApiJwt('tape'));
+
+router.get(
+  '/',
+  checkHasUserConsent(),
+  checkDashboardTapeRequest(),
+  tapeResponseController.getTapeResponses(),
+);
+
+export default router;

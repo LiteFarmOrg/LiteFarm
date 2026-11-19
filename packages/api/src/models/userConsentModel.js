@@ -46,6 +46,10 @@ class UserConsent extends Model {
       additionalProperties: false,
     };
   }
+
+  static async getConsent(userId) {
+    return UserConsent.query().findById(userId);
+  }
 }
 
 export default UserConsent;

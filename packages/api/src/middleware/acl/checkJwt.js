@@ -30,6 +30,7 @@ const checkJwt = expressjwt({
     '/offline_event_log',
     /^\/dashboard\/soil_lab_results(\/[^/]+)?\/?$/,
     /^\/dashboard\/tape_responses\/?$/,
+    /^\/dashboard\/farms\/?$/,
     /\/time_notification\//i,
     /\/farm\/utc_offset_by_range\//i,
     /\/api-docs\/*/,

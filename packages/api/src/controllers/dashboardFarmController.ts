@@ -30,13 +30,14 @@ const dashboardFarmController = {
         const farms = await UserFarmModel.getActiveFarmsByUserId(user_id!).orderByRaw(
           'lower(farm.farm_name)',
         );
-        const farmProjectRows = (await SurveyResponseModel.query()
+        const farmProjectRows = await SurveyResponseModel.query()
           .modify('filterTapeSurveys')
           .whereIn(
             'farm_id',
             farms.map((farm) => farm.farm_id),
           )
-          .distinct('farm_id', 'project_id')) as unknown as FarmProjectRow[];
+          .distinct('farm_id', 'project_id')
+          .castTo<FarmProjectRow[]>();
 
         const projectIdsByFarm: Record<string, string[]> = {};
         farmProjectRows.forEach(({ farm_id, project_id }) => {

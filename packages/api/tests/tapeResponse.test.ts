@@ -27,7 +27,7 @@ jest.mock('jsdom');
 jest.mock('../src/jobs/station_sync/mapping.js');
 
 import mocks from './mock.factories.js';
-import { createUserFarmIds } from './utils/testDataSetup.js';
+import { addUserToFarm, createUserFarmIds, fakeUserFarm } from './utils/testDataSetup.js';
 
 type TapeResponseResponse = Omit<Response, 'body'> & {
   body: SurveyResponse[] & { error?: string };
@@ -36,10 +36,6 @@ type TapeResponseResponse = Omit<Response, 'body'> & {
 describe('Dashboard TAPE response endpoint tests', () => {
   let owner: User;
   let farm: Farm;
-
-  function fakeUserFarm(role = 1, status = 'Active') {
-    return { ...mocks.fakeUserFarm(), role_id: role, status };
-  }
 
   function tapeToken(userId: User['user_id']) {
     return createToken('dashboardApi', { user_id: userId, aud: 'tape' });
@@ -74,17 +70,6 @@ describe('Dashboard TAPE response endpoint tests', () => {
     );
   }
 
-  async function addMember(
-    user_id: User['user_id'],
-    memberFarm: Farm,
-    userFarm: ReturnType<typeof fakeUserFarm>,
-  ) {
-    return mocks.userFarmFactory(
-      { promisedUser: Promise.resolve([{ user_id }]), promisedFarm: Promise.resolve([memberFarm]) },
-      userFarm,
-    );
-  }
-
   function createdAts(rows: SurveyResponse[]) {
     return rows.map(({ created_at }) => new Date(created_at).toISOString());
   }
@@ -92,10 +77,7 @@ describe('Dashboard TAPE response endpoint tests', () => {
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    await mocks.userFarmFactory(
-      { promisedUser: Promise.resolve([owner]), promisedFarm: Promise.resolve([farm]) },
-      fakeUserFarm(1),
-    );
+    await addUserToFarm(owner.user_id, farm);
   });
 
   afterEach(async () => {
@@ -165,14 +147,17 @@ describe('Dashboard TAPE response endpoint tests', () => {
 
       test('Should return 403 for a removed member', async () => {
         const [removedMember] = await mocks.usersFactory();
-        await addMember(removedMember.user_id, farm, fakeUserFarm(1, 'Inactive'));
+        await addUserToFarm(removedMember.user_id, farm, {
+          ...fakeUserFarm(1),
+          status: 'Inactive',
+        });
         const res = await getRequest({ user_id: removedMember.user_id });
         expect(res.status).toBe(403);
       });
 
       test('Should return 403 for an invited user', async () => {
         const [invitedUser] = await mocks.usersFactory();
-        await addMember(invitedUser.user_id, farm, fakeUserFarm(1, 'Invited'));
+        await addUserToFarm(invitedUser.user_id, farm, { ...fakeUserFarm(1), status: 'Invited' });
         const res = await getRequest({ user_id: invitedUser.user_id });
         expect(res.status).toBe(403);
       });
@@ -215,7 +200,7 @@ describe('Dashboard TAPE response endpoint tests', () => {
 
       test('Should return the responses of several farms', async () => {
         const [secondFarm] = await mocks.farmFactory();
-        await addMember(owner.user_id, secondFarm, fakeUserFarm(1));
+        await addUserToFarm(owner.user_id, secondFarm);
         await addSurveyResponse('tape', '2026-09-10T12:00:00.000Z');
         await addSurveyResponse('tape', '2026-09-20T12:00:00.000Z', {
           farm_id: secondFarm.farm_id,

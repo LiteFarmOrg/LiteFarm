@@ -51,6 +51,7 @@ interface ExchangeResponseBody {
   token?: string;
   access_token?: string;
   soil_lab_result_token?: string | null;
+  tape_token?: string | null;
 }
 
 type ExchangeResponse = Omit<Response, 'body'> & { body: ExchangeResponseBody };
@@ -157,7 +158,19 @@ describe('POST /login/dashboard/exchange', () => {
       expect(soilRes.status).toBe(200);
     });
 
-    test('returns a null soil lab result token when the secret is unset', async () => {
+    test('returns a TAPE token the TAPE response route accepts', async () => {
+      const res = await postRequest({ ticket: await mintTicket({ user_id: user.user_id }) });
+
+      expect(res.status).toBe(200);
+      const tapeRes = await chai
+        .request(server)
+        .get('/dashboard/tape_responses')
+        .query({ farm_ids: activeFarm.farm_id })
+        .set('Authorization', `Bearer ${res.body.tape_token}`);
+      expect(tapeRes.status).toBe(200);
+    });
+
+    test('returns null dashboard API tokens when the secret is unset', async () => {
       const ticket = await mintTicket({ user_id: user.user_id });
       const secret = tokenType.dashboardApi;
       tokenType.dashboardApi = undefined;
@@ -165,6 +178,7 @@ describe('POST /login/dashboard/exchange', () => {
         const res = await postRequest({ ticket });
         expect(res.status).toBe(200);
         expect(res.body.soil_lab_result_token).toBeNull();
+        expect(res.body.tape_token).toBeNull();
       } finally {
         tokenType.dashboardApi = secret;
       }

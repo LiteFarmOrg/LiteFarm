@@ -27,8 +27,8 @@ const dashboardFarmController = {
       const { user_id } = req.auth!;
 
       try {
-        const farms = await UserFarmModel.getActiveFarmsByUserId(user_id!).orderBy(
-          'farm.farm_name',
+        const farms = await UserFarmModel.getActiveFarmsByUserId(user_id!).orderByRaw(
+          'lower(farm.farm_name)',
         );
         const farmProjectRows = (await SurveyResponseModel.query()
           .modify('filterTapeSurveys')

@@ -51,33 +51,10 @@
     "SUBJECT0": "Ha perdido acceso a",
     "SUBJECT1": "en LiteFarm!"
   },
-  "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Felicitaciones! Se ha convertido en el/la nuevo/a",
-    "AT": "en",
-    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo",
-    "SUBJECT": "Se unió exitosamente"
-  },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Te damos la bienvenida a LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de LiteFarm en",
     "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo",
     "SUBJECT": "Te damos la bienvenida a LiteFarm!"
-  },
-  "WITHHOLD_CONSENT": {
-    "RECENT": "Recientemente, mientra formaba parte de",
-    "WITHHOLD": "en LiteFarm, Ud. decidió retirar su consentimiento acerca de la política de privacidad de LiteFarm. Está en su absoluto derecho. Sin embargo, ésto también significa que no podrá volver a acceder a este programa. Lo lamentamos mucho.",
-    "DEACTIVATE": "Hemos desactivado su participación en",
-    "HOWEVER": "Sin embargo, todavía contamos con la información básica que Ud. compartió con nosotros al momento de crear su cuenta. Si estaba asociado/a a otra finca(s), también contamos con la información que Ud. registró trabajando en esas fincas.",
-    "RIGHT": "Ud. tiene los siguientes derechos acerca de la información proporcionada",
-    "COPY": "Conocer qué datos tenemos sobre Ud., y solicitar una copia de ellos",
-    "UPDATE": "Actualizar o corregir cualquier información que tengamos sobre Ud.",
-    "STOP": "Solicitar que dejemos de recolectar su información (acaba de solicitar ésto)",
-    "TRANSFER": "Pedir que le transfiramos su información",
-    "DELETE": "Pedir que eliminemos su información por completo",
-    "TO_REQUEST": "Para solicitar cualquiera de las acciones descritas, por favor envíenos un correo electrónico con su solicitud a",
-    "SUPPORT": "y la procesaremos.",
-    "OTHERWISE": "De otra manera, si Ud. luego decide reincorporarse a nuestro programa (desde cualquier dispositivo electrónico) puede hacerlo en cualquier momento aceptando nuestra política de privacidad. Para ésto, haga clic en el botón de abajo",
-    "RESTORE": "Si así lo hace, podrá acceder al programa LiteFarm nuevamente.",
-    "SUBJECT": "No ha aceptado la politica de privacidad de LiteFarm - está son sus opciones"
   },
   "EXPORT_MAP": {
     "EXPORT": "Aquí está la exportación del mapa de la granja para",

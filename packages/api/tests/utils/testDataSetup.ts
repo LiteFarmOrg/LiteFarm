@@ -27,6 +27,20 @@ export function fakeUserFarm(role: number = 1) {
 }
 
 /**
+ * Adds an existing user to an existing farm, with the given userFarm data to insert.
+ */
+export async function addUserToFarm(
+  userId: User['user_id'],
+  farm: Farm,
+  userFarm: ReturnType<typeof fakeUserFarm> = fakeUserFarm(),
+) {
+  return mocks.userFarmFactory(
+    { promisedUser: Promise.resolve([{ user_id: userId }]), promisedFarm: Promise.resolve([farm]) },
+    userFarm,
+  );
+}
+
+/**
  * Creates a farm and a user, then associates them using the given role.
  */
 export async function returnUserFarms(role: number): Promise<{ mainFarm: Farm; user: User }> {

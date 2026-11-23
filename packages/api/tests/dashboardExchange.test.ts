@@ -25,7 +25,7 @@ import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 import mocks from './mock.factories.js';
-import { createToken } from '../src/util/jwt.js';
+import { createToken, tokenType } from '../src/util/jwt.js';
 import { Farm, User, UserFarm } from '../src/models/types.js';
 
 jest.mock('jsdom');
@@ -50,6 +50,8 @@ interface ExchangeResponseBody {
   id_token?: string;
   token?: string;
   access_token?: string;
+  soil_lab_result_token?: string | null;
+  tape_token?: string | null;
 }
 
 type ExchangeResponse = Omit<Response, 'body'> & { body: ExchangeResponseBody };
@@ -142,6 +144,44 @@ describe('POST /login/dashboard/exchange', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.farm_id).toBe(activeFarm.farm_id);
+    });
+
+    test('returns a soil lab result token the soil lab result routes accept', async () => {
+      const res = await postRequest({ ticket: await mintTicket({ user_id: user.user_id }) });
+
+      expect(res.status).toBe(200);
+      const soilRes = await chai
+        .request(server)
+        .get('/dashboard/soil_lab_results')
+        .set('farm_id', activeFarm.farm_id)
+        .set('Authorization', `Bearer ${res.body.soil_lab_result_token}`);
+      expect(soilRes.status).toBe(200);
+    });
+
+    test('returns a TAPE token the TAPE response route accepts', async () => {
+      const res = await postRequest({ ticket: await mintTicket({ user_id: user.user_id }) });
+
+      expect(res.status).toBe(200);
+      const tapeRes = await chai
+        .request(server)
+        .get('/dashboard/tape_responses')
+        .query({ farm_ids: activeFarm.farm_id })
+        .set('Authorization', `Bearer ${res.body.tape_token}`);
+      expect(tapeRes.status).toBe(200);
+    });
+
+    test('returns null dashboard API tokens when the secret is unset', async () => {
+      const ticket = await mintTicket({ user_id: user.user_id });
+      const secret = tokenType.dashboardApi;
+      tokenType.dashboardApi = undefined;
+      try {
+        const res = await postRequest({ ticket });
+        expect(res.status).toBe(200);
+        expect(res.body.soil_lab_result_token).toBeNull();
+        expect(res.body.tape_token).toBeNull();
+      } finally {
+        tokenType.dashboardApi = secret;
+      }
     });
 
     test('returns no token of any kind', async () => {

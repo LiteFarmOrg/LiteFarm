@@ -3028,6 +3028,28 @@ const survey_draftFactory = async (
     .returning('*');
 };
 
+const fakeSurveyResponse = (defaultData = {}) => {
+  return {
+    survey_key: 'tape',
+    survey_version: 'v1',
+    project_id: faker.lorem.word(),
+    survey_step: 'STEP1',
+    survey_response: { [faker.lorem.word()]: faker.lorem.word() },
+    ...defaultData,
+  };
+};
+
+const survey_responseFactory = async (
+  { promisedUserFarm = userFarmFactory({ roleId: 1 }) } = {},
+  surveyResponse = fakeSurveyResponse(),
+) => {
+  const [[{ user_id, farm_id }]] = await Promise.all([promisedUserFarm]);
+
+  return await knex('survey_response')
+    .insert({ farm_id, created_by_user_id: user_id, ...surveyResponse })
+    .returning('*');
+};
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -3210,6 +3232,8 @@ export default {
   farm_noteFactory,
   fakeSurveyDraft,
   survey_draftFactory,
+  fakeSurveyResponse,
+  survey_responseFactory,
   fakeAnimalSale,
   animal_saleFactory,
   fakeFarmExpenseCropVariety,

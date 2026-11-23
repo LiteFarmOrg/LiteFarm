@@ -738,7 +738,7 @@
       "TYPE": "Type",
       "VALID_UNTIL": "Valable jusqu'au"
     },
-    "ADD_DOCUMENT": "Ajouter un nouveau document",
+    "ADD_DOCUMENT": "",
     "ARCHIVE": "Archiver",
     "ARCHIVE_DOCUMENT": "Archiver document ?",
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer ?",
@@ -1278,6 +1278,15 @@
       "CARD": {
         "COMPLETED_ON": "Complété · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HALF": {
+          "AWEAI": "Autonomisation des femmes (A-WEAI)",
+          "BIODIVERSITY": "Biodiversité",
+          "DASHBOARD_LINK": "Les scores finaux des indicateurs économiques sont disponibles sur le <a>tableau de bord de données LiteFarm</a>",
+          "LAND_TENURE": "Régime foncier (ménage)",
+          "NOT_APPLICABLE": "Non applicable",
+          "NO_WOMEN": "Aucune femme dans le ménage",
+          "PRODUCTIVITY": "Productivité et revenus"
+        },
         "HIGH_RISK": "Risque Élevé",
         "IN_PROGRESS": "En cours",
         "LAST_UPDATED": "Dernière mise à jour à {{date}}",
@@ -1316,11 +1325,18 @@
       "NOT_FILLED": "Non rempli",
       "RESULTS_LOAD_ERROR": "Impossible de charger les résultats. Veuillez réessayer plus tard.",
       "RESULTS_TITLE": "Caractéristiques des transitions agroécologiques (CAET)",
-      "TITLE": "TAPE (Évaluation de la performance de l'Agroécologie)",
+      "TITLE": "Enquête TAPE de la FAO (Outil d'évaluation de la performance de l'agroécologie)",
       "UPDATE_ANSWERS": "Mettre à jour vos réponses"
     },
+    "TAPE_AU": {
+      "TITLE": "TAPE Australie (Projet Mornington)"
+    },
+    "TAPE_BC": {
+      "TITLE": "Agroecology 4 Climate BC TAPE"
+    },
     "TAPE_DIETARY_DIVERSITY": {
-      "TITLE": "Diversité alimentaire"
+      "SURVEY_TITLE": "Diversité alimentaire minimale pour les femmes (MDD-W)",
+      "TITLE": "Diversité alimentaire (MDD-W)"
     },
     "TAPE_ECONOMIC": {
       "TITLE": "Indicateur économique qualitatif"
@@ -1329,19 +1345,19 @@
       "TITLE": "Sécurité alimentaire"
     },
     "TAPE_LAND_AWEAI": {
-      "TITLE": "Terres foncières"
+      "TITLE": "Régime foncier et autonomisation des femmes (A-WEAI)"
     },
     "TAPE_PESTICIDES": {
-      "TITLE": "Exposition aux pesticides"
+      "TITLE": "Gestion des pesticides et exposition"
     },
     "TAPE_PRODUCTIVITY_BIODIVERSITY": {
-      "TITLE": "Productivité, revenu et valeur ajoutée"
+      "TITLE": "Productivité et agrobiodiversité"
     },
     "TAPE_SOIL": {
       "TITLE": "Santé du sol"
     },
     "TAPE_YOUTH": {
-      "TITLE": "Opportunités d'emploi et émigration des jeunes"
+      "TITLE": "Emploi et émigration des jeunes"
     },
     "TITLE": "Mesures additionnelles",
     "UNAVAILABLE": "Indisponible"
@@ -1351,6 +1367,7 @@
     "TITLE": "La carte de l'exploitation a été mise à jour !"
   },
   "INVENTORY": {
+    "ADD_PRODUCT": "",
     "PRODUCT_NAME": "Nom du produit",
     "PRODUCT_TYPE": "Type de produit",
     "REMOVE_CONFIRMATION": {
@@ -2288,7 +2305,7 @@
     "ABANDONMENT_DETAILS": "Détails de l'abandon de tâche",
     "ADD_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
-    "ADD_TASK": "Créer une tâche",
+    "ADD_TASK": "",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animaux dans cette tâche",
     "ANIMAL_MOVING_TO_LOCATION": "Déplacement vers :",

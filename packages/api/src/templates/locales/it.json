@@ -51,33 +51,10 @@
     "SUBJECT0": "Hai perso le credenziali a",
     "SUBJECT1": "su LiteFarm!"
   },
-  "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Congratulazioni! Sei diventato il nuovo",
-    "AT": "presso",
-    "CLICK_BELOW": "Puoi accedere (da qualsiasi dispositivo) utilizzando il pulsante qui sotto",
-    "SUBJECT": "La tua iscrizione è stata effettuata correttamente"
-  },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Benvenuto in LiteFarm! LiteFarm è uno strumento software open source che aiuta gli agricoltori a gestire le loro aziende agricole. Puoi leggere di più su LiteFarm sul sito",
     "CLICK_BELOW": "Puoi anche accedere (da qualsiasi dispositivo) utilizzando il pulsante qui sotto",
     "SUBJECT": "Benvenuto in LiteFarm!"
-  },
-  "WITHHOLD_CONSENT": {
-    "RECENT": "Recentemente, durante l'adesione",
-    "WITHHOLD": "sull'applicazione LiteFarm, hai deciso di negare il consenso all'informativa sulla privacy di LiteFarm. Anche se ciò rientra nei tuoi diritti, tuttavia e non potrai accedere all'applicazione. Ci dispiace molto.",
-    "DEACTIVATE": "Abbiamo disattivato la tua associazione a",
-    "HOWEVER": "Tuttavia, conserviamo ancora le informazioni di base che ci hai fornito durante la configurazione del tuo account utente. Se sei associato ad altre aziende agricole, conserviamo anche le informazioni che hai inserito mentre collaboravi con quelle aziende.",
-    "RIGHT": "I tuoi diritti riguardo i dati sono elencati di seguito",
-    "COPY": "Per sapere quali dati abbiamo su di te e richiedere una copia di essi",
-    "UPDATE": "Per aggiornare o correggere qualsiasi dato che abbiamo su di te",
-    "STOP": "Richiesta di interruzione della raccolta dei tuoi dati (hai appena effettuato l'operazione)",
-    "TRANSFER": "Richiesta do trasferimento dei tuoi dati",
-    "DELETE": "Richiesta di cancellazione dei tuoi dati",
-    "TO_REQUEST": "Per effettuare una di queste operazioni, invia un'email a",
-    "SUPPORT": "con la tua richiesta e ci occuperemo di te.",
-    "OTHERWISE": "Altrimenti, se cambi idea, puoi accedere (da qualsiasi dispositivo) in qualsiasi momento e accettare la nostra informativa sulla privacy utilizzando il pulsante qui sotto",
-    "RESTORE": "In tal caso, potrai nuovamente accedere al sistema LiteFarm.",
-    "SUBJECT": "Non hai accettato l'informativa sulla privacy di LiteFarm: ecco le tue opzioni"
   },
   "EXPORT_MAP": {
     "EXPORT": "Ecco l'esportazione della mappa dell'azienda agricola per",

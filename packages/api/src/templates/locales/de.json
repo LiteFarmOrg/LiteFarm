@@ -51,33 +51,10 @@
     "SUBJECT0": "Sie haben den Zugriff verloren auf",
     "SUBJECT1": "auf LiteFarm!"
   },
-  "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Gratuliere, Sie sind das neueste",
-    "AT": "bei",
-    "CLICK_BELOW": "Sie können sich (auf jedem belieben Gerät) mit der Schaltfläche unterhalb anmelden",
-    "SUBJECT": "Sie sind erfolgreich beigetreten"
-  },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Willkommen bei LiteFarm! LiteFarm ist ein Open-Source-Software-Tool um Bauern bei der Verwaltung ihrer Bauernhöfe zu helfen. Mehr über LiteFarm auf",
     "CLICK_BELOW": "Sie können sich auch (auf jedem belieben Gerät) mit der Schaltfläche unterhalb anmelden",
     "SUBJECT": "Willkommen bei LiteFarm!"
-  },
-  "WITHHOLD_CONSENT": {
-    "RECENT": "Kürzlich, während des Beitritts",
-    "WITHHOLD": "in der LiteFarm Anwendung haben Sie beschlossen, Ihre Zustimmung zur LiteFarm Datenschutzerklärung zu verweigern. Dies ist absolut Ihr Recht, aber es bedeutet, dass Sie nicht auf die Anwendung zugreifen können. Wir bedauern dies sehr.",
-    "DEACTIVATE": "Wir haben Ihre Zuordnung deaktiviert zu",
-    "HOWEVER": "Wir haben jedoch immer noch die grundlegenden Informationen, die Sie bei der Einrichtung Ihres Benutzerkontos mit uns geteilt haben. Wenn Sie mit anderen Bauernhöfen in Verbindung stehen, haben wir auch alle Informationen, die Sie bei der Arbeit mit diesen Bauernhöfen eingegeben haben.",
-    "RIGHT": "Sie haben folgende Rechte in Bezug auf Ihre Daten",
-    "COPY": "Um zu erfahren, welche Daten wir über Sie haben und eine Kopie anzufordern",
-    "UPDATE": "Um alle Daten, die wir über Sie haben, zu aktualisieren oder zu korrigieren",
-    "STOP": "Fordern Sie an, dass wir Ihre Daten nicht mehr sammeln (Sie haben dies gerade getan)",
-    "TRANSFER": "Eine Übertragung Ihrer Daten anfordern",
-    "DELETE": "Anfrage, dass wir Ihre Daten löschen",
-    "TO_REQUEST": "Um eine dieser Aktionen anzufordern, senden Sie eine E-Mail an",
-    "SUPPORT": "mit Ihrer Anfrage und wir kümmern uns um Sie.",
-    "OTHERWISE": "Wenn Sie Ihre Meinung ändern, können Sie sich jederzeit (auf jedem Gerät) anmelden und unsere Datenschutzrichtlinien mit der Schaltfläche unten akzeptieren",
-    "RESTORE": "Wenn Sie dies tun, können Sie wieder auf das LiteFarm System zugreifen.",
-    "SUBJECT": "Sie haben der LiteFarm Datenschutzrichtlinie nicht zugestimmt - hier sind Ihre Optionen"
   },
   "EXPORT_MAP": {
     "EXPORT": "Hier ist der Export der Hofkarte für",

@@ -738,7 +738,7 @@
       "TYPE": "Tipo",
       "VALID_UNTIL": "Valido fino al"
     },
-    "ADD_DOCUMENT": "",
+    "ADD_DOCUMENT": "Aggiungi un nuovo documento",
     "ARCHIVE": "Archivia",
     "ARCHIVE_DOCUMENT": "Archiviare il documento?",
     "ARCHIVE_DOCUMENT_TEXT": "Il documento archiviato verrà spostato nella sezione archiviata dei tuoi documenti, ma non lo eliminerà. I documenti archiviati non verranno esportati per le tue certificazioni. Vuoi procedere?",
@@ -1367,7 +1367,6 @@
     "TITLE": "Abbiamo aggiornato le mappe delle aziende agricole!"
   },
   "INVENTORY": {
-    "ADD_PRODUCT": "",
     "PRODUCT_NAME": "Nome del prodotto",
     "PRODUCT_TYPE": "Tipo di prodotto",
     "REMOVE_CONFIRMATION": {
@@ -2305,7 +2304,7 @@
     "ABANDONMENT_DETAILS": "Dettagli sull'abbandono dell'attività",
     "ADD_CUSTOM_HARVEST_USE": "Crea un utilizzo del raccolto personalizzato",
     "ADD_HARVEST_USE": "Aggiungi un altro utilizzo del raccolto",
-    "ADD_TASK": "",
+    "ADD_TASK": "Crea un'attività",
     "AMOUNT_TO_ALLOCATE": "Quantità da assegnare",
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animali in questa attività",
     "ANIMAL_MOVING_TO_LOCATION": "Spostamento verso:",

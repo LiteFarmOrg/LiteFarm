@@ -738,7 +738,7 @@
       "TYPE": "प्रकार",
       "VALID_UNTIL": "वैधता समाप्ति तक"
     },
-    "ADD_DOCUMENT": "",
+    "ADD_DOCUMENT": "नया दस्तावेज़ जोड़ें",
     "ARCHIVE": "संग्रहीत करें",
     "ARCHIVE_DOCUMENT": "दस्तावेज़ को संग्रहीत करें?",
     "ARCHIVE_DOCUMENT_TEXT": "इस दस्तावेज़ को संग्रहीत करने से यह आपके दस्तावेज़ों के संग्रहित खंड में चला जाएगा, लेकिन इसे हटाया नहीं जाएगा। संग्रहीत दस्तावेज़ आपके प्रमाणपत्रों के लिए निर्यात नहीं किए जाएंगे। क्या आप आगे बढ़ना चाहते हैं?",
@@ -1367,7 +1367,6 @@
     "TITLE": "हमने फार्म मानचित्र को अपडेट किया है!"
   },
   "INVENTORY": {
-    "ADD_PRODUCT": "",
     "PRODUCT_NAME": "उत्पाद का नाम",
     "PRODUCT_TYPE": "उत्पाद का प्रकार",
     "REMOVE_CONFIRMATION": {
@@ -2305,7 +2304,7 @@
     "ABANDONMENT_DETAILS": "कार्य परित्याग विवरण",
     "ADD_CUSTOM_HARVEST_USE": "एक कस्टम फसल उपयोग बनाएँ",
     "ADD_HARVEST_USE": "एक और फसल उपयोग जोड़ें",
-    "ADD_TASK": "",
+    "ADD_TASK": "एक कार्य बनाएँ",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "इस कार्य में शामिल जानवर।",
     "ANIMAL_MOVING_TO_LOCATION": "स्थानांतरित कर रहे हैं:",

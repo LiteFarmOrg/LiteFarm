@@ -27,15 +27,6 @@
     "TO_DATE": "Bis",
     "VALID_ON": "Gültig ab"
   },
-  "INVENTORY": {
-    "CUSTOM": "",
-    "CUSTOM_OR_LITEFARM_LIBRARY": "",
-    "DRY": "",
-    "FERTILISER_TYPE": "",
-    "LIQUID": "",
-    "LITEFARM_LIBRARY": "",
-    "TITLE": ""
-  },
   "TASKS": {
     "ABANDONED": "Eingestellt",
     "ACTIVE": "Aktiv",

@@ -738,7 +738,7 @@
       "TYPE": "Type",
       "VALID_UNTIL": "Valable jusqu'au"
     },
-    "ADD_DOCUMENT": "",
+    "ADD_DOCUMENT": "Ajouter un nouveau document",
     "ARCHIVE": "Archiver",
     "ARCHIVE_DOCUMENT": "Archiver document ?",
     "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer ?",
@@ -1367,7 +1367,6 @@
     "TITLE": "La carte de l'exploitation a été mise à jour !"
   },
   "INVENTORY": {
-    "ADD_PRODUCT": "",
     "PRODUCT_NAME": "Nom du produit",
     "PRODUCT_TYPE": "Type de produit",
     "REMOVE_CONFIRMATION": {
@@ -2305,7 +2304,7 @@
     "ABANDONMENT_DETAILS": "Détails de l'abandon de tâche",
     "ADD_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
-    "ADD_TASK": "",
+    "ADD_TASK": "Créer une tâche",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "Animaux dans cette tâche",
     "ANIMAL_MOVING_TO_LOCATION": "Déplacement vers :",

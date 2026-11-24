@@ -1278,6 +1278,15 @@
       "CARD": {
         "COMPLETED_ON": "Completato · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} min",
+        "HALF": {
+          "AWEAI": "Empowerment femminile (A-WEAI)",
+          "BIODIVERSITY": "Biodiversità",
+          "DASHBOARD_LINK": "I punteggi finali per gli indicatori economici sono disponibili nella <a>LiteFarm Data Dashboard</a>",
+          "LAND_TENURE": "Regime fondiario (nucleo familiare)",
+          "NOT_APPLICABLE": "Non applicabile",
+          "NO_WOMEN": "Nessuna donna nel nucleo familiare",
+          "PRODUCTIVITY": "Produttività e reddito"
+        },
         "HIGH_RISK": "Rischio alto",
         "IN_PROGRESS": "In corso",
         "LAST_UPDATED": "Ultimo aggiornamento {{date}}",
@@ -1316,11 +1325,18 @@
       "NOT_FILLED": "Non compilato",
       "RESULTS_LOAD_ERROR": "Impossibile caricare i risultati. Riprova più tardi.",
       "RESULTS_TITLE": "Punteggi di caratterizzazione delle transizioni agroecologiche (CAET)",
-      "TITLE": "Questionario TAPE (Strumento per la valutazione delle prestazioni dell'agroecologia)",
+      "TITLE": "Questionario FAO TAPE (Strumento per la valutazione delle prestazioni dell'agroecologia)",
       "UPDATE_ANSWERS": "Aggiorna le tue risposte"
     },
+    "TAPE_AU": {
+      "TITLE": "TAPE Australia (Progetto Mornington)"
+    },
+    "TAPE_BC": {
+      "TITLE": "Agroecology 4 Climate BC TAPE"
+    },
     "TAPE_DIETARY_DIVERSITY": {
-      "TITLE": "Varietà alimentare"
+      "SURVEY_TITLE": "Diversità alimentare minima per le donne (MDD-W)",
+      "TITLE": "Diversità alimentare (MDD-W)"
     },
     "TAPE_ECONOMIC": {
       "TITLE": "Indicatore economico qualitativo"
@@ -1329,19 +1345,19 @@
       "TITLE": "Sicurezza alimentare"
     },
     "TAPE_LAND_AWEAI": {
-      "TITLE": "Proprietà fondiaria"
+      "TITLE": "Regime fondiario ed empowerment delle donne (A-WEAI)"
     },
     "TAPE_PESTICIDES": {
-      "TITLE": "Esposizione a pesticidi"
+      "TITLE": "Gestione dei pesticidi ed esposizione"
     },
     "TAPE_PRODUCTIVITY_BIODIVERSITY": {
-      "TITLE": "Produzione, reddito e valore aggiunto"
+      "TITLE": "Produttività e agrobiodiversità"
     },
     "TAPE_SOIL": {
       "TITLE": "Stato del suolo"
     },
     "TAPE_YOUTH": {
-      "TITLE": "Opportunità di lavoro per i giovani e emigrazione"
+      "TITLE": "Occupazione giovanile ed emigrazione"
     },
     "TITLE": "Analisi",
     "UNAVAILABLE": "Non disponibile"

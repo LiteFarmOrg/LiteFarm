@@ -1278,6 +1278,15 @@
       "CARD": {
         "COMPLETED_ON": "पूर्ण · {{date}}",
         "ESTIMATED_MINUTES": "~{{minutes}} मिनट",
+        "HALF": {
+          "AWEAI": "महिला सशक्तिकरण (A-WEAI)",
+          "BIODIVERSITY": "जैव विविधता",
+          "DASHBOARD_LINK": "आर्थिक संकेतकों के अंतिम स्कोर <a>LiteFarm डेटा डैशबोर्ड</a> पर उपलब्ध हैं",
+          "LAND_TENURE": "ज़मीन पर अधिकार (परिवार)",
+          "NOT_APPLICABLE": "लागू नहीं",
+          "NO_WOMEN": "परिवार में कोई महिला नहीं",
+          "PRODUCTIVITY": "उत्पादकता और आय"
+        },
         "HIGH_RISK": "उच्च जोखिम",
         "IN_PROGRESS": "प्रगति पर",
         "LAST_UPDATED": "अंतिम अपडेट {{date}}",
@@ -1316,11 +1325,18 @@
       "NOT_FILLED": "भरा नहीं गया",
       "RESULTS_LOAD_ERROR": "परिणाम लोड करने में विफल रहा। कृपया बाद में पुनः प्रयास करें।",
       "RESULTS_TITLE": "कृषि-पारिस्थितिक संक्रमणों का चरित्रांकन (CAET) स्कोर",
-      "TITLE": "TAPE सर्वेक्षण (कृषि-पारिस्थितिकी प्रदर्शन मूल्यांकन उपकरण)",
+      "TITLE": "FAO TAPE सर्वेक्षण (कृषि-पारिस्थितिकी प्रदर्शन मूल्यांकन उपकरण)",
       "UPDATE_ANSWERS": "अपने उत्तर अपडेट करें"
     },
+    "TAPE_AU": {
+      "TITLE": "TAPE ऑस्ट्रेलिया (मॉर्निंगटन प्रोजेक्ट)"
+    },
+    "TAPE_BC": {
+      "TITLE": "Agroecology 4 Climate BC TAPE"
+    },
     "TAPE_DIETARY_DIVERSITY": {
-      "TITLE": "आहार विविधता"
+      "SURVEY_TITLE": "महिलाओं के लिए न्यूनतम आहार विविधता (MDD-W)",
+      "TITLE": "आहार विविधता (MDD-W)"
     },
     "TAPE_ECONOMIC": {
       "TITLE": "गुणात्मक आर्थिक संकेतक"
@@ -1329,19 +1345,19 @@
       "TITLE": "खाद्य सुरक्षा"
     },
     "TAPE_LAND_AWEAI": {
-      "TITLE": "ज़मीन पर अधिकार"
+      "TITLE": "ज़मीन पर अधिकार और महिला सशक्तिकरण (A-WEAI)"
     },
     "TAPE_PESTICIDES": {
-      "TITLE": "कीटनाशकों के संपर्क में आना"
+      "TITLE": "कीटनाशकों का प्रबंधन और उनके संपर्क में आना"
     },
     "TAPE_PRODUCTIVITY_BIODIVERSITY": {
-      "TITLE": "उत्पादकता, आय और मूल्य संवर्धन"
+      "TITLE": "उत्पादकता और कृषि-जैव विविधता"
     },
     "TAPE_SOIL": {
       "TITLE": "मृदा स्वास्थ्य"
     },
     "TAPE_YOUTH": {
-      "TITLE": "युवा रोजगार के अवसर और उत्प्रवास"
+      "TITLE": "युवा रोजगार और उत्प्रवास"
     },
     "TITLE": "इनसाइट्स",
     "UNAVAILABLE": "अनुपलब्ध"

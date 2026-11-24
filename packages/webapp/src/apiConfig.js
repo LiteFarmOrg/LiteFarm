@@ -109,6 +109,8 @@ export const farmNoteUrl = `${URI}/farm_notes`;
 export const farmNotesReadUrl = `${URI}/farm_notes_read`;
 export const certificationsUrl = `${URI}/certifications`;
 
+export const rowPlanUrl = `${URI}/row_plan`;
+
 export const url = URI;
 
 export default {

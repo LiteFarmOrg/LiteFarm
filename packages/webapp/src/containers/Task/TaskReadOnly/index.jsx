@@ -37,6 +37,7 @@ import { assignTask, assignTasksOnDate, changeTaskDate, changeTaskWage, deleteTa
 import { useGetIrrigationPrescriptionDetailsQuery } from '../../../store/api/apiSlice';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { useHasCertifications } from '../../../hooks/useHasCertifications';
+import TaskRows from '../TaskRows';
 
 function TaskReadOnly() {
   const location = useLocation();
@@ -137,10 +138,21 @@ function TaskReadOnly() {
   const onDelete = () => {
     dispatch(deleteTask({ task_id }));
   };
+  // Sowing and field work tasks can cover rows of the field's row plan.
+  const hasRows =
+    !!task &&
+    (isTaskType(task.taskType, 'FIELD_WORK_TASK') || isTaskType(task.taskType, 'PLANT_TASK'));
+  const canEditRows =
+    !!task &&
+    !task.complete_date &&
+    !task.abandon_date &&
+    (isAdmin || user.user_id === task.assignee_user_id);
+
   return (
     <>
       {task && (
         <PureTaskReadOnly
+          taskRows={hasRows ? <TaskRows task={task} canEdit={canEditRows} /> : null}
           task_id={task_id}
           onGoBack={onGoBack}
           onComplete={onComplete}

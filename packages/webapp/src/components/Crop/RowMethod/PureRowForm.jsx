@@ -119,6 +119,7 @@ export default function PureRowForm({
       </Main>
       <RadioGroup
         data-cy="rowMethod-equalLength"
+        style={{ marginBottom: '24px' }}
         hookFormControl={control}
         name={SAME_LENGTH}
         required

@@ -62,6 +62,8 @@ class plantingManagementPlanModel extends Model {
           },
         },
         notes: { type: ['string', 'null'] },
+        share_percent: { type: ['number', 'null'], exclusiveMinimum: 0, maximum: 100 },
+        share_set_by_user: { type: 'boolean' },
       },
       additionalProperties: false,
     };
@@ -152,6 +154,8 @@ class plantingManagementPlanModel extends Model {
       location_id: 'edit',
       pin_coordinate: 'keep',
       notes: 'keep',
+      share_percent: 'keep',
+      share_set_by_user: 'keep',
       // relationMappings
       location: 'omit',
       broadcast_method: 'edit',

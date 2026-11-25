@@ -66,7 +66,7 @@ const schedules = [
       { type: 'WeeklyUnassigned', checkRunCondition: isWeeklyNotificationDue },
     ],
   },
-  { localHour: 4, notificationTypes: [{ type: 'DailyNewIrrigationPrescription' }] },
+  // { localHour: 4, notificationTypes: [{ type: 'DailyNewIrrigationPrescription' }] },
 ];
 
 const sendOnSchedule = (queueConfig) => {

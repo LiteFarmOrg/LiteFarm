@@ -23,7 +23,7 @@ import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import parser from 'ua-parser-js';
 import UserLogModel from '../models/userLogModel.js';
 import EmailModel from '../models/emailTokenModel.js';
-import { createToken, tokenType } from '../util/jwt.js';
+import { createToken, tokenType, DASHBOARD_AUDIENCES } from '../util/jwt.js';
 import { randomUUID } from 'crypto';
 import jwt from 'jsonwebtoken';
 import knex from '../util/knex.js';
@@ -347,15 +347,22 @@ const loginController = {
           return res.sendStatus(401);
         }
 
+        const dashboardApiTokens = Object.fromEntries(
+          Object.values(DASHBOARD_AUDIENCES).map((aud) => [
+            `${aud}_token`,
+            tokenType.dashboardApi
+              ? createToken('dashboardApi', { user_id: user.user_id, aud })
+              : null,
+          ]),
+        );
+
         return res.status(200).send({
           user_id: user.user_id,
           email: user.email,
           first_name: user.first_name,
           farm_id: farm_id ?? null,
           farms,
-          soil_lab_result_token: tokenType.soilLabResult
-            ? createToken('soilLabResult', { user_id: user.user_id, aud: 'soil_lab_result' })
-            : null,
+          ...dashboardApiTokens,
         });
       } catch (error) {
         console.error(error);

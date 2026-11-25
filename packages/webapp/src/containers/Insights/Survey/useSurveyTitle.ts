@@ -34,6 +34,8 @@ export const useSurveyTitles = (): Record<string, string> => {
     tape_pesticides: t('INSIGHTS.TAPE_PESTICIDES.TITLE'),
     tape_land_aweai: t('INSIGHTS.TAPE_LAND_AWEAI.TITLE'),
     tape_productivity_biodiversity: t('INSIGHTS.TAPE_PRODUCTIVITY_BIODIVERSITY.TITLE'),
+    tape_au: t('INSIGHTS.TAPE_AU.TITLE'),
+    tape_bc: t('INSIGHTS.TAPE_BC.TITLE'),
     cathi_gao: t('INSIGHTS.CATHI_GAO.TITLE'),
   };
 };
@@ -41,6 +43,11 @@ export const useSurveyTitles = (): Record<string, string> => {
 export const useSurveyTitle = (surveyId: string): string => {
   const { t } = useTranslation();
   const titleBySurveyId = useSurveyTitles();
+
+  // Exception: shows a different title on the module card vs. survey page
+  if (surveyId === 'tape_dietary_diversity') {
+    return t('INSIGHTS.TAPE_DIETARY_DIVERSITY.SURVEY_TITLE');
+  }
 
   return titleBySurveyId[surveyId] ?? t('INSIGHTS.SURVEY.TITLE');
 };

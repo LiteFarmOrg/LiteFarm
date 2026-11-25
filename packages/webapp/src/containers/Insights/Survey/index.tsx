@@ -55,6 +55,7 @@ import { getSurveyVersion } from './utils';
 import { isNetworkError } from '../../../util/apiUtils';
 import usePrefetchModuleDefinitions from './usePrefetchModuleDefinitions';
 import { useIsOffline } from '../../hooks/useOfflineDetector/useIsOffline';
+import useFarmLocationCodes from './useFarmLocationCodes';
 
 interface SurveyProps {
   isCompactSideMenu: boolean;
@@ -83,10 +84,14 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   const { surveyId = '' } = useParams();
   const surveyTitle = useSurveyTitle(surveyId);
   // @ts-expect-error - userFarmSelector is not typed with TypeScript yet
-  const { farm_id, country_code } = useSelector(userFarmSelector);
+  const { farm_id } = useSelector(userFarmSelector);
+  const farmLocationCodes = useFarmLocationCodes();
 
   const cdnDirectory = SURVEY_INFO[surveyId]?.cdnDirectory;
   const parentSurveyId = SURVEY_INFO[surveyId]?.parentSurveyId;
+
+  const isAvailableForFarm =
+    SURVEY_INFO[surveyId]?.isAvailableForFarm?.(farmLocationCodes) !== false;
 
   const { data: responses, isLoading: isResponsesLoading } = useGetLatestSurveyResponsesQuery();
   const parentResponse = parentSurveyId ? responses?.[parentSurveyId] : undefined;
@@ -107,20 +112,14 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     useGetSurveyVersionManifestQuery(cdnDirectory ?? '', {
       skip: !cdnDirectory || !SURVEY_INFO[surveyId]?.hasArchivedVersions,
     });
-  const latestVersion = getLatestSurveyVersion(surveyId, country_code, language, versionManifest);
+  const latestVersion = getLatestSurveyVersion(surveyId, language, versionManifest);
 
   const draftState = useInitialDraft(surveyId);
   const hasDraft = Object.keys(draftState.initialDraft.surveyData || {}).length > 0;
 
-  const { version: cdnPath, fallbackVersion: cdnFallbackPath } =
+  const { path: cdnPath, fallbackPath: cdnFallbackPath } =
     (!draftState.isDraftLoading &&
-      getSurveyCdnPath(
-        surveyId,
-        country_code,
-        language,
-        draftState.initialDraft.surveyVersion,
-        hasDraft,
-      )) ||
+      getSurveyCdnPath(surveyId, language, draftState.initialDraft.surveyVersion, hasDraft)) ||
     {};
 
   const {
@@ -133,8 +132,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
   } = useGetSurveyJsonQuery(
     {
       cdnDirectory: cdnDirectory ?? '',
-      version: cdnPath ?? '',
-      fallbackVersion: cdnFallbackPath,
+      path: cdnPath ?? '',
+      fallbackPath: cdnFallbackPath,
     },
     { skip: !cdnDirectory || !cdnPath || isBlockedModule },
   );
@@ -149,7 +148,7 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
 
   const notifications: { message: string }[] = useSelector(snackbarSelector);
   const isOffline = useIsOffline();
-  usePrefetchModuleDefinitions(surveyId, country_code);
+  usePrefetchModuleDefinitions(surveyId);
 
   const surveyVersion = surveyJson ? getSurveyVersion(surveyJson) : undefined;
 
@@ -206,12 +205,12 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
     ],
   );
 
-  // Redirect to Insights if this survey is unknown or not available to the farm's country
+  // Redirect to Insights if this survey is unknown or not available to the farm
   useEffect(() => {
-    if ((!draftState.isDraftLoading && !cdnPath) || isUnauthorizedModule) {
+    if (!isAvailableForFarm || (!draftState.isDraftLoading && !cdnPath) || isUnauthorizedModule) {
       navigate('/Insights', { replace: true });
     }
-  }, [draftState.isDraftLoading, cdnPath, isUnauthorizedModule, navigate]);
+  }, [isAvailableForFarm, draftState.isDraftLoading, cdnPath, isUnauthorizedModule, navigate]);
 
   const prevFetchingRef = useRef(false);
 
@@ -234,8 +233,8 @@ function Survey({ isCompactSideMenu }: SurveyProps) {
         tags: { surveyId },
         extra: {
           cdnDirectory,
-          version: cdnPath,
-          fallbackVersion: cdnFallbackPath,
+          path: cdnPath,
+          fallbackPath: cdnFallbackPath,
           error: surveyJsonError,
         },
       });

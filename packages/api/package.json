@@ -99,7 +99,7 @@
     "objection": "^3.0.1",
     "objection-soft-delete": "^1.0.7",
     "pg": "^8.5.1",
-    "puppeteer": "^24.4.0",
+    "puppeteer": "^25.18.1",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "rimraf": "^3.0.2",
@@ -138,6 +138,9 @@
     "typescript-eslint": "^8.5.0"
   },
   "overrides": {
-    "glob-parent@<5.1.2": ">=5.1.2"
+    "glob-parent@<5.1.2": ">=5.1.2",
+    "juice": {
+      "cheerio": "1.0.0-rc.12"
+    }
   }
 }

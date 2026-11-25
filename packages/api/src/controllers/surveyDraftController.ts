@@ -20,7 +20,7 @@ import { SurveyDraftParams, UpsertDraftBody } from '../middleware/validation/che
 import { LiteFarmRequest } from '../types.js';
 import { SurveyDraftSummary } from '../models/types.js';
 
-interface UpsertDraftReqBody extends UpsertDraftBody {
+export interface UpsertDraftReqBody extends UpsertDraftBody {
   survey_version: string;
   survey_data: Record<string, unknown>;
   current_page_no?: number;

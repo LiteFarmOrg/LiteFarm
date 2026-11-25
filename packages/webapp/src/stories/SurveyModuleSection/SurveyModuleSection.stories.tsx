@@ -97,3 +97,58 @@ export const EightModules: Story = {};
 export const Mobile: Story = {
   parameters: { viewport: { defaultViewport: 'mobile1' } },
 };
+
+const JOINT_MODULES: SurveyModule[] = [
+  {
+    surveyId: 'tape_land_aweai',
+    title: "Land tenure & women's empowerment (A-WEAI)",
+    isJoint: true,
+    survey: {
+      type: 'completed',
+      completedAt: COMPLETED_AT,
+      halves: [
+        { id: 'land_tenure', display: 'gauge', status: 'scored', score: 67 },
+        { id: 'aweai', display: 'gauge', status: 'not-applicable', hasNoWomen: true },
+      ],
+    },
+  },
+  {
+    surveyId: 'tape_productivity_biodiversity',
+    title: 'Productivity and agrobiodiversity',
+    isJoint: true,
+    survey: {
+      type: 'completed',
+      completedAt: COMPLETED_AT,
+      halves: [
+        { id: 'biodiversity', display: 'gauge', status: 'scored', score: 58 },
+        { id: 'productivity', display: 'dashboard-link', status: 'completed' },
+      ],
+    },
+  },
+  ...MODULES.filter(
+    ({ surveyId }) =>
+      surveyId !== 'tape_land_aweai' && surveyId !== 'tape_productivity_biodiversity',
+  ),
+];
+
+const ONE_JOINT_MODULES: SurveyModule[] = [
+  {
+    surveyId: 'tape_land_aweai',
+    title: "Land tenure & women's empowerment (A-WEAI)",
+    survey: { type: 'not-started', estimatedMinutes: 15 },
+  },
+  ...JOINT_MODULES.slice(1),
+];
+
+export const JointCards: Story = {
+  args: { modules: JOINT_MODULES },
+};
+
+export const OneJointCard: Story = {
+  args: { modules: ONE_JOINT_MODULES },
+};
+
+export const JointCardsMobile: Story = {
+  args: { modules: JOINT_MODULES },
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+};

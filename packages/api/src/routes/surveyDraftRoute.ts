@@ -19,6 +19,7 @@ import {
   checkSurveyDraftKey,
   checkDraftNotCompleted,
 } from '../middleware/validation/checkSurveyDraft.js';
+import { mapMorningtonSurveyDraftKey } from '../middleware/mapMorningtonSurveyKey.js';
 import surveyDraftController from '../controllers/surveyDraftController.js';
 
 const router = express.Router();
@@ -39,6 +40,7 @@ router.put(
   '/:survey_key',
   checkScope(['edit:survey_draft']),
   checkSurveyDraftKey(),
+  mapMorningtonSurveyDraftKey(),
   checkDraftNotCompleted(),
   surveyDraftController.upsertDraft(),
 );

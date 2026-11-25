@@ -184,6 +184,8 @@ import surveyDraftRoute from './routes/surveyDraftRoute.js';
 import farmNoteRoute from './routes/farmNoteRoute.js';
 import farmNotesReadRoute from './routes/farmNotesReadRoute.js';
 import soilLabResultRoute from './routes/soilLabResultRoute.js';
+import tapeResponseRoute from './routes/tapeResponseRoute.js';
+import dashboardFarmRoute from './routes/dashboardFarmRoute.js';
 
 // register API
 const router = promiseRouter();
@@ -376,7 +378,9 @@ app
   .use('/survey_drafts', surveyDraftRoute)
   .use('/farm_notes', farmNoteRoute)
   .use('/farm_notes_read', farmNotesReadRoute)
-  .use('/dashboard/soil_lab_results', soilLabResultRoute);
+  .use('/dashboard/soil_lab_results', soilLabResultRoute)
+  .use('/dashboard/tape_responses', tapeResponseRoute)
+  .use('/dashboard/farms', dashboardFarmRoute);
 
 // Allow a 1MB limit on sensors to match incoming Ensemble data
 app.use('/sensor', express.json({ limit: '1MB' }), rejectBodyInGetAndDelete, sensorRoute);

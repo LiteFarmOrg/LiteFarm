@@ -20,6 +20,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   padding: 16px 16px 12px;
   border: 1px solid var(--Colors-Neutral-Neutral-50);
@@ -67,39 +68,24 @@
 }
 
 .progress {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
   width: 100%;
-  height: 86px;
-}
-
-.progressLabel,
-.progressStarted {
-  @include fontFamily();
-
-  position: absolute;
-  left: 0;
-  width: 100%;
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 16px;
-  text-align: center;
 }
 
 .progressLabel {
-  top: 9px;
-  color: $text-ink;
-}
+  @include fontFamily();
 
-.progressStarted {
-  top: 50px;
-  color: $text-muted;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  color: $text-ink;
+  text-align: center;
 }
 
 .progressTrack {
-  position: absolute;
-  top: 34px;
-  left: 6px;
-  right: 6px;
+  margin: 0 6px;
   height: 6px;
   border-radius: 3px;
   background-color: $gauge-track;
@@ -126,6 +112,109 @@
   stroke-width: 2.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.halves {
+  display: flex;
+  width: 100%;
+
+  @include xs-breakpoint {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.half {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 16px;
+}
+
+.half + .half {
+  border-left: 1px solid var(--Colors-Neutral-Neutral-50);
+
+  @include xs-breakpoint {
+    padding-top: 16px;
+    border-top: 1px solid var(--Colors-Neutral-Neutral-50);
+    border-left: none;
+  }
+}
+
+.halfLabel {
+  @include fontFamily();
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.halfBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.notApplicable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 86px;
+  text-align: center;
+}
+
+.notApplicableLabel,
+.notApplicableReason,
+.dashboardText {
+  @include fontFamily();
+
+  margin: 0;
+  text-align: center;
+}
+
+.notApplicableLabel {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: $text-ink;
+}
+
+.notApplicableReason,
+.dashboardText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  color: $text-muted;
+}
+
+.dashboardLink {
+  font-weight: 600;
+  color: var(--Colors-Primary-Primary-teal-700-2);
+  text-decoration-line: underline;
+  white-space: nowrap;
+}
+
+.dashboardLinkIcon {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .action {

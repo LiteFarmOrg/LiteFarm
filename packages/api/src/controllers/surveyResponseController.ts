@@ -21,7 +21,7 @@ import SurveyResponseModel from '../models/surveyResponseModel.js';
 import SurveyDraftModel from '../models/surveyDraftModel.js';
 import { SurveyResponse, SurveyResponseData } from '../models/types.js';
 
-interface CreateSurveyResponseReqBody {
+export interface CreateSurveyResponseReqBody {
   survey_key: string;
   survey_response: SurveyResponseData;
 }

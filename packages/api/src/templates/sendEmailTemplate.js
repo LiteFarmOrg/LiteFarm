@@ -126,4 +126,4 @@ function sendEmail(
   }
 }
 
-export { emails, sendEmail };
+export { emails, emailTransporter, sendEmail };

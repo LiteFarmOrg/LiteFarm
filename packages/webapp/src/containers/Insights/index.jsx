@@ -17,23 +17,24 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector } from '../userFarmSlice';
 import { Title } from '../../components/Typography';
 import { SURVEY_INFO, getAvailableSurveyIds } from './Survey/surveyConfig';
 import SurveyInsightTile from './Survey/SurveyInsightTile';
+import useFarmLocationCodes from './Survey/useFarmLocationCodes';
 
 const Insights = () => {
-  const farm = useSelector(userFarmSelector);
+  const farmLocationCodes = useFarmLocationCodes();
   const isAdmin = useSelector(isAdminSelector);
   const { t } = useTranslation();
 
   // Surveys are shown only to admins. getAvailableSurveyIds gates the list to
-  // surveys available in the farm's country (see SURVEY_INFO).
+  // surveys available in the farm's location (see SURVEY_INFO).
   const surveyTiles = useMemo(() => {
     if (!isAdmin) {
       return [];
     }
-    return getAvailableSurveyIds(farm?.country_code).map((surveyId, index) => (
+    return getAvailableSurveyIds(farmLocationCodes).map((surveyId, index) => (
       <SurveyInsightTile
         key={surveyId}
         surveyId={surveyId}
@@ -41,7 +42,7 @@ const Insights = () => {
         index={index}
       />
     ));
-  }, [farm?.country_code, isAdmin]);
+  }, [farmLocationCodes, isAdmin]);
 
   return (
     <div className={styles.insightContainer}>

@@ -53,6 +53,18 @@ class SurveyResponseModel extends BaseFormatModel {
     this.created_by_user_id = user_id;
     this.created_at = new Date().toISOString();
   }
+
+  static get modifiers() {
+    return {
+      // TAPE surveys are `tape` and `tape_…` keys; only these are sent to the data dashboard.
+      // A new TAPE survey key must start with `tape_`, and a non-TAPE survey key must not.
+      filterTapeSurveys(builder) {
+        builder.where((b) =>
+          b.where('survey_key', 'tape').orWhere('survey_key', 'like', 'tape\\_%'),
+        );
+      },
+    };
+  }
 }
 
 export default SurveyResponseModel;

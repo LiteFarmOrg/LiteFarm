@@ -130,6 +130,7 @@ class CropVariety extends BaseModel {
         termination_days: { type: ['integer', 'null'] },
         seeding_rate: { type: ['number', 'null'] },
         hs_code_id: { anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'null' }] },
+        represents_crop: { type: 'boolean' },
         ...this.baseProperties,
       },
       additionalProperties: false,
